@@ -1,0 +1,468 @@
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch32"><header class="ch-head"><div class="ch-num">32<span>장</span></div><h1 class="ch-title">안전과 규정</h1><p class="ch-sub">깜박임, 장비 고정, 특수효과</p></header>
+
+
+<aside class="box goals"><div class="box-label">이 장에서 얻을 것</div><div class="box-body">
+<ul class="checks">
+<li>방송과 공연의 깜박임 기준을 곡의 BPM과 Measure로 계산해, 기준을 넘는 큐를 큐 시트 단계에서 걸러 냅니다.</li>
+<li>관객을 향한 빔과 레이저, 헤이즈와 특수효과에서 조명감독이 미리 협의할 것을 정리합니다.</li>
+<li>매다는 장비의 고정과 하중, 공연 신고처럼 조명 설계와 관련된 안전 업무를 준비 일정에 넣습니다.</li>
+</ul>
+</div></aside>
+<div class="open-label">여는 장면</div><p class="lead">카메라 플래시가 바로 앞에서 터지면 한동안 눈앞에 둥근 점이 떠다닙니다. 대부분은 몇 초 뒤에 사라지지만, 그 몇 초 동안은 앞이 잘 보이지 않습니다. 빛은 보기 좋은 그림이기 전에, 사람의 눈과 몸에 닿는 에너지입니다.</p>
+<p>무대의 빛도 같습니다. 1~5부에서는 빛을 어떻게 아름답게 쓸지를 다뤘습니다. 이 장은 그 빛이 관객과 출연자, 방송 시청자에게 해가 되지 않게 하는 기준을 다룹니다. 깜박임의 빠르기부터 관객의 눈을 향한 빔, 헤이즈와 특수효과, 머리 위에 매단 장비까지 차례로 살펴봅니다.</p>
+<p>이 기준들은 조명감독 혼자 정하지 않습니다. 방송사, 공연장, 무대감독, 특수효과 담당, 장비를 매다는 리깅 담당이 함께 정합니다. 조명감독이 할 일은 <strong>내 설계가 어떤 기준에 해당하는지 미리 알고, 큐 시트 단계에서 걸러 내고, 담당자와 일찍 협의하는 것</strong>입니다.</p>
+
+<h2 id="c32-321-방송의-깜박임-기준">32.1 방송의 깜박임 기준</h2><p class="lead">방송에 나가는 무대는 <strong>화면의 4분의 1보다 넓은 면적이 1초에 세 번보다 많이 깜박이지 않게</strong> 합니다. 17장에서 본 ITU의 권고와 영국 방송 규제 기관 Ofcom의 지침이 이 기준을 정해 두었습니다.<sup class="ref"><a href="#c32-s1">1</a></sup> <sup class="ref"><a href="#c32-s2">2</a></sup></p>
+<p>이 기준이 실제로 적용된 사례가 있습니다. 2010년 10월 영국 ITV1의 오디션 프로그램 「The X Factor」에서, 미리 녹화한 가수의 무대에 레이저 조명 효과가 빠르게 바뀌며 깜박이는 장면이 방송되었습니다. Ofcom이 기술적으로 분석해 보니, 5초 반 남짓한 구간 가운데 4초 가까이가 광과민성 뇌전증 기준을 넘었습니다. 방송사는 방송 전에 경고를 냈지만, Ofcom은 경고가 부족한 사전 점검을 대신하지 못한다고 보고 규정 위반으로 판정했습니다.<sup class="ref"><a href="#c32-s3">3</a></sup></p>
+<p>이 사례에서 조명감독이 얻을 교훈은 세 가지입니다.</p>
+<ul class="keyed">
+<li><strong>조명 효과도 화면에서는 깜박이는 영상입니다.</strong> 기준은 그림이 어떻게 만들어졌는지가 아니라 화면에 어떻게 나왔는지로 판정합니다. 레이저든 스트로브든 LED 월이든 같습니다.</li>
+<li><strong>녹화 무대도 방송 전에 점검합니다.</strong> 생방송이 아니라 미리 녹화한 무대였는데도 규정 위반으로 판정되었습니다.</li>
+<li><strong>경고만으로는 부족합니다.</strong> 깜박임이 꼭 필요한 연출이라도 먼저 기준 안으로 줄입니다.</li>
+</ul>
+<p>국내 방송사의 깜박임 기준은 공개된 문서를 찾지 못했습니다(17장). 방송 무대를 맡으면 그 방송사의 기준을 먼저 받아 두고, 받은 기준이 없으면 ITU와 Ofcom의 기준을 쓰는 것이 안전합니다.</p>
+
+<h2 id="c32-322-공연장의-스트로브">32.2 공연장의 스트로브</h2><p class="lead">방송이 아닌 공연장에서는 <strong>스트로브(짧고 강하게 번쩍이는 조명)를 1초에 네 번 이하로</strong> 쓰는 것을 참고 기준으로 삼습니다. 영국 보건안전청(HSE)이 클럽 스트로브에 권고한 값으로, 영국의 뇌전증 단체 Epilepsy Society가 소개하고 있습니다.</p>
+<p>같은 단체는 1초에 3~30번 깜박이는 빛이 발작을 일으키기 쉬운 범위라고도 안내합니다.<sup class="ref"><a href="#c32-s4">4</a></sup> 1초에 네 번도 이 범위 안에 들므로, 네 번은 "안전한 값"이 아니라 넘지 말아야 할 상한입니다.</p>
+<p>깜박임의 빠르기는 25장의 공식으로 큐 시트 단계에서 미리 계산할 수 있습니다. 1초에 깜박이는 횟수 = BPM ÷ 60 ÷ Measure(<span class="badge calc">계산</span>)입니다.</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 376" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<line x1="90.0" y1="380.0" x2="900.0" y2="380.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="82.0" y="384.0" font-size="11" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">0</text>
+<line x1="90.0" y1="322.0" x2="900.0" y2="322.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="82.0" y="326.0" font-size="11" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">2</text>
+<line x1="90.0" y1="264.0" x2="900.0" y2="264.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="82.0" y="268.0" font-size="11" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">4</text>
+<line x1="90.0" y1="206.0" x2="900.0" y2="206.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="82.0" y="210.0" font-size="11" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">6</text>
+<line x1="90.0" y1="148.0" x2="900.0" y2="148.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="82.0" y="152.0" font-size="11" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">8</text>
+<line x1="90.0" y1="90.0" x2="900.0" y2="90.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="82.0" y="94.0" font-size="11" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">10</text>
+<text x="90.0" y="398.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">70</text>
+<text x="163.6" y="398.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">80</text>
+<text x="237.3" y="398.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">90</text>
+<text x="310.9" y="398.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">100</text>
+<text x="384.5" y="398.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">110</text>
+<text x="458.2" y="398.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">120</text>
+<text x="531.8" y="398.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">130</text>
+<text x="605.5" y="398.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">140</text>
+<text x="679.1" y="398.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">150</text>
+<text x="752.7" y="398.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">160</text>
+<text x="826.4" y="398.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">170</text>
+<text x="900.0" y="398.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">180</text>
+<text x="900.0" y="416.0" font-size="11.5" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">BPM</text>
+<text x="50.0" y="80.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">1초에</text>
+<rect x="90.0" y="90.0" width="810.0" height="174.0" rx="0" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.06"/>
+<line x1="90.0" y1="293.0" x2="900.0" y2="293.0" stroke="#d9902a" stroke-width="1.6" opacity="1.0" stroke-linecap="butt" stroke-dasharray="6 4"/>
+<text x="96.0" y="287.0" font-size="12" fill="#d9902a" text-anchor="start" font-weight="700" opacity="1.0">방송 3회</text>
+<line x1="90.0" y1="264.0" x2="900.0" y2="264.0" stroke="#c8553d" stroke-width="1.6" opacity="1.0" stroke-linecap="butt" stroke-dasharray="6 4"/>
+<text x="96.0" y="258.0" font-size="12" fill="#c8553d" text-anchor="start" font-weight="700" opacity="1.0">공연 4회</text>
+<path d="M90.0,346.2 L104.7,345.2 L119.5,344.2 L134.2,343.3 L148.9,342.3 L163.6,341.3 L178.4,340.4 L193.1,339.4 L207.8,338.4 L222.5,337.5 L237.3,336.5 L252.0,335.5 L266.7,334.6 L281.5,333.6 L296.2,332.6 L310.9,331.7 L325.6,330.7 L340.4,329.7 L355.1,328.8 L369.8,327.8 L384.5,326.8 L399.3,325.9 L414.0,324.9 L428.7,323.9 L443.5,323.0 L458.2,322.0 L472.9,321.0 L487.6,320.1 L502.4,319.1 L517.1,318.1 L531.8,317.2 L546.5,316.2 L561.3,315.2 L576.0,314.3 L590.7,313.3 L605.5,312.3 L620.2,311.4 L634.9,310.4 L649.6,309.4 L664.4,308.5 L679.1,307.5 L693.8,306.5 L708.5,305.6 L723.3,304.6 L738.0,303.6 L752.7,302.7 L767.5,301.7 L782.2,300.7 L796.9,299.8 L811.6,298.8 L826.4,297.8 L841.1,296.9 L855.8,295.9 L870.5,294.9 L885.3,294.0 L900.0,293.0" fill="none" stroke="#4f8a5b" stroke-width="2.4" opacity="1.0" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="789.5" y="320.2" font-size="12" fill="#4f8a5b" text-anchor="middle" font-weight="700" opacity="1.0">박마다(Measure 1)</text>
+<path d="M90.0,312.3 L104.7,310.4 L119.5,308.5 L134.2,306.5 L148.9,304.6 L163.6,302.7 L178.4,300.7 L193.1,298.8 L207.8,296.9 L222.5,294.9 L237.3,293.0 L252.0,291.1 L266.7,289.1 L281.5,287.2 L296.2,285.3 L310.9,283.3 L325.6,281.4 L340.4,279.5 L355.1,277.5 L369.8,275.6 L384.5,273.7 L399.3,271.7 L414.0,269.8 L428.7,267.9 L443.5,265.9 L458.2,264.0 L472.9,262.1 L487.6,260.1 L502.4,258.2 L517.1,256.3 L531.8,254.3 L546.5,252.4 L561.3,250.5 L576.0,248.5 L590.7,246.6 L605.5,244.7 L620.2,242.7 L634.9,240.8 L649.6,238.9 L664.4,236.9 L679.1,235.0 L693.8,233.1 L708.5,231.1 L723.3,229.2 L738.0,227.3 L752.7,225.3 L767.5,223.4 L782.2,221.5 L796.9,219.5 L811.6,217.6 L826.4,215.7 L841.1,213.7 L855.8,211.8 L870.5,209.9 L885.3,207.9 L900.0,206.0" fill="none" stroke="#3b6ea8" stroke-width="2.4" opacity="1.0" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="890.0" y="198.0" font-size="12" fill="#3b6ea8" text-anchor="end" font-weight="700" opacity="1.0">반 박마다(0.5)</text>
+<path d="M90.0,244.7 L104.7,240.8 L119.5,236.9 L134.2,233.1 L148.9,229.2 L163.6,225.3 L178.4,221.5 L193.1,217.6 L207.8,213.7 L222.5,209.9 L237.3,206.0 L252.0,202.1 L266.7,198.3 L281.5,194.4 L296.2,190.5 L310.9,186.7 L325.6,182.8 L340.4,178.9 L355.1,175.1 L369.8,171.2 L384.5,167.3 L399.3,163.5 L414.0,159.6 L428.7,155.7 L443.5,151.9 L458.2,148.0 L472.9,144.1 L487.6,140.3 L502.4,136.4 L517.1,132.5 L531.8,128.7 L546.5,124.8 L561.3,120.9 L576.0,117.1 L590.7,113.2 L605.5,109.3 L620.2,105.5 L634.9,101.6 L649.6,97.7 L664.4,93.9 L679.1,90.0 L693.8,86.1" fill="none" stroke="#7a5ea8" stroke-width="2.4" opacity="1.0" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="687.8" y="78.1" font-size="12" fill="#7a5ea8" text-anchor="end" font-weight="700" opacity="1.0">16분음표마다(0.25)</text>
+<line x1="399.3" y1="90.0" x2="399.3" y2="380.0" stroke="#1f2430" stroke-width="1" opacity="1.0" stroke-linecap="butt" stroke-dasharray="2 3"/>
+<text x="403.3" y="102.0" font-size="11" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">112 BPM(LOVE ATTACK)</text>
+<circle cx="399.3" cy="325.9" r="4.5" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="399.3" cy="271.7" r="4.5" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="399.3" cy="163.5" r="4.5" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+</svg>
+<figcaption><b>그림 32-1</b> BPM과 깜박임의 기준선. 가로는 곡의 BPM, 세로는 1초에 깜박이는 횟수입니다. 박마다(Measure 1), 반 박마다(0.5), 16분음표마다(0.25) 깜박이는 세 선을 그렸습니다. 아래 점선이 방송의 세 번, 위 점선이 공연의 네 번입니다.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>표 32-1</b> BPM과 깜박임의 빠르기 <span class="badge calc">계산</span></div><table>
+<thead>
+<tr class="header">
+<th>BPM</th>
+<th>박마다(Measure 1)</th>
+<th>반 박마다(0.5)</th>
+<th>16분음표마다(0.25)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>90</td>
+<td>1.5회</td>
+<td>3.0회(방송 기준선)</td>
+<td>6.0회(공연 초과)</td>
+</tr>
+<tr class="even">
+<td>112(LOVE ATTACK)</td>
+<td>1.9회</td>
+<td>3.7회(방송 초과)</td>
+<td>7.5회(공연 초과)</td>
+</tr>
+<tr class="odd">
+<td>120</td>
+<td>2.0회</td>
+<td>4.0회(방송 초과, 공연 기준선)</td>
+<td>8.0회(공연 초과)</td>
+</tr>
+<tr class="even">
+<td>128</td>
+<td>2.1회</td>
+<td>4.3회(공연 초과)</td>
+<td>8.5회(공연 초과)</td>
+</tr>
+<tr class="odd">
+<td>140</td>
+<td>2.3회</td>
+<td>4.7회(공연 초과)</td>
+<td>9.3회(공연 초과)</td>
+</tr>
+</tbody>
+</table></div>
+<p>표에서 두 가지가 보입니다. 첫째, <strong>16분음표 단위의 깜박임은 60 BPM보다 빠른 곡에서는 모두 공연 기준을 넘습니다.</strong> 드롭에서 스트로브를 16분음표로 몰아치는 연출은 이 기준 안에서는 쓸 수 없습니다. 둘째, <strong>반 박 단위는 120 BPM이 경계</strong>입니다. 그보다 빠른 곡에서는 반 박 스트로브도 공연 기준을 넘습니다. 12장 표 12-2에서 120~135 BPM 드롭에 쓴 반 박 체이스도, 스트로브나 화이트 플래시로 쓸 때는 이 기준으로 다시 확인합니다.</p>
+<p>이 계산은 <strong>장비 한 대가 1초에 몇 번 깜박이는지</strong>를 셉니다(25.3절). 위상(Phase)을 나눈 체이스는 장비 한 대씩은 기준 안이어도, 객석에서 보면 무대 전체에서 빛이 그보다 자주 터집니다. 방송 기준도 장비 한 대가 아니라 화면에서 동시에 깜박이는 면적을 모두 더해 판단하므로,<sup class="ref"><a href="#c32-s10">10</a></sup> 방송 무대에서는 카메라 화면 전체의 깜박임을 봅니다. 공연에서도 객석을 크게 덮는 스트로브와 블라인더는 무대 전체의 횟수로 봅니다.<code>[저자 확인]</code></p>
+<p>스트로브를 쓰는 공연은 관객에게 미리 알립니다. 영국의 아마추어 공연 단체 연합 NODA는 스트로브를 쓸 때 공연장 입구에 반드시 알리고 가능하면 프로그램에도 적으라고 권하며, 한 번에 30초를 넘겨 쓰지 말라고 합니다.<sup class="ref"><a href="#c32-s11">11</a></sup> 예매 안내나 공연 전 안내 방송으로 알려 두면, 빛에 민감한 관객이 스스로 대비할 수 있습니다.</p>
+
+<h2 id="c32-323-관객을-향한-빔과-레이저">32.3 관객을 향한 빔과 레이저</h2><p class="lead">관객의 눈을 향하는 빛은 <strong>짧게, 그리고 미리 정한 곳에서만</strong> 씁니다. 블라인더(객석을 향해 한꺼번에 강하게 터지는 조명)와 객석을 향한 빔은 관객을 공연 안으로 끌어들이지만, 오래 머물면 눈이 부셔 무대를 보지 못합니다.</p>
+<p>아주 밝은 빔은 관객 눈높이로 직접 겨누지 않습니다. 요즘의 LED 무빙 라이트와 LED 월 가운데 상당수는 거리와 출력에 따라 광생물학적 위험군(빛이 눈과 피부에 주는 위험을 나눈 등급, IEC 62471)의 RG2~RG3에 들 수 있고, 좁은 빔을 객석에 되풀이하거나 오래 비추는 것이 위험한 상황으로 꼽힙니다.<sup class="ref"><a href="#c32-s12">12</a></sup> 그래서 블라인더와 빔 무빙의 오디언스 포지션(객석을 비추는 포지션)을 쓰는 큐는 큐 시트에서 길이를 정해 둡니다. 히트 한 번, 후렴의 첫 마디처럼 짧은 순간에 쓰고, 객석의 한 자리에 오래 머무는 포지션은 피합니다. 객석 앞줄은 무대와 가까워 같은 빔도 훨씬 밝게 받으므로, 오디언스 포지션은 관객 머리 위를 지나가게 잡습니다.<code>[저자 확인]</code></p>
+<p>레이저는 더 엄격합니다. 북유럽 여러 나라의 방사선 안전 당국은 2017년 공동 성명에서 <strong>고출력 레이저(클래스 3B와 4)를 관객에게 직접 쏘거나 관객 쪽으로 스캔하는 것을 피하라</strong>고 권했습니다. 관객이 받는 빛은 어떤 경우에도 최대 허용 노출(MPE)을 넘어서는 안 된다고 했습니다. 관객에게 닿는 효과를 쓴다면 공연마다 빛을 가장 강하게 받는 자리에서 미리 측정하고, 그 안전 조치를 문서로 남기라고도 했습니다.<sup class="ref"><a href="#c32-s5">5</a></sup></p>
+<p>국내에서 공연 레이저의 관객 노출 기준을 따로 정한 공개 문서는 이 원고를 쓰는 동안 찾지 못했습니다. 그래서 조명감독은 레이저를 직접 다루기보다 <strong>레이저 업체와 일찍 협의합니다.</strong> 레이저가 객석을 향하는 큐가 있는지, 그 큐에 업체가 어떤 측정과 안전장치를 준비하는지 큐 시트에 함께 적어 둡니다.</p>
+<aside class="box terms"><div class="box-label">알아 둘 말</div><div class="box-body"><dl class="defs"><div><dt>최대 허용 노출</dt><dd>(MPE, Maximum Permissible Exposure): 눈이나 피부가 레이저 빛을 받아도 해가 없다고 보는 가장 큰 양입니다. 레이저의 세기, 색(파장), 받는 시간에 따라 달라지므로 업체가 측정해서 판단합니다.</dd></div></dl></div></aside>
+
+<h2 id="c32-324-헤이즈와-특수효과">32.4 헤이즈와 특수효과</h2><p class="lead">헤이즈나 불꽃을 쓰는 연출은 <strong>공연장의 소방 담당과 특수효과 담당이 정한 조건 안에서</strong> 씁니다. 조명감독은 그 조건을 큐 시트에 옮기고, 콜을 누가 언제 줄지 맞춥니다.</p>
+<p><strong>헤이즈</strong>는 빔을 공중에 보이게 해 주지만, 연기감지기를 작동시킬 수 있습니다. 한 예로 BBC Studioworks의 Kelvin Hall 스튜디오에는 헤이즈를 쓸 때의 절차가 정해져 있습니다. 먼저 허가서를 내면 지정된 담당자가 감지기를 잠시 격리하고, 인터컴과 스튜디오 안내로 모두에게 알립니다. 연기가 다 빠지면 감지기를 복구하고 서명합니다.<sup class="ref"><a href="#c32-s6">6</a></sup></p>
+<p>국내에서는 화재 때 소방시설이 제 기능을 못 하도록 폐쇄하거나 차단하는 행위를 법으로 금지하고, 점검과 정비에 필요한 경우만 예외로 둡니다.<sup class="ref"><a href="#c32-s7">7</a></sup> 그래서 헤이즈를 쓸 공연장에서는 조명 쪽이 감지기를 다루지 않습니다. 리허설 전에 <strong>공연장의 소방안전관리자</strong>와 다음을 협의합니다.</p>
+<ul>
+<li>공연장의 감지기 종류와 헤이즈를 쓸 수 있는 조건</li>
+<li>헤이즈의 양과 쓰는 시간(리허설과 본 공연)</li>
+<li>공연 사이와 끝난 뒤의 환기</li>
+<li>화재가 의심될 때 누가 어떻게 알리는지</li>
+</ul>
+<p><strong>불꽃과 특수효과</strong>는 담당 업체가 운영하지만, 그 큐는 조명 큐와 맞물려 움직입니다. 공연장 밖 공연의 안전관리 해설서는 풍속을 실시간으로 확인하라고 합니다. 예시 기준으로 초속 5m 이상이면 사용을 자제하고, 초속 10m 이상에서는 법령에 따라 꽃불류 사용을 멈춰야 한다고 안내합니다. 불꽃·화염 효과와 가연성 컨페티(꽃가루)는 시간 간격을 두거나 방염 처리된 것을 쓰고, 낙진이 떨어질 구역은 통제합니다.<sup class="ref"><a href="#c32-s8">8</a></sup> 조명감독은 특수효과 큐를 큐 시트에 따로 표시하고, 그 큐의 콜을 누가 주는지(31장), 바람 때문에 효과가 빠지면 조명 큐를 어떻게 바꿀지 미리 정합니다.</p>
+
+<h2 id="c32-325-매다는-장비와-전원">32.5 매다는 장비와 전원</h2><p class="lead">머리 위에 거는 장비는 <strong>이중 고정하고, 매다는 도구의 안전율을 지키며, 장비 무게와 전력 자료를 담당자에게 미리 넘깁니다.</strong> 리깅과 하중 계산은 리깅 담당과 무대감독의 일이지만, 그 계산의 바탕은 조명감독이 정한 장비 목록입니다(22장).</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 356" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<line x1="220.0" y1="70.0" x2="220.0" y2="130.0" stroke="#6b7280" stroke-width="2" opacity="1.0" stroke-linecap="butt" stroke-dasharray="3 3"/>
+<line x1="740.0" y1="70.0" x2="740.0" y2="130.0" stroke="#6b7280" stroke-width="2" opacity="1.0" stroke-linecap="butt" stroke-dasharray="3 3"/>
+<rect x="198.0" y="128.0" width="44.0" height="30.0" rx="5" fill="#ffffff" stroke="#1f2430" stroke-width="1.4" opacity="1.0"/>
+<text x="220.0" y="148.0" font-size="10.5" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">호이스트</text>
+<line x1="220.0" y1="158.0" x2="220.0" y2="192.0" stroke="#1f2430" stroke-width="2" opacity="1.0" stroke-linecap="butt"/>
+<rect x="718.0" y="128.0" width="44.0" height="30.0" rx="5" fill="#ffffff" stroke="#1f2430" stroke-width="1.4" opacity="1.0"/>
+<text x="740.0" y="148.0" font-size="10.5" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">호이스트</text>
+<line x1="740.0" y1="158.0" x2="740.0" y2="192.0" stroke="#1f2430" stroke-width="2" opacity="1.0" stroke-linecap="butt"/>
+<rect x="120.0" y="192.0" width="720.0" height="26.0" rx="3" fill="#eef0f3" stroke="#1f2430" stroke-width="1.4" opacity="1.0"/>
+<line x1="130.0" y1="194.0" x2="155.0" y2="216.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="155.0" y1="216.0" x2="180.0" y2="194.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="181.0" y1="194.0" x2="206.0" y2="216.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="206.0" y1="216.0" x2="231.0" y2="194.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="232.0" y1="194.0" x2="257.0" y2="216.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="257.0" y1="216.0" x2="282.0" y2="194.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="283.0" y1="194.0" x2="308.0" y2="216.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="308.0" y1="216.0" x2="333.0" y2="194.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="334.0" y1="194.0" x2="359.0" y2="216.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="359.0" y1="216.0" x2="384.0" y2="194.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="385.0" y1="194.0" x2="410.0" y2="216.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="410.0" y1="216.0" x2="435.0" y2="194.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="436.0" y1="194.0" x2="461.0" y2="216.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="461.0" y1="216.0" x2="486.0" y2="194.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="487.0" y1="194.0" x2="512.0" y2="216.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="512.0" y1="216.0" x2="537.0" y2="194.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="538.0" y1="194.0" x2="563.0" y2="216.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="563.0" y1="216.0" x2="588.0" y2="194.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="589.0" y1="194.0" x2="614.0" y2="216.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="614.0" y1="216.0" x2="639.0" y2="194.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="640.0" y1="194.0" x2="665.0" y2="216.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="665.0" y1="216.0" x2="690.0" y2="194.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="691.0" y1="194.0" x2="716.0" y2="216.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="716.0" y1="216.0" x2="741.0" y2="194.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="742.0" y1="194.0" x2="767.0" y2="216.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="767.0" y1="216.0" x2="792.0" y2="194.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="793.0" y1="194.0" x2="818.0" y2="216.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="818.0" y1="216.0" x2="843.0" y2="194.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="140.0" y="236.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">트러스</text>
+<rect x="458.0" y="210.0" width="44.0" height="18.0" rx="3" fill="#3b6ea8" stroke="#3b6ea8" stroke-width="1" opacity="0.25"/>
+<text x="510.0" y="248.0" font-size="12" fill="#3b6ea8" text-anchor="start" font-weight="700" opacity="1.0">클램프</text>
+<line x1="480.0" y1="228.0" x2="480.0" y2="262.0" stroke="#3b6ea8" stroke-width="3" opacity="1.0" stroke-linecap="butt"/>
+<rect x="428.0" y="262.0" width="104.0" height="30.0" rx="6" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="446.0" y="292.0" width="68.0" height="64.0" rx="10" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="480.0" y="282.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="400" opacity="1.0">장비</text>
+<path d="M440,205 C370,230 370,300 444,318" fill="none" stroke="#c8553d" stroke-width="2.2" opacity="1.0" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="290.0" y="300.0" font-size="12.5" fill="#c8553d" text-anchor="start" font-weight="700" opacity="1.0">안전고리</text>
+<text x="290.0" y="318.0" font-size="11" fill="#c8553d" text-anchor="start" font-weight="400" opacity="1.0">(안전 와이어·체인)</text>
+<text x="640.0" y="280.0" font-size="12" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">매다는 도구의 안전율(KS A 6110 인용)</text>
+<text x="640.0" y="304.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">구동용 와이어로프</text>
+<text x="890.0" y="304.0" font-size="11.5" fill="#1f2430" text-anchor="end" font-weight="700" opacity="1.0">6 이상</text>
+<text x="640.0" y="324.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">고정용 와이어로프</text>
+<text x="890.0" y="324.0" font-size="11.5" fill="#1f2430" text-anchor="end" font-weight="700" opacity="1.0">4 이상</text>
+<text x="640.0" y="344.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">체인</text>
+<text x="890.0" y="344.0" font-size="11.5" fill="#1f2430" text-anchor="end" font-weight="700" opacity="1.0">6 이상</text>
+<text x="640.0" y="364.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">샤클 등 체결 도구</text>
+<text x="890.0" y="364.0" font-size="11.5" fill="#1f2430" text-anchor="end" font-weight="700" opacity="1.0">4 이상</text>
+<text x="40.0" y="400.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">실제 안전 하중은 제조사 규격과 공연장 리깅 담당의 확인을 따릅니다(22장).</text>
+</svg>
+<figcaption><b>그림 32-2</b> 매다는 장비의 이중 고정. 장비는 클램프로 트러스에 걸고, 클램프가 풀려도 떨어지지 않게 안전고리(안전 와이어나 체인)로 한 번 더 묶습니다. 트러스는 정격하중이 맞는 체인 호이스트로 매답니다.</figcaption></figure>
+<p>공연장 밖 공연의 안전관리 점검표는 장비를 안전체인 등으로 고정해 떨어지거나 넘어지지 않게 하고, 조명장비에는 안전고리를 달도록 합니다. 매다는 도구의 안전율은 KS A 6110(무대시설의 설계 안전기준)을 인용해 다음과 같이 안내합니다.<sup class="ref"><a href="#c32-s8">8</a></sup></p>
+<div class="tbl"><div class="tcap"><b>표 32-2</b> 매다는 도구의 안전율 <sup class="ref"><a href="#c32-s8">8</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>도구</th>
+<th>안전율</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>구동용 와이어로프</td>
+<td>6 이상</td>
+</tr>
+<tr class="even">
+<td>고정용 와이어로프</td>
+<td>4 이상(한 줄로 매달면 10 이상)</td>
+</tr>
+<tr class="odd">
+<td>체인</td>
+<td>6 이상, 2줄 이상</td>
+</tr>
+<tr class="even">
+<td>샤클 등 체결 도구</td>
+<td>4 이상</td>
+</tr>
+</tbody>
+</table></div>
+<p>해설서는 매다는 와이어로프도 2줄 이상을 원칙으로 합니다.<sup class="ref"><a href="#c32-s8">8</a></sup></p>
+<p>안전율 6은 도구가 끊어지는 하중(파단하중)이 실제로 거는 하중의 여섯 배 이상이라는 뜻입니다. 도구는 손상되면 크게 약해집니다. 공연장 재난 대응 매뉴얼은 와이어로프에 꼬임(킹크) 같은 손상이 한 곳만 생겨도 인장력(끊어지지 않고 버티는 힘)이 80% 이하로 떨어진다고 적고 있습니다. 또 지진 때 공연장에서 떨어질 위험이 가장 높은 것으로 조명 장비를 꼽습니다.<sup class="ref"><a href="#c32-s9">9</a></sup></p>
+<p>조명감독이 넘길 자료는 22장에서 계산한 장비 목록입니다. 매다는 장비의 무게, 호이스트 1대당 하중, 전체 전력을 표로 넘기고, 장비가 바뀌면 다시 넘깁니다. 22장 실습 무대의 뒤 트러스라면 워시 무빙 6대와 스트로브 8대의 장비 무게가 228kg이고, 이를 호이스트 4대에 나누면 1대당 57kg입니다(<span class="badge calc">계산</span>, 트러스와 케이블 무게는 따로 더함). 실습 무대 94대 전체의 전력은 42.10kW입니다. 리허설 중에 장비를 더 달자는 요청이 오면, 그 자리에서 걸지 않고 리깅 담당에게 먼저 무게를 알립니다.</p>
+<p><strong>공연 신고</strong>도 일정에 넣습니다. 공연법(제11조)과 시행령(제9조)은 공연장이 아닌 곳에서 관람객 1천 명 이상이 예상되는 공연을 할 때 재해대처계획을 공연 개시 14일 전까지 신고하게 하고, 바뀐 것이 있으면 7일 전까지 변경 신고를 하게 합니다.<sup class="ref"><a href="#c32-s8">8</a></sup> 신고는 공연 주최 쪽의 일이지만, 계획서의 장비와 특수효과 목록은 조명과 특수효과에서 나옵니다. 그 목록이 늦으면 신고도 늦어집니다.</p>
+
+<h2 id="c32-326-실습-love-attack-안전-점검">32.6 [실습] LOVE ATTACK 안전 점검</h2><p class="lead">LOVE ATTACK을 방송과 공연 두 무대에 올린다고 생각하고, 깜박임과 관객 빔, 헤이즈, 매다는 장비를 점검합니다.</p>
+<p><strong>따라 하기</strong></p>
+<ol type="1">
+<li>25장 표 25-3과 25-4의 페이저, 13장의 강조 수단(밝기 히트, 화이트 플래시)을 웹 부록 25에 불러옵니다.</li>
+<li>112 BPM에서 깜박이는 큐마다 1초에 몇 번 깜박이는지 보고, 방송(세 번)과 공연(네 번)의 기준으로 나눕니다. 표 25-3의 "홀짝 빠르게"와 "스파클"(Measure 0.5, 장비 한 대 3.7회)은 방송 기준을 넘고, 공연 기준은 장비 한 대로 보면 넘지 않습니다. 다만 홀짝은 두 그룹이 번갈아 켜지므로 무대 전체로는 1초에 7.5회쯤 터져 공연에서도 다시 봅니다(<span class="badge calc">계산</span>).</li>
+<li>큐 시트에서 빔이 객석 쪽을 향하는 큐를 찾아 길이를 적습니다. LOVE ATTACK은 블라인더와 오디언스 빔을 쓰지 않으므로(13장 표 13-3), 후렴의 팬이나 비트 구간의 크로스 빔이 객석 위를 지나는지만 확인합니다.</li>
+<li>헤이즈를 쓰는 구간과 양을 적고, 공연장에 물어볼 협의 항목(32.4절의 네 가지)을 표시합니다.</li>
+<li>웹 부록 18 장비 계산기와 패치 시트의 실습 장비에서 매다는 장비의 무게와 전체 전력을 불러와, 리깅 담당에게 넘길 표를 만듭니다.</li>
+</ol>
+<aside class="box check"><div class="box-label">확인하는 법</div><div class="box-body"><ol class="steps"><li>방송 버전과 공연 버전의 큐 목록을 비교합니다.</li><li>방송 버전에서 걸린 큐(3.7회)를 Measure 1(1.9회)로 바꾸면 기준 안으로 들어오는지, 줄어든 깜박임 대신 무엇으로 장면의 힘을 낼지(크기, 색, 면적) 적어 봅니다.</li><li>관객을 향한 큐가 한 마디 넘게 머무는 곳이 있으면 짧게 줄입니다.</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">내 무대로 해 보기</div><div class="box-body"><ol class="steps"><li>지금 맡은 쇼의 큐 시트에서 깜박이는 큐와 관객을 향하는 큐만 골라 웹 부록 25로 점검합니다.</li><li>공연장에 보낼 협의 항목(헤이즈, 특수효과, 매다는 장비, 신고)을 한 장으로 뽑아 리허설 전에 보냅니다.</li></ol></div></aside>
+<aside class="web" id="web-W24-32"><div class="web-head"><span class="web-tag">웹 부록 25</span><h4>안전 점검</h4><a class="web-open" href="https://jjjh7401.github.io/lx/safety.html" target="_blank" rel="noopener">새 창에서 열기 ↗</a></div><p class="web-desc">곡의 BPM을 불러와 깜박이는 큐마다 단위(박, 반 박, 16분음표 등)를 고르면 1초에 몇 번 깜박이는지 계산해 방송(세 번)과 공연(네 번)의 기준과 비교합니다. 관객을 향하는 큐의 길이, 헤이즈와 특수효과의 협의 항목, 장비 계산기와 패치 시트(웹 부록 18)에서 불러온 매다는 장비의 무게와 전력을 한 장으로 모아, 공연장과 리깅 담당에게 보낼 점검표로 만들어 줍니다.</p><div class="tool-embed"><iframe title="안전 점검" loading="lazy" style="--h:1950px" src="https://jjjh7401.github.io/lx/safety.html?embed=1" allow="autoplay" ></iframe></div><p class="tool-open"><span>적은 노트는 이 브라우저에만 저장됩니다. 넓은 화면에서 쓰려면 위의 "새 창에서 열기"를 누르세요.</span></p></aside>
+
+<section class="summary"><h2>핵심 정리</h2><ul>
+<li>방송은 화면의 4분의 1보다 넓은 면적이 1초에 세 번보다 많이 깜박이지 않게 하고, 공연장의 스트로브는 영국 HSE가 클럽에 권고한 1초 네 번을 상한으로 삼습니다. 1초에 깜박이는 횟수 = BPM ÷ 60 ÷ Measure입니다.</li>
+<li>16분음표 단위의 깜박임은 60 BPM보다 빠른 곡에서는 공연 기준을 넘고, 반 박 단위는 120 BPM이 경계입니다.</li>
+<li>조명 효과도 화면에서는 깜박이는 영상입니다. 녹화 무대도 방송 전에 점검하고, 방송 전 경고는 사전 점검을 대신하지 못합니다.</li>
+<li>관객을 향한 빔은 짧게, 레이저는 업체가 측정하고 협의한 조건에서만 씁니다.</li>
+<li>헤이즈는 공연장의 소방안전관리자와, 특수효과는 담당 업체와, 매다는 장비는 리깅 담당과 미리 협의합니다. 조명감독은 그 바탕이 되는 큐와 장비 목록을 일찍 넘깁니다.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">내일 현장에서</div><div class="box-body"><ol class="steps"><li>큐 시트를 넘기기 전에 깜박이는 큐 옆에 1초당 깜박임 횟수를 적어 둡니다.</li><li>숫자가 3을 넘는 큐는 방송에서, 4를 넘는 큐는 공연에서 다시 봅니다.</li></ol></div></aside>
+
+<section class="part-end"><div class="pe-label">6부를 마치며</div><p class="lead">6부에서는 콘솔에 만든 큐로 리허설과 본 공연을 치렀습니다.</p>
+<p>리허설 전에는 프리비즈로 값을 점검했습니다(28장). 리허설에서는 시뮬레이션과 실제 무대가 달라지는 곳을 확인해 노트에 적고 고쳤습니다(30장). 본 공연에서는 스탠바이와 GO로 큐를 박에 맞춰 실행하고, 큐를 놓쳤을 때 돌아갈 큐를 정해 두었습니다(31장). 마지막으로 관객과 출연자, 방송 시청자의 안전 기준을 확인했습니다(32장).</p>
+<p>1부에서 곡을 듣는 것으로 시작한 일이 여기서 끝납니다. 곡을 읽고(1부), 빛을 설계하고(2부), 박과 마디 위에 놓고(3부), 현장에 맞추고(4부), 콘솔로 만들고(5부), 무대에 올리는(6부) 순서입니다. 무대마다 장비와 사람은 바뀌어도 이 순서는 바뀌지 않습니다. 다음 곡에서도 같은 순서로, 먼저 곡을 듣는 것부터 시작합니다.</p>
+
+</section><section class="notes"><h2>주</h2><ol><li id="c32-s1">ITU-R, Recommendation BT.1702-3, "Guidance for the reduction of photosensitive epileptic seizures caused by television", 2023년 11월. <a target="_blank" rel="noopener" href="https://www.itu.int/rec/R-REC-BT.1702/en">https://www.itu.int/rec/R-REC-BT.1702/en</a> (17장 출처 5와 같음)</li><li id="c32-s2">Ofcom, Guidance Notes Section Two: Harm and Offence, 광과민성 뇌전증 항목(10장 출처 3과 같음).</li><li id="c32-s3">Ofcom, Broadcast Bulletin Issue 178(2011년 3월 21일), 「The X Factor」 ITV1 2010년 10월 24일 방송. 미리 녹화한 무대의 레이저 조명 효과, 5초 반 남짓 가운데 4초 가까이 기준 초과, 방송 전 경고가 부족한 점검을 대신하지 못함, Rule 2.12 위반. <a target="_blank" rel="noopener" href="https://www.ofcom.org.uk/siteassets/resources/documents/about-ofcom/bulletins/broadcast-bulletins/archive/obb178/obb178.pdf">https://www.ofcom.org.uk/siteassets/resources/documents/about-ofcom/bulletins/broadcast-bulletins/archive/obb178/obb178.pdf</a> (2026-10-26 확인)</li><li id="c32-s4">Epilepsy Society(영국의 뇌전증 단체), "Minimising risk from flashing lights". 영국 보건안전청(HSE)은 클럽의 스트로브를 1초에 최대 네 번으로 권고, 1초에 3~30번 깜박이는 빛이 발작을 일으키기 쉬운 범위. <a target="_blank" rel="noopener" href="https://epilepsysociety.org.uk/node/3618">https://epilepsysociety.org.uk/node/3618</a> (2026-10-26 확인)</li><li id="c32-s5">Nordic radiation safety authorities, "Avoid direct laser scanning of audiences — Nordic statement", 2017년 6월 20일. 고출력 레이저의 관객 직접 조사·스캔을 피함, 관객 노출은 MPE를 넘지 않음, 공연마다 측정, 안전 조치를 문서로. <a target="_blank" rel="noopener" href="https://www.stralsakerhetsmyndigheten.se/contentassets/9f44b528c39a4337aa6fb9ccc891b9df/avoid-direct-laser-scanning-of-audiences---nordic-statement.pdf">https://www.stralsakerhetsmyndigheten.se/contentassets/9f44b528c39a4337aa6fb9ccc891b9df/avoid-direct-laser-scanning-of-audiences---nordic-statement.pdf</a> (2026-10-26 확인)</li><li id="c32-s6">BBC Studioworks, "Studio Smoke Isolation Procedures — Kelvin Hall". 허가서, 담당자의 감지기 격리와 복구, 인터컴·플로어 공지, 연기가 빠진 뒤 복구와 서명. <a target="_blank" rel="noopener" href="https://bbcstudioworks.com/wp-content/uploads/2024/11/Studio-Smoke-Isolation-Procedures-Kelvin-Hall.pdf">https://bbcstudioworks.com/wp-content/uploads/2024/11/Studio-Smoke-Isolation-Procedures-Kelvin-Hall.pdf</a> (2026-10-26 확인)</li><li id="c32-s7">「소방시설 설치 및 관리에 관한 법률」 제12조 제3항. 화재 시 소방시설의 기능과 성능에 지장을 줄 수 있는 폐쇄·차단 등의 행위 금지, 점검·정비를 위한 경우는 예외. 2021년 11월 30일 전부개정, 제12조는 2022년 12월 1일 시행. <a target="_blank" rel="noopener" href="https://www.law.go.kr/법령/소방시설설치및관리에관한법률/제12조">https://www.law.go.kr/법령/소방시설설치및관리에관한법률/제12조</a> (2026-10-27 국가법령정보센터에서 현행 조문 확인)</li><li id="c32-s8">한국산업기술시험원 공연장안전지원센터, 「공연장 외 공연 안전관리 체크리스트 및 해설서」, 2023년 6월. 재해대처계획 신고(공연법 제11조·시행령 제9조, 관람객 1천 명 이상, 공연 개시 14일 전, 변경 7일 전), 장비의 안전체인·안전고리, 매다는 도구의 안전율(KS A 6110 무대시설의 설계 안전기준 인용, 한 줄 매달기 10 이상, 체인 2줄 이상), 풍속 5m/s 자제(예시)·10m/s 꽃불류 중지(법령), 가연성 꽃가루와 낙진 구역. <a target="_blank" rel="noopener" href="https://www.stagesafety.or.kr/webzine/11/common/download/붙임2.%20공연장%20외%20공연%20안전관리%20체크리스트%20및%20해설서.pdf">https://www.stagesafety.or.kr/webzine/11/common/download/붙임2.%20공연장%20외%20공연%20안전관리%20체크리스트%20및%20해설서.pdf</a> (2026-10-26 확인)</li><li id="c32-s9">한국산업기술시험원 공연장안전지원센터, 「공연장 재난 대응 매뉴얼」, 2017년 4월. 와이어로프의 킹크 손상 한 곳이면 인장력 80% 이하, 지진 때 추락 위험이 가장 높은 것은 조명기. <a target="_blank" rel="noopener" href="https://www.stagesafety.or.kr/resource/venue/file/bo06.pdf">https://www.stagesafety.or.kr/resource/venue/file/bo06.pdf</a> (2026-10-26 확인)</li><li id="c32-s10">ITC, "Guidance Note for Licensees on Flashing Images and Regular Patterns in Television"(2001년 개정, 2002년 수정, Ofcom 보관). 동시에 깜박이는 면적을 합쳐 화면의 4분의 1을 넘고 1초에 세 번을 넘으면 허용하지 않음. <a target="_blank" rel="noopener" href="https://www.ofcom.org.uk/__data/assets/pdf_file/0021/16248/gn_flash.pdf">https://www.ofcom.org.uk/__data/assets/pdf_file/0021/16248/gn_flash.pdf</a> (2026-10-27 확인)</li><li id="c32-s11">NODA(National Operatic and Dramatic Association), "Topical Tip #15: Using strobe lighting safely". 입구에 반드시 사전 경고, 가능하면 프로그램에도, 한 번에 30초 이하, 1초에 네 번 이하. <a target="_blank" rel="noopener" href="https://www.noda.org.uk/_assets/ckfinder_library/files/TopicalTips/NODA_TopicalTip-15.pdf">https://www.noda.org.uk/_assets/ckfinder_library/files/TopicalTips/NODA_TopicalTip-15.pdf</a> (2026-10-27 확인)</li><li id="c32-s12">Prolight + Sound Blog(Messe Frankfurt), "Blue light hazards at events: what the international event industry needs to know now", 2025년 12월 4일. 아주 밝은 빔을 눈높이로 직접 겨누지 않음, 좁은 빔을 객석에 되풀이하거나 오래 비추는 것은 위험 상황, 많은 LED 장비가 RG2~RG3. <a target="_blank" rel="noopener" href="https://prolight-sound-blog.com/blue-light-hazards-at-events-what-the-international-event-industry-needs-to-know-now/">https://prolight-sound-blog.com/blue-light-hazards-at-events-what-the-international-event-industry-needs-to-know-now/</a> (2026-10-27 확인)</li></ol></section>
+
+
+</article>
+</div>

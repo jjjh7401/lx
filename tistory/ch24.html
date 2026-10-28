@@ -1,0 +1,690 @@
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch24"><header class="ch-head"><div class="ch-num">24<span>장</span></div><h1 class="ch-title">패치·그룹·프리셋</h1><p class="ch-sub">장비 구성을 콘솔에 옮기기</p></header>
+
+
+<aside class="box goals"><div class="box-label">이 장에서 얻을 것</div><div class="box-body">
+<ul class="checks">
+<li>22장의 패치 시트(ID, 주소, 좌표)와 그룹 3단계를 그대로 패치와 그룹 풀로 옮깁니다.</li>
+<li>그룹은 값이 아니라 장비의 선택과 순서를 저장한다는 것, 그 순서가 이펙트의 방향이 된다는 것을 압니다.</li>
+<li>프리셋을 Selective로 저장해, 몇 대만 바뀌거나 위상이 사라지는 사고를 막습니다.</li>
+</ul>
+</div></aside>
+<div class="open-label">여는 장면</div><p class="lead">휴대폰 갤러리에서 사진 스무 장 가운데 열 장을 골라 한꺼번에 흑백 필터를 씌웁니다. 나중에 보면 고른 열 장만 흑백이고 나머지는 그대로입니다. 당연한 일입니다. 필터를 고른 사진에만 씌웠기 때문입니다.</p>
+<p>조명 콘솔의 프리셋도 같습니다. 컬러 프리셋을 저장할 때 장비를 몇 대만 골라 두었다면, 나중에 그 프리셋을 불렀을 때 그 몇 대만 바뀝니다. 현장에서 "프리셋을 불렀는데 몇 대만 색이 바뀌어요"라는 말이 나오는 것이 바로 이 경우입니다. 프리셋이 고장 난 것이 아니라, 저장할 때 무엇을 골랐는지가 그대로 남은 것입니다.</p>
+<p>이 장은 장비 구성을 콘솔에 옮기는 세 단계, 패치와 그룹과 프리셋을 다룹니다. 세 단계 모두 "무엇을 골랐는가"와 "어떤 순서로 골랐는가"가 결과를 정합니다.</p>
+
+<h2 id="c24-241-패치-픽스처-번호와-주소">24.1 패치: 픽스처 번호와 주소</h2><p class="lead">패치는 장비마다 <strong>번호(픽스처 ID)와 DMX 주소</strong>를 정해 주는 일입니다. 22장에서 만든 패치 시트의 번호와 주소, 좌표를 위에서부터 그대로 옮기면 됩니다.</p>
+<p>grandMA3에서 장비를 부르는 기본 번호는 FID(Fixture ID)이고, 명령줄에서는 <code>Fixture 201</code>처럼 씁니다. 장비를 고르고 제어하려면 이 번호가 꼭 있어야 합니다.<sup class="ref"><a href="#c24-s1">1</a></sup> 주소는 <code>유니버스.주소</code> 형식으로 넣습니다. 2번 유니버스 1번 채널이면 <code>2.1</code>입니다.</p>
+<p>6장의 실습 장비(96대)에 22장의 규칙대로 번호를 매기면 표 24-1과 같습니다. 주소는 22장 표 22-10의 유니버스 계획을 따릅니다. 종류마다 백 단위 번호 범위를 주고, 같은 종류 안에서는 객석에서 보아 왼쪽(무대 오른쪽)에서 오른쪽(무대 왼쪽)으로 번호를 이어 갑니다.</p>
+<div class="tbl"><div class="tcap"><b>표 24-1</b> 실습 장비의 ID 번호 범위 <span class="badge start">출발값</span></div><table>
+<thead>
+<tr class="header">
+<th>장비</th>
+<th>수량</th>
+<th>역할</th>
+<th>ID</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LED 프로파일</td>
+<td>8</td>
+<td>키</td>
+<td>101~108</td>
+</tr>
+<tr class="even">
+<td>LED 프레넬</td>
+<td>6</td>
+<td>필</td>
+<td>121~126</td>
+</tr>
+<tr class="odd">
+<td>워시 무빙</td>
+<td>12</td>
+<td>워시 6, 백 6</td>
+<td>201~206(워시), 207~212(백)</td>
+</tr>
+<tr class="even">
+<td>워시 무빙(사이드 타워)</td>
+<td>8</td>
+<td>사이드</td>
+<td>221~224(무대 오른쪽), 225~228(무대 왼쪽)</td>
+</tr>
+<tr class="odd">
+<td>스팟 무빙</td>
+<td>8</td>
+<td>빔(무늬), 키</td>
+<td>301~308</td>
+</tr>
+<tr class="even">
+<td>빔 무빙</td>
+<td>16</td>
+<td>빔</td>
+<td>401~408(바닥), 409~416(타워)</td>
+</tr>
+<tr class="odd">
+<td>LED 바</td>
+<td>24</td>
+<td>픽셀</td>
+<td>501~524(서브 픽스처는 501.1처럼 점 뒤에)</td>
+</tr>
+<tr class="even">
+<td>스트로브</td>
+<td>8</td>
+<td>FX</td>
+<td>601~608</td>
+</tr>
+<tr class="odd">
+<td>블라인더</td>
+<td>4</td>
+<td>오디언스</td>
+<td>701~704</td>
+</tr>
+<tr class="even">
+<td>팔로우 스팟</td>
+<td>2</td>
+<td>키(주연)</td>
+<td>콘솔 밖(사람이 운용)</td>
+</tr>
+</tbody>
+</table></div>
+<p>2.5부터는 장비를 넣는 창(Insert New Fixture)과 기종을 가져오는 창(Fixture Type Import)에 <strong>채널 맵</strong>이 생겼습니다. 기종의 모드마다 채널이 어떤 순서로 놓였는지를 보여 주므로, 채널 수가 같은 두 모드도 구성을 보고 고를 수 있습니다. 보기는 Channels(기본)와 Structure 두 가지입니다.<sup class="ref"><a href="#c24-s12">12</a></sup> 22장에서 정한 채널 수와 모드가 맞는지 패치하기 전에 여기서 봅니다.</p>
+<p>ID 번호 범위에는 매뉴얼이 정한 규칙이 없습니다.<sup class="ref"><a href="#c24-s1">1</a></sup> 그래서 쇼마다 사람이 정하고, 정한 규칙을 쇼 파일 템플릿(29장)으로 남겨 다음 쇼에도 씁니다.</p>
+
+<h2 id="c24-242-방향과-좌표">24.2 방향과 좌표</h2><p class="lead">장비가 실제로 반대로 움직이면 <strong>프리셋으로 고치지 말고 패치에서 방향을 뒤집습니다(인버트)</strong>. 프리셋으로 땜질하면 그 뒤에 만드는 무빙이 모두 함께 꼬입니다.<sup class="ref"><a href="#c24-s2">2</a></sup></p>
+<p>grandMA3의 패치에는 팬·틸트 인버트 칸이 세 종류 있고, 하는 일이 다릅니다.<sup class="ref"><a href="#c24-s1">1</a></sup></p>
+<div class="tbl"><div class="tcap"><b>표 24-2</b> 패치의 인버트 세 가지 <sup class="ref"><a href="#c24-s1">1</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>칸</th>
+<th>바뀌는 것</th>
+<th>쓰는 때</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>DMX Invert Pan/Tilt</td>
+<td>장비로 나가는 DMX 값</td>
+<td>3D 화면과 외부 비주얼라이저는 맞는데 실제 장비가 반대로 움직일 때</td>
+</tr>
+<tr class="even">
+<td>Invert 3D Pan/Tilt</td>
+<td>3D 화면만(DMX는 그대로)</td>
+<td>실제 장비는 맞는데 3D 화면만 반대일 때</td>
+</tr>
+<tr class="odd">
+<td>Enc Invert Pan/Tilt</td>
+<td>인코더를 돌리는 방향만</td>
+<td>마주 보는 두 줄(매단 장비와 세운 장비)을 인코더 하나로 같은 쪽으로 움직이고 싶을 때</td>
+</tr>
+</tbody>
+</table></div>
+<p>장비의 자리는 3D 좌표로 넣습니다. 단위는 미터와 도이고, 새로 넣은 장비는 원점(0, 0, 0)에 놓입니다.<sup class="ref"><a href="#c24-s3">3</a></sup> 축은 다음과 같습니다.</p>
+<ul class="keyed">
+<li><strong>X</strong>무대의 좌우. <strong>+X가 무대 왼쪽</strong>(stage left, 객석에서 보면 오른쪽)입니다. 무대 가운데를 0으로 두면 무대 오른쪽(stage right)은 음수입니다.<sup class="ref"><a href="#c24-s4">4</a></sup></li>
+<li><strong>Y</strong>앞뒤. +Y가 무대 안쪽(업스테이지)입니다.</li>
+<li><strong>Z</strong>높이. 장비의 기준점은 대개 매다는 점이라, 장비가 바닥 밑에 보이면 Z를 매단 높이로 올립니다.<sup class="ref"><a href="#c24-s4">4</a></sup></li>
+</ul>
+<p>패치에 넣은 좌표가 그대로 시뮬레이션 속 장비의 자리가 됩니다. 도면 프로그램이나 시뮬레이션 프로그램에서 만든 장비 배치는 MVR 파일로 주고받습니다.<sup class="ref"><a href="#c24-s13">13</a></sup> 그러면 좌표를 하나씩 다시 넣지 않고도 도면과 콘솔, 시뮬레이션의 배치를 맞출 수 있습니다.</p>
+<p>음수를 넣을 때 함정이 하나 있습니다. 명령줄에서 <code>-</code> 뒤에 띄어쓰기가 있으면 <strong>상대값</strong>이 됩니다. <code>Attribute "Pan" At - 10</code>은 팬을 10만큼 줄이라는 뜻이고, 팬을 −10으로 맞추라는 뜻이 아닙니다.<sup class="ref"><a href="#c24-s5">5</a></sup> 콘솔은 <code>-</code>와 숫자 사이에 띄어쓰기를 자동으로 넣으므로, 절대값 음수를 넣으려면 띄어쓰기를 지우거나 계산기의 <code>+/-</code> 키를 씁니다.<code>[저자 확인]</code></p>
+<aside class="box terms"><div class="box-label">알아 둘 말</div><div class="box-body"><dl class="defs"><div><dt>무대 왼쪽(stage left)</dt><dd>무대 위의 배우가 객석을 보았을 때의 왼쪽이고, 객석에서는 오른쪽입니다. 이 책의 그림은 객석에서 본 그림이므로, 그림의 오른쪽이 grandMA3의 +X입니다.</dd></div><div><dt>그룹 이름의 좌우</dt><dd>"왼쪽", "오른쪽"을 쓸 때는 어느 쪽 기준인지 함께 적습니다. 표 24-1의 사이드처럼 "무대 오른쪽"이라고 쓰면 헷갈리지 않습니다.</dd></div></dl></div></aside>
+
+<h2 id="c24-243-그룹과-선택-순서">24.3 그룹과 선택 순서</h2><p class="lead">그룹에는 값이 들어 있지 않습니다. 그룹은 <strong>어떤 장비를, 어떤 순서로, 어떤 격자에 골랐는지</strong>만 저장합니다.<sup class="ref"><a href="#c24-s6">6</a></sup> 이 순서와 격자는 범위값을 넣거나 페이저(25장)를 만들 때 쓰입니다.</p>
+<p>그룹을 저장할 때 장비를 고른 순서가 그대로 <strong>셀렉션 그리드</strong>(Selection Grid)의 순서가 됩니다. 새로 고른 장비는 격자의 X축 다음 빈 칸에 붙기 때문입니다. 이 동작을 정하는 설정이 Grid Merge Mode이고, 기본값 Append X가 "X축 다음 칸에 붙이기"라는 뜻입니다.<sup class="ref"><a href="#c24-s6">6</a></sup> 그래서 스팟 무빙 8대를 301부터 308까지 고르고 저장한 그룹과 308부터 301까지 고르고 저장한 그룹은, 같은 장비 8대인데도 다른 그룹입니다. 같은 웨이브 이펙트를 걸면 하나는 왼쪽에서 오른쪽으로, 하나는 오른쪽에서 왼쪽으로 갑니다. 저자는 onPC 2.4.2에서 선택 순서를 거꾸로 주자 웨이브도 거꾸로 가는 것을 눈으로 확인했습니다.<sup class="ref"><a href="#c24-s7">7</a></sup></p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 356" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<text x="40.0" y="92.0" font-size="13.5" fill="#3b6ea8" text-anchor="start" font-weight="700" opacity="1.0">스팟 좌→우: 301부터 308까지 차례로 고름</text>
+<line x1="60.0" y1="144.0" x2="900.0" y2="144.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<circle cx="110.0" cy="120.0" r="20.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="110.0" y="125.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">1</text>
+<text x="110.0" y="162.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">301</text>
+<circle cx="215.0" cy="120.0" r="20.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.8928571428571429"/>
+<text x="215.0" y="125.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">2</text>
+<text x="215.0" y="162.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">302</text>
+<circle cx="320.0" cy="120.0" r="20.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.7857142857142857"/>
+<text x="320.0" y="125.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">3</text>
+<text x="320.0" y="162.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">303</text>
+<circle cx="425.0" cy="120.0" r="20.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.6785714285714286"/>
+<text x="425.0" y="125.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">4</text>
+<text x="425.0" y="162.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">304</text>
+<circle cx="530.0" cy="120.0" r="20.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.5714285714285714"/>
+<text x="530.0" y="125.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">5</text>
+<text x="530.0" y="162.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">305</text>
+<circle cx="635.0" cy="120.0" r="20.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.4642857142857143"/>
+<text x="635.0" y="125.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">6</text>
+<text x="635.0" y="162.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">306</text>
+<circle cx="740.0" cy="120.0" r="20.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.3571428571428572"/>
+<text x="740.0" y="125.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">7</text>
+<text x="740.0" y="162.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">307</text>
+<circle cx="845.0" cy="120.0" r="20.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.25"/>
+<text x="845.0" y="125.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">8</text>
+<text x="845.0" y="162.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">308</text>
+<text x="900.0" y="92.0" font-size="11.5" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">웨이브가 왼쪽에서 출발</text>
+<text x="40.0" y="202.0" font-size="13.5" fill="#d9902a" text-anchor="start" font-weight="700" opacity="1.0">스팟 우→좌: 308부터 301까지 거꾸로 고름</text>
+<line x1="60.0" y1="254.0" x2="900.0" y2="254.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<circle cx="110.0" cy="230.0" r="20.0" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.25"/>
+<text x="110.0" y="235.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">8</text>
+<text x="110.0" y="272.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">301</text>
+<circle cx="215.0" cy="230.0" r="20.0" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.3571428571428572"/>
+<text x="215.0" y="235.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">7</text>
+<text x="215.0" y="272.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">302</text>
+<circle cx="320.0" cy="230.0" r="20.0" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.4642857142857143"/>
+<text x="320.0" y="235.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">6</text>
+<text x="320.0" y="272.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">303</text>
+<circle cx="425.0" cy="230.0" r="20.0" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.5714285714285714"/>
+<text x="425.0" y="235.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">5</text>
+<text x="425.0" y="272.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">304</text>
+<circle cx="530.0" cy="230.0" r="20.0" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.6785714285714286"/>
+<text x="530.0" y="235.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">4</text>
+<text x="530.0" y="272.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">305</text>
+<circle cx="635.0" cy="230.0" r="20.0" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.7857142857142857"/>
+<text x="635.0" y="235.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">3</text>
+<text x="635.0" y="272.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">306</text>
+<circle cx="740.0" cy="230.0" r="20.0" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.8928571428571429"/>
+<text x="740.0" y="235.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">2</text>
+<text x="740.0" y="272.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">307</text>
+<circle cx="845.0" cy="230.0" r="20.0" fill="#d9902a" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="845.0" y="235.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">1</text>
+<text x="845.0" y="272.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">308</text>
+<text x="900.0" y="202.0" font-size="11.5" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">같은 페이저가 오른쪽에서 출발</text>
+<text x="40.0" y="312.0" font-size="13.5" fill="#7a5ea8" text-anchor="start" font-weight="700" opacity="1.0">스팟 바깥→안: 301, 308, 302, 307 … 순서로 고름</text>
+<line x1="60.0" y1="364.0" x2="900.0" y2="364.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<circle cx="110.0" cy="340.0" r="20.0" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="110.0" y="345.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">1</text>
+<text x="110.0" y="382.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">301</text>
+<circle cx="215.0" cy="340.0" r="20.0" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="0.7857142857142857"/>
+<text x="215.0" y="345.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">3</text>
+<text x="215.0" y="382.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">302</text>
+<circle cx="320.0" cy="340.0" r="20.0" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="0.5714285714285714"/>
+<text x="320.0" y="345.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">5</text>
+<text x="320.0" y="382.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">303</text>
+<circle cx="425.0" cy="340.0" r="20.0" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="0.3571428571428572"/>
+<text x="425.0" y="345.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">7</text>
+<text x="425.0" y="382.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">304</text>
+<circle cx="530.0" cy="340.0" r="20.0" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="0.25"/>
+<text x="530.0" y="345.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">8</text>
+<text x="530.0" y="382.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">305</text>
+<circle cx="635.0" cy="340.0" r="20.0" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="0.4642857142857143"/>
+<text x="635.0" y="345.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">6</text>
+<text x="635.0" y="382.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">306</text>
+<circle cx="740.0" cy="340.0" r="20.0" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="0.6785714285714286"/>
+<text x="740.0" y="345.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">4</text>
+<text x="740.0" y="382.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">307</text>
+<circle cx="845.0" cy="340.0" r="20.0" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="0.8928571428571429"/>
+<text x="845.0" y="345.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">2</text>
+<text x="845.0" y="382.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">308</text>
+<text x="900.0" y="312.0" font-size="11.5" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">바깥에서 안으로 모임</text>
+</svg>
+<figcaption><b>그림 24-1</b> 선택 순서와 셀렉션 그리드. 같은 스팟 무빙 8대를 왼쪽부터 고르면 웨이브가 왼쪽에서 출발하고, 바깥부터 안으로 번갈아 고르면 바깥에서 안으로 모입니다. 그룹은 이 순서를 저장합니다. 셀렉션 그리드는 장비끼리의 순서이지 무대 위의 실제 자리가 아닙니다.</figcaption></figure>
+<p>22장의 그룹 3단계가 여기서 쓰입니다. 전체 그룹과 부분 그룹은 자리를 고르는 그룹이고, <strong>이펙트 그룹은 순서를 고르는 그룹</strong>입니다. "스팟 좌→우", "스팟 우→좌", "빔 바깥→안", "빔 홀짝"은 장비는 같고 순서만 다른 그룹입니다.</p>
+<div class="tbl"><div class="tcap"><b>표 24-3</b> 그룹 풀 번호 <span class="badge start">출발값</span></div><table>
+<thead>
+<tr class="header">
+<th>번호</th>
+<th>단계</th>
+<th>그룹</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1~10</td>
+<td>전체 그룹</td>
+<td>1 키, 2 필, 3 워시, 4 백, 5 사이드, 6 스팟, 7 빔, 8 픽셀(LED 바 메인 픽스처), 9 스트로브, 10 블라인더</td>
+</tr>
+<tr class="even">
+<td>11~30</td>
+<td>부분 그룹</td>
+<td>사이드 무대 오른쪽·왼쪽, 빔 바닥·타워, 빔 무대 오른쪽·왼쪽, 픽셀 서브 픽스처 전체</td>
+</tr>
+<tr class="odd">
+<td>31~60</td>
+<td>이펙트 그룹</td>
+<td>스팟 좌→우·우→좌·바깥→안, 빔 홀짝·바깥→안·좌→우, 사이드 좌우 교차, 픽셀 서브 픽스처 좌→우·가운데→밖</td>
+</tr>
+</tbody>
+</table></div>
+<p>그룹을 저장한 뒤에는 순서를 눈으로 확인합니다. Highlight를 켜고 Next로 한 대씩 넘기면 그룹의 순서대로 장비가 하나씩 밝아집니다.<sup class="ref"><a href="#c24-s8">8</a></sup> 이 확인을 건너뛰면, 이펙트가 "정상으로 저장됐는데 모양이 이상한" 일이 생깁니다.</p>
+
+<h2 id="c24-244-메인-픽스처와-서브-픽스처는-다른-그룹으로">24.4 메인 픽스처와 서브 픽스처는 다른 그룹으로</h2><p class="lead">LED 바처럼 서브 픽스처가 여러 개인 장비는 <strong>메인 픽스처 그룹과 서브 픽스처 그룹을 따로</strong> 만듭니다. 한 그룹에 섞으면 페이저가 장비를 엉뚱한 단위로 셉니다.</p>
+<p>서브 픽스처가 여러 개인 장비를 고르고 <strong>Down</strong> 키를 누르면 서브 픽스처들이 장비 안의 배열대로 격자에 펼쳐집니다(Up은 이전 선택으로).<sup class="ref"><a href="#c24-s8">8</a></sup> 펼치지 않은 채로 페이저를 걸면 콘솔은 서브 픽스처가 여럿인 장비 한 대를 한 대로 봅니다. 서브 픽스처마다 다르게 움직이는 체이스를 원한다면 Down으로 펼친 서브 픽스처 그룹에 걸어야 합니다.<code>[저자 확인]</code></p>
+<p>메인 픽스처와 서브 픽스처가 맡는 속성도 나눕니다. 메인 픽스처는 틸트, 스트로브, 줌처럼 장비 전체에 걸리는 속성을, 서브 픽스처는 밝기와 컬러를 맡습니다. 그리고 메인 픽스처의 디머는 100%로 두고 서브 픽스처가 밝기를 맡게 하면, 픽셀 이펙트가 메인 픽스처 디머에 가려지지 않습니다.<code>[저자 확인]</code></p>
+<p>장비에 따라서는 디머가 둘인 경우도 있습니다. 저자는 디머와 두 번째 디머(Dimmer2)가 모두 100이어야 빛나는 장비에서, 다른 그룹과 섞어 디머 프리셋을 저장했다가 두 번째 디머가 빠져 빛이 나오지 않은 적이 있습니다.<sup class="ref"><a href="#c24-s7">7</a></sup> 새 기종을 받으면 디머 채널이 몇 개인지부터 봅니다.</p>
+
+<h2 id="c24-245-프리셋-풀">24.5 프리셋 풀</h2><p class="lead">프리셋은 <strong>종류(Feature Group)마다 따로 풀</strong>에 나눠 두고, 여러 종류가 섞인 것은 <strong>All 풀</strong>에 담습니다.</p>
+<p>새 쇼에는 기본 종류 이름(Dimmer, Position, Color 등)의 프리셋 풀 9개와, 입력 필터가 없는 All 풀 5개(All 1~All 5)가 있습니다. 종류별 풀은 그 종류의 속성만 받아들입니다.<sup class="ref"><a href="#c24-s9">9</a></sup> 매뉴얼에는 풀 번호표가 없지만, 저자의 쇼에서는 Dimmer 풀이 1번, Position 풀이 2번, Color 풀이 4번, All 1 풀이 21번이었습니다.<sup class="ref"><a href="#c24-s7">7</a></sup> 풀 번호는 쇼마다 다를 수 있으니 저장하기 전에 풀 목록을 한 번 봅니다.</p>
+<div class="tbl"><div class="tcap"><b>표 24-4</b> LOVE ATTACK의 기본 프리셋 <span class="badge start">출발값</span></div><table>
+<thead>
+<tr class="header">
+<th>풀</th>
+<th>프리셋</th>
+<th>앞 장</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Dimmer</td>
+<td>0(블랙), 25(베이스), 50, 75, 100(풀)</td>
+<td>16장 큐 시트</td>
+</tr>
+<tr class="even">
+<td>Color</td>
+<td>진주 핑크, 라일락, 아쿠아, 빨강(스페셜), 화이트</td>
+<td>8장 팔레트</td>
+</tr>
+<tr class="odd">
+<td>Position</td>
+<td>인트로(바닥 쪽 좁게), 다운라이트, 월, 옥상 팬 좁게(후렴 1·2), 옥상 팬 넓게(후렴 3), 크로스 빔, 스카이 빔</td>
+<td>9장 룩 시트, 16.4·16.5절</td>
+</tr>
+<tr class="even">
+<td>Beam</td>
+<td>좁게(빔), 넓게(워시), 프리즘</td>
+<td>6장 속성</td>
+</tr>
+<tr class="odd">
+<td>All</td>
+<td>두 속성 이상이 섞인 페이저(예: 컬러와 디머가 함께 도는 픽셀 박수)</td>
+<td>25장</td>
+</tr>
+</tbody>
+</table></div>
+<p>디머 프리셋은 큐 시트의 레벨 가운데 <strong>기준이 되는 밝기 단계</strong>만 만듭니다. LOVE ATTACK의 큐 시트(16장 표 16-4)에서 0은 블로킹과 다크 큐의 메인 역할에, 25는 프리코러스 1의 베이스에, 50은 인트로와 벌스 1에, 75는 프리코러스 2와 후렴 3의 베이스에, 100은 후렴 3에 나옵니다. 이 단계를 프리셋으로 두면 리허설에서 "베이스가 너무 밝다"는 말이 나왔을 때 베이스 25 프리셋 하나만 고치면 그 프리셋을 쓴 큐가 모두 따라옵니다(23장). 반대로 한 큐에서만 쓰는 밝기(브리지의 45%, 비트 구간의 85% 등)는 큐에 하드 밸류로 넣어도 됩니다. 디머 채널이 둘인 장비(24.4절)는 디머 프리셋에 두 번째 디머까지 함께 담습니다.</p>
+<p>컬러와 디머를 함께 담은 값을 Color 풀에 저장해 보면 거부되지는 않지만, 걸러진 속성이 있는지 화면에서 바로 알기 어렵습니다.<sup class="ref"><a href="#c24-s7">7</a></sup> 그래서 두 종류 이상이 섞이면 All 풀에 둡니다. 페이저는 한 종류의 속성만 쓰더라도 이 책에서는 All 풀에 모아 둡니다. 레이어 시퀀스에 넣을 페이저를 한 곳에서 찾기 위해서입니다(25장, 29장 표 29-2).</p>
+
+<h2 id="c24-246-프리셋-모드는-selective로">24.6 프리셋 모드는 Selective로</h2><p class="lead">프리셋을 저장하는 방식(프리셋 모드)은 세 가지이고, <strong>이 책의 실습에서는 모두 Selective로 저장합니다</strong>. 여는 장면의 "몇 대만 바뀌는" 일도, 25장에서 다룰 "위상이 사라지는" 일도 프리셋 모드에서 생깁니다.</p>
+<div class="tbl"><div class="tcap"><b>표 24-5</b> 세 가지 프리셋 모드 <sup class="ref"><a href="#c24-s10">10</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>방식</th>
+<th>적용되는 장비</th>
+<th>값을 어디서 가져오나</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Selective(S)</td>
+<td>저장할 때 값을 가진 장비마다 따로</td>
+<td>장비마다 자기 값</td>
+</tr>
+<tr class="even">
+<td>Global(G)</td>
+<td>같은 기종 전체</td>
+<td>기종마다 한 대. 같은 기종끼리 값이 다르면 가장 낮은 ID의 장비가 대표값이 되고 나머지는 Selective로 더해짐</td>
+</tr>
+<tr class="odd">
+<td>Universal(U)</td>
+<td>그 속성을 가진 모든 장비</td>
+<td>저장할 때의 첫 활성 장비 하나</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 316" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<text x="40.0" y="96.0" font-size="14" fill="#3b6ea8" text-anchor="start" font-weight="700" opacity="1.0">Selective(S)</text>
+<text x="40.0" y="116.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">장비마다 자기 위상을 기억 → 웨이브</text>
+<rect x="40.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="40.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="57.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">0°</text>
+<rect x="90.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="90.0" y="169.4" width="34.0" height="136.6" rx="4" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="107.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">45°</text>
+<rect x="140.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="140.0" y="226.0" width="34.0" height="80.0" rx="4" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="157.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">90°</text>
+<rect x="190.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="190.0" y="282.6" width="34.0" height="23.4" rx="4" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="207.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">135°</text>
+<rect x="240.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="240.0" y="306.0" width="34.0" height="0.0" rx="4" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="257.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">180°</text>
+<rect x="290.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="290.0" y="282.6" width="34.0" height="23.4" rx="4" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="307.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">225°</text>
+<rect x="340.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="340.0" y="226.0" width="34.0" height="80.0" rx="4" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="357.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">270°</text>
+<rect x="390.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="390.0" y="169.4" width="34.0" height="136.6" rx="4" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="407.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">315°</text>
+<text x="520.0" y="96.0" font-size="14" fill="#c8553d" text-anchor="start" font-weight="700" opacity="1.0">Universal(U)</text>
+<text x="520.0" y="116.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">첫 활성 장비 하나의 값을 모두에게 → 한꺼번에 깜박임</text>
+<rect x="520.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="520.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="537.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">0°</text>
+<rect x="570.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="570.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="587.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">0°</text>
+<rect x="620.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="620.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="637.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">0°</text>
+<rect x="670.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="670.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="687.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">0°</text>
+<rect x="720.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="720.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="737.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">0°</text>
+<rect x="770.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="770.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="787.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">0°</text>
+<rect x="820.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="820.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="837.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">0°</text>
+<rect x="870.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="870.0" y="146.0" width="34.0" height="160.0" rx="4" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="887.0" y="326.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">0°</text>
+</svg>
+<figcaption><b>그림 24-2</b> Selective와 Universal. 위상이 다른 디머 페이저를 8대에 걸고 저장할 때, Selective는 장비마다 자기 위상을 기억하고 Universal은 첫 장비 하나의 값을 모두에게 줍니다. 그래서 Universal로 저장한 웨이브는 여덟 대가 한꺼번에 깜박입니다.</figcaption></figure>
+<p>Selective는 <strong>저장할 때 값을 가진 장비에만</strong> 적용됩니다.<sup class="ref"><a href="#c24-s10">10</a></sup> 그래서 여는 장면처럼 장비를 몇 대만 골라 저장하면 그 몇 대만 바뀝니다. 해결은 간단합니다. 프리셋을 저장하기 전에 그 프리셋이 적용될 그룹 전체를 골랐는지 봅니다.</p>
+<p>Universal은 저장할 때의 <strong>첫 활성 장비 하나</strong>에서 값을 가져옵니다.<sup class="ref"><a href="#c24-s10">10</a></sup> 장비마다 위상이 다른 페이저를 Universal로 저장하면 그 차이가 사라집니다. 저자는 LOVE ATTACK의 디머 웨이브를 Universal로 저장했다가 같은 종류의 장비가 한꺼번에 깜박이는 것을 보았습니다. 다른 쇼에서는 프리셋 모드를 정하지 않은 컬러 프리셋이 Universal로 저장되어, 쇼 전체의 색 대부분이 설계와 다르게 나온 일도 겪었습니다.<sup class="ref"><a href="#c24-s7">7</a></sup> 그 뒤로 프리셋은 늘 <code>/Selective</code>로 저장합니다.</p>
+<p>풀마다 기본 프리셋 모드가 있고 풀 제목의 오른쪽 위 글자로 표시됩니다. 풀 설정에서 Preset Mode를 Selective로 바꿔 두거나, 저장할 때 Store를 길게 눌러 나오는 Store Options에서 고릅니다. 명령줄에서는 <code>Store Preset 4.1 "진주 핑크" /Selective</code>처럼 옵션을 붙입니다.<sup class="ref"><a href="#c24-s10">10</a></sup> <code>[저자 확인]</code> 앞에서부터 읽으면, Store는 저장하라는 명령이고, Preset 4.1은 4번 프리셋 풀(Color)의 1번 칸, "진주 핑크"는 붙일 이름, <code>/Selective</code>는 프리셋 모드를 Selective로 하라는 옵션입니다. 풀 번호는 앞의 24.5절처럼 쇼마다 확인합니다.</p>
+<aside class="box terms"><div class="box-label">알아 둘 말</div><div class="box-body"><dl class="defs"><div><dt>위상(Phase)</dt><dd>같은 페이저 안에서 장비마다 시작점을 얼마나 어긋나게 할지입니다. 각도(0~360°)로 줍니다. 25장과 26장에서 자세히 다룹니다.</dd></div></dl></div></aside>
+
+<h2 id="c24-247-3d-화면과-시뮬레이션-프로그램">24.7 3D 화면과 시뮬레이션 프로그램</h2><p class="lead">실제 무대 없이 작업할 때는 시뮬레이션 화면으로 결과를 봅니다. 이 책의 실습은 grandMA3 onPC에 들어 있는 3D 화면을 씁니다. 빔이 안 보이면 장비가 아니라 <strong>3D 화면의 설정이나 선택</strong>부터 봅니다.</p>
+<div class="tbl"><div class="tcap"><b>표 24-6</b> 3D 화면에서 빔이 안 보일 때 볼 것 <sup class="ref"><a href="#c24-s11">11</a></sup> <sup class="ref"><a href="#c24-s7">7</a></sup> <sup class="ref"><a href="#c24-s12">12</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>볼 것</th>
+<th>왜</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>onPC를 돌리는 PC의 그래픽</td>
+<td>2.5부터 3D 화면은 OpenGL 대신 Vulkan으로 그림. 3D 창이 아예 비거나 몹시 느리면 그래픽 드라이버와 2.5의 시스템 요구 사항부터 봄 <sup class="ref"><a href="#c24-s12">12</a></sup></td>
+</tr>
+<tr class="even">
+<td>3D 창 설정의 Stage가 "모든 스테이지"인지</td>
+<td>패치에 스테이지가 여럿이면 3D 창은 하나만 보여 줄 수 있음. 가져온 구조물과 조명이 다른 스테이지에 나뉘어 있으면 조명이 안 보임</td>
+</tr>
+<tr class="odd">
+<td>Beam 페이더, Haze</td>
+<td>빔의 보이는 정도와 공중의 빔줄기를 3D 창에서 따로 조절함</td>
+</tr>
+<tr class="even">
+<td>디머 채널이 둘인 장비</td>
+<td>두 번째 디머가 0이면 빛이 나오지 않음</td>
+</tr>
+<tr class="odd">
+<td>서브 픽스처가 있는 장비</td>
+<td>저자의 경우 메인 픽스처와 서브 픽스처를 함께 고르고(번호 끝에 점) 틸트까지 주어야 3D에 빔이 보였음</td>
+</tr>
+<tr class="even">
+<td>장비의 밝기</td>
+<td>광량이 낮은 기종은 100%에서도 3D에서 훨씬 어둡게 그려짐</td>
+</tr>
+</tbody>
+</table></div>
+<p>현장에서는 콘솔의 3D 화면 말고 외부 시뮬레이션 프로그램도 씁니다. 외부 프로그램은 콘솔의 신호를 받아 장비를 그리고, 무대와 LED 월까지 더 사실적으로 보여 줍니다. 큐를 영상으로 만들어 연출이나 아티스트에게 보여 줄 수도 있습니다.<sup class="ref"><a href="#c24-s14">14</a></sup> <sup class="ref"><a href="#c24-s15">15</a></sup></p>
+<div class="tbl"><div class="tcap"><b>표 24-7</b> 콘솔의 3D 화면과 외부 시뮬레이션 프로그램 <sup class="ref"><a href="#c24-s11">11</a></sup> <sup class="ref"><a href="#c24-s14">14</a></sup> <sup class="ref"><a href="#c24-s15">15</a></sup></div><table>
+<thead>
+<tr class="header">
+<th></th>
+<th>콘솔의 3D 화면(grandMA3)</th>
+<th>외부 시뮬레이션 프로그램</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>예</td>
+<td>onPC와 콘솔에 들어 있는 3D 화면</td>
+<td>Capture, Depence, WYSIWYG 등</td>
+</tr>
+<tr class="even">
+<td>장비 배치</td>
+<td>패치의 좌표가 그대로 배치</td>
+<td>도면이나 MVR 파일로 가져와 콘솔 패치와 맞춤</td>
+</tr>
+<tr class="odd">
+<td>연결</td>
+<td>따로 없음</td>
+<td>콘솔의 신호를 네트워크로 받음</td>
+</tr>
+<tr class="even">
+<td>잘하는 것</td>
+<td>프로그래밍하며 바로 확인, 추가 비용 없음</td>
+<td>사실적인 빔과 무대, LED 월 영상, 보여 줄 영상 만들기</td>
+</tr>
+<tr class="odd">
+<td>한계</td>
+<td>빛과 색은 연습용 그림</td>
+<td>실제 장비의 밝기, 색, 움직임과는 여전히 다름</td>
+</tr>
+</tbody>
+</table></div>
+<p>어느 쪽이든 시뮬레이션의 빔은 실제 무대가 아닙니다. 시뮬레이션에서 정한 값은 곡 전체를 돌려 본 뒤(28.5절), 실제 무대에서 달라지는 곳만 리허설에서 다시 봅니다(30장).</p>
+
+<h2 id="c24-248-실습-실습-장비를-패치하고-love-attack-기본-프리셋-만들기">24.8 [실습] 실습 장비를 패치하고 LOVE ATTACK 기본 프리셋 만들기</h2><p class="lead">6장의 실습 장비를 onPC에 패치하고, 그룹 3단계와 LOVE ATTACK의 기본 프리셋을 만듭니다. 이 쇼 파일을 27장까지 계속 씁니다.</p>
+<p><strong>따라 하기</strong></p>
+<ol type="1">
+<li>22장에서 만든 패치 시트(표 22-10, 웹 부록 18)대로 장비 94대에 번호와 주소를 넣어 패치합니다(팔로우 스팟 2대는 사람이 운용하는 콘솔 밖 장비라 패치하지 않습니다). 기종은 비슷한 것으로 골라도 되고, 모드는 채널 맵으로 22장 표 22-11의 채널 수에 가까운 것을 고릅니다.</li>
+<li>장비를 22장의 조명 도면(그림 22-3·22-4, 표 22-8)과 패치 시트의 좌표대로 놓습니다. 원점은 무대 앞 끝의 가운데이고, 무대 오른쪽 장비는 X가 음수입니다.</li>
+<li>표 24-3의 번호로 전체 그룹과 부분 그룹을 만들고, 이펙트 그룹은 순서를 생각하며 고릅니다. LED 바는 Down으로 서브 픽스처를 펼쳐 서브 픽스처 그룹을 따로 만듭니다.</li>
+<li>Dimmer, Color, Position 풀의 Preset Mode를 Selective로 바꿉니다.</li>
+<li>표 24-4의 프리셋을 만듭니다. 디머는 장비 전체를 고르고 단계마다 저장하며, 디머가 둘인 장비는 두 번째 디머도 같은 값으로 넣습니다. 컬러는 8장의 RGB 값을 쓰고, 저장하기 전에 그 컬러를 쓸 그룹 전체를 골랐는지 봅니다.</li>
+<li>포지션은 9장 룩 시트의 그림을 3D 화면에서 맞춘 뒤 저장합니다.</li>
+</ol>
+<aside class="box check"><div class="box-label">확인하는 법</div><div class="box-body"><ol class="steps"><li>세 가지를 봅니다.</li><li>첫째, 이펙트 그룹마다 Highlight와 Next로 순서를 넘겨 보고 그림 24-1처럼 움직이는지 봅니다.</li><li>둘째, 프리셋 풀에서 프리셋마다 프리셋 모드 글자가 S인지 봅니다.</li><li>셋째, 모든 장비를 고른 뒤 진주 핑크를 불러 94대 가운데 컬러가 있는 장비가 모두 바뀌는지 봅니다.</li><li>몇 대가 남으면 그 장비가 저장할 때 골라져 있었는지부터 봅니다.</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">내 무대로 해 보기</div><div class="box-body"><ol class="steps"><li>지금 맡은 쇼의 장비로 표 24-1과 24-3을 채워 봅니다.</li><li>웹 부록 22 쇼 파일 계획에 장비 역할표나 22장의 패치 시트(웹 부록 18)를 불러오면 ID 번호 범위와 그룹 번호, 프리셋 풀 계획을 한 장으로 만들어 줍니다.</li></ol></div></aside>
+<aside class="web" id="web-W19-24"><div class="web-head"><span class="web-tag">웹 부록 22</span><h4>쇼 파일 계획</h4><a class="web-open" href="https://jjjh7401.github.io/lx/showplan.html" target="_blank" rel="noopener">새 창에서 열기 ↗</a></div><p class="web-desc">장비 역할표(웹 부록 6)의 장비를 불러와 종류마다 ID 번호 범위를 주고, 그룹 3단계와 프리셋 풀의 번호 범위, 곡 페이지의 익스큐터 배치를 한 장으로 정리합니다. 패치 시트(웹 부록 18)를 불러오면 그 ID와 주소를 그대로 씁니다. 번호가 겹치거나 비는 곳을 짚어 주고, 패치 목록과 그룹 목록을 스프레드시트로 복사할 수 있습니다.</p><div class="tool-embed"><iframe title="쇼 파일 계획" loading="lazy" style="--h:1500px" src="https://jjjh7401.github.io/lx/showplan.html?embed=1" allow="autoplay" ></iframe></div><p class="tool-open"><span>적은 노트는 이 브라우저에만 저장됩니다. 넓은 화면에서 쓰려면 위의 "새 창에서 열기"를 누르세요.</span></p></aside>
+
+<section class="summary"><h2>핵심 정리</h2><ul>
+<li>패치는 장비마다 ID와 주소를 주는 일이고, ID는 종류마다 백 단위 번호 범위로 줍니다. 매뉴얼에는 정해진 규칙이 없으니 쇼마다 정해 템플릿으로 남깁니다.</li>
+<li>방향이 틀리면 프리셋이 아니라 패치에서 인버트합니다. 인버트는 DMX, 3D, 인코더 세 종류입니다.</li>
+<li>+X는 무대 왼쪽이고 무대 오른쪽은 음수입니다. 명령줄의 <code>- 10</code>(띄어쓰기)은 상대값입니다.</li>
+<li>그룹은 선택, 순서, 격자를 저장합니다. 고른 순서가 이펙트의 방향입니다.</li>
+<li>서브 픽스처가 있는 장비는 메인 픽스처와 서브 픽스처를 다른 그룹으로 만듭니다.</li>
+<li>프리셋은 Selective로 저장합니다. 저장할 때 적용될 그룹 전체를 골랐는지 봅니다.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">내일 현장에서</div><div class="box-body"><ol class="steps"><li>프리셋을 저장하기 전에, 그 프리셋을 쓸 그룹 전체를 골랐는지와 풀의 프리셋 모드 글자가 S인지 두 가지만 봅니다.</li></ol></div></aside>
+
+<section class="notes"><h2>주</h2><ol><li id="c24-s1">MA Lighting, grandMA3 User Manual 2.5, "Add Fixtures to the Show". FID와 CID, <code>유니버스.주소</code> 입력, DMX·3D·Enc 인버트 세 칸과 쓰는 때. ID 번호 범위 규칙은 두지 않음. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/patch_add_fixtures.html">https://help.malighting.com/grandMA3/2.5/HTML/patch_add_fixtures.html</a> (2026-10-26 확인)</li><li id="c24-s2">저자의 미공개 작업 노트. 방향을 프리셋으로 땜질하면 이후 무빙이 모두 복잡해짐.</li><li id="c24-s3">MA Lighting, grandMA3 User Manual 2.5, "Position Fixtures". 단위는 미터와 도, 축과 회전의 방향. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/patch_position_fixtures.html">https://help.malighting.com/grandMA3/2.5/HTML/patch_position_fixtures.html</a> (2026-10-26 확인)</li><li id="c24-s4">MA Lighting, grandMA3 Quick Start Guide 2.5, "3D Setup". 가운데가 0이면 무대 오른쪽은 음수, 기준점은 매다는 점. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/qsg_3d_setup.html">https://help.malighting.com/grandMA3/2.5/HTML/qsg_3d_setup.html</a> (2026-10-26 확인)</li><li id="c24-s5">MA Lighting, grandMA3 User Manual 2.5, "Minus Keyword". 띄어쓰기가 있으면 상대값. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_minus.html">https://help.malighting.com/grandMA3/2.5/HTML/keyword_minus.html</a> (2026-10-26 확인)</li><li id="c24-s6">MA Lighting, grandMA3 User Manual 2.5, "Create Groups". 그룹은 선택·순서·격자를 저장, Grid Merge Mode 기본 Append X. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/group_create.html">https://help.malighting.com/grandMA3/2.5/HTML/group_create.html</a> (2026-10-26 확인)</li><li id="c24-s7">저자의 onPC 2.4.2 작업 기록(미공개). 선택 순서를 거꾸로 하면 웨이브가 거꾸로 감, 두 번째 디머가 빠진 사고, 프리셋 풀 번호(Dimmer 1, Position 2, Color 4, All 1 = 21), Universal로 저장한 페이저의 위상 소실, 색 프리셋 누락(쇼 전체의 색 대부분이 설계와 다름), 서브 픽스처가 있는 장비의 3D 빔.</li><li id="c24-s8">MA Lighting, grandMA3 User Manual 2.5, "Selection". 셀렉션 그리드, Down으로 서브 픽스처 펼치기. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/operate_selection.html">https://help.malighting.com/grandMA3/2.5/HTML/operate_selection.html</a> (2026-10-26 확인)</li><li id="c24-s9">MA Lighting, grandMA3 User Manual 2.5, "Preset Pools". 기본 종류 풀 9개와 All 풀 5개. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/presets_pools.html">https://help.malighting.com/grandMA3/2.5/HTML/presets_pools.html</a> (2026-10-26 확인)</li><li id="c24-s10">MA Lighting, grandMA3 User Manual 2.5, "Presets", "Create Presets". Selective·Global·Universal의 정의, Store Options의 Preset Mode, <code>/Selective</code> 옵션. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/presets.html">https://help.malighting.com/grandMA3/2.5/HTML/presets.html</a> · <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/presets_create.html">https://help.malighting.com/grandMA3/2.5/HTML/presets_create.html</a> (2026-10-26 확인)</li><li id="c24-s11">MA Lighting, grandMA3 User Manual 2.5, "3D Viewer". Stage 설정(하나 또는 모든 스테이지), Beam 페이더, Haze, 광량이 낮은 기종의 표시. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/patch_3d_viewer.html">https://help.malighting.com/grandMA3/2.5/HTML/patch_3d_viewer.html</a> (2026-10-26 확인)</li><li id="c24-s12">MA Lighting, grandMA3 Release Notes 2.5, "New Features". Insert New Fixture·Fixture Type Import 창의 채널 맵(Channels·Structure), 그래픽 플랫폼 Vulkan(OpenGL 대체). <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/rn_features-2-5.html">https://help.malighting.com/grandMA3/2.5/HTML/rn_features-2-5.html</a> (2026-10-26 확인)</li><li id="c24-s13">MA Lighting, grandMA3 User Manual 2.5, "MVR". MVR(My Virtual Rig)은 콘솔, 시뮬레이션 프로그램, 도면 프로그램 사이에서 무대 설치 정보를 주고받는 파일 형식이며 GDTF를 보완함, 패치 메뉴에서 MVR로 내보내기. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/patch_mvr.html">https://help.malighting.com/grandMA3/2.5/HTML/patch_mvr.html</a> (2026-10-27 확인)</li><li id="c24-s14">Syncronorm, "Stage Visualization"(Depence). 무대 조명을 켜기 전에 시뮬레이션에서 쇼를 미리 프로그래밍하고, 영상 프레젠테이션을 만듦. <a target="_blank" rel="noopener" href="https://syncronorm.com/industries/stage-visualization">https://syncronorm.com/industries/stage-visualization</a> (2026-10-27 확인)</li><li id="c24-s15">ControlBooth, "Lighting Visualization Software". WYSIWYG, Capture, ESP Vision 등 시뮬레이션 프로그램은 실제 콘솔이나 오프라인 프로그램과 연결해 장비를 그리고, 큐를 영상으로 만들 수 있음. <a target="_blank" rel="noopener" href="https://www.controlbooth.com/wiki/Collaborative-Articles:Lighting-Visualization-Software">https://www.controlbooth.com/wiki/Collaborative-Articles:Lighting-Visualization-Software</a> (2026-10-27 확인)</li></ol></section>
+
+
+</article>
+</div>

@@ -1,0 +1,497 @@
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<section class="part-page" id="part6"><div class="pn">PART 6</div><h2>리허설과 본 공연</h2><p>큐를 다 만들었으면 이제 무대에서 확인할 차례입니다. 리허설에서는 시뮬레이션과 실제 무대가 다르게 보이는 곳을 찾아 고칩니다. 본 공연에서는 박자에 맞춰 GO를 누르고, 큐를 놓쳤을 때 어디서 다시 들어갈지 미리 정해 둡니다. 마지막 장에서는 관객과 출연자, 방송을 보는 시청자를 지키기 위한 기준을 정리합니다.</p><ol start="30"><li><a href="https://ablitzdesign.tistory.com/80">리허설</a></li><li><a href="https://ablitzdesign.tistory.com/81">본 공연 운영</a></li><li><a href="https://ablitzdesign.tistory.com/82">안전과 규정</a></li></ol></section><article class="chapter" id="ch30"><header class="ch-head"><div class="ch-num">30<span>장</span></div><h1 class="ch-title">리허설</h1><p class="ch-sub">점검표와 노트</p></header>
+
+
+<aside class="box goals"><div class="box-label">이 장에서 얻을 것</div><div class="box-body">
+<ul class="checks">
+<li>시뮬레이션에서 맞던 큐가 실제 무대에서 달라지는 곳을 압니다.</li>
+<li>첫 점등, 첫 런스루, 카메라·밴드 리허설에서 리허설 점검표 10개 항목을 확인합니다.</li>
+<li>리허설을 녹화하고 문제를 노트에 적은 뒤, 패치 → 프리셋 → 큐 → 타임코드 순서로 고칩니다.</li>
+</ul>
+</div></aside>
+<div class="open-label">여는 장면</div><p class="lead">온라인 쇼핑몰에서 옷을 고를 때는 사진과 설명을 꼼꼼히 봅니다. 색도 확인하고 치수표도 맞춰 봅니다. 그런데 막상 받아서 입어 보면 사진보다 색이 조금 어둡거나, 같은 치수인데 품이 다르게 느껴집니다. 화면에서 볼 수 있는 것은 다 확인했지만, 화면이 보여 주지 못하는 것이 남아 있던 것입니다.</p>
+<p>조명도 같습니다. 큐는 시뮬레이션 화면을 보며 만들었고, 리허설 전에 곡 전체를 돌려 보며 점검했습니다(28.5절). 그래도 실제 장비에 불을 켜면 다릅니다. 장비는 도면과 조금 다른 자리에 걸리고, 빔은 시뮬레이션보다 흐리거나 색이 다르게 나오며, 카메라에서는 또 다르게 보입니다.</p>
+<p>리허설은 화면이 보여 주지 못한 것을 확인하는 시간입니다. 이 장은 실제 무대에서 무엇을 어떤 순서로 확인하고, 어떻게 기록하고, 어디부터 고치는지를 다룹니다.</p>
+
+<h2 id="c30-301-리허설에서-확인하는-순서">30.1 리허설에서 확인하는 순서</h2><p class="lead">리허설에서는 먼저 곡을 멈추지 않고 처음부터 끝까지 한 번 돌려 본 뒤(런스루), <strong>구간 경계의 박, 얼굴, 깜박임, 반복 구간</strong> 네 가지를 실제 무대에서 차례로 확인합니다. 리허설 시간은 늘 빠듯하므로, 모든 큐를 똑같이 보지 않고 실수가 잦은 곳부터 봅니다.</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 356" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<rect x="30.0" y="96.0" width="170.0" height="110.0" rx="9" fill="#ffffff" stroke="#1f2430" stroke-width="1.6" opacity="1.0"/>
+<text x="42.0" y="118.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">1 런스루</text>
+<text x="42.0" y="138.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">멈추지 않고 처음부터</text>
+<text x="42.0" y="153.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">끝까지. 녹화를 켬</text>
+<rect x="250.0" y="96.0" width="145.0" height="110.0" rx="9" fill="#ffffff" stroke="#3b6ea8" stroke-width="1.6" opacity="1.0"/>
+<text x="262.0" y="118.0" font-size="13.5" fill="#3b6ea8" text-anchor="start" font-weight="700" opacity="1.0">2-1 구간 경계의 박</text>
+<text x="262.0" y="138.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">큐가 다운비트에 맞나</text>
+<rect x="410.0" y="96.0" width="145.0" height="110.0" rx="9" fill="#ffffff" stroke="#d9902a" stroke-width="1.6" opacity="1.0"/>
+<text x="422.0" y="118.0" font-size="13.5" fill="#d9902a" text-anchor="start" font-weight="700" opacity="1.0">2-2 얼굴</text>
+<text x="422.0" y="138.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">가수 얼굴이 곡 내내</text>
+<text x="422.0" y="153.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">보이나</text>
+<rect x="570.0" y="96.0" width="145.0" height="110.0" rx="9" fill="#ffffff" stroke="#c8553d" stroke-width="1.6" opacity="1.0"/>
+<text x="582.0" y="118.0" font-size="13.5" fill="#c8553d" text-anchor="start" font-weight="700" opacity="1.0">2-3 깜박임</text>
+<text x="582.0" y="138.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">1초에 몇 번인가,</text>
+<text x="582.0" y="153.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">기준 안인가</text>
+<rect x="730.0" y="96.0" width="145.0" height="110.0" rx="9" fill="#ffffff" stroke="#7a5ea8" stroke-width="1.6" opacity="1.0"/>
+<text x="742.0" y="118.0" font-size="13.5" fill="#7a5ea8" text-anchor="start" font-weight="700" opacity="1.0">2-4 반복 구간</text>
+<text x="742.0" y="138.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">후렴 1·2·3이</text>
+<text x="742.0" y="153.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">올라가나</text>
+<line x1="397.0" y1="151.0" x2="407.0" y2="151.0" stroke="#6b7280" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="407.0,151.0 400.7,154.0 400.7,148.0" fill="#6b7280" stroke="none" opacity="1.0"/>
+<line x1="557.0" y1="151.0" x2="567.0" y2="151.0" stroke="#6b7280" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="567.0,151.0 560.7,154.0 560.7,148.0" fill="#6b7280" stroke="none" opacity="1.0"/>
+<line x1="717.0" y1="151.0" x2="727.0" y2="151.0" stroke="#6b7280" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="727.0,151.0 720.7,154.0 720.7,148.0" fill="#6b7280" stroke="none" opacity="1.0"/>
+<line x1="202.0" y1="151.0" x2="246.0" y2="151.0" stroke="#6b7280" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="246.0,151.0 239.7,154.0 239.7,148.0" fill="#6b7280" stroke="none" opacity="1.0"/>
+<rect x="250.0" y="262.0" width="280.0" height="110.0" rx="9" fill="#ffffff" stroke="#4f8a5b" stroke-width="1.6" opacity="1.0"/>
+<text x="262.0" y="284.0" font-size="13.5" fill="#4f8a5b" text-anchor="start" font-weight="700" opacity="1.0">3 노트</text>
+<text x="262.0" y="304.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">큐 번호, 마디·박, 문제, 점검 항목,</text>
+<text x="262.0" y="319.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">판정(유지·수정·변경), 수정 단계</text>
+<rect x="570.0" y="262.0" width="210.0" height="110.0" rx="9" fill="#ffffff" stroke="#2f8c8c" stroke-width="1.6" opacity="1.0"/>
+<text x="582.0" y="284.0" font-size="13.5" fill="#2f8c8c" text-anchor="start" font-weight="700" opacity="1.0">4 패치부터 고치기</text>
+<text x="582.0" y="304.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">패치 → 프리셋 → 큐 →</text>
+<text x="582.0" y="319.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">타임코드</text>
+<rect x="820.0" y="262.0" width="120.0" height="110.0" rx="9" fill="#ffffff" stroke="#1f2430" stroke-width="1.6" opacity="1.0"/>
+<text x="832.0" y="284.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">5 다시</text>
+<text x="832.0" y="304.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">고친 구간만 앞뒤</text>
+<text x="832.0" y="319.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">큐까지</text>
+<path d="M802,208 C802,240 390,232 390,258" fill="none" stroke="#6b7280" stroke-width="1.4" opacity="1.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="390.0,260.0 385.0,251.0 395.0,251.0" fill="#6b7280" stroke="none" opacity="1.0"/>
+<line x1="532.0" y1="317.0" x2="566.0" y2="317.0" stroke="#6b7280" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="566.0,317.0 559.7,320.0 559.7,314.0" fill="#6b7280" stroke="none" opacity="1.0"/>
+<line x1="782.0" y1="317.0" x2="816.0" y2="317.0" stroke="#6b7280" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="816.0,317.0 809.7,320.0 809.7,314.0" fill="#6b7280" stroke="none" opacity="1.0"/>
+<path d="M880,374 C880,404 115,404 115,210" fill="none" stroke="#6b7280" stroke-width="1.2" opacity="1.0" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 4"/>
+<polygon points="115.0,208.0 110.0,217.0 120.0,217.0" fill="#6b7280" stroke="none" opacity="1.0"/>
+<text x="480.0" y="400.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">다음 리허설 전에는 노트에서 "완료"가 아닌 줄만 남김</text>
+</svg>
+<figcaption><b>그림 30-1</b> 리허설에서 확인하는 순서. 곡을 한 번 런스루하며 녹화하고, 네 가지를 차례로 확인한 뒤 노트에 적습니다. 고친 뒤에는 그 구간을 앞뒤 큐까지 넣어 다시 돌립니다.</figcaption></figure>
+<ol type="1">
+<li><strong>구간 경계의 박</strong>: 인트로에서 벌스로, 프리코러스에서 후렴으로 넘어가는 자리에서 큐가 다운비트에 맞는지 봅니다. 16장 큐 시트에서 10, 20, 30처럼 10 단위 번호를 붙인 큐가 놓이는 자리입니다. 늦게 들어가는 큐가 있으면 GO 타이밍(31장)이나 타임코드 시각(28장)을 확인합니다.</li>
+<li><strong>얼굴</strong>: 가수의 얼굴이 곡 내내 보이는지 봅니다. 키 라이트를 곡 시퀀스와 따로 두었는지(13장, 27장), 강조 큐나 다크 큐가 키 라이트까지 끄지 않는지 확인합니다. 카메라가 있는 무대라면 무대가 아니라 모니터로 봅니다(17장).</li>
+<li><strong>깜박임</strong>: 스트로브, 디머 이펙트, 화이트 플래시가 1초에 몇 번 깜박이는지 봅니다. 25장의 공식(BPM ÷ 60 ÷ Measure)으로 계산한 값과 무대에서 센 값이 같은지, 방송과 공연의 기준(17장, 32장)을 넘지 않는지 확인합니다.</li>
+<li><strong>반복 구간</strong>: 후렴 1, 2, 3이 계획대로 한 단계씩 올라가는지 봅니다. 14장의 회차별 빌드업과 10장의 헤드룸이 무대에서도 드러나는지, 후렴 2에서 이미 다 써 버려 후렴 3에 남은 것이 없지는 않은지 확인합니다.</li>
+</ol>
+<p>이 넷은 큐 시트를 쓸 때(16.3절)와 프리비즈 점검(28.5절)에서 이미 한 번 봤습니다. 리허설에서는 같은 항목을 <strong>실제 장비와 헤이즈, 카메라로 다시</strong> 보고, 시뮬레이션과 다르게 보이는 곳만 고칩니다.</p>
+<aside class="box terms"><div class="box-label">알아 둘 말</div><div class="box-body"><dl class="defs"><div><dt>런스루</dt><dd>(Run-through): 곡이나 쇼를 멈추지 않고 처음부터 끝까지 한 번 돌리는 것입니다. 첫 런스루는 고치지 않고 보기만 합니다. 중간에 멈춰 고치기 시작하면 곡 뒷부분을 볼 시간이 모자랍니다.</dd></div></dl></div></aside>
+
+<h2 id="c30-302-시뮬레이션과-실제-무대의-차이">30.2 시뮬레이션과 실제 무대의 차이</h2><p class="lead">시뮬레이션에서 맞던 큐도 실제 무대에서는 <strong>장비의 자리, 밝기, 색, 빔, 움직임, 타이밍</strong>의 여섯 가지가 달라 보입니다. 시뮬레이션은 정해진 값대로 그린 그림이지만, 실제 무대는 장비와 공간과 사람이 함께 만들기 때문입니다.<sup class="ref"><a href="#c30-s1">1</a></sup></p>
+<div class="tbl"><div class="tcap"><b>표 30-1</b> 시뮬레이션과 실제 무대가 달라지는 곳 <span class="badge start">출발값</span> <code>[저자 확인]</code></div><table>
+<thead>
+<tr class="header">
+<th>무엇이</th>
+<th>시뮬레이션에서는</th>
+<th>실제 무대에서는</th>
+<th>확인하는 때</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>장비의 자리</td>
+<td>도면의 좌표 그대로</td>
+<td>트러스 높이, 걸린 자리, 기울기가 조금씩 다름</td>
+<td>첫 점등</td>
+</tr>
+<tr class="even">
+<td>밝기</td>
+<td>장비 정보의 광량으로 그림</td>
+<td>장비의 상태, 거리, 객석과 LED 월의 밝기에 따라 다르게 보임</td>
+<td>첫 런스루</td>
+</tr>
+<tr class="odd">
+<td>색</td>
+<td>화면의 색으로 그림</td>
+<td>기종마다 같은 값에서도 색이 조금씩 다르고, 카메라의 화이트밸런스에 따라 달라짐</td>
+<td>첫 런스루, 카메라 리허설</td>
+</tr>
+<tr class="even">
+<td>빔</td>
+<td>3D 창의 Haze 설정</td>
+<td>헤이즈의 양과 공기 흐름에 따라 빔이 보이는 정도가 다름</td>
+<td>헤이즈를 켠 런스루</td>
+</tr>
+<tr class="odd">
+<td>움직임</td>
+<td>정한 시간대로 움직임</td>
+<td>무빙의 실제 이동 속도에 따라 모양이 늦게 완성될 수 있음</td>
+<td>첫 런스루</td>
+</tr>
+<tr class="even">
+<td>타이밍</td>
+<td>녹음된 음원에 맞춤</td>
+<td>밴드의 템포와 GO 타이밍이 매번 조금씩 다름</td>
+<td>밴드 리허설</td>
+</tr>
+</tbody>
+</table></div>
+<p>이 여섯 가지는 콘솔 앞에서 화면만 봐서는 찾을 수 없습니다. 그래서 리허설 점검표는 무대를 보고 판단하는 항목으로 만듭니다. 반대로 빠진 장비, 남은 이펙트, 바닥을 비추는 장비처럼 시뮬레이션에서 찾을 수 있는 문제는 28.5절의 프리비즈 점검표로 리허설 전에 끝냅니다. 리허설에서 그런 문제가 나온다면 프리비즈 점검을 건너뛴 것입니다.</p>
+
+<h2 id="c30-303-리허설-점검표">30.3 리허설 점검표</h2><p class="lead">리허설에서 확인할 것은 10개 항목이고, <strong>첫 점등 → 첫 런스루 → 카메라·밴드 리허설</strong> 순서로 봅니다. 장비가 제대로 켜지고 제 방향을 향하는지부터 보고, 그다음에 의도대로 보이는지를 봅니다.</p>
+<div class="tbl"><div class="tcap"><b>표 30-2</b> 리허설 점검표 <sup class="ref"><a href="#c30-s1">1</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>번호</th>
+<th>확인할 것</th>
+<th>확인 방법</th>
+<th>관련 장</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>모든 장비가 켜지고 패치한 번호대로 반응하는가</td>
+<td>그룹마다 켜 보고, 반응하지 않거나 다른 장비가 켜지면 주소를 확인</td>
+<td>22·24</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>고정 장비(LED 바, 스트로브 등)가 도면의 방향대로 향하는가</td>
+<td>장비를 켜고 방향을 봄</td>
+<td>24</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>무빙의 팬·틸트 방향이 맞는가</td>
+<td>그룹을 같은 포지션으로 보내고 혼자 반대로 가는 장비를 찾음. 반대면 패치에서 인버트</td>
+<td>24</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>포지션 프리셋이 의도한 곳을 비추는가(포커싱)</td>
+<td>가수가 서는 자리, 객석 쪽으로 새는 빛, LED 월과 겹치는지 봄</td>
+<td>9·24</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>같은 프리셋에서 한 대만 튀는 장비가 없는가</td>
+<td>그룹마다 색, 줌, 포커스를 봄</td>
+<td>8·24</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>무대가 큐 시트의 밝기로 보이는가</td>
+<td>어두우면 그랜드마스터(콘솔 전체 밝기)와 익스큐터 페이더(시퀀스 밝기)부터 봄</td>
+<td>10·27</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>헤이즈에서 빔이 계획대로 보이는가</td>
+<td>빔이 주인공인 큐(후렴, 크로스 빔)를 헤이즈를 켜고 봄</td>
+<td>6·32</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>무빙이 박 안에 모양을 끝내는가</td>
+<td>무빙 버스트와 웨이브를 실제 속도로 봄. 늦으면 위상과 Measure, 이동 시간을 다시 봄</td>
+<td>25·26·28</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>카메라 화면에서 얼굴과 색이 맞는가</td>
+<td>방송 모니터(PGM)로 키 라이트와 LED 월 앞의 얼굴을 봄</td>
+<td>17</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>밴드의 템포에서 큐가 박에 맞는가</td>
+<td>탭으로 템포를 맞추고 GO 타이밍을 봄</td>
+<td>28·31</td>
+</tr>
+</tbody>
+</table></div>
+<p>1~3항은 장비를 설치하고 처음 점등할 때, 4~8항은 첫 런스루에서, 9~10항은 카메라와 밴드가 함께하는 리허설에서 봅니다. 문제를 고치는 곳은 항목마다 다릅니다. 1~3항은 패치에서, 4~5항은 프리셋에서, 6~8항은 큐와 페이저에서, 10항은 템포와 타임코드에서 고칩니다. 9항은 색이 틀리면 프리셋에서, 밝기가 틀리면 큐에서 고칩니다.</p>
+<p><strong>보는 순서와 고치는 순서는 다릅니다.</strong> 걸린 항목이 여럿이면 30.4절의 순서(패치 → 프리셋 → 큐 → 타임코드)로 고칩니다. 패치가 틀리면 그 위의 프리셋과 큐를 아무리 고쳐도 다시 틀리기 때문입니다.</p>
+<aside class="box story"><div class="box-label">현장 이야기</div><div class="box-body">
+
+</div></aside>
+
+<h2 id="c30-304-녹화와-노트-고치는-순서">30.4 녹화와 노트, 고치는 순서</h2><p class="lead">리허설 중에는 <strong>녹화를 하고 문제를 노트에 적어 두었다가, 패치부터 차례로 고칩니다.</strong> 기억에만 기대면 리허설이 끝난 뒤 고칠 것을 놓치기 쉽습니다.</p>
+<p><strong>녹화</strong>는 휴대폰으로도 충분합니다. 객석 가운데쯤에서 무대 전체가 들어오게 찍으면 음악도 함께 녹음되어 나중에 마디를 찾기 쉽습니다. 카메라가 있는 무대라면 실제로 송출되는 화면(PGM)도 함께 녹화해 둡니다.<code>[저자 확인]</code> 28.5절에서 녹화한 시뮬레이션 영상과 나란히 보면 달라진 곳을 찾기 쉽습니다.</p>
+<p><strong>노트</strong>는 큐 시트에 쓰는 표현 그대로 적습니다. "후렴에서 이상했음"이 아니라 "큐 75, 63마디 1박, 크로스 빔이 LED 월과 겹침"처럼 큐 번호와 마디를 붙입니다.</p>
+<div class="tbl"><div class="tcap"><b>표 30-3</b> 리허설 노트 양식 — 예시 <span class="badge start">출발값</span></div><table>
+<thead>
+<tr class="header">
+<th>큐</th>
+<th>마디·박</th>
+<th>문제</th>
+<th>점검 항목</th>
+<th>판정</th>
+<th>수정 단계</th>
+<th>수정 내용</th>
+<th>완료</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>30</td>
+<td>18 · 1</td>
+<td>헤이즈가 옅어 빔 무빙의 팬 모양이 거의 안 보임</td>
+<td>7</td>
+<td>수정</td>
+<td>큐</td>
+<td>빔의 디머 레벨을 올리고, 헤이즈 담당과 양을 맞춤</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>60</td>
+<td>46 · 1</td>
+<td>무빙 버스트가 1.5박 안에 다 펼쳐지지 않음</td>
+<td>8</td>
+<td>수정</td>
+<td>큐</td>
+<td>큐 60의 포지션 페이드 시간을 줄임</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>75</td>
+<td>63 · 1</td>
+<td>크로스 빔이 무대 뒤 LED 월과 겹쳐 빔이 묻힘</td>
+<td>4</td>
+<td>변경</td>
+<td>프리셋</td>
+<td>크로스 빔 포지션 다시 잡기, 9장 룩 시트까지 다시 봄</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>표의 세 줄은 이 실습을 위해 만든 예시입니다. 판정의 세 가지는 16.5절과 같습니다. <strong>유지</strong>는 의도한 것이니 이유만 적어 두고, <strong>수정</strong>은 값 하나를 고치고, <strong>변경</strong>은 설계까지 거슬러 올라가 고칩니다.</p>
+<p><strong>고치는 순서</strong>는 패치 → 프리셋 → 큐 → 타임코드입니다. 29장 그림 29-1의 쇼 파일 구조에서 아래층인 패치를 고치면 위층의 프리셋과 큐가 함께 바뀌고, 프리셋을 고치면 그 프리셋을 쓰는 큐가 모두 따라 바뀌기 때문입니다(23.2절).</p>
+<ol type="1">
+<li><strong>패치</strong>: 주소, 방향, 실제로 걸린 자리(점검표 1~3항). 장비가 도면과 다른 자리에 걸렸다면 패치 좌표를 실제 자리로 고쳐 시뮬레이션과 맞춥니다.</li>
+<li><strong>프리셋</strong>: 포커싱, 장비별 차이, 카메라에서 틀린 색(4~5항, 9항)</li>
+<li><strong>큐</strong>: 밝기, 헤이즈에서의 빔, 움직임의 시간(6~8항)</li>
+<li><strong>타임코드</strong>: 밴드 템포와 시각(10항)</li>
+</ol>
+<p>그래서 프리셋을 고친 뒤에는 그 프리셋을 쓰는 큐를 모두 다시 확인합니다. 고친 구간은 앞뒤 큐를 하나씩 넣어 다시 돌립니다. 앞 큐에서 트래킹으로 넘어오는 값까지 함께 봐야 하기 때문입니다.</p>
+<p>다음 리허설 전에는 노트에서 "완료"가 아닌 줄만 남깁니다. 리허설이 여러 번이면 이 노트 한 장이 리허설 사이의 할 일 목록이 됩니다.</p>
+
+<h2 id="c30-305-실습-love-attack-리허설-노트">30.5 [실습] LOVE ATTACK 리허설 노트</h2><p class="lead">실제 무대가 없어도 연습할 수 있습니다. onPC에 무대에서 생길 만한 차이를 일부러 만들어 놓고, 노트를 쓰고 고치는 순서를 따라 해 봅니다. 28장에서 프리비즈 점검까지 마친 LOVE ATTACK 쇼 파일을 씁니다. 음원은 각자 준비한 파일을 씁니다.</p>
+<p><strong>따라 하기</strong></p>
+<ol type="1">
+<li>3D 창의 Haze를 끄고 곡을 한 번 런스루합니다. 헤이즈가 옅은 날이라고 생각하고, 빔이 주인공인 큐(30, 60, 75, 80.1)에서 무엇이 보이지 않는지 노트에 적습니다(7항).</li>
+<li>빔 무빙 한 대의 패치 좌표에서 높이(Z)를 0.5m 낮춥니다. 장비가 도면보다 낮게 걸린 날이라고 생각하고, 큐 75의 크로스 빔에서 그 장비가 어디를 비추는지 봅니다(4항).</li>
+<li>그랜드마스터를 70%로 내리고 큐 30을 봅니다. 무대가 어두워진 원인을 노트에 적은 뒤 되돌립니다(6항).</li>
+<li>찾은 문제를 표 30-3 양식으로 적고, 패치 → 프리셋 → 큐 순서로 고칩니다. 2단계는 실제 무대라면 패치 좌표를 실제 높이로 고쳐 시뮬레이션과 맞추고, 크로스 빔 포지션 프리셋을 다시 잡습니다.</li>
+<li>고친 구간만 앞뒤 큐를 넣어 다시 돌립니다.</li>
+</ol>
+<aside class="box check"><div class="box-label">확인하는 법</div><div class="box-body"><ol class="steps"><li>두 가지를 봅니다.</li><li>첫째, 세 가지 차이가 점검표 몇 번 항목에서 걸렸고, 고친 곳이 패치·프리셋·큐 가운데 어디였는지 봅니다.</li><li>둘째, 세 가지 모두 프리비즈 점검표(28.5절)로는 찾을 수 없고, 무대를 보아야 찾는 문제였는지 봅니다.</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">내 곡으로 해 보기</div><div class="box-body"><ol class="steps"><li>지금 맡은 곡의 리허설 전날까지 28.5절의 프리비즈 점검을 마칩니다.</li><li>리허설 당일에는 표 30-2만 들고 가서 첫 점등 때 1~3항, 첫 런스루 때 4~8항, 카메라·밴드 리허설 때 9~10항을 봅니다.</li><li>그러면 빠듯한 리허설 시간에는 무대만 보면 됩니다.</li></ol></div></aside>
+<aside class="web" id="web-W22-30"><div class="web-head"><span class="web-tag">웹 부록 23</span><h4>리허설 노트</h4><a class="web-open" href="https://jjjh7401.github.io/lx/rehearsal.html" target="_blank" rel="noopener">새 창에서 열기 ↗</a></div><p class="web-desc">프리비즈 점검표(28.5절) 9개 항목과 리허설 점검표 10개 항목을 하나씩 확인하며 표시하고, 찾은 문제를 큐, 마디·박, 점검 항목, 판정, 수정 단계와 함께 적습니다. 큐 시트(웹 부록 14)의 큐를 불러와 큐 번호를 고르면 마디가 함께 채워지고, 수정할 내용을 패치 → 프리셋 → 큐 → 타임코드 순서로 정렬해 다음 리허설의 할 일 목록을 만들어 줍니다. 스프레드시트로 복사할 수 있습니다.</p><div class="tool-embed"><iframe title="리허설 노트" loading="lazy" style="--h:1550px" src="https://jjjh7401.github.io/lx/rehearsal.html?embed=1" allow="autoplay" ></iframe></div><p class="tool-open"><span>적은 노트는 이 브라우저에만 저장됩니다. 넓은 화면에서 쓰려면 위의 "새 창에서 열기"를 누르세요.</span></p></aside>
+
+<section class="summary"><h2>핵심 정리</h2><ul>
+<li>리허설은 시뮬레이션이 보여 주지 못한 것을 확인하는 시간입니다. 빠진 장비나 남은 이펙트처럼 화면에서 찾을 수 있는 문제는 프리비즈 점검(28.5절)으로 리허설 전에 끝냅니다.</li>
+<li>시뮬레이션과 실제 무대는 장비의 자리, 밝기, 색, 빔, 움직임, 타이밍에서 달라집니다.</li>
+<li>리허설에서는 곡을 한 번 런스루하고 구간 경계의 박, 얼굴, 깜박임, 반복 구간을 차례로 확인합니다.</li>
+<li>리허설 점검표 10개 항목은 첫 점등(1~3항), 첫 런스루(4~8항), 카메라·밴드 리허설(9~10항) 순서로 봅니다.</li>
+<li>녹화하고, 큐 번호와 마디를 붙여 노트에 적고, 패치 → 프리셋 → 큐 → 타임코드 순서로 고칩니다.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">내일 현장에서</div><div class="box-body"><ol class="steps"><li>리허설 전날 프리비즈 점검을 끝내고, 리허설 당일에는 점검표 10개 항목만 들고 갑니다.</li><li>첫 점등 때 장비의 주소와 방향(1~3항)부터 보면, 그 위에 쌓은 프리셋과 큐를 헛되이 고치지 않습니다.</li></ol></div></aside>
+
+<section class="notes"><h2>주</h2><ol><li id="c30-s1">저자의 미공개 쇼 점검 기록. 시뮬레이션의 점검으로 못 보는 것(포커싱, 속도와 위상, 출력 밝기, 장비별 차이)과 리허설에서 확인하는 순서.</li></ol></section>
+
+
+</article>
+</div>

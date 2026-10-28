@@ -1,0 +1,785 @@
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch36"><header class="ch-head"><div class="ch-num">36<span>장</span></div><h1 class="ch-title">프로 쇼 아홉 편 읽기</h1><p class="ch-sub">공개 영상으로 배우는 연출</p></header>
+
+
+<aside class="box goals"><div class="box-label">이 장에서 얻을 것</div><div class="box-body">
+<ul class="checks">
+<li>남이 만든 쇼 영상을 "멋있다"가 아니라 "언제, 무엇이, 얼마나 바뀌었나"로 읽는 순서를 익힙니다.</li>
+<li>장르와 무대가 다른 공개 쇼 아홉 편에서 되풀이된 법칙 열네 가지를 이 책의 장과 이어 봅니다.</li>
+<li>쇼 한 편을 골라 직접 구간 띠를 만들고, 내 곡의 큐 시트와 비교합니다.</li>
+</ul>
+</div></aside>
+<div class="open-label">여는 장면</div><p class="lead">좋아하는 공연 영상을 처음 볼 때는 화려한 장면만 남습니다. 두 번째로 보면 "여기서 바뀌었네" 하는 자리가 보이기 시작하고, 세 번째로 소리를 키우고 보면, 그 자리가 드럼이 힘차게 들어올 때나 가수가 잠깐 숨을 고를 때와 겹친다는 것을 알게 됩니다. 처음에는 조명이 많이 바뀐다고 느꼈는데, 세어 보면 생각보다 적게 바뀝니다.</p>
+<p>1장에서 곡을 세 번 나눠 들었듯이, 남의 쇼도 나눠 봐야 읽힙니다. 이 장은 장르와 무대가 서로 다른 공개 쇼 아홉 편을 마디 단위로 읽은 기록입니다. 아홉 편 가운데 여덟 편이 같은 일을 했습니다. <strong>구간이 바뀌는 다운비트(마디의 첫 박)에서 룩을 바꾸고, 구간 안에서는 그 룩을 유지했습니다.</strong> 나머지 한 편(시상식 방송의 발라드)도 구간 단위로 천천히 바꿨습니다.</p>
+<aside class="box number"><div class="box-label">숫자 하나</div><div class="box-body">
+<p> 9편 중 8편. 구간 경계의 다운비트에서 룩을 바꾼 쇼의 수입니다. 9편 모두 화이트를 바탕색이 아니라 히트와 정점, 리셋에만 썼습니다.<sup class="ref"><a href="#c36-s1">1</a></sup></p>
+</div></aside>
+
+<h2 id="c36-361-공개-프리비즈-영상">36.1 공개 프리비즈 영상</h2><p class="lead">남의 쇼를 공부하려면 <strong>누구나 같은 화면을 볼 수 있는 영상</strong>이 필요합니다. 이 장에서는 인터넷에 공개된 프리비즈 쇼 아홉 편을 읽습니다.</p>
+<p>공연 실황은 카메라가 계속 움직이고 편집이 들어가서, 조명이 바뀐 것인지 화면이 바뀐 것인지 가리기 어렵습니다. 그래서 콘솔 제조사 MA Lighting이 공개한 재생목록 <strong>MA Mondays</strong>의 프리비즈 영상을 골랐습니다.<sup class="ref"><a href="#c36-s1">1</a></sup> 프리비즈는 실제 무대 대신 3D 시뮬레이션 화면에서 쇼를 돌린 영상입니다. 무대 전체가 한 화면에 보이고, 음악과 조명이 타임코드로 묶여 있는 경우가 많습니다(28장).</p>
+<div class="tbl"><div class="tcap"><b>표 36-1</b> 이 장에서 읽은 쇼 아홉 편 <code>[자료 2~10]</code></div><table>
+<thead>
+<tr class="header">
+<th>쇼(곡)</th>
+<th>장르</th>
+<th>무대</th>
+<th>BPM</th>
+<th>동기</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Boys Like Girls 「Love Drunk」</td>
+<td>팝펑크·팝록(4박 킥)</td>
+<td>콘서트</td>
+<td>150(공개값)</td>
+<td>동기(타임코드)</td>
+</tr>
+<tr class="even">
+<td>Payson Lewis 「Nothing To You」</td>
+<td>발라드 → 앤섬 팝</td>
+<td>콘서트</td>
+<td>약 102</td>
+<td>동기</td>
+</tr>
+<tr class="odd">
+<td>All Time Low 「Dear Maria」</td>
+<td>팝펑크</td>
+<td>콘서트</td>
+<td>91(체감 176)</td>
+<td>동기</td>
+</tr>
+<tr class="even">
+<td>Krewella 「Live For the Night」</td>
+<td>EDM(일렉트로 하우스)</td>
+<td>페스티벌</td>
+<td>128</td>
+<td>동기</td>
+</tr>
+<tr class="odd">
+<td>The White Panda 「Fireking」</td>
+<td>EDM(퓨처하우스)</td>
+<td>페스티벌</td>
+<td>128</td>
+<td>동기</td>
+</tr>
+<tr class="even">
+<td>Taylor Swift 메들리</td>
+<td>팝</td>
+<td>콘서트</td>
+<td>약 115(곡마다 다름)</td>
+<td>구간은 동기, 박은 느슨</td>
+</tr>
+<tr class="odd">
+<td>Boston Pops 「Stars and Stripes Forever」</td>
+<td>오케스트라 행진곡</td>
+<td>야외 방송</td>
+<td>확인하지 못함</td>
+<td>악절 단위</td>
+</tr>
+<tr class="even">
+<td>Lady A 「You Look Good」</td>
+<td>컨트리 팝</td>
+<td>콘서트</td>
+<td>154 또는 하프타임 77</td>
+<td>구간 동기</td>
+</tr>
+<tr class="odd">
+<td>Ashley McBryde 「Never Wanted To Be That Girl」</td>
+<td>컨트리 발라드 듀엣</td>
+<td>시상식 방송</td>
+<td>약 94(낮은 신뢰)</td>
+<td>느슨(구간 페이드)</td>
+</tr>
+</tbody>
+</table></div>
+<p>"동기"는 조명 변화가 소리의 구간 경계와 박 단위로 겹친다는 뜻이고, "느슨"은 구간 단위로만 맞는다는 뜻입니다. 공개 영상은 언제든 내려가거나 바뀔 수 있습니다. 링크가 열리지 않으면 재생목록에서 곡 이름으로 찾습니다.</p>
+<div class="formula"><span class="f-label">공식</span>
+<p><strong>알아 둘 것</strong> 이 장의 시각은 영상의 재생 시각(초)입니다. 영상마다 앞에 짧은 무음이나 로고가 있어서, 같은 곡의 음원 시각과 다를 수 있습니다. 공개 BPM도 그대로 믿지 않고 영상에서 잰 구간 길이로 다시 확인합니다(36.2절).</p>
+</div>
+
+<h2 id="c36-362-쇼-영상을-읽는-순서">36.2 쇼 영상을 읽는 순서</h2><p class="lead">쇼 영상은 다섯 번에 나눠 읽습니다. 1장에서 곡을 나눠 들었던 방법을 화면까지 넓힌 것입니다.</p>
+<div class="tbl"><div class="tcap"><b>표 36-2</b> 쇼 영상을 마디로 읽는 순서</div><table>
+<thead>
+<tr class="header">
+<th>회</th>
+<th>무엇을</th>
+<th>적는 것</th>
+<th>도구</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>소리만 듣고 BPM과 첫 다운비트를 잡음</td>
+<td>BPM, 첫 다운비트 시각, 1마디 길이</td>
+<td>웹 부록 3 박자 계산기</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>소리만 듣고 구간을 나눔</td>
+<td>구간 이름과 시작 시각, 에너지 0~5</td>
+<td>웹 부록 5 곡 구성표</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>화면만 보고 룩이 바뀌는 시각을 적음</td>
+<td>바뀐 시각과 바뀐 속성(포지션·컬러·디머·빔)</td>
+<td>듣기 노트(웹 부록 1)</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>둘을 맞춰 봄</td>
+<td>구간 경계와 룩 변화가 겹치는지(동기·느슨)</td>
+<td>웹 부록 11 비트 그리드</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>구간마다 룩을 한 줄로 적음</td>
+<td>룩 한 줄, 리듬 레이어, 들어가는 방식, 악센트</td>
+<td>웹 부록 9 룩 시트</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>공개 BPM을 구간 길이로 확인합니다.</strong> 반복되는 구간의 길이를 1마디 길이로 나눠 4·8·16 같은 정수에 가깝게 나오는지 봅니다. Love Drunk의 공개 BPM은 150이지만, 영상에서 후렴 1·2와 마지막 후렴은 25.0초씩입니다(48~73초, 106~131초, 186~211초). 이것을 16마디로 보면 1마디는 약 1.56초, 템포는 약 154 BPM입니다.<span class="badge calc">계산</span> 공개값 150으로 계산하면 15.6마디가 되어 정수에서 벗어납니다. 영상 속 음원이 편집됐거나 속도가 조금 다를 수 있습니다. 그러니 영상을 읽을 때는 직접 잰 길이를 씁니다.</p>
+<div class="formula"><span class="f-label">공식</span>
+<p><strong>알아 둘 것</strong> BPM 검출기는 실제 빠르기의 반이나 두 배를 잡는 일이 흔합니다. Love Drunk에서 자동 측정은 93.75를 냈는데, 이것은 틀린 값입니다. Dear Maria는 91 BPM으로 측정되지만 들을 때는 두 배 가까이(176 근처)로 느껴집니다. 2장의 하프타임·더블타임을 떠올리며, 구간 길이와 체감 빠르기를 함께 봅니다.</p>
+</div>
+
+<h2 id="c36-363-한-편을-끝까지--love-drunk">36.3 한 편을 끝까지 — Love Drunk</h2><p class="lead">Love Drunk는 아홉 편 가운데 가장 자세히 읽은 쇼입니다. 구간마다 룩이 어떻게 바뀌는지 처음부터 끝까지 따라가 봅니다.</p>
+<p>장비는 워시 무빙 55대, 빔·스팟 무빙 38대, 측면 빔 20대, 트러스 스트립 27대, 스페셜 6대이고, 프로그래밍에는 하루가 걸렸다고 합니다.<sup class="ref"><a href="#c36-s2">2</a></sup></p>
+<div class="tbl"><div class="tcap"><b>표 36-3</b> Love Drunk 구간 띠 — 영상 시각 기준 <sup class="ref"><a href="#c36-s2">2</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>시작(초)</th>
+<th>구간</th>
+<th>길이(초)</th>
+<th>에너지</th>
+<th>룩 한 줄</th>
+<th>자료실 카드</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>5.6</td>
+<td>인트로 A</td>
+<td>5.4</td>
+<td>2</td>
+<td>쿨 화이트 바닥 빔 팬만 느리게, 무대는 어둠</td>
+<td>LOOK-01, DIM-01</td>
+</tr>
+<tr class="even">
+<td>11.0</td>
+<td>인트로 B</td>
+<td>13.5</td>
+<td>4</td>
+<td>레드 워시 + 화이트 빔 크라운, 4마디마다 관객 화이트 플래시</td>
+<td>LOOK-13, DIM-13</td>
+</tr>
+<tr class="odd">
+<td>24.5</td>
+<td>벌스 1</td>
+<td>11.5</td>
+<td>2</td>
+<td>앰버·레드 정지, 가수 스페셜, 움직임 최소</td>
+<td>LOOK-12, COL-08</td>
+</tr>
+<tr class="even">
+<td>36.0</td>
+<td>프리코러스</td>
+<td>12.0</td>
+<td>3</td>
+<td>화이트 블룸 약 2마디 뒤 레드·앰버 교차 빔</td>
+<td>DIM-10, LOOK-04</td>
+</tr>
+<tr class="odd">
+<td>48.0</td>
+<td>후렴 1</td>
+<td>25.0</td>
+<td>5</td>
+<td>쿨 화이트 무빙이 A·X·V·테이블·아치 대형을 1~2박마다 순환</td>
+<td>POS-15, MOD-02</td>
+</tr>
+<tr class="even">
+<td>73.0</td>
+<td>간주</td>
+<td>10.0</td>
+<td>3</td>
+<td>쿨 화이트 와이드 + 관객 조명, 마디 악센트</td>
+<td>LOOK-09, DIM-08</td>
+</tr>
+<tr class="odd">
+<td>83.0</td>
+<td>벌스 2·프리</td>
+<td>23.0</td>
+<td>2</td>
+<td>벌스 1·프리코러스 룩을 그대로 다시 씀</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>106.0</td>
+<td>후렴 2</td>
+<td>25.0</td>
+<td>5</td>
+<td>후렴 1 룩을 그대로 다시 씀</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>131.0</td>
+<td>브리지</td>
+<td>21.8</td>
+<td>4</td>
+<td>레드 바닥 빔 팬 + 화이트 교차 무빙</td>
+<td>POS-08, COL-03</td>
+</tr>
+<tr class="even">
+<td>152.8</td>
+<td>정지</td>
+<td>2.8</td>
+<td>1</td>
+<td>차가운 탑 팬 하나와 관객 글로만 남기고 프리즈</td>
+<td>TIM-06, CUE-06</td>
+</tr>
+<tr class="odd">
+<td>155.6</td>
+<td>후렴 3</td>
+<td>30.4</td>
+<td>5</td>
+<td>센터 블룸 히트 뒤 약 2마디에 걸쳐 대형 체이스 재진입</td>
+<td>CUE-04, POS-15</td>
+</tr>
+<tr class="even">
+<td>186.0</td>
+<td>마지막 후렴(전조)</td>
+<td>25.0</td>
+<td>5</td>
+<td>움직임은 그대로, 팔레트에 앰버를 더함</td>
+<td>COL-08</td>
+</tr>
+<tr class="odd">
+<td>211.0</td>
+<td>아웃트로</td>
+<td>10.4</td>
+<td>4</td>
+<td>빔을 모두 위·바깥으로 펼친 정지 피날레 + 관객 조명</td>
+<td>LOOK-07, LOOK-09</td>
+</tr>
+</tbody>
+</table></div>
+<p>이 표에서 세 가지가 보입니다.</p>
+<ol type="1">
+<li><strong>룩의 수가 적습니다.</strong> 구간은 열세 개지만 새 룩은 열 개이고, 벌스 2와 후렴 2는 앞의 룩을 그대로 씁니다. 마지막 후렴은 앞의 후렴 룩에 앰버만 더한 변형이라 새 룩으로 세지 않았습니다. 같은 구간에 같은 룩을 다시 쓰면, 그 룩이 곡을 알아보는 표시가 됩니다(9장, 14.4절).</li>
+<li><strong>움직임은 후렴에만 있습니다.</strong> 벌스와 간주는 멈춰 있거나 마디 악센트만 두고, 무빙 대형 체이스는 후렴에서만 돕니다(12.1절).</li>
+<li><strong>정지 구간은 블랙이 아니라 프리즈입니다.</strong> 밴드가 멈춘 2.8초 동안 조명을 끄지 않고 차가운 룩 하나로 얼린 뒤, 음악이 다시 들어오는 다운비트에 센터 블룸을 터뜨립니다(12.6절).</li>
+</ol>
+<p>마지막 후렴의 전조에서 움직임을 바꾸지 않고 팔레트만 바꾼 것도 눈여겨볼 만합니다. 반복되는 구간을 나올 때마다 조금씩 키울 때 "무엇을 하나만 더할까"의 답이 여기서는 앰버 한 색입니다(14.4절).</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 980 476" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<line x1="170.0" y1="86.0" x2="170.0" y2="470.0" stroke="#d6d9df" stroke-width="0.8" opacity="1.0" stroke-linecap="butt" stroke-dasharray="3 4"/>
+<text x="170.0" y="80.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">0초</text>
+<line x1="274.0" y1="86.0" x2="274.0" y2="470.0" stroke="#d6d9df" stroke-width="0.8" opacity="1.0" stroke-linecap="butt" stroke-dasharray="3 4"/>
+<text x="274.0" y="80.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">30초</text>
+<line x1="378.0" y1="86.0" x2="378.0" y2="470.0" stroke="#d6d9df" stroke-width="0.8" opacity="1.0" stroke-linecap="butt" stroke-dasharray="3 4"/>
+<text x="378.0" y="80.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">60초</text>
+<line x1="482.0" y1="86.0" x2="482.0" y2="470.0" stroke="#d6d9df" stroke-width="0.8" opacity="1.0" stroke-linecap="butt" stroke-dasharray="3 4"/>
+<text x="482.0" y="80.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">90초</text>
+<line x1="586.0" y1="86.0" x2="586.0" y2="470.0" stroke="#d6d9df" stroke-width="0.8" opacity="1.0" stroke-linecap="butt" stroke-dasharray="3 4"/>
+<text x="586.0" y="80.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">120초</text>
+<line x1="690.0" y1="86.0" x2="690.0" y2="470.0" stroke="#d6d9df" stroke-width="0.8" opacity="1.0" stroke-linecap="butt" stroke-dasharray="3 4"/>
+<text x="690.0" y="80.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">150초</text>
+<line x1="794.0" y1="86.0" x2="794.0" y2="470.0" stroke="#d6d9df" stroke-width="0.8" opacity="1.0" stroke-linecap="butt" stroke-dasharray="3 4"/>
+<text x="794.0" y="80.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">180초</text>
+<line x1="898.0" y1="86.0" x2="898.0" y2="470.0" stroke="#d6d9df" stroke-width="0.8" opacity="1.0" stroke-linecap="butt" stroke-dasharray="3 4"/>
+<text x="898.0" y="80.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">210초</text>
+<text x="24.0" y="130.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">Love Drunk</text>
+<text x="24.0" y="150.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">150 BPM · 팝펑크 콘서트</text>
+<rect x="190.0" y="104.0" width="17.5" height="44.0" rx="3" fill="#dcc3ab" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="208.7" y="104.0" width="45.6" height="44.0" rx="3" fill="#c27b48" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="255.5" y="104.0" width="38.7" height="44.0" rx="3" fill="#dcc3ab" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="274.9" y="131.0" font-size="11.5" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">벌스</text>
+<rect x="295.4" y="104.0" width="40.4" height="44.0" rx="3" fill="#cfa27a" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="315.6" y="131.0" font-size="11.5" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">프리</text>
+<rect x="337.0" y="104.0" width="85.5" height="44.0" rx="3" fill="#b8562b" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="379.7" y="131.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">후렴</text>
+<rect x="423.7" y="104.0" width="33.5" height="44.0" rx="3" fill="#cfa27a" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="440.4" y="131.0" font-size="11.5" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">간주</text>
+<rect x="458.3" y="104.0" width="78.5" height="44.0" rx="3" fill="#dcc3ab" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="497.6" y="131.0" font-size="11.5" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">벌스·프리</text>
+<rect x="538.1" y="104.0" width="85.5" height="44.0" rx="3" fill="#b8562b" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="580.8" y="131.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">후렴</text>
+<rect x="624.7" y="104.0" width="74.4" height="44.0" rx="3" fill="#c27b48" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="661.9" y="131.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="400" opacity="1.0">브리지</text>
+<rect x="700.3" y="104.0" width="8.5" height="44.0" rx="3" fill="#e7ddd3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="710.0" y="104.0" width="104.2" height="44.0" rx="3" fill="#b8562b" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="762.1" y="131.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">후렴</text>
+<rect x="815.4" y="104.0" width="85.5" height="44.0" rx="3" fill="#b8562b" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="858.1" y="131.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">마지막 후렴</text>
+<rect x="902.1" y="104.0" width="34.9" height="44.0" rx="3" fill="#c27b48" stroke="none" stroke-width="1" opacity="1.0"/>
+<path d="M189.4,180.0 L208.1,180.0 L208.1,166.0 L254.9,166.0 L254.9,180.0 L294.8,180.0 L294.8,173.0 L336.4,173.0 L336.4,159.0 L423.1,159.0 L423.1,173.0 L457.7,173.0 L457.7,180.0 L537.5,180.0 L537.5,159.0 L624.1,159.0 L624.1,166.0 L699.7,166.0 L699.7,187.0 L709.4,187.0 L709.4,159.0 L814.8,159.0 L814.8,159.0 L901.5,159.0 L901.5,166.0 L937.5,166.0" fill="none" stroke="#c8553d" stroke-width="1.6" opacity="1.0" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="162.0" y="163.0" font-size="10" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">5</text>
+<text x="162.0" y="198.0" font-size="10" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">0</text>
+<text x="24.0" y="252.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">Nothing To You</text>
+<text x="24.0" y="272.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">약 102 BPM · 발라드 → 앤섬</text>
+<rect x="170.6" y="226.0" width="106.3" height="44.0" rx="3" fill="#e7ddd3" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="223.7" y="253.0" font-size="11.5" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">인트로</text>
+<rect x="278.1" y="226.0" width="56.0" height="44.0" rx="3" fill="#dcc3ab" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="306.1" y="253.0" font-size="11.5" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">벌스</text>
+<rect x="335.3" y="226.0" width="7.1" height="44.0" rx="3" fill="#dcc3ab" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="343.6" y="226.0" width="65.0" height="44.0" rx="3" fill="#b8562b" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="376.1" y="253.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">후렴</text>
+<rect x="409.8" y="226.0" width="92.4" height="44.0" rx="3" fill="#cfa27a" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="456.0" y="253.0" font-size="11.5" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">벌스</text>
+<rect x="503.4" y="226.0" width="26.5" height="44.0" rx="3" fill="#c27b48" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="531.1" y="226.0" width="73.3" height="44.0" rx="3" fill="#b8562b" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="567.8" y="253.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">후렴</text>
+<rect x="605.7" y="226.0" width="50.8" height="44.0" rx="3" fill="#c27b48" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="631.1" y="253.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="400" opacity="1.0">브리지</text>
+<rect x="657.7" y="226.0" width="25.8" height="44.0" rx="3" fill="#dcc3ab" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="684.7" y="226.0" width="91.4" height="44.0" rx="3" fill="#c27b48" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="730.4" y="253.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="400" opacity="1.0">벌스</text>
+<rect x="777.3" y="226.0" width="65.7" height="44.0" rx="3" fill="#b8562b" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="810.1" y="253.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">후렴</text>
+<path d="M170.0,309.0 L277.5,309.0 L277.5,302.0 L334.7,302.0 L334.7,302.0 L343.0,302.0 L343.0,281.0 L409.2,281.0 L409.2,295.0 L502.8,295.0 L502.8,288.0 L530.5,288.0 L530.5,281.0 L605.1,281.0 L605.1,288.0 L657.1,288.0 L657.1,302.0 L684.1,302.0 L684.1,288.0 L776.7,288.0 L776.7,281.0 L843.6,281.0" fill="none" stroke="#c8553d" stroke-width="1.6" opacity="1.0" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="162.0" y="285.0" font-size="10" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">5</text>
+<text x="162.0" y="320.0" font-size="10" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">0</text>
+<text x="24.0" y="374.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">Fireking</text>
+<text x="24.0" y="394.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">128 BPM · EDM 페스티벌</text>
+<rect x="170.6" y="348.0" width="19.6" height="44.0" rx="3" fill="#e7ddd3" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="191.4" y="348.0" width="40.4" height="44.0" rx="3" fill="#dcc3ab" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="211.6" y="375.0" font-size="11.5" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">인트로</text>
+<rect x="233.0" y="348.0" width="102.8" height="44.0" rx="3" fill="#cfa27a" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="284.4" y="375.0" font-size="11.5" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">벌스</text>
+<rect x="337.0" y="348.0" width="26.5" height="44.0" rx="3" fill="#cfa27a" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="364.7" y="348.0" width="21.0" height="44.0" rx="3" fill="#c27b48" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="386.9" y="348.0" width="51.8" height="44.0" rx="3" fill="#b8562b" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="412.8" y="375.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">드롭</text>
+<rect x="440.0" y="348.0" width="3.3" height="44.0" rx="3" fill="#dcc3ab" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="444.5" y="348.0" width="49.4" height="44.0" rx="3" fill="#b8562b" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="469.2" y="375.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">후렴</text>
+<rect x="495.1" y="348.0" width="97.3" height="44.0" rx="3" fill="#cfa27a" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="543.7" y="375.0" font-size="11.5" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">벌스</text>
+<rect x="593.5" y="348.0" width="30.0" height="44.0" rx="3" fill="#cfa27a" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="608.5" y="375.0" font-size="11.5" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">프리</text>
+<rect x="624.7" y="348.0" width="21.0" height="44.0" rx="3" fill="#c27b48" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="646.9" y="348.0" width="50.8" height="44.0" rx="3" fill="#b8562b" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="672.3" y="375.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">드롭</text>
+<rect x="698.9" y="348.0" width="4.3" height="44.0" rx="3" fill="#dcc3ab" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="704.5" y="348.0" width="45.3" height="44.0" rx="3" fill="#b8562b" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="727.1" y="375.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">후렴</text>
+<rect x="750.9" y="348.0" width="56.3" height="44.0" rx="3" fill="#cfa27a" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="779.1" y="375.0" font-size="11.5" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">아웃트로</text>
+<rect x="808.5" y="348.0" width="23.1" height="44.0" rx="3" fill="#dcc3ab" stroke="none" stroke-width="1" opacity="1.0"/>
+<path d="M170.0,431.0 L190.8,431.0 L190.8,424.0 L232.4,424.0 L232.4,417.0 L336.4,417.0 L336.4,417.0 L364.1,417.0 L364.1,410.0 L386.3,410.0 L386.3,403.0 L439.4,403.0 L439.4,424.0 L443.9,424.0 L443.9,403.0 L494.5,403.0 L494.5,417.0 L592.9,417.0 L592.9,417.0 L624.1,417.0 L624.1,410.0 L646.3,410.0 L646.3,403.0 L698.3,403.0 L698.3,424.0 L703.9,424.0 L703.9,403.0 L750.3,403.0 L750.3,417.0 L807.9,417.0 L807.9,424.0 L832.1,424.0" fill="none" stroke="#c8553d" stroke-width="1.6" opacity="1.0" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="162.0" y="407.0" font-size="10" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">5</text>
+<text x="162.0" y="442.0" font-size="10" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">0</text>
+<rect x="170.0" y="482.0" width="26.0" height="14.0" rx="2" fill="#e7ddd3" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="202.0" y="494.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">에너지 1</text>
+<rect x="274.0" y="482.0" width="26.0" height="14.0" rx="2" fill="#dcc3ab" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="306.0" y="494.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">에너지 2</text>
+<rect x="378.0" y="482.0" width="26.0" height="14.0" rx="2" fill="#cfa27a" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="410.0" y="494.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">에너지 3</text>
+<rect x="482.0" y="482.0" width="26.0" height="14.0" rx="2" fill="#c27b48" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="514.0" y="494.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">에너지 4</text>
+<rect x="586.0" y="482.0" width="26.0" height="14.0" rx="2" fill="#b8562b" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="618.0" y="494.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">에너지 5</text>
+<text x="170.0" y="524.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">짧고 낮은 칸(47.5초, 77.7초, 152.8초)은 후렴 직전에 비우는 자리입니다(R3).</text>
+</svg>
+<figcaption><b>그림 36-1</b> 프로 쇼 세 편의 구간 띠. 화면 없이 구간과 시각만 그렸습니다. 칸의 진하기와 아래 선은 에너지 0~5입니다. 짧고 낮은 칸(Nothing To You 47.5초, Fireking 77.7초, Love Drunk 152.8초)은 후렴 직전에 비우는 자리입니다.</figcaption></figure>
+
+<h2 id="c36-364-아홉-편의-공통-법칙">36.4 아홉 편의 공통 법칙</h2><p class="lead">아홉 편을 구간별로 읽고 <strong>세 편 이상에서 되풀이된 것</strong>만 모으면 법칙 열네 가지가 남습니다. 더 많은 쇼에서 나온 법칙일수록 더 믿을 만합니다.</p>
+<div class="tbl"><div class="tcap"><b>표 36-4</b> 공통 법칙 R1~R14와 이 책의 장 <code>[자료 1~10]</code></div><table>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>법칙</th>
+<th>쇼 수</th>
+<th>이 책에서</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>R1</td>
+<td>구간 경계의 다운비트에서 룩(팔레트·대형)을 바꾸고 구간 안에서는 유지</td>
+<td>8(+1편은 구간 페이드)</td>
+<td>12.1절, 16장</td>
+</tr>
+<tr class="even">
+<td>R2</td>
+<td>화이트는 바탕색이 아니라 악센트·히트·정점·리셋에만</td>
+<td>9</td>
+<td>8.3절</td>
+</tr>
+<tr class="odd">
+<td>R3</td>
+<td>큰 다운비트 직전 1박~1프레이즈를 어둡게 비운 뒤 히트</td>
+<td>7</td>
+<td>11.6절</td>
+</tr>
+<tr class="even">
+<td>R4</td>
+<td>빌드·프리코러스는 레이어를 쌓거나 스웰·마디 히트로 다음 구간을 예고</td>
+<td>7</td>
+<td>12.5절</td>
+</tr>
+<tr class="odd">
+<td>R5</td>
+<td>에너지는 체이스 속도가 아니라 켜는 장비 수·빔 퍼짐·밀도·채도로 조절</td>
+<td>7</td>
+<td>4.1절, 12.4절</td>
+</tr>
+<tr class="even">
+<td>R6</td>
+<td>정지 룩 위에 프레이즈 끝(1~4마디 간격) 화이트 범프·원샷</td>
+<td>6</td>
+<td>12.3절</td>
+</tr>
+<tr class="odd">
+<td>R7</td>
+<td>두 팔레트의 대비로 구간을 가름(벌스 쿨 대 후렴 웜, 또는 교대)</td>
+<td>5</td>
+<td>8.2절</td>
+</tr>
+<tr class="even">
+<td>R8</td>
+<td>마지막 후렴은 움직임을 유지하고 팔레트·레이어로 한 단계 올림</td>
+<td>5</td>
+<td>14.4절</td>
+</tr>
+<tr class="odd">
+<td>R9</td>
+<td>같은 구간이 다시 오면 같은 룩을 다시 씀(레이어만 더함)</td>
+<td>4</td>
+<td>9장, 14.4절</td>
+</tr>
+<tr class="even">
+<td>R10</td>
+<td>편성이 빠지거나 멈추면 룩을 프리즈, 블랙아웃은 피함</td>
+<td>4</td>
+<td>12.6절</td>
+</tr>
+<tr class="odd">
+<td>R11</td>
+<td>구간 전환은 8·16마디(EDM은 12마디 포함) 프레이즈 격자 위</td>
+<td>4</td>
+<td>2장, 3장</td>
+</tr>
+<tr class="even">
+<td>R12</td>
+<td>후렴·드롭은 움직임, 벌스·정지 구간은 정지</td>
+<td>4</td>
+<td>12.1절</td>
+</tr>
+<tr class="odd">
+<td>R13</td>
+<td>아웃트로는 정지된 와이드 피날레 그림이나 객석 리빌</td>
+<td>4</td>
+<td>12.6절</td>
+</tr>
+<tr class="even">
+<td>R14</td>
+<td>객석 조명은 정점·히트·간주의 악센트 레이어</td>
+<td>4</td>
+<td>18장</td>
+</tr>
+</tbody>
+</table></div>
+<p>법칙의 근거가 된 쇼와 시각은 자료실 "음악 분석과 연출 판단 › 공통 법칙"에 모두 적어 두었습니다. 이 법칙들은 해외 조명 디자이너들이 해 온 설명과도 겹칩니다. 구간마다 큐 하나(R1)는 큐 배치를 다룬 강좌의 첫 원칙이고,<sup class="ref"><a href="#c36-s11">11</a></sup> 후렴이 다시 나오면 같은 룩(R9)은 버스킹 기사의 조언입니다.<sup class="ref"><a href="#c36-s12">12</a></sup> 드럼마다 깜박이지 말고 음악의 큰 자리에 큐를 두라(R2·R6)는 말은 제임스 무디의 콘서트 조명 글과도 통합니다.<sup class="ref"><a href="#c36-s13">13</a></sup></p>
+<aside class="box fix"><div class="box-label">고치기 전 / 고친 뒤</div><div class="box-body">
+<p> 프로 쇼를 처음 흉내 낼 때 가장 흔히 거꾸로 하는 것이 R5입니다. 후렴이 더 세니까 체이스를 더 빠르게 돌리는 것입니다. 아홉 편의 후렴에서 움직임은 대개 곡의 박(1~2박에 한 번)보다 빨라지지 않았습니다. 대신 켜진 장비 수, 빔이 퍼진 폭, 채도를 올렸습니다. 빠르기는 곡의 템포가 정하고, 크기는 장비 사용량이 정합니다(12.2절, 12.4절).</p>
+</div></aside>
+
+<h2 id="c36-365-장르와-무대에-따라-달라진-것">36.5 장르와 무대에 따라 달라진 것</h2><p class="lead">같은 법칙을 따르면서도, 장르와 무대에 따라 다르게 한 점이 분명히 있습니다. 15장에서 장르는 규칙이 아니라 조정값이라고 했는데, 그것을 실제 쇼로 확인해 봅니다.</p>
+<div class="tbl"><div class="tcap"><b>표 36-5</b> 장르·무대별로 달랐던 것 <code>[자료 2~10]</code></div><table>
+<thead>
+<tr class="header">
+<th>쇼</th>
+<th>구간을 가르는 방법</th>
+<th>히트와 전환</th>
+<th>이 쇼에서 가져갈 것</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Dear Maria(팝펑크)</td>
+<td>8마디 블록마다 시안 ↔︎ 앰버 교대</td>
+<td>교대 직전 1~3초 디밍, 기타만 남으면 정지 X 빔</td>
+<td>블록 단위 팔레트 교대(R7·R11)</td>
+</tr>
+<tr class="even">
+<td>Nothing To You(발라드 → 앤섬)</td>
+<td>팔레트 전체 교체(블루 ↔︎ 골드)</td>
+<td>벌스에서 2마디마다 레이어 추가, 프리 끝 암전 뒤 후렴</td>
+<td>레이어를 2마디 단위로 쌓기(R4·R5)</td>
+</tr>
+<tr class="odd">
+<td>Live For the Night(EDM)</td>
+<td>8·12마디 프레이즈마다 새 팔레트·대형</td>
+<td>라이저는 레이저 증가 뒤 화이트 블라인더 유지</td>
+<td>벌스 정지 + 프레이즈 끝 원샷(R6)</td>
+</tr>
+<tr class="even">
+<td>Fireking(EDM)</td>
+<td>블루 ↔︎ 오렌지(웜은 드롭 전용)</td>
+<td>빌드 4마디는 마디마다 화이트 블라인더, 드롭은 블랙 → 쿨 버스트 → 1.2초 뒤 웜 반전</td>
+<td>웜색을 드롭에만 아끼기(R2·R3)</td>
+</tr>
+<tr class="odd">
+<td>Taylor Swift 메들리(팝)</td>
+<td>곡이 바뀌면 팔레트도 바뀜</td>
+<td>전환마다 화이트 블라스트가 새 색으로 사라짐, 긴 정지 룩에 약 5초마다 화이트 플래시</td>
+<td>곡 사이 전환의 화이트 블라스트(14.5절)</td>
+</tr>
+<tr class="even">
+<td>Stars and Stripes Forever(오케스트라)</td>
+<td>악절(스트레인)마다 팔레트 교체</td>
+<td>빔 팬을 그룹별로 차례로 염, 피날레 전 1프레이즈 디밍</td>
+<td>박이 아니라 악절 단위로 읽기</td>
+</tr>
+<tr class="odd">
+<td>You Look Good(컨트리 팝)</td>
+<td>색이 구간 표식(벌스 블루, 후렴 앰버, 브리지 퍼플)</td>
+<td>8마디 크라운 빌드 뒤 다운비트 버스트, 마지막 후렴에 화이트 교차</td>
+<td>색 하나를 구간 이름처럼 쓰기</td>
+</tr>
+<tr class="even">
+<td>Never Wanted To Be That Girl(시상식 방송)</td>
+<td>구간 단위 느린 페이드</td>
+<td>키는 웜 화이트로 고정, 효과는 뒤 배경에만</td>
+<td>얼굴 키를 먼저 고정하기(17장, 19장)</td>
+</tr>
+</tbody>
+</table></div>
+<p>EDM 두 편은 프레이즈가 바뀌는 자리에서 한순간에 바꾸는 <strong>하드 스냅</strong>으로, 발라드와 시상식 방송은 <strong>느린 페이드</strong>로 바꿨습니다. 같은 R1이라도 바꾸는 방식은 장르와 카메라가 정합니다(14장, 17장, 19장).</p>
+<aside class="box story"><div class="box-label">현장 이야기</div><div class="box-body">
+
+</div></aside>
+
+<h2 id="c36-366-실습-한-편을-골라-구간-띠-만들기">36.6 [실습] 한 편을 골라 구간 띠 만들기</h2><p class="lead">표 36-1의 아홉 편 가운데 한 편을 골라, 36.2절의 순서대로 구간 띠를 만듭니다. 처음이라면 표에서 "동기"로 적은 쇼(Love Drunk, Nothing To You, Fireking)가 읽기 쉽습니다.</p>
+<p><strong>따라 하기</strong></p>
+<ol type="1">
+<li>소리만 켜 두고 영상을 처음부터 끝까지 듣습니다. 웹 부록 3 박자 계산기로 BPM을 잡고, 첫 다운비트의 영상 시각을 적습니다.</li>
+<li>다시 들으며 웹 부록 5 곡 구성표에 구간 이름과 시작 시각, 에너지를 적습니다. 반복되는 구간의 길이를 1마디 길이로 나눠 정수에 가까운지 봅니다. 정수와 거리가 멀면 BPM을 다시 잡습니다.</li>
+<li>소리를 끄고 화면만 보며 룩이 바뀌는 시각을 적습니다. 무엇이 바뀌었는지(포지션·컬러·디머·빔) 한 단어씩 붙입니다.</li>
+<li>두 기록을 나란히 놓고 구간 경계와 룩 변화가 겹치는 곳에 표시합니다. 겹치지 않는 변화는 악센트(히트, 원샷)인지 카메라 전환인지 다시 봅니다.</li>
+<li>구간마다 룩을 한 줄로 적고, 표 36-4의 법칙 가운데 어느 것이 보였는지 번호를 붙입니다.</li>
+</ol>
+<aside class="box check"><div class="box-label">확인하는 법</div><div class="box-body"><ol class="steps"><li>세 가지를 봅니다.</li><li>첫째, 같은 이름의 구간이 다시 올 때 같은 룩이 나오는지 표에서 바로 보입니까(R9). 둘째, 후렴 직전에 비우는 칸이 있다면 그 길이가 1박인지 1마디인지 적었습니까(R3). 셋째, 후렴에서 무엇이 커졌는지(장비 수, 빔 폭, 채도, 빠르기)를 하나로 말할 수 있습니까(R5).</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">내 곡으로 해 보기</div><div class="box-body"><ol class="steps"><li>만든 구간 띠를 내 곡의 곡 구성표 옆에 놓습니다.</li><li>구간 수와 에너지 곡선이 비슷한 쇼라면, 그 쇼의 룩 수와 바꾸는 방식(스냅·페이드)을 내 곡의 큐 시트와 비교합니다.</li><li>내 큐 시트의 룩이 쇼보다 훨씬 많다면 R9(같은 룩 다시 쓰기)부터 적용해 봅니다.</li></ol></div></aside>
+
+<section class="summary"><h2>핵심 정리</h2><ul>
+<li>남의 쇼는 소리 두 번, 화면 한 번, 맞춰 보기, 한 줄 정리의 다섯 번으로 나눠 읽습니다.</li>
+<li>공개 BPM은 반복 구간의 길이로 다시 확인하고, 영상을 읽을 때는 영상에서 잰 길이를 씁니다.</li>
+<li>아홉 편 가운데 여덟 편이 구간 경계의 다운비트에서 룩을 바꿨고, 아홉 편 모두 화이트를 히트와 정점에만 썼습니다.</li>
+<li>후렴의 크기는 체이스 속도가 아니라 장비 수, 빔 폭, 채도로 키웠습니다.</li>
+<li>같은 법칙도 장르와 카메라에 따라 하드 스냅과 느린 페이드로 다르게 적용됐습니다.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">내일 현장에서</div><div class="box-body"><ol class="steps"><li>지금 맡은 곡과 장르가 가까운 쇼 한 편을 골라 후렴 하나만 다시 봅니다.</li><li>후렴에서 커진 것이 무엇인지 한 단어로 적고, 내 큐 시트의 후렴이 같은 것을 키우는지 확인합니다.</li></ol></div></aside>
+
+<section class="notes"><h2>주</h2><ol><li id="c36-s1">MA Lighting, "MA Mondays" 재생목록(YouTube). 이 장의 구간·시각·법칙은 아래 아홉 편을 재생하며 소리 에너지와 화면 변화를 함께 기록한 분석 값입니다. 공통 법칙의 근거 시각은 자료실 "음악 분석과 연출 판단 › 공통 법칙"에 있습니다. <a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLZndGi5PKOz45zNmLSyMEJhIf5Bletl0f">https://www.youtube.com/playlist?list=PLZndGi5PKOz45zNmLSyMEJhIf5Bletl0f</a></li><li id="c36-s2">MA Mondays, Boys Like Girls 「Love Drunk」 Lighting Previz. <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=ENh1hpKjktA">https://www.youtube.com/watch?v=ENh1hpKjktA</a></li><li id="c36-s3">MA Mondays, Payson Lewis 「Nothing To You」 Lighting Previz. <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=J0Jag67sPmw">https://www.youtube.com/watch?v=J0Jag67sPmw</a></li><li id="c36-s4">MA Mondays, All Time Low 「Dear Maria, Count Me In」 Lighting Previz. <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=JgyzKpFDCGU">https://www.youtube.com/watch?v=JgyzKpFDCGU</a></li><li id="c36-s5">MA Mondays, Krewella 「Live For the Night」 Lighting and Laser Previz. <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=sl6hdfSvifc">https://www.youtube.com/watch?v=sl6hdfSvifc</a></li><li id="c36-s6">MA Mondays, The White Panda 「Fireking」 Lighting Previz. <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=gvS0rMjdL1g">https://www.youtube.com/watch?v=gvS0rMjdL1g</a></li><li id="c36-s7">MA Mondays, Taylor Swift 「Style / Love Story / You Belong With Me」 Lighting Previz. <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=yTqooVcH76E">https://www.youtube.com/watch?v=yTqooVcH76E</a></li><li id="c36-s8">MA Mondays, Boston Pops 2020 「Stars and Stripes Forever」 Lighting Previz. <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=s7HNgnhv-0M">https://www.youtube.com/watch?v=s7HNgnhv-0M</a></li><li id="c36-s9">MA Mondays, Lady A 「You Look Good」 Lighting Design Previz. <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Fp59PmWFYk8">https://www.youtube.com/watch?v=Fp59PmWFYk8</a></li><li id="c36-s10">MA Mondays, Ashley McBryde 「Never Wanted To Be That Girl」 Lighting Previz. <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Jsgl9XX7Bvc">https://www.youtube.com/watch?v=Jsgl9XX7Bvc</a></li><li id="c36-s11">Mark LaPierre, "Lighting Music Basics 4 – The Cueing". <a target="_blank" rel="noopener" href="https://www.mlp-lighting.com/programming/lighting-music-basics-4-the-cueing/">https://www.mlp-lighting.com/programming/lighting-music-basics-4-the-cueing/</a></li><li id="c36-s12">Brad Schiller, "The Basics of Busking", Lighting&amp;Sound America, 2024년 12월. <a target="_blank" rel="noopener" href="http://www.lightingandsoundamerica.com/reprint/Busking.pdf">http://www.lightingandsoundamerica.com/reprint/Busking.pdf</a></li><li id="c36-s13">James L. Moody, "Approaches To Cueing The Music With Concert Lighting", ProSoundWeb. <a target="_blank" rel="noopener" href="https://www.prosoundweb.com/pro-production-approaches-to-cueing-the-music-with-concert-lighting">https://www.prosoundweb.com/pro-production-approaches-to-cueing-the-music-with-concert-lighting</a></li></ol></section>
+
+
+</article>
+</div>

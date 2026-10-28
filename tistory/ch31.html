@@ -1,0 +1,778 @@
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch31"><header class="ch-head"><div class="ch-num">31<span>장</span></div><h1 class="ch-title">본 공연 운영</h1><p class="ch-sub">GO를 누르는 사람</p></header>
+
+
+<aside class="box goals"><div class="box-label">이 장에서 얻을 것</div><div class="box-body">
+<ul class="checks">
+<li>스탠바이와 GO로 이어지는 콜의 순서, 그리고 박을 세며 다운비트에 맞춰 GO를 누르는 타이밍을 익힙니다.</li>
+<li>Blind와 Preview로 다음 룩을 무대에 내보내지 않은 채 만들어 두었다가, 원하는 박에 내보냅니다.</li>
+<li>타임코드로 운영하는 공연에서 공연 전에 확인할 것과, 공연 중에 오퍼레이터가 맡는 일(타임코드 상태 확인, 타임코드에 넣지 않은 큐의 수동 실행, 타임코드가 끊겼을 때 수동 전환)을 정합니다.</li>
+<li>큐를 놓쳤을 때와 사고가 났을 때의 대처(돌아갈 큐, 다시 들어갈 큐, 세이프티, 공연 중단)를 공연 전에 정해 둡니다.</li>
+</ul>
+</div></aside>
+<div class="open-label">여는 장면</div><p class="lead">긴 줄넘기에 뛰어들어 본 적이 있다면 알 것입니다. 줄이 바닥을 치는 순간에 출발하면 이미 늦습니다. 줄이 내려오기 시작할 때 몸이 먼저 움직여야, 줄이 바닥에 닿는 순간 발이 그 자리에 있습니다. 들어가기 직전에는 줄이 두세 번 도는 것을 보며 박을 셉니다.</p>
+<p>본 공연의 GO도 같습니다. 큐 시트에는 "18마디 1박"이라고 적혀 있지만, 그 박의 소리를 듣고 나서 버튼을 누르면 빛은 늦게 보입니다. 소리를 듣고 손이 움직이기까지 시간이 걸리기 때문입니다. 그래서 오퍼레이터는 몇 마디 전부터 박을 세며 준비하다가, 다운비트(마디의 첫 박)가 오는 순간에 맞춰 GO를 누릅니다.</p>
+<p>음원을 함께 트는 공연에서는 사람 대신, 음원과 함께 흐르는 시각 신호인 타임코드가 GO를 누르기도 합니다(28장). 음원이 흐르는 시각에 맞춰 큐가 자동으로 나가므로, 오퍼레이터는 GO를 누르는 대신 타임코드가 제대로 들어오는지 확인하고, 문제가 생기면 수동으로 전환합니다.</p>
+<p>리허설에서 고칠 것을 다 고쳤다면(30장), 이제 남은 일은 본 공연에서 큐를 리허설 때와 같은 박에 실행하는 것입니다. 이 장은 손으로 GO를 누르는 공연과 타임코드로 운영하는 공연에서, 오퍼레이터가 공연 전과 공연 중에 하는 일을 순서대로 다룹니다.</p>
+
+<h2 id="c31-311-콜-스탠바이와-go">31.1 콜: 스탠바이와 GO</h2><p class="lead">본 공연에서 큐는 <strong>스탠바이로 준비시키고 GO로 실행</strong>합니다. 이렇게 큐를 말로 주고받는 것을 콜이라고 하며, 연극과 뮤지컬에서 오래 써 온 방식을 조명 큐도 그대로 따릅니다.<sup class="ref"><a href="#c31-s1">1</a></sup></p>
+<ul class="keyed">
+<li><strong>워닝</strong>(Warning): 큐 1분쯤 전에 줍니다. 담당자가 자리를 잡고 준비하게 합니다.</li>
+<li><strong>스탠바이</strong>(Standby): 큐 몇 초 전에 줍니다. 모든 것이 준비되었고 이제 GO만 남았다는 뜻입니다. 콜을 받은 사람은 "스탠바이"라고 답해 들었음을 알립니다.</li>
+<li><strong>GO</strong>큐를 실행할 순간에 줍니다. "고"라는 말을 듣는 순간 실행합니다.</li>
+</ul>
+<p>콜에서는 <strong>"고"라는 말을 실행할 때만 씁니다.</strong> 스탠바이를 주는 말에 "고"가 섞이면 듣는 사람이 그 말에 반응해 먼저 누를 수 있기 때문입니다. 그래서 인터컴(스태프끼리 쓰는 헤드셋 통화 장비)에서는 실행할 때가 아니면 "고"라는 말을 다른 말로 돌려 하기도 합니다.<sup class="ref"><a href="#c31-s1">1</a></sup> 인터컴이 들리지 않는 곳에서는 큐 라이트(담당자 앞에 두는 작은 신호등)를 쓰기도 합니다. 빨간 불이 스탠바이, 초록 불이 GO입니다.<sup class="ref"><a href="#c31-s1">1</a></sup></p>
+<p>음악 공연에서는 곡 안의 큐를 콜 없이 운영하는 경우가 많습니다. 조명 오퍼레이터나 조명감독이 음악을 들으며 직접 GO를 누르거나 버스킹을 하고, 곡에 따라서는 타임코드로 돌립니다(31.4절).<sup class="ref"><a href="#c31-s6">6</a></sup> <sup class="ref"><a href="#c31-s7">7</a></sup> 박마다 들어오는 큐를 인터컴으로 하나씩 부를 수는 없기 때문입니다. 영상과 무대 전환, 출연자 등장처럼 여러 팀이 함께 움직이는 큐는 무대감독이 콜을 주기도 합니다.<code>[저자 확인]</code> 콜의 말과 순서는 현장마다 조금씩 다르니, 리허설 첫날 무대감독과 맞춥니다.</p>
+<aside class="box story"><div class="box-label">현장 이야기</div><div class="box-body">
+
+</div></aside>
+
+<h2 id="c31-312-go-타이밍">31.2 GO 타이밍</h2><p class="lead">스냅 큐(페이드 없이 한 번에 바뀌는 큐)의 GO는 <strong>박을 세며 준비했다가 다운비트에 맞춰</strong> 누릅니다. 14장에서 출발값으로 정한 타이밍입니다.</p>
+<p>소리를 듣고 나서 누르면 반응하는 시간만큼 늦지만, 박을 세며 미리 준비하면 사람은 오히려 박보다 조금(0.02~0.1초) 앞서 누르는 경향이 있습니다.<sup class="ref"><a href="#c31-s10">10</a></sup> 콘솔이 장비에 신호를 보내는 데 걸리는 시간도 짧아서, DMX로 유니버스 하나를 한 번 다 보내는 데 약 0.023초가 걸립니다.<sup class="ref"><a href="#c31-s11">11</a></sup> 그래서 다운비트에 맞춰 누르면 빛도 다운비트에 거의 맞습니다.</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 336" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<line x1="230.0" y1="92.0" x2="230.0" y2="340.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="230.0" y="86.0" font-size="12" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">17마디 3박</text>
+<line x1="461.0" y1="92.0" x2="461.0" y2="340.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="461.0" y="86.0" font-size="12" fill="#1f2430" text-anchor="middle" font-weight="400" opacity="1.0">4박(넷)</text>
+<line x1="692.1" y1="92.0" x2="692.1" y2="340.0" stroke="#1f2430" stroke-width="2" opacity="1.0" stroke-linecap="butt"/>
+<text x="692.1" y="86.0" font-size="12" fill="#1f2430" text-anchor="middle" font-weight="700" opacity="1.0">18마디 1박</text>
+<text x="210.0" y="152.0" font-size="12.5" fill="#c8553d" text-anchor="end" font-weight="700" opacity="1.0">소리를 듣고 누름</text>
+<text x="210.0" y="169.0" font-size="10.5" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">반응하는 시간만큼 늦음</text>
+<circle cx="772.9" cy="150.0" r="7.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="772.9" y="137.0" font-size="11" fill="#c8553d" text-anchor="middle" font-weight="400" opacity="1.0">누름</text>
+<path d="M772.9310344827586,150 L791.4137931034483,150" fill="none" stroke="#c8553d" stroke-width="2" opacity="1.0" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+<rect x="791.4" y="138.0" width="97.0" height="24.0" rx="4" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.25"/>
+<text x="797.4" y="155.0" font-size="11.5" fill="#c8553d" text-anchor="start" font-weight="700" opacity="1.0">빛</text>
+<text x="684.1" y="182.0" font-size="11.5" fill="#c8553d" text-anchor="end" font-weight="400" opacity="1.0">빛이 다운비트보다 늦게 보임</text>
+<text x="210.0" y="242.0" font-size="12.5" fill="#4f8a5b" text-anchor="end" font-weight="700" opacity="1.0">박을 세며 다운비트에 누름</text>
+<text x="210.0" y="259.0" font-size="10.5" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">사람은 박보다 조금 앞서 누르는 경향</text>
+<circle cx="675.9" cy="240.0" r="7.0" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="675.9" y="227.0" font-size="11" fill="#4f8a5b" text-anchor="middle" font-weight="400" opacity="1.0">누름</text>
+<path d="M675.8965517241379,240 L694.3793103448276,240" fill="none" stroke="#4f8a5b" stroke-width="2" opacity="1.0" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+<rect x="694.4" y="228.0" width="194.1" height="24.0" rx="4" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="0.25"/>
+<text x="700.4" y="245.0" font-size="11.5" fill="#4f8a5b" text-anchor="start" font-weight="700" opacity="1.0">빛</text>
+<text x="726.1" y="272.0" font-size="11.5" fill="#4f8a5b" text-anchor="start" font-weight="400" opacity="1.0">빛이 다운비트에 거의 맞음</text>
+<rect x="421.0" y="300.0" width="80.0" height="22.0" rx="4" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.18"/>
+<text x="461.0" y="315.0" font-size="11" fill="#d9902a" text-anchor="middle" font-weight="700" opacity="1.0">넷: 손을 키 위에</text>
+<text x="480.0" y="392.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">누르는 시간 차이와 지연의 길이는 그림을 위한 예시입니다. 장비에 따라 늦게 보이면 리허설에서 조금씩 앞당깁니다.</text>
+</svg>
+<figcaption><b>그림 31-1</b> GO 타이밍. 112 BPM에서 17마디 3박부터 18마디 1박까지를 그렸습니다. 다운비트의 소리를 듣고 나서 누르면 빛이 늦게 보이고, 박을 세며 다운비트에 맞춰 누르면 빛이 다운비트에 거의 맞습니다.</figcaption></figure>
+<p>"하나, 둘, 셋, 넷"을 세다가 "넷"에서 손가락을 키 위에 올리고, 다음 "하나"에 누릅니다. 손이 늦거나 이른 정도는 초로 재지만, 박으로 바꿔 보면 곡의 빠르기에 따라 크기가 다릅니다.</p>
+<div class="tbl"><div class="tcap"><b>표 31-1</b> BPM과 1박의 길이, 0.1초의 크기 <span class="badge calc">계산</span></div><table>
+<thead>
+<tr class="header">
+<th>BPM</th>
+<th>1박</th>
+<th>0.1초는 몇 박인가</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>90</td>
+<td>0.67초</td>
+<td>0.15박</td>
+</tr>
+<tr class="even">
+<td>112(LOVE ATTACK)</td>
+<td>0.54초</td>
+<td>0.19박</td>
+</tr>
+<tr class="odd">
+<td>128</td>
+<td>0.47초</td>
+<td>0.21박</td>
+</tr>
+<tr class="even">
+<td>140</td>
+<td>0.43초</td>
+<td>0.23박</td>
+</tr>
+</tbody>
+</table></div>
+<p>다운비트에 맞춰 누르는 것은 어디까지나 출발값입니다. 장비마다 빛이 바뀌는 데 걸리는 시간이 다릅니다. 백열전구를 쓰는 장비는 밝아지기까지 시간이 걸리고, 무빙 라이트는 포지션을 옮기는 데 시간이 걸립니다. 그래서 히트가 있는 큐(LOVE ATTACK의 큐 30, 18마디 1박) 하나를 골라 리허설에서 몇 번 눌러 보고, 빛이 다운비트보다 늦게 보이면 조금씩 앞당겨 누릅니다. 타임코드로 운영하는 곡에서 빛이 늦게 보이면, 같은 이유로 그 이벤트의 시각을 조금 앞당겨 봅니다(28장).<code>[저자 확인]</code></p>
+<p>페이드 큐는 큐마다 기준을 정해 둡니다. 구간 경계의 다운비트에서 페이드가 <strong>시작</strong>해야 하는 큐(14장의 전환표는 대개 이렇습니다)가 있고, 후렴 첫 박에 페이드가 <strong>끝나</strong> 있어야 하는 큐가 있습니다. 2박 페이드로 밝아지는 큐가 후렴 첫 박에 다 밝아져 있어야 한다면 GO는 그보다 2박 앞에서 누릅니다. 큐 시트에 시각을 적을 때부터 그 시각이 "GO를 누르는 시각"인지 "페이드가 끝나는 시각"인지 적어 두면 헷갈리지 않습니다.</p>
+<aside class="box try"><div class="box-label">짧은 실험</div><div class="box-body"><ol class="steps"><li>휴대폰 메트로놈을 112 BPM에 맞춥니다.</li><li>처음에는 박을 세지 않고 눈을 감은 채, 메트로놈 소리가 들릴 때마다 손뼉을 칩니다.</li><li>다음에는 "하나, 둘, 셋, 넷"을 속으로 세며 "하나"에 맞춰 칩니다.</li><li>첫 번째는 손뼉이 메트로놈 소리 뒤에 따로 들리고, 두 번째는 거의 겹쳐 들립니다.</li><li>박을 세며 준비하는 것만으로 반응하는 시간만큼 늦는 일이 거의 사라집니다.</li></ol></div></aside>
+
+<h2 id="c31-313-blind와-preview로-미리-만들기">31.3 Blind와 Preview로 미리 만들기</h2><p class="lead">무대에 내보내지 않고 다음 룩을 만들어 둘 때는 <strong>Blind</strong>나 <strong>Preview</strong>를 씁니다. 버스킹(21장)을 하거나 큐 시트에 없는 요청이 들어왔을 때, 공연을 이어 가면서 새 룩을 준비했다가 원하는 박에 내보낼 수 있습니다.</p>
+<ul class="keyed">
+<li><strong>Blind</strong>프로그래머의 값이 무대로 나가지 않게 막습니다. Blind를 켠 채 값을 만들고, Blind를 끄면 그동안 만든 값이 무대에 더해집니다. 이때 프로그래머의 타임(Program Time)은 쓰이지 않으므로 값이 바로 바뀝니다.<sup class="ref"><a href="#c31-s2">2</a></sup> <sup class="ref"><a href="#c31-s3">3</a></sup> 다운비트에 맞춰 Blind를 끄면 그 박에 스냅으로 바뀌는 셈입니다.</li>
+<li><strong>Preview</strong>무대로 나가지 않는 <strong>별도의 프로그래머</strong>에서 값을 만듭니다. 프리뷰 중에는 해당 창의 제목 표시줄과 테두리가 빨갛게 바뀝니다. 여러 사람이 함께 쓰는 세션에서는 프리뷰 프로그래머가 하나뿐이라, 다른 사람도 같은 값을 고칠 수 있다는 점을 알아 둡니다.<sup class="ref"><a href="#c31-s2">2</a></sup> <sup class="ref"><a href="#c31-s4">4</a></sup></li>
+</ul>
+<p>두 방법은 <strong>만든 값을 곧 무대로 내보낼 것인가</strong>로 고릅니다. 곧 쓸 버스킹 룩은 Blind에서 만들고 다운비트 바로 앞에 Blind를 끕니다. 무대와 상관없이 다음 곡의 큐를 고치거나 미리 보려면 Preview를 씁니다.</p>
+<p>Blind를 쓸 때 조심할 것도 있습니다. 프로그래머가 비어 있을 때 Blind를 켜면 출력이 바뀌지 않지만, 프로그래머에 값이 남은 채 Blind를 켜면 그 값이 출력에서 빠지면서 무대가 바뀝니다.<sup class="ref"><a href="#c31-s2">2</a></sup> Program Time도 쓰이지 않으므로 페이드 없이 바로 바뀝니다. 그래서 Blind를 켜기 전에 프로그래머를 비웁니다. 23장의 습관(저장한 뒤에는 늘 비운다)이 여기서도 쓰입니다.</p>
+
+<h2 id="c31-314-타임코드로-운영하는-공연">31.4 타임코드로 운영하는 공연</h2><p class="lead">음원이 정해져 있는 공연에서는 사람 대신 <strong>타임코드</strong>가 큐를 실행하기도 합니다. 큐를 타임코드에 기록하는 방법은 28장에서 다뤘고, 여기서는 본 공연에서 그 쇼를 운영하는 일을 봅니다.</p>
+<p>MR로 하는 무대, 라이트쇼, 영상과 맞춘 오프닝, 밴드가 클릭과 반주 음원에 맞춰 연주하는 콘서트가 이런 공연입니다. 음원을 트는 재생 담당(플레이백 엔지니어)이 반주 음원, 클릭과 함께 타임코드를 내보내고, 조명과 영상이 그 타임코드에 맞춰 돌아갑니다.<sup class="ref"><a href="#c31-s14">14</a></sup></p>
+<p>타임코드로 운영하면 오퍼레이터가 GO를 누르는 일은 크게 줄지만, 할 일이 없어지지는 않습니다. <strong>타임코드가 제대로 들어오는지 확인하고, 타임코드에 넣지 않은 큐는 수동으로 실행하고, 타임코드가 끊기면 수동으로 전환합니다.</strong></p>
+<div class="tbl"><div class="tcap"><b>표 31-2</b> 손 운영과 타임코드 운영에서 오퍼레이터가 하는 일</div><table>
+<thead>
+<tr class="header">
+<th></th>
+<th>손 운영</th>
+<th>타임코드 운영</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>큐를 실행하는 것</td>
+<td>오퍼레이터의 GO</td>
+<td>음원과 함께 들어오는 타임코드</td>
+</tr>
+<tr class="even">
+<td>오퍼레이터가 보는 것</td>
+<td>박, GO 큐 목록, 무대</td>
+<td>콘솔의 타임코드 표시(시각과 색), 무대</td>
+</tr>
+<tr class="odd">
+<td>수동으로 하는 일</td>
+<td>곡 안의 모든 큐</td>
+<td>키와 강조, 그날 바뀐 부분(버스킹, 앙코르), 세이프티</td>
+</tr>
+<tr class="even">
+<td>자주 생기는 사고</td>
+<td>큐를 놓침</td>
+<td>타임코드가 끊김, 리허설과 다른 음원</td>
+</tr>
+<tr class="odd">
+<td>대처</td>
+<td>다시 들어갈 큐(31.5절)</td>
+<td>수동 전환(아래)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>공연 전에 확인할 것</strong></p>
+<ol type="1">
+<li><strong>타임코드를 어디서 받는가.</strong> 타임코드 쇼의 TC Slot이 재생 담당의 신호를 받는 슬롯으로 되어 있는지 봅니다. Internal로 남아 있으면 음원과 상관없이 콘솔 내부 타임코드로 돌아갑니다.<sup class="ref"><a href="#c31-s12">12</a></sup></li>
+<li><strong>자동으로 시작하고 멈추는가.</strong> Auto Start를 켜면 쇼 범위 안의 시각이 들어올 때 쇼가 자동으로 시작하고, Auto Stop을 켜면 신호가 멈출 때 쇼도 멈춥니다. Duration을 실제 쇼 길이에 맞춰 두면 범위 밖의 시각에는 자동으로 시작하지 않습니다.<sup class="ref"><a href="#c31-s12">12</a></sup></li>
+<li><strong>곡마다 시작 시각과 프레임 레이트.</strong> 곡마다 타임코드가 몇 시 몇 분에서 시작하는지, 1초에 몇 프레임인지 재생 담당과 맞춥니다(28장, 웹 부록 21). 받는 시각과 쇼의 시각이 다르면 Offset TC Slot으로 맞춥니다.<sup class="ref"><a href="#c31-s12">12</a></sup></li>
+<li><strong>리허설 때와 같은 음원인가.</strong> 편곡이나 길이가 바뀐 음원이면 큐가 다른 박에 떨어집니다. 바뀌었다면 그 곡은 다시 기록하거나 손으로 운영합니다(28장).</li>
+<li><strong>손으로 켜 둔 시퀀스가 없는가.</strong> 공연 전에 모두 끕니다. 남아 있으면 타임코드가 켠 것과 손으로 켠 것이 섞입니다(28장).</li>
+<li><strong>재생기를 바꿀 때 타임코드도 따라오는가.</strong> 큰 공연은 같은 재생 시스템을 두 대 맞춰 두고, 한쪽이 멈추면 다른 쪽으로 넘깁니다.<sup class="ref"><a href="#c31-s14">14</a></sup> 넘길 때 타임코드도 함께 넘어오는지, 시각이 튀지 않는지를 리허설에서 재생 담당과 확인합니다.<code>[저자 확인]</code></li>
+<li><strong>끊기면 어느 큐부터 수동으로 갈지.</strong> GO 큐 목록(31.8절)의 "다시 들어갈 큐" 칸을 타임코드로 운영하는 곡에서도 채워 둡니다.</li>
+</ol>
+<p><strong>공연 중에 보는 것</strong></p>
+<p>콘솔의 타임코드 표시 색을 봅니다. 외부 신호를 받는 동안, 신호가 끊겨 콘솔이 내부에서 타임코드를 이어 가는 동안(After Roll), 신호가 들어오지 않을 때의 색을 따로 정해 둘 수 있습니다.<sup class="ref"><a href="#c31-s13">13</a></sup> 신호가 끊겨도 After Roll로 정한 시간 동안은 콘솔이 타임코드를 이어 가므로 큐가 계속 나갑니다.<sup class="ref"><a href="#c31-s13">13</a></sup> 짧게 끊겼다 돌아오면 무대에서는 티가 나지 않지만, 표시 색이 바뀌었다면 재생 담당에게 바로 알립니다.</p>
+<p>키와 강조처럼 수동으로 실행할 큐는 <strong>타임코드가 돌리지 않는 시퀀스</strong>에 둡니다(28장 표 28-2). 타임코드가 돌리는 장면 시퀀스를 공연 중에 수동으로 누르면, 그 뒤의 큐 순서가 타임코드와 어긋날 수 있습니다.<code>[저자 확인]</code></p>
+<p><strong>타임코드가 끊겼을 때</strong></p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 406" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<rect x="40.0" y="74.0" width="210.0" height="56.0" rx="9" fill="#ffffff" stroke="#2f8c8c" stroke-width="1.6" opacity="1.0"/>
+<text x="52.0" y="97.0" font-size="13" fill="#2f8c8c" text-anchor="start" font-weight="700" opacity="1.0">재생 담당</text>
+<text x="52.0" y="117.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">반주 음원 · 클릭 · 타임코드</text>
+<line x1="252.0" y1="102.0" x2="276.0" y2="102.0" stroke="#6b7280" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="276.0,102.0 269.7,105.0 269.7,99.0" fill="#6b7280" stroke="none" opacity="1.0"/>
+<rect x="280.0" y="74.0" width="210.0" height="56.0" rx="9" fill="#ffffff" stroke="#3b6ea8" stroke-width="1.6" opacity="1.0"/>
+<text x="292.0" y="97.0" font-size="13" fill="#3b6ea8" text-anchor="start" font-weight="700" opacity="1.0">콘솔 타임코드 쇼</text>
+<text x="292.0" y="117.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">TC Slot으로 타임코드를 받음</text>
+<line x1="492.0" y1="102.0" x2="516.0" y2="102.0" stroke="#6b7280" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="516.0,102.0 509.7,105.0 509.7,99.0" fill="#6b7280" stroke="none" opacity="1.0"/>
+<rect x="520.0" y="74.0" width="210.0" height="56.0" rx="9" fill="#ffffff" stroke="#1f2430" stroke-width="1.6" opacity="1.0"/>
+<text x="532.0" y="97.0" font-size="13" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">장면 시퀀스 · 레이어</text>
+<text x="532.0" y="117.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">큐가 자동으로 나감</text>
+<rect x="760.0" y="74.0" width="170.0" height="56.0" rx="9" fill="#d9902a" stroke="#d9902a" stroke-width="1.4" opacity="0.12"/>
+<text x="772.0" y="97.0" font-size="13" fill="#d9902a" text-anchor="start" font-weight="700" opacity="1.0">오퍼레이터</text>
+<text x="772.0" y="117.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">타임코드 상태 확인 · 수동 전환</text>
+<line x1="140.0" y1="176.0" x2="140.0" y2="420.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="140.0" y="170.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">41마디</text>
+<line x1="251.4" y1="176.0" x2="251.4" y2="420.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="251.4" y="170.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">42마디</text>
+<line x1="362.9" y1="176.0" x2="362.9" y2="420.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="362.9" y="170.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">43마디</text>
+<line x1="474.3" y1="176.0" x2="474.3" y2="420.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="474.3" y="170.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">44마디</text>
+<line x1="585.7" y1="176.0" x2="585.7" y2="420.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="585.7" y="170.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">45마디</text>
+<line x1="697.1" y1="176.0" x2="697.1" y2="420.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="697.1" y="170.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">46마디</text>
+<line x1="808.6" y1="176.0" x2="808.6" y2="420.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="808.6" y="170.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">47마디</text>
+<line x1="920.0" y1="176.0" x2="920.0" y2="420.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="920.0" y="170.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">48마디</text>
+<text x="125.0" y="219.0" font-size="12.5" fill="#1f2430" text-anchor="end" font-weight="700" opacity="1.0">타임코드</text>
+<rect x="140.0" y="202.0" width="222.9" height="24.0" rx="4" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="148.0" y="219.0" font-size="11.5" fill="#ffffff" text-anchor="start" font-weight="700" opacity="1.0">외부 신호</text>
+<rect x="362.9" y="202.0" width="208.0" height="24.0" rx="4" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="370.9" y="219.0" font-size="11.5" fill="#ffffff" text-anchor="start" font-weight="700" opacity="1.0">After Roll</text>
+<rect x="570.9" y="202.0" width="349.1" height="24.0" rx="4" fill="#ffffff" stroke="#c8553d" stroke-width="1.4" opacity="1.0" stroke-dasharray="5 4"/>
+<text x="578.9" y="219.0" font-size="11.5" fill="#c8553d" text-anchor="start" font-weight="700" opacity="1.0">멈춤: 큐가 더 나가지 않음</text>
+<line x1="362.9" y1="192.0" x2="362.9" y2="232.0" stroke="#c8553d" stroke-width="2" opacity="1.0" stroke-linecap="butt"/>
+<text x="362.9" y="186.0" font-size="11" fill="#c8553d" text-anchor="middle" font-weight="700" opacity="1.0">신호 끊김</text>
+<text x="125.0" y="305.0" font-size="12.5" fill="#1f2430" text-anchor="end" font-weight="700" opacity="1.0">장면 큐</text>
+<circle cx="251.4" cy="300.0" r="11.0" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="251.4" y="304.0" font-size="10.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">50</text>
+<text x="265.4" y="330.0" font-size="11.5" fill="#4f8a5b" text-anchor="start" font-weight="700" opacity="1.0">타임코드로 자동 실행</text>
+<circle cx="669.3" cy="300.0" r="11.0" fill="#ffffff" stroke="#6b7280" stroke-width="1.6" opacity="1.0"/>
+<text x="669.3" y="304.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="700" opacity="1.0">59</text>
+<text x="655.3" y="346.0" font-size="11.5" fill="#6b7280" text-anchor="end" font-weight="700" opacity="1.0">나가지 않음(놓침)</text>
+<circle cx="697.1" cy="300.0" r="11.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="697.1" y="304.0" font-size="10.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">60</text>
+<text x="711.1" y="330.0" font-size="11.5" fill="#3b6ea8" text-anchor="start" font-weight="700" opacity="1.0">수동 GO</text>
+<text x="125.0" y="387.0" font-size="12.5" fill="#1f2430" text-anchor="end" font-weight="700" opacity="1.0">오퍼레이터</text>
+<rect x="362.9" y="368.0" width="328.3" height="28.0" rx="5" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.14"/>
+<text x="370.9" y="387.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">무대 유지 → 재생 담당에게 알림 → 큐 60을 기다림</text>
+<line x1="693.1" y1="382.0" x2="697.1" y2="314.0" stroke="#3b6ea8" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="697.1,314.0 699.8,320.5 693.7,320.1" fill="#3b6ea8" stroke="none" opacity="1.0"/>
+<text x="480.0" y="452.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">After Roll 4초는 그림을 위한 예입니다. 실제 길이는 콘솔의 타임코드 슬롯 설정에서 정합니다.</text>
+</svg>
+<figcaption><b>그림 31-2</b> 타임코드가 끊겼을 때. LOVE ATTACK 43마디에서 신호가 끊긴 예입니다. After Roll 동안은 콘솔이 타임코드를 이어 가지만, 그 뒤로는 큐가 나가지 않습니다. 오퍼레이터는 놓친 다크 큐(59)를 따라잡지 않고, 다음 구간의 첫 큐(60)부터 수동으로 운영합니다. After Roll의 길이는 그림을 위한 예입니다.</figcaption></figure>
+<ol type="1">
+<li><strong>무대를 그대로 둡니다.</strong> After Roll 동안은 콘솔이 큐를 이어 냅니다.</li>
+<li><strong>인터컴으로 재생 담당에게 알립니다.</strong></li>
+<li><strong>신호가 돌아오지 않으면 수동으로 전환합니다.</strong> 놓친 큐를 따라잡으려 하지 말고, 31.5절처럼 다음 구간의 첫 큐에서 GO를 누릅니다. 곡을 끝까지 수동으로 운영할 수 있어야 하므로, 타임코드로 기록하기 전에 곡 페이지를 수동 운영으로 먼저 완성해 둡니다(28장).</li>
+<li><strong>곡이 끝나면 다음 곡을 어떻게 갈지 정합니다.</strong> 신호가 돌아왔으면 다음 곡부터 타임코드로, 아니면 수동으로 운영합니다. 정하는 사람은 조명감독입니다.</li>
+</ol>
+<p>타임코드 쇼를 끌 때 그 쇼가 켠 시퀀스를 함께 끌지(Playbacks Off), 켜 둔 채로 둘지(Keep Playbacks)도 정할 수 있습니다.<sup class="ref"><a href="#c31-s12">12</a></sup> 공연 중에 쇼를 끄고 수동으로 전환할 생각이라면, 리허설에서 한 번 꺼 보고 무대가 어떻게 되는지 확인해 둡니다.</p>
+<aside class="box story"><div class="box-label">현장 이야기</div><div class="box-body">
+
+</div></aside>
+
+<h2 id="c31-315-큐를-놓쳤을-때">31.5 큐를 놓쳤을 때</h2><p class="lead">공연 중에 큐를 놓치거나 순서가 꼬이면, 지나간 큐를 찾지 말고 <strong>돌아갈 큐로 무대를 유지한 뒤 다음 구간의 첫 큐에서 다시 들어갑니다.</strong> 지나간 큐를 찾는 사이에도 곡은 계속 흘러, 다음 큐까지 놓치기 쉽기 때문입니다.</p>
+<p><strong>돌아갈 큐</strong>는 16장에서 미리 정해 두고 27장의 세이프티 자리(자리 10)에 넣어 둔 것입니다. 큐를 놓쳤을 때 곧바로 부를 수 있는 베이스 큐와, 움직임을 한 번에 멈추는 큐(프리즈, 전체 키)입니다. 이 큐로 무대를 유지하는 동안 곡을 들으며 다음 구간을 기다립니다.</p>
+<p><strong>다시 들어갈 큐</strong>는 다음 구간의 첫 큐입니다. 16장의 번호 규칙에서 구간의 시작은 10, 20, 30처럼 10 단위 번호이므로 찾기 쉽습니다. 후렴 1의 중간(30.2쯤)에서 놓쳤다면 30.2를 찾지 않고 킥 아웃 39나 벌스 2의 40에서 다시 맞춥니다. GO 큐 목록(31.8절)에 "다시 들어갈 큐" 칸을 두면 손이 빨라집니다.</p>
+<p>커맨드 라인에서는 <code>Goto</code>를 씁니다. <code>Goto Cue 40 Executor 201</code>은 "익스큐터 201(곡 페이지의 자리 1, 장면 시퀀스)에서 큐 40으로 가라"는 뜻입니다. 익스큐터 번호 대신 시퀀스 번호를 써서 <code>Goto Sequence 11 Cue 40</code>(시퀀스 11번의 큐 40으로 가라)처럼 쓸 수도 있습니다.<sup class="ref"><a href="#c31-s5">5</a></sup> 끝에 <code>Fade 0.5</code>를 붙이면 그 큐의 원래 타임 대신 0.5초 페이드로 갑니다. 0.5초는 저자의 출발값입니다. 112 BPM의 1박(0.54초)보다 짧으므로 스냅보다 덜 튀면서도 다음 박을 넘기지 않습니다.<code>[저자 확인]</code></p>
+<p><strong>세이프티</strong>는 그보다 한 단계 큰 비상 대책입니다. 27장과 29장에서 모든 페이지의 같은 자리(자리 10)에 둔 세이프티 시퀀스에는 세이프티 룩, 다크 큐, 블랙이 있습니다. 곡 페이지 전체가 꼬였거나 장비 쪽에 문제가 생겼을 때, 세이프티 룩으로 무대를 유지하고 다음 구간에서 곡 페이지로 돌아옵니다.</p>
+<p><strong>공연 중단</strong>(쇼 스톱)은 공연을 멈춰야 할 때입니다. 객석이나 무대에서 사람이 다쳤거나, 장비가 떨어질 위험이 있거나, 무대감독이 공연을 멈추라고 했을 때입니다. 이때 조명이 할 일은 <strong>사람이 보이게 하는 것</strong>입니다. 공연장의 비상 대피 절차에는 하우스 라이트(객석 조명)와 무대 작업등을 켜는 일이 들어 있습니다.<sup class="ref"><a href="#c31-s8">8</a></sup> 어둠 속에서는 다친 사람도, 대피하는 길도 보이지 않으므로 블랙으로 가지 않습니다. 세이프티 룩을 올리거나 하우스 라이트와 작업등을 켜고, 무대감독의 지시를 따릅니다. 하우스 라이트와 작업등을 누가 어디서 켜는지는 공연장마다 다르니 리허설 전에 확인해 둡니다.</p>
+<div class="tbl"><div class="tcap"><b>표 31-3</b> 문제가 생겼을 때의 세 단계 <span class="badge start">출발값</span></div><table>
+<thead>
+<tr class="header">
+<th>단계</th>
+<th>상황</th>
+<th>조치</th>
+<th>실행 위치</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>돌아갈 큐 → 다시 들어갈 큐</td>
+<td>큐를 놓쳤거나 순서가 꼬임</td>
+<td>베이스 큐로 유지한 뒤 다음 구간의 첫 큐로(<code>Goto</code>)</td>
+<td>곡 페이지의 장면 시퀀스</td>
+</tr>
+<tr class="even">
+<td>세이프티</td>
+<td>곡 페이지 전체가 꼬였거나 장비 문제</td>
+<td>세이프티 룩으로 유지한 뒤 다음 구간에서 복귀</td>
+<td>모든 페이지의 자리 10(Auto Fix)</td>
+</tr>
+<tr class="odd">
+<td>공연 중단</td>
+<td>공연을 멈춰야 함</td>
+<td>블랙 없이 세이프티 룩 또는 하우스 라이트와 작업등</td>
+<td>무대감독 지시에 따라</td>
+</tr>
+</tbody>
+</table></div>
+
+<h2 id="c31-316-사고가-났을-때">31.6 사고가 났을 때</h2><p class="lead">공연 중에 장비나 신호에 문제가 생기면 <strong>곡이 진행되는 동안에는 무대를 유지하고, 곡이 끝난 뒤에 고칩니다.</strong> 곡이 흐르는 동안 콘솔에서 무언가를 고치려 하면, 그사이 다른 큐를 놓쳐 사고가 하나 더 생깁니다.</p>
+<div class="tbl"><div class="tcap"><b>표 31-4</b> 공연 중 자주 생기는 일과 대처 — 현장 경험에 기댄 예 <span class="badge start">출발값</span> <code>[저자 확인]</code></div><table>
+<thead>
+<tr class="header">
+<th>상황</th>
+<th>곡 진행 중</th>
+<th>곡이 끝난 뒤</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>장비 한 대가 꺼지거나 엉뚱한 색</td>
+<td>손대지 않고 곡을 끝까지 진행</td>
+<td>그 장비를 끄거나 장비팀에 알리고, 다음 리허설 노트에 적음(30장)</td>
+</tr>
+<tr class="even">
+<td>타임코드가 끊김</td>
+<td>After Roll 동안 무대를 유지하고, 돌아오지 않으면 다음 구간 첫 큐부터 수동으로 전환(31.4절)</td>
+<td>재생 담당과 타임코드 연결, 재생기를 점검</td>
+</tr>
+<tr class="odd">
+<td>밴드의 템포가 리허설과 다름</td>
+<td>스피드 마스터를 탭(Learn)으로 다시 맞춤(28장)</td>
+<td>큐 시트의 BPM을 고침</td>
+</tr>
+<tr class="even">
+<td>한 유니버스나 한 구역의 장비가 한꺼번에 반응하지 않음</td>
+<td>세이프티 룩으로 유지</td>
+<td>장비팀이 DMX 신호선, 노드, 전원을 점검</td>
+</tr>
+<tr class="odd">
+<td>콘솔이 멈춤</td>
+<td>백업 콘솔이 있으면 전환하고, 없으면 무대감독에게 알림</td>
+<td>쇼 파일과 백업 상태를 점검. 같은 세션의 다른 스테이션이 마스터를 이어받는 동작은 리허설에서 미리 시험<sup class="ref"><a href="#c31-s9">9</a></sup></td>
+</tr>
+</tbody>
+</table></div>
+<p>이런 판단을 공연 중에 처음 하면 늦습니다. 표 31-4처럼 "상황 → 곡 진행 중 → 곡이 끝난 뒤"를 공연 전에 팀과 한 번 읽어 두고, 백업 콘솔이 있다면 전환 순서를 리허설 때 한 번 직접 해 봅니다.</p>
+<aside class="box story"><div class="box-label">현장 이야기</div><div class="box-body">
+
+</div></aside>
+
+<h2 id="c31-317-조명팀의-역할">31.7 조명팀의 역할</h2><p class="lead">공연 날 콘솔 자리에는 대개 <strong>조명감독, 프로그래머, 오퍼레이터</strong>가 있습니다. 큰 공연에서는 세 사람이 따로 맡고, 작은 공연에서는 조명감독 한 사람이 조명 디자인부터 콘솔 운영까지 모두 맡기도 합니다.<sup class="ref"><a href="#c31-s7">7</a></sup></p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 376" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<rect x="60.0" y="80.0" width="840.0" height="56.0" rx="8" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="480.0" y="114.0" font-size="15" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">무대</text>
+<rect x="60.0" y="150.0" width="840.0" height="110.0" rx="8" fill="#eef0f3" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="110.0" y="210.0" font-size="14" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">객석</text>
+<rect x="260.0" y="280.0" width="440.0" height="110.0" rx="10" fill="#ffffff" stroke="#1f2430" stroke-width="1.4" opacity="1.0"/>
+<rect x="330.0" y="290.0" width="300.0" height="36.0" rx="6" fill="#eef0f3" stroke="#6b7280" stroke-width="1" opacity="1.0"/>
+<text x="380.0" y="313.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">3D·카메라 모니터</text>
+<text x="480.0" y="313.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">콘솔 화면</text>
+<text x="580.0" y="313.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">방송 PGM</text>
+<rect x="350.0" y="334.0" width="260.0" height="40.0" rx="6" fill="#3b6ea8" stroke="#3b6ea8" stroke-width="1" opacity="0.15"/>
+<text x="480.0" y="359.0" font-size="13" fill="#3b6ea8" text-anchor="middle" font-weight="700" opacity="1.0">콘솔</text>
+<circle cx="480.0" cy="412.0" r="14.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="502.0" y="417.0" font-size="12" fill="#3b6ea8" text-anchor="start" font-weight="700" opacity="1.0">오퍼레이터: GO와 버스킹</text>
+<circle cx="780.0" cy="330.0" r="16.0" fill="#d9902a" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="780.0" y="364.0" font-size="12" fill="#d9902a" text-anchor="middle" font-weight="700" opacity="1.0">조명감독</text>
+<text x="780.0" y="380.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">무대 전체, 콜</text>
+<circle cx="180.0" cy="330.0" r="16.0" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="180.0" y="364.0" font-size="12" fill="#7a5ea8" text-anchor="middle" font-weight="700" opacity="1.0">프로그래머</text>
+<text x="180.0" y="380.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">노트 수정</text>
+<rect x="720.0" y="396.0" width="120.0" height="26.0" rx="5" fill="#ffffff" stroke="#4f8a5b" stroke-width="1" opacity="1.0"/>
+<text x="780.0" y="414.0" font-size="11" fill="#4f8a5b" text-anchor="middle" font-weight="400" opacity="1.0">큐 시트·GO 큐 목록</text>
+<text x="110.0" y="112.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="400" opacity="1.0">팔로우 스팟</text>
+<text x="850.0" y="112.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="400" opacity="1.0">장비팀(좌우)</text>
+<path d="M780,312 C780,180 850,150 850,124" fill="none" stroke="#4f8a5b" stroke-width="1.3" opacity="1.0" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 4"/>
+<path d="M780,312 C700,200 120,170 110,124" fill="none" stroke="#4f8a5b" stroke-width="1.3" opacity="1.0" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 4"/>
+<text x="640.0" y="176.0" font-size="11.5" fill="#4f8a5b" text-anchor="start" font-weight="700" opacity="1.0">인터컴</text>
+</svg>
+<figcaption><b>그림 31-3</b> 콘솔석 배치. 오퍼레이터 자리에서 무대와 방송 모니터, 큐 시트가 한눈에 들어오게 둡니다. 조명감독은 그 옆에서 무대 전체를 보고, 인터컴으로 무대감독, 팔로우 스팟과 이야기합니다.</figcaption></figure>
+<ul class="keyed">
+<li><strong>조명감독</strong>곡을 분석해 조명을 디자인하고(1~4부), 리허설에서 고칠 것을 정하고(30장), 공연 중에는 무대 전체를 보며 오퍼레이터와 팔로우 스팟에 콜을 주거나 직접 콘솔을 운영합니다.<sup class="ref"><a href="#c31-s7">7</a></sup></li>
+<li><strong>프로그래머</strong>디자인한 룩과 큐를 콘솔에 입력합니다(5부). 리허설에서 나온 노트를 받아 큐를 고치는 사람도 대개 프로그래머입니다.</li>
+<li><strong>오퍼레이터</strong>본 공연에서 GO를 누르고 버스킹을 합니다. 타임코드로 운영하는 공연에서는 타임코드가 제대로 들어오는지 확인하고, 끊기면 수동으로 전환합니다(31.4절). 큐 시트와 곡을 가장 잘 아는 사람이 맡습니다.<code>[저자 확인]</code></li>
+<li><strong>팔로우 스팟 담당</strong>인터컴으로 콜을 받아 출연자를 따라갑니다. 등장, 퇴장, 솔로처럼 팔로우 스팟이 들어가고 빠지는 때를 큐 시트의 별도 칸에 적어 둡니다.</li>
+<li><strong>장비팀</strong>무대 좌우와 트러스 위에서 장비를 확인하고, 공연 중 장비 문제가 생기면 대응합니다.</li>
+<li><strong>재생 담당</strong>(플레이백 엔지니어): 조명팀은 아니지만, 반주 음원과 클릭, 타임코드를 함께 트는 사람입니다.<sup class="ref"><a href="#c31-s14">14</a></sup> 타임코드로 운영하는 공연에서는 조명이 받는 타임코드를 내보내는 사람이므로, 인터컴으로 바로 이야기할 수 있게 해 둡니다.</li>
+</ul>
+<p>역할이 나뉠수록 <strong>모두 같은 큐 시트를 보는 것</strong>이 중요합니다. 리허설에서 고친 노트(30장)가 프로그래머의 콘솔에만 반영되고 오퍼레이터의 큐 시트에는 반영되지 않으면, 본 공연에서 큐 번호가 엇갈립니다. 리허설이 끝날 때마다 큐 시트를 최신본 하나로 맞춥니다.</p>
+<aside class="box story"><div class="box-label">현장 이야기</div><div class="box-body">
+
+</div></aside>
+
+<h2 id="c31-318-실습-love-attack-go-큐-목록과-go-연습">31.8 [실습] LOVE ATTACK GO 큐 목록과 GO 연습</h2><p class="lead">LOVE ATTACK의 큐 시트(16장 표 16-4)에서 손으로 GO를 눌러야 하는 큐만 골라 목록을 만들고, 클릭 소리에 맞춰 직접 눌러 봅니다.</p>
+<div class="tbl"><div class="tcap"><b>표 31-5</b> LOVE ATTACK GO 큐 목록 — 저자의 예 <span class="badge start">출발값</span> <code>[저자 확인]</code></div><table>
+<thead>
+<tr class="header">
+<th>큐</th>
+<th>이름</th>
+<th>마디·박</th>
+<th>시각</th>
+<th>종류</th>
+<th>스탠바이</th>
+<th>GO 기준</th>
+<th>다시 들어갈 큐</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>인트로 · 진주 하트</td>
+<td>1 · 1</td>
+<td>0:01.5</td>
+<td>스냅</td>
+<td>음악 시작 전</td>
+<td>카운트인 뒤 첫 다운비트(또는 타임코드)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>벌스 1</td>
+<td>7 · 1</td>
+<td>0:14.4</td>
+<td>페이드 2박</td>
+<td>5마디</td>
+<td>페이드 시작을 다운비트에</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>20</td>
+<td>프리 1</td>
+<td>14 · 1</td>
+<td>0:29.4</td>
+<td>페이드 1박(16.5절)</td>
+<td>12마디</td>
+<td>페이드 시작을 다운비트에</td>
+<td>20</td>
+</tr>
+<tr class="even">
+<td>29</td>
+<td>다크 큐</td>
+<td>17 · 3</td>
+<td>0:36.9</td>
+<td>스냅</td>
+<td>16마디</td>
+<td>3박</td>
+<td>30</td>
+</tr>
+<tr class="odd">
+<td>30</td>
+<td>후렴 1 · 밝기 히트</td>
+<td>18 · 1</td>
+<td>0:37.9</td>
+<td>스냅</td>
+<td>큐 29 직후</td>
+<td>다운비트</td>
+<td>30</td>
+</tr>
+<tr class="even">
+<td>39</td>
+<td>킥 아웃</td>
+<td>33 · 1</td>
+<td>1:10.1</td>
+<td>프리즈</td>
+<td>31마디</td>
+<td>다운비트</td>
+<td>40</td>
+</tr>
+<tr class="odd">
+<td>40</td>
+<td>벌스 2</td>
+<td>34 · 1</td>
+<td>1:12.2</td>
+<td>페이드 2박</td>
+<td>큐 39 직후</td>
+<td>페이드 시작을 다운비트에</td>
+<td>40</td>
+</tr>
+<tr class="even">
+<td>50</td>
+<td>프리 2 · 베이스만</td>
+<td>42 · 1</td>
+<td>1:29.4</td>
+<td>페이드 1박(16.5절)</td>
+<td>40마디</td>
+<td>페이드 시작을 다운비트에</td>
+<td>50</td>
+</tr>
+<tr class="odd">
+<td>59</td>
+<td>다크 큐</td>
+<td>45 · 4</td>
+<td>1:37.4</td>
+<td>스냅</td>
+<td>44마디</td>
+<td>4박</td>
+<td>60</td>
+</tr>
+<tr class="even">
+<td>60</td>
+<td>후렴 2 · 무빙 버스트</td>
+<td>46 · 1</td>
+<td>1:37.9</td>
+<td>스냅</td>
+<td>큐 59 직후</td>
+<td>다운비트</td>
+<td>60</td>
+</tr>
+<tr class="odd">
+<td>69</td>
+<td>킥 아웃</td>
+<td>61 · 1</td>
+<td>2:10.1</td>
+<td>프리즈</td>
+<td>59마디</td>
+<td>다운비트</td>
+<td>70</td>
+</tr>
+<tr class="even">
+<td>70</td>
+<td>브리지</td>
+<td>62 · 1</td>
+<td>2:12.2</td>
+<td>페이드 1마디</td>
+<td>큐 69 직후</td>
+<td>페이드 시작을 다운비트에</td>
+<td>70</td>
+</tr>
+<tr class="odd">
+<td>75</td>
+<td>비트 구간 · 크로스 빔</td>
+<td>63 · 1</td>
+<td>2:14.4</td>
+<td>스냅</td>
+<td>큐 70 직후</td>
+<td>다운비트</td>
+<td>75</td>
+</tr>
+<tr class="even">
+<td>79</td>
+<td>브레이크</td>
+<td>67 · 1</td>
+<td>2:22.9</td>
+<td>스냅</td>
+<td>65마디</td>
+<td>다운비트</td>
+<td>80</td>
+</tr>
+<tr class="odd">
+<td>80</td>
+<td>후렴 3 · 화이트 플래시</td>
+<td>67 · 4</td>
+<td>2:24.5</td>
+<td>스냅</td>
+<td>큐 79 직후</td>
+<td>4박(앤티시페이션)</td>
+<td>80</td>
+</tr>
+<tr class="even">
+<td>80.1</td>
+<td>후렴 3 · 옥상 팬 · 밤</td>
+<td>68 · 1</td>
+<td>2:25.1</td>
+<td>Time(자동)</td>
+<td>—</td>
+<td>큐 80 실행 0.54초 뒤 자동 실행(27장)</td>
+<td>80</td>
+</tr>
+<tr class="odd">
+<td>90</td>
+<td>끝 · 진주 하트 · 밤</td>
+<td>82 · 1</td>
+<td>2:55.1</td>
+<td>페이드 2마디</td>
+<td>80마디</td>
+<td>페이드 시작을 다운비트에</td>
+<td>90</td>
+</tr>
+</tbody>
+</table></div>
+<p>스냅 큐는 두 마디쯤 앞에서 스탠바이합니다. 앞 큐가 바로 붙어 있으면(29 → 30, 59 → 60, 79 → 80) 앞 큐를 누르자마자 다음 큐를 스탠바이합니다. 한두 박 간격으로 붙은 큐는 앞 큐에 이어 자동으로 실행되게(Time 트리거, 27장) 걸어 둘 수도 있지만, 이 실습에서는 손으로 누르는 연습을 위해 수동 GO로 두었습니다. 페이드 큐는 이 실습에서는 단순하게 "GO를 누르는 시각"을 적었습니다. 다운비트에 페이드가 끝나 있게 하려면 31.2절처럼 페이드 길이만큼 앞당깁니다.</p>
+<p>"다시 들어갈 큐" 칸은 그 큐 근처에서 길을 잃었을 때 GO를 다시 누를 큐입니다. 구간의 첫 큐는 자기 자신이고, 구간 중간에서 놓쳤다면 다음 구간의 첫 큐로 갑니다(31.5절).</p>
+<p><strong>따라 하기</strong></p>
+<ol type="1">
+<li>표 31-5를 웹 부록 24에 불러오거나 손으로 적습니다. 구간 안의 소수점 번호 큐(1.1, 1.2, 30.1~30.3, 60.1~60.5 등)는 이번 연습에서 빼고, 구간 경계의 큐만 남깁니다(큐 80에 이어 자동으로 나가는 80.1만 남겨 둡니다).</li>
+<li>웹 부록 24에서 클릭 소리(112 BPM)를 켜고, 화면에 스탠바이가 뜨면 박을 셉니다. "넷"에서 손가락을 키 위에 올리고, 큐의 박(대개 다음 다운비트)에 누릅니다.</li>
+<li>곡을 한 번 끝까지 마친 뒤, 큐마다 큐의 박보다 얼마나 앞이나 뒤에서 눌렀는지 봅니다.</li>
+<li>늦은 큐가 많으면 "넷"에서 손을 키 위에 올려 두는 연습을, 들쭉날쭉하면 박을 소리 내어 세며 다시 해 봅니다.</li>
+<li>각자 준비한 음원으로 같은 연습을 해 봅니다. 클릭 소리 대신 킥과 스네어를 듣고 누르게 됩니다.</li>
+<li>타임코드로 운영하는 곡이라고 생각하고 <strong>수동 전환</strong>을 연습합니다. 43마디에서 타임코드가 끊겼다고 정하고, 그때까지는 누르지 않고 듣기만 하다가 표 31-5의 "다시 들어갈 큐"인 60(46마디 1박)부터 손으로 누릅니다(그림 31-2).</li>
+</ol>
+<aside class="box check"><div class="box-label">확인하는 법</div><div class="box-body"><ol class="steps"><li>웹 부록 24의 결과에서 큐마다 누른 시점이 큐의 박 앞뒤 0.08초 안에 모이면 좋습니다(<span class="badge start">출발값</span> <code>[저자 확인]</code>). 참고로 사람이 메트로놈에 맞춰 손가락으로 칠 때는 보통 박보다 0.02~0.1초쯤 앞서 칩니다.<sup class="ref"><a href="#c31-s10">10</a></sup></li><li>박보다 늦게 누른 큐가 절반을 넘으면 무대의 빛은 그보다 더 늦게 보이므로, 리허설에서 같은 큐를 다시 봅니다.</li><li>큐 29와 30처럼 붙어 있는 큐에서 30을 놓쳤다면, 표 31-5의 "다시 들어갈 큐"대로 30에서 바로 다시 들어가는 연습도 해 봅니다.</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">내 곡으로 해 보기</div><div class="box-body"><ol class="steps"><li>지금 맡은 곡의 큐 시트에서 손으로 누를 큐만 골라 표 31-5 양식의 GO 큐 목록을 만듭니다.</li><li>"다시 들어갈 큐" 칸을 반드시 채우고, 그 목록을 콘솔 옆에 붙여 둡니다.</li></ol></div></aside>
+<aside class="web" id="web-W23-31"><div class="web-head"><span class="web-tag">웹 부록 24</span><h4>GO 연습</h4><a class="web-open" href="https://jjjh7401.github.io/lx/gocall.html" target="_blank" rel="noopener">새 창에서 열기 ↗</a></div><p class="web-desc">큐 시트(웹 부록 14)의 큐를 불러와 GO를 누를 큐를 고르면, 곡의 BPM으로 클릭 소리를 내며 마디와 박을 세어 줍니다. 큐가 다가오면 스탠바이를 띄우고, 화면의 GO 버튼이나 스페이스 키를 누르면 큐의 박보다 몇 초 앞이나 뒤에 눌렀는지 기록해 줍니다. 각자 불러온 음원에 맞춰서도 연습할 수 있고, 음원은 저장되지 않습니다.</p><div class="tool-embed"><iframe title="GO 연습" loading="lazy" style="--h:1350px" src="https://jjjh7401.github.io/lx/gocall.html?embed=1" allow="autoplay" ></iframe></div><p class="tool-open"><span>적은 노트는 이 브라우저에만 저장됩니다. 넓은 화면에서 쓰려면 위의 "새 창에서 열기"를 누르세요.</span></p></aside>
+
+<section class="summary"><h2>핵심 정리</h2><ul>
+<li>큐는 스탠바이로 준비시키고 GO로 실행합니다. "고"라는 말은 실행할 때만 씁니다.</li>
+<li>스냅 큐는 박을 세며 준비했다가 다운비트에 맞춰 누릅니다(14장의 출발값). 장비에 따라 늦게 보이면 리허설에서 조금씩 앞당기고, 페이드 큐는 시작과 끝 가운데 어느 쪽을 박에 맞출지 큐마다 정합니다.</li>
+<li>타임코드로 운영하는 공연에서는 큐가 타임코드로 자동 실행되고, 오퍼레이터는 타임코드 상태를 확인하며 키와 강조를 수동으로 실행합니다. 타임코드가 끊기면 After Roll 동안 무대를 유지하고, 돌아오지 않으면 다음 구간의 첫 큐부터 수동으로 전환합니다.</li>
+<li>곧 쓸 룩은 Blind에서 만들어 원하는 박에 Blind를 끄고, 무대와 상관없는 작업은 Preview에서 합니다.</li>
+<li>큐를 놓치면 돌아갈 큐로 무대를 유지한 뒤 다음 구간의 첫 큐에서 다시 들어가고, 더 크게 꼬이면 세이프티, 공연을 멈춰야 하면 공연 중단으로 갑니다. 공연 중단에서는 블랙을 쓰지 않습니다.</li>
+<li>사고가 나면 곡이 진행되는 동안에는 무대를 유지하고, 곡이 끝난 뒤 고칩니다.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">내일 현장에서</div><div class="box-body"><ol class="steps"><li>공연 전에 콘솔 옆에 "다시 들어갈 큐" 목록과 돌아갈 큐, 세이프티 버튼의 위치를 한 장에 적어 붙여 둡니다.</li><li>큐를 놓쳤을 때나 타임코드가 끊겼을 때 볼 곳이 한 곳이어야 손이 먼저 움직입니다.</li></ol></div></aside>
+
+<section class="notes"><h2>주</h2><ol><li id="c31-s1">Wikipedia, "Cue (theatrical)". 워닝(1분쯤 전), 스탠바이(몇 초 전), GO(실행하는 순간)의 콜, 인터컴에서 실행할 때가 아니면 "go"를 다른 말로 돌려 함, "고"를 듣는 순간 실행, 답하는 말("Standing by"), 큐 라이트의 빨강과 초록. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cue_(theatrical)">https://en.wikipedia.org/wiki/Cue_(theatrical)</a> (2026-10-26 확인)</li><li id="c31-s2">MA Lighting, grandMA3 User Manual 2.5, "Programmer". Blind는 프로그래머 값을 출력에서 숨김, 값이 남은 프로그래머에서 Blind를 켜면 출력이 바뀌고 빈 프로그래머에서는 바뀌지 않음, Blind를 끄면 값이 출력에 더해짐, Program Time은 Blind를 켜고 끌 때 쓰이지 않음, Preview는 따로 된 프로그래머이며 세션에 하나. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/operate_programmer.html">https://help.malighting.com/grandMA3/2.5/HTML/operate_programmer.html</a> (2026-10-26 확인)</li><li id="c31-s3">MA Lighting, grandMA3 User Manual 2.5, "Blind Keyword". 문법(<code>Blind (On/Off)</code>), Blind를 끄면 그동안의 변경이 활성화. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_blind.html">https://help.malighting.com/grandMA3/2.5/HTML/keyword_blind.html</a> (2026-10-26 확인)</li><li id="c31-s4">MA Lighting, grandMA3 User Manual 2.5, "Preview Keyword". 프리뷰 중 제목 막대와 창 테두리가 빨갛게. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_preview.html">https://help.malighting.com/grandMA3/2.5/HTML/keyword_preview.html</a> (2026-10-26 확인)</li><li id="c31-s5">MA Lighting, grandMA3 User Manual 2.5, "Goto Keyword". 문법, 예(<code>Goto Cue 105 Executor 104</code>, <code>Goto Cue 10 Executor 201 Fade 2</code>), Fade는 큐의 원래 타임을 대신함. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_goto.html">https://help.malighting.com/grandMA3/2.5/HTML/keyword_goto.html</a> (2026-10-26 확인)</li><li id="c31-s6">Brad Schiller, "The Genre Series: Concerts", PLSN, 2018년 2월 16일. 곡마다 콘솔 페이지를 두고 곡이 끝나면 다음 페이지로 넘김, 타임코드가 있으면 큐를 자동으로 실행, 미리 만들지 않은 곡은 버스킹 페이지로 운영. <a target="_blank" rel="noopener" href="https://plsn.com/archives/february-2018/the-genre-series-concerts">https://plsn.com/archives/february-2018/the-genre-series-concerts</a> (2026-10-27 확인)</li><li id="c31-s7">James L. Moody, "Pro Production: Approaches To Cueing The Music With Concert Lighting", ProSoundWeb. 콘서트에서는 대개 조명 디자이너가 직접 콘솔을 운영하고, 큰 투어에서는 큐를 잘 아는 다른 크루가 운영함. 장기 공연에서는 오퍼레이터가 가사지를 보며 팔로우 스팟에 콜을 주고 콘솔 큐를 실행. <a target="_blank" rel="noopener" href="https://www.prosoundweb.com/pro-production-approaches-to-cueing-the-music-with-concert-lighting/2/">https://www.prosoundweb.com/pro-production-approaches-to-cueing-the-music-with-concert-lighting/2/</a> (2026-10-27 확인)</li><li id="c31-s8">Kennedy Theatre(University of Hawaiʻi at Mānoa), "Emergency Procedures (Governing Coordination Between House &amp; Stage)". 화재나 폭발물 위협으로 대피할 때 하우스 라이트와 무대 작업등을 켬. <a target="_blank" rel="noopener" href="https://manoa.hawaii.edu/liveonstage/ktemergencyprocedures/">https://manoa.hawaii.edu/liveonstage/ktemergencyprocedures/</a> (2026-10-27 확인)</li><li id="c31-s9">MA Lighting, grandMA3 User Manual 2.5, "Session". 세션의 마스터 스테이션이 빠지면 남은 스테이션 가운데 우선순위에 따라 새 마스터를 고르고, DMX 출력은 마스터에서 나감. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/network_session.html">https://help.malighting.com/grandMA3/2.5/HTML/network_session.html</a> (2026-10-27 확인)</li><li id="c31-s10">"Stop signals delay synchrony more for finger tapping than vocalization: a dual modality study of rhythmic synchronization in the stop signal task", PeerJ e5242. 메트로놈에 맞춘 손가락 탭핑은 보통 박보다 20~100ms 앞섬. <a target="_blank" rel="noopener" href="https://peerj.com/articles/5242">https://peerj.com/articles/5242</a> (2026-10-27 확인)</li><li id="c31-s11">Wikipedia, "DMX512". 유니버스 하나(512채널)를 한 번 다 보내는 데 약 23ms, 1초에 최대 약 44번. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/DMX512">https://en.wikipedia.org/wiki/DMX512</a> (2026-10-27 확인)</li><li id="c31-s12">MA Lighting, grandMA3 User Manual 2.5, "Timecode Show Settings". TC Slot(Internal은 타임코드 슬롯에 연결되지 않고 내부 시간을 씀), Offset TC Slot, Duration(받는 시간 범위 밖에서 자동으로 시작·정지하지 않게 함), Auto Start(쇼 범위 안의 시간 신호가 들어오면 자동으로 시작), Auto Stop(시간 신호가 멈추면 자동으로 정지), Switch Off(Playbacks Off: 타임코드 쇼가 켠 플레이백을 모두 끔, Keep Playbacks: 끄지 않음). <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/timecode_settings.html">https://help.malighting.com/grandMA3/2.5/HTML/timecode_settings.html</a> (2026-10-27 확인)</li><li id="c31-s13">MA Lighting, grandMA3 User Manual 2.5, "Timecode Slots". 외부 시간 신호가 멈추면 After Roll 동안 내부에서 계속 돎, After Roll Color(외부 신호가 끊겨 After Roll 중임을 알리는 색), Off Color(신호가 없을 때의 색), Pre Roll(외부 신호를 얼마나 받은 뒤에 쓸지). <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/timecode_slots.html">https://help.malighting.com/grandMA3/2.5/HTML/timecode_slots.html</a> (2026-10-27 확인)</li><li id="c31-s14">Ableton, "The Big Playback: Meet The Specialists Behind Your Favorite Live Shows". 재생 담당은 반주 트랙, 큐, 클릭, 타임코드를 맡음, 대부분의 재생 세션이 조명과 영상을 맞추려고 LTC를 내보냄, 큰 공연은 동기화된 두 번째 재생 시스템과 전환기를 둠. <a target="_blank" rel="noopener" href="https://www.ableton.com/en/blog/playback-specialists-behind-your-favorite-live-shows/">https://www.ableton.com/en/blog/playback-specialists-behind-your-favorite-live-shows/</a> (2026-10-27 확인)</li></ol></section>
+
+
+</article>
+</div>

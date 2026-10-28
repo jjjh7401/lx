@@ -1,0 +1,435 @@
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch20"><header class="ch-head"><div class="ch-num">20<span>장</span></div><h1 class="ch-title">라이트쇼와 오프닝</h1><p class="ch-sub">조명이 주인공인 무대</p></header>
+
+
+<aside class="box goals"><div class="box-label">이 장에서 얻을 것</div><div class="box-body">
+<ul class="checks">
+<li>사람이 없는 무대에서 메인을 장비의 그룹으로 정하고, 솔로의 순서로 쇼를 짭니다.</li>
+<li>"무빙은 화이트, 컬러 이펙트는 정지"라는 라이트쇼의 출발값을 압니다.</li>
+<li>저자의 라이트쇼 한 편(5분 12초)의 구조를 읽고, 다크 큐로 파트를 나눕니다.</li>
+</ul>
+</div></aside>
+<div class="open-label">여는 장면</div><p class="lead">공연이 시작되기 직전, 객석의 불이 꺼지고 무대에는 아무도 없습니다. 음악이 울리고, 빛만으로 몇 분짜리 쇼가 펼쳐집니다. 빔이 하늘로 솟았다가 한 점으로 모이고, 무대 뒤의 픽셀 벽이 파도처럼 일렁이고, 한순간 모든 것이 꺼졌다가 다시 터집니다. 그 몇 분 동안 무대의 주인공은 사람이 아니라 장비입니다.</p>
+<p>1~3부에서 "키는 곡이 끝날 때까지 켜 둔다", "메인은 장면마다 하나"라고 했습니다. 사람이 없는 무대에서는 키가 필요 없고, 메인을 맡을 것이 장비뿐입니다. 이 장은 그 무대를 다룹니다. 콘서트의 오프닝, 쇼 사이의 인터미션, 행사의 라이트쇼가 모두 여기에 속합니다.</p>
+
+<h2 id="c20-201-사람이-없는-무대의-메인">20.1 사람이 없는 무대의 메인</h2><p class="lead">사람이 없는 무대에서는 장비 그룹 하나가 그 장면의 메인(주인공)이 됩니다.</p>
+<p>11장에서는 메인 역할(예를 들어 빔) 안에서 장비 그룹(바닥 빔 무빙, 앞 트러스 스팟 무빙)이 4마디씩 솔로를 맡았습니다. 라이트쇼에서는 솔로를 맡던 그 <strong>장비 그룹이 그대로 장면의 메인</strong>이 됩니다(타워의 빔 무빙, 천장의 스팟 무빙, 바닥 무빙, 픽셀 벽).</p>
+<p>라이트쇼에서는 "메인은 장면마다 하나"라는 원칙이 더 엄격해집니다. 헤이즈(빔이 보이도록 뿌리는 옅은 연기) 속에서 여러 그룹의 빔이 겹치면 어느 쪽도 보이지 않기 때문입니다. 그래서 구간마다 메인 그룹 하나를 거의 단독으로 켜고, 나머지는 끄거나 아주 낮게 둡니다.<sup class="ref"><a href="#c20-s1">1</a></sup> 곡에서는 메인 역할 안에서 4마디마다 솔로를 바꿨다면(11장), 라이트쇼에서는 <strong>파트마다 메인을 맡는 장비 그룹을 바꾸는 것</strong>이 출발값입니다. 11장의 솔로 교대가 쇼 전체로 넓어진 것입니다.</p>
+
+<h2 id="c20-202-그룹마다-솔로-순서-정하기">20.2 그룹마다 솔로 순서 정하기</h2><p class="lead">라이트쇼는 장비 그룹이 돌아가며 솔로를 맡도록 순서를 정해서 짭니다. 순서를 정할 때의 출발값은 셋입니다.<sup class="ref"><a href="#c20-s1">1</a></sup></p>
+<ul class="keyed">
+<li><strong>같은 그룹이 여러 번 돌아옵니다.</strong> 장비 종류가 대여섯 개라면, 5분짜리 쇼에서 같은 그룹이 여러 번 메인이 됩니다. 돌아올 때마다 함께 켜는 서브 그룹을 바꾸면 같은 장비가 다른 장면이 됩니다.</li>
+<li><strong>주력 그룹은 아껴 둡니다.</strong> 쇼의 얼굴이 되는 주력 그룹(이 쇼에서는 타워의 빔 무빙 48대)은 쇼의 큰 순간들에 쓰고, 첫 구간은 다른 그룹에 맡깁니다(<span class="badge start">출발값</span>). 18장에서 쇼 스페셜을 첫 곡에 다 보여 주지 않은 것과 같습니다.</li>
+<li><strong>마지막에 전부를 엽니다.</strong> 피날레에서 처음으로 모든 그룹이 함께 켜집니다. 10장에서 "모든 역할을 한꺼번에 켜는 순간"을 곡에서 한 번만 쓴 것과 같습니다.</li>
+</ul>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 296" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<text x="77.2" y="100.0" font-size="11" fill="#1f2430" text-anchor="middle" font-weight="700" opacity="1.0">오프닝</text>
+<rect x="42.1" y="112.0" width="70.1" height="60.0" rx="3" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="154.0" y="100.0" font-size="11" fill="#1f2430" text-anchor="middle" font-weight="700" opacity="1.0">파트 1</text>
+<rect x="114.2" y="112.0" width="79.6" height="60.0" rx="3" fill="#c9862a" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="224.4" y="100.0" font-size="11" fill="#1f2430" text-anchor="middle" font-weight="700" opacity="1.0">파트 2</text>
+<rect x="195.8" y="112.0" width="57.1" height="60.0" rx="3" fill="#c9862a" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="313.1" y="100.0" font-size="11" fill="#1f2430" text-anchor="middle" font-weight="700" opacity="1.0">파트 3(쉼)</text>
+<rect x="254.9" y="112.0" width="57.1" height="60.0" rx="3" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="314.1" y="112.0" width="57.1" height="60.0" rx="3" fill="#d9a85a" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="443.3" y="100.0" font-size="11" fill="#1f2430" text-anchor="middle" font-weight="700" opacity="1.0">파트 4(드롭)</text>
+<rect x="373.2" y="112.0" width="45.4" height="60.0" rx="3" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="420.6" y="112.0" width="45.4" height="60.0" rx="3" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="468.0" y="112.0" width="45.4" height="60.0" rx="3" fill="#c9862a" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="570.6" y="100.0" font-size="11" fill="#1f2430" text-anchor="middle" font-weight="700" opacity="1.0">파트 5(쉼)</text>
+<rect x="516.8" y="112.0" width="52.9" height="60.0" rx="3" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="571.6" y="112.0" width="52.9" height="60.0" rx="3" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="670.6" y="100.0" font-size="11" fill="#1f2430" text-anchor="middle" font-weight="700" opacity="1.0">파트 6(드롭)</text>
+<rect x="626.5" y="112.0" width="43.0" height="60.0" rx="3" fill="#d9a85a" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="671.6" y="112.0" width="43.0" height="60.0" rx="3" fill="#c9862a" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="763.5" y="100.0" font-size="11" fill="#1f2430" text-anchor="middle" font-weight="700" opacity="1.0">파트 7</text>
+<rect x="716.6" y="112.0" width="93.7" height="60.0" rx="3" fill="#c9862a" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="865.7" y="100.0" font-size="11" fill="#1f2430" text-anchor="middle" font-weight="700" opacity="1.0">피날레</text>
+<rect x="812.3" y="112.0" width="34.2" height="60.0" rx="3" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="848.6" y="112.0" width="34.2" height="60.0" rx="3" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="884.8" y="112.0" width="34.2" height="60.0" rx="3" fill="#1f2430" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="248.7" y="104.0" width="6.0" height="76.0" rx="0" fill="#000000" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="251.7" y="196.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">75.2초</text>
+<rect x="360.7" y="104.0" width="6.0" height="76.0" rx="0" fill="#000000" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="363.7" y="196.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">115.0초</text>
+<rect x="510.8" y="104.0" width="6.0" height="76.0" rx="0" fill="#000000" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="513.8" y="196.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">168.3초</text>
+<rect x="654.9" y="104.0" width="6.0" height="76.0" rx="0" fill="#000000" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="657.9" y="196.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">219.5초</text>
+<text x="40.0" y="222.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">0:00</text>
+<line x1="40.0" y1="180.0" x2="40.0" y2="208.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="208.9" y="222.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">1:00</text>
+<line x1="208.9" y1="180.0" x2="208.9" y2="208.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="377.8" y="222.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">2:00</text>
+<line x1="377.8" y1="180.0" x2="377.8" y2="208.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="546.7" y="222.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">3:00</text>
+<line x1="546.7" y1="180.0" x2="546.7" y2="208.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="715.6" y="222.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">4:00</text>
+<line x1="715.6" y1="180.0" x2="715.6" y2="208.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="884.5" y="222.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">5:00</text>
+<line x1="884.5" y1="180.0" x2="884.5" y2="208.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<rect x="60.0" y="260.0" width="18.0" height="18.0" rx="3" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="84.0" y="274.0" font-size="12" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">픽셀 워시 바</text>
+<rect x="200.0" y="260.0" width="18.0" height="18.0" rx="3" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="224.0" y="274.0" font-size="12" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">타워</text>
+<rect x="340.0" y="260.0" width="18.0" height="18.0" rx="3" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="364.0" y="274.0" font-size="12" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">천장</text>
+<rect x="480.0" y="260.0" width="18.0" height="18.0" rx="3" fill="#d9a85a" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="504.0" y="274.0" font-size="12" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">앞 바닥</text>
+<rect x="620.0" y="260.0" width="18.0" height="18.0" rx="3" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="644.0" y="274.0" font-size="12" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">픽셀</text>
+<rect x="760.0" y="260.0" width="18.0" height="18.0" rx="3" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="784.0" y="274.0" font-size="12" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">전부</text>
+<text x="24.0" y="346.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">같은 그룹이 두세 번 메인으로 돌아오고, 돌아올 때마다 서브 그룹이 다릅니다. 피날레에서 처음으로 전부를 켭니다.</text>
+</svg>
+<figcaption><b>그림 20-1</b> 저자의 라이트쇼 아홉 구간. 136 BPM, 5분 12초. 구간마다 메인 그룹(컬러 띠)과 블랙(검은 막대)을 표시했습니다. 오프닝과 피날레 사이를 파트 1~7로 나눴습니다.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>표 20-1</b> 저자의 라이트쇼 아홉 구간 <sup class="ref"><a href="#c20-s1">1</a></sup> <code>[저자 확인]</code></div><table>
+<thead>
+<tr class="header">
+<th>구간</th>
+<th>시각</th>
+<th>메인 그룹</th>
+<th>하는 일</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>오프닝</td>
+<td>0:00~0:26</td>
+<td>픽셀 워시 바 두 줄(16대)</td>
+<td>가는 빔을 하프처럼 펼침, 스캔, X 수렴, 위아래 줄이 엇갈리는 시저</td>
+</tr>
+<tr class="even">
+<td>파트 1</td>
+<td>0:26~0:55</td>
+<td>타워 빔 무빙 48대</td>
+<td>빨강 빔 페이드 인 → 사선 격자와 두 색 체이스 → 화이트 대각 스윕 → 객석 정면을 향한 고보</td>
+</tr>
+<tr class="odd">
+<td>파트 2</td>
+<td>0:55~1:16</td>
+<td>타워 빔 무빙</td>
+<td>바닥 한 점으로 모이는 V 콘 → 스타 → 정면 프리즘과 줌 펌핑 → 블랙</td>
+</tr>
+<tr class="even">
+<td>파트 3(쉬어 감)</td>
+<td>1:16~1:58</td>
+<td>천장 스팟 무빙 → 앞 바닥 무빙</td>
+<td>2초 간격 화이트 스윕 → 청색과 화이트의 캐서드럴 빔 → 바닥 서클 → 블랙</td>
+</tr>
+<tr class="odd">
+<td>파트 4(드롭)</td>
+<td>1:58~2:48</td>
+<td>픽셀 벽 → 픽셀 워시 바 → 타워</td>
+<td>픽셀 도형과 러너 → 픽셀 워시 바의 파동·시저 → 다이아몬드 케이지 → 화이트 슈퍼노바 → 블랙</td>
+</tr>
+<tr class="even">
+<td>파트 5(쉬어 감)</td>
+<td>2:49~3:28</td>
+<td>천장 → 픽셀 워시 바와 바깥 타워</td>
+<td>천장 스윕 → 픽셀 워시 바 빨강과 바깥 타워 청색을 공간으로 나눔</td>
+</tr>
+<tr class="odd">
+<td>파트 6(드롭)</td>
+<td>3:28~4:00</td>
+<td>앞 바닥 무빙 → 타워</td>
+<td>빠른 서클 → 객석 정면 프리즘 → 2.8초 블랙 → 쇼에서 가장 큰 히트(화이트 뒤 빨강과 화이트의 X 격자)</td>
+</tr>
+<tr class="even">
+<td>파트 7</td>
+<td>4:00~4:34</td>
+<td>타워</td>
+<td>앞 16초: 팬·틸트 이펙트 하나만(4박 주기), 뒤 18초: 정면 광각 고보·프리즘</td>
+</tr>
+<tr class="odd">
+<td>피날레</td>
+<td>4:34~5:12.6</td>
+<td>픽셀 워시 바·픽셀 벽 → 전부</td>
+<td>픽셀 워시 바 솔로 → 3초 간격 캐서드럴·피라미드·나선 → 전 장비 정면 → 한 점 수렴 화이트 → 페이드아웃</td>
+</tr>
+</tbody>
+</table></div>
+<p>표를 메인 그룹의 순서로 읽으면, 타워와 픽셀 워시 바가 각각 네 번, 천장·앞 바닥·픽셀 벽이 각각 두 번 메인이 되고, 돌아올 때마다 서브 그룹이 다릅니다. 이 쇼는 출발값과 다른 곳도 있습니다. 주력인 타워가 파트 1과 파트 2를 이어 맡아, 쇼의 처음 3분의 1 안에 약 50초 동안 메인입니다. 대신 파트 3부터는 타워를 주로 서브 그룹으로 쓰며 큰 순간을 위해 남겨 두었습니다. 파트 4 끝에 한 번 메인으로 올리고, 파트 6 끝과 파트 7에서 다시 단독 메인으로 돌립니다.<code>[저자 확인]</code></p>
+
+<h2 id="c20-203-무빙은-화이트-컬러-이펙트는-정지">20.3 무빙은 화이트, 컬러 이펙트는 정지</h2><p class="lead">라이트쇼의 출발값은 <strong>무빙과 컬러 이펙트를 한 번에 하나만 보여 주는 것</strong>입니다. 빔이 크게 움직일 때는 컬러를 빼고 화이트로 궤적을 보여 주고, 두 색 체이스나 디머 이펙트를 보여 줄 때는 무빙을 멈춥니다.<sup class="ref"><a href="#c20-s1">1</a></sup></p>
+<p>헤이즈 속에서 컬러가 바뀌면서 빔까지 움직이면, 관객은 궤적도 색도 읽지 못합니다.</p>
+<p>이 출발값은 9장의 솔로 3막(포지션 / 컬러·디머 / 빔)과 같은 순서입니다.</p>
+<ol type="1">
+<li><strong>포지션</strong>: 화이트, 큰 진폭의 팬·틸트 이펙트.</li>
+<li><strong>컬러·디머</strong>: 포지션 프리셋으로 세우고, 두 색 스냅이나 디머 이펙트.</li>
+<li><strong>빔</strong>: 객석 정면을 향해 세우고, 넓게 연 줌에 고보·프리즘 회전.</li>
+</ol>
+<p>이 규칙은 장비가 메인인 아레나 라이트쇼에서 나온 것입니다. 사람이 노래하는 팝 무대에서는 다를 수 있습니다. LOVE ATTACK의 후렴처럼 파스텔 색 위에서 무빙이 웨이브를 그리는 것은 이 규칙과 다르지만, 키와 노래가 중심인 무대에서는 자연스럽습니다. 15장에서 본 것처럼, 이것은 장르와 현장에 따라 바꾸는 조정값입니다.</p>
+<aside class="box fix"><div class="box-label">고치기 전 / 고친 뒤</div><div class="box-body">
+<p><strong>고치기 전</strong> 같은 장비로 만든 저자의 다른 라이트쇼 한 판은 히트마다 무빙의 포지션을 다시 불러, 무빙이 모양을 다 그리지 못하고 제자리에서 까딱거렸습니다(11장 고치기 전 상자와 같은 판). 이 쇼의 앞선 판에도 같은 문제가 있었습니다.<sup class="ref"><a href="#c20-s1">1</a></sup></p>
+<p><strong>고친 뒤</strong> 파트 7의 앞 16초에서는 팬·틸트 이펙트 하나만 4박 주기로 한 번 걸고, 그 뒤로 포지션을 한 번도 다시 부르지 않았습니다. 8초 동안 수직의 큰 웨이브, 다음 8초 동안 이중 나선 서클이 끝까지 그려졌습니다.<sup class="ref"><a href="#c20-s1">1</a></sup></p>
+</div></aside>
+
+<h2 id="c20-204-다크-큐로-파트-나누기">20.4 다크 큐로 파트 나누기</h2><p class="lead">라이트쇼에는 사람도 노래도 없으므로, 파트가 바뀌는 자리를 조명이 직접 알려야 합니다. 가장 확실한 방법은 무대를 잠깐 어둡게 비우는 다크 큐입니다.</p>
+<p>사람이 있는 무대에서는 키를 남겼지만(10장), 사람이 없는 라이트쇼에서는 완전한 블랙도 쓸 수 있습니다.</p>
+<p>이 쇼의 블랙은 네 번입니다(75.2초, 115.0초, 168.3초, 219.5초).<sup class="ref"><a href="#c20-s1">1</a></sup> 세 번은 파트를 닫고, 한 번(219.5초)은 파트 6 안에서 가장 큰 히트 바로 앞에 둡니다. 네 번 가운데 두 번은 드롭(음악이 한꺼번에 터지는 순간)이나 가장 큰 히트 바로 앞에 길게 둡니다.</p>
+<ul>
+<li>115.0초에 블랙, 118.2초 드롭까지 <strong>3.2초</strong>(약 1.8마디) 어둠.</li>
+<li>219.5초에 블랙, 222.3초 가장 큰 히트까지 <strong>2.8초</strong>(약 1.6마디) 어둠.</li>
+</ul>
+<p>1마디가 1.76초인 이 곡(136 BPM, <span class="badge calc">계산</span>)에서 1.5마디가 넘는 어둠은 꽤 깁니다. 12장에서는 드롭 바로 앞의 다크 큐를 "마지막 1박~1마디"로 잡았습니다. 라이트쇼에서는 관객이 숨을 참을 만큼 더 길게 늘여도 됩니다. 노래도 사람도 없으므로, 어둠이 길어도 무대가 사라졌다고 느끼지 않습니다.</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 296" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<path d="M60.0,175.5 L131.5,128.0 L211.3,118.5 L266.9,118.5 L266.9,280.0 L269.1,280.0 L269.1,194.5 L376.4,185.0 L376.4,280.0 L385.2,280.0 L385.2,90.0 L523.0,109.0 L523.0,280.0 L524.9,280.0 L524.9,194.5 L632.2,147.0 L663.9,128.0 L663.9,280.0 L671.6,280.0 L671.6,90.0 L720.3,118.5 L813.8,109.0 L901.8,90.0 L917.2,90.0 L920.0,280.0" fill="none" stroke="#1f2430" stroke-width="2.4" opacity="1.0" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="376.4" y="90.0" width="8.8" height="190.0" rx="0" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.15"/>
+<rect x="663.9" y="90.0" width="7.7" height="190.0" rx="0" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.15"/>
+<text x="380.8" y="84.0" font-size="11.5" fill="#c8553d" text-anchor="middle" font-weight="700" opacity="1.0">3.2초</text>
+<text x="667.7" y="84.0" font-size="11.5" fill="#c8553d" text-anchor="middle" font-weight="700" opacity="1.0">2.8초</text>
+<text x="324.1" y="184.5" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">쉬어 가는 파트</text>
+<text x="577.2" y="156.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">쉬어 가는 파트</text>
+<text x="445.2" y="82.0" font-size="11.5" fill="#c8553d" text-anchor="middle" font-weight="700" opacity="1.0">드롭</text>
+<text x="720.3" y="82.0" font-size="11.5" fill="#c8553d" text-anchor="middle" font-weight="700" opacity="1.0">가장 큰 히트</text>
+<line x1="60.0" y1="280.0" x2="920.0" y2="280.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="60.0" y="298.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">0:00</text>
+<text x="225.1" y="298.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">1:00</text>
+<text x="390.1" y="298.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">2:00</text>
+<text x="555.2" y="298.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">3:00</text>
+<text x="720.3" y="298.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">4:00</text>
+<text x="885.3" y="298.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">5:00</text>
+<text x="24.0" y="346.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">사람이 없는 라이트쇼에서는 완전한 블랙을 쓸 수 있고, 드롭 앞의 어둠을 1마디(1.76초)보다 길게 늘일 수 있습니다.</text>
+</svg>
+<figcaption><b>그림 20-2</b> 다크 큐로 파트 나누기. 5분 12초 동안의 밝기 흐름과 네 번의 블랙입니다. 드롭 앞의 두 블랙이 가장 깁니다.</figcaption></figure>
+
+<h2 id="c20-205-쇼-안에서-쉬어-가는-파트">20.5 쇼 안에서 쉬어 가는 파트</h2><p class="lead">라이트쇼에도 쉬어 가는 파트가 있어야 드롭이 크게 느껴집니다. 이 쇼에서는 파트 3과 파트 5가 그 자리입니다.</p>
+<p>둘 다 에너지가 낮은 구간이고, 천장의 스팟 무빙으로 시작합니다. 2초 간격으로 천천히 쓸고 지나가는 화이트 스윕, 청색과 화이트의 캐서드럴 빔처럼 느리고 넓은 장면입니다. 그 뒤에 오는 파트 4와 파트 6이 드롭입니다.</p>
+<p>18장의 셋리스트에서 쉬어 가는 곡이 다음 블록을 크게 만든 것과 같은 구조가 5분짜리 쇼 안에 들어 있습니다. 라이트쇼가 짧다고 처음부터 끝까지 풀로 달리면, 5분이 지나기 전에 관객은 그 밝기에 익숙해집니다.</p>
+
+<h2 id="c20-206-실습-내-라이트쇼의-솔로-순서표">20.6 [실습] 내 라이트쇼의 솔로 순서표</h2><p class="lead">장비 그룹마다 솔로를 언제, 어떤 서브 그룹과 함께 맡길지 순서표를 짭니다. 다 짜면 같은 그룹이 너무 자주 나오는 곳, 주력 그룹을 너무 일찍 쓰는 곳이 보입니다.</p>
+<p><strong>따라 하기</strong></p>
+<ol type="1">
+<li>장비의 그룹을 적습니다(타워, 천장, 바닥, 픽셀 벽 등). 쇼의 얼굴이 될 주력 그룹에 표시합니다.</li>
+<li>곡 구성표(3~5장)로 구간을 나누고, 구간마다 에너지를 매깁니다. 쉬어 가는 구간을 두 곳 이상 정합니다.</li>
+<li>구간마다 메인 그룹 하나와 서브 그룹(있다면) 하나를 정합니다. 같은 그룹이 돌아올 때는 서브 그룹을 바꿉니다.</li>
+<li>메인 그룹마다 포지션 → 컬러·디머 → 빔 가운데 무엇을 보여 줄지 정합니다.</li>
+<li>블랙의 자리와 길이를 정합니다. 드롭 앞의 블랙은 1마디보다 길게 늘여 봅니다.</li>
+</ol>
+<aside class="box check"><div class="box-label">확인하는 법</div><div class="box-body"><ol class="steps"><li>순서표에서 주력 그룹이 처음 메인이 되는 자리가 쇼의 처음 3분의 1 안이라면, 그 자리를 뒤로 옮길 수 있는지 봅니다.</li><li>피날레 전에 모든 그룹이 한꺼번에 켜지는 곳이 있으면 표시합니다.</li></ol></div></aside>
+
+<aside class="web" id="web-W10-21"><div class="web-head"><span class="web-tag">웹 부록 11</span><h4>비트 그리드</h4><a class="web-open" href="https://jjjh7401.github.io/lx/grid.html" target="_blank" rel="noopener">새 창에서 열기 ↗</a></div><p class="web-desc">라이트쇼에서는 줄을 역할 대신 장비의 그룹으로 바꿔 씁니다. "곡 전체" 보기로 구간마다 메인 그룹(★)을 표시하면, 같은 그룹이 8마디를 넘게 이어지는 곳을 짚어 줍니다.</p><div class="tool-embed"><iframe title="비트 그리드" loading="lazy" style="--h:1500px" src="https://jjjh7401.github.io/lx/grid.html?embed=1" allow="autoplay" ></iframe></div><p class="tool-open"><span>적은 노트는 이 브라우저에만 저장됩니다. 넓은 화면에서 쓰려면 위의 "새 창에서 열기"를 누르세요.</span></p></aside>
+
+<section class="summary"><h2>핵심 정리</h2><ul>
+<li>사람이 없는 무대에서는 11장에서 솔로를 맡던 장비 그룹이 그대로 장면의 메인이 됩니다. 파트마다 메인 그룹을 바꾸는 것이 출발값입니다.</li>
+<li>같은 그룹이 여러 번 돌아오되 서브 그룹을 바꾸고, 주력 그룹은 아껴 두고, 피날레에서 처음으로 전부를 켭니다.</li>
+<li>라이트쇼의 출발값은 "무빙은 화이트, 컬러 이펙트는 정지"입니다. 팝 무대에서는 조정값입니다.</li>
+<li>사람도 노래도 없는 라이트쇼는 블랙으로 파트를 나눕니다. 드롭 앞의 블랙은 1마디보다 길게 늘일 수 있습니다.</li>
+<li>5분짜리 쇼에도 쉬어 가는 파트를 둡니다.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">내일 현장에서</div><div class="box-body"><ol class="steps"><li>다음 오프닝이나 라이트쇼에서 구간마다 켜진 그룹의 수를 세어 봅니다.</li><li>셋 이상이 늘 켜져 있다면, 한 구간만이라도 메인 그룹 하나만 남기고 끈 판을 만들어 견주어 봅니다.</li></ol></div></aside>
+
+<section class="notes"><h2>주</h2><ol><li id="c20-s1">저자의 미공개 작업 노트와 라이트쇼 설계 기록. 136 BPM, 177마디, 312.6초의 라이트쇼(3D 프리비즈, 조명 208대), 아홉 구간의 시각과 메인 그룹, 구간을 닫는 블랙 네 번(75.2·115.0·168.3·219.5초), 파트 7에서 팬·틸트 이펙트 한 번 호출과 포지션 재호출 0회, "구간마다 메인 그룹 하나만", "무빙은 화이트, 컬러 이펙트는 정지", 솔로 3막.</li></ol></section>
+
+
+</article>
+</div>

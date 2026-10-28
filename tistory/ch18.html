@@ -1,0 +1,827 @@
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch18"><header class="ch-head"><div class="ch-num">18<span>장</span></div><h1 class="ch-title">콘서트와 투어</h1><p class="ch-sub">공연 전체의 흐름 만들기</p></header>
+
+
+<aside class="box goals"><div class="box-label">이 장에서 얻을 것</div><div class="box-body">
+<ul class="checks">
+<li>곡 하나의 연출을 셋리스트 전체의 흐름(에너지 아크) 안에 놓습니다.</li>
+<li>쇼 스페셜을 언제 리빌할지(처음 공개할지) 정하고, 곡 사이의 반복을 피합니다.</li>
+<li>운영 방식(손, 타임코드, 하이브리드)과 투어 공연장 크기에 맞춘 장비 줄이기를 정합니다.</li>
+</ul>
+</div></aside>
+<div class="open-label">여는 장면</div><p class="lead">콘서트의 첫 곡을 떠올려 봅니다. 막이 오르고 모든 빔이 한꺼번에 하늘로 솟고, 레이저가 객석 위를 가르고, 스트로브가 터집니다. 객석은 함성으로 답합니다. 그런데 열 곡쯤 지나면 이상하게 무덤덤해집니다. 빔도 레이저도 아까 본 것입니다. 남은 곡은 아직 열 곡이 넘습니다.</p>
+<p>첫 곡이 잘못한 것은 없습니다. 첫 곡만 보면 훌륭한 연출입니다. 문제는 그 곡이 <strong>쇼 전체의 첫 곡</strong>이라는 사실을 잊은 것입니다. 3부까지 곡 하나에 헤드룸을 남기는 법을 다뤘다면, 콘서트에서는 같은 일을 셋리스트 전체에서 합니다.</p>
+
+<h2 id="c18-181-셋리스트-전체의-에너지-흐름">18.1 셋리스트 전체의 에너지 흐름</h2><p class="lead">콘서트 조명은 곡 하나가 아니라 셋리스트 전체의 에너지 흐름을 보는 데서 시작합니다. 이 흐름을 현장에서는 아크(arc)라고 부릅니다.</p>
+<p>4장에서 곡 안의 구간마다 에너지를 매겼듯, 콘서트에서는 곡마다 에너지를 매겨 셋리스트 위에 선을 긋습니다. 이 선이 쇼의 큰 구조입니다.</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 336" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<line x1="80.0" y1="280.0" x2="920.0" y2="280.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="70.0" y="284.0" font-size="11" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">1</text>
+<line x1="80.0" y1="235.0" x2="920.0" y2="235.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="70.0" y="239.0" font-size="11" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">2</text>
+<line x1="80.0" y1="190.0" x2="920.0" y2="190.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="70.0" y="194.0" font-size="11" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">3</text>
+<line x1="80.0" y1="145.0" x2="920.0" y2="145.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="70.0" y="149.0" font-size="11" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">4</text>
+<line x1="80.0" y1="100.0" x2="920.0" y2="100.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="70.0" y="104.0" font-size="11" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">5</text>
+<rect x="82.0" y="84.0" width="176.0" height="12.0" rx="3" fill="#d6d9df" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="170.0" y="80.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">블록 1</text>
+<rect x="262.0" y="84.0" width="176.0" height="12.0" rx="3" fill="#d6d9df" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="350.0" y="80.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">블록 2</text>
+<line x1="260.0" y1="84.0" x2="260.0" y2="330.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt" stroke-dasharray="4 3"/>
+<rect x="442.0" y="84.0" width="176.0" height="12.0" rx="3" fill="#d6d9df" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="530.0" y="80.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">블록 3(쉬어 감)</text>
+<line x1="440.0" y1="84.0" x2="440.0" y2="330.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt" stroke-dasharray="4 3"/>
+<rect x="622.0" y="84.0" width="176.0" height="12.0" rx="3" fill="#d6d9df" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="710.0" y="80.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">블록 4</text>
+<line x1="620.0" y1="84.0" x2="620.0" y2="330.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt" stroke-dasharray="4 3"/>
+<rect x="802.0" y="84.0" width="116.0" height="12.0" rx="3" fill="#d6d9df" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="860.0" y="80.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">앙코르</text>
+<line x1="800.0" y1="84.0" x2="800.0" y2="330.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt" stroke-dasharray="4 3"/>
+<path d="M110.0,145.0 L170.0,145.0 L230.0,190.0 L290.0,235.0 L350.0,190.0 L410.0,145.0 L470.0,235.0 L530.0,235.0 L590.0,190.0 L650.0,145.0 L710.0,145.0 L770.0,100.0 L830.0,190.0 L890.0,100.0" fill="none" stroke="#1f2430" stroke-width="2.4" opacity="1.0" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="110.0" cy="145.0" r="6.0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="86.0" y="296.0" width="48.0" height="22.0" rx="4" fill="#e0352b" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="110.0" y="340.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">곡 1</text>
+<circle cx="170.0" cy="145.0" r="6.0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="146.0" y="296.0" width="48.0" height="22.0" rx="4" fill="#f07a1f" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="170.0" y="340.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">곡 2</text>
+<circle cx="230.0" cy="190.0" r="6.0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="206.0" y="296.0" width="48.0" height="22.0" rx="4" fill="#f2d43a" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="230.0" y="340.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">곡 3</text>
+<circle cx="290.0" cy="235.0" r="6.0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="266.0" y="296.0" width="48.0" height="22.0" rx="4" fill="#2fa84f" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="290.0" y="340.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">곡 4</text>
+<circle cx="350.0" cy="190.0" r="6.0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="326.0" y="296.0" width="48.0" height="22.0" rx="4" fill="#1fa79a" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="350.0" y="340.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">곡 5</text>
+<circle cx="410.0" cy="145.0" r="6.0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="386.0" y="296.0" width="48.0" height="22.0" rx="4" fill="#2f62d4" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="410.0" y="340.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">곡 6</text>
+<circle cx="470.0" cy="235.0" r="6.0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="446.0" y="296.0" width="48.0" height="22.0" rx="4" fill="#a58be6" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="470.0" y="340.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">곡 7</text>
+<circle cx="530.0" cy="235.0" r="6.0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="506.0" y="296.0" width="48.0" height="22.0" rx="4" fill="#8a3fc2" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="530.0" y="340.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">곡 8</text>
+<circle cx="590.0" cy="190.0" r="6.0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="566.0" y="296.0" width="48.0" height="22.0" rx="4" fill="#d43a9c" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="590.0" y="340.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">곡 9</text>
+<circle cx="650.0" cy="145.0" r="6.0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="626.0" y="296.0" width="48.0" height="22.0" rx="4" fill="#e0352b" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="650.0" y="340.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">곡 10</text>
+<circle cx="710.0" cy="145.0" r="6.0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="686.0" y="296.0" width="48.0" height="22.0" rx="4" fill="#f4a62a" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="710.0" y="340.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">곡 11</text>
+<circle cx="770.0" cy="100.0" r="6.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="746.0" y="296.0" width="48.0" height="22.0" rx="4" fill="#f3f5fb" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="770.0" y="340.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">곡 12</text>
+<circle cx="830.0" cy="190.0" r="6.0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="806.0" y="296.0" width="48.0" height="22.0" rx="4" fill="#27b6de" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="830.0" y="340.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">곡 13</text>
+<circle cx="890.0" cy="100.0" r="6.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="866.0" y="296.0" width="48.0" height="22.0" rx="4" fill="#ffe0b0" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="890.0" y="340.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">곡 14</text>
+<text x="758.0" y="104.0" font-size="11.5" fill="#c8553d" text-anchor="end" font-weight="700" opacity="1.0">본 공연 최고점</text>
+<text x="878.0" y="104.0" font-size="11.5" fill="#c8553d" text-anchor="end" font-weight="700" opacity="1.0">앙코르 최고점</text>
+<text x="40.0" y="312.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">메인 컬러</text>
+<text x="24.0" y="386.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">가상의 셋리스트입니다. 첫 곡은 높게 시작하되 최고점은 남기고, 쉬어 가는 블록 뒤에 최고점을 둡니다.</text>
+</svg>
+<figcaption><b>그림 18-1</b> 셋리스트 에너지 아크. 열네 곡짜리 쇼의 예입니다. 첫 곡은 높게 시작하되 최고점을 남기고, 중간에 쉬어 가는 블록을 두고, 마지막 블록과 앙코르에 최고점을 둡니다.</figcaption></figure>
+<p>아크를 그리면 세 가지가 보입니다.</p>
+<ul class="keyed">
+<li><strong>블록</strong>셋리스트는 보통 서너 곡씩 묶인 블록으로 나뉩니다. 의상을 바꾸거나 무대 위치를 옮기는 지점, 영상(VCR)이 들어가는 지점이 블록의 경계입니다. 블록마다 컬러와 대표 장비를 정해 두면 블록끼리 또렷이 나뉩니다.</li>
+<li><strong>쉬어 가는 곡</strong>에너지가 낮은 곡이 중간에 있어야 다음 블록의 큰 곡이 커 보입니다. 곡 하나 안의 다크 큐(10장)가 쇼 안에서는 쉬어 가는 곡이 됩니다.</li>
+<li><strong>최고점</strong>쇼의 최고점은 한 곳입니다. 대개 본 공연의 마지막 곡이나 앙코르의 한 곡입니다. 그 곡을 위해 아끼는 것이 18.2절의 쇼 스페셜입니다.</li>
+</ul>
+<p>곡 하나의 밝기 계획(10장)과 쇼의 아크는 같은 방식으로 읽습니다. 곡 안에서 후렴 3에 100%를 남겼듯, 쇼 안에서는 최고점 곡에 장비 전체를 남깁니다.</p>
+
+<h2 id="c18-182-쇼-스페셜을-처음-꺼낼-곡">18.2 쇼 스페셜을 처음 꺼낼 곡</h2><p class="lead">레이저나 숨겨 둔 장비처럼 아껴 두는 쇼 스페셜은, 어느 곡에서 처음 보여 줄지 미리 정합니다. 처음 보여 주는 것을 현장에서는 리빌(reveal)이라고 합니다.</p>
+<p>레이저, 키네틱(움직이는 트러스나 조명), 숨겨 둔 장비 한 줄, 객석 전체를 비추는 장면 같은 것이 쇼 스페셜입니다. 10장의 스페셜 큐를 쇼 전체로 넓힌 것입니다.</p>
+<div class="tbl"><div class="tcap"><b>표 18-1</b> 쇼 스페셜을 꺼내는 순서 <span class="badge start">출발값</span> <sup class="ref"><a href="#c18-s1">1</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>쇼의 자리</th>
+<th>꺼내는 것</th>
+<th>아끼는 것</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>첫 곡</td>
+<td>장비의 기본(워시, 빔, 키). 쇼의 첫인상이 될 대표 룩 하나</td>
+<td>레이저, 키네틱, 오디언스 전체, 스트로브 대량 사용</td>
+</tr>
+<tr class="even">
+<td>첫 블록의 끝</td>
+<td>스페셜 하나를 리빌</td>
+<td>나머지 스페셜</td>
+</tr>
+<tr class="odd">
+<td>중간 블록</td>
+<td>블록마다 새 스페셜 하나, 또는 이미 리빌한 것의 새로운 쓰임</td>
+<td>최고점의 조합</td>
+</tr>
+<tr class="even">
+<td>본 공연 마지막 곡</td>
+<td>지금까지의 스페셜을 함께</td>
+<td>앙코르용 하나(있다면)</td>
+</tr>
+<tr class="odd">
+<td>앙코르</td>
+<td>아껴 둔 하나, 또는 객석과 함께하는 장면</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>핵심은 <strong>스페셜마다 리빌할 곡을 하나씩 정한다</strong>는 것입니다. 정하지 않으면 리허설에서 "이 곡에도 써 보자"가 반복되고, 결국 첫 블록에서 모든 장비가 공개됩니다.</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 296" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<text x="254.6" y="96.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">1</text>
+<text x="303.9" y="96.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">2</text>
+<text x="353.2" y="96.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">3</text>
+<text x="402.5" y="96.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">4</text>
+<text x="451.8" y="96.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">5</text>
+<text x="501.1" y="96.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">6</text>
+<text x="550.4" y="96.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">7</text>
+<text x="599.6" y="96.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">8</text>
+<text x="648.9" y="96.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">9</text>
+<text x="698.2" y="96.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">10</text>
+<text x="747.5" y="96.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">11</text>
+<text x="796.8" y="96.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">12</text>
+<text x="846.1" y="96.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">13</text>
+<text x="895.4" y="96.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">14</text>
+<text x="40.0" y="125.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">레이저</text>
+<line x1="230.0" y1="120.0" x2="920.0" y2="120.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<circle cx="353.2" cy="120.0" r="8.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="501.1" cy="120.0" r="7.0" fill="#ffffff" stroke="#c8553d" stroke-width="2" opacity="1.0"/>
+<circle cx="796.8" cy="120.0" r="7.0" fill="#ffffff" stroke="#c8553d" stroke-width="2" opacity="1.0"/>
+<circle cx="895.4" cy="120.0" r="7.0" fill="#ffffff" stroke="#c8553d" stroke-width="2" opacity="1.0"/>
+<text x="40.0" y="157.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">키네틱 트러스</text>
+<line x1="230.0" y1="152.0" x2="920.0" y2="152.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<circle cx="501.1" cy="152.0" r="8.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="698.2" cy="152.0" r="7.0" fill="#ffffff" stroke="#c8553d" stroke-width="2" opacity="1.0"/>
+<circle cx="796.8" cy="152.0" r="7.0" fill="#ffffff" stroke="#c8553d" stroke-width="2" opacity="1.0"/>
+<text x="40.0" y="189.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">숨겨 둔 빔 한 줄</text>
+<line x1="230.0" y1="184.0" x2="920.0" y2="184.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<circle cx="648.9" cy="184.0" r="8.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="796.8" cy="184.0" r="7.0" fill="#ffffff" stroke="#c8553d" stroke-width="2" opacity="1.0"/>
+<text x="40.0" y="221.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">스트로브 대량</text>
+<line x1="230.0" y1="216.0" x2="920.0" y2="216.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<circle cx="698.2" cy="216.0" r="8.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="796.8" cy="216.0" r="7.0" fill="#ffffff" stroke="#c8553d" stroke-width="2" opacity="1.0"/>
+<text x="40.0" y="253.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">오디언스 전체</text>
+<line x1="230.0" y1="248.0" x2="920.0" y2="248.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<circle cx="796.8" cy="248.0" r="8.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="895.4" cy="248.0" r="7.0" fill="#ffffff" stroke="#c8553d" stroke-width="2" opacity="1.0"/>
+<text x="40.0" y="285.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">객석과 함께(앙코르)</text>
+<line x1="230.0" y1="280.0" x2="920.0" y2="280.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<circle cx="895.4" cy="280.0" r="8.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<line x1="377.9" y1="84.0" x2="377.9" y2="310.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt" stroke-dasharray="4 3"/>
+<text x="303.9" y="312.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">첫 블록: 스페셜 하나만</text>
+<text x="24.0" y="346.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">스페셜마다 리빌할 곡을 하나씩 정합니다. 정하지 않으면 리허설에서 첫 블록에 모두 몰립니다.</text>
+</svg>
+<figcaption><b>그림 18-2</b> 쇼 스페셜의 리빌 자리. 그림 18-1의 셋리스트 위에, 스페셜마다 리빌하는 곡(●)과 다시 쓰는 곡(○)을 표시했습니다.</figcaption></figure>
+
+
+<h2 id="c18-183-곡-사이의-반복">18.3 곡 사이의 반복</h2><p class="lead">한 곡 안에서 같은 조명이 되풀이되는 것은 장점이지만, 이웃한 곡끼리 조명이 비슷한 것은 단점입니다(14장). 앞 곡과 다음 곡의 대표 룩이 같은 컬러, 같은 포지션이면 관객은 두 곡을 한 곡처럼 기억합니다.</p>
+<p>그래서 콘서트에서는 셋리스트를 짤 때 곡마다 <strong>대표 룩</strong>(9장)과 <strong>메인 컬러</strong>(8장)를 한 줄에 적어 봅니다. 이웃한 두 곡의 메인 컬러가 같다면 하나를 바꾸거나, 같은 컬러라도 메인 역할을 바꿉니다(한 곡은 빔, 다음 곡은 워시). 같은 블록 안에서는 컬러를 이어 가고 블록 사이에서 바꾸면, 블록이 컬러로 나뉩니다.</p>
+<aside class="box try"><div class="box-label">짧은 실험</div><div class="box-body"><ol class="steps"><li>좋아하는 아티스트의 콘서트 셋리스트를 찾아, 곡마다 기억나는 색을 한 단어씩 적어 봅니다.</li><li>기억나지 않는 곡이 이어진다면, 그 곡들은 무대에서 비슷한 그림이었을 가능성이 큽니다.</li></ol></div></aside>
+
+<h2 id="c18-184-운영-방식--손-타임코드-하이브리드">18.4 운영 방식 — 손, 타임코드, 하이브리드</h2><p class="lead">콘서트에서는 곡마다 큐 리스트를 하나씩 두고, 곡의 성격에 따라 손으로 GO를 누를지 타임코드에 맞춰 자동으로 넘길지 정합니다(16장). 방식은 세 가지입니다.</p>
+<div class="tbl"><div class="tcap"><b>표 18-2</b> 콘서트의 운영 방식 <span class="badge start">출발값</span> <sup class="ref"><a href="#c18-s1">1</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>방식</th>
+<th>맞는 곡</th>
+<th>조심할 것</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>손(GO 버튼)</td>
+<td>라이브 밴드가 연주하는 곡, 템포가 매번 조금씩 다른 곡, 토크</td>
+<td>다크 큐 뒤 한 박 만에 오는 히트는 손이 늦기 쉬움</td>
+</tr>
+<tr class="even">
+<td>타임코드</td>
+<td>MR로 하는 곡, 영상과 정확히 맞춰야 하는 곡, 큐가 촘촘한 곡</td>
+<td>MR 버전이 바뀌면 큐가 모두 어긋남. 음원 버전을 마지막에 확인(7장 컨셉 미팅)</td>
+</tr>
+<tr class="odd">
+<td>하이브리드</td>
+<td>대부분의 콘서트</td>
+<td>구간 전환과 영상 싱크는 타임코드, 스트로브나 블라인더 같은 강조는 손으로</td>
+</tr>
+</tbody>
+</table></div>
+<p>밴드가 라이브로 연주하면 곡의 BPM이 공연마다 조금씩 달라집니다. 이때는 이펙트의 주기(12장)를 콘솔의 스피드 마스터(2장)에 묶고, 탭 템포로 그날의 빠르기를 맞춥니다. 그러면 큐는 손으로 누르고, 이펙트의 속도만 그날의 템포를 따라갑니다. 콘솔 쪽 방법은 5부에서 다룹니다.</p>
+
+<h2 id="c18-185-투어--공연장-크기에-맞춰-줄이기">18.5 투어 — 공연장 크기에 맞춰 줄이기</h2><p class="lead">같은 쇼로 크기가 다른 여러 공연장을 돈다면, 장비를 줄인 판을 미리 짜 둡니다. 클럽, 중형 공연장, 아레나 세 단계로 나누는 것이 출발점입니다.<sup class="ref"><a href="#c18-s2">2</a></sup></p>
+<p>줄일 때의 원칙은 <strong>역할은 남기고 수량을 줄인다</strong>입니다. 큰 공연장에서 빔 32대였던 역할이 작은 곳에서 8대가 되는 것은 괜찮지만, 빔이라는 역할 자체가 사라지면 그 역할에 걸려 있던 큐를 모두 바꿔야 합니다.</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 356" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<rect x="40.0" y="340.0" width="400.0" height="12.0" rx="0" fill="#eef0f3" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="240.0" y="376.0" font-size="13" fill="#1f2430" text-anchor="middle" font-weight="700" opacity="1.0">아레나</text>
+<text x="240.0" y="394.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">192대</text>
+<line x1="40.0" y1="110.0" x2="440.0" y2="110.0" stroke="#6b7280" stroke-width="3" opacity="1.0" stroke-linecap="butt"/>
+<line x1="50.0" y1="150.0" x2="430.0" y2="150.0" stroke="#6b7280" stroke-width="3" opacity="1.0" stroke-linecap="butt"/>
+<circle cx="48.3" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="65.0" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="81.7" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="98.3" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="115.0" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="131.7" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="148.3" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="165.0" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="181.7" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="198.3" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="215.0" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="231.7" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="248.3" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="265.0" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="281.7" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="298.3" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="315.0" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="331.7" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="348.3" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="365.0" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="381.7" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="398.3" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="415.0" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="431.7" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="52.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="77.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="102.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="127.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="152.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="177.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="202.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="227.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="252.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="277.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="302.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="327.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="352.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="377.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="402.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="427.5" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="44.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="52.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="60.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="69.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="77.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="85.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="94.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="102.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="110.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="119.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="127.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="135.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="144.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="152.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="160.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="169.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="177.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="185.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="194.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="202.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="210.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="219.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="227.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="235.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="244.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="252.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="260.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="269.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="277.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="285.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="294.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="302.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="310.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="319.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="327.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="335.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="344.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="352.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="360.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="369.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="377.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="385.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="394.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="402.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="410.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="419.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="427.5" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="435.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="34.0" cy="180.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="446.0" cy="180.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="34.0" cy="197.5" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="446.0" cy="197.5" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="34.0" cy="215.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="446.0" cy="215.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="34.0" cy="232.5" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="446.0" cy="232.5" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="34.0" cy="250.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="446.0" cy="250.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="34.0" cy="267.5" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="446.0" cy="267.5" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="34.0" cy="285.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="446.0" cy="285.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="34.0" cy="302.5" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="446.0" cy="302.5" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="46.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="58.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="71.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="83.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="96.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="108.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="121.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="133.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="146.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="158.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="171.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="183.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="196.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="208.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="221.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="233.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="246.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="258.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="271.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="283.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="296.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="308.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="321.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="333.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="346.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="358.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="371.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="383.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="396.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="408.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="421.2" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="433.8" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="52.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="77.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="102.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="127.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="152.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="177.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="202.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="227.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="252.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="277.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="302.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="327.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="352.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="377.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="402.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="427.5" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="500.0" y="340.0" width="260.0" height="12.0" rx="0" fill="#eef0f3" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="630.0" y="376.0" font-size="13" fill="#1f2430" text-anchor="middle" font-weight="700" opacity="1.0">중형(실습 장비)</text>
+<text x="630.0" y="394.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">96대</text>
+<line x1="500.0" y1="110.0" x2="760.0" y2="110.0" stroke="#6b7280" stroke-width="3" opacity="1.0" stroke-linecap="butt"/>
+<line x1="510.0" y1="150.0" x2="750.0" y2="150.0" stroke="#6b7280" stroke-width="3" opacity="1.0" stroke-linecap="butt"/>
+<circle cx="510.8" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="532.5" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="554.2" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="575.8" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="597.5" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="619.2" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="640.8" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="662.5" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="684.2" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="705.8" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="727.5" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="749.2" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="516.2" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="548.8" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="581.2" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="613.8" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="646.2" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="678.8" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="711.2" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="743.8" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="505.4" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="516.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="527.1" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="537.9" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="548.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="559.6" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="570.4" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="581.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="592.1" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="602.9" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="613.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="624.6" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="635.4" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="646.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="657.1" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="667.9" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="678.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="689.6" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="700.4" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="711.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="722.1" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="732.9" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="743.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="754.6" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="494.0" cy="180.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="766.0" cy="180.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="494.0" cy="215.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="766.0" cy="215.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="494.0" cy="250.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="766.0" cy="250.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="494.0" cy="285.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="766.0" cy="285.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="508.1" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="524.4" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="540.6" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="556.9" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="573.1" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="589.4" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="605.6" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="621.9" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="638.1" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="654.4" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="670.6" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="686.9" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="703.1" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="719.4" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="735.6" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="751.9" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="516.2" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="548.8" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="581.2" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="613.8" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="646.2" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="678.8" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="711.2" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="743.8" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="800.0" y="340.0" width="130.0" height="12.0" rx="0" fill="#eef0f3" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="865.0" y="376.0" font-size="13" fill="#1f2430" text-anchor="middle" font-weight="700" opacity="1.0">클럽</text>
+<text x="865.0" y="394.0" font-size="11.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">48대</text>
+<line x1="800.0" y1="110.0" x2="930.0" y2="110.0" stroke="#6b7280" stroke-width="3" opacity="1.0" stroke-linecap="butt"/>
+<line x1="810.0" y1="150.0" x2="920.0" y2="150.0" stroke="#6b7280" stroke-width="3" opacity="1.0" stroke-linecap="butt"/>
+<circle cx="810.8" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="832.5" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="854.2" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="875.8" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="897.5" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="919.2" cy="110.0" r="4.0" fill="#4f7f8f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="816.2" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="848.8" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="881.2" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="913.8" cy="150.0" r="4.0" fill="#8a6fb0" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="805.4" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="816.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="827.1" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="837.9" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="848.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="859.6" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="870.4" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="881.2" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="892.1" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="902.9" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="913.8" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="924.6" cy="130.0" r="2.5" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="794.0" cy="180.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="936.0" cy="180.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="794.0" cy="250.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="936.0" cy="250.0" r="4.0" fill="#3f8f6f" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="808.1" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="824.4" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="840.6" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="856.9" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="873.1" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="889.4" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="905.6" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="921.9" cy="332.0" r="4.0" fill="#c9862a" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="816.2" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="848.8" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="881.2" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="913.8" cy="320.0" r="3.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="24.0" y="406.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">그룹을 역할로 짜 두면 '빔 그룹'이 아레나에서는 32대, 클럽에서는 8대를 가리켜 큐를 그대로 씁니다.</text>
+</svg>
+<figcaption><b>그림 18-3</b> 투어 세 단계로 줄인 장비. 같은 역할 구성을 아레나, 중형, 클럽 크기로 줄였습니다. 역할의 자리는 같고 수량만 다릅니다.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>표 18-3</b> 공연장 크기마다 장비 — 6장 실습 장비(96대)를 기준으로 한 예 <span class="badge start">출발값</span> <code>[저자 확인]</code></div><table>
+<thead>
+<tr class="header">
+<th>역할</th>
+<th>아레나</th>
+<th>중형(실습 장비)</th>
+<th>클럽</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>키</td>
+<td>프로파일 16, 팔로우 4</td>
+<td>프로파일 8, 팔로우 2</td>
+<td>프로파일 4, 팔로우 1</td>
+</tr>
+<tr class="even">
+<td>필</td>
+<td>프레넬 12</td>
+<td>6</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>백·워시</td>
+<td>워시 무빙 24</td>
+<td>12</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>스팟(고보, 키 보조)</td>
+<td>스팟 무빙 16</td>
+<td>8</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>사이드</td>
+<td>워시 무빙 16</td>
+<td>8</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>빔</td>
+<td>빔 무빙 32</td>
+<td>16</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>픽셀</td>
+<td>LED 바 48</td>
+<td>24</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>FX</td>
+<td>스트로브 16</td>
+<td>8</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>오디언스</td>
+<td>블라인더 8</td>
+<td>4</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>합계</td>
+<td>192</td>
+<td>96</td>
+<td>48</td>
+</tr>
+</tbody>
+</table></div>
+<p>줄인 판에서도 큐 구조는 그대로 씁니다. 그러려면 콘솔의 그룹(22.6절, 24장)이 장비 번호가 아니라 역할로 나뉘어 있어야 합니다. "빔 그룹"이 아레나에서는 32대, 클럽에서는 8대를 가리키면, 큐 안의 "빔 그룹 팬 포지션"은 두 곳에서 모두 그대로 쓸 수 있습니다. 다만 트러스 높이와 무대 폭이 공연장마다 다르므로 포지션 프리셋과 픽셀 맵은 공연장마다 다시 맞춥니다. 22장에서 장비를 짤 때 이 점을 다시 봅니다.</p>
+
+<h2 id="c18-186-곡-사이와-앙코르">18.6 곡 사이와 앙코르</h2><p class="lead">곡이 끝나고 다음 곡이 시작되기까지의 몇 초가 쇼의 흐름을 정합니다.</p>
+<p>14장의 전환 큐(정리, 빛 남기기, 다음 곡 준비)가 여기서 매번 쓰입니다. 콘서트에서 더 생각할 것은 두 가지입니다.</p>
+<ul class="keyed">
+<li><strong>박수를 받는 시간</strong>곡이 끝나고 아티스트가 인사하거나 말을 하는 동안에는 키와 약한 베이스로 무대를 비춥니다. 토크가 길어지면 하우스 라이트(객석 조명)를 조금 올려 관객의 얼굴도 보이게 할 수 있습니다.</li>
+<li><strong>앙코르를 기다리는 시간</strong>본 공연이 끝나고 앙코르를 기다리는 동안은 객석이 무대를 채우는 시간입니다. 응원봉이나 휴대폰 불빛이 객석을 채우는 동안 무대 조명은 최소로 두고, 앙코르 첫 곡의 첫 룩을 MIB로 준비합니다(14장).</li>
+</ul>
+
+
+<h2 id="c18-187-실습-셋리스트-전체를-표-한-장에">18.7 [실습] 셋리스트 전체를 표 한 장에</h2><p class="lead">곡마다 에너지, 메인 컬러, 대표 장비를 한 줄에 적어 셋리스트 전체를 한 장으로 봅니다. 다 적으면 에너지 흐름이 선으로 보이고, 이웃한 곡끼리 겹치는 곳과 너무 일찍 꺼낸 스페셜이 드러납니다.</p>
+<p><strong>따라 하기</strong></p>
+<ol type="1">
+<li>셋리스트의 곡을 순서대로 적고, 곡마다 BPM과 에너지(1~5)를 적습니다. 곡 하나의 에너지는 그 곡에서 가장 큰 구간의 에너지로 잡습니다.</li>
+<li>의상 전환, VCR, 토크가 들어가는 자리에 블록 경계를 긋습니다.</li>
+<li>곡마다 메인 컬러와 대표 룩, 메인 역할을 적습니다.</li>
+<li>쇼 스페셜(레이저, 키네틱 등)마다 리빌할 곡을 하나씩 정합니다.</li>
+<li>곡마다 운영 방식(손, 타임코드, 하이브리드)을 적습니다.</li>
+</ol>
+<aside class="box check"><div class="box-label">확인하는 법</div><div class="box-body"><ol class="steps"><li>에너지 선에서 최고점이 한 곳인지, 첫 블록에서 이미 최고점에 닿지 않았는지 봅니다.</li><li>이웃한 두 곡의 메인 컬러와 메인 역할이 모두 같은 곳, 첫 블록에서 리빌되는 스페셜이 둘 이상인 곳에 표시하고 이유를 적습니다.</li></ol></div></aside>
+<p>LOVE ATTACK을 셋리스트의 한 곡으로 놓으면 이렇게 읽을 수 있습니다. 112 BPM, 에너지 5, 메인 컬러 진주 핑크, 메인 역할 빔(후렴)입니다. 파스텔 색의 곡이라 원색의 강한 곡 사이에 두면 쉬어 가는 색이 되고, 같은 파스텔 곡 옆에 두면 두 곡이 하나처럼 보입니다. 어느 자리에 둘지는 컨셉 시트(7장)의 "향기"가 블록 안에서 어떤 역할을 맡는지로 정합니다.<code>[저자 확인]</code></p>
+<aside class="box mine"><div class="box-label">내 곡으로 해 보기</div><div class="box-body"><ol class="steps"><li>지금 맡은 공연의 셋리스트로 같은 표를 만들어 봅니다.</li><li>리빌 자리가 리허설 중에 바뀌었다면, 처음 계획과 나란히 적어 두고 공연 뒤에 어느 쪽이 나았는지 견주어 봅니다.</li></ol></div></aside>
+<aside class="web" id="web-W15-19"><div class="web-head"><span class="web-tag">웹 부록 16</span><h4>셋리스트 아크</h4><a class="web-open" href="https://jjjh7401.github.io/lx/setlist.html" target="_blank" rel="noopener">새 창에서 열기 ↗</a></div><p class="web-desc">곡마다 BPM, 에너지, 메인 컬러, 메인 역할, 운영 방식을 적고 블록 경계와 쇼 스페셜을 표시하면, 에너지 아크와 컬러 띠를 그려 줍니다. 최고점이 둘 이상이거나 첫 블록에 몰린 곳, 이웃한 곡의 컬러와 메인이 같은 곳, 너무 일찍 리빌되는 스페셜을 짚어 줍니다. 곡 노트에 있는 곡은 목록에서 불러올 수 있습니다.</p><div class="tool-embed"><iframe title="셋리스트 아크" loading="lazy" style="--h:1600px" src="https://jjjh7401.github.io/lx/setlist.html?embed=1" allow="autoplay" ></iframe></div><p class="tool-open"><span>적은 노트는 이 브라우저에만 저장됩니다. 넓은 화면에서 쓰려면 위의 "새 창에서 열기"를 누르세요.</span></p></aside>
+
+<section class="summary"><h2>핵심 정리</h2><ul>
+<li>콘서트의 연출은 셋리스트 전체의 에너지 아크에서 시작합니다. 블록, 쉬어 가는 곡, 최고점 한 곳을 정합니다.</li>
+<li>쇼 스페셜은 리빌할 곡을 하나씩 정합니다. 첫 곡에 다 보여 주지 않습니다.</li>
+<li>곡 안의 반복은 장점, 곡 사이의 반복은 단점입니다. 이웃한 곡은 메인 컬러나 메인 역할 가운데 하나를 바꿉니다.</li>
+<li>운영은 손, 타임코드, 하이브리드 가운데 곡마다 고릅니다. 라이브 밴드라면 이펙트 주기를 스피드 마스터에 묶습니다.</li>
+<li>투어는 역할은 남기고 수량을 줄입니다. 그룹을 역할로 짜 두면 큐 구조는 그대로 쓰고, 포지션 프리셋과 픽셀 맵은 공연장마다 다시 맞춥니다.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">내일 현장에서</div><div class="box-body"><ol class="steps"><li>이번 공연의 셋리스트를 펴고, 쇼 스페셜마다 리빌하는 곡에 동그라미를 칩니다.</li><li>첫 블록에 동그라미가 둘 이상이면 하나를 뒤로 옮겨 봅니다.</li></ol></div></aside>
+
+<section class="notes"><h2>주</h2><ol><li id="c18-s1">저자의 미공개 작업 노트. 셋리스트 안에서 스페셜을 아끼는 순서, 곡 안의 반복과 곡 사이의 반복, 손·타임코드·하이브리드 운영의 출발값.</li><li id="c18-s2">저자의 조사 노트(조명 디자인 리서치 v2). 투어는 클럽·중형·아레나 세 단계로 줄인 플롯을 미리 그린다는 실무 서술(장비 업체 블로그에서 옮김).</li></ol></section>
+
+
+</article>
+</div>

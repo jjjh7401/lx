@@ -1,0 +1,564 @@
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch29"><header class="ch-head"><div class="ch-num">29<span>장</span></div><h1 class="ch-title">쇼 파일 템플릿</h1><p class="ch-sub">한 번 만들어 계속 쓰기</p></header>
+
+
+<aside class="box goals"><div class="box-label">이 장에서 얻을 것</div><div class="box-body">
+<ul class="checks">
+<li>매주 곡이 바뀌는 현장과 매일 같은 쇼를 하는 현장에서 템플릿에 무엇을 고정하고 무엇을 비울지 나눕니다.</li>
+<li>그룹, 프리셋, 시퀀스, 페이지에 번호 범위를 정해, 어느 쇼 파일을 열어도 같은 자리에서 같은 것을 찾습니다.</li>
+<li>템플릿을 다른 장비 구성으로 옮길 때의 순서를 알고, 다시 만들어야 할 것과 그대로 쓸 것을 구분합니다.</li>
+</ul>
+</div></aside>
+<div class="open-label">여는 장면</div><p class="lead">매주 월요일에 주간 보고서를 쓰는 사람이 둘 있다고 해 봅니다. 한 사람은 매주 빈 문서를 열고 제목, 표, 항목을 처음부터 다시 만듭니다. 다른 사람은 지난주 보고서를 양식으로 남겨 두었다가 숫자와 이번 주 내용만 바꿉니다. 두 번째 사람은 보고서의 틀을 만드는 데 시간을 쓰지 않으니, 그 시간에 내용을 한 번 더 봅니다.</p>
+<p>조명 콘솔에서도 같은 일이 매주 일어납니다. 음악방송 조명은 매주 곡이 바뀌고, 무대 디자인이 방송마다 바뀌기도 합니다. 그래도 그룹을 나누는 방식, 기본 팔레트, 세이프티 버튼의 자리처럼 매번 똑같이 만드는 것이 많습니다. 쇼 파일을 매번 새로 만들면 같은 방식의 그룹을 다시 고르고, 같은 색을 다시 맞추고, 같은 세이프티 버튼을 다시 놓게 됩니다.</p>
+<p>이 장은 23~28장에서 만든 LOVE ATTACK 쇼 파일을 <strong>템플릿</strong>으로 바꾸는 법을 다룹니다. 템플릿은 다음 곡, 다음 쇼에서 "곡에 관한 것"만 새로 채우면 되도록 나머지를 미리 정해 둔 쇼 파일입니다.</p>
+
+<h2 id="c29-291-두-가지-템플릿">29.1 두 가지 템플릿</h2><p class="lead">템플릿에 무엇을 미리 정해 둘지는 현장에 따라 다릅니다. <strong>매주 곡이 바뀌면 프리셋과 그룹을 고정하고 곡은 비워 둡니다. 매일 같은 쇼를 한다면 곡을 고정하고, 프리셋과 그룹을 장비에 맞춰 고칩니다.</strong></p>
+<div class="tbl"><div class="tcap"><b>표 29-1</b> 두 가지 템플릿 <span class="badge start">출발값</span></div><table>
+<thead>
+<tr class="header">
+<th></th>
+<th>매주 곡이 바뀌는 현장(17장 음악방송)</th>
+<th>매일 같은 쇼(18장 투어, 20장 라이트쇼)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>고정하는 것</td>
+<td>그룹을 나누는 방식과 번호, 기본 팔레트, 페이저 세트, 곡 페이지 레이아웃, 세이프티</td>
+<td>곡 페이지와 큐, 타임코드, 곡의 팔레트</td>
+</tr>
+<tr class="even">
+<td>비워 두는 것</td>
+<td>곡 페이지의 큐, 곡의 스페셜 컬러, 타임코드</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>공연마다 고치는 것</td>
+<td>곡마다 새 곡 페이지. 무대 디자인이 바뀌면 패치, 그룹의 셀렉션 그리드, 포지션</td>
+<td>공연장의 장비 수량, 포지션, 픽셀 맵</td>
+</tr>
+<tr class="even">
+<td>많이 쓰는 기능</td>
+<td>프리셋 참조(23장), 같은 페이지 레이아웃(27장)</td>
+<td>레시피와 Cook(26장), Clone(29.4절)</td>
+</tr>
+</tbody>
+</table></div>
+<p>음악방송의 한 주를 떠올리면(17장) 곡마다 준비할 시간이 촉박합니다. 그 사이에 그룹을 고르고 포지션을 맞추는 일까지 하면 곡을 읽을 시간이 없습니다. 템플릿에 그룹의 틀부터 페이저 세트까지 들어 있으면, 무대 디자인이 바뀐 주에도 패치와 그룹 격자, 포지션만 새 무대에 맞추면 됩니다(29.4절). 곡마다 할 일은 큐 시트를 곡 페이지로 옮기는 것으로 줄어듭니다.</p>
+<p>투어는 반대입니다. 쇼는 같고 공연장이 바뀝니다. 18장에서 본 것처럼 공연장마다 장비가 줄거나 늘어도 그룹의 이름과 단계가 같으면 큐 구조는 그대로 씁니다. 템플릿에는 큐를 담아 두고, 공연장마다 그룹과 포지션을 고칩니다.</p>
+<aside class="box story"><div class="box-label">현장 이야기</div><div class="box-body">
+
+</div></aside>
+
+<h2 id="c29-292-풀-번호-규칙-정하기">29.2 풀 번호 규칙 정하기</h2><p class="lead">템플릿의 풀(그룹, 프리셋, 시퀀스가 번호대로 놓이는 목록)은 <strong>번호 범위</strong>로 나눕니다. 쇼 전체에 쓰는 것은 앞쪽 번호에, 곡에만 쓰는 것은 곡마다 정한 번호 범위에 둡니다.</p>
+<p>그러면 어느 쇼 파일을 열어도 "진주 핑크는 곡 1의 색 번호 범위", "다운라이트는 공통 포지션 1번"처럼 같은 자리에서 찾습니다.</p>
+<p>grandMA3에는 이 일을 돕는 기본 설정이 있습니다. 풀마다 <strong>First Index</strong>(새 오브젝트를 저장할 시작 번호, 기본 1, 1~9999)를 정할 수 있습니다.<sup class="ref"><a href="#c29-s1">1</a></sup> 곡 2의 색을 만들 때 Color 풀의 First Index를 201로 바꿔 두면, 새로 저장하는 색이 201번부터 들어갑니다.</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 376" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<rect x="40.0" y="330.0" width="760.0" height="60.0" rx="8" fill="#eef0f3" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="60.0" y="358.0" font-size="13" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">패치(ID 번호 범위 101~704)</text>
+<text x="60.0" y="378.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">24장 · 장비가 바뀌면 여기부터</text>
+<text x="420.0" y="358.0" font-size="13" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">그룹 1~60(전체 · 부분 · 이펙트)</text>
+<text x="420.0" y="378.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">셀렉션 그리드를 무대에 맞춤</text>
+<rect x="40.0" y="220.0" width="248.0" height="92.0" rx="8" fill="#ffffff" stroke="#d9902a" stroke-width="1.6" opacity="1.0"/>
+<text x="52.0" y="242.0" font-size="13" fill="#d9902a" text-anchor="start" font-weight="700" opacity="1.0">Color 풀</text>
+<rect x="52.0" y="254.0" width="104.0" height="46.0" rx="5" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.25"/>
+<text x="58.0" y="272.0" font-size="11" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">1~20 공통</text>
+<rect x="164.0" y="254.0" width="112.0" height="46.0" rx="5" fill="none" stroke="#d9902a" stroke-width="1" opacity="1.0" stroke-dasharray="4 3"/>
+<text x="170.0" y="272.0" font-size="11" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">101~ 곡 1 ·</text>
+<text x="170.0" y="286.0" font-size="11" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">201~ 곡 2</text>
+<rect x="296.0" y="220.0" width="248.0" height="92.0" rx="8" fill="#ffffff" stroke="#d9902a" stroke-width="1.6" opacity="1.0"/>
+<text x="308.0" y="242.0" font-size="13" fill="#d9902a" text-anchor="start" font-weight="700" opacity="1.0">Position 풀</text>
+<rect x="308.0" y="254.0" width="104.0" height="46.0" rx="5" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.25"/>
+<text x="314.0" y="272.0" font-size="11" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">1~30 공통</text>
+<rect x="420.0" y="254.0" width="112.0" height="46.0" rx="5" fill="none" stroke="#d9902a" stroke-width="1" opacity="1.0" stroke-dasharray="4 3"/>
+<text x="426.0" y="272.0" font-size="11" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">101~ 곡 1</text>
+<rect x="552.0" y="220.0" width="248.0" height="92.0" rx="8" fill="#ffffff" stroke="#d9902a" stroke-width="1.6" opacity="1.0"/>
+<text x="564.0" y="242.0" font-size="13" fill="#d9902a" text-anchor="start" font-weight="700" opacity="1.0">All(페이저) 풀</text>
+<rect x="564.0" y="254.0" width="104.0" height="46.0" rx="5" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.25"/>
+<text x="570.0" y="272.0" font-size="11" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">1~30 디머</text>
+<text x="570.0" y="286.0" font-size="11" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">세트 ·</text>
+<text x="570.0" y="300.0" font-size="11" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">31~60 무빙</text>
+<rect x="676.0" y="254.0" width="112.0" height="46.0" rx="5" fill="none" stroke="#d9902a" stroke-width="1" opacity="1.0" stroke-dasharray="4 3"/>
+<text x="682.0" y="272.0" font-size="11" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">101~ 곡 1</text>
+<rect x="84.0" y="76.0" width="700.0" height="104.0" rx="8" fill="#ffffff" stroke="#3b6ea8" stroke-width="1.4" opacity="1.0"/>
+<text x="774.0" y="86.0" font-size="10.5" fill="#3b6ea8" text-anchor="end" font-weight="400" opacity="1.0">곡 3</text>
+<rect x="62.0" y="88.0" width="700.0" height="104.0" rx="8" fill="#ffffff" stroke="#3b6ea8" stroke-width="1.4" opacity="1.0"/>
+<text x="752.0" y="98.0" font-size="10.5" fill="#3b6ea8" text-anchor="end" font-weight="400" opacity="1.0">곡 2</text>
+<rect x="40.0" y="100.0" width="700.0" height="104.0" rx="8" fill="#ffffff" stroke="#3b6ea8" stroke-width="1.4" opacity="1.0"/>
+<text x="58.0" y="128.0" font-size="13" fill="#3b6ea8" text-anchor="start" font-weight="700" opacity="1.0">곡 페이지(곡 1은 페이지 2): 장면 시퀀스(n×10+1) · 리듬 레이어 여섯 · 강조</text>
+<text x="58.0" y="152.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">곡 페이지 양식: 0.5 블로킹 · 29/59/79 다크 큐(MIB Early) · 99 마침</text>
+<text x="58.0" y="174.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">새 곡은 이 양식의 칸만 채움</text>
+<rect x="820.0" y="90.0" width="110.0" height="300.0" rx="10" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="875.0" y="200.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">키 ·</text>
+<text x="875.0" y="218.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">세이프티</text>
+<text x="875.0" y="236.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">(Auto</text>
+<text x="875.0" y="254.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">Fix, 모든</text>
+<text x="875.0" y="272.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">페이지)</text>
+</svg>
+<figcaption><b>그림 29-1</b> 템플릿 쇼 파일의 구조. 아래층의 패치와 그룹은 쇼 전체가 함께 쓰고, 가운데의 프리셋 풀은 공통 번호 범위와 곡 번호 범위로 나뉘며, 위층의 곡 페이지는 곡마다 하나씩 같은 레이아웃으로 쌓입니다. 키와 세이프티는 모든 페이지에 걸쳐 같은 자리에 있습니다.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>표 29-2</b> 템플릿의 번호 범위 <span class="badge start">출발값</span></div><table>
+<thead>
+<tr class="header">
+<th>풀</th>
+<th>쇼 공통</th>
+<th>곡마다</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>그룹</td>
+<td>1~10 전체 그룹, 11~30 부분 그룹, 31~60 이펙트 그룹(24장)</td>
+<td>쓰지 않음(그룹은 쇼 공통)</td>
+</tr>
+<tr class="even">
+<td>Dimmer</td>
+<td>1~10 밝기 단계(0, 25, 50, 75, 100)</td>
+<td>쓰지 않음(밝기 단계는 쇼 공통, 곡에만 쓰는 밝기는 큐에 하드 밸류)</td>
+</tr>
+<tr class="odd">
+<td>Color</td>
+<td>1~20 화이트, CTO, 기본색</td>
+<td>곡 n은 n × 100 + 1부터 20칸(곡 1은 101~120)</td>
+</tr>
+<tr class="even">
+<td>Position</td>
+<td>1~30 다운라이트, 월, 팬, 크로스, 스카이 빔, 오디언스</td>
+<td>곡 n은 n × 100 + 1부터 10칸</td>
+</tr>
+<tr class="odd">
+<td>All(페이저)</td>
+<td>1~30 디머 페이저 세트(25장 표 25-3), 31~60 무빙 페이저</td>
+<td>곡 n은 n × 100 + 1부터 20칸</td>
+</tr>
+<tr class="even">
+<td>시퀀스</td>
+<td>1~10 키, 세이프티, 하우스 라이트(모든 곡 페이지의 자리 9·10에 Auto Fix)</td>
+<td>곡 n은 n × 10 + 1부터 8개(27장 표 27-1의 자리 1~8 순서. 곡 1은 11~18)</td>
+</tr>
+<tr class="odd">
+<td>익스큐터 페이지</td>
+<td>페이지 1 세이프티와 버스킹(21장)</td>
+<td>곡 n은 페이지 n + 1</td>
+</tr>
+</tbody>
+</table></div>
+<p>번호 자체에는 정답이 없습니다. 매뉴얼은 풀 번호를 정하지 않고, 저자의 쇼에서도 프리셋 풀의 번호(All 1 = 21번 등)는 쇼마다 다를 수 있었습니다.<sup class="ref"><a href="#c29-s2">2</a></sup> 정한 번호를 템플릿 안에 적어 두는 것이 중요합니다. 쇼 파일의 첫 페이지나 풀 오브젝트의 이름에 번호 범위표를 남겨 두면, 다른 사람이 그 쇼 파일을 열어도 같은 규칙으로 일합니다.</p>
+<p>일부 쇼 파일 템플릿은 9001번부터 곡의 시퀀스를 두는 식으로 자기만의 큰 번호를 씁니다. 그 번호는 그 템플릿의 규칙이지 grandMA3의 기본값이 아닙니다.<sup class="ref"><a href="#c29-s3">3</a></sup> 남의 템플릿을 받아 쓸 때는 그 템플릿의 번호 범위표부터 읽습니다.</p>
+<p>번호 범위표를 읽은 뒤에는 오브젝트가 실제로 어디 있는지 찾아야 합니다. 2.5에서 생긴 <strong>Locate</strong> 명령이 이 일을 합니다. <code>Locate Group "스팟 좌→우"</code>처럼 쓰면 풀에서 그 오브젝트가 빨갛게 깜박이고, 익스큐터에 붙어 있으면 그 익스큐터도 깜박입니다. 같은 명령을 다시 치면 그 오브젝트가 붙은 페이지를 차례로 보여 줍니다. <code>Locate Page 2 Executor 201</code>(곡 1 페이지의 첫 페이더 자리인 페이지 2의 익스큐터 201)처럼 페이지와 익스큐터로 찾을 수도 있습니다. 끝낼 때는 <code>Locate Reset</code>이나 ESC를 씁니다.<sup class="ref"><a href="#c29-s7">7</a></sup></p>
+
+<h2 id="c29-293-곡-페이지-템플릿과-세이프티">29.3 곡 페이지 템플릿과 세이프티</h2><p class="lead">곡 페이지는 템플릿에 <strong>큐 번호와 이름만 넣고 내용은 비워</strong> 둡니다. 16장의 큐 번호 규칙과 27장의 익스큐터 자리를 미리 깔아 두면, 새 곡은 칸을 채우기만 하면 됩니다.</p>
+<div class="tbl"><div class="tcap"><b>표 29-3</b> 곡 페이지 템플릿 <span class="badge start">출발값</span></div><table>
+<thead>
+<tr class="header">
+<th>큐</th>
+<th>이름</th>
+<th>템플릿에 미리 넣는 것</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0.5</td>
+<td>블로킹</td>
+<td>모든 장비의 디머 0, 무빙은 공통 포지션, 모든 레이어 끔</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>인트로</td>
+<td>비움</td>
+</tr>
+<tr class="odd">
+<td>10, 20, 30 …</td>
+<td>구간의 시작(벌스, 프리코러스, 후렴 …)</td>
+<td>비움(번호와 이름만)</td>
+</tr>
+<tr class="even">
+<td>29, 59, 79</td>
+<td>다크 큐와 브레이크</td>
+<td>베이스만 남기고 디머 0, MIB Early</td>
+</tr>
+<tr class="odd">
+<td>39, 69</td>
+<td>킥 아웃</td>
+<td>비움(번호와 이름만), MIB Early</td>
+</tr>
+<tr class="even">
+<td>90</td>
+<td>끝</td>
+<td>비움</td>
+</tr>
+<tr class="odd">
+<td>99</td>
+<td>마침</td>
+<td>인사용 앞 조명</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>블로킹 큐</strong>(0.5)는 템플릿에서 가장 중요한 큐입니다. 모든 속성의 값을 빠짐없이 넣어 저장한 큐라, 앞의 곡에서 무엇이 트래킹으로 넘어왔든 이 큐를 지나면 같은 상태에서 곡을 시작합니다. grandMA3에 "세이프티 큐"라는 이름의 기능은 없지만, 기본 기능 몇 가지를 함께 쓰면 같은 일을 합니다.<sup class="ref"><a href="#c29-s4">4</a></sup></p>
+<ul class="keyed">
+<li><strong>Restart Mode = First Cue</strong>시퀀스를 다시 켜면 첫 큐(0.5)부터 갑니다.</li>
+<li><strong>Release First Cue</strong>첫 큐에서 트래킹된 값을 풀어 줍니다.</li>
+<li><strong>Wrap Around</strong>마지막 큐 뒤에 GO를 누르면 첫 큐로 돌아갑니다. 같은 곡을 리허설에서 여러 번 돌릴 때 편합니다.</li>
+</ul>
+<p>세이프티 버튼은 곡 페이지가 아니라 <strong>페이지 1과 Auto Fix 익스큐터</strong>에 둡니다(21장의 세이프티 줄, 27장 표 27-1의 10번 자리). 어느 곡 페이지에 있든 손이 같은 자리에서 세이프티 룩, 다크 큐, 블랙을 찾게 하기 위해서입니다.</p>
+
+<h2 id="c29-294-다른-장비-구성으로-옮길-때">29.4 다른 장비 구성으로 옮길 때</h2><p class="lead">공연장이나 무대가 바뀌어 장비 구성이 달라지면, 템플릿을 <strong>패치 → 그룹의 셀렉션 그리드 → 포지션 → 확인</strong>의 순서로 고칩니다. 패치를 통째로 지우고 새로 넣으면 그룹과 프리셋이 장비를 잃어, 템플릿을 쓰는 의미가 없어집니다.</p>
+<div class="tbl"><div class="tcap"><b>표 29-4</b> 템플릿을 옮기는 순서 <sup class="ref"><a href="#c29-s5">5</a></sup> <sup class="ref"><a href="#c29-s6">6</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>순서</th>
+<th>할 일</th>
+<th>볼 것</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 패치</td>
+<td>장비를 지우지 말고, 수량이 같으면 기종만 바꾸고, 늘어나면 Clone으로 데이터를 복제</td>
+<td>기종을 바꿨을 때 프리셋과 큐가 살아 있는지 <code>[저자 확인]</code></td>
+</tr>
+<tr class="even">
+<td>2 방향</td>
+<td>패치의 팬·틸트 인버트를 먼저 맞춤(24장)</td>
+<td>포지션이 뒤집혀 보이면 프리셋보다 인버트부터</td>
+</tr>
+<tr class="odd">
+<td>3 그룹</td>
+<td>이펙트 그룹의 셀렉션 그리드를 새 무대에 맞춰 다시 고름</td>
+<td>Highlight와 Next로 순서 확인</td>
+</tr>
+<tr class="even">
+<td>4 MAtricks·위상</td>
+<td>수량이 바뀐 그룹의 Block 값과 글자 그대로 넣은 위상(26장)을 고침</td>
+<td>8대용 315가 남아 있지 않은지</td>
+</tr>
+<tr class="odd">
+<td>5 레시피</td>
+<td>그룹을 고친 시퀀스를 Cook(26장)</td>
+<td>Cook 아이콘이 초록이나 보라인지</td>
+</tr>
+<tr class="even">
+<td>6 포지션</td>
+<td>장비마다 고유한 값이라 공연장마다 다시 조준</td>
+<td>키 자리와 객석 방향부터</td>
+</tr>
+<tr class="odd">
+<td>7 확인</td>
+<td>곡 페이지를 처음부터 끝까지 돌림</td>
+<td>30장 리허설 점검표</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Clone</strong>은 한 장비(또는 선택)의 데이터를 쇼 파일 전체에서 다른 장비로 복제합니다. 문법은 <code>Clone 대상 At 받을 곳</code>입니다. 예를 들어 <code>Clone Fixture 301 Thru 308 At Fixture 311 Thru 318</code>은 스팟 무빙 8대가 가진 그룹, 프리셋, 큐 데이터를 새로 넣은 8대에 그대로 복제합니다.<sup class="ref"><a href="#c29-s5">5</a></sup> 매뉴얼은 프리셋과 큐 데이터를 Clone하면 받는 장비가 참조하는 프리셋도 함께 복제된다고 적습니다. 범위를 좁히려면 <code>If</code>를 붙입니다. <code>Clone Fixture 301 Thru 308 At Fixture 311 Thru 318 If Sequence 11 Thru 18</code>은 곡 1의 시퀀스(11~18번)에 든 데이터만 복제하라는 뜻입니다.<sup class="ref"><a href="#c29-s5">5</a></sup></p>
+<p>패치에서 기종만 바꿀 때 프리셋과 큐가 얼마나 살아남는지는 매뉴얼에 적혀 있지 않습니다. 템플릿을 만든 사람들의 경험담은 있지만, 기종이 다르면 속성 이름이 달라 빠지는 값이 생길 수 있습니다.<sup class="ref"><a href="#c29-s6">6</a></sup> 그래서 기종을 바꾼 뒤에는 표 29-4의 7단계까지 반드시 갑니다. 그리고 패치를 바꾼 뒤에는 Save and Exit로 저장해야 반영됩니다. Discard and Exit를 누르면 바꾼 것이 취소됩니다.<sup class="ref"><a href="#c29-s6">6</a></sup></p>
+<p>옮기기 쉬운 것과 어려운 것도 알아 둡니다. 컬러와 디머 레시피는 장비 구성과 상관없이 잘 옮겨지지만, 포지션은 장비마다 고유한 값이라 공연장마다 다시 맞춥니다. 위상 페이저를 Universal로 저장해 옮기면 위상이 사라지므로(24장), 템플릿의 페이저도 Selective로 둡니다.</p>
+
+<aside class="box number"><div class="box-label">2.5에서 달라진 것</div><div class="box-body">
+<ul>
+<li><strong>매크로에 쓰는 이름</strong>: 템플릿에 매크로(명령 여러 줄을 버튼 하나에 담은 것)가 있다면, 2.5에서 이름이 바뀐 명령 옵션을 쓰는지 봅니다. 셀렉션 그리드에서 다음 줄로 넘기는 옵션(Newline → New Line), 타임코드를 처음부터 다시 돌리는 옵션(Restart Option → Toggle Restart Option), 패치를 내보낼 때 범위(Entire Patch → All Stages)가 바뀌었고, 레시피를 정리하는 매크로는 <code>CleanUp /Selective</code> 대신 <code>/Type</code>에 Recipe를 붙여 씁니다.<sup class="ref"><a href="#c29-s8">8</a></sup></li>
+<li><strong>Shapes의 자리</strong>: 페이저 모양을 담는 Shapes 풀이 쇼 데이터 안에서 16번 자리에서 4번 자리로 옮겨졌습니다. 번호로 이 자리를 찾아가는 매크로가 있으면 고칩니다.<sup class="ref"><a href="#c29-s8">8</a></sup></li>
+<li><strong>원격 조작</strong>: 다른 프로그램이 콘솔에 명령을 보내는 OSC에서 명령을 나누는 기호가 세미콜론(;)으로 바뀌었고, 원격으로 접속한 사용자의 기본 권한이 Presets로 정해졌습니다. 태블릿이나 다른 프로그램으로 콘솔을 다루는 템플릿이면 연결을 다시 시험합니다.<sup class="ref"><a href="#c29-s8">8</a></sup></li>
+<li>매크로나 원격 조작을 쓰지 않는 템플릿이라면 위의 세 줄은 건너뛰어도 됩니다.</li>
+<li><strong>Locate</strong>: 풀과 익스큐터의 오브젝트를 찾아 깜박이게 하는 명령이 생겼습니다(29.2절).<sup class="ref"><a href="#c29-s7">7</a></sup></li>
+<li>2.4에서 만든 템플릿을 2.5에서 열면, 표 29-5로 점검하기 전에 템플릿의 매크로부터 한 번씩 돌려 봅니다.<code>[저자 확인]</code></li>
+</ul>
+</div></aside>
+
+<h2 id="c29-295-템플릿-점검표">29.5 템플릿 점검표</h2><p class="lead">템플릿을 다른 사람에게 넘기거나 다음 쇼에서 열기 전에, 아래 열 가지를 확인합니다.</p>
+<div class="tbl"><div class="tcap"><b>표 29-5</b> 템플릿 점검표 <span class="badge start">출발값</span></div><table>
+<thead>
+<tr class="header">
+<th></th>
+<th>볼 것</th>
+<th>관련 장</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>패치의 ID 번호 범위와 번호 범위표가 쇼 파일 안에 적혀 있는가</td>
+<td>24</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>이펙트 그룹마다 선택 순서가 무대와 맞는가</td>
+<td>24·26</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>프리셋 풀의 프리셋 모드가 모두 Selective인가</td>
+<td>24</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>고정 프리셋이 쇼의 최대 스텝 수만큼 채워져 있는가</td>
+<td>27</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>페이저가 모두 같은 스피드 마스터를 따르는가</td>
+<td>28</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>글자 그대로 넣은 위상과 Block 값의 목록이 있는가</td>
+<td>26</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>곡 페이지 템플릿의 블로킹 큐가 모든 속성을 담고 있는가</td>
+<td>29</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>키와 세이프티가 Auto Fix로 모든 페이지에 있는가</td>
+<td>27</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>곡에만 쓰는 것(스페셜 컬러, 곡의 타임코드)이 공통 번호 범위에 섞이지 않았는가</td>
+<td>29</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>쇼 파일을 열자마자 블랙이 되는가(이전 쇼의 출력이 남지 않는가)</td>
+<td>23</td>
+</tr>
+</tbody>
+</table></div>
+
+<h2 id="c29-296-실습-love-attack-쇼-파일로-템플릿-만들기">29.6 [실습] LOVE ATTACK 쇼 파일로 템플릿 만들기</h2><p class="lead">23~28장에서 만든 쇼 파일에서 곡에 관한 것을 걷어 내 템플릿으로 저장하고, 그 템플릿으로 두 번째 곡의 빈 곡 페이지를 만듭니다.</p>
+<p><strong>따라 하기</strong></p>
+<ol type="1">
+<li>쇼 파일을 다른 이름으로 저장합니다(예: "템플릿_실습장비_v1").</li>
+<li>표 29-2의 번호 범위에 맞게 프리셋을 옮깁니다. LOVE ATTACK의 진주 핑크, 라일락, 아쿠아, 빨강은 곡 1 번호 범위(101~)로, 화이트와 기본 포지션은 공통 번호 범위로 둡니다.</li>
+<li>LOVE ATTACK 곡 페이지를 복사해 곡 2 페이지를 만들고, 큐의 내용을 지워 표 29-3의 템플릿만 남깁니다. 블로킹 큐(0.5)와 다크 큐·브레이크(베이스만 남긴 상태), 마침 큐(99)는 남깁니다.</li>
+<li>장면 시퀀스에 Restart Mode = First Cue를 주고, 키와 세이프티가 Auto Fix로 모든 페이지에 있는지 봅니다.</li>
+<li>쇼 파일의 첫 페이지에 표 29-2의 번호 범위표를 적어 둡니다.</li>
+<li>표 29-5로 점검한 뒤 템플릿으로 저장합니다.</li>
+</ol>
+<aside class="box check"><div class="box-label">확인하는 법</div><div class="box-body"><ol class="steps"><li>템플릿을 새로 열고, 15분 안에 다른 곡 하나의 처음 세 큐(인트로와 벌스의 시작)를 곡 2 페이지에 만들어 봅니다.</li><li>그룹을 고르거나 포지션을 맞추느라 시간을 썼다면 그것이 템플릿에 빠진 것입니다.</li><li>템플릿에 더해 둡니다.</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">내 무대로 해 보기</div><div class="box-body"><ol class="steps"><li>지금 맡은 쇼의 쇼 파일을 열고 표 29-5의 열 가지로 점검합니다.</li><li>걸린 항목을 고친 뒤 이름에 날짜와 버전을 붙여 템플릿으로 저장하고, 다음 쇼에서는 그 템플릿에서 시작합니다.</li></ol></div></aside>
+<aside class="web" id="web-W19-29"><div class="web-head"><span class="web-tag">웹 부록 22</span><h4>쇼 파일 계획</h4><a class="web-open" href="https://jjjh7401.github.io/lx/showplan.html" target="_blank" rel="noopener">새 창에서 열기 ↗</a></div><p class="web-desc">장비 역할표에서 장비를 불러와 ID 번호 범위와 그룹 3단계를 정하고, 곡의 수를 넣으면 프리셋 풀과 시퀀스, 페이지의 번호 범위를 곡마다 계산해 번호 범위표로 보여 줍니다. 번호 범위가 겹치는 곳을 짚어 주고, 번호 범위표와 패치 목록을 스프레드시트로 복사할 수 있습니다.</p><div class="tool-embed"><iframe title="쇼 파일 계획" loading="lazy" style="--h:1500px" src="https://jjjh7401.github.io/lx/showplan.html?embed=1" allow="autoplay" ></iframe></div><p class="tool-open"><span>적은 노트는 이 브라우저에만 저장됩니다. 넓은 화면에서 쓰려면 위의 "새 창에서 열기"를 누르세요.</span></p></aside>
+
+<section class="summary"><h2>핵심 정리</h2><ul>
+<li>매주 곡이 바뀌는 현장은 프리셋과 그룹을 고정하고 곡을 비우고, 매일 같은 쇼는 곡을 고정하고 장비에 맞춰 프리셋과 그룹을 고칩니다.</li>
+<li>풀은 번호 범위로 나누고, 그 번호 범위표를 쇼 파일 안에 적어 둡니다. First Index가 번호 범위의 시작 번호를 정해 줍니다.</li>
+<li>곡 페이지는 번호만 있는 템플릿으로 두고, 블로킹 큐(0.5)가 앞 곡의 트래킹을 끊습니다.</li>
+<li>다른 장비 구성으로 옮길 때는 패치를 지우지 않고, 패치 → 방향 → 그룹 격자 → 위상 → Cook → 포지션 → 확인의 순서로 고칩니다.</li>
+<li>템플릿을 넘기기 전에 열 가지 점검표로 봅니다.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">내일 현장에서</div><div class="box-body"><ol class="steps"><li>이번 주에 처음부터 다시 만든 것을 적어 봅니다.</li><li>두 번 이상 다시 만든 것이 있으면 그것을 템플릿으로 옮깁니다.</li></ol></div></aside>
+
+<section class="part-end"><div class="pe-label">5부를 마치며</div><p class="lead">5부에서는 1~4부에서 말과 표로 정한 것을 grandMA3 콘솔에 옮겼습니다. 콘솔 안에서 데이터가 흐르는 길을 익히고(23장), 장비 구성을 패치와 그룹과 프리셋으로 옮겼습니다(24장). 리듬 레이어는 페이저의 다섯 파라미터로 만들고(25장), MAtricks로 같은 페이저를 여러 모양으로 펼쳤습니다(26장). 곡은 곡 페이지로 프로그래밍하고(27장), BPM에 맞춘 뒤 타임코드로 기록했습니다(28장). 끝으로 그 모든 것을 템플릿으로 남겼습니다(29장).</p>
+<p>콘솔의 기능은 많지만, 이 장들에서 쓴 원칙은 몇 가지뿐이었습니다. 프리셋을 먼저 만듭니다. 고른 순서가 방향입니다. 저장은 Selective로 합니다. 속도는 곡의 BPM 하나에 묶습니다. 멈춰야 할 곳에서는 스텝까지 멈춥니다. 6부에서는 이렇게 만든 큐로 리허설과 본 공연을 치릅니다. 리허설에서 큐를 점검하고 고치는 법부터 시작합니다.</p>
+
+</section><section class="notes"><h2>주</h2><ol><li id="c29-s1">MA Lighting, grandMA3 User Manual 2.5, "Preset Pools". 기본 종류 풀 9개와 All 풀 5개, First Index(기본 1, 1~9999), Preset Mode. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/presets_pools.html">https://help.malighting.com/grandMA3/2.5/HTML/presets_pools.html</a> (2026-10-26 확인)</li><li id="c29-s2">저자의 onPC 2.4.2 작업 기록(미공개). 프리셋 풀 번호(Dimmer 1, Position 2, Color 4, All 1 = 21)는 쇼마다 다를 수 있으니 저장 전에 풀 목록을 다시 읽음.</li><li id="c29-s3">MBLightArts 쇼 파일 템플릿 영상(저자의 노트 경유). 곡마다 9001번부터 시퀀스 20개, 색 풀 9001~ 등 템플릿 고유의 번호.</li><li id="c29-s4">MA Lighting, grandMA3 User Manual 2.5, "Sequence Settings". Restart Mode, Release First Cue, Wrap Around. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/cue_sequence_settings.html">https://help.malighting.com/grandMA3/2.5/HTML/cue_sequence_settings.html</a> (2026-10-26 확인)</li><li id="c29-s5">MA Lighting, grandMA3 User Manual 2.5, "Clone Keyword". 문법, 예, 참조하는 프리셋도 함께 복제. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_clone.html">https://help.malighting.com/grandMA3/2.5/HTML/keyword_clone.html</a> (2026-10-26 확인)</li><li id="c29-s6">MA Lighting, grandMA3 User Manual 2.5, "Add Fixtures to the Show", "Patch". Save and Exit, Discard and Exit. 기종 교체 시 데이터 보존은 적혀 있지 않음. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/patch_add_fixtures.html">https://help.malighting.com/grandMA3/2.5/HTML/patch_add_fixtures.html</a> · <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/patch.html">https://help.malighting.com/grandMA3/2.5/HTML/patch.html</a> (2026-10-26 확인). MBLightArts 영상의 경험담(패치를 다 지우면 그룹·프리셋이 회색이 됨, 기종만 바꾸면 연결이 살아 있을 가능성이 높음)은 저자의 노트 경유.</li><li id="c29-s7">MA Lighting, grandMA3 User Manual 2.5, "Locate Keyword". 문법(<code>Locate [오브젝트]</code>, <code>Locate Page x Executor y</code>, <code>Locate Reset (/KeepPage)</code>), 되풀이하면 페이지를 차례로, 빨갛게 깜박임, ESC로 취소. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_locate.html">https://help.malighting.com/grandMA3/2.5/HTML/keyword_locate.html</a> (2026-10-26 확인)</li><li id="c29-s8">MA Lighting, grandMA3 Release Notes 2.5, "Changes", "Deprecated". 새 키워드 Locate·/Restart·/KeepPage, MoveGridSelection Newline → New Line, Restart Option → Toggle Restart Option, Entire Patch → All Stages, Shapes 데이터 위치 16 → 4, OSC 구분 기호 ";", 원격 사용자 기본 권한 Presets, 레시피의 <code>CleanUp /Selective</code> → <code>/Type</code> Recipe. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/rn_changes-2-5.html">https://help.malighting.com/grandMA3/2.5/HTML/rn_changes-2-5.html</a> · <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/rn_deprecated-2-5.html">https://help.malighting.com/grandMA3/2.5/HTML/rn_deprecated-2-5.html</a> (2026-10-26 확인)</li></ol></section>
+
+
+</article>
+</div>

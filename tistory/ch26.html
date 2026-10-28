@@ -1,0 +1,543 @@
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch26"><header class="ch-head"><div class="ch-num">26<span>장</span></div><h1 class="ch-title">MAtricks와 레시피</h1><p class="ch-sub">같은 페이저를 여러 모양으로</p></header>
+
+
+<aside class="box goals"><div class="box-label">이 장에서 얻을 것</div><div class="box-body">
+<ul class="checks">
+<li>MAtricks의 Block, Group, Wings로 같은 장비 8대를 둘씩, 홀짝으로, 바깥과 안으로 다시 줄 세웁니다.</li>
+<li>위상 간격을 360 ÷ 분할 수로 계산하고, 마지막 위상을 360이 아니라 315로 넣어야 하는 곳과 그럴 필요가 없는 곳을 구분합니다.</li>
+<li>레시피와 Cook으로 그룹이나 프리셋을 고친 뒤에도 큐가 따라오게 합니다.</li>
+</ul>
+</div></aside>
+<div class="open-label">여는 장면</div><p class="lead">피자 한 판을 여덟 등분한다고 해 봅니다. 칼집을 넣는 자리는 시계로 말하면 12시에서 시작해 한 시 반, 세 시, 네 시 반으로 45°씩 돌아갑니다. 여덟 번째 칼집은 열 시 반, 각도로는 315°입니다. 아홉 번째를 넣으려고 360°로 가면 12시, 첫 칼집 자리로 돌아옵니다. 원에서는 360°와 0°가 같은 자리이기 때문입니다.</p>
+<p>조명의 위상도 원 위의 각도입니다. 25장에서 장비마다 위상을 어긋나게 주면 웨이브가 된다고 했습니다. 이 위상을 0°부터 360°까지 장비 8대에 글자 그대로 나누면 어떻게 될까요? 첫 장비가 0°, 마지막 장비가 360°를 받습니다. 피자의 아홉 번째 칼집처럼 첫 장비와 같은 자리입니다. 그러면 여덟 대가 차례로 켜져야 할 체이스에서 첫 대와 마지막 대가 같이 켜집니다.</p>
+<p>이 장은 같은 페이저를 장비의 순서만 바꿔 여러 모양으로 쓰는 MAtricks, 그리고 그 순서와 값을 큐 안에 "만드는 법"으로 저장하는 레시피를 다룹니다. 그 사이에 이 315°의 함정이 어디서 생기는지도 봅니다.</p>
+
+<h2 id="c26-261-matricks-선택-순서와-묶음-바꾸기">26.1 MAtricks: 선택 순서와 묶음 바꾸기</h2><p class="lead">MAtricks는 장비에 값을 주지 않습니다. <strong>고른 장비들이 격자 위에 어떤 순서로, 몇 대씩 묶여 놓일지</strong>만 바꿉니다. 그러면 같은 페이저가 다른 모양으로 펼쳐집니다.</p>
+<p>MAtricks 창은 X, Y, Z 세 축으로 나뉘고, 축마다 다음 값을 줍니다.<sup class="ref"><a href="#c26-s1">1</a></sup></p>
+<ul class="keyed">
+<li><strong>Block</strong>정한 수만큼 장비를 묶어 한 대처럼 다룹니다. 10대에 Block 2를 주면 격자가 다섯 칸이 됩니다.<sup class="ref"><a href="#c26-s2">2</a></sup></li>
+<li><strong>Group</strong>정한 수의 그룹으로 번갈아 나눕니다. 1번은 그룹 1, 2번은 그룹 2, 3번은 다시 그룹 1로 들어갑니다.<sup class="ref"><a href="#c26-s3">3</a></sup></li>
+<li><strong>Wings</strong>정한 수의 날개로 나누고, 날개마다 반대쪽에서 장비를 고릅니다. 10대에 Wings 2를 주면 양 끝이 함께 켜지고, Next를 누를 때마다 가운데로 모입니다.<sup class="ref"><a href="#c26-s4">4</a></sup></li>
+<li><strong>Width</strong>한 줄에 놓을 장비 수를 정하고, 넘치는 장비는 다음 축(Y)의 새 줄로 보냅니다. 10대에 Width 3을 주면 세 대씩 네 줄(마지막 줄은 한 대)이 되어, 한 줄짜리 장비를 격자처럼 다룰 수 있습니다.<sup class="ref"><a href="#c26-s5">5</a></sup></li>
+<li><strong>Shuffle</strong>순서를 무작위로 섞습니다. 같은 Shuffle 값에 같은 수량이면 늘 같은 순서가 나옵니다.<sup class="ref"><a href="#c26-s1">1</a></sup></li>
+<li><strong>Shift</strong>격자 안에서 선택을 옆으로 밉니다. X축은 양수면 오른쪽, Y축은 양수면 아래쪽으로 밀립니다.<sup class="ref"><a href="#c26-s1">1</a></sup></li>
+</ul>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 406" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<text x="40.0" y="126.0" font-size="14" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">MAtricks 없음</text>
+<circle cx="210.0" cy="120.0" r="22.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="210.0" y="125.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">0°</text>
+<text x="210.0" y="90.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">301</text>
+<circle cx="284.0" cy="120.0" r="22.0" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="284.0" y="125.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">45°</text>
+<text x="284.0" y="90.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">302</text>
+<circle cx="358.0" cy="120.0" r="22.0" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="358.0" y="125.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">90°</text>
+<text x="358.0" y="90.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">303</text>
+<circle cx="432.0" cy="120.0" r="22.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="432.0" y="125.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">135°</text>
+<text x="432.0" y="90.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">304</text>
+<circle cx="506.0" cy="120.0" r="22.0" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="506.0" y="125.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">180°</text>
+<text x="506.0" y="90.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">305</text>
+<circle cx="580.0" cy="120.0" r="22.0" fill="#2f8c8c" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="580.0" y="125.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">225°</text>
+<text x="580.0" y="90.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">306</text>
+<circle cx="654.0" cy="120.0" r="22.0" fill="#a8693b" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="654.0" y="125.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">270°</text>
+<text x="654.0" y="90.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">307</text>
+<circle cx="728.0" cy="120.0" r="22.0" fill="#5a5ec8" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="728.0" y="125.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">315°</text>
+<text x="728.0" y="90.0" font-size="10.5" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">308</text>
+<text x="920.0" y="126.0" font-size="12.5" fill="#1f2430" text-anchor="end" font-weight="700" opacity="1.0">8분할 · 45°</text>
+<text x="40.0" y="214.0" font-size="14" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">Block 2</text>
+<circle cx="210.0" cy="208.0" r="22.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="210.0" y="213.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">0°</text>
+<circle cx="284.0" cy="208.0" r="22.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="284.0" y="213.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">0°</text>
+<circle cx="358.0" cy="208.0" r="22.0" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="358.0" y="213.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">90°</text>
+<circle cx="432.0" cy="208.0" r="22.0" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="432.0" y="213.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">90°</text>
+<circle cx="506.0" cy="208.0" r="22.0" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="506.0" y="213.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">180°</text>
+<circle cx="580.0" cy="208.0" r="22.0" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="580.0" y="213.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">180°</text>
+<circle cx="654.0" cy="208.0" r="22.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="654.0" y="213.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">270°</text>
+<circle cx="728.0" cy="208.0" r="22.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="728.0" y="213.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">270°</text>
+<text x="920.0" y="214.0" font-size="12.5" fill="#1f2430" text-anchor="end" font-weight="700" opacity="1.0">4분할 · 90°</text>
+<text x="40.0" y="302.0" font-size="14" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">Group 2</text>
+<circle cx="210.0" cy="296.0" r="22.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="210.0" y="301.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">0°</text>
+<circle cx="284.0" cy="296.0" r="22.0" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="284.0" y="301.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">180°</text>
+<circle cx="358.0" cy="296.0" r="22.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="358.0" y="301.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">0°</text>
+<circle cx="432.0" cy="296.0" r="22.0" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="432.0" y="301.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">180°</text>
+<circle cx="506.0" cy="296.0" r="22.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="506.0" y="301.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">0°</text>
+<circle cx="580.0" cy="296.0" r="22.0" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="580.0" y="301.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">180°</text>
+<circle cx="654.0" cy="296.0" r="22.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="654.0" y="301.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">0°</text>
+<circle cx="728.0" cy="296.0" r="22.0" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="728.0" y="301.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">180°</text>
+<text x="920.0" y="302.0" font-size="12.5" fill="#1f2430" text-anchor="end" font-weight="700" opacity="1.0">2분할 · 0° / 180°</text>
+<text x="40.0" y="390.0" font-size="14" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">Wings 2</text>
+<circle cx="210.0" cy="384.0" r="22.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="210.0" y="389.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">0°</text>
+<circle cx="284.0" cy="384.0" r="22.0" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="284.0" y="389.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">90°</text>
+<circle cx="358.0" cy="384.0" r="22.0" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="358.0" y="389.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">180°</text>
+<circle cx="432.0" cy="384.0" r="22.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="432.0" y="389.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">270°</text>
+<circle cx="506.0" cy="384.0" r="22.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="506.0" y="389.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">270°</text>
+<circle cx="580.0" cy="384.0" r="22.0" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="580.0" y="389.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">180°</text>
+<circle cx="654.0" cy="384.0" r="22.0" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="654.0" y="389.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">90°</text>
+<circle cx="728.0" cy="384.0" r="22.0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.9"/>
+<text x="728.0" y="389.0" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">0°</text>
+<text x="920.0" y="390.0" font-size="12.5" fill="#1f2430" text-anchor="end" font-weight="700" opacity="1.0">4분할 · 바깥 → 안</text>
+</svg>
+<figcaption><b>그림 26-1</b> 같은 스팟 무빙 8대에 MAtricks만 바꿨습니다. 같은 색은 같은 위상을 받는 장비입니다. MAtricks가 없으면 8분할, Block 2는 둘씩 묶은 4분할, Group 2는 홀짝 2분할, Wings 2는 바깥에서 안으로 모이는 4분할이 됩니다.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>표 26-1</b> 장비 8대에 MAtricks를 줄 때 <sup class="ref"><a href="#c26-s2">2</a></sup> <sup class="ref"><a href="#c26-s3">3</a></sup> <sup class="ref"><a href="#c26-s4">4</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>MAtricks</th>
+<th>묶음</th>
+<th>위상을 펼치면</th>
+<th>LOVE ATTACK에서</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>없음</td>
+<td>1, 2, 3, 4, 5, 6, 7, 8</td>
+<td>8분할, 45°씩</td>
+<td>위 무빙 팬 웨이브(좌→우)</td>
+</tr>
+<tr class="even">
+<td>Block 2</td>
+<td>(1·2), (3·4), (5·6), (7·8)</td>
+<td>4분할, 90°씩</td>
+<td>둘씩 묶은 달리기</td>
+</tr>
+<tr class="odd">
+<td>Group 2</td>
+<td>(1·3·5·7), (2·4·6·8)</td>
+<td>2분할, 0°와 180°</td>
+<td>홀짝</td>
+</tr>
+<tr class="even">
+<td>Wings 2</td>
+<td>(1·8), (2·7), (3·6), (4·5)</td>
+<td>4분할, 바깥 → 안</td>
+<td>바깥과 안이 주고받는 무빙</td>
+</tr>
+<tr class="odd">
+<td>Shuffle</td>
+<td>무작위 순서</td>
+<td>8분할, 순서만 섞임</td>
+<td>스파클</td>
+</tr>
+</tbody>
+</table></div>
+<p>MAtricks를 쓰면 이펙트 그룹(24장)을 덜 만들어도 됩니다. "스팟 좌→우" 그룹 하나에 MAtricks만 바꾸면 홀짝도, 바깥→안도 나옵니다. 자주 쓰는 MAtricks는 MAtricks 풀에 저장해 두고 이름에 내용을 적습니다(예: "X Group 2 홀짝").<sup class="ref"><a href="#c26-s1">1</a></sup> Wings로 나눈 두 날개가 위상을 거울처럼 받는지는 매뉴얼에 적혀 있지 않으므로, 처음 쓸 때 3D 화면에서 확인합니다.<code>[저자 확인]</code></p>
+<p>2.5부터는 MAtricks에도 스피드 마스터를 정할 수 있습니다. 정한 마스터는 MAtricks에 넣은 Speed From/To 값(첫 장비에서 마지막 장비까지 속도를 다르게 나누는 값)보다 앞서므로, MAtricks로 속도를 나눈 페이저도 곡의 BPM(28장)을 따르게 할 수 있습니다.<sup class="ref"><a href="#c26-s1">1</a></sup> <sup class="ref"><a href="#c26-s13">13</a></sup></p>
+<aside class="box terms"><div class="box-label">알아 둘 말</div><div class="box-body"><dl class="defs"><div><dt>Interleave</dt><dd>grandMA2에는 Interleave라는 MAtricks 값이 있었습니다. grandMA3 매뉴얼에서는 Group이 장비를 그룹에 "번갈아 넣는(interleave)" 방식을 설명할 때 이 말을 쓸 뿐, 따로 있는 값이 아닙니다.<sup class="ref"><a href="#c26-s3">3</a></sup></dd></div></dl></div></aside>
+
+<h2 id="c26-262-위상-간격--360--분할-수">26.2 위상 간격 = 360 ÷ 분할 수</h2><p class="lead">장비마다 위상을 고르게 펼치려면 <strong>360을 분할 수로 나눈 만큼씩</strong> 어긋나게 줍니다. 마지막 칸의 위상은 360에서 그 간격을 뺀 값입니다.</p>
+<div class="tbl"><div class="tcap"><b>표 26-2</b> 분할 수와 위상 간격 <span class="badge calc">계산</span></div><table>
+<thead>
+<tr class="header">
+<th>분할 수</th>
+<th>간격</th>
+<th>마지막 칸</th>
+<th>예</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2</td>
+<td>180°</td>
+<td>180°</td>
+<td>홀짝</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>120°</td>
+<td>240°</td>
+<td>블룸(가운데, 중간, 바깥)</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>90°</td>
+<td>270°</td>
+<td>Block 2나 Wings 2를 준 8대</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>60°</td>
+<td>300°</td>
+<td>달리기 6분할</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>45°</td>
+<td>315°</td>
+<td>스팟 무빙 8대</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>22.5°</td>
+<td>337.5°</td>
+<td>빔 무빙 16대</td>
+</tr>
+</tbody>
+</table></div>
+<p>분할 수는 장비 수량이 아니라 <strong>격자의 칸 수</strong>입니다. Block 2를 준 8대는 네 칸이므로 4분할입니다. 같은 칸을 나눠 쓰는 장비는 같은 위상을 받습니다.<sup class="ref"><a href="#c26-s6">6</a></sup> <code>[저자 확인]</code></p>
+<aside class="box number"><div class="box-label">숫자 하나</div><div class="box-body">
+<p> 장비 8대의 마지막 위상은 360이 아니라 315입니다(<span class="badge calc">계산</span>: 360 − 360 ÷ 8). 다만 콘솔이 이 계산을 대신해 주는 입력 방법이 있어서, 315를 직접 넣어야 하는지는 어디에 넣느냐에 따라 다릅니다.</p>
+</div></aside>
+<p>1-in-N 체이스(한 번에 한 대만 켜지며 지나가는 체이스)라면 Width도 함께 맞춥니다. 켜짐 스텝 Width는 100 ÷ N, 꺼짐 스텝은 그 나머지, 위상은 0부터 360 − 360 ÷ N까지입니다. 8대면 켜짐 12.5, 꺼짐 87.5, 위상 0~315입니다.<sup class="ref"><a href="#c26-s6">6</a></sup></p>
+
+<h2 id="c26-263-360을-넣을-곳과-315를-넣을-곳">26.3 360을 넣을 곳과 315를 넣을 곳</h2><p class="lead">8대에 위상을 고르게 나누면 마지막 장비는 315°를 받습니다. 그런데 콘솔에는 0~360을 넣으면 <strong>알아서 315로 맞춰 주는 곳</strong>과, 넣은 값을 <strong>글자 그대로 쓰는 곳</strong>이 함께 있습니다.</p>
+<p>앞의 것에는 360을 넣고, 뒤의 것에는 마지막 값으로 315를 직접 넣습니다. 둘을 섞으면 첫 대와 마지막 대가 같이 켜지거나, 반대로 간격이 좁아집니다.</p>
+<p>매뉴얼의 퀵 스타트 가이드는 계산기의 "0 thru 360" 버튼을 누르면 장비가 루프 전체에 고르게 펼쳐진다고 적고, 그 이유를 이렇게 설명합니다. 콘솔이 글자 그대로 0에서 360까지 나누면 첫 장비와 마지막 장비가 같은 일을 하게 되기 때문입니다.<sup class="ref"><a href="#c26-s7">7</a></sup> 그러니 이 버튼을 쓰면 콘솔이 마지막 위상을 알아서 315(8대일 때)로 바꿔 줍니다. 반면 MA Lighting 포럼에서 MA 관리자는 MAtricks 창의 0 thru 360은 정말 0부터 360이라 첫 장비와 마지막 장비가 똑같이 움직인다고 답했습니다.<sup class="ref"><a href="#c26-s8">8</a></sup></p>
+<div class="tbl"><div class="tcap"><b>표 26-3</b> 위상을 넣는 곳과 마지막 위상 <sup class="ref"><a href="#c26-s7">7</a></sup> <sup class="ref"><a href="#c26-s8">8</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>넣는 곳</th>
+<th>콘솔이 고르게 펼쳐 주나</th>
+<th>8대에 넣을 범위</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>계산기의 "0 thru 360" 버튼</td>
+<td>예</td>
+<td>0 thru 360</td>
+</tr>
+<tr class="even">
+<td>Phaser Editor의 Edit Phase 360 버튼(위상을 360으로 펼치는 버튼)</td>
+<td>예</td>
+<td>360</td>
+</tr>
+<tr class="odd">
+<td>MAtricks 창의 Phase From/To</td>
+<td>아니요(글자 그대로)</td>
+<td>0 ~ 315</td>
+</tr>
+<tr class="even">
+<td>레시피의 Phase</td>
+<td>아니요(글자 그대로)</td>
+<td>0 ~ 315</td>
+</tr>
+<tr class="odd">
+<td>명령줄 <code>At Phase 0 Thru 360</code></td>
+<td>자료가 엇갈림</td>
+<td>직접 확인 <code>[저자 확인]</code></td>
+</tr>
+<tr class="even">
+<td>2.5의 페이저 레시피(Edit Recipe 모드)</td>
+<td>자료 없음</td>
+<td>직접 확인 <code>[저자 확인]</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>명령줄의 <code>At Phase 0 Thru 360</code>은 "고른 장비의 위상(Phase)에, 고른 순서대로 첫 장비 0부터 마지막 장비 360까지 나눠 넣으라(At)"는 뜻입니다. <code>At Phase Percent 0 Thru 360</code>은 여기에 Percent를 붙인 형태입니다. 명령줄은 자료가 엇갈립니다. 포럼의 예전 답변(1.6 버전)은 <code>At Phase Percent 0 Thru 360</code>처럼 Percent를 붙인 형태만 자동으로 펼친다고 했고, 저자의 2.4.2 기록은 <code>At Phase 0 Thru 360</code>으로 웨이브가 나왔다고 적고 있습니다. 다만 그 기록은 웨이브가 보였다는 것만 확인했고, 첫 대와 마지막 대가 겹치는지는 보지 않았습니다.<sup class="ref"><a href="#c26-s9">9</a></sup> 이런 곳은 26.6절의 실습처럼 직접 넣어 보고 확인합니다.</p>
+<p>또 하나, 장비 수량이 바뀌어도 MAtricks와 레시피의 위상은 <strong>다시 계산되지 않는다</strong>는 보고가 있습니다. 8대용으로 넣은 315는 9대 무대로 옮겨도 315 그대로입니다.<sup class="ref"><a href="#c26-s8">8</a></sup> 공연장마다 수량이 바뀌는 투어(18장)라면, 위상을 글자 그대로 넣은 곳을 목록으로 남겨 두고 공연장마다 고칩니다.</p>
+
+<h2 id="c26-264-웨이브-방향-바꾸기">26.4 웨이브 방향 바꾸기</h2><p class="lead">웨이브의 방향은 <strong>좌표가 아니라 고른 순서</strong>가 정합니다. 24장에서 그룹이 순서를 저장한다고 한 것이 여기서 쓰입니다.</p>
+<p>그룹은 장비의 선택과 순서를 저장하고, 매뉴얼은 이 순서와 격자가 범위값을 넣거나 페이저를 만들 때 꼭 필요하다고 적습니다.<sup class="ref"><a href="#c26-s6">6</a></sup> 그래서 객석에서 보아 왼쪽에서 오른쪽으로 가는 웨이브를 반대로 바꾸려면 두 가지 방법이 있습니다.</p>
+<ul class="keyed">
+<li><strong>거꾸로 고른 그룹을 쓰기</strong>"스팟 우→좌" 그룹을 따로 만들어 둡니다. 저자는 선택 순서를 거꾸로 주자 웨이브도 거꾸로 가는 것을 onPC에서 확인했습니다.<sup class="ref"><a href="#c26-s9">9</a></sup></li>
+<li><strong>위상을 거꾸로 펼치기</strong>0 thru −360(첫 장비 0에서 마지막 장비 −360까지 반대 방향으로 나눔)으로 넣습니다. 저자의 2.4.2 기록에 콘솔이 받은 문법으로 남아 있습니다.<sup class="ref"><a href="#c26-s9">9</a></sup></li>
+</ul>
+<p>MAtricks의 InvertX(X축 뒤집기)는 페이저의 진행 방향과 값의 범위를 뒤집는 것이지, 고른 순서를 뒤집는 도구가 아니라는 MA 직원의 포럼 답변도 있습니다.<code>[저자 확인]</code> 방향을 바꿀 때는 위의 두 방법 가운데 하나를 쓰는 편이 결과를 예상하기 쉽습니다.</p>
+
+<h2 id="c26-265-레시피와-cook">26.5 레시피와 Cook</h2><p class="lead">레시피는 큐에 값을 직접 넣지 않고 <strong>"어떤 그룹에, 어떤 프리셋을, 어떤 MAtricks로"라는 만드는 법</strong>을 저장합니다. 그래서 그룹이나 프리셋을 고친 뒤 다시 Cook(만드는 법대로 값을 다시 계산하는 것)하면 큐가 고친 내용을 따라옵니다.</p>
+<p>레시피는 큐가 아니라 큐 파트(큐 하나를 장비 무리마다 나눈 부분으로, 무리마다 다른 타이밍을 줄 때 씁니다)에 붙습니다. 레시피를 편집하려면 시퀀스 시트의 Show Recipes 마스크(레시피 줄을 보이게 하는 표시 설정)를 켜야 합니다. 레시피 한 줄에는 선택(그룹), 값(프리셋), MAtricks, 필터, 페이드·딜레이·속도·위상 등이 들어갑니다.<sup class="ref"><a href="#c26-s10">10</a></sup> 이 만드는 법으로 실제 값을 계산해 큐에 넣는 것을 <strong>Cook</strong>이라고 합니다.</p>
+<p>같은 큐 파트에 값과 레시피가 함께 있으면 무엇이 나갈까요? 매뉴얼이 정한 순서는 큐 파트의 값, 큐 파트의 레시피, 프리셋의 값, 프리셋의 레시피입니다. 앞의 것이 있으면 그것이 나가고 뒤의 것은 쓰이지 않습니다. 그래서 큐 파트에 값을 직접 넣어 두었다면 같은 속성의 레시피보다 그 값이 나갑니다.<sup class="ref"><a href="#c26-s11">11</a></sup></p>
+<p>레시피의 상태는 Cook 아이콘의 색으로 봅니다.</p>
+<div class="tbl"><div class="tcap"><b>표 26-4</b> 레시피 Cook 아이콘의 색 <sup class="ref"><a href="#c26-s11">11</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>색</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>초록</td>
+<td>일반 레시피 줄이 모두 Cook됨</td>
+</tr>
+<tr class="even">
+<td>보라</td>
+<td>페이저 레시피 줄이 모두 Cook됨</td>
+</tr>
+<tr class="odd">
+<td>빨강</td>
+<td>하나 이상 실패</td>
+</tr>
+<tr class="even">
+<td>주황</td>
+<td>Cook된 값과 Cook되지 않은 값이 섞여 있음</td>
+</tr>
+</tbody>
+</table></div>
+<p>Cook은 언제 해야 할까요? 레시피 줄을 고치면 콘솔이 자동으로 Cook합니다(MergeLowPriority 방식: Cook된 값은 바꾸고 새 값은 더하되, Cook되지 않은 값은 건드리지 않음).<sup class="ref"><a href="#c26-s10">10</a></sup> 하지만 레시피가 가리키는 <strong>그룹이나 프리셋의 내용</strong>을 고쳤다면 그 시퀀스를 다시 Cook해야 큐에 반영됩니다.<code>[저자 확인]</code> 명령은 <code>Cook Sequence 11</code>(시퀀스 11번의 레시피를 모두 다시 Cook하라)처럼 씁니다. 11번은 이 책의 번호 규칙에서 곡 1(LOVE ATTACK)의 장면 시퀀스입니다(29장 표 29-2). 옵션을 붙이지 않으면 Cook 방식을 고르는 창이 뜹니다.<sup class="ref"><a href="#c26-s12">12</a></sup></p>
+<p>2.5에서는 레시피를 만들고 고치는 방법이 크게 바뀌었습니다.<sup class="ref"><a href="#c26-s13">13</a></sup></p>
+<ul class="keyed">
+<li><strong>페이저 레시피를 바로 만들기</strong>Edit Recipe 모드를 켜고 그룹 풀의 그룹을 누른 뒤 포지션 풀의 프리셋을 누릅니다. 인코더 막대의 Next Step을 누르고 다른 포지션 프리셋을 누르면 두 스텝의 페이저 레시피가 됩니다.</li>
+<li><strong>레시피 줄의 이름</strong>페이저 레시피 줄은 선택과 모양으로, 일반 레시피 줄은 선택과 값으로 이름이 붙습니다. 시퀀스 시트에서 줄 이름만 읽어도 무엇을 하는 줄인지 압니다.</li>
+<li><strong>Speed Master 칸</strong>레시피 줄마다 스피드 마스터를 정하는 칸이 생겼습니다(28장).</li>
+<li><strong>다시 Cook하는 버튼</strong>레시피 줄을 다시 Cook하는 버튼이 생겼습니다. 페이저 레시피나 타이밍 값이 든 레시피를 고친 뒤에 씁니다.</li>
+<li><strong>Link Steps, Make Other Symmetrical</strong>Link Steps를 Yes로 두면 모양에서 짝이 되는 값이 함께 바뀌고, Make Other Symmetrical은 다른 스텝의 Transition을 대칭으로 맞춰 줍니다. 25장의 사인처럼 스텝 둘을 같은 모양으로 둘 때 손이 덜 갑니다.</li>
+<li><strong>Turn into Phaser Recipe</strong>Universal 페이저 프리셋의 편집기에서 그 페이저를 페이저 레시피로 바꿀 수 있습니다. Universal로 저장해 장비마다 같은 위상이 된 페이저(24장)를 그룹에 다시 펼쳐 쓰고 싶을 때 써 볼 기능입니다.<code>[저자 확인]</code></li>
+<li><strong>월드를 고른 상태의 Cook</strong>월드(쓸 수 있는 장비와 속성의 범위를 좁혀 두는 필터)를 고른 채 프로그래머의 레시피를 Cook하면 그 월드에 든 장비와 속성만 Cook됩니다.</li>
+</ul>
+<p>2.5.0에서는 레시피가 든 큐의 길이가 잘못 계산되는 문제가 있었고 2.5.1.0에서 고쳐졌습니다.<sup class="ref"><a href="#c26-s14">14</a></sup> 레시피를 많이 쓰는 쇼라면 버그 수정판을 받습니다.</p>
+<p>레시피가 늘 좋은 것은 아닙니다. 18장의 투어처럼 장비 구성이 자주 바뀌는 쇼에서는, 그룹과 프리셋을 고친 뒤 Cook만 하면 큐가 따라오므로 레시피가 맞습니다. 반대로 포지션처럼 장비마다 고유한 값이나 한 번 쓰고 마는 룩은 값으로 저장하는 편이 단순합니다.<code>[저자 확인]</code></p>
+<aside class="box story"><div class="box-label">현장 이야기</div><div class="box-body">
+
+</div></aside>
+
+<h2 id="c26-266-실습-8대-체이스의-위상을-다섯-가지-방법으로-입력하기">26.6 [실습] 8대 체이스의 위상을 다섯 가지 방법으로 입력하기</h2><p class="lead">스팟 무빙 8대에 1-in-8 디머 체이스를 걸고, 위상을 다섯 가지 방법으로 넣어 첫 대와 마지막 대가 겹치는지 직접 봅니다. 이 실습은 지금 쓰는 콘솔 버전에서 표 26-3의 빈칸을 채우는 일이기도 합니다.</p>
+<p><strong>따라 하기</strong></p>
+<ol type="1">
+<li>24장의 "스팟 좌→우" 그룹(301~308)을 고르고 2스텝 디머 페이저를 만듭니다. 스텝 1 100%(Width 12.5), 스텝 2 0%(Width 87.5), 두 스텝 모두 Transition 0, Measure 4로 둡니다.</li>
+<li>위상을 다음 다섯 방법으로 하나씩 넣고, 그때마다 3D 화면을 봅니다. ① 계산기의 "0 thru 360" 버튼 ② 명령줄 <code>At Phase 0 Thru 360</code> ③ 명령줄 <code>At Phase Percent 0 Thru 360</code> ④ MAtricks 창의 Phase From 0, To 360 ⑤ MAtricks 창의 Phase From 0, To 315.</li>
+<li>저장하지 않고 다섯 결과를 비교합니다. 2.5라면 같은 체이스를 Edit Recipe 모드의 페이저 레시피로도 만들어, 위상 칸에 0~360과 0~315를 넣어 봅니다.</li>
+<li>다음으로 MAtricks를 Group 2, Wings 2, Block 2로 바꿔 가며 그림 26-1과 같은 모양이 나오는지 봅니다.</li>
+<li>LOVE ATTACK의 위 무빙(25장 표 25-4)에 맞는 방법으로 위상을 넣고 All 풀에 <code>/Selective</code>로 저장합니다.</li>
+</ol>
+<aside class="box check"><div class="box-label">확인하는 법</div><div class="box-body"><ol class="steps"><li>다섯 결과마다 301번과 308번이 같은 순간에 켜지는지 봅니다.</li><li>같이 켜지면 그 방법은 글자 그대로 계산한 것이니 마지막 위상을 315로 넣어야 합니다.</li><li>한 사이클 동안 여덟 대가 한 번씩, 고른 간격으로 켜지면 그 방법은 콘솔이 고르게 펼쳐 준 것입니다.</li><li>결과를 표 26-3의 빈칸에 적어 둡니다.</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">내 무대로 해 보기</div><div class="box-body"><ol class="steps"><li>지금 맡은 쇼에서 수량이 다른 그룹 셋(예: 6대, 8대, 12대)을 골라 표 26-2로 간격과 마지막 위상을 계산해 둡니다.</li><li>쇼 파일에 위상을 글자 그대로 넣은 곳이 있으면 그 목록을 따로 적어 둡니다.</li><li>장비 수량이 바뀌면 그 목록부터 고칩니다.</li></ol></div></aside>
+<aside class="web" id="web-W20-26"><div class="web-head"><span class="web-tag">웹 부록 20</span><h4>페이저 계산기</h4><a class="web-open" href="https://jjjh7401.github.io/lx/phaser.html" target="_blank" rel="noopener">새 창에서 열기 ↗</a></div><p class="web-desc">분할 수와 MAtricks(Block, Group, Wings)를 고르면 장비마다 받는 위상을 격자로 보여 주고, 입력 방법에 따라 넣어야 할 마지막 위상(360 또는 360 − 360 ÷ N)을 알려 줍니다. 장비 줄을 재생해 첫 대와 마지막 대가 겹치는 설정을 눈으로 견줘 볼 수 있습니다.</p><div class="tool-embed"><iframe title="페이저 계산기" loading="lazy" style="--h:1550px" src="https://jjjh7401.github.io/lx/phaser.html?embed=1" allow="autoplay" ></iframe></div><p class="tool-open"><span>적은 노트는 이 브라우저에만 저장됩니다. 넓은 화면에서 쓰려면 위의 "새 창에서 열기"를 누르세요.</span></p></aside>
+
+<section class="summary"><h2>핵심 정리</h2><ul>
+<li>MAtricks는 값이 아니라 장비의 순서와 묶음을 바꿉니다. Block은 묶고, Group은 번갈아 나누고, Wings는 양쪽에서 고릅니다.</li>
+<li>위상 간격은 360 ÷ 분할 수이고, 마지막 칸은 360 − 간격입니다. 분할 수는 수량이 아니라 격자의 칸 수입니다.</li>
+<li>계산기의 "0 thru 360" 버튼과 Phaser Editor의 360 버튼은 콘솔이 고르게 펼쳐 줍니다. MAtricks 창과 레시피는 글자 그대로 계산하므로 8대면 315를 넣습니다.</li>
+<li>웨이브의 방향은 고른 순서가 정합니다.</li>
+<li>레시피는 만드는 법을 저장합니다. 가리키는 그룹이나 프리셋을 고쳤으면 Cook합니다.</li>
+<li>2.5에서는 Edit Recipe 모드로 페이저 레시피를 바로 만들고, 레시피 줄마다 스피드 마스터를 정합니다.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">내일 현장에서</div><div class="box-body"><ol class="steps"><li>웨이브 이펙트를 걸면 3D 화면에서 첫 대와 마지막 대만 따로 봅니다.</li><li>둘이 같이 켜지면 마지막 위상 315를 떠올립니다.</li></ol></div></aside>
+
+<section class="notes"><h2>주</h2><ol><li id="c26-s1">MA Lighting, grandMA3 User Manual 2.5, "MAtricks". X·Y·Z 축, Block·Group·Wings·Width·Shuffle·Shift, MAtricks 풀 저장, 스피드 마스터가 Speed From/To보다 앞섬. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/matricks.html">https://help.malighting.com/grandMA3/2.5/HTML/matricks.html</a> (2026-10-26 확인)</li><li id="c26-s2">MA Lighting, grandMA3 User Manual 2.5, "MAtricks Blocks". 10대에 XBlock 2면 다섯 칸. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/matricks_block.html">https://help.malighting.com/grandMA3/2.5/HTML/matricks_block.html</a> (2026-10-26 확인)</li><li id="c26-s3">MA Lighting, grandMA3 User Manual 2.5, "MAtricks Groups". 번갈아 그룹에 넣음(interleave), 두 칸으로 옮겨짐. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/matricks_group.html">https://help.malighting.com/grandMA3/2.5/HTML/matricks_group.html</a> (2.3과 대조, 2026-10-26 확인)</li><li id="c26-s4">MA Lighting, grandMA3 User Manual 2.5, "MAtricks Wings". 양 끝이 함께, Next로 가운데로. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/matricks_wings.html">https://help.malighting.com/grandMA3/2.5/HTML/matricks_wings.html</a> (2026-10-26 확인)</li><li id="c26-s5">MA Lighting, grandMA3 User Manual 2.5, "MAtricks Width". <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/matricks_width.html">https://help.malighting.com/grandMA3/2.5/HTML/matricks_width.html</a> (2026-10-26 확인)</li><li id="c26-s6">MA Lighting, grandMA3 User Manual 2.5, "Create Groups". 그룹은 선택·순서·격자를 저장, 순서와 격자는 범위값과 페이저에 필수. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/group_create.html">https://help.malighting.com/grandMA3/2.5/HTML/group_create.html</a> (2026-10-26 확인). 1-in-N 체이스의 Width와 위상 공식, 위상 분배는 격자 기준: MA Lighting 포럼 7661(아래 8).</li><li id="c26-s7">MA Lighting, grandMA3 Quick Start Guide 2.5, "Phasers". "0 thru 360" 버튼은 루프 전체에 고르게 펼침, 글자 그대로 하면 첫 장비와 마지막 장비가 같아짐. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/qsg_phasers.html">https://help.malighting.com/grandMA3/2.5/HTML/qsg_phasers.html</a> (2026-10-26 확인)</li><li id="c26-s8">MA Lighting 포럼. 스레드 5253 "Phaser MAtricks not working as expected"(MA 관리자 DanielK, 2021-05: MAtricks 창의 0 thru 360은 글자 그대로), 스레드 7661 "Width and phases in recipes"(자동 분배 경로, 1-in-N 공식, 수량이 바뀌어도 다시 계산되지 않음). <a target="_blank" rel="noopener" href="https://forum.malighting.com/forum/thread/5253-phaser-matricks-not-working-as-expected/">https://forum.malighting.com/forum/thread/5253-phaser-matricks-not-working-as-expected/</a> · <a target="_blank" rel="noopener" href="https://forum.malighting.com/forum/thread/7661-width-and-phases-in-recipes/">https://forum.malighting.com/forum/thread/7661-width-and-phases-in-recipes/</a> (2026-10-26 확인)</li><li id="c26-s9">저자의 onPC 2.4.2 작업 기록(미공개). <code>At Phase 0 Thru 360</code>으로 웨이브, <code>0 Thru -360</code> 역방향, 선택 순서를 거꾸로 하면 웨이브가 거꾸로.</li><li id="c26-s10">MA Lighting, grandMA3 User Manual 2.5, "Cue Recipe". 레시피는 큐 파트에, Show Recipes 마스크, 레시피 줄의 항목, 자동 Cook(MergeLowPriority). <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/cue_recipe.html">https://help.malighting.com/grandMA3/2.5/HTML/cue_recipe.html</a> (2026-10-26 확인)</li><li id="c26-s11">MA Lighting, grandMA3 User Manual 2.5, "Recipes". 출력 순서, Cook 아이콘의 색. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/recipes.html">https://help.malighting.com/grandMA3/2.5/HTML/recipes.html</a> (2026-10-26 확인)</li><li id="c26-s12">MA Lighting, grandMA3 User Manual 2.5, "Cook Keyword". <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_cook.html">https://help.malighting.com/grandMA3/2.5/HTML/keyword_cook.html</a> (2026-10-26 확인)</li><li id="c26-s13">MA Lighting, grandMA3 Release Notes 2.5, "New Features", "Other Enhancements". Edit Recipe 모드와 Next Step, 레시피 줄 이름, Speed Master 칸, 다시 Cook하는 버튼, Link Steps, Make Other Symmetrical, Turn into Phaser Recipe, 월드를 고른 Cook, MAtricks의 스피드 마스터. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/rn_features-2-5.html">https://help.malighting.com/grandMA3/2.5/HTML/rn_features-2-5.html</a> · <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/rn_otherenhancements-2-5.html">https://help.malighting.com/grandMA3/2.5/HTML/rn_otherenhancements-2-5.html</a> (2026-10-26 확인)</li><li id="c26-s14">MA Lighting, grandMA3 Release Notes, "Bug Fix Version 2.5.1.0". 레시피가 든 큐의 길이 계산 수정. <a target="_blank" rel="noopener" href="https://help.malighting.com/grandMA3/2.5/HTML/rn_bug_fix_version-2-5-1-0.html">https://help.malighting.com/grandMA3/2.5/HTML/rn_bug_fix_version-2-5-1-0.html</a> (2026-10-26 확인)</li></ol></section>
+
+
+</article>
+</div>

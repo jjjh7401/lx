@@ -1,0 +1,523 @@
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch15"><header class="ch-head"><div class="ch-num">15<span>장</span></div><h1 class="ch-title">장르에 따라 조정하기</h1><p class="ch-sub">발라드부터 EDM까지</p></header>
+
+
+<aside class="box goals"><div class="box-label">이 장에서 얻을 것</div><div class="box-body">
+<ul class="checks">
+<li>장르를 정답이 아니라 12장 출발값을 옮기는 조정값으로 씁니다.</li>
+<li>장르 열 가지의 팔레트, 움직임, 리듬 레이어, 강조의 출발값을 견주어 봅니다.</li>
+<li>장르 → 컨셉 → 현장의 순서로 출발값을 세 번 고칩니다.</li>
+</ul>
+</div></aside>
+<div class="open-label">여는 장면</div><p class="lead">발라드 무대를 맡았습니다. 느린 곡이니 블루와 퍼플을 깔고 무빙은 세워 둡니다. 리허설에서 가사를 처음 제대로 듣습니다. 봄날 오후에 오래 망설이던 고백을 하는 곡입니다. 무대는 한겨울 밤처럼 차갑게 서 있습니다.</p>
+<p>장르는 맞았는데 곡은 틀렸습니다. "발라드니까 블루"는 출발점일 수는 있어도 결론일 수는 없습니다. 7장에서 컨셉을 사운드에서 시작해 감정, 가사, 아티스트 콘셉트의 순서로 읽었습니다. 장르는 그 첫 레이어인 사운드의 한 부분일 뿐입니다. 이 장은 장르를 어디까지 믿고, 어디서부터 곡을 따라갈지를 다룹니다.</p>
+
+<h2 id="c15-151-장르에-따라-달라지는-다섯-가지">15.1 장르에 따라 달라지는 다섯 가지</h2><p class="lead">장르는 지켜야 할 규칙이 아닙니다. 12장의 출발값을 조금 올리거나 내리는 기준일 뿐입니다.</p>
+<p>이 책에서는 장르에 따라 옮기는 값을 조정값이라고 부릅니다. 조정값은 다섯 개입니다.</p>
+<ul class="keyed">
+<li><strong>템포</strong>이펙트 주기(12장 표 12-2)를 정합니다. 장르마다 대표 BPM 대가 있습니다.</li>
+<li><strong>밀도</strong>동시에 도는 리듬 레이어의 수와 큐의 촘촘함입니다.</li>
+<li><strong>채도</strong>팔레트가 파스텔 쪽인지 원색 쪽인지입니다(8장).</li>
+<li><strong>움직임</strong>무빙이 얼마나 크게, 얼마나 자주 움직이는지입니다.</li>
+<li><strong>강조</strong>13장의 강조 수단 가운데 무엇을 주로 쓰는지입니다.</li>
+</ul>
+<p>장르는 이 다섯 조정값의 처음 값을 알려 줍니다. 그다음은 곡이 정합니다. 같은 발라드라도 이별을 말하는 곡과 고백하는 곡은 채도 조정값이 반대쪽에 있을 수 있습니다.</p>
+
+<h2 id="c15-152-장르-열-가지의-출발값">15.2 장르 열 가지의 출발값</h2><p class="lead">국내 음악 무대에서 자주 다루는 장르 열 가지를 다섯 조정값으로 견주면 표 15-1과 같습니다. 표의 값은 처음 받은 곡에서 시작해 볼 위치일 뿐이고, 같은 장르 안에서도 곡마다 다릅니다.</p>
+<div class="tbl"><div class="tcap"><b>표 15-1</b> 장르 열 가지의 출발값 <span class="badge start">출발값</span> <code>[저자 확인]</code></div><table>
+<thead>
+<tr class="header">
+<th>장르</th>
+<th>대표 BPM</th>
+<th>채도</th>
+<th>움직임</th>
+<th>리듬 레이어</th>
+<th>주로 쓰는 강조</th>
+<th>조심할 것</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>발라드</td>
+<td>60~80</td>
+<td>곡에 따라. 블루·퍼플은 습관이 되기 쉬움</td>
+<td>거의 정지, 긴 크로스페이드</td>
+<td>0~1</td>
+<td>밝기 스웰, 스페셜 하나</td>
+<td>노래 내내 키 레벨. 마지막 후렴의 한 번</td>
+</tr>
+<tr class="even">
+<td>R&amp;B·소울</td>
+<td>70~100</td>
+<td>웜 톤 중심, 중간 채도</td>
+<td>느린 웨이브</td>
+<td>1</td>
+<td>범프, 역광</td>
+<td>그루브를 박마다 짚지 않기</td>
+</tr>
+<tr class="odd">
+<td>미디엄 댄스 팝</td>
+<td>100~120</td>
+<td>파스텔에서 중간</td>
+<td>4마디마다 포지션</td>
+<td>2</td>
+<td>밝기 히트, 무빙 버스트</td>
+<td>안무 정지 마디에 맞추기</td>
+</tr>
+<tr class="even">
+<td>퍼포먼스 댄스(강한 아이돌 곡)</td>
+<td>110~140</td>
+<td>원색, 높은 대비</td>
+<td>크고 빠름, 안무 포인트에 히트</td>
+<td>2~3</td>
+<td>화이트 플래시, 스트로브</td>
+<td>플래시 기준, 얼굴이 묻히지 않게</td>
+</tr>
+<tr class="odd">
+<td>힙합</td>
+<td>80~100(하프타임 느낌)</td>
+<td>단색과 화이트, 낮은 채도</td>
+<td>적게, 비트에 범프</td>
+<td>1~2</td>
+<td>다크 큐, 화이트 범프</td>
+<td>저음 베이스(808)와 킥을 다른 장비에</td>
+</tr>
+<tr class="even">
+<td>EDM</td>
+<td>120~135</td>
+<td>원색, 보색 대비</td>
+<td>빌드업에서 드롭으로 크게</td>
+<td>2~3</td>
+<td>드롭의 딥 뒤 히트, 스트로브</td>
+<td>빌드업 끝의 다크 큐</td>
+</tr>
+<tr class="odd">
+<td>록·밴드</td>
+<td>120~160</td>
+<td>원색, 화이트</td>
+<td>연주자 위치 중심</td>
+<td>1~2</td>
+<td>화이트 블라스트, 블라인더</td>
+<td>연주자마다 빛 하나, 드럼 필</td>
+</tr>
+<tr class="even">
+<td>트로트</td>
+<td>곡에 따라 넓음(느린 곡 70 안팎부터 빠른 곡 130 이상까지)</td>
+<td>따뜻한 원색, 스파클</td>
+<td>중간, 후렴에서 크게</td>
+<td>1~2</td>
+<td>컬러 스냅, 오디언스</td>
+<td>객석과 함께 박수 치는 마디</td>
+</tr>
+<tr class="odd">
+<td>시티 팝·레트로</td>
+<td>100~120</td>
+<td>노을, 네온 두 색</td>
+<td>느린 스윕</td>
+<td>1</td>
+<td>컬러 스냅</td>
+<td>너무 많은 색</td>
+</tr>
+<tr class="even">
+<td>어쿠스틱·인디 포크</td>
+<td>70~110</td>
+<td>웜 화이트, 낮은 채도</td>
+<td>거의 정지</td>
+<td>0~1</td>
+<td>밝기 스웰</td>
+<td>악기와 손이 보이게</td>
+</tr>
+</tbody>
+</table></div>
+<p>표를 세로로 읽으면 두 가지가 보입니다. 첫째, 대표 BPM이 같아도 조정값이 다릅니다. 미디엄 댄스 팝과 시티 팝은 BPM 대가 겹치지만 리듬 레이어와 채도가 다릅니다. 둘째, 어느 장르에서도 <strong>키는 조정값에 들어 있지 않습니다.</strong> 노래가 있는 한 키는 장르와 상관없이 같은 레벨을 지킵니다(6장).</p>
+<aside class="box try"><div class="box-label">짧은 실험</div><div class="box-body"><ol class="steps"><li>같은 아티스트가 부른 발라드와 댄스곡의 무대 영상을 하나씩 찾아, 소리를 끄고 30초씩 봅니다.</li><li>두 무대에서 다섯 조정값 가운데 무엇이 가장 크게 달랐는지 적어 봅니다.</li><li>대개 템포보다 움직임과 밀도가 더 크게 다릅니다.</li></ol></div></aside>
+
+<h2 id="c15-153-장르보다-곡이-먼저">15.3 장르보다 곡이 먼저</h2><p class="lead">장르로 고른 값과 곡의 컨셉이 맞지 않으면 곡을 따릅니다.</p>
+<p>여는 장면의 발라드라면 장르로는 블루·퍼플이지만, 가사는 봄날 오후를 말하고 있습니다. 7장의 컨셉 레이어 순서대로 사운드 다음에 감정과 가사를 읽었다면 웜 화이트와 연한 앰버 쪽으로 조정값을 옮겼을 것입니다.</p>
+<p>LOVE ATTACK도 같습니다. 장르로 보면 미디엄 댄스 팝이고, 후렴에서 드럼이 터지므로 퍼포먼스 댄스의 원색과 스트로브를 고를 수도 있었습니다. 하지만 2부에서 정한 한 줄 컨셉은 "향기처럼 번지는 파스텔과 마지막 하트 하나"였습니다. 그래서 채도 조정값은 파스텔 쪽에 두고, 스트로브 대신 화이트 플래시를 한 번만 씁니다(10장).</p>
+<p>장르를 따르지 않을 때는 이유를 컨셉 시트에 적어 둡니다. 연출이나 아티스트 쪽에서 "댄스곡인데 왜 스트로브가 없어요?"라고 물을 때, 컨셉 시트의 한 줄이 답이 됩니다.</p>
+
+<h2 id="c15-154-현장마다-먼저-고칠-것">15.4 현장마다 먼저 고칠 것</h2><p class="lead">장르와 곡으로 정한 값은 공연할 현장에 맞춰 한 번 더 고칩니다.</p>
+<p>같은 곡이라도 음악방송, 콘서트, 시상식, 페스티벌, 라이트쇼에서 무대가 다르기 때문입니다. 자세한 내용은 4부에서 현장마다 다루고, 여기서는 고칠 항목만 모아 둡니다.</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 406" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<rect x="202.0" y="96.0" width="142.0" height="34.0" rx="6" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="273.0" y="118.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">음악방송</text>
+<rect x="348.0" y="96.0" width="142.0" height="34.0" rx="6" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="419.0" y="118.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">콘서트</text>
+<rect x="494.0" y="96.0" width="142.0" height="34.0" rx="6" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="565.0" y="118.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">시상식</text>
+<rect x="640.0" y="96.0" width="142.0" height="34.0" rx="6" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="711.0" y="118.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">페스티벌</text>
+<rect x="786.0" y="96.0" width="142.0" height="34.0" rx="6" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="857.0" y="118.0" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">라이트쇼</text>
+<text x="36.0" y="172.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">느린 곡</text>
+<text x="36.0" y="192.0" font-size="10.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">발라드 · R&amp;B ·</text>
+<text x="36.0" y="206.0" font-size="10.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">어쿠스틱</text>
+<rect x="202.0" y="138.0" width="142.0" height="96.0" rx="6" fill="#eef4fb" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="212.0" y="162.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">키 색온도 고정,</text>
+<text x="212.0" y="179.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">크로스페이드 길이를</text>
+<text x="212.0" y="196.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">카메라로 확인</text>
+<rect x="348.0" y="138.0" width="142.0" height="96.0" rx="6" fill="#eef4fb" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="358.0" y="162.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">앞뒤 곡과 대비,</text>
+<text x="358.0" y="179.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">스페셜 하나</text>
+<rect x="494.0" y="138.0" width="142.0" height="96.0" rx="6" fill="#eef4fb" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="504.0" y="162.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">전환 큐 짧게, 키</text>
+<text x="504.0" y="179.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">먼저</text>
+<rect x="640.0" y="138.0" width="142.0" height="96.0" rx="6" fill="#eef4fb" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="650.0" y="162.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">현장 장비에서 웜</text>
+<text x="650.0" y="179.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">화이트부터 찾기</text>
+<rect x="786.0" y="138.0" width="142.0" height="96.0" rx="6" fill="#eef4fb" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="796.0" y="162.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">드문 조합 —</text>
+<text x="796.0" y="179.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">밀도를 낮게 유지</text>
+<text x="36.0" y="276.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">미디엄</text>
+<text x="36.0" y="296.0" font-size="10.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">댄스 팝 · 시티 팝 ·</text>
+<text x="36.0" y="310.0" font-size="10.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">힙합 · 트로트</text>
+<rect x="202.0" y="242.0" width="142.0" height="96.0" rx="6" fill="#fdf3e4" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="212.0" y="266.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">플래시 기준,</text>
+<text x="212.0" y="283.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">카메라 컷에 포지션</text>
+<text x="212.0" y="300.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">맞추기</text>
+<rect x="348.0" y="242.0" width="142.0" height="96.0" rx="6" fill="#fdf3e4" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="358.0" y="266.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">곡마다 대표 룩</text>
+<text x="358.0" y="283.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">다르게</text>
+<rect x="494.0" y="242.0" width="142.0" height="96.0" rx="6" fill="#fdf3e4" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="504.0" y="266.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">장비 나눠 쓰기,</text>
+<text x="504.0" y="283.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">스페셜 큐 한 번</text>
+<rect x="640.0" y="242.0" width="142.0" height="96.0" rx="6" fill="#fdf3e4" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="650.0" y="266.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">리듬 레이어 하나</text>
+<text x="650.0" y="283.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">줄여 시작</text>
+<rect x="786.0" y="242.0" width="142.0" height="96.0" rx="6" fill="#fdf3e4" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="796.0" y="266.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">강조를 촘촘히</text>
+<text x="36.0" y="380.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">빠른 곡</text>
+<text x="36.0" y="400.0" font-size="10.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">퍼포먼스 댄스 · EDM</text>
+<text x="36.0" y="414.0" font-size="10.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">· 록</text>
+<rect x="202.0" y="346.0" width="142.0" height="96.0" rx="6" fill="#fbe9e6" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="212.0" y="370.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">스트로브를 화이트</text>
+<text x="212.0" y="387.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">범프로</text>
+<rect x="348.0" y="346.0" width="142.0" height="96.0" rx="6" fill="#fbe9e6" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="358.0" y="370.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">강조를 공연 전체에</text>
+<text x="358.0" y="387.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">나눔</text>
+<rect x="494.0" y="346.0" width="142.0" height="96.0" rx="6" fill="#fbe9e6" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="504.0" y="370.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">오디언스 한 번,</text>
+<text x="504.0" y="387.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">앞뒤 무대와 겹치지</text>
+<text x="504.0" y="404.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">않게</text>
+<rect x="640.0" y="346.0" width="142.0" height="96.0" rx="6" fill="#fbe9e6" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="650.0" y="370.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">드롭 앞 다크</text>
+<text x="650.0" y="387.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">큐부터 확보</text>
+<rect x="786.0" y="346.0" width="142.0" height="96.0" rx="6" fill="#fbe9e6" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="796.0" y="370.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">밀도 최대,</text>
+<text x="796.0" y="387.0" font-size="11.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">플래시는 5초 이내</text>
+<text x="24.0" y="456.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">현장마다 자세한 조정은 4부에서 다룹니다. 칸의 내용은 저자가 처음 채운 출발값입니다.</text>
+</svg>
+<figcaption><b>그림 15-1</b> 장르와 현장의 조정표. 가로는 현장, 세로는 템포로 묶은 장르입니다. 칸마다 그 조합에서 가장 먼저 고칠 조정값을 적었습니다.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>표 15-2</b> 현장마다 먼저 고칠 것 <span class="badge start">출발값</span> <sup class="ref"><a href="#c15-s1">1</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>현장</th>
+<th>먼저 고칠 것</th>
+<th>이유</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>음악방송</td>
+<td>플래시를 기준 안으로, 키 색온도 고정</td>
+<td>카메라가 무대를 보고, 방송사마다 플래시 기준이 있음(10장의 Ofcom 예, 국내 기준은 방송사마다 확인, 17장)</td>
+</tr>
+<tr class="even">
+<td>콘서트</td>
+<td>곡마다 대표 룩을 다르게, 강조를 공연 전체에 나눔</td>
+<td>여러 곡이 이어지므로 곡 사이의 반복이 단점이 됨(14장)</td>
+</tr>
+<tr class="odd">
+<td>시상식</td>
+<td>무대마다 장비를 나눠 씀, 전환 큐를 짧게</td>
+<td>같은 장비를 여러 팀이 나눠 쓰고, 무대 사이가 짧음</td>
+</tr>
+<tr class="even">
+<td>페스티벌</td>
+<td>다른 사람이 디자인한 무대, 밀도를 낮춰 시작</td>
+<td>처음 보는 무대에서 짧은 시간에 짜야 함</td>
+</tr>
+<tr class="odd">
+<td>라이트쇼</td>
+<td>밀도를 높임, 강조를 촘촘히</td>
+<td>사람이 아니라 빛이 주인공임</td>
+</tr>
+</tbody>
+</table></div>
+<aside class="box heard"><div class="box-label">현장에서 자주 듣는 말</div><div class="box-body">
+<p> "이번엔 방송이라 스트로브 빼 주세요." 퍼포먼스 댄스 곡에서 스트로브를 빼면, 그 자리를 무엇이 채울지부터 정합니다. 박 단위 화이트 범프나 1마디 화이트로 바꾸면 플래시 기준 안에서 같은 순간을 짚을 수 있습니다.</p>
+</div></aside>
+
+<h2 id="c15-155-실습-출발값을-세-번-고치기">15.5 [실습] 출발값을 세 번 고치기</h2><p class="lead">곡 하나를 골라 장르 → 컨셉 → 현장의 순서로 값을 다듬습니다.</p>
+<p>고칠 때마다 무엇이 왜 바뀌었는지 적으면, 마지막 값이 어디서 왔는지 언제든 거슬러 올라갈 수 있습니다.</p>
+<p><strong>따라 하기</strong></p>
+<ol type="1">
+<li>곡의 장르를 정하고 표 15-1에서 그 줄을 옮깁니다. 두 장르 사이라면 두 줄을 다 적습니다.</li>
+<li>컨셉 시트(7장)를 옆에 놓고, 다섯 조정값 가운데 컨셉과 부딪히는 것을 고칩니다. 고친 칸마다 컨셉 시트의 어느 줄 때문인지 적습니다.</li>
+<li>무대가 설 현장을 정하고, 표 15-2에서 먼저 고칠 것을 반영합니다.</li>
+<li>세 번 고친 값을 12장의 구간 표(표 12-5)에 옮깁니다.</li>
+</ol>
+<aside class="box check"><div class="box-label">확인하는 법</div><div class="box-body"><ol class="steps"><li>마지막 값의 칸마다 "장르", "컨셉", "현장" 가운데 어디서 왔는지 표시합니다.</li><li>"장르"만 붙은 칸이 대부분이라면 곡을 아직 덜 읽은 것일 수 있습니다.</li><li>7장의 컨셉 레이어로 돌아가 감정과 가사를 다시 읽어 봅니다.</li></ol></div></aside>
+<div class="tbl"><div class="tcap"><b>표 15-3</b> LOVE ATTACK 출발값을 세 번 고치기 — 저자의 예, 음악방송 가정 <code>[저자 확인]</code></div><table>
+<thead>
+<tr class="header">
+<th>조정값</th>
+<th>장르(미디엄 댄스 팝)</th>
+<th>컨셉으로 고침</th>
+<th>현장(음악방송)으로 고침</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>템포</td>
+<td>112 BPM, 100~120 밴드</td>
+<td>그대로</td>
+<td>그대로</td>
+</tr>
+<tr class="even">
+<td>밀도</td>
+<td>리듬 레이어 2</td>
+<td>그대로, 후렴 3만 3</td>
+<td>그대로</td>
+</tr>
+<tr class="odd">
+<td>채도</td>
+<td>파스텔에서 중간</td>
+<td>파스텔 세 색(진주 핑크, 라일락, 아쿠아) + 스페셜 빨강</td>
+<td>빨강을 픽셀 두 마디로만, 깜박이지 않게(채도 높은 빨강의 전환 주의)</td>
+</tr>
+<tr class="even">
+<td>움직임</td>
+<td>4마디마다 포지션</td>
+<td>그대로, 벌스에서 한쪽 정지</td>
+<td>카메라 컷에 맞춰 후렴 진입 포지션을 미리 확인</td>
+</tr>
+<tr class="odd">
+<td>강조</td>
+<td>밝기 히트, 무빙 버스트</td>
+<td>+ 화이트 플래시 한 번, 스트로브와 블라인더 없음</td>
+<td>화이트 플래시는 한 번이므로 기준 안</td>
+</tr>
+</tbody>
+</table></div>
+<aside class="box mine"><div class="box-label">내 곡으로 해 보기</div><div class="box-body"><ol class="steps"><li>지금 맡은 곡으로 같은 표를 만들어 봅니다.</li><li>"컨셉으로 고침" 칸이 모두 "그대로"라면, 그 곡의 컨셉이 장르를 그대로 따르는 것인지, 아직 컨셉을 정하지 않은 것인지 따져 봅니다.</li></ol></div></aside>
+
+<section class="summary"><h2>핵심 정리</h2><ul>
+<li>장르는 규칙이 아니라 12장 출발값을 옮기는 조정값입니다. 템포, 밀도, 채도, 움직임, 강조의 다섯 개입니다.</li>
+<li>장르 열 가지는 대표 BPM이 겹쳐도 조정값이 다릅니다. 키는 어느 장르에서도 조정값에 들어 있지 않습니다.</li>
+<li>장르와 컨셉이 부딪히면 곡을 따르고, 그 이유를 컨셉 시트에 적습니다.</li>
+<li>현장마다 먼저 고칠 것이 다릅니다. 음악방송은 플래시와 키, 콘서트는 곡 사이의 반복, 페스티벌은 밀도입니다.</li>
+<li>출발값은 장르 → 컨셉 → 현장의 순서로 세 번 고치고, 고친 이유를 남깁니다.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">내일 현장에서</div><div class="box-body"><ol class="steps"><li>오늘 맡은 곡에서 "이 장르니까" 고른 색을 하나 찾아, 가사의 레이어로 다시 골라 봅니다.</li><li>같은 색이 나오면 그대로 두고, 다른 색이 나오면 둘을 리허설에서 견주어 봅니다.</li></ol></div></aside>
+
+<section class="notes"><h2>주</h2><ol><li id="c15-s1">저자의 미공개 작업 노트. 현장마다 먼저 고칠 것(음악방송의 플래시와 키, 콘서트의 곡 사이 반복, 시상식의 장비 나눠 쓰기, 페스티벌의 받은 장비, 라이트쇼의 밀도).</li></ol></section>
+
+
+</article>
+</div>
