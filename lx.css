@@ -85,3 +85,7 @@ td input.n{width:4.4em}
   td button,td select,td input{min-height:36px}
   .kbd,.tag{font-size:12px}th{font-size:12.5px}
 }
+
+.book-link{font-size:13px;font-weight:700;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.book-link:hover{border-color:var(--accent)}
+@media (max-width:760px){.book-link{order:1}}

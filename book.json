@@ -1,0 +1,18 @@
+{
+ "home": "https://ablitzdesign.tistory.com/pages/book",
+ "chapters": {
+  "0": {
+   "title": "들어가며",
+   "url": ""
+  },
+  "1": {
+   "title": "곡을 세 번 듣기",
+   "url": "https://ablitzdesign.tistory.com/49"
+  },
+  "2": {
+   "title": "박과 마디",
+   "url": ""
+  }
+ },
+ "note": "장 주소 목록. 티스토리에 장을 올리면 여기 url만 채우면 자료실과 도구모음의 '책 N장' 링크가 그 글로 갑니다."
+}

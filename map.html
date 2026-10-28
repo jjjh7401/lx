@@ -60,7 +60,7 @@ pre { background: var(--bg); border: 1px solid var(--line); border-radius: 4px; 
 </style>
 
 <div class="wrap">
-  <p style="margin:0 0 12px;font-size:13px"><a href="index.html" style="color:var(--accent)">← LX 조명 연출 도구모음</a></p>
+  <p style="margin:0 0 12px;font-size:13px"><a href="index.html" style="color:var(--accent)">← LX 조명 연출 도구모음</a> · <a id="bk-ch" href="https://ablitzdesign.tistory.com/pages/book" target="_blank" rel="noopener" style="color:var(--accent)">책 읽기 ↗</a></p><script>fetch('book.json').then(function(r){return r.json()}).then(function(b){var c=(b.chapters||{})['3'];var a=document.getElementById('bk-ch');if(c&&c.url){a.href=c.url;a.textContent='책 3장 읽기 ↗'}else{a.href=b.home}}).catch(function(){});</script>
   <header>
     <h1>음악 지도 연습장</h1><span class="tag">웹 부록 4 · 3·4장</span>
     <p class="lead">BPM과 첫 다운비트, 구간과 변화를 마디로 적으면 시각을 계산해 음악 지도를 그리고, 곡 구성표 텍스트를 만들어 줍니다. 처음에는 실습 곡 LOVE ATTACK의 예가 들어 있습니다. 표를 고치면 지도가 바로 바뀝니다.</p>

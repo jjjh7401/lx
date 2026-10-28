@@ -87,7 +87,7 @@ footer { margin-top: 24px; font-size: 0.8rem; color: var(--muted); max-width: 80
 </style>
 
 <div class="wrap">
-  <p style="margin:0 0 12px;font-size:13px"><a href="index.html" style="color:var(--accent)">← LX 조명 연출 도구모음</a></p>
+  <p style="margin:0 0 12px;font-size:13px"><a href="index.html" style="color:var(--accent)">← LX 조명 연출 도구모음</a> · <a id="bk-ch" href="https://ablitzdesign.tistory.com/pages/book" target="_blank" rel="noopener" style="color:var(--accent)">책 읽기 ↗</a></p><script>fetch('book.json').then(function(r){return r.json()}).then(function(b){var c=(b.chapters||{})['2'];var a=document.getElementById('bk-ch');if(c&&c.url){a.href=c.url;a.textContent='책 2장 읽기 ↗'}else{a.href=b.home}}).catch(function(){});</script>
   <header>
     <h1>박자 계산기</h1><span class="tag">웹 부록 3 · 2장</span>
     <p class="lead">BPM과 첫 다운비트 시각을 넣으면 마디 시각, 페이드 길이, 깜박임 속도를 한 번에 계산합니다. 처음에는 이 책의 실습 곡 LOVE ATTACK(112 BPM, 첫 다운비트 1.50초) 값이 들어 있습니다.</p>

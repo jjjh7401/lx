@@ -611,7 +611,8 @@ function render(){
 var CUR=null;
 function fld(label,html,cls){return html?'<div class="fld'+(cls?' '+cls:'')+'"><h4>'+label+'</h4>'+html+'</div>':''}
 function p(s){return s?'<p>'+rich(s)+'</p>':''}
-function bookLink(n){n=parseInt(n,10);if(!n)return '';return '<a class="btn" href="'+M.book+'" target="_blank" rel="noopener">책 '+n+'장 '+esc(M.chapters[n]||'')+' ↗</a>'}
+var BK={chapters:{}};fetch('../book.json').then(function(r){return r.json()}).then(function(j){BK=j}).catch(function(){});
+function bookLink(n){n=parseInt(n,10);if(!n)return '';var c=(BK.chapters||{})[n]||{};var u=c.url||BK.home||M.book;var t=c.title||M.chapters[n]||'';return '<a class="btn" href="'+u+'" target="_blank" rel="noopener">책 '+n+'장 '+esc(t)+(c.url?'':' (준비 중)')+' ↗</a>'}
 function toolLink(k){return M.tools[k]?'<a class="btn" href="'+M.hub+k+'.html" target="_blank" rel="noopener">'+esc(M.tools[k])+' ↗</a>':''}
 function fxDetail(it){
   var c=CAT[it.cat]||{},f=it.field||{};

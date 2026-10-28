@@ -234,6 +234,17 @@
       (opt.noSong ? '' : '<div class="song-pick"><label for="lx-song" class="muted">곡</label><select id="lx-song">' + opts + '</select>' +
       '<button type="button" id="lx-new" class="ghost">새 곡</button></div>') + '</div>';
     document.body.insertBefore(h, document.body.firstChild);
+    (function () {
+      var TOOL_CH = { 'listen.html': [1], 'pairs.html': [1], 'sheet.html': [5], 'rig.html': [6], 'concept.html': [7, 10], 'palette.html': [8], 'looks.html': [9], 'bright.html': [10], 'grid.html': [11, 13], 'recs.html': [12], 'trans.html': [14], 'cues.html': [16], 'bcast.html': [17], 'setlist.html': [18, 19], 'busk.html': [21], 'rigcalc.html': [22], 'showplan.html': [24, 29], 'phaser.html': [25, 26], 'tc.html': [28], 'rehearsal.html': [28, 30], 'gocall.html': [31], 'safety.html': [32], 'song.html': [33] };
+      var chs = TOOL_CH[active] || [];
+      fetch(new URL('book.json', document.baseURI)).then(function (r) { return r.json(); }).then(function (bk) {
+        var c = null, n = 0;
+        for (var i = 0; i < chs.length; i++) { var x = (bk.chapters || {})[chs[i]]; if (x && x.url) { c = x; n = chs[i]; break; } }
+        var a = document.createElement('a'); a.className = 'book-link'; a.target = '_blank'; a.rel = 'noopener';
+        if (c) { a.href = c.url; a.textContent = '책 ' + n + '장 읽기 ↗'; } else { a.href = bk.home; a.textContent = '책 읽기 ↗'; }
+        var w = h.querySelector('.wrap'), b = w && w.querySelector('.brand'); if (b) b.insertAdjacentElement('afterend', a);
+      }).catch(function () {});
+    })();
     var cur0 = h.querySelector('.nav [aria-current]'); if (cur0) { var nv = cur0.parentNode, fit = function () { nv.scrollLeft = cur0.offsetLeft - nv.offsetLeft - (nv.clientWidth - cur0.offsetWidth) / 2; }; fit(); window.addEventListener('load', fit); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit); } // 좁은 화면: 지금 도구가 보이게
     if (opt.noSong) return cur;
     h.querySelector('#lx-song').addEventListener('change', function (e) { var l2 = lib(); l2.current = e.target.value; write(l2); location.reload(); });

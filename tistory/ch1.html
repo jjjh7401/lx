@@ -1,0 +1,586 @@
+<div class="bk"><style>
+.bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+.bk, .bk *{box-sizing:border-box}
+.bk{scroll-behavior:smooth}
+.bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+.bk a{color:var(--accent)}
+.bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+.bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+.bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+.bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+.bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+.bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+.bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+.bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+.bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+.bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+.bk .front dd{margin:0}
+.bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+.bk .toc .part{margin:0 0 18px}
+.bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+.bk .toc ol{list-style:none;margin:0;padding:0}
+.bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+.bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+.bk .toc li li a:hover .tt{color:var(--accent)}
+.bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+.bk .toc .todo{color:var(--muted)}
+.bk .toc .todo .tt{flex:1}
+.bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+.bk .toc .live .pt{color:var(--accent)}
+.bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+.bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+.bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+.bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+.bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+.bk .part-page li.todo{color:var(--muted)}
+.bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+.bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+.bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+.bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+.bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+.bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+.bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+.bk .open-label + p, .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+.bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+.bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+.bk .chapter strong{color:var(--ink)}
+.bk .chapter ul, .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+.bk .chapter li{margin:.25em 0}
+.bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+.bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+.bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+.bk .ref a{text-decoration:none;color:var(--accent)}
+.bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+.bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+.bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+.bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+.bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+.bk .formula p{margin:0}
+.bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+.bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+.bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+.bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+.bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+.bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+.bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+.bk .box-body > *:last-child{margin-bottom:12px}
+.bk .box p{margin:0 0 .9em}
+.bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+.bk .box ul, .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+.bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+.bk ul.checks{list-style:none;padding:0 !important}
+.bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+.bk ul.checks li:last-child{border-bottom:0}
+.bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+.bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+.bk dl.defs{margin:4px 0 6px}
+.bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+.bk dl.defs > div:last-child{border-bottom:0}
+.bk dl.defs dt{font-weight:700;color:var(--ink)}
+.bk dl.defs dd{margin:0}
+@media (max-width:640px){.bk dl.defs > div{grid-template-columns:1fr}}
+.bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+.bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+.bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+.bk dl.spec{margin:0;display:grid;gap:2px}
+.bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+.bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+.bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){.bk .song-card{grid-template-columns:1fr}}
+.bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+.bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+.bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+.bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+.bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+.bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+.bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+.bk .box.quote{--c:var(--accent);--cbg:transparent}
+.bk .box.quote .box-body{font-family:var(--serif)}
+.bk .box.heard{--c:var(--blue);--cbg:transparent}
+.bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+.bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+.bk .box.fix{--c:var(--purple);--cbg:transparent}
+.bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+.bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+.bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+.bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+.bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+.bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+.bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+.bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+.bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+.bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+.bk .summary ul{list-style:none;padding:0;margin:0}
+.bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+.bk .summary li:last-child{border-bottom:0}
+.bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+.bk .chapter p{margin:0 0 1.3em}
+.bk .chapter > h2[id$="내일-현장에서"]{display:none}
+.bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+.bk figure.plate svg{display:block;width:100%;height:auto}
+.bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+.bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){.bk figure.plate{margin:2em -8px}}
+.bk .tbl{margin:1.6em 0;overflow-x:auto}
+.bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+.bk .tcap b{color:var(--ink);margin-right:4px}
+.bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+.bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+.bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+.bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){.bk .web{margin:2em -8px}}
+.bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+.bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+.bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+.bk .web-head{flex-wrap:wrap}
+.bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+.bk .web-open:hover{background:var(--accent);color:var(--page)}
+.bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+.bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+.bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+.bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+.bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+.bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+.bk .live.folded .live-slot{display:none}
+.bk .web-body p{margin:0}
+.bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+.bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+.bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+.bk .live summary::-webkit-details-marker{display:none}
+.bk .live summary::before{content:"▶ ";font-size:11px}
+.bk .live[open] summary::before{content:"▼ "}
+.bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+.bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+.bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+.bk .notes ol{padding-left:1.4em}
+.bk .notes li{margin:.35em 0}
+.bk .notes a{word-break:break-all}
+.bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+.bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+.bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+.bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+.bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+.bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+.bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.bk #chappx h2, .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){.bk .appx-nav{padding:8px 10px}
+.bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.bk .appx-nav .chips a{flex:none}
+.bk #chappx h2, .bk #chappx h3{scroll-margin-top:170px}}
+.bk tr.appx-hide{display:none}
+.bk .tbl.appx-hide, .bk .tcap.appx-hide{display:none}
+.bk .chap-nav a{text-decoration:none}
+.bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion:reduce){.bk{scroll-behavior:auto}}
+.bk{color-scheme:light}
+.bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+.bk .tool-embed iframe{display:block;width:100%;border:0}
+.bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+.bk .tool-open a{font-weight:700}
+.bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+.bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+.bk .part-page h2{margin:6px 0 10px}
+
+</style>
+<section class="part-page" id="part1"><div class="pn">PART 1</div><h2>곡 읽기</h2><p>조명 연출은 곡을 듣는 데서 시작합니다. 1부에서는 처음 받은 곡을 세 번 들어 보고, 박과 마디를 세고, 곡의 구조와 커지고 잦아드는 흐름을 찾아, 표 한 장에 정리하기까지를 다룹니다.</p><ol><li><a href="https://ablitzdesign.tistory.com/49">곡을 세 번 듣기</a></li><li><a href="https://ablitzdesign.tistory.com/52">박과 마디</a></li><li><span>곡의 구조</span></li><li><span>에너지와 변화</span></li><li><span>곡 구성표</span></li></ol></section><article class="chapter" id="ch1"><header class="ch-head"><div class="ch-num">1<span>장</span></div><h1 class="ch-title">곡을 세 번 듣기</h1><p class="ch-sub">듣기 노트와 소리에 어울리는 조명</p></header>
+
+
+<aside class="box goals"><div class="box-label">이 장에서 얻을 것</div><div class="box-body">
+<ul class="checks">
+<li>처음 받은 곡을 세 번에 나눠 듣고, 들을 때마다 다른 것을 적습니다.</li>
+<li>악기 소리를 들으면 짝이 되는 조명이 바로 떠오르도록 듣는 습관을 들입니다.</li>
+<li>듣기 노트를 초가 아니라 마디로 적습니다.</li>
+</ul>
+</div></aside>
+<div class="open-label">여는 장면</div><p class="lead">좋아하는 곡을 듣다 보면 "곧 터지겠다" 싶어 숨을 참게 되는 순간이 있습니다. 후렴 직전에 소리가 조금씩 올라가다가 한꺼번에 쏟아지는 자리입니다. 처음 듣는 곡이라도 그 순간이 다가오는 것은 미리 느껴집니다.</p>
+<p>무대 조명은 바로 그때 음악과 함께 터져야 합니다. 관객이 기다리는 동안 조명감독은 이미 그 자리를 알고 있어야 합니다. 그 준비는 콘솔 앞이 아니라 듣는 데서 시작합니다.</p>
+<aside class="box terms"><div class="box-label">먼저 알아 둘 말</div><div class="box-body"><p class="box-note">이 장에는 2장과 3장에서 자세히 다룰 말이 먼저 나옵니다. 짧게 뜻만 적어 둡니다.</p><dl class="defs"><div><dt>곡·음악·노래</dt><dd>이 책에서 <strong>곡</strong>은 노래가 있든 없든 음악 작품 하나를 말합니다. EDM 트랙도 한 곡입니다. <strong>음악</strong>은 소리의 흐름 전체를, <strong>노래</strong>는 사람 목소리와 가사가 있는 부분만 가리킵니다.</dd></div><div><dt>BPM</dt><dd>1분에 박이 몇 번 오는지입니다. 112 BPM이면 1분에 112박입니다(2장).</dd></div><div><dt>마디·다운비트</dt><dd>박을 몇 개씩(대중음악은 대개 넷) 묶은 단위가 마디, 마디의 첫 박이 다운비트입니다(2장).</dd></div><div><dt>큐</dt><dd>조명 상태 하나와 그 상태로 바뀌는 방법을 묶어 콘솔에 저장한 것입니다. 큐를 순서대로 적은 표가 큐 시트입니다.</dd></div><div><dt>히트</dt><dd>음악이 크게 치는 한 순간, 또는 그 순간에 맞춰 거는 짧은 조명 변화입니다.</dd></div><div><dt>벌스·프리코러스·후렴</dt><dd>이야기를 푸는 부분, 후렴 앞에서 기대를 쌓는 부분, 곡의 중심인 부분입니다(3장).</dd></div><div><dt>빌드업·드롭</dt><dd>EDM에서 기대를 쌓는 부분과 가장 크게 터지는 부분입니다(3장).</dd></div></dl></div></aside>
+<aside class="box song"><div class="box-label">이 책의 실습 곡</div><div class="box-body"><div class="song-card"><div class="song-title">LOVE ATTACK</div><dl class="spec"><div><dt>아티스트</dt><dd>리센느(RESCENE)</dd></div><div><dt>발매</dt><dd>2024년 8월, 미니 1집 『SCENEDROME』 타이틀곡<sup class="ref"><a href="#c1-s1">1</a></sup></dd></div><div><dt>빠르기</dt><dd>112 BPM · 4/4박 · 83마디</dd></div><div><dt>길이</dt><dd>약 3분</dd></div></dl></div><p>빌드업, 큰 히트, 킥이 빠지는 마디, 한 박 당겨 들어오는 마지막 후렴(이 책에서는 후렴 3)까지, 1부에서 다룰 장면이 이 한 곡에 다 들어 있습니다.</p><p>마디 번호와 시각은 저자가 음원에서 잰 BPM과 첫 다운비트로 계산했습니다. 교재의 예제 파일처럼 생각하면 됩니다. 실습 양식과 웹 부록은 어떤 곡에도 쓸 수 있으니, 각 실습의 <b>내 곡으로 해 보기</b>에서는 맡은 곡으로 같은 과정을 밟아 봅니다.</p></div></aside>
+
+<h2 id="c1-11-음악을-눈으로-옮기는-일">1.1 음악을 눈으로 옮기는 일</h2><p class="lead">조명이 하는 일은 들리는 음악을 눈에 보이게 하는 것입니다. 콘서트 조명 분야의 고전 『Concert Lighting』을 쓴 제임스 무디(James L. Moody)는 콘서트 조명을 음악의 "시각적 번역(visual translation)"이라고 불렀습니다. 조명은 곡을 돋보이게 해야지 덮어서는 안 된다고도 적었습니다.<sup class="ref"><a href="#c1-s2">2</a></sup></p>
+<p>번역을 하려면 원문부터 읽어야 합니다. 조명감독에게 원문은 곡입니다. 곡을 듣고 다음 세 가지를 알아내야 큐를 쓸 수 있습니다.</p>
+<ol type="1">
+<li><strong>언제</strong> 바뀌는지: 구간의 경계, 히트, 템포 변화</li>
+<li><strong>무엇이</strong> 바뀌는지: 어떤 악기가 들어오고 빠지는지</li>
+<li><strong>어떤 느낌</strong>인지: 구간마다 떠오르는 감정과 색</li>
+</ol>
+<p>이 셋을 한 번 듣고 다 잡으려 하면 하나도 제대로 잡히지 않습니다. 그래서 나눠서 듣습니다.</p>
+
+<h2 id="c1-12-세-번-나눠-듣기">1.2 세 번 나눠 듣기</h2><p class="lead">새 곡은 한 번에 다 잡으려 하지 말고, 들을 때마다 다른 것을 찾습니다.</p>
+<p>무디는 새 곡을 대본 읽듯 듣는다고 했습니다. 대본도 처음에는 재미로 읽고, 두 번째에는 조명이 필요한 지문을 찾고, 세 번째에는 대사 속에 숨은 큐를 찾습니다. 곡도 그렇게 세 번 듣습니다.<sup class="ref"><a href="#c1-s2">2</a></sup></p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 366" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<text x="198.0" y="95.0" font-size="13" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">곡</text>
+<rect x="210.0" y="78.0" width="49.4" height="26.0" rx="0" fill="#eef0f3" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="235.7" y="96.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">인트로</text>
+<rect x="261.4" y="78.0" width="66.6" height="26.0" rx="0" fill="#eef0f3" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="295.7" y="96.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">벌스</text>
+<rect x="330.0" y="78.0" width="32.3" height="26.0" rx="0" fill="#eef0f3" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="347.1" y="96.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">프리</text>
+<rect x="364.3" y="78.0" width="135.1" height="26.0" rx="0" fill="#eef0f3" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="432.9" y="96.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">후렴</text>
+<rect x="501.4" y="78.0" width="66.6" height="26.0" rx="0" fill="#eef0f3" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="535.7" y="96.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">벌스</text>
+<rect x="570.0" y="78.0" width="32.3" height="26.0" rx="0" fill="#eef0f3" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="587.1" y="96.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">프리</text>
+<rect x="604.3" y="78.0" width="135.1" height="26.0" rx="0" fill="#eef0f3" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="672.9" y="96.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">후렴</text>
+<rect x="741.4" y="78.0" width="49.4" height="26.0" rx="0" fill="#eef0f3" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="767.1" y="96.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">브리지</text>
+<rect x="792.9" y="78.0" width="118.0" height="26.0" rx="0" fill="#eef0f3" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="852.9" y="96.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">후렴</text>
+<rect x="912.9" y="78.0" width="15.1" height="26.0" rx="0" fill="#eef0f3" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="921.4" y="96.0" font-size="12" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">끝</text>
+<rect x="24.0" y="136.0" width="912.0" height="76.0" rx="6" fill="#fafbfc" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="40.0" y="162.0" font-size="13" fill="#6b7280" text-anchor="start" font-weight="700" opacity="1.0">1회차</text>
+<text x="40.0" y="184.0" font-size="16" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">즐기며 듣기</text>
+<text x="40.0" y="203.0" font-size="11" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0"></text>
+<rect x="24.0" y="224.0" width="912.0" height="76.0" rx="6" fill="#ffffff" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="40.0" y="250.0" font-size="13" fill="#6b7280" text-anchor="start" font-weight="700" opacity="1.0">2회차</text>
+<text x="40.0" y="272.0" font-size="16" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">큐 포인트 찾기</text>
+<text x="40.0" y="291.0" font-size="11" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0"></text>
+<rect x="24.0" y="312.0" width="912.0" height="76.0" rx="6" fill="#fafbfc" stroke="#d6d9df" stroke-width="1" opacity="1.0"/>
+<text x="40.0" y="338.0" font-size="13" fill="#6b7280" text-anchor="start" font-weight="700" opacity="1.0">3회차</text>
+<text x="40.0" y="360.0" font-size="16" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">곡의 색 느끼기</text>
+<text x="40.0" y="379.0" font-size="11" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0"></text>
+<path d="M210.0,174.0 L214.0,168.8 L218.0,165.7 L222.0,166.1 L226.0,169.9 L230.0,175.7 L234.0,181.1 L238.0,183.6 L242.0,182.0 L246.0,176.8 L250.0,170.1 L254.0,164.6 L258.0,163.0 L262.0,166.1 L266.0,172.9 L270.0,180.6 L274.0,185.8 L278.0,186.1 L282.0,181.1 L286.0,172.6 L290.0,164.3 L294.0,159.7 L298.0,161.2 L302.0,168.4 L306.0,178.5 L310.0,187.0 L314.0,190.3 L318.0,186.5 L322.0,177.1 L326.0,165.9 L330.0,157.8 L334.0,156.4 L338.0,162.7 L342.0,174.2 L346.0,186.0 L350.0,192.9 L354.0,191.9 L358.0,183.0 L362.0,170.0 L366.0,158.4 L370.0,153.3 L374.0,157.1 L378.0,168.3 L382.0,182.1 L386.0,192.7 L390.0,195.3 L394.0,188.8 L398.0,175.8 L402.0,161.9 L406.0,153.2 L410.0,153.3 L414.0,162.4 L418.0,176.4 L422.0,189.4 L426.0,195.7 L430.0,192.8 L434.0,181.8 L438.0,167.6 L442.0,156.3 L446.0,152.7 L450.0,158.2 L454.0,170.4 L458.0,183.8 L462.0,192.9 L466.0,193.7 L470.0,186.1 L474.0,173.6 L478.0,161.6 L482.0,155.2 L486.0,156.9 L490.0,165.8 L494.0,177.8 L498.0,187.8 L502.0,191.6 L506.0,187.8 L510.0,178.4 L514.0,167.6 L518.0,159.9 L522.0,158.5 L526.0,163.7 L530.0,172.9 L534.0,182.1 L538.0,187.5 L542.0,186.9 L546.0,181.0 L550.0,172.5 L554.0,165.1 L558.0,161.8 L562.0,163.8 L566.0,170.0 L570.0,177.4 L574.0,183.0 L578.0,184.6 L582.0,181.6 L586.0,175.6 L590.0,169.3 L594.0,165.3 L598.0,165.1 L602.0,168.6 L606.0,174.2 L610.0,179.5 L614.0,182.2 L618.0,181.4 L622.0,177.5 L626.0,172.3 L630.0,167.9 L634.0,166.2 L638.0,167.8 L642.0,172.0 L646.0,177.1 L650.0,180.8 L654.0,181.6 L658.0,179.2 L662.0,174.5 L666.0,169.5 L670.0,166.3 L674.0,166.4 L678.0,169.7 L682.0,175.1 L686.0,180.2 L690.0,182.8 L694.0,181.7 L698.0,177.2 L702.0,171.0 L706.0,165.8 L710.0,163.9 L714.0,166.4 L718.0,172.3 L722.0,179.4 L726.0,184.5 L730.0,185.3 L734.0,181.1 L738.0,173.6 L742.0,165.7 L746.0,161.1 L750.0,161.9 L754.0,168.1 L758.0,177.2 L762.0,185.5 L766.0,189.1 L770.0,186.3 L774.0,177.9 L778.0,167.4 L782.0,159.3 L786.0,157.3 L790.0,162.5 L794.0,173.0 L798.0,184.4 L802.0,191.6 L806.0,191.5 L810.0,183.7 L814.0,171.4 L818.0,159.9 L822.0,154.1 L826.0,156.9 L830.0,167.2 L834.0,180.7 L838.0,191.5 L842.0,195.0 L846.0,189.5 L850.0,177.2 L854.0,163.3 L858.0,153.9 L862.0,153.1 L866.0,161.2 L870.0,175.0 L874.0,188.3 L878.0,195.6 L882.0,193.6 L886.0,183.2 L890.0,168.9 L894.0,156.8 L898.0,152.2 L902.0,157.0 L906.0,168.9 L910.0,182.9 L914.0,192.9 L918.0,194.7 L922.0,187.6 L926.0,175.0 L930.0,162.2" fill="none" stroke="#9aa3b2" stroke-width="1.4" opacity="1.0" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="930.0" y="206.0" font-size="11.5" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">메모 없음</text>
+<rect x="257.4" y="226.0" width="8.0" height="8.0" rx="0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<line x1="261.4" y1="236.0" x2="261.4" y2="278.0" stroke="#1f2430" stroke-width="1.2" opacity="1.0" stroke-linecap="butt"/>
+<rect x="326.0" y="226.0" width="8.0" height="8.0" rx="0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<line x1="330.0" y1="236.0" x2="330.0" y2="278.0" stroke="#1f2430" stroke-width="1.2" opacity="1.0" stroke-linecap="butt"/>
+<rect x="360.3" y="226.0" width="8.0" height="8.0" rx="0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<line x1="364.3" y1="236.0" x2="364.3" y2="278.0" stroke="#1f2430" stroke-width="1.2" opacity="1.0" stroke-linecap="butt"/>
+<rect x="497.4" y="226.0" width="8.0" height="8.0" rx="0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<line x1="501.4" y1="236.0" x2="501.4" y2="278.0" stroke="#1f2430" stroke-width="1.2" opacity="1.0" stroke-linecap="butt"/>
+<rect x="566.0" y="226.0" width="8.0" height="8.0" rx="0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<line x1="570.0" y1="236.0" x2="570.0" y2="278.0" stroke="#1f2430" stroke-width="1.2" opacity="1.0" stroke-linecap="butt"/>
+<rect x="600.3" y="226.0" width="8.0" height="8.0" rx="0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<line x1="604.3" y1="236.0" x2="604.3" y2="278.0" stroke="#1f2430" stroke-width="1.2" opacity="1.0" stroke-linecap="butt"/>
+<rect x="737.4" y="226.0" width="8.0" height="8.0" rx="0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<line x1="741.4" y1="236.0" x2="741.4" y2="278.0" stroke="#1f2430" stroke-width="1.2" opacity="1.0" stroke-linecap="butt"/>
+<rect x="788.9" y="226.0" width="8.0" height="8.0" rx="0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<line x1="792.9" y1="236.0" x2="792.9" y2="278.0" stroke="#1f2430" stroke-width="1.2" opacity="1.0" stroke-linecap="butt"/>
+<rect x="908.9" y="226.0" width="8.0" height="8.0" rx="0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<line x1="912.9" y1="236.0" x2="912.9" y2="278.0" stroke="#1f2430" stroke-width="1.2" opacity="1.0" stroke-linecap="butt"/>
+<circle cx="367.3" cy="268.0" r="5.5" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="435.9" cy="268.0" r="5.5" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="607.3" cy="268.0" r="5.5" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="787.3" cy="268.0" r="5.5" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<circle cx="795.9" cy="268.0" r="5.5" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<rect x="734.0" y="285.0" width="8.0" height="8.0" rx="0" fill="#1f2430" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="746.0" y="294.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">구간 경계</text>
+<circle cx="830.0" cy="289.0" r="5.0" fill="#c8553d" stroke="none" stroke-width="1" opacity="1.0"/>
+<text x="840.0" y="294.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">악센트(히트)</text>
+<rect x="211.0" y="328.0" width="47.4" height="34.0" rx="3" fill="#5b6b8c" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="262.4" y="328.0" width="64.6" height="34.0" rx="3" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="331.0" y="328.0" width="30.3" height="34.0" rx="3" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="365.3" y="328.0" width="133.1" height="34.0" rx="3" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="502.4" y="328.0" width="64.6" height="34.0" rx="3" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="571.0" y="328.0" width="30.3" height="34.0" rx="3" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="605.3" y="328.0" width="133.1" height="34.0" rx="3" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="742.4" y="328.0" width="47.4" height="34.0" rx="3" fill="#2f8c8c" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="793.9" y="328.0" width="116.0" height="34.0" rx="3" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="913.9" y="328.0" width="13.1" height="34.0" rx="3" fill="#5b6b8c" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="930.0" y="382.0" font-size="11.5" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">색은 예시입니다</text>
+<text x="24.0" y="416.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">베이스: James L. Moody, 『Concert Lighting』 3판의 ‘세 번 듣기’(ProSoundWeb 발췌, 2013). 그림은 이 책에서 새로 그림.</text>
+</svg>
+<figcaption><b>그림 1-1</b> 세 번 듣기. 같은 곡을 세 번 듣되, 들을 때마다 찾는 것이 다릅니다.</figcaption></figure>
+<p><strong>1회차 — 즐기며 듣기.</strong> 아무것도 적지 않고 처음부터 끝까지 듣습니다. 중간에 멈추지 않습니다. 곡이 어떻게 흘러가는지가 몸에 남으면 됩니다. 관객이 처음 이 곡을 들을 때 받는 인상이 바로 그 흐름입니다.</p>
+<p><strong>2회차 — 큐 포인트 찾기.</strong> 이번에는 적으면서 듣습니다. 구간이 바뀌는 자리, 크게 치는 히트, 템포가 바뀌는 곳을 표시합니다. 멈추고 되감아도 됩니다. 이 회차의 결과가 큐 시트의 뼈대가 됩니다.</p>
+<p><strong>3회차 — 곡의 색 느끼기.</strong> 눈을 감고 들으면서 구간마다 떠오르는 색을 적습니다. 무디는 밝고 즐거운 곡은 노랑과 주황, 우울한 곡은 파랑과 라벤더, 뜨거운 곡은 빨강, 편안한 곡은 초록과 청록을 떠올린다고 적었습니다.<sup class="ref"><a href="#c1-s2">2</a></sup> 이 짝은 정답이 아니라 출발점입니다. 색 계획은 8장에서 다룹니다.</p>
+<div class="tbl"><div class="tcap"><b>표 1-1</b> 회차별 듣기 시간 — 3분짜리 곡 기준 <span class="badge start">출발값</span></div><table>
+<thead>
+<tr class="header">
+<th>회차</th>
+<th>무엇을 듣나</th>
+<th>적는 것</th>
+<th>걸리는 시간</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>곡 전체의 흐름</td>
+<td>적지 않음</td>
+<td>3분</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>경계, 히트, 템포 변화</td>
+<td>마디 번호와 변화</td>
+<td>10~15분(되감기 포함)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>감정과 색</td>
+<td>구간마다 색 한두 개</td>
+<td>3~5분</td>
+</tr>
+</tbody>
+</table></div>
+<p>세 번을 다 들어도 20분 남짓입니다. 이 20분이 리허설에서 고칠 시간을 줄여 줍니다.</p>
+<aside class="box try"><div class="box-label">짧은 실험</div><div class="box-body"><ol class="steps"><li>지금 휴대폰에 있는 곡 하나를 틀고, 1회차처럼 아무것도 적지 않고 끝까지 들어 봅니다.</li><li>다 듣고 나서 "가장 크게 터진 곳이 몇 분쯤이었나"를 떠올려 적어 둡니다.</li><li>2회차에서 그 자리를 실제로 찾아 맞춰 봅니다.</li></ol></div></aside>
+<aside class="box story"><div class="box-label">현장 이야기</div><div class="box-body">
+<p>  저자가 새 곡을 받으면 실제로 어떤 순서로 듣는지. 어떤 현장(음악방송, 콘서트 등)이었는지 밝혀서 씁니다.</p>
+</div></aside>
+
+<h2 id="c1-13-뮤직비디오와-안무-영상">1.3 뮤직비디오와 안무 영상</h2><p class="lead">무대 위 사람이 어떤 박을 타고 움직이는지는 뮤직비디오나 안무 영상에서 가장 빨리 확인합니다. 음원만 들어서는 알기 어렵습니다.</p>
+<p>같은 곡에서도 안무가 빠른 박을 따라 잘게 움직이는 구간이 있고, 느린 박에 맞춰 크게 움직이는 구간이 있습니다. 조명이 안무와 다른 박을 따라가면 무대가 둘로 갈라져 보입니다. 2장에서 다룰 "몸이 느끼는 템포"와 같은 이야기입니다.</p>
+<p>뮤직비디오에서 볼 것은 네 가지입니다.</p>
+<ul class="keyed">
+<li><strong>안무가 따라가는 박</strong>빠른 박인지 느린 박인지, 구간마다 바뀌는지 봅니다.</li>
+<li><strong>포인트 안무가 나오는 자리</strong>곡에서 가장 기억에 남는 동작이 몇 마디째에 나오는지 적습니다. 그 자리는 조명도 한 번 크게 바꿀 자리입니다.</li>
+<li><strong>화면의 색</strong>뮤직비디오의 색은 곡의 색을 정할 때 좋은 참고입니다. 다만 그대로 따라 할 필요는 없습니다(7장 컨셉).</li>
+<li><strong>클로즈업의 얼굴</strong>카메라를 거쳐 화면으로 나가는 무대라면, 배경이 아무리 화려해도 얼굴이 어두우면 실패입니다. K팝 음악방송 조명을 다룬 자료들도 이것을 흔한 실수로 꼽습니다.<sup class="ref"><a href="#c1-s3">3</a></sup></li>
+</ul>
+<p> 저자가 뮤직비디오나 안무 영상에서 가장 먼저 확인하는 것</p>
+
+<h2 id="c1-14-사운드와-조명-매칭">1.4 사운드와 조명 매칭</h2><p class="lead">킥, 베이스, 보컬처럼 소리마다 잘 어울리는 조명이 따로 있습니다.</p>
+<p>2회차 듣기를 하다 보면 "여기서 뭔가 바뀐다"는 느낌이 듭니다. 이 느낌을 큐로 바꾸려면 <strong>무엇이</strong> 바뀌었는지 알아야 합니다. 킥이 들어왔는지, 베이스가 빠졌는지, 보컬이 혼자 남았는지에 따라 쓸 조명이 다르기 때문입니다.</p>
+<p>그림 1-2에 사운드와 조명 매칭을 모았습니다. 정답이 아니라 처음 써 볼 출발값입니다.</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 496" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<text x="245.0" y="78.0" font-size="13" fill="#6b7280" text-anchor="middle" font-weight="700" opacity="1.0">소리</text>
+<text x="760.0" y="78.0" font-size="13" fill="#6b7280" text-anchor="middle" font-weight="700" opacity="1.0">조명</text>
+<rect x="130.0" y="92.0" width="230.0" height="38.0" rx="6" fill="#ffffff" stroke="#c8553d" stroke-width="1.6" opacity="1.0"/>
+<text x="144.0" y="109.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">킥</text>
+<text x="144.0" y="124.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">쿵 — 박의 바닥</text>
+<rect x="640.0" y="92.0" width="260.0" height="38.0" rx="6" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.12"/>
+<rect x="640.0" y="92.0" width="260.0" height="38.0" rx="6" fill="none" stroke="#c8553d" stroke-width="1.6" opacity="1.0"/>
+<text x="654.0" y="109.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">밝기 펄스</text>
+<text x="654.0" y="124.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">디머가 박에 맞춰 숨 쉰다</text>
+<line x1="366.0" y1="111.0" x2="632.0" y2="111.0" stroke="#c8553d" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="632.0,111.0 625.7,114.0 625.7,108.0" fill="#c8553d" stroke="none" opacity="1.0"/>
+<rect x="130.0" y="140.0" width="230.0" height="38.0" rx="6" fill="#ffffff" stroke="#c8553d" stroke-width="1.6" opacity="1.0"/>
+<text x="144.0" y="157.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">스네어 · 박수</text>
+<text x="144.0" y="172.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">탁 — 2·4박의 악센트</text>
+<rect x="640.0" y="140.0" width="260.0" height="38.0" rx="6" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.12"/>
+<rect x="640.0" y="140.0" width="260.0" height="38.0" rx="6" fill="none" stroke="#c8553d" stroke-width="1.6" opacity="1.0"/>
+<text x="654.0" y="157.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">짧은 플래시 · 셔터</text>
+<text x="654.0" y="172.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">한 번 끊어 친다</text>
+<line x1="366.0" y1="159.0" x2="632.0" y2="159.0" stroke="#c8553d" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="632.0,159.0 625.7,162.0 625.7,156.0" fill="#c8553d" stroke="none" opacity="1.0"/>
+<rect x="130.0" y="188.0" width="230.0" height="38.0" rx="6" fill="#ffffff" stroke="#c8553d" stroke-width="1.6" opacity="1.0"/>
+<text x="144.0" y="205.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">하이햇</text>
+<text x="144.0" y="220.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">츠츠 — 잘게 쪼갠 박</text>
+<rect x="640.0" y="188.0" width="260.0" height="38.0" rx="6" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.12"/>
+<rect x="640.0" y="188.0" width="260.0" height="38.0" rx="6" fill="none" stroke="#c8553d" stroke-width="1.6" opacity="1.0"/>
+<text x="654.0" y="205.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">빠른 질감</text>
+<text x="654.0" y="220.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">픽셀 칩, 작은 깜박임</text>
+<line x1="366.0" y1="207.0" x2="632.0" y2="207.0" stroke="#c8553d" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="632.0,207.0 625.7,210.0 625.7,204.0" fill="#c8553d" stroke="none" opacity="1.0"/>
+<rect x="130.0" y="236.0" width="230.0" height="38.0" rx="6" fill="#ffffff" stroke="#3b6ea8" stroke-width="1.6" opacity="1.0"/>
+<text x="144.0" y="253.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">베이스</text>
+<text x="144.0" y="268.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">곡의 무게</text>
+<rect x="640.0" y="236.0" width="260.0" height="38.0" rx="6" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.12"/>
+<rect x="640.0" y="236.0" width="260.0" height="38.0" rx="6" fill="none" stroke="#3b6ea8" stroke-width="1.6" opacity="1.0"/>
+<text x="654.0" y="253.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">워시 밝기의 바닥</text>
+<text x="654.0" y="268.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">얼마나 꽉 찼는지</text>
+<line x1="366.0" y1="255.0" x2="632.0" y2="255.0" stroke="#3b6ea8" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="632.0,255.0 625.7,258.0 625.7,252.0" fill="#3b6ea8" stroke="none" opacity="1.0"/>
+<rect x="130.0" y="284.0" width="230.0" height="38.0" rx="6" fill="#ffffff" stroke="#3b6ea8" stroke-width="1.6" opacity="1.0"/>
+<text x="144.0" y="301.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">패드 · 코드</text>
+<text x="144.0" y="316.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">곡의 공기, 화성</text>
+<rect x="640.0" y="284.0" width="260.0" height="38.0" rx="6" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.12"/>
+<rect x="640.0" y="284.0" width="260.0" height="38.0" rx="6" fill="none" stroke="#3b6ea8" stroke-width="1.6" opacity="1.0"/>
+<text x="654.0" y="301.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">색과 느린 변화</text>
+<text x="654.0" y="316.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">구간 팔레트, 긴 페이드</text>
+<line x1="366.0" y1="303.0" x2="632.0" y2="303.0" stroke="#3b6ea8" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="632.0,303.0 625.7,306.0 625.7,300.0" fill="#3b6ea8" stroke="none" opacity="1.0"/>
+<rect x="130.0" y="332.0" width="230.0" height="38.0" rx="6" fill="#ffffff" stroke="#4f8a5b" stroke-width="1.6" opacity="1.0"/>
+<text x="144.0" y="349.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">리드 멜로디</text>
+<text x="144.0" y="364.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">기타 · 신스 리드</text>
+<rect x="640.0" y="332.0" width="260.0" height="38.0" rx="6" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="0.12"/>
+<rect x="640.0" y="332.0" width="260.0" height="38.0" rx="6" fill="none" stroke="#4f8a5b" stroke-width="1.6" opacity="1.0"/>
+<text x="654.0" y="349.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">빔 · 무빙 포지션</text>
+<text x="654.0" y="364.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">선율의 선을 그린다</text>
+<line x1="366.0" y1="351.0" x2="632.0" y2="351.0" stroke="#4f8a5b" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="632.0,351.0 625.7,354.0 625.7,348.0" fill="#4f8a5b" stroke="none" opacity="1.0"/>
+<rect x="130.0" y="380.0" width="230.0" height="38.0" rx="6" fill="#ffffff" stroke="#4f8a5b" stroke-width="1.6" opacity="1.0"/>
+<text x="144.0" y="397.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">보컬</text>
+<text x="144.0" y="412.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">가사와 얼굴</text>
+<rect x="640.0" y="380.0" width="260.0" height="38.0" rx="6" fill="#4f8a5b" stroke="none" stroke-width="1" opacity="0.12"/>
+<rect x="640.0" y="380.0" width="260.0" height="38.0" rx="6" fill="none" stroke="#4f8a5b" stroke-width="1.6" opacity="1.0"/>
+<text x="654.0" y="397.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">프런트 키 · 팔로우</text>
+<text x="654.0" y="412.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">언제나 얼굴이 먼저</text>
+<line x1="366.0" y1="399.0" x2="632.0" y2="399.0" stroke="#4f8a5b" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="632.0,399.0 625.7,402.0 625.7,396.0" fill="#4f8a5b" stroke="none" opacity="1.0"/>
+<rect x="130.0" y="428.0" width="230.0" height="38.0" rx="6" fill="#ffffff" stroke="#d9902a" stroke-width="1.6" opacity="1.0"/>
+<text x="144.0" y="445.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">라이저 · 필</text>
+<text x="144.0" y="460.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">올라가는 소리</text>
+<rect x="640.0" y="428.0" width="260.0" height="38.0" rx="6" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.12"/>
+<rect x="640.0" y="428.0" width="260.0" height="38.0" rx="6" fill="none" stroke="#d9902a" stroke-width="1.6" opacity="1.0"/>
+<text x="654.0" y="445.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">줌 · 속도 · 밝기 상승</text>
+<text x="654.0" y="460.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">기대를 쌓는다</text>
+<line x1="366.0" y1="447.0" x2="632.0" y2="447.0" stroke="#d9902a" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="632.0,447.0 625.7,450.0 625.7,444.0" fill="#d9902a" stroke="none" opacity="1.0"/>
+<rect x="130.0" y="476.0" width="230.0" height="38.0" rx="6" fill="#ffffff" stroke="#d9902a" stroke-width="1.6" opacity="1.0"/>
+<text x="144.0" y="493.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">크래시 · 드롭</text>
+<text x="144.0" y="508.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">터지는 순간</text>
+<rect x="640.0" y="476.0" width="260.0" height="38.0" rx="6" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.12"/>
+<rect x="640.0" y="476.0" width="260.0" height="38.0" rx="6" fill="none" stroke="#d9902a" stroke-width="1.6" opacity="1.0"/>
+<text x="654.0" y="493.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">블라인더 · 전체 히트</text>
+<text x="654.0" y="508.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">곡에서 몇 번만</text>
+<line x1="366.0" y1="495.0" x2="632.0" y2="495.0" stroke="#d9902a" stroke-width="1.6" opacity="1.0" stroke-linecap="butt"/>
+<polygon points="632.0,495.0 625.7,498.0 625.7,492.0" fill="#d9902a" stroke="none" opacity="1.0"/>
+<line x1="114.0" y1="92.0" x2="114.0" y2="226.0" stroke="#c8553d" stroke-width="4" opacity="1.0" stroke-linecap="round"/>
+<text x="104.0" y="163.0" font-size="11.5" fill="#c8553d" text-anchor="end" font-weight="700" opacity="1.0">리듬</text>
+<line x1="114.0" y1="236.0" x2="114.0" y2="322.0" stroke="#3b6ea8" stroke-width="4" opacity="1.0" stroke-linecap="round"/>
+<text x="104.0" y="283.0" font-size="11.5" fill="#3b6ea8" text-anchor="end" font-weight="700" opacity="1.0">무게와 화성</text>
+<line x1="114.0" y1="332.0" x2="114.0" y2="418.0" stroke="#4f8a5b" stroke-width="4" opacity="1.0" stroke-linecap="round"/>
+<text x="104.0" y="379.0" font-size="11.5" fill="#4f8a5b" text-anchor="end" font-weight="700" opacity="1.0">선율과 사람</text>
+<line x1="114.0" y1="428.0" x2="114.0" y2="514.0" stroke="#d9902a" stroke-width="4" opacity="1.0" stroke-linecap="round"/>
+<text x="104.0" y="475.0" font-size="11.5" fill="#d9902a" text-anchor="end" font-weight="700" opacity="1.0">변화</text>
+<text x="24.0" y="546.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">출발값 · 이 책의 정리. 같은 장비에서도 곡마다 짝을 다시 정합니다(11장 배치 원칙, 13장 층 쌓기).</text>
+</svg>
+<figcaption><b>그림 1-2</b> 사운드와 조명 매칭. 소리 아홉 가지와 짝이 되는 조명. 색은 네 묶음(리듬, 무게와 화성, 선율과 사람, 변화)을 나타냅니다.</figcaption></figure>
+<p>짝을 묶음으로 보면 기억하기 쉽습니다.</p>
+<ul class="keyed">
+<li><strong>리듬(킥, 스네어, 하이햇)은 빠르고 짧은 조명과 짝입니다.</strong> 밝기 펄스, 짧은 플래시, 잘게 깜박이는 픽셀처럼 한 박 안에서 끝나는 움직임입니다. 2장의 박 계산이 가장 많이 쓰이는 곳입니다.</li>
+<li><strong>무게와 화성(베이스, 패드, 코드)은 느리고 넓은 조명과 짝입니다.</strong> 무대를 덮는 워시의 밝기와 색입니다. 구간 단위로 천천히 바뀝니다.</li>
+<li><strong>선율과 사람(리드 멜로디, 보컬)은 선과 얼굴의 조명과 짝입니다.</strong> 무빙 라이트의 빔이 선율의 선을 따라가고, 프런트와 팔로우가 노래하는 사람의 얼굴을 지킵니다.</li>
+<li><strong>변화의 소리(라이저, 필, 크래시, 드롭)는 곡에서 몇 번만 쓰는 조명과 짝입니다.</strong> 블라인더나 전체 히트는 아껴야 터집니다(10장).</li>
+</ul>
+<p>다만 소리가 들린다고 짝을 다 켜지는 않습니다. 킥, 스네어, 하이햇, 베이스가 동시에 울리는 후렴에서 네 가지 조명을 모두 움직이면 무대는 소리보다 시끄러워집니다. 짝은 "고를 수 있는 목록"이고, 그중 무엇을 켤지는 11장과 13장에서 정합니다.</p>
+<aside class="box try"><div class="box-label">짧은 실험</div><div class="box-body"><ol class="steps"><li>같은 곡을 틀고 이번에는 <strong>베이스만</strong> 따라 들어 봅니다.</li><li>다른 소리는 무시하고 베이스가 언제 들어오고 언제 빠지는지만 손가락으로 표시합니다.</li><li>베이스가 빠지면 곡이 잠깐 숨을 고르는 경우가 많습니다.</li><li>조명도 그때 바닥 밝기를 낮추면 좋습니다.</li></ol></div></aside>
+
+<h2 id="c1-15-초-대신-마디로-쓰는-노트">1.5 초 대신 마디로 쓰는 노트</h2><p class="lead">듣기 노트에는 몇 분 몇 초가 아니라 몇 번째 마디인지를 적습니다.</p>
+<p>하지만 처음에는 누구나 시간부터 적습니다. 플레이어 화면에 보이는 숫자가 시간이기 때문입니다. 그림 1-3의 왼쪽이 그렇게 적은 노트입니다.</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 356" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<rect x="40.0" y="80.0" width="420.0" height="290.0" rx="10" fill="#ffffff" stroke="#6b7280" stroke-width="1.8" opacity="1.0"/>
+<rect x="40.0" y="80.0" width="420.0" height="42.0" rx="10" fill="#6b7280" stroke="none" stroke-width="1" opacity="0.14"/>
+<text x="60.0" y="107.0" font-size="16" fill="#6b7280" text-anchor="start" font-weight="700" opacity="1.0">초로 적은 노트</text>
+<text x="64.0" y="152.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">0:14</text>
+<text x="190.0" y="152.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">노래 시작</text>
+<line x1="60.0" y1="166.0" x2="440.0" y2="166.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="64.0" y="194.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">0:29</text>
+<text x="190.0" y="194.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">뭔가 올라감</text>
+<line x1="60.0" y1="208.0" x2="440.0" y2="208.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="64.0" y="236.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">0:38</text>
+<text x="190.0" y="236.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">쾅!</text>
+<line x1="60.0" y1="250.0" x2="440.0" y2="250.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="64.0" y="278.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">1:10</text>
+<text x="190.0" y="278.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">비트가 빠짐</text>
+<line x1="60.0" y1="292.0" x2="440.0" y2="292.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="64.0" y="320.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">1:29</text>
+<text x="190.0" y="320.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">또 올라감?</text>
+<line x1="60.0" y1="334.0" x2="440.0" y2="334.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="64.0" y="356.0" font-size="12.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">2절에서 같은 자리를 다시 찾아야 합니다</text>
+<rect x="500.0" y="80.0" width="420.0" height="290.0" rx="10" fill="#ffffff" stroke="#3b6ea8" stroke-width="1.8" opacity="1.0"/>
+<rect x="500.0" y="80.0" width="420.0" height="42.0" rx="10" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.14"/>
+<text x="520.0" y="107.0" font-size="16" fill="#3b6ea8" text-anchor="start" font-weight="700" opacity="1.0">마디로 적은 노트</text>
+<text x="524.0" y="152.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">7마디</text>
+<text x="650.0" y="152.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">벌스 1 (7마디)</text>
+<line x1="520.0" y1="166.0" x2="900.0" y2="166.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="524.0" y="194.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">14~17</text>
+<text x="650.0" y="194.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">프리코러스(빌드업) 4마디</text>
+<line x1="520.0" y1="208.0" x2="900.0" y2="208.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="524.0" y="236.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">18</text>
+<text x="650.0" y="236.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">후렴 진입 — 큰 히트</text>
+<line x1="520.0" y1="250.0" x2="900.0" y2="250.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="524.0" y="278.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">33</text>
+<text x="650.0" y="278.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">킥 아웃 1마디</text>
+<line x1="520.0" y1="292.0" x2="900.0" y2="292.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="524.0" y="320.0" font-size="15" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">42~45</text>
+<text x="650.0" y="320.0" font-size="14.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">프리코러스 2 (14에서 28마디 뒤)</text>
+<line x1="520.0" y1="334.0" x2="900.0" y2="334.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="524.0" y="356.0" font-size="12.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">숫자만 보고도 2절의 자리가 보입니다: 42~45 → 46 → 61</text>
+<text x="24.0" y="406.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">마디 번호와 시각: LOVE ATTACK 음악 지도 실측(이 책 5장). 마디 = 112 BPM 기준 약 2.14초.</text>
+</svg>
+<figcaption><b>그림 1-3</b> 초 단위 노트와 마디 단위 노트. LOVE ATTACK 1절과 2절 앞부분을 두 가지로 적었습니다.</figcaption></figure>
+<p>두 노트는 같은 곡, 같은 부분을 적은 것입니다. 그런데 오른쪽 노트에서는 몇 가지가 바로 보입니다.</p>
+<ul class="keyed">
+<li><strong>구간의 길이가 보입니다.</strong> 벌스가 7마디, 프리코러스(빌드업)가 4마디입니다. 왼쪽 노트에서는 0:29에서 0:14를 빼서 1마디 길이(약 2.14초)로 나눠야 알 수 있습니다.</li>
+<li><strong>반복이 보입니다.</strong> 1절의 프리코러스, 후렴, 킥 아웃은 14·18·33마디에 옵니다. 2절에서는 42·46·61마디, 정확히 28마디 뒤입니다. 2절의 큐는 1절에서 복사하면 됩니다.</li>
+<li><strong>큐 시트와 콘솔로 그대로 이어집니다.</strong> 2장에서 보듯 마디 번호만 있으면 시각은 언제든 계산할 수 있습니다. 반대로 초만 적어 두면 곡의 BPM이 바뀌는 리믹스나 라이브 버전에서 노트를 다시 써야 합니다.</li>
+</ul>
+<p>마디로 적으려면 마디를 셀 수 있어야 합니다. 첫 다운비트에서 "하나 둘 셋 넷"을 세며 손가락을 하나씩 접으면 됩니다. 정확하게 세는 법과 첫 박을 찾는 법은 2장에서 다룹니다.</p>
+<aside class="box check"><div class="box-label">확인하는 법</div><div class="box-body"><ol class="steps"><li>듣기 노트를 다 적었으면 1절의 길이로 2절을 미리 계산해 봅니다.</li><li>LOVE ATTACK의 1절은 벌스 1이 시작하는 7마디부터 2절 벌스가 시작하기 전인 33마디까지, 27마디입니다.</li><li>후렴 1(18마디)에 27을 더하면 2절 후렴은 45마디여야 합니다.</li><li>그런데 들어 보면 46마디에서 시작합니다.</li><li>한 마디가 어긋난 것이고, 그 이유는 벌스 2가 벌스 1보다 한 마디 길기 때문입니다.</li><li>이렇게 계산과 들은 것이 어긋나는 자리가 이 곡의 특별한 지점입니다(3장).</li></ol></div></aside>
+
+<h2 id="c1-16-실습-love-attack-듣기-노트">1.6 [실습] LOVE ATTACK 듣기 노트</h2><p class="lead">맡은 곡마다 표 1-2를 한 장씩 만듭니다. 다섯 곡이면 다섯 장입니다.</p>
+<div class="tbl"><div class="tcap"><b>표 1-2</b> 듣기 노트 양식</div><table>
+<thead>
+<tr class="header">
+<th>칸</th>
+<th>적는 것</th>
+<th>예(LOVE ATTACK)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>곡</td>
+<td>제목, 아티스트, 길이</td>
+<td>LOVE ATTACK, 리센느, 약 3분</td>
+</tr>
+<tr class="even">
+<td>BPM · 첫 박</td>
+<td>2장 방법으로 잰 값</td>
+<td>112 BPM, 첫 다운비트 1.50초</td>
+</tr>
+<tr class="odd">
+<td>1회차 한 줄</td>
+<td>들은 느낌 한 문장</td>
+<td>기타로 거칠게 열림, 후렴에서 드럼이 터짐</td>
+</tr>
+<tr class="even">
+<td>2회차 변화</td>
+<td>마디 번호 + 무엇</td>
+<td>7 벌스 / 14~17 프리코러스(빌드업) / 18 후렴 히트 / 33 킥 아웃 …</td>
+</tr>
+<tr class="odd">
+<td>3회차 색</td>
+<td>구간별 색 한두 개</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>뮤직비디오</td>
+<td>안무가 따르는 박, 포인트 안무 마디</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>확신</td>
+<td>잰 것 / 짐작한 것 / 못 정한 것</td>
+<td>평론이 말한 비트 드롭이 63~66마디인지 18·46마디인지 못 정함</td>
+</tr>
+</tbody>
+</table></div>
+<p>마지막 칸이 중요합니다. 혼자 들은 것 중 무엇이 확실하고 무엇이 짐작인지 적어 두면, 리허설에서 무엇부터 확인할지가 정해집니다. 5장의 곡 구성표가 이 양식을 넓힌 것입니다.</p>
+<p>LOVE ATTACK에 대한 한 평론은 이 곡이 디스토션 기타로 열리고 멜로디보다 드럼머신이 먼저 나온다고 설명합니다. 후렴에서는 드럼이 중심이 되고, 프로그레시브 하우스 요소와 비트 드롭이 들어 있다고 봅니다.<sup class="ref"><a href="#c1-s4">4</a>,<a href="#c1-s5">5</a></sup> 프로그레시브 하우스는 소리를 조금씩 쌓아 올리는 전자 댄스 음악의 한 갈래이고, 비트 드롭은 노래를 빼고 비트를 앞세워 터뜨리는 대목을 가리킵니다(3장). 듣기 노트의 2회차 변화와 이 설명을 비교해 보면, 들은 것이 맞는지 한 번 더 확인할 수 있습니다.</p>
+<aside class="box mine"><div class="box-label">내 곡으로 해 보기</div><div class="box-body"><ol class="steps"><li>지금 맡고 있는 곡 하나로 표 1-2를 채워 봅니다.</li><li>3회차 색과 확신 칸까지 비우지 않는 것이 목표입니다.</li></ol></div></aside>
+<aside class="web" id="web-W1-1"><div class="web-head"><span class="web-tag">웹 부록 1</span><h4>듣기 노트</h4><a class="web-open" href="https://jjjh7401.github.io/lx/note/" target="_blank" rel="noopener">도구모음에서 열기 ↗</a></div><p class="web-desc">음악 파일을 열어 재생하면서 변화를 마디로 적고 구간마다 색을 고릅니다.</p><div class="tool-embed"><iframe title="듣기 노트" loading="lazy" style="height:1650px" src="https://jjjh7401.github.io/lx/listen.html?embed=1" allow="autoplay" ></iframe></div><p class="tool-open"><span>노트는 이 브라우저에 저장됩니다. 넓은 화면에서 쓰려면 새 창으로 여세요.</span><a href="https://jjjh7401.github.io/lx/note/" target="_blank" rel="noopener">듣기 노트 새 창에서 열기 ↗</a></p></aside>
+<aside class="web" id="web-W0-2"><div class="web-head"><span class="web-tag">웹 부록 2</span><h4>사운드와 조명 매칭</h4><a class="web-open" href="https://jjjh7401.github.io/lx/match/" target="_blank" rel="noopener">도구모음에서 열기 ↗</a></div><p class="web-desc">1.4절의 짝을 눌러 보는 판입니다. 구간마다 들리는 소리 가운데 조명이 따라갈 소리를 고릅니다.</p><div class="tool-embed"><iframe title="사운드와 조명 매칭" loading="lazy" style="height:1500px" src="https://jjjh7401.github.io/lx/pairs.html?embed=1" allow="autoplay" ></iframe></div><p class="tool-open"><span>노트는 이 브라우저에 저장됩니다. 넓은 화면에서 쓰려면 새 창으로 여세요.</span><a href="https://jjjh7401.github.io/lx/match/" target="_blank" rel="noopener">사운드와 조명 매칭 새 창에서 열기 ↗</a></p></aside>
+
+<section class="summary"><h2>핵심 정리</h2><ul>
+<li>조명은 음악을 눈으로 옮기는 번역입니다. 원문인 곡을 먼저 읽습니다.</li>
+<li>새 곡은 세 번 듣습니다. 즐기며, 큐 포인트를 찾으며, 색을 느끼며.</li>
+<li>뮤직비디오에서 안무가 따르는 박과 포인트 안무의 자리를 확인합니다.</li>
+<li>소리마다 짝이 되는 조명이 있습니다. 리듬은 짧고 빠른 조명, 무게와 화성은 넓고 느린 조명, 선율과 사람은 선과 얼굴, 변화의 소리는 아껴 쓰는 조명입니다.</li>
+<li>듣기 노트는 마디 번호로 적습니다. 반복이 보이고, 큐 시트로 그대로 이어집니다.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">내일 현장에서</div><div class="box-body"><ol class="steps"><li>다음에 곡을 받으면 콘솔을 켜기 전에 세 번 들어 봅니다.</li><li>2회차 노트의 첫 줄을 시간이 아니라 "몇 마디"로 적어 봅니다.</li></ol></div></aside>
+
+<section class="notes"><h2>주</h2><ol><li id="c1-s1">벅스, 「LOVE ATTACK / RESCENE(리센느)」 곡 정보(앨범 SCENEDROME, 발매일 2024.08.27). <a target="_blank" rel="noopener" href="https://music.bugs.co.kr/track/6259115">https://music.bugs.co.kr/track/6259115</a> (2026-10-25 확인)</li><li id="c1-s2">Moody, J. L. <em>Concert Lighting: Techniques, Art and Business</em>, 3rd ed., Paul Dexter 집필 참여, Focal Press, 2010. 발췌: ProSoundWeb, "Approaches To Cueing The Music With Concert Lighting", 2013-04-11. 세 번 듣기, 곡의 색, 조명을 음악의 시각적 번역으로 본 대목. <a target="_blank" rel="noopener" href="https://www.prosoundweb.com/pro-production-approaches-to-cueing-the-music-with-concert-lighting/">https://www.prosoundweb.com/pro-production-approaches-to-cueing-the-music-with-concert-lighting/</a> (2026-10-25 확인)</li><li id="c1-s3">저자 조사 노트, K팝 음악방송·콘서트 조명 자료 모음(2026-10-07). "배경 화려, 얼굴 어둠"을 흔한 실패로 정리. 원출처는 커뮤니티·업체 자료(예: Starshine Lights, "Stage lighting effects guide")이므로 출판 전 원출처 확인 필요. </li><li id="c1-s4">저자 측정, LOVE ATTACK 음원 분석(2026-10-06, 측정 방법은 부록에 싣습니다). </li><li id="c1-s5">이즘(IZM), LOVE ATTACK 리뷰. 평론의 요약 근거. 출판 전 필자·게재일·주소와 인용 범위를 확인해 붙입니다.</li></ol></section>
+
+
+</article>
+</div>

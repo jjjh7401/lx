@@ -1,0 +1,340 @@
+<div class="bk"><style>
+.bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+.bk, .bk *{box-sizing:border-box}
+.bk{scroll-behavior:smooth}
+.bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+.bk a{color:var(--accent)}
+.bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+.bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+.bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+.bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+.bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+.bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+.bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+.bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+.bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+.bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+.bk .front dd{margin:0}
+.bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+.bk .toc .part{margin:0 0 18px}
+.bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+.bk .toc ol{list-style:none;margin:0;padding:0}
+.bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+.bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+.bk .toc li li a:hover .tt{color:var(--accent)}
+.bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+.bk .toc .todo{color:var(--muted)}
+.bk .toc .todo .tt{flex:1}
+.bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+.bk .toc .live .pt{color:var(--accent)}
+.bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+.bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+.bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+.bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+.bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+.bk .part-page li.todo{color:var(--muted)}
+.bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+.bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+.bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+.bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+.bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+.bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+.bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+.bk .open-label + p, .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+.bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+.bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+.bk .chapter strong{color:var(--ink)}
+.bk .chapter ul, .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+.bk .chapter li{margin:.25em 0}
+.bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+.bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+.bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+.bk .ref a{text-decoration:none;color:var(--accent)}
+.bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+.bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+.bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+.bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+.bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+.bk .formula p{margin:0}
+.bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+.bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+.bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+.bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+.bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+.bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+.bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+.bk .box-body > *:last-child{margin-bottom:12px}
+.bk .box p{margin:0 0 .9em}
+.bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+.bk .box ul, .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+.bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+.bk ul.checks{list-style:none;padding:0 !important}
+.bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+.bk ul.checks li:last-child{border-bottom:0}
+.bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+.bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+.bk dl.defs{margin:4px 0 6px}
+.bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+.bk dl.defs > div:last-child{border-bottom:0}
+.bk dl.defs dt{font-weight:700;color:var(--ink)}
+.bk dl.defs dd{margin:0}
+@media (max-width:640px){.bk dl.defs > div{grid-template-columns:1fr}}
+.bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+.bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+.bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+.bk dl.spec{margin:0;display:grid;gap:2px}
+.bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+.bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+.bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){.bk .song-card{grid-template-columns:1fr}}
+.bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+.bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+.bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+.bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+.bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+.bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+.bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+.bk .box.quote{--c:var(--accent);--cbg:transparent}
+.bk .box.quote .box-body{font-family:var(--serif)}
+.bk .box.heard{--c:var(--blue);--cbg:transparent}
+.bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+.bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+.bk .box.fix{--c:var(--purple);--cbg:transparent}
+.bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+.bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+.bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+.bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+.bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+.bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+.bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+.bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+.bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+.bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+.bk .summary ul{list-style:none;padding:0;margin:0}
+.bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+.bk .summary li:last-child{border-bottom:0}
+.bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+.bk .chapter p{margin:0 0 1.3em}
+.bk .chapter > h2[id$="내일-현장에서"]{display:none}
+.bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+.bk figure.plate svg{display:block;width:100%;height:auto}
+.bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+.bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){.bk figure.plate{margin:2em -8px}}
+.bk .tbl{margin:1.6em 0;overflow-x:auto}
+.bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+.bk .tcap b{color:var(--ink);margin-right:4px}
+.bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+.bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+.bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+.bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){.bk .web{margin:2em -8px}}
+.bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+.bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+.bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+.bk .web-head{flex-wrap:wrap}
+.bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+.bk .web-open:hover{background:var(--accent);color:var(--page)}
+.bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+.bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+.bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+.bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+.bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+.bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+.bk .live.folded .live-slot{display:none}
+.bk .web-body p{margin:0}
+.bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+.bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+.bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+.bk .live summary::-webkit-details-marker{display:none}
+.bk .live summary::before{content:"▶ ";font-size:11px}
+.bk .live[open] summary::before{content:"▼ "}
+.bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+.bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+.bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+.bk .notes ol{padding-left:1.4em}
+.bk .notes li{margin:.35em 0}
+.bk .notes a{word-break:break-all}
+.bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+.bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+.bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+.bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+.bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+.bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+.bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.bk #chappx h2, .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){.bk .appx-nav{padding:8px 10px}
+.bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.bk .appx-nav .chips a{flex:none}
+.bk #chappx h2, .bk #chappx h3{scroll-margin-top:170px}}
+.bk tr.appx-hide{display:none}
+.bk .tbl.appx-hide, .bk .tcap.appx-hide{display:none}
+.bk .chap-nav a{text-decoration:none}
+.bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion:reduce){.bk{scroll-behavior:auto}}
+.bk{color-scheme:light}
+.bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+.bk .tool-embed iframe{display:block;width:100%;border:0}
+.bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+.bk .tool-open a{font-weight:700}
+.bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+.bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+.bk .part-page h2{margin:6px 0 10px}
+
+</style>
+<article class="chapter" id="chintro"><header class="ch-head ch-plain"><h1 class="ch-title">들어가며</h1><p class="ch-sub">음악을 듣는 조명</p></header>
+
+
+<h2 id="cintro-소리를-끄고-보는-공연">소리를 끄고 보는 공연</h2><p class="lead">공연 영상을 소리 없이 틀어 보면, 조명이 언제 바뀌는지는 보입니다. 하지만 왜 하필 그때 바뀌는지는 알기 어렵습니다.</p>
+<p>소리를 켜면 그제야 고개가 끄덕여집니다. 드럼이 힘차게 들어올 때, 가수가 잠깐 숨을 고를 때, 모든 악기가 한꺼번에 터지며 후렴이 시작될 때. 조명은 바로 그 순간들에 맞춰 바뀌고 있었습니다.</p>
+<p>잘 만든 조명은 소리를 끄면 어딘가 심심해 보이고, 소리를 켜면 당연해 보입니다. 이 책에는 그렇게 "당연해 보이는" 조명을 만드는 방법을 담았습니다.</p>
+
+<h2 id="cintro-이-책에-담긴-내용">이 책에 담긴 내용</h2><p class="lead">이 책에는 음악에 맞춰 조명을 만드는 과정이 처음부터 끝까지 순서대로 담겨 있습니다.</p>
+<ol type="1">
+<li>곡을 듣고, 어디에서 무엇이 바뀌는지 적습니다.</li>
+<li>적은 것을 곡이 흘러가는 순서대로 표 한 장에 정리합니다.</li>
+<li>그 표를 보며 색과 밝기와 움직임을 정합니다.</li>
+<li>정한 것을 콘솔(이 책에서는 grandMA3)에 만들고, 리허설과 본 공연에서 확인합니다.</li>
+</ol>
+<p>음악방송, 콘서트, 시상식, 라이트쇼, 페스티벌처럼 무대마다 달라지는 점도 함께 다룹니다. 조명을 막 시작한 분부터 현장에서 오래 일한 조명감독과 프로그래머까지, 음악에 맞춰 조명을 만드는 분이라면 누구나 편하게 읽을 수 있도록 썼습니다.</p>
+
+<h2 id="cintro-ai와-함께-만든-책">AI와 함께 만든 책</h2><p class="lead">먼저 솔직하게 말씀드릴 것이 있습니다. <strong>이 책은 AI가 썼습니다.</strong> 자료를 찾는 일부터 정리하고, 원고를 쓰고, 고치는 일까지 모두 AI로 했습니다. 저는 무엇을 다룰지 정하고, 현장에서 쓰는 말과 맞는지 확인하고, 고칠 곳을 짚었습니다.</p>
+<p>시작은 책이 아니었습니다. 저는 음악에 맞춰 조명 연출을 돕는 AI 코파일럿(Copilot)을 만들고 있습니다. AI가 조명을 도우려면 먼저 조명 연출을 배워야 합니다. 곡을 어떻게 듣는지, 들은 것을 어떤 규칙으로 조명에 옮기는지, 그것을 콘솔에서 어떻게 만드는지를 알아야 합니다. 그래서 해외 조명 디자이너의 인터뷰와 강좌, 콘솔 매뉴얼, 방송과 안전에 관한 규정, 공개된 공연 영상까지 많은 자료를 모으고 정리했습니다.</p>
+<p>정리하다 보니 이 자료는 AI에게만이 아니라 사람에게도 쓸모가 있었습니다. 그래서 조명 분야에서 일하는 분들과 나누려고 한 권의 책으로 묶어 공개합니다.</p>
+<p>AI가 쓴 글이므로 틀린 곳이 있을 수 있습니다. 출처가 있는 내용에는 장 끝에 출처를 달았습니다. 현장에서 하는 방식과 다른 곳이 있다면 그 경험이 더 정확합니다. 알려 주시면 고쳐 나가겠습니다.</p>
+
+<h2 id="cintro-조명을-바꿀-타이밍">조명을 바꿀 타이밍</h2><p class="lead">음악에 맞춰 조명을 만들 때 가장 먼저 하게 되는 고민은 "언제 바꿀까"입니다.</p>
+<p>1절, 후렴처럼 노래가 크게 바뀔 때만 조명을 바꾸면, 1절이 이어지는 동안 무대가 내내 똑같습니다. 음악은 흐르는데 무대는 멈춰 있는 것처럼 보입니다. 그게 답답해서 드럼 소리 하나하나에 맞춰 조명을 바꾸면, 이번에는 무대가 쉴 새 없이 바빠져 오히려 음악이 묻힙니다.</p>
+<p>답은 그 사이 어딘가에 있습니다. 조명을 자주 바꾸는 것이 중요한 게 아닙니다. 언제 바꾸고, 바뀐 장면을 어떻게 이어 가느냐가 중요합니다.</p>
+<p>현장에서 받는 요청도 늘 비슷합니다.</p>
+<aside class="box heard"><div class="box-label">현장에서 자주 듣는 말</div><div class="box-body">
+<ul>
+<li>"그냥 예쁘게 해 주세요."</li>
+<li>"얼굴이 하얗게 떠요."</li>
+<li>"지난주랑 똑같이 해 주세요."</li>
+<li>"여기서 뭔가 '팡' 터졌으면 좋겠어요."</li>
+</ul>
+</div></aside>
+<p>이런 말에 정답은 없지만, 대답하는 방법은 있습니다. "예쁘게"가 무엇인지 곡에서 찾아 한 줄로 적고(7장), "팡" 하고 터질 순간 바로 앞을 잠깐 어둡게 비워 두고(11장), 얼굴을 비추는 빛은 어떤 효과가 돌아도 흔들리지 않게 따로 묶어 둡니다(13장). 이 책에는 그런 대답을 찾는 방법을 모았습니다.</p>
+<p>남이 겪은 실수도 많이 넣었습니다. 남의 실수로 미리 겪어 두는 편이 덜 아프기 때문입니다. 장마다 "고치기 전 / 고친 뒤" 상자로 넣었고, 부록 F에 다시 모았습니다.</p>
+<p> (이 고민을 처음 했던 현장 장면이나 직접 겪은 실수 하나. 짧게 써도 됩니다.)</p>
+
+<h2 id="cintro-이-책에서-가장-중요한-이야기">이 책에서 가장 중요한 이야기</h2><p class="lead">딱 하나만 기억한다면 이것입니다. <strong>밝기와 방향과 색은 저마다 바꾸는 빠르기가 다릅니다.</strong></p>
+<p>밝기는 눈이 가장 빨리 알아챕니다. 그래서 드럼처럼 짧고 빠른 소리에 맞춰 바꿉니다. 무빙 라이트가 비추는 방향은 장비가 돌아가는 데 시간이 걸리니 그보다 느긋하게 바꿉니다. 색은 눈에 익는 데 더 오래 걸리니 몇 소절에 걸쳐 천천히 바꾸고, 노래의 분위기가 크게 바뀔 때 한 번에 바꿉니다.</p>
+<p>이것만 기억해도 조명을 너무 드물게 바꾸거나 너무 자주 바꾸는 일을 피할 수 있습니다. 음악을 박과 마디로 세는 법은 1~3장에서 차근차근 설명하고, 이 이야기는 11장에서 자세히 다룹니다.</p>
+
+<h2 id="cintro-이-책의-구성">이 책의 구성</h2><p class="lead">이 책은 공연 하나를 맡았을 때 준비하는 순서대로 이어집니다. 곡을 듣는 일에서 시작해 본 공연을 치르기까지입니다.</p>
+<div class="tbl"><div class="tcap"><b>표 0-1</b> 이 책의 구성</div><table>
+<thead>
+<tr class="header">
+<th>부</th>
+<th>이런 궁금증에 답합니다</th>
+<th>장</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1부 곡 읽기</td>
+<td>이 곡의 어디에 무엇이 있나</td>
+<td>1~5장</td>
+</tr>
+<tr class="even">
+<td>2부 빛의 설계</td>
+<td>무엇을 보여 주고 무엇을 아끼나</td>
+<td>6~10장</td>
+</tr>
+<tr class="odd">
+<td>3부 곡 연출</td>
+<td>곡의 순간순간에 무엇을 거나</td>
+<td>11~16장</td>
+</tr>
+<tr class="even">
+<td>4부 현장별 연출</td>
+<td>무대마다 무엇이 달라지고, 장비는 어떻게 꾸리나</td>
+<td>17~22장</td>
+</tr>
+<tr class="odd">
+<td>5부 콘솔로 만들기</td>
+<td>grandMA3에서 빠르고 틀리지 않게 만들려면</td>
+<td>23~29장</td>
+</tr>
+<tr class="even">
+<td>6부 리허설과 본 공연</td>
+<td>무엇을 확인하고, 사고가 나면 어떻게 하나</td>
+<td>30~32장</td>
+</tr>
+<tr class="odd">
+<td>7부 연출 사례</td>
+<td>한 곡을 처음부터 끝까지 하면 어떻게 되나</td>
+<td>33~36장</td>
+</tr>
+</tbody>
+</table></div>
+<p>이와 별도로, 필요할 때 찾아보는 자료는 장으로 넣지 않고 책 밖의 <a href="https://jjjh7401.github.io/lx/ref/" target="_blank" rel="noopener"><strong>자료실</strong></a>에 모았습니다. 자료실에서는 이펙트 153가지를 이름이나 곡의 구간, 소리로 찾을 수 있습니다. 카드마다 움직이는 미리보기가 있고, 콘솔에 바로 넣을 수 있는 매크로가 붙은 카드도 있습니다. 작업 양식과 기준표, 조명 장비 49종, 조명 디자인 자료, grandMA3 명령 모음도 함께 있습니다. 무엇이 어디에 있는지는 부록에서 안내합니다.</p>
+
+<h2 id="cintro-읽는-순서-안내">읽는 순서 안내</h2><p class="lead">처음부터 순서대로 읽어도 좋지만, 꼭 그럴 필요는 없습니다. 지금 하는 일에 맞춰 먼저 펼칠 곳을 골라 보세요.</p>
+<div class="tbl"><div class="tcap"><b>표 0-2</b> 현장별 길잡이</div><table>
+<thead>
+<tr class="header">
+<th>이런 분이라면</th>
+<th>먼저 읽을 장</th>
+<th>그다음</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>음악방송 조명감독</td>
+<td>5장(곡 구성표), 11장(배치의 원칙), 17장(음악방송)</td>
+<td>12·13장, 30~32장, 33장</td>
+</tr>
+<tr class="even">
+<td>콘서트·투어 조명감독</td>
+<td>7~10장, 11~16장, 18장(콘서트와 투어)</td>
+<td>22장(조명 디자인), 29장(쇼 파일 템플릿), 34장</td>
+</tr>
+<tr class="odd">
+<td>시상식·대형 쇼 조명감독</td>
+<td>17장, 19장, 20장</td>
+<td>31장(본 공연 운영), 35장</td>
+</tr>
+<tr class="even">
+<td>페스티벌·게스트 LD</td>
+<td>21장(페스티벌), 25장(페이저)</td>
+<td>28장(템포), 자료실의 운영·버스킹 카드</td>
+</tr>
+<tr class="odd">
+<td>처음 콘솔을 잡는 프로그래머</td>
+<td>23~29장</td>
+<td>자료실의 이펙트 사전과 grandMA3 명령 모음</td>
+</tr>
+</tbody>
+</table></div>
+<p>이펙트 사전은 처음부터 읽는 곳이 아닙니다. 큐 시트를 쓰다가 "여기에는 무엇을 걸까" 싶을 때 펼치면 됩니다.</p>
+
+<h2 id="cintro-실습-곡과-웹-부록">실습 곡과 웹 부록</h2><p class="lead">1~32장에서는 한 곡을 예로 들어 계속 따라갑니다. 리센느의 「LOVE ATTACK」입니다. 교재의 예제 파일이라고 생각하면 됩니다. 장 끝의 "내 곡으로 해 보기"에서는 지금 맡은 곡으로 같은 과정을 해 봅니다.</p>
+<p>책 곳곳에는 <strong>웹 부록</strong>이 있습니다. 브라우저에서 바로 쓰는 작은 도구들입니다. 듣기 노트에 적은 것이 곡 구성표, 큐 시트, 타임코드 표까지 그대로 이어집니다. 음악 파일은 각자 가진 파일을 엽니다. 책과 도구에는 음원이 들어 있지 않고, 연 파일은 내 브라우저 밖으로 나가지 않습니다.</p>
+
+<h2 id="cintro-숫자-옆의-표시">숫자 옆의 표시</h2><p class="lead">이 책에는 숫자가 많습니다. 숫자 옆의 표시를 보면 그 숫자가 어디서 왔는지 알 수 있습니다.</p>
+<ul>
+<li><span class="badge calc">계산</span>: 공식으로 나온 값입니다. 같은 조건이면 누가 계산해도 같습니다.</li>
+<li><span class="badge start">출발값</span>: 처음 시작해 볼 값입니다. 현장에 맞게 바꿔 씁니다.</li>
+<li>위첨자 숫자: 장 끝에 출처가 있습니다.</li>
+</ul>
+<p>출발값은 정답이 아닙니다. 같은 곡도 무대가 다르면 달라지고, 같은 무대도 감독이 다르면 다른 쇼가 됩니다. 다만 기본값을 알아 두면, 언제 바꿔야 하는지도 보입니다.</p>
+
+<h2 id="cintro-끝으로">끝으로</h2><p class="lead">조명감독은 음악가가 아닙니다. 그래도 쇼 내내 가장 오래 음악을 듣는 사람 가운데 하나입니다. 리허설에서 같은 곡을 스무 번 듣고, 본 공연에서는 속으로 박자를 세며 버튼을 누를 순간을 기다립니다.</p>
+<p>이 책을 읽고 나서 음악을 들을 때, 조명이 바뀔 자리가 조금 더 또렷하게 들리기를 바랍니다. 그리고 AI와 함께 더 나은 무대를 고민하는 데 작은 출발점이 되기를 바랍니다.</p>
+<p> (서명, 날짜, 감사의 말)</p>
+
+
+</article>
+</div>
