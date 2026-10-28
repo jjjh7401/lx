@@ -325,4 +325,5 @@ fetch('book.json').then(function(r){return r.json()}).then(function(b){var c=(b.
 })();
 </script>
 
+<script>(function(){if(window.parent===window)return;var last=0;function post(){var h=Math.ceil(document.body.getBoundingClientRect().height);if(Math.abs(h-last)>2){last=h;parent.postMessage({lxh:h},'*')}}if(window.ResizeObserver)new ResizeObserver(post).observe(document.body);window.addEventListener('load',post);setTimeout(post,300);setTimeout(post,1500)})();</script>
 </body></html>

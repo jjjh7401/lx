@@ -320,3 +320,5 @@
     sortMarks: sortMarks, sections: sections, sectionAt: sectionAt, colorHex: colorHex, nextSecName: nextSecName, esc: esc, eul: eul, josa: josa, refreshPicker: refreshPicker, top: top
   };
 })();
+/* 책 본문 iframe 높이 맞춤: 부모(티스토리)에 내용 높이를 알림 */
+(function(){if(window.parent===window)return;var last=0;function post(){var h=Math.ceil(document.body.getBoundingClientRect().height);if(Math.abs(h-last)>2){last=h;parent.postMessage({lxh:h},'*')}}if(window.ResizeObserver)new ResizeObserver(post).observe(document.body);window.addEventListener('load',post);setTimeout(post,300);setTimeout(post,1500)})();
