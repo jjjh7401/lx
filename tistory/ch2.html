@@ -180,6 +180,13 @@
 #article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
 #article-view .bk .chap-nav a{text-decoration:none}
 #article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
 @media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
 #article-view .bk{color-scheme:light}
 #article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
@@ -404,7 +411,7 @@
 <p>첫 다운비트를 찾으면 그 시각을 적습니다. 음원 파일 앞에는 대개 짧은 무음이 붙어 있어서, 0.0초에 첫 박이 오는 일은 드뭅니다.</p>
 <p>LOVE ATTACK이 좋은 예입니다. 0.96초에 한 박이 먼저 나오고, 첫 다운비트는 <strong>1.50초</strong>에 옵니다. 0.96초의 박이 픽업입니다.<sup class="ref"><a href="#c2-s2">2</a></sup></p>
 <aside class="box check"><div class="box-label">확인하는 법</div><div class="box-body"><ol class="steps"><li>첫 다운비트부터 "하나 둘 셋 넷"을 소리 내어 세면서 곡을 끝까지 들어 봅니다.</li><li>후렴 첫 박에서 "하나"가 맞으면 제대로 잡은 것입니다.</li><li>후렴에서 "셋"이 나오면 첫 박을 두 박 잘못 잡았습니다.</li></ol></div></aside>
-<p> 현장에서 첫 박을 잡는 저자의 방식(세는 소리, 손 신호, 콘솔에 표시하는 법)</p>
+
 
 <h2 id="c2-25-두-배로-틀리는-bpm">2.5 두 배로 틀리는 BPM</h2><p class="lead">BPM은 기계로 재고 직접 들어서 확인합니다. 음원 프로그램, DJ 소프트웨어, 콘솔의 탭 버튼 어느 것을 써도 숫자는 나오지만, 그 숫자를 그대로 믿으면 안 됩니다.</p>
 <p>틀리는 방식은 정해져 있습니다. <strong>반이나 두 배로 틀립니다.</strong> 기계는 일정하게 반복되는 소리를 박으로 찾습니다. 반 박마다 치는 하이햇을 박으로 읽으면 두 배가 나오고, 두 박마다 치는 스네어를 박으로 읽으면 반이 나옵니다. 음악 정보 처리 분야에서는 이것을 "옥타브 오류"라고 부르며, 템포·박 측정 프로그램의 대표적인 실수로 꼽습니다.<sup class="ref"><a href="#c2-s3">3</a></sup></p>
@@ -648,7 +655,7 @@
 </tbody>
 </table></div>
 <p>마디 길이가 바뀌지 않는다는 점이 중요합니다. 하프타임이어도 마디 번호는 그대로 셉니다. 바뀌는 것은 "이 구간에서 무엇을 박으로 느끼는가"뿐입니다.</p>
-<p>한 곡 안에서 둘을 오가기도 합니다. 후렴은 보통 박으로 달리다가 댄스 브레이크(3장)에서 하프타임으로 무겁게 떨어뜨리는 식입니다. 이런 곡은 구간마다 "몸이 느끼는 템포"를 따로 적어 둡니다.  이런 곡의 실제 예 하나</p>
+<p>한 곡 안에서 둘을 오가기도 합니다. 후렴은 보통 박으로 달리다가 댄스 브레이크(3장)에서 하프타임으로 무겁게 떨어뜨리는 식입니다. 이런 곡은 구간마다 "몸이 느끼는 템포"를 따로 적어 둡니다. </p>
 <p><strong>6/8박과 3/4박.</strong> 발라드나 왈츠 계열은 한 마디를 셋씩 나눕니다. 6/8박 곡은 "하나둘셋 넷다섯여섯"으로 세고, 몸은 대개 큰 박 둘을 느낍니다. 이펙트 속도도 큰 박 둘에 맞추는 편이 자연스럽습니다(<span class="badge start">출발값</span>).</p>
 
 <h2 id="c2-27-박으로-정하는-페이드">2.7 박으로 정하는 페이드</h2><p class="lead">콘솔에는 페이드 3초, 딜레이 0.5초처럼 시간을 초로 적습니다. 하지만 음악은 박으로 흐르니, 길이를 정할 때는 몇 박인지부터 생각합니다.</p>
@@ -919,7 +926,7 @@
 <li><strong>90 BPM에서 8분음표로 깜박이면 초당 3회로, 방송 기준의 경계에 닿습니다. 그보다 빠른 곡이면 기준을 넘습니다.</strong> 화면을 크게 덮는 장비에 8분음표 스트로브를 걸면 방송 기준에 걸립니다. 경계에 딱 닿는 값도 안전하다고 보지 않고, 한 단계 느리게 씁니다(17장).</li>
 <li><strong>120 BPM의 8분음표가 딱 4 Hz입니다.</strong> 120이 넘는 곡에서 8분음표 스트로브를 걸면 공연장 기준도 넘습니다.</li>
 </ul>
-<p>국내 방송사의 플래시 기준은 이 원고를 쓰는 시점에 공개 자료로 확인하지 못했습니다.  저자가 실제로 따르는 방송사 기준과 현장 확인 방법</p>
+<p>국내 방송사의 플래시 기준은 이 원고를 쓰는 시점에 공개 자료로 확인하지 못했습니다. </p>
 <p>방송 화면의 기준과 공연장의 안전은 17장과 32장에서 자세히 다룹니다. 여기서 챙길 것은 하나, <strong>음표를 고르면 Hz가 정해진다</strong>는 사실입니다.</p>
 
 <h2 id="c2-29-히트-고르기">2.9 히트 고르기</h2><p class="lead">히트는 드럼이 칠 때마다 다 걸지 않고, 몇 군데만 추려서 겁니다.</p>

@@ -1,0 +1,588 @@
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch5"><header class="ch-head"><div class="ch-num">5<span>장</span></div><h1 class="ch-title">곡 구성표</h1><p class="ch-sub">들은 것을 표 한 장으로</p></header>
+
+
+<aside class="box goals"><div class="box-label">이 장에서 얻을 것</div><div class="box-body">
+<ul class="checks">
+<li>1~4장에서 들은 것을 곡 구성표 한 장에 모읍니다.</li>
+<li>준비 시간에 맞춰 기본 구성과 상세 구성 중 하나를 고릅니다.</li>
+<li>적은 내용마다 얼마나 확실한지 표시합니다.</li>
+</ul>
+</div></aside>
+<div class="open-label">여는 장면</div><p class="lead">같은 곡을 열 번 들으면 열 번 새로운 것이 들립니다. 처음에는 후렴만 들리다가, 다음에는 베이스가 빠지는 자리가 들리고, 그다음에는 하이햇이 반 박 앞에서 치는 것까지 들립니다. 적을 것은 끝이 없습니다.</p>
+<p>그래서 어디서 멈출지를 먼저 정합니다. 기준은 둘입니다. 남은 시간, 그리고 그 곡에서 조명이 해야 할 일입니다. 들은 것은 표 한 장에 모으고, 얼마나 자세히 적을지는 시간에 맞춰 고릅니다.</p>
+
+<h2 id="c5-51-곡-구성표가-하는-일">5.1 곡 구성표가 하는 일</h2><p class="lead">곡 구성표는 1~4장에서 들은 것(박, 구간, 에너지, 변화)을 표 한 장에 모은 것입니다. 이 표를 만들어 두면, 그 뒤로는 곡을 다시 듣는 대신 표를 보고 일합니다.</p>
+<p>구성표는 크게 세 번 쓰입니다.</p>
+<ul class="keyed">
+<li><strong>큐를 짤 때</strong>큐 시트(16장)를 만들면서 곡을 처음부터 다시 듣지 않고, 구성표만 보고 큐 자리를 정합니다.</li>
+<li><strong>함께 일할 때</strong>연출, 콘솔 프로그래머, 음향 감독과 "18마디 후렴 히트"처럼 마디 번호로 같은 자리를 짚을 수 있습니다.</li>
+<li><strong>다시 맡을 때</strong>몇 달 뒤 같은 곡을 또 맡거나 리믹스 버전을 받아도, 처음부터 다시 듣지 않고 구성표에서 이어 갑니다.</li>
+</ul>
+<p>세 경우 모두 누가 언제 봐도 같은 자리를 찾을 수 있어야 합니다. 그래서 구성표에는 초가 아니라 마디 번호를 적고(1장), 직접 확인한 것과 짐작한 것을 구별해 표시합니다(5.4절).</p>
+
+<h2 id="c5-52-한-시간짜리-기본-구성">5.2 한 시간짜리 기본 구성</h2><p class="lead">준비 시간이 짧을 때는 큐를 어디에 둘지 정할 수 있을 만큼만 적습니다. 그림 5-1의 왼쪽 여섯 칸입니다.</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 456" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<rect x="40.0" y="80.0" width="420.0" height="400.0" rx="10" fill="#ffffff" stroke="#3b6ea8" stroke-width="1.8" opacity="1.0"/>
+<rect x="40.0" y="80.0" width="420.0" height="52.0" rx="10" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.14"/>
+<text x="60.0" y="106.0" font-size="16" fill="#3b6ea8" text-anchor="start" font-weight="700" opacity="1.0">기본 구성</text>
+<text x="60.0" y="124.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">30분~1시간 · 큐 뼈대를 세울 만큼</text>
+<text x="64.0" y="158.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">곡 정보</text>
+<text x="210.0" y="158.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">제목, 길이, 음악이 끝나는 시각</text>
+<text x="64.0" y="190.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">BPM · 첫 박</text>
+<text x="210.0" y="190.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">들어서 확인한 BPM, 첫 다운비트</text>
+<text x="64.0" y="222.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">구간 지도</text>
+<text x="210.0" y="222.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">구간 시작 마디와 이름·회차</text>
+<text x="64.0" y="254.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">주요 변화</text>
+<text x="210.0" y="254.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">▼ ◆ × 만</text>
+<text x="64.0" y="286.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">에너지 5</text>
+<text x="210.0" y="286.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">가장 큰 자리 세 곳 이하</text>
+<text x="64.0" y="318.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">확신</text>
+<text x="210.0" y="318.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">잰 것 / 짐작 / 못 정함</text>
+<rect x="500.0" y="80.0" width="420.0" height="400.0" rx="10" fill="#ffffff" stroke="#7a5ea8" stroke-width="1.8" opacity="1.0"/>
+<rect x="500.0" y="80.0" width="420.0" height="52.0" rx="10" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="0.14"/>
+<text x="520.0" y="106.0" font-size="16" fill="#7a5ea8" text-anchor="start" font-weight="700" opacity="1.0">상세 구성</text>
+<text x="520.0" y="124.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">반나절~하루 · 층과 흐름까지</text>
+<text x="524.0" y="158.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">곡 정보</text>
+<text x="670.0" y="158.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">제목, 길이, 음악이 끝나는 시각</text>
+<text x="524.0" y="190.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">BPM · 첫 박</text>
+<text x="670.0" y="190.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">들어서 확인한 BPM, 첫 다운비트</text>
+<text x="524.0" y="222.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">구간 지도</text>
+<text x="670.0" y="222.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">구간 시작 마디와 이름·회차</text>
+<text x="524.0" y="254.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">주요 변화</text>
+<text x="670.0" y="254.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">▼ ◆ × 만</text>
+<text x="524.0" y="286.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">에너지 5</text>
+<text x="670.0" y="286.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">가장 큰 자리 세 곳 이하</text>
+<text x="524.0" y="318.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">확신</text>
+<text x="670.0" y="318.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">잰 것 / 짐작 / 못 정함</text>
+<rect x="512.0" y="332.0" width="396.0" height="28.0" rx="4" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.1"/>
+<text x="524.0" y="350.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">에너지 전체</text>
+<text x="670.0" y="350.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">구간마다 1~5</text>
+<rect x="512.0" y="364.0" width="396.0" height="28.0" rx="4" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.1"/>
+<text x="524.0" y="382.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">변화 전체</text>
+<text x="670.0" y="382.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">↗ ≋ ○ ▲ 까지</text>
+<rect x="512.0" y="396.0" width="396.0" height="28.0" rx="4" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.1"/>
+<text x="524.0" y="414.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">리듬 층</text>
+<text x="670.0" y="414.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">킥·스네어·하이햇·저음</text>
+<rect x="512.0" y="428.0" width="396.0" height="28.0" rx="4" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.1"/>
+<text x="524.0" y="446.0" font-size="13.5" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">색 노트</text>
+<text x="670.0" y="446.0" font-size="12.5" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">3회차 듣기의 색</text>
+<text x="520.0" y="474.0" font-size="11.5" fill="#d9902a" text-anchor="start" font-weight="700" opacity="1.0">주황 칸 = 상세 구성에서 더하는 칸</text>
+<text x="24.0" y="506.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">출발값 · 칸과 시간은 이 책의 제안입니다.</text>
+</svg>
+<figcaption><b>그림 5-1</b> 기본 구성과 상세 구성. 상세 구성은 기본 구성에 네 칸을 더합니다.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>표 5-1</b> 기본 구성의 순서와 시간 — 3분짜리 곡 기준 <span class="badge start">출발값</span></div><table>
+<thead>
+<tr class="header">
+<th>순서</th>
+<th>할 일</th>
+<th>장</th>
+<th>시간</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>세 번 듣기(1회차·2회차 중심)</td>
+<td>1장</td>
+<td>15분</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>BPM을 들어서 확인하고 첫 다운비트 찾기</td>
+<td>2장</td>
+<td>10분</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>구간 시작 마디와 이름·회차 적기</td>
+<td>3장</td>
+<td>15분</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>임팩트(▼ ◆)와 킥 아웃(×), 에너지 5 자리 적기</td>
+<td>4장</td>
+<td>10분</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>곡 뒤쪽 마디로 눈금 확인, 확신 표시</td>
+<td>2장·5.4절</td>
+<td>10분</td>
+</tr>
+</tbody>
+</table></div>
+<p>모두 합쳐 한 시간입니다. 30분밖에 없다면 3회차 듣기와 에너지 판정을 줄이되, BPM·첫 다운비트(2번)와 구간 지도(3번)는 줄이지 않습니다. BPM과 첫 다운비트, 구간 지도가 틀리면 그 위에 얹은 큐가 모두 어긋나기 때문입니다.</p>
+<p>기본 구성에서 흔히 빠뜨리는 것이 <strong>음악이 실제로 끝나는 시각</strong>입니다.</p>
+<p>음원 파일의 길이와 음악의 길이는 다를 수 있습니다. LOVE ATTACK 음원 파일은 197초인데, 음악은 약 179초에 끝나고 뒤의 18초는 거의 무음입니다.<sup class="ref"><a href="#c5-s1">1</a></sup> 파일 길이만 보고 마지막 큐를 잡으면 무대가 18초 동안 아무 소리 없이 기다립니다.</p>
+
+<h2 id="c5-53-넉넉할-때의-상세-구성">5.3 넉넉할 때의 상세 구성</h2><p class="lead">준비 시간이 넉넉하면 기본 구성에 네 칸을 더합니다(그림 5-1 오른쪽).</p>
+<ul class="keyed">
+<li><strong>에너지 전체</strong>큰 자리만이 아니라 구간마다 1~5를 적습니다(4장 그림 4-2).</li>
+<li><strong>변화 전체</strong>임팩트만이 아니라 ▲ 진입 같은 포인트와 ↗ 빌드업, ≋ 스네어 롤, ○ 브레이크 같은 트랜지션까지 적습니다.</li>
+<li><strong>리듬 레이어</strong>후렴 한 마디를 16칸으로 나눠 킥, 스네어, 하이햇, 저음이 어디에 떨어지는지 적습니다(4.5절).</li>
+<li><strong>색 노트</strong>3회차 듣기에서 떠오른 색을 구간마다 적습니다(1.2절).</li>
+</ul>
+<p>상세 구성은 곡 하나에 큐를 많이 쓸 때, 같은 곡을 여러 번 무대에 올릴 때, 여러 곡을 한 흐름으로 이을 때 필요합니다. 리듬 레이어와 색 노트는 13장(레이어 쌓기)과 8장(색 계획)에서 그대로 씁니다.</p>
+
+
+<h2 id="c5-54-확실한-것과-짐작한-것">5.4 확실한 것과 짐작한 것</h2><p class="lead">구성표에 적은 내용이 모두 똑같이 믿을 만하지는 않습니다. 그래서 적은 것마다 얼마나 확실한지 표시해 둡니다.</p>
+<div class="tbl"><div class="tcap"><b>표 5-2</b> 확실함 표시 세 가지</div><table>
+<thead>
+<tr class="header">
+<th>표시</th>
+<th>뜻</th>
+<th>LOVE ATTACK의 예</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>● 잰 것</td>
+<td>측정하거나 여러 번 들어 확인함</td>
+<td>112 BPM(두 히트 사이 112박 = 60초, 82마디까지 눈금이 맞음), 후렴 진입과 킥이 빠지는 자리의 시각</td>
+</tr>
+<tr class="even">
+<td>◐ 짐작한 것</td>
+<td>근거는 있지만 확정하지 못함</td>
+<td>첫 다운비트 1.50초(근거 셋이 일치하지만 들어서 최종 확인 필요. 그래서 18·46 같은 마디 번호도 이 판단을 따릅니다), 14~17마디를 "프리코러스"로 부른 이름</td>
+</tr>
+<tr class="odd">
+<td>○ 정하지 못한 것</td>
+<td>둘 이상의 답이 남아 있음</td>
+<td>평론이 말한 "비트 드롭"이 63~66마디인지 18·46마디인지</td>
+</tr>
+</tbody>
+</table></div>
+<p><sup class="ref"><a href="#c5-s1">1</a></sup></p>
+<p>이 표시가 있으면 리허설에서 무엇부터 확인할지가 정해집니다. ○부터 듣고, 그다음 ◐를 듣습니다. ●는 다시 확인하지 않아도 됩니다.</p>
+<p>자동 분석 프로그램이 낸 결과는 처음에는 모두 ◐로 둡니다. 그림 5-2에는 저자가 시험한 자동 분석 프로그램이 LOVE ATTACK을 나눈 결과와, 직접 들으며 마디를 세어 확인한 결과를 나란히 놓았습니다.</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 336" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<line x1="120.0" y1="300.0" x2="120.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="120.0" y="322.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">0초</text>
+<line x1="174.0" y1="300.0" x2="174.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="228.0" y1="300.0" x2="228.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="228.0" y="322.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">10초</text>
+<line x1="282.0" y1="300.0" x2="282.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="336.0" y1="300.0" x2="336.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="336.0" y="322.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">20초</text>
+<line x1="390.0" y1="300.0" x2="390.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="444.0" y1="300.0" x2="444.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="444.0" y="322.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">30초</text>
+<line x1="498.0" y1="300.0" x2="498.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="552.0" y1="300.0" x2="552.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="552.0" y="322.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">40초</text>
+<line x1="606.0" y1="300.0" x2="606.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="660.0" y1="300.0" x2="660.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="660.0" y="322.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">50초</text>
+<line x1="714.0" y1="300.0" x2="714.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="768.0" y1="300.0" x2="768.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="768.0" y="322.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">60초</text>
+<line x1="822.0" y1="300.0" x2="822.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="876.0" y1="300.0" x2="876.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="876.0" y="322.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">70초</text>
+<line x1="930.0" y1="300.0" x2="930.0" y2="306.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="24.0" y="128.0" font-size="13" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">자동 분석</text>
+<text x="24.0" y="146.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">구간 10개 중 앞 5개</text>
+<rect x="121.0" y="112.0" width="147.0" height="40.0" rx="3" fill="#5b6b8c" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="194.5" y="137.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">Intro</text>
+<rect x="270.0" y="112.0" width="159.1" height="40.0" rx="3" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="349.6" y="137.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">Verse 1</text>
+<rect x="431.2" y="112.0" width="92.7" height="40.0" rx="3" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="477.5" y="137.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">Verse 2</text>
+<rect x="525.9" y="112.0" width="344.1" height="40.0" rx="3" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="698.0" y="137.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">Chorus 1</text>
+<rect x="872.0" y="112.0" width="57.0" height="40.0" rx="3" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="900.5" y="137.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">Verse 3</text>
+<text x="24.0" y="228.0" font-size="13" fill="#1f2430" text-anchor="start" font-weight="700" opacity="1.0">확인한 구간</text>
+<text x="24.0" y="246.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">마디 첫 박 기준</text>
+<rect x="137.2" y="212.0" width="136.9" height="40.0" rx="3" fill="#5b6b8c" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="205.6" y="237.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">인트로</text>
+<rect x="276.1" y="212.0" width="160.0" height="40.0" rx="3" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="356.1" y="237.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">벌스 1</text>
+<rect x="438.1" y="212.0" width="90.6" height="40.0" rx="3" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="483.4" y="237.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">프리코러스 1</text>
+<rect x="530.6" y="212.0" width="345.1" height="40.0" rx="3" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="703.2" y="237.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">후렴 1</text>
+<rect x="877.8" y="212.0" width="21.1" height="40.0" rx="3" fill="#9aa3b2" stroke="none" stroke-width="1" opacity="0.8"/>
+<rect x="900.9" y="212.0" width="28.1" height="40.0" rx="3" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="914.9" y="237.0" font-size="12.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">벌스 2</text>
+<line x1="269.0" y1="152.0" x2="275.1" y2="212.0" stroke="#c8553d" stroke-width="1.4" opacity="1.0" stroke-linecap="butt" stroke-dasharray="3,3"/>
+<line x1="430.2" y1="152.0" x2="437.1" y2="212.0" stroke="#c8553d" stroke-width="1.4" opacity="1.0" stroke-linecap="butt" stroke-dasharray="3,3"/>
+<line x1="524.9" y1="152.0" x2="529.6" y2="212.0" stroke="#c8553d" stroke-width="1.4" opacity="1.0" stroke-linecap="butt" stroke-dasharray="3,3"/>
+<text x="433.2" y="186.0" font-size="12" fill="#c8553d" text-anchor="start" font-weight="700" opacity="1.0">경계가 약 한 박(0.4~0.8초) 이르게 놓임</text>
+<text x="454.8" y="274.0" font-size="11.5" fill="#7a5ea8" text-anchor="middle" font-weight="700" opacity="1.0">빌드업을 '벌스'로 부름</text>
+<text x="876.8" y="274.0" font-size="11.5" fill="#1f2430" text-anchor="middle" font-weight="700" opacity="1.0">킥 아웃을 놓침</text>
+<text x="24.0" y="386.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">자료 · 저자 측정(2026-10-06). 자동 분석은 이 책을 쓰며 시험한 분석 프로그램 하나의 결과입니다. 다른 도구는 다를 수 있습니다.</text>
+</svg>
+<figcaption><b>그림 5-2</b> 자동 분석이 낸 구간과 확인한 구간. 후렴의 위치는 맞혔지만, 경계와 이름은 고쳐야 했습니다.</figcaption></figure>
+<p>이 프로그램은 후렴 세 개의 위치와 큰 흐름은 맞혔습니다. 그러나 마디와 견줄 수 있는 경계 8개가 모두 실제 다운비트보다 한 박 안팎(0.41~0.82초) 일찍 찍혔습니다. 2절 프리코러스의 경계는 실제보다 세 마디나 일렀습니다.</p>
+<p>빌드업과 브리지는 둘 다 "벌스"로 불렀고, 킥이 빠지는 마디와 한 박 당겨 들어오는 후렴 3은 잡지 못했습니다. 곡 끝의 무음 18초에는 구간 하나를 따로 두었습니다.<sup class="ref"><a href="#c5-s1">1</a></sup> 도구는 출발점을 빨리 잡아 주지만, 표시를 ●로 올리려면 직접 들어서 확인해야 합니다.</p>
+
+<h2 id="c5-55-실습-love-attack-곡-구성표">5.5 [실습] LOVE ATTACK 곡 구성표</h2><p class="lead">기본 구성을 LOVE ATTACK으로 채우면 표 5-3과 같습니다.</p>
+<div class="tbl"><div class="tcap"><b>표 5-3</b> LOVE ATTACK 곡 구성표(기본 구성) · 시각은 <span class="badge calc">계산</span> · 나머지는 <sup class="ref"><a href="#c5-s1">1</a></sup>과 4장의 판정</div><table>
+<thead>
+<tr class="header">
+<th>칸</th>
+<th>내용</th>
+<th>확신</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>곡 정보</td>
+<td>LOVE ATTACK(리센느), 파일 197초, 음악은 약 2:59에 끝남</td>
+<td>●</td>
+</tr>
+<tr class="even">
+<td>BPM · 첫 박</td>
+<td>112 BPM, 첫 다운비트 1.50초(앞에 픽업 0.96초), 1마디 2.143초, 83마디(측정은 82마디까지, 마지막 마디는 계산)</td>
+<td>● / ◐</td>
+</tr>
+<tr class="odd">
+<td>구간 지도</td>
+<td>1 인트로 · 7 벌스 1 · 14 프리코러스 1 · 18 후렴 1 · 33 킥 아웃 · 34 벌스 2 · 42 프리코러스 2 · 46 후렴 2 · 61 킥 아웃 · 62 브리지 · 63 비트 구간(드롭 후보) · 67 브레이크 · 68 후렴 3 · 82 끝</td>
+<td>● / ◐(이름)</td>
+</tr>
+<tr class="even">
+<td>주요 변화</td>
+<td>큰 히트 ▼ 18(0:37.9) · ▼ 46(1:37.9), 앤티시페이션(당겨 치기) ◆ 67마디 4박(2:24.5), 킥 아웃 × 33 · × 61 · × 82</td>
+<td>●</td>
+</tr>
+<tr class="odd">
+<td>에너지 5</td>
+<td>18, 46, 67마디 4박~68</td>
+<td>◐(판정)</td>
+</tr>
+<tr class="even">
+<td>확신</td>
+<td>○ 비트 드롭 위치(63~66 또는 18·46)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>상세 구성까지 채운 모습은 그림 5-3의 음악 지도입니다. 구간, 에너지, 저역 측정값, 변화, 확신을 한 장에 겹쳤습니다.</p>
+<figure class="plate"><svg preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" viewBox="0 64 960 536" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" xmlns:c2pa="http://c2pa.org/manifest">
+
+<rect width="100%" height="100%" fill="#ffffff"/>
+
+
+<text x="24.0" y="92.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="700" opacity="1.0">시각</text>
+<line x1="249.8" y1="98.0" x2="249.8" y2="104.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="249.8" y="92.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">0:30</text>
+<line x1="386.4" y1="98.0" x2="386.4" y2="104.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="386.4" y="92.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">1:00</text>
+<line x1="523.0" y1="98.0" x2="523.0" y2="104.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="523.0" y="92.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">1:30</text>
+<line x1="659.7" y1="98.0" x2="659.7" y2="104.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="659.7" y="92.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">2:00</text>
+<line x1="796.3" y1="98.0" x2="796.3" y2="104.0" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="796.3" y="92.0" font-size="11" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">2:30</text>
+<line x1="120.0" y1="104.0" x2="930.0" y2="104.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="24.0" y="130.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="700" opacity="1.0">구간</text>
+<rect x="120.5" y="116.0" width="57.6" height="24.0" rx="0" fill="#5b6b8c" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="149.3" y="131.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">인트로</text>
+<rect x="179.1" y="116.0" width="67.3" height="24.0" rx="0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="212.7" y="131.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">벌스 1</text>
+<rect x="247.4" y="116.0" width="38.0" height="24.0" rx="0" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="266.4" y="131.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">프리 1</text>
+<rect x="286.4" y="116.0" width="145.4" height="24.0" rx="0" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="359.1" y="131.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">후렴 1</text>
+<rect x="432.8" y="116.0" width="8.8" height="24.0" rx="0" fill="#9aa3b2" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="442.5" y="116.0" width="77.1" height="24.0" rx="0" fill="#3b6ea8" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="481.1" y="131.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">벌스 2</text>
+<rect x="520.6" y="116.0" width="38.0" height="24.0" rx="0" fill="#7a5ea8" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="539.6" y="131.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">프리 2</text>
+<rect x="559.7" y="116.0" width="145.4" height="24.0" rx="0" fill="#c8553d" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="632.3" y="131.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">후렴 2</text>
+<rect x="706.0" y="116.0" width="8.8" height="24.0" rx="0" fill="#9aa3b2" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="715.8" y="116.0" width="8.8" height="24.0" rx="0" fill="#2f8c8c" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="725.6" y="116.0" width="38.0" height="24.0" rx="0" fill="#2f8c8c" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="744.6" y="131.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">비트</text>
+<rect x="764.6" y="116.0" width="8.8" height="24.0" rx="0" fill="#d8c7a6" stroke="none" stroke-width="1" opacity="0.85"/>
+<rect x="774.4" y="116.0" width="135.6" height="24.0" rx="0" fill="#d9902a" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="842.2" y="131.0" font-size="11.5" fill="#ffffff" text-anchor="middle" font-weight="700" opacity="1.0">후렴 3</text>
+<rect x="911.0" y="116.0" width="18.5" height="24.0" rx="0" fill="#5b6b8c" stroke="none" stroke-width="1" opacity="0.85"/>
+<text x="124.9" y="156.0" font-size="10" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">1</text>
+<text x="183.4" y="156.0" font-size="10" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">7</text>
+<text x="251.7" y="156.0" font-size="10" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">14</text>
+<text x="290.8" y="156.0" font-size="10" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">18</text>
+<text x="437.2" y="156.0" font-size="10" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">33</text>
+<text x="525.0" y="156.0" font-size="10" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">42</text>
+<text x="564.0" y="156.0" font-size="10" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">46</text>
+<text x="710.4" y="156.0" font-size="10" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">61</text>
+<text x="769.0" y="156.0" font-size="10" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">67</text>
+<text x="915.4" y="156.0" font-size="10" fill="#6b7280" text-anchor="middle" font-weight="400" opacity="1.0">82</text>
+<text x="24.0" y="156.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="700" opacity="1.0">마디</text>
+<text x="24.0" y="230.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="700" opacity="1.0">에너지</text>
+<text x="24.0" y="246.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">(판정)</text>
+<line x1="120.0" y1="252.0" x2="930.0" y2="252.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="112.0" y="256.0" font-size="10.5" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">1</text>
+<line x1="120.0" y1="234.0" x2="930.0" y2="234.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="112.0" y="238.0" font-size="10.5" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">2</text>
+<line x1="120.0" y1="216.0" x2="930.0" y2="216.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="112.0" y="220.0" font-size="10.5" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">3</text>
+<line x1="120.0" y1="198.0" x2="930.0" y2="198.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="112.0" y="202.0" font-size="10.5" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">4</text>
+<line x1="120.0" y1="180.0" x2="930.0" y2="180.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="112.0" y="184.0" font-size="10.5" fill="#6b7280" text-anchor="end" font-weight="400" opacity="1.0">5</text>
+<path d="M120,270 L120.0,252.0 L129.8,252.0 L129.8,252.0 L139.5,252.0 L139.5,234.0 L149.3,234.0 L149.3,234.0 L159.0,234.0 L159.0,234.0 L168.8,234.0 L168.8,234.0 L178.6,234.0 L178.6,234.0 L188.3,234.0 L188.3,234.0 L198.1,234.0 L198.1,234.0 L207.8,234.0 L207.8,234.0 L217.6,234.0 L217.6,234.0 L227.3,234.0 L227.3,234.0 L237.1,234.0 L237.1,234.0 L246.9,234.0 L246.9,216.0 L256.6,216.0 L256.6,216.0 L266.4,216.0 L266.4,198.0 L276.1,198.0 L276.1,198.0 L285.9,198.0 L285.9,180.0 L295.7,180.0 L295.7,198.0 L305.4,198.0 L305.4,198.0 L315.2,198.0 L315.2,198.0 L324.9,198.0 L324.9,198.0 L334.7,198.0 L334.7,198.0 L344.5,198.0 L344.5,198.0 L354.2,198.0 L354.2,198.0 L364.0,198.0 L364.0,198.0 L373.7,198.0 L373.7,198.0 L383.5,198.0 L383.5,198.0 L393.3,198.0 L393.3,198.0 L403.0,198.0 L403.0,198.0 L412.8,198.0 L412.8,198.0 L422.5,198.0 L422.5,198.0 L432.3,198.0 L432.3,234.0 L442.0,234.0 L442.0,216.0 L451.8,216.0 L451.8,216.0 L461.6,216.0 L461.6,216.0 L471.3,216.0 L471.3,216.0 L481.1,216.0 L481.1,216.0 L490.8,216.0 L490.8,216.0 L500.6,216.0 L500.6,216.0 L510.4,216.0 L510.4,216.0 L520.1,216.0 L520.1,234.0 L529.9,234.0 L529.9,234.0 L539.6,234.0 L539.6,198.0 L549.4,198.0 L549.4,198.0 L559.2,198.0 L559.2,180.0 L568.9,180.0 L568.9,198.0 L578.7,198.0 L578.7,198.0 L588.4,198.0 L588.4,198.0 L598.2,198.0 L598.2,198.0 L608.0,198.0 L608.0,198.0 L617.7,198.0 L617.7,198.0 L627.5,198.0 L627.5,198.0 L637.2,198.0 L637.2,198.0 L647.0,198.0 L647.0,198.0 L656.7,198.0 L656.7,198.0 L666.5,198.0 L666.5,198.0 L676.3,198.0 L676.3,198.0 L686.0,198.0 L686.0,198.0 L695.8,198.0 L695.8,198.0 L705.5,198.0 L705.5,234.0 L715.3,234.0 L715.3,234.0 L725.1,234.0 L725.1,198.0 L734.8,198.0 L734.8,198.0 L744.6,198.0 L744.6,198.0 L754.3,198.0 L754.3,198.0 L764.1,198.0 L764.1,252.0 L773.9,252.0 L773.9,180.0 L783.6,180.0 L783.6,198.0 L793.4,198.0 L793.4,198.0 L803.1,198.0 L803.1,198.0 L812.9,198.0 L812.9,198.0 L822.7,198.0 L822.7,198.0 L832.4,198.0 L832.4,198.0 L842.2,198.0 L842.2,198.0 L851.9,198.0 L851.9,198.0 L861.7,198.0 L861.7,198.0 L871.4,198.0 L871.4,198.0 L881.2,198.0 L881.2,198.0 L891.0,198.0 L891.0,198.0 L900.7,198.0 L900.7,198.0 L910.5,198.0 L910.5,234.0 L920.2,234.0 L920.2,234.0 L930.0,234.0 L930,270 Z" fill="#d9902a" stroke="none" stroke-width="1.5" opacity="0.22" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M120.0,252.0 L129.8,252.0 L129.8,252.0 L139.5,252.0 L139.5,234.0 L149.3,234.0 L149.3,234.0 L159.0,234.0 L159.0,234.0 L168.8,234.0 L168.8,234.0 L178.6,234.0 L178.6,234.0 L188.3,234.0 L188.3,234.0 L198.1,234.0 L198.1,234.0 L207.8,234.0 L207.8,234.0 L217.6,234.0 L217.6,234.0 L227.3,234.0 L227.3,234.0 L237.1,234.0 L237.1,234.0 L246.9,234.0 L246.9,216.0 L256.6,216.0 L256.6,216.0 L266.4,216.0 L266.4,198.0 L276.1,198.0 L276.1,198.0 L285.9,198.0 L285.9,180.0 L295.7,180.0 L295.7,198.0 L305.4,198.0 L305.4,198.0 L315.2,198.0 L315.2,198.0 L324.9,198.0 L324.9,198.0 L334.7,198.0 L334.7,198.0 L344.5,198.0 L344.5,198.0 L354.2,198.0 L354.2,198.0 L364.0,198.0 L364.0,198.0 L373.7,198.0 L373.7,198.0 L383.5,198.0 L383.5,198.0 L393.3,198.0 L393.3,198.0 L403.0,198.0 L403.0,198.0 L412.8,198.0 L412.8,198.0 L422.5,198.0 L422.5,198.0 L432.3,198.0 L432.3,234.0 L442.0,234.0 L442.0,216.0 L451.8,216.0 L451.8,216.0 L461.6,216.0 L461.6,216.0 L471.3,216.0 L471.3,216.0 L481.1,216.0 L481.1,216.0 L490.8,216.0 L490.8,216.0 L500.6,216.0 L500.6,216.0 L510.4,216.0 L510.4,216.0 L520.1,216.0 L520.1,234.0 L529.9,234.0 L529.9,234.0 L539.6,234.0 L539.6,198.0 L549.4,198.0 L549.4,198.0 L559.2,198.0 L559.2,180.0 L568.9,180.0 L568.9,198.0 L578.7,198.0 L578.7,198.0 L588.4,198.0 L588.4,198.0 L598.2,198.0 L598.2,198.0 L608.0,198.0 L608.0,198.0 L617.7,198.0 L617.7,198.0 L627.5,198.0 L627.5,198.0 L637.2,198.0 L637.2,198.0 L647.0,198.0 L647.0,198.0 L656.7,198.0 L656.7,198.0 L666.5,198.0 L666.5,198.0 L676.3,198.0 L676.3,198.0 L686.0,198.0 L686.0,198.0 L695.8,198.0 L695.8,198.0 L705.5,198.0 L705.5,234.0 L715.3,234.0 L715.3,234.0 L725.1,234.0 L725.1,198.0 L734.8,198.0 L734.8,198.0 L744.6,198.0 L744.6,198.0 L754.3,198.0 L754.3,198.0 L764.1,198.0 L764.1,252.0 L773.9,252.0 L773.9,180.0 L783.6,180.0 L783.6,198.0 L793.4,198.0 L793.4,198.0 L803.1,198.0 L803.1,198.0 L812.9,198.0 L812.9,198.0 L822.7,198.0 L822.7,198.0 L832.4,198.0 L832.4,198.0 L842.2,198.0 L842.2,198.0 L851.9,198.0 L851.9,198.0 L861.7,198.0 L861.7,198.0 L871.4,198.0 L871.4,198.0 L881.2,198.0 L881.2,198.0 L891.0,198.0 L891.0,198.0 L900.7,198.0 L900.7,198.0 L910.5,198.0 L910.5,234.0 L920.2,234.0 L920.2,234.0 L930.0,234.0" fill="none" stroke="#d9902a" stroke-width="2.2" opacity="1.0" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="24.0" y="340.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="700" opacity="1.0">저역</text>
+<text x="24.0" y="356.0" font-size="11" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">(잰 값)</text>
+<line x1="120.0" y1="380.0" x2="930.0" y2="380.0" stroke="#d6d9df" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<line x1="120.0" y1="362.6" x2="930.0" y2="362.6" stroke="#6b7280" stroke-width="1" opacity="1.0" stroke-linecap="butt" stroke-dasharray="3,4"/>
+<path d="M124.9,371.7 L134.6,372.3 L144.4,367.8 L154.2,362.8 L163.9,368.3 L173.7,368.9 L183.4,366.6 L193.2,363.5 L203.0,364.3 L212.7,361.0 L222.5,360.2 L232.2,368.3 L242.0,367.8 L251.7,366.3 L261.5,368.5 L271.3,364.0 L281.0,352.9 L290.8,303.1 L300.5,357.4 L310.3,362.6 L320.1,367.3 L329.8,359.3 L339.6,361.9 L349.3,359.3 L359.1,366.6 L368.9,363.8 L378.6,362.1 L388.4,361.0 L398.1,365.6 L407.9,358.6 L417.7,356.2 L427.4,366.4 L437.2,375.7 L446.9,366.6 L456.7,359.5 L466.4,355.1 L476.2,364.0 L486.0,347.0 L495.7,364.0 L505.5,351.7 L515.2,365.0 L525.0,373.2 L534.8,373.0 L544.5,358.8 L554.3,354.8 L564.0,303.0 L573.8,357.9 L583.6,359.8 L593.3,366.3 L603.1,361.6 L612.8,363.3 L622.6,362.4 L632.3,367.0 L642.1,362.8 L651.9,361.9 L661.6,358.1 L671.4,365.0 L681.1,360.3 L690.9,357.6 L700.7,366.3 L710.4,375.8 L720.2,367.7 L729.9,354.4 L739.7,345.4 L749.5,355.1 L759.2,348.9 L769.0,356.3 L778.7,336.5 L788.5,367.1 L798.3,369.2 L808.0,362.6 L817.8,360.7 L827.5,362.1 L837.3,369.2 L847.0,363.8 L856.8,358.1 L866.6,358.3 L876.3,364.5 L886.1,360.3 L895.8,357.7 L905.6,365.0 L915.4,376.0" fill="none" stroke="#c8553d" stroke-width="1.8" opacity="1.0" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="24.0" y="436.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="700" opacity="1.0">변화</text>
+<text x="183.4" y="438.0" font-size="17" fill="#c8553d" text-anchor="middle" font-weight="700" opacity="1.0">▲</text>
+<text x="251.7" y="438.0" font-size="17" fill="#7a5ea8" text-anchor="middle" font-weight="700" opacity="1.0">↗</text>
+<text x="290.8" y="438.0" font-size="17" fill="#c8553d" text-anchor="middle" font-weight="700" opacity="1.0">▼</text>
+<text x="437.2" y="438.0" font-size="17" fill="#7b8494" text-anchor="middle" font-weight="700" opacity="1.0">×</text>
+<text x="525.0" y="438.0" font-size="17" fill="#6b7280" text-anchor="middle" font-weight="700" opacity="1.0">○</text>
+<text x="547.4" y="438.0" font-size="17" fill="#7a5ea8" text-anchor="middle" font-weight="700" opacity="1.0">↗</text>
+<text x="564.0" y="438.0" font-size="17" fill="#c8553d" text-anchor="middle" font-weight="700" opacity="1.0">▼</text>
+<text x="710.4" y="438.0" font-size="17" fill="#7b8494" text-anchor="middle" font-weight="700" opacity="1.0">×</text>
+<text x="764.1" y="438.0" font-size="17" fill="#6b7280" text-anchor="middle" font-weight="700" opacity="1.0">○</text>
+<text x="777.8" y="438.0" font-size="17" fill="#d9902a" text-anchor="middle" font-weight="700" opacity="1.0">◆</text>
+<text x="794.3" y="438.0" font-size="17" fill="#7a5ea8" text-anchor="middle" font-weight="700" opacity="1.0">↗</text>
+<text x="915.4" y="438.0" font-size="17" fill="#7b8494" text-anchor="middle" font-weight="700" opacity="1.0">×</text>
+<text x="24.0" y="482.0" font-size="12" fill="#6b7280" text-anchor="start" font-weight="700" opacity="1.0">확신</text>
+<text x="120.0" y="482.0" font-size="12" fill="#3b6ea8" text-anchor="start" font-weight="700" opacity="1.0">● BPM 112</text>
+<text x="246.9" y="482.0" font-size="12" fill="#7a5ea8" text-anchor="start" font-weight="700" opacity="1.0">◐ 첫 박 1.50초</text>
+<text x="442.0" y="482.0" font-size="12" fill="#7a5ea8" text-anchor="start" font-weight="700" opacity="1.0">◐ 구간 이름</text>
+<text x="715.3" y="482.0" font-size="12" fill="#c8553d" text-anchor="start" font-weight="700" opacity="1.0">○ 비트 드롭 위치</text>
+<line x1="24.0" y1="506.0" x2="936.0" y2="506.0" stroke="#eef0f3" stroke-width="1" opacity="1.0" stroke-linecap="butt"/>
+<text x="24.0" y="528.0" font-size="12" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">● 잰 것   ◐ 짐작한 것(근거 있음)   ○ 정하지 못한 것</text>
+<text x="24.0" y="548.0" font-size="12" fill="#1f2430" text-anchor="start" font-weight="400" opacity="1.0">▲ 진입  ↗ 빌드업·상승  ▼ 큰 히트  ○ 브레이크  ◆ 한 박 앤티시페이션  × 킥 아웃</text>
+<text x="24.0" y="586.0" font-size="11.5" fill="#6b7280" text-anchor="start" font-weight="400" opacity="1.0">자료 · 저자 측정(2026-10-06). 시각은 112 BPM·1.50초로 계산. 에너지는 이 책의 판정(그림 4-2), 저역은 마디별 측정값.</text>
+</svg>
+<figcaption><b>그림 5-3</b> LOVE ATTACK 음악 지도. 이 지도가 6장부터 이어지는 연출의 바탕이 됩니다.</figcaption></figure>
+<p>지도를 보면 이 곡의 조명이 해야 할 일이 보입니다. 큰 히트는 18마디와 46마디 두 번이고, 그 앞에 4마디씩 빌드업이 있습니다. 후렴이 끝날 때마다 한 마디씩 킥이 빠지고, 후렴 3은 한 박 먼저 들어와 곡 끝까지 달립니다. 그 바로 앞 67마디는 들을 때 가장 비어 들리는 자리입니다. 33장에서 이 지도 위에 실제 큐를 얹습니다.</p>
+<aside class="box mine"><div class="box-label">내 곡으로 해 보기</div><div class="box-body"><ol class="steps"><li>맡은 곡 하나로 기본 구성을 채워 봅니다.</li><li>시간을 재면서 해 보고, 한 시간이 넘으면 어느 칸에서 오래 걸렸는지 적어 둡니다.</li><li>다음 곡에서는 그 칸부터 줄입니다.</li></ol></div></aside>
+<aside class="web" id="web-W4-6"><div class="web-head"><span class="web-tag">웹 부록 5</span><h4>곡 구성표</h4><a class="web-open" href="https://jjjh7401.github.io/lx/sheet.html" target="_blank" rel="noopener">새 창에서 열기 ↗</a></div><p class="web-desc">듣기 노트에 적은 것을 기본 구성과 상세 구성으로 모으고 빠진 것을 짚어 줍니다.</p><div class="tool-embed"><iframe title="곡 구성표" loading="lazy" style="--h:1750px" src="https://jjjh7401.github.io/lx/sheet.html?embed=1" allow="autoplay" ></iframe></div><p class="tool-open"><span>적은 노트는 이 브라우저에만 저장됩니다. 넓은 화면에서 쓰려면 위의 "새 창에서 열기"를 누르세요.</span></p></aside>
+
+<section class="summary"><h2>핵심 정리</h2><ul>
+<li>곡 구성표는 들은 것을 큐로 옮기기 전에 표 한 장에 모은 것입니다. 마디로 적고, 함께 일하는 사람과 같은 자리를 가리키게 해 줍니다.</li>
+<li>시간이 짧으면 기본 구성(곡 정보, BPM·첫 박, 구간 지도, 주요 변화, 에너지 5, 확신), 넉넉하면 상세 구성(에너지·변화 전체, 리듬 레이어, 색 노트)을 씁니다.</li>
+<li>시간이 모자라도 BPM·첫 다운비트와 구간 지도는 줄이지 않습니다.</li>
+<li>음원 파일 길이와 음악이 끝나는 시각은 다를 수 있습니다.</li>
+<li>적은 것마다 ● 잰 것, ◐ 짐작한 것, ○ 정하지 못한 것을 표시합니다. 자동 분석의 결과는 들어서 확인하기 전까지 ◐입니다.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">내일 현장에서</div><div class="box-body"><ol class="steps"><li>오늘 맡은 곡의 구성표에서 ○로 남은 칸을 하나 골라, 리허설 전에 그 자리만 다시 들어 봅니다.</li></ol></div></aside>
+
+<section class="part-end"><div class="pe-label">1부를 마치며</div><p class="lead">1부에서는 곡을 읽는 법을 다뤘습니다. 세 번 듣고(1장), 박과 마디를 세고(2장), 구간을 나눠 이름과 번호를 붙이고(3장), 에너지와 변화를 적고(4장), 그 모두를 구성표 한 장에 모았습니다(5장).</p>
+<p>이제 손에는 곡 구성표가 한 장 있습니다. 2부 「빛의 설계」에서는 이 표를 바탕으로 무엇을 보여 줄지 정합니다. 어떤 장비로, 어떤 컨셉과 색으로, 누구를 메인으로 세울지입니다.</p>
+
+</section><section class="notes"><h2>주</h2><ol><li id="c5-s1">저자 측정, LOVE ATTACK 음원 분석(2026-10-06, 측정 방법은 부록에 싣습니다). 음악 끝 시각과 무음 구간, 다운비트 위상의 근거 세 가지, 조성 추정(크로마 평균과 장·단조 프로필의 상관, 1위 D♯ 단조 0.458), 자동 분석 프로그램의 구간 경계와 마디 첫 박의 차이(비교 가능한 8개, 0.41~0.82초 앞). 조성과 BPM은 음원 정보 사이트 Tunebat의 표기(정수 112 BPM, D♯ minor)와도 일치.</li></ol></section>
+
+
+</article>
+</div>
