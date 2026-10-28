@@ -228,7 +228,7 @@
     var opts = Object.keys(l.songs).map(function (id) { var s = l.songs[id]; return '<option value="' + id + '"' + (id === l.current ? ' selected' : '') + '>' + esc(s.title || '제목 없음') + (s.sample ? ' (예시)' : '') + '</option>'; }).join('');
     var embedded = /[?&]embed=1/.test(location.search);
     var HUB = location.pathname.split('/').pop() || 'index.html', hk = '';
-    h.innerHTML = '<div class="wrap">' + (embedded ? '<span class="brand"><b>LX</b> 조명 연출 도구모음</span><nav class="nav"><a href="' + HUB + '" target="_blank" rel="noopener">새 창에서 크게 열기 ↗</a></nav>' :
+    h.innerHTML = '<div class="wrap">' + (embedded ? '<span class="brand"><b>LX</b> 조명 연출 도구모음</span>' :
       '<a class="brand" href="index.html"><b>LX</b> 조명 연출 도구모음</a><nav class="nav" aria-label="도구">' +
       PAGES.map(function (p) { return '<a href="' + p[0] + '"' + (p[0] === active ? ' aria-current="page"' : '') + '>' + p[1] + '</a>'; }).join('') + '</nav>') +
       (opt.noSong ? '' : '<div class="song-pick"><label for="lx-song" class="muted">곡</label><select id="lx-song">' + opts + '</select>' +
@@ -236,6 +236,7 @@
     document.body.insertBefore(h, document.body.firstChild);
     (function () {
       var TOOL_CH = { 'listen.html': [1], 'pairs.html': [1], 'sheet.html': [5], 'rig.html': [6], 'concept.html': [7, 10], 'palette.html': [8], 'looks.html': [9], 'bright.html': [10], 'grid.html': [11, 13], 'recs.html': [12], 'trans.html': [14], 'cues.html': [16], 'bcast.html': [17], 'setlist.html': [18, 19], 'busk.html': [21], 'rigcalc.html': [22], 'showplan.html': [24, 29], 'phaser.html': [25, 26], 'tc.html': [28], 'rehearsal.html': [28, 30], 'gocall.html': [31], 'safety.html': [32], 'song.html': [33] };
+      if (embedded) return;
       var chs = TOOL_CH[active] || [];
       fetch(new URL('book.json', document.baseURI)).then(function (r) { return r.json(); }).then(function (bk) {
         var c = null, n = 0;
