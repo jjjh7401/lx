@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>한 곡 작업판</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 83마디 띠(구간·밝기·컬러·큐·변화), 아래 여섯 단계 카드(도구마다 채움/비어 있음), 맨 아래 요약 복사 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:76ch}
+.stripbox{overflow-x:auto;border-radius:10px;background:var(--panel2);padding:10px}
+.stripbox svg{display:block;min-width:720px;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);margin-top:8px}
+.stages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.stages{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.stages{grid-template-columns:1fr}}
+.stage{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--panel);display:grid;gap:8px;align-content:start}
+.stage h3{margin:0;font-size:15px;color:var(--ink)}
+.stage h3 small{display:block;font-size:12px;font-weight:400;color:var(--muted);margin-top:2px}
+.stage .doc{font-size:12.5px;color:var(--muted)}
+.stage ul{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.stage li{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-size:13.5px}
+.stage li a{color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--line)}
+.stage li a:hover{color:var(--accent)}
+.st{font-size:12px;font-weight:700;white-space:nowrap}
+.st.ok{color:var(--ok)} .st.no{color:var(--muted)}
+.meter{height:6px;border-radius:4px;background:var(--panel2);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--ok)}
+.sum{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;margin-bottom:10px}
+.sum b{font-family:var(--f-num);color:var(--ink)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>한 곡 작업판</h1>
+    <p>33장 실습을 해 보는 판입니다. 지금 고른 곡의 작업이 여섯 단계 가운데 어디까지 왔는지 보여 줍니다. 단계마다 도구에 저장된 내용을 세어 채움과 비어 있음으로 표시하고, 곡 구성표·팔레트·밝기 계획·큐 시트를 모아 마디 띠 한 장으로 그립니다.</p>
+  </div>
+  <section class="panel">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 id="stripT">마디 띠</h2><span class="note" id="info"></span></div>
+    <div class="stripbox" id="strip"></div>
+    <div class="legend"><span>위에서부터: 구간 · 메인 밝기(%) · 장면 컬러 · 변화(▼ 히트, ◆ 앤티시페이션, × 킥 아웃, ○ 브레이크) · 큐</span></div>
+    <p class="note" id="stripMsg" style="margin:6px 0 0"></p>
+  </section>
+  <div class="sum" id="sum" style="margin-top:16px"></div>
+  <div class="stages" id="stages"></div>
+  <section class="panel" style="margin-top:16px">
+    <div class="row" style="justify-content:space-between"><h2>단계별 요약</h2><button type="button" id="copy" class="primary">글로 복사</button></div>
+    <p class="note" style="margin:6px 0 0">단계마다 넘기는 문서가 있는지와 곡의 주요 숫자를 글로 모읍니다. 팀에 보내거나 작업 폴더에 붙여 둘 수 있습니다.</p>
+    <p class="note" id="msg"></p>
+  </section>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('song.html'), D = L.design(S);
+  var $ = function (id) { return document.getElementById(id); };
+  function n(x) { return x ? (Array.isArray(x) ? x.length : (typeof x === 'object' ? Object.keys(x).length : 1)) : 0; }
+  var secs = L.sections(S), N = L.nbars(S);
+  function sampleCues() {
+    return [['0.5', 0, 1], ['1', 1, 1], ['1.1', 3, 1], ['1.2', 5, 1], ['10', 7, 1], ['10.1', 11, 1], ['20', 14, 1], ['29', 17, 3], ['30', 18, 1], ['30.1', 22, 1], ['30.2', 26, 1], ['30.3', 30, 1],
+      ['39', 33, 1], ['40', 34, 1], ['50', 42, 1], ['50.1', 44, 1], ['59', 45, 4], ['60', 46, 1], ['60.1', 47, 1], ['60.2', 49, 1], ['60.3', 50, 1], ['60.4', 54, 1], ['60.5', 58, 1],
+      ['69', 61, 1], ['70', 62, 1], ['75', 63, 1], ['79', 67, 1], ['80', 67, 4], ['80.1', 68, 1], ['80.2', 78, 1], ['90', 82, 1], ['99', 84, 1]].map(function (r) { return { no: r[0], bar: r[1], beat: r[2] }; });
+  }
+  var cues = (D.cueSheet && D.cueSheet.rows && D.cueSheet.rows.length) ? D.cueSheet.rows : (S.sample ? sampleCues() : []);
+  var rigc = L.getKey('rigcalc');
+  function item(name, page, count, unit) { return { name: name, page: page, c: count, unit: unit }; }
+  var STAGES = [
+    ['1 곡 읽기', '1부 · 1~5장', '곡 구성표', [item('듣기 노트', 'listen.html', n(S.marks), '개 표시'), item('곡 구성표', 'sheet.html', S.energy ? n(S.energy) : 0, '구간 에너지')]],
+    ['2 빛의 설계', '2부 · 6~10장', '컨셉 시트', [item('컨셉 시트', 'concept.html', D.concept && D.concept.line ? 1 : 0, ''), item('팔레트', 'palette.html', n(D.pal && D.pal.colors), '색'), item('룩 시트', 'looks.html', n(D.looks), '구간'), item('밝기 계획', 'bright.html', n(D.bright && D.bright.rows), '구간')]],
+    ['3 곡 연출', '3부 · 11~16장', '큐 시트', [item('비트 그리드', 'grid.html', n(D.grid && D.grid.cells), '칸'), item('전환 곡선', 'trans.html', n(D.trans), '경계'), item('큐 시트', 'cues.html', cues.length, '큐')]],
+    ['4 현장 맞춤', '4부 · 17·22장', '방송 점검표 · 조명 도면 · 패치 시트', [item('방송 점검', 'bcast.html', n(D.bcast && D.bcast.rows), '줄'), item('장비 계산기와 패치 시트', 'rigcalc.html', n(rigc && rigc.rows), '줄')]],
+    ['5 콘솔', '5부 · 23~29장', '쇼 파일', [item('쇼 파일 계획', 'showplan.html', L.getKey('showplan') ? 1 : 0, ''), item('페이저 계산기', 'phaser.html', L.getKey('phaser') ? 1 : 0, ''), item('타임코드 표', 'tc.html', L.getKey('tc') ? 1 : 0, '')]],
+    ['6 무대', '6부 · 30~32장', '리허설 노트 · GO 큐 목록 · 안전 점검표', [item('리허설 노트', 'rehearsal.html', n(D.reh && D.reh.rows), '줄'), item('GO 연습', 'gocall.html', n(D.gocall && D.gocall.res), '번 누름'), item('안전 점검', 'safety.html', D.safety ? n(D.safety.flash) + n(D.safety.aud) : 0, '큐')]]
+  ];
+  function renderStages() {
+    var done = 0, all = 0;
+    $('stages').innerHTML = STAGES.map(function (st) {
+      var k = st[3].filter(function (x) { return x.c > 0; }).length; done += k; all += st[3].length;
+      return '<div class="stage"><h3>' + st[0] + '<small>' + st[1] + '</small></h3><div class="meter" aria-hidden="true"><i style="width:' + (k / st[3].length * 100) + '%"></i></div>' +
+        '<div class="doc">넘기는 문서: ' + L.esc(st[2]) + '</div><ul>' + st[3].map(function (x) {
+          return '<li><a href="' + x.page + '">' + x.name + '</a><span class="st ' + (x.c ? 'ok' : 'no') + '">' + (x.c ? '채움' + (x.unit ? ' · ' + x.c + x.unit : '') : '비어 있음') + '</span></li>';
+        }).join('') + '</ul></div>';
+    }).join('');
+    $('sum').innerHTML = '<span>' + L.esc(S.title || '곡') + '</span><span><b>' + S.bpm + '</b> BPM</span><span><b>' + N + '</b>마디</span><span>구간 <b>' + secs.length + '</b></span><span>큐 <b>' + cues.length + '</b></span><span>도구 <b>' + done + ' / ' + all + '</b> 채움</span>';
+  }
+  function hexOfId(id) { var c = (D.pal.colors || []).filter(function (x) { return x.id === id; })[0]; return c ? L.hexOf(c) : null; }
+  function renderStrip() {
+    var W = 960, X0 = 70, X1 = 948, rows = { sec: [8, 22], br: [36, 40], col: [82, 12], ev: [100, 18], cue: [124, 26] }, H = 162;
+    function bx(b) { return X0 + (b - 1) / N * (X1 - X0); }
+    var h = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="마디 띠">';
+    [['구간', 'sec'], ['밝기', 'br'], ['컬러', 'col'], ['변화', 'ev'], ['큐', 'cue']].forEach(function (r) { var y = rows[r[1]]; h += '<text x="8" y="' + (y[0] + y[1] / 2 + 4) + '" font-size="11" fill="currentColor" font-weight="700">' + r[0] + '</text>'; });
+    h += '<rect x="' + X0 + '" y="' + rows.br[0] + '" width="' + (X1 - X0) + '" height="' + rows.br[1] + '" fill="#8882" rx="2"/>';
+    secs.forEach(function (x) {
+      var a = bx(x.start), w = Math.max(1, bx(x.end + 1) - a - 1), br = D.bright.rows[x.m.id], flow = (D.pal.flow || {})[x.m.id] || [];
+      var cols = flow.map(hexOfId).filter(Boolean);
+      h += '<rect x="' + a + '" y="' + rows.sec[0] + '" width="' + w + '" height="' + rows.sec[1] + '" rx="2" fill="' + (cols[0] || '#9aa3b2') + '" fill-opacity=".45"/>';
+      var nm = String(x.m.name).replace('프리코러스', '프리').replace(/\s*\(.*\)\s*/, '');
+      if (w > nm.length * 9.2 + 4) h += '<text x="' + (a + w / 2) + '" y="' + (rows.sec[0] + 15) + '" font-size="10.5" text-anchor="middle" fill="currentColor">' + L.esc(nm) + '</text>';
+      if (br && br.hero != null) { var hh = rows.br[1] * (+br.hero || 0) / 100; h += '<rect x="' + a + '" y="' + (rows.br[0] + rows.br[1] - hh) + '" width="' + w + '" height="' + hh + '" rx="2" fill="#3b6ea8" fill-opacity=".8"/>' + (w > 20 ? '<text x="' + (a + w / 2) + '" y="' + (rows.br[0] + rows.br[1] - hh + 11) + '" font-size="9.5" text-anchor="middle" fill="#fff" font-weight="700">' + br.hero + '</text>' : ''); }
+      if (cols.length) cols.forEach(function (c, j) { h += '<rect x="' + (a + w * j / cols.length) + '" y="' + rows.col[0] + '" width="' + (w / cols.length) + '" height="' + rows.col[1] + '" fill="' + c + '"/>'; });
+      else h += '<rect x="' + a + '" y="' + rows.col[0] + '" width="' + w + '" height="' + rows.col[1] + '" fill="#8883"/>';
+    });
+    var SYM = { hit: '▼', pull: '◆', stop: '×', drop: '○', in: '▲', build: '↗', roll: '≋' };
+    (S.marks || []).forEach(function (m) { if (m.t === 'sec' || !SYM[m.t]) return; var xx = bx(m.bar + ((m.beat || 1) - 1) / (+S.bpb || 4)); h += '<text x="' + xx + '" y="' + (rows.ev[0] + 13) + '" font-size="11" text-anchor="middle" fill="' + (m.t === 'hit' || m.t === 'pull' ? '#c8553d' : 'currentColor') + '">' + SYM[m.t] + '</text>'; });
+    var last = -1e9, lastY = 0;
+    cues.forEach(function (c) {
+      var b = +c.bar || 0; if (b < 1 || b > N) return; var xx = bx(b + ((+c.beat || 1) - 1) / (+S.bpb || 4)), main = String(c.no).indexOf('.') < 0;
+      h += '<line x1="' + xx + '" x2="' + xx + '" y1="' + rows.cue[0] + '" y2="' + (rows.cue[0] + (main ? 10 : 6)) + '" stroke="currentColor" stroke-width="' + (main ? 1.4 : 0.8) + '" opacity="' + (main ? 1 : .6) + '"/>';
+      if (main) { var dy = xx - last < 16 && lastY === 0 ? 11 : 0; h += '<text x="' + xx + '" y="' + (rows.cue[0] + 21 + dy) + '" font-size="9.5" text-anchor="middle" fill="currentColor" font-weight="700">' + L.esc(c.no) + '</text>'; last = xx; lastY = dy; }
+    });
+    for (var b = 1; b <= N; b++) if (b === 1 || b % 10 === 0) h += '<text x="' + (bx(b) + 1) + '" y="' + (H - 2) + '" font-size="8.5" fill="currentColor" opacity=".6">' + b + '</text>';
+    h += '</svg>';
+    $('strip').innerHTML = h;
+    $('stripT').textContent = (S.title || '곡') + ' 마디 띠';
+    $('info').textContent = N + '마디 · ' + L.fmt(L.total(S));
+    $('stripMsg').textContent = !secs.length ? '곡 구성표(웹 부록 5)에 구간을 먼저 표시합니다.' : (!cues.length ? '큐 시트(웹 부록 14)를 한 번 열면 큐가 띠에 표시됩니다.' : '구간 경계마다 큐가 있는지, 반복 구간의 밝기가 회차마다 오르는지 봅니다(45장).');
+  }
+  $('copy').addEventListener('click', function () {
+    var out = [(S.title || '곡') + ' · ' + S.bpm + ' BPM · ' + N + '마디 · 구간 ' + secs.length + '개 · 큐 ' + cues.length + '개', ''];
+    if (D.concept && D.concept.line) out.push('한 줄 컨셉: ' + D.concept.line);
+    if (D.pal && D.pal.colors && D.pal.colors.length) out.push('팔레트: ' + D.pal.colors.map(function (c) { return c.name; }).join(', '));
+    out.push('');
+    STAGES.forEach(function (st) {
+      out.push('[' + st[0] + '] 넘기는 문서: ' + st[2]);
+      st[3].forEach(function (x) { out.push('- ' + x.name + ': ' + (x.c ? '채움' + (x.unit ? ' (' + x.c + x.unit + ')' : '') : '비어 있음')); });
+    });
+    var bright = secs.map(function (x) { var br = D.bright.rows[x.m.id]; return br && br.hero != null ? x.m.name + ' ' + br.hero + '%' : null; }).filter(Boolean);
+    if (bright.length) out.push('', '구간별 메인 밝기: ' + bright.join(' · '));
+    var txt = out.join('\n');
+    try { navigator.clipboard.writeText(txt).then(function () { $('msg').textContent = '요약을 글로 복사했습니다.'; }, function () { $('msg').textContent = '복사가 막혀 있습니다.'; }); } catch (err) { $('msg').textContent = '복사가 막혀 있습니다.'; }
+  });
+  renderStrip(); renderStages();
+})();
+</script>
+</body>
+</html>

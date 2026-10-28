@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>장비 역할표</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위에 장비 목록 편집표, 아래 왼쪽에 역할별 수량(세 묶음), 오른쪽에 점검 */
+:root{--g1:#5fbf7a;--g2:#69adff;--g3:#f2a446}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--g1:#2f8a4a;--g2:#2f62d4;--g3:#b86e10}}
+:root[data-theme="light"]{--g1:#2f8a4a;--g2:#2f62d4;--g3:#b86e10}
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:68ch}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:end;margin-bottom:12px}
+.bar label.f{flex:1 1 220px}
+.bar input{width:100%}
+.rig th:nth-child(2),.rig td:nth-child(2){width:4.8em}
+.rig td input.t{width:100%;min-width:8em}
+.roles{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.chip{font-size:12.5px;padding:3px 8px;border-radius:999px;border:1px solid var(--gc);color:var(--ink);background:color-mix(in srgb,var(--gc) 14%,transparent);line-height:1.3}
+.chip.main{font-weight:700;background:color-mix(in srgb,var(--gc) 30%,transparent)}
+.chip small{font-size:12px;color:var(--muted);margin-left:3px}
+.roles select{font-size:12.5px;padding:3px 4px;width:auto}
+.attrs{display:flex;gap:3px}
+.attrs button{font-size:12px;padding:4px 7px;border-radius:6px;color:var(--muted)}
+.attrs button[aria-pressed="true"]{color:var(--ink);background:color-mix(in srgb,var(--accent) 22%,var(--panel2));border-color:var(--accent)}
+.del{font-size:12px;padding:4px 8px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:start;margin-top:16px}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.grp{margin-bottom:12px}
+.grp h3{font-size:13px;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.grp h3::before{content:"";width:4px;height:14px;border-radius:2px;background:var(--gc)}
+.grp h3 span{font-weight:400;color:var(--muted);font-size:12.5px}
+.rc{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+.r{padding:10px 12px;border-radius:10px;background:var(--panel2);border-left:4px solid var(--gc);display:grid;gap:2px}
+.r b{color:var(--ink);font-size:14px}
+.r .n{font-family:var(--f-num);font-size:22px;color:var(--ink);line-height:1.1}
+.r .s{font-size:12px;color:var(--muted)}
+.r.empty{border-left-style:dashed;background:transparent;border:1px dashed var(--line);border-left:4px dashed var(--gc)}
+.r.empty .n{color:var(--muted)}
+.r.need.empty{border-color:var(--warn)}
+.total{font-size:14px;margin:0 0 12px}
+.total b{color:var(--ink)}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)}
+.checks li.ok{border-left-color:var(--ok)}
+.checks li b{color:var(--ink)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+#msg:empty{display:none}
+.confirm{display:inline-flex;gap:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>장비 역할표</h1>
+    <p>6장 표 6-4를 채워 보는 판입니다. 장비 줄마다 역할과 바꿀 수 있는 속성을 붙이면 역할마다 수량을 세고, 비어 있는 역할과 역할에 맞지 않는 속성을 짚어 줍니다. 역할이 둘이면 앞에 붙인 역할이 주로 맡는 역할입니다.</p>
+  </div>
+
+  <div class="panel">
+    <div class="bar">
+      <label class="f" for="rname">무대 이름<input id="rname" placeholder="예: 가을 투어 중형 무대"></label>
+      <button type="button" class="primary" id="add">장비 줄 더하기</button>
+      <button type="button" id="copy">역할표 복사</button>
+      <span id="exWrap"><button type="button" class="ghost" id="ex">표 6-4 예시로 바꾸기</button></span>
+      <span id="clrWrap"><button type="button" class="ghost" id="clr">모두 비우기</button></span>
+    </div>
+    <p class="note" id="msg"></p>
+    <div class="tbl"><table class="rig" id="rig"></table></div>
+    <p class="note" style="margin:10px 0 0">속성 칸의 디머·컬러·포지션·빔은 장비가 직접 바꾸는 넷입니다. 타임(페이드·딜레이)은 콘솔이 정하므로 어느 장비나 가집니다. 역할 칩을 누르면 빠지고, 두 번째 칩을 누르면 맨 앞(주 역할)으로 올라갑니다.</p>
+  </div>
+
+  <div class="grid">
+    <section class="panel" aria-labelledby="h-count">
+      <h2 id="h-count" style="margin-bottom:10px">역할마다 수량</h2>
+      <p class="total" id="total"></p>
+      <div id="groups"></div>
+    </section>
+    <section class="panel" aria-labelledby="h-check">
+      <h2 id="h-check" style="margin-bottom:10px">점검</h2>
+      <ul class="checks" id="checks"></ul>
+    </section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX; L.top('rig.html', { noSong: true });
+  var $ = function (id) { return document.getElementById(id); };
+  var GROUPS = [
+    { name: '인물 조명', c: 'var(--g1)', roles: ['키', '필', '백', '사이드', '탑'] },
+    { name: '배경 조명', c: 'var(--g2)', roles: ['워시', '픽셀'] },
+    { name: '효과 조명', c: 'var(--g3)', roles: ['빔', 'FX', '오디언스'] }
+  ];
+  var ROLES = [], GC = {};
+  GROUPS.forEach(function (g) { g.roles.forEach(function (r) { ROLES.push(r); GC[r] = g.c; }); });
+  var NEED = ['키', '백', '사이드'];
+  var ATTRS = ['밝기', '색', '위치', '빔'];
+  // 저장 키는 예전 그대로 두고, 화면에는 콘솔 속성 이름으로 보여 줌
+  var AL = { '밝기': '디머', '색': '컬러', '위치': '포지션', '빔': '빔' };
+
+  function row(name, qty, place, roles, attrs, memo) {
+    var a = {}; ATTRS.forEach(function (k) { a[k] = attrs.indexOf(k) >= 0; });
+    return { id: L.uid(), name: name, qty: qty, place: place, roles: roles, attrs: a, memo: memo || '' };
+  }
+  function example() {
+    return { name: '실습용 장비(가상의 중형 무대)', example: true, rows: [
+      row('LED 프로파일', 8, '객석 위 트러스', ['키'], ['밝기', '색']),
+      row('팔로우 스팟', 2, '객석 뒤', ['키'], ['밝기', '위치', '빔'], '주연 · 사람이 따라가며'),
+      row('LED 프레넬', 6, '객석 위, 낮게', ['필'], ['밝기', '색']),
+      row('워시 무빙', 12, '무대 위 트러스 가운데·뒤', ['워시', '백'], ['밝기', '색', '위치', '빔']),
+      row('워시 무빙(사이드 타워)', 8, '무대 양옆 타워', ['사이드'], ['밝기', '색', '위치', '빔']),
+      row('스팟 무빙', 8, '무대 위 트러스 앞', ['빔', '키'], ['밝기', '색', '위치', '빔'], '무늬(고보)'),
+      row('빔 무빙', 16, '무대 뒤 바닥과 타워', ['빔'], ['밝기', '색', '위치', '빔']),
+      row('LED 바', 24, '무대 뒤 계단 구조', ['픽셀'], ['밝기', '색'], '셀마다'),
+      row('스트로브', 8, '무대 뒤 트러스', ['FX'], ['밝기']),
+      row('블라인더', 4, '무대 앞 바닥, 객석 방향', ['오디언스'], ['밝기'])
+    ] };
+  }
+  var R = L.rig() || example();
+  var ask = null;
+  function save() { L.putRig(R); }
+
+  function renderTable() {
+    $('rname').value = R.name || '';
+    var h = '<tr><th>장비</th><th>수량</th><th>자리</th><th>역할</th><th>속성</th><th>메모</th><th></th></tr>';
+    h += R.rows.map(function (r) {
+      var chips = r.roles.map(function (x, i) {
+        return '<button type="button" class="chip' + (i === 0 ? ' main' : '') + '" style="--gc:' + GC[x] + '" data-role="' + x + '" data-i="' + i + '" data-row="' + r.id + '" aria-label="' + x + (i === 0 ? ' 주 역할' : ' 보조 역할') + '">' + x + (i === 0 && r.roles.length > 1 ? '<small>주</small>' : '') + '</button>';
+      }).join('');
+      var left = ROLES.filter(function (x) { return r.roles.indexOf(x) < 0; });
+      var sel = left.length ? '<select data-add="' + r.id + '" aria-label="역할 더하기"><option value="">+ 역할</option>' + left.map(function (x) { return '<option>' + x + '</option>'; }).join('') + '</select>' : '';
+      var at = ATTRS.map(function (k) { return '<button type="button" data-attr="' + k + '" data-row="' + r.id + '" aria-pressed="' + (!!r.attrs[k]) + '">' + AL[k] + '</button>'; }).join('');
+      return '<tr><td><input class="t" data-f="name" data-row="' + r.id + '" value="' + L.esc(r.name) + '" aria-label="장비"></td>' +
+        '<td><input class="n" type="number" min="0" data-f="qty" data-row="' + r.id + '" value="' + (r.qty || 0) + '" aria-label="수량"></td>' +
+        '<td><input class="t" data-f="place" data-row="' + r.id + '" value="' + L.esc(r.place) + '" aria-label="자리"></td>' +
+        '<td><div class="roles">' + chips + sel + '</div></td><td><div class="attrs">' + at + '</div></td>' +
+        '<td><input class="t" data-f="memo" data-row="' + r.id + '" value="' + L.esc(r.memo) + '" aria-label="메모"></td>' +
+        '<td><button type="button" class="ghost del" data-del="' + r.id + '" aria-label="줄 지우기">지우기</button></td></tr>';
+    }).join('');
+    if (!R.rows.length) h += '<tr><td colspan="7" class="note">장비 줄이 없습니다. "장비 줄 더하기"로 시작합니다.</td></tr>';
+    $('rig').innerHTML = h;
+    renderConfirm();
+  }
+  function renderConfirm() {
+    $('exWrap').innerHTML = ask === 'ex' ? '<span class="confirm"><button type="button" id="exGo" style="color:var(--bad)">지금 표를 예시로 바꾸기</button><button type="button" class="ghost" id="no">취소</button></span>' : '<button type="button" class="ghost" id="ex">표 6-4 예시로 바꾸기</button>';
+    $('clrWrap').innerHTML = ask === 'clr' ? '<span class="confirm"><button type="button" id="clrGo" style="color:var(--bad)">정말 비우기</button><button type="button" class="ghost" id="no2">취소</button></span>' : '<button type="button" class="ghost" id="clr">모두 비우기</button>';
+  }
+
+  function counts() {
+    var main = {}, sub = {}, all = 0;
+    ROLES.forEach(function (x) { main[x] = 0; sub[x] = 0; });
+    R.rows.forEach(function (r) { var q = +r.qty || 0; all += q; r.roles.forEach(function (x, i) { if (i === 0) main[x] += q; else sub[x] += q; }); });
+    return { main: main, sub: sub, all: all };
+  }
+  function renderSummary() {
+    var c = counts();
+    var noRole = R.rows.filter(function (r) { return !r.roles.length; }).reduce(function (a, r) { return a + (+r.qty || 0); }, 0);
+    $('total').innerHTML = '모두 <b class="num">' + c.all + '</b>대 · 얼굴을 맡는 키 <b class="num">' + c.main['키'] + '</b>대' + (c.all ? ' (' + Math.round(c.main['키'] / c.all * 100) + '%)' : '') + (noRole ? ' · 역할 없음 <b class="num">' + noRole + '</b>대' : '');
+    $('groups').innerHTML = GROUPS.map(function (g) {
+      var sum = g.roles.reduce(function (a, x) { return a + c.main[x]; }, 0);
+      return '<div class="grp" style="--gc:' + g.c + '"><h3>' + g.name + ' <span class="num">' + sum + '대</span></h3><div class="rc">' + g.roles.map(function (x) {
+        var e = !c.main[x] && !c.sub[x];
+        return '<div class="r' + (e ? ' empty' : '') + (NEED.indexOf(x) >= 0 ? ' need' : '') + '"><b>' + x + '</b><span class="n">' + c.main[x] + '</span><span class="s">' + (c.sub[x] ? '보조로 ' + c.sub[x] + '대 더' : e ? '맡은 장비 없음' : '주 역할로') + '</span></div>';
+      }).join('') + '</div></div>';
+    }).join('');
+    renderChecks(c);
+  }
+
+  function renderChecks(c) {
+    var out = [];
+    function add(lv, html) { out.push('<li class="' + lv + '"><span class="lv">' + { w: '확인', i: '참고', ok: '좋음' }[lv] + '</span>' + html + '</li>'); }
+    var miss = NEED.filter(function (x) { return !c.main[x] && !c.sub[x]; });
+    miss.forEach(function (x) { add('w', '<b>' + x + '</b>' + L.eul(x).slice(x.length) + ' 맡은 장비가 없습니다. ' + { '키': '얼굴이 어두우면 실패입니다. 앞 위 약 45도에서 비출 장비를 정합니다.', '백': '사람이 배경에 묻힙니다. 뒤 트러스의 워시 무빙에 백을 덧붙일 수 있는지 봅니다.', '사이드': '춤의 입체가 납작해집니다. 옆 타워나 바닥에 둘 장비를 찾습니다.' }[x]); });
+    var other = ROLES.filter(function (x) { return NEED.indexOf(x) < 0 && !c.main[x] && !c.sub[x]; });
+    if (other.length) add('i', '맡은 장비가 없는 역할: <b>' + other.join(', ') + '</b>. 이 무대에 필요한 역할인지만 따져 봅니다.');
+    if (!c.main['키'] && c.sub['키']) add('w', '<b>키</b>가 보조 역할로만 있습니다. 다른 역할을 하는 동안 얼굴이 빕니다. 키를 주 역할로 맡을 장비를 정합니다.');
+    R.rows.forEach(function (r) {
+      var nm0 = r.name || '이름 없는 장비', nm = '<b>' + L.esc(nm0) + '</b>' + eun(nm0), a = r.attrs, has = function (x) { return r.roles.indexOf(x) >= 0; };
+      if (!r.roles.length) { add('i', '<b>' + L.esc(nm0) + '</b>에 역할이 없습니다. 쓰지 않는 장비라면 메모에 적어 둡니다.'); return; }
+      if (!a['밝기']) add('w', nm + ' 디머가 없습니다. 켜고 끄는 것도 콘솔에서 할 수 없는지 사양서로 확인합니다.');
+      if (has('빔') && !a['위치']) add('w', nm + ' 빔인데 포지션을 바꿀 수 없습니다. 공중 구도를 바꾸려면 팬·틸트가 필요합니다.');
+      if (has('워시') && !a['색']) add('w', nm + ' 워시인데 컬러를 바꿀 수 없습니다. 구간 팔레트를 받지 못합니다.');
+      if (has('픽셀') && !a['색']) add('i', nm + ' 픽셀인데 컬러가 고정입니다. 셀마다 디머만 바뀝니다.');
+      if (has('키') && !a['색'] && !/팔로/.test(r.name)) add('i', nm + ' 키인데 컬러를 바꿀 수 없습니다. 카메라가 있는 무대라면 색온도(CTO)를 맞출 수 있는지 확인합니다.');
+      if (has('키') && (has('빔') || has('FX'))) add('w', nm + ' 키와 ' + (has('빔') ? '빔을' : 'FX를') + ' 함께 맡습니다. ' + (has('빔') ? '빔' : 'FX') + ' 이펙트가 걸리는 동안에는 키를 맡을 수 없으니, 그 사이 얼굴을 비출 장비를 따로 둡니다.');
+    });
+    if (c.main['FX'] || c.sub['FX'] || c.main['픽셀']) add('i', '스트로브와 픽셀의 깜박임은 2장 안전 기준을 따릅니다. 방송은 화면 25%가 넘는 면적에서 초당 3회, 공연장은 초당 4회를 넘기지 않습니다.');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; }) && R.rows.length) add('ok', '키, 백, 사이드가 모두 있고 역할과 속성이 어긋나는 줄이 없습니다. 이제 키가 곡이 끝날 때까지 켜져 있을 수 있는지 큐에서 확인합니다.');
+    $('checks').innerHTML = out.join('');
+  }
+  function render() { renderTable(); renderSummary(); }
+  function eun(w) { var s = String(w).replace(/[^가-힣]+$/, ''), c = s.slice(-1).charCodeAt(0); if (!c || c < 0xAC00 || c > 0xD7A3) return '은(는)'; return ((c - 0xAC00) % 28) ? '은' : '는'; }
+
+  function find(id) { for (var i = 0; i < R.rows.length; i++) if (R.rows[i].id === id) return R.rows[i]; }
+  $('rig').addEventListener('input', function (e) {
+    var t = e.target, r = t.dataset.row && find(t.dataset.row); if (!r || !t.dataset.f) return;
+    r[t.dataset.f] = t.dataset.f === 'qty' ? Math.max(0, parseInt(t.value, 10) || 0) : t.value; R.example = false; save(); renderSummary();
+  });
+  $('rig').addEventListener('change', function (e) {
+    var t = e.target; if (!t.dataset.add || !t.value) return; var r = find(t.dataset.add); r.roles.push(t.value); R.example = false; save(); render();
+  });
+  $('rig').addEventListener('click', function (e) {
+    var t = e.target.closest('button'); if (!t) return; var r = t.dataset.row && find(t.dataset.row);
+    if (t.dataset.role && r) { var i = +t.dataset.i; if (i > 0) { r.roles.splice(i, 1); r.roles.unshift(t.dataset.role); } else r.roles.splice(0, 1); }
+    else if (t.dataset.attr && r) r.attrs[t.dataset.attr] = !r.attrs[t.dataset.attr];
+    else if (t.dataset.del) R.rows = R.rows.filter(function (x) { return x.id !== t.dataset.del; });
+    else return;
+    R.example = false; save(); render();
+  });
+  $('rname').addEventListener('input', function (e) { R.name = e.target.value; save(); });
+  $('add').addEventListener('click', function () { R.rows.push(row('', 1, '', [], ['밝기'])); save(); render(); var ins = $('rig').querySelectorAll('input[data-f="name"]'); if (ins.length) ins[ins.length - 1].focus(); });
+  document.querySelector('.bar').addEventListener('click', function (e) {
+    var id = e.target.id;
+    if (id === 'ex') ask = 'ex'; else if (id === 'clr') ask = 'clr'; else if (id === 'no' || id === 'no2') ask = null;
+    else if (id === 'exGo') { R = example(); ask = null; save(); render(); $('msg').textContent = '표 6-4 예시로 바꿨습니다.'; return; }
+    else if (id === 'clrGo') { R = { name: '', rows: [] }; ask = null; save(); render(); $('msg').textContent = '표를 비웠습니다.'; return; }
+    else return;
+    renderConfirm();
+  });
+  $('copy').addEventListener('click', function () {
+    var c = counts(), lines = ['장비\t수량\t자리\t역할\t속성\t메모'];
+    R.rows.forEach(function (r) { lines.push([r.name, r.qty, r.place, r.roles.join(', '), ATTRS.filter(function (k) { return r.attrs[k]; }).map(function (k) { return AL[k]; }).join(', '), r.memo].join('\t')); });
+    lines.push('', '역할\t주 역할 수량\t보조 수량');
+    ROLES.forEach(function (x) { lines.push(x + '\t' + c.main[x] + '\t' + c.sub[x]); });
+    lines.push('', '모두\t' + c.all);
+    var txt = (R.name ? R.name + '\n' : '') + lines.join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? '역할표를 복사했습니다. 스프레드시트에 붙여 넣으면 칸이 나뉩니다.' : '복사가 막혀 있습니다. 이 브라우저에서는 표를 직접 선택해 복사합니다.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  if (!L.rig()) save();
+  render();
+})();
+</script>
+</body>
+</html>

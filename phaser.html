@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>페이저 계산기</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 속도·스텝 설정과 결과 숫자, 가운데 파형과 장비 줄 재생, 아래 위상 격자와 점검 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:76ch}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+.stack{display:grid;gap:16px;margin-top:16px}
+.steps{display:grid;gap:6px;margin-top:10px}
+.step{display:grid;grid-template-columns:3.6em repeat(3,minmax(0,1fr)) auto;gap:6px;align-items:center;font-size:13px}
+.step input{width:100%}
+.step .lb{font-weight:700;color:var(--ink)}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.res .r{background:var(--panel2);border-radius:10px;padding:10px 12px}
+.res .r .k{font-size:12px;color:var(--muted)}
+.res .r .v{font-family:var(--f-num);font-size:22px;color:var(--ink);line-height:1.2}
+.res .r .s{font-size:12px;color:var(--muted)}
+svg{display:block;width:100%;height:auto}
+.fix{display:grid;gap:6px;margin-top:10px}
+.lamps{display:flex;flex-wrap:wrap;gap:6px}
+.lamp{width:34px;height:34px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--f-num);font-size:12px;color:var(--muted)}
+.ph{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
+.ph div{background:var(--panel2);border-radius:8px;padding:6px;text-align:center;font-size:12px}
+.ph div b{display:block;font-family:var(--f-num);font-size:14px;color:var(--ink)}
+.ph div.same{outline:2px solid var(--warn)}
+.say{background:var(--panel2);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--ink)}
+.say code{font-family:var(--f-num);font-size:13px;background:var(--bg);padding:1px 6px;border-radius:5px}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>페이저 계산기</h1>
+    <p>25장과 26장 실습을 해 보는 판입니다. 곡의 BPM과 Measure, 스텝의 값·Width·Transition을 넣으면 한 사이클의 길이와 1초에 깜박이는 횟수를 계산하고 파형을 그립니다. 장비 수와 MAtricks(Block, Group, Wings)를 고르면 장비마다 받는 위상과, 입력하는 곳에 따라 넣어야 할 마지막 위상을 알려 줍니다.</p>
+  </div>
+  <div class="grid2">
+    <section class="panel">
+      <h2>속도와 스텝</h2>
+      <div class="row" style="margin-top:10px">
+        <label class="f">불러오기<select id="preset"></select></label>
+        <label class="f">BPM<input type="number" id="bpm" class="n" min="20" max="300" step="0.1" style="width:6em"></label>
+        <label class="f">Measure(박)<input type="number" id="mea" class="n" min="0" step="0.25" style="width:5.5em"></label>
+        <label class="f">모양<select id="shape"><option value="lin">일정(Accel·Decel 0)</option><option value="sine">사인(Accel·Decel −100)</option></select></label>
+      </div>
+      <div class="steps" id="steps"></div>
+      <div class="row" style="margin-top:8px"><button type="button" id="addStep" class="ghost">스텝 더하기</button><button type="button" id="delStep" class="ghost">마지막 스텝 빼기</button>
+        <button type="button" id="mkSnap" class="ghost">모두 Transition 0(스냅)</button><button type="button" id="mkSine" class="ghost">모두 Transition 100(사인)</button></div>
+      <p class="note" style="margin:8px 0 0">값은 0~100(디머라면 %, 포지션이라면 상대값의 크기). Width는 1박에 대한 %, Transition은 그 스텝 안에서 값을 바꾸는 데 쓰는 %입니다. Measure를 0으로 두면 Width의 합이 한 사이클가 됩니다.</p>
+    </section>
+    <section class="panel">
+      <h2>결과</h2>
+      <div class="res" id="res" style="margin-top:10px"></div>
+      <svg id="wave" viewBox="0 0 600 170" role="img" aria-label="장비 한 대의 파형, 두 사이클" style="margin-top:12px"></svg>
+    </section>
+  </div>
+  <div class="stack">
+    <section class="panel">
+      <h2>장비와 위상</h2>
+      <div class="row" style="margin-top:10px">
+        <label class="f">장비 수<input type="number" id="nfx" class="n" min="1" max="64" style="width:5em"></label>
+        <label class="f">MAtricks<select id="mx"><option value="same">모두 같은 위상</option><option value="none">없음(한 대씩)</option><option value="block">Block</option><option value="group">Group</option><option value="wings">Wings</option></select></label>
+        <label class="f">값<input type="number" id="mxk" class="n" min="2" max="32" style="width:4.5em"></label>
+        <label class="f">방향<select id="dir"><option value="f">정방향(고른 순서대로)</option><option value="r">역방향</option></select></label>
+        <label class="f">위상을 넣는 곳<select id="path"><option value="auto">계산기 "0 thru 360" 버튼 · Edit Phase 360</option><option value="lit">MAtricks 창 · 레시피(글자 그대로)</option></select></label>
+        <label class="f">마지막 위상(글자 그대로일 때)<input type="number" id="endv" class="n" step="0.5" style="width:6em"></label>
+      </div>
+      <div class="fix">
+        <div class="lamps" id="lamps" aria-label="장비 줄"></div>
+        <div class="row"><button type="button" id="play" class="primary">재생</button><span class="note" id="clock"></span></div>
+      </div>
+      <h3 style="margin-top:14px">장비마다 받는 위상</h3>
+      <div class="ph" id="ph" style="margin-top:8px"></div>
+      <div class="say" id="say" style="margin-top:12px"></div>
+    </section>
+    <div class="grid2">
+      <section class="panel"><h2 style="margin-bottom:10px">점검</h2><ul class="checks" id="checks"></ul></section>
+      <section class="panel"><h2 style="margin-bottom:10px">다섯 파라미터 한 줄</h2><p class="say" id="line"></p>
+        <div class="row" style="margin-top:10px"><button type="button" id="copy">설정 복사</button><button type="button" id="reset" class="ghost">예시로 되돌리기</button></div><p class="note" id="msg"></p></section>
+    </div>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('phaser.html', { noSong: true }) || {};
+  var $ = function (id) { return document.getElementById(id); };
+  var songBpm = +(L.song() && L.song().bpm) || 112;
+  function st(v, w, tr) { return { v: v, w: w, tr: tr }; }
+  var PRE = [
+    ['25장 표 25-3 · 스냅 펄스', { mea: 1, shape: 'lin', steps: [st(100, 30, 0), st(0, 70, 0)], n: 8, mx: 'same', k: 2 }],
+    ['25장 표 25-3 · 홀짝', { mea: 1, shape: 'lin', steps: [st(100, 50, 0), st(0, 50, 0)], n: 8, mx: 'group', k: 2 }],
+    ['25장 표 25-3 · 홀짝 빠르게', { mea: 0.5, shape: 'lin', steps: [st(100, 50, 0), st(0, 50, 0)], n: 8, mx: 'group', k: 2 }],
+    ['25장 표 25-3 · 달리기', { mea: 2, shape: 'lin', steps: [st(100, 25, 0), st(0, 75, 0)], n: 6, mx: 'none', k: 2 }],
+    ['25장 표 25-3 · 블룸', { mea: 1, shape: 'lin', steps: [st(100, 35, 0), st(0, 65, 0)], n: 6, mx: 'wings', k: 2, dir: 'r' }],
+    ['25장 표 25-3 · 스파클', { mea: 0.5, shape: 'lin', steps: [st(100, 22, 0), st(0, 78, 0)], n: 6, mx: 'none', k: 2 }],
+    ['25장 표 25-3 · 혜성 꼬리', { mea: 1, shape: 'lin', steps: [st(100, 33, 0), st(32, 33, 100), st(0, 34, 0)], n: 8, mx: 'none', k: 2 }],
+    ['25장 표 25-4 · 백 저음 베이스 매 박', { mea: 1, shape: 'lin', steps: [st(100, 30, 0), st(0, 70, 0)], n: 6, mx: 'same', k: 2 }],
+    ['25장 표 25-4 · 바닥 빔 킥(마디 첫 박)', { mea: 4, shape: 'lin', steps: [st(100, 25, 0), st(0, 75, 0)], n: 8, mx: 'same', k: 2 }],
+    ['25장 표 25-4 · 사이드 하이햇(좌우 교차)', { mea: 2, shape: 'lin', steps: [st(100, 50, 0), st(0, 50, 0)], n: 8, mx: 'block', k: 4 }],
+    ['25장 표 25-4 · 위 무빙 팬 웨이브', { mea: 2, shape: 'sine', steps: [st(100, 100, 100), st(0, 100, 100)], n: 8, mx: 'none', k: 2 }],
+    ['25장 표 25-4 · 아래 무빙 틸트 웨이브', { mea: 8, shape: 'sine', steps: [st(100, 100, 100), st(0, 100, 100)], n: 16, mx: 'none', k: 2 }],
+    ['26장 실습 · 1-in-8 체이스', { mea: 4, shape: 'lin', steps: [st(100, 12.5, 0), st(0, 87.5, 0)], n: 8, mx: 'none', k: 2 }],
+    ['매뉴얼 · 사인 디머 호흡', { mea: 4, shape: 'sine', steps: [st(0, 100, 100), st(100, 100, 100)], n: 8, mx: 'none', k: 2 }]
+  ];
+  function example() { var p = JSON.parse(JSON.stringify(PRE[0][1])); p.bpm = songBpm; p.dir = p.dir || 'f'; p.path = 'auto'; p.endv = 360; p.pi = 0; return p; }
+  var P = L.getKey('phaser') || example();
+  function save() { L.putKey('phaser', P); }
+  $('preset').innerHTML = PRE.map(function (x, i) { return '<option value="' + i + '">' + x[0] + '</option>'; }).join('');
+
+  // ── 계산 ──
+  function wsum() { return P.steps.reduce(function (a, s) { return a + (+s.w || 0); }, 0) || 100; }
+  function loopBeats() { return +P.mea > 0 ? +P.mea : wsum() / 100; }
+  function loopSec() { return loopBeats() * 60 / (+P.bpm || 120); }
+  function ease(x) { return P.shape === 'sine' ? (1 - Math.cos(Math.PI * x)) / 2 : x; }
+  function valAt(u) { // u: 0~1 한 사이클 안의 위치
+    var W = wsum(), x = ((u % 1) + 1) % 1 * W, acc = 0, n = P.steps.length;
+    for (var i = 0; i < n; i++) {
+      var s = P.steps[i], w = +s.w || 0;
+      if (x < acc + w || i === n - 1) {
+        var prev = +P.steps[(i - 1 + n) % n].v, tw = w * (+s.tr || 0) / 100, into = x - acc;
+        if (tw <= 0 || into >= tw) return +s.v;
+        return prev + (+s.v - prev) * ease(into / tw);
+      }
+      acc += w;
+    }
+    return +P.steps[0].v;
+  }
+  function flashesPerLoop() { var n = 0, prev = valAt(0.9999); for (var i = 0; i < 2000; i++) { var v = valAt(i / 2000); if (prev < 50 && v >= 50) n++; prev = v; } return n; }
+  function slots() {
+    var N = +P.n || 1, k = Math.max(2, +P.k || 2), mx = P.mx, pos = [], S2;
+    for (var i = 0; i < N; i++) {
+      if (mx === 'same') pos.push(0);
+      else if (mx === 'block') pos.push(Math.floor(i / k));
+      else if (mx === 'group') pos.push(i % k);
+      else if (mx === 'wings') { var Lw = Math.ceil(N / k), w = Math.floor(i / Lw), j = i - w * Lw; pos.push(w % 2 === 0 ? j : Lw - 1 - j); }
+      else pos.push(i);
+    }
+    S2 = mx === 'same' ? 1 : Math.max.apply(null, pos) + 1;
+    if (P.dir === 'r') pos = pos.map(function (p) { return S2 - 1 - p; });
+    return { pos: pos, n: S2 };
+  }
+  function phases() {
+    var s = slots(), E = +P.endv;
+    return s.pos.map(function (p) {
+      if (s.n <= 1) return 0;
+      return P.path === 'auto' ? p * 360 / s.n : p * (isFinite(E) ? E : 360) / (s.n - 1);
+    });
+  }
+  function r2(x) { return Math.round(x * 100) / 100; }
+
+  // ── 그리기 ──
+  function renderSteps() {
+    $('steps').innerHTML = '<div class="step note"><span></span><span>값</span><span>Width(%)</span><span>Transition(%)</span><span></span></div>' + P.steps.map(function (s, i) {
+      return '<div class="step"><span class="lb">스텝 ' + (i + 1) + '</span>' +
+        ['v', 'w', 'tr'].map(function (k) { return '<input type="number" step="0.5" min="0" data-i="' + i + '" data-k="' + k + '" value="' + s[k] + '" aria-label="스텝 ' + (i + 1) + ' ' + k + '">'; }).join('') + '<span></span></div>';
+    }).join('');
+  }
+  function renderWave() {
+    var w = 600, h = 170, x0 = 34, x1 = 590, y0 = 16, y1 = 132, lb = loopBeats(), beats = lb * 2, d = '';
+    var g = '<rect x="0" y="0" width="' + w + '" height="' + h + '" fill="none"/>';
+    for (var b = 0; b <= Math.ceil(beats - 1e-9); b++) { var x = x0 + b / beats * (x1 - x0); if (x <= x1 + 0.5) g += '<line x1="' + x + '" y1="' + y0 + '" x2="' + x + '" y2="' + y1 + '" stroke="var(--grid4)" stroke-dasharray="3 3"/>' + (b < beats ? '<text x="' + (x + 3) + '" y="' + (y1 + 14) + '" font-size="10" fill="var(--muted)">' + (b + 1) + '박</text>' : ''); }
+    g += '<line x1="' + x0 + '" y1="' + y1 + '" x2="' + x1 + '" y2="' + y1 + '" stroke="var(--line)"/><text x="' + (x0 - 6) + '" y="' + (y0 + 4) + '" font-size="10" fill="var(--muted)" text-anchor="end">100</text><text x="' + (x0 - 6) + '" y="' + (y1 + 3) + '" font-size="10" fill="var(--muted)" text-anchor="end">0</text>';
+    for (var i = 0; i <= 600; i++) { var u = i / 600 * 2, v = valAt(u % 1); d += (i ? 'L' : 'M') + (x0 + i / 600 * (x1 - x0)).toFixed(1) + ',' + (y1 - v / 100 * (y1 - y0)).toFixed(1); }
+    g += '<path d="' + d + '" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linejoin="round"/>';
+    var xm = x0 + (x1 - x0) / 2; g += '<line x1="' + xm + '" y1="' + (y0 - 6) + '" x2="' + xm + '" y2="' + (y1 + 4) + '" stroke="var(--impact)" stroke-width="1.4"/><text x="' + (xm + 4) + '" y="' + (y0 - 1) + '" font-size="10.5" fill="var(--impact)">한 사이클 = ' + r2(lb) + '박 · ' + r2(loopSec()) + '초</text>';
+    g += '<text x="' + x0 + '" y="' + (h - 6) + '" font-size="10.5" fill="var(--muted)">장비 한 대, 두 사이클</text>';
+    $('wave').innerHTML = g;
+  }
+  function renderRes() {
+    var ls = loopSec(), fpl = flashesPerLoop(), per = fpl / ls, s = slots(), stage = per * s.n;
+    var R = [['한 사이클', r2(loopBeats()) + '박', r2(ls) + '초'], ['장비 한 대', r2(per) + '회/초', '한 사이클에 ' + fpl + '번 켜짐'],
+      ['무대 전체', r2(stage) + '회/초', '위상 칸 ' + s.n + '개 기준(최대)'], ['위상 간격', s.n > 1 ? r2(360 / s.n) + '°' : '—', s.n > 1 ? '마지막 칸 ' + r2(360 - 360 / s.n) + '°' : '모두 같음']];
+    $('res').innerHTML = R.map(function (x) { return '<div class="r"><div class="k">' + x[0] + '</div><div class="v">' + x[1] + '</div><div class="s">' + x[2] + '</div></div>'; }).join('');
+  }
+  function renderPh() {
+    var ph = phases(), s = slots(), N = ph.length;
+    var lastSame = N > 1 && s.n > 1 && Math.abs(((ph[N - 1] - ph[0]) % 360 + 360) % 360) < 0.01 && s.pos[N - 1] !== s.pos[0];
+    $('ph').innerHTML = ph.map(function (p, i) { var bad = lastSame && (i === 0 || i === N - 1); return '<div class="' + (bad ? 'same' : '') + '">' + (i + 1) + '번<b>' + r2(p) + '°</b></div>'; }).join('');
+    $('lamps').innerHTML = ph.map(function (p, i) { return '<div class="lamp" data-i="' + i + '">' + (i + 1) + '</div>'; }).join('');
+    var say;
+    if (s.n <= 1) say = '모든 장비가 같은 위상(0°)을 받습니다. 위상을 넣지 않아도 됩니다.';
+    else if (P.path === 'auto') say = '계산기의 <code>0 thru 360</code> 버튼(또는 Phaser Editor의 Edit Phase <code>360</code>)을 쓰면 콘솔이 ' + s.n + '분할에 고르게 펼쳐, 마지막 칸이 ' + r2(360 - 360 / s.n) + '°가 됩니다.';
+    else say = 'MAtricks 창이나 레시피는 글자 그대로 계산하므로 Phase From <code>0</code>, To <code>' + r2(360 - 360 / s.n) + '</code>를 넣습니다(26장 표 26-3). 지금 넣은 마지막 위상은 <code>' + r2(+P.endv) + '</code>입니다.';
+    $('say').innerHTML = say;
+    return lastSame;
+  }
+  function renderChecks(lastSame) {
+    var out = [], ls = loopSec(), fpl = flashesPerLoop(), per = fpl / ls, s = slots();
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: '확인', i: '참고', ok: '좋음' }[lv] + '</span>' + h + '</li>'); }
+    if (P.steps.length < 2) add('w', '스텝이 하나뿐입니다. 콘솔이 값을 받아 주어도 페이저는 움직이지 않습니다(25.1절).');
+    var vs = P.steps.map(function (x) { return +x.v; }); if (Math.max.apply(null, vs) === Math.min.apply(null, vs)) add('i', '모든 스텝의 값이 같습니다. 27장의 고정 프리셋(남은 스텝 막기)이 아니라면 움직임이 없습니다.');
+    if (+P.mea > 0 && Math.abs(wsum() - P.mea * 100) > 0.01) add('i', 'Width의 합(' + r2(wsum()) + '%)이 Measure(' + P.mea + '박 = ' + P.mea * 100 + '%)와 다릅니다. 결과는 같아도 나중에 읽기 쉽게 맞춰 두라는 것이 매뉴얼의 권장입니다(25.3절).');
+    if (!(+P.mea > 0)) add('i', 'Measure를 넣지 않아 Width의 합(' + r2(wsum() / 100) + '박)이 한 사이클가 됩니다. 깜박임 공식에는 이 값이 Measure 자리에 들어갑니다.');
+    if (+P.mea > 0 && P.mea < 1) add('i', 'Measure ' + P.mea + '처럼 소수 값은 처음 쓸 때 콘솔이 그대로 재생하는지 한 번 봅니다(25.6절).');
+    if (per > 3) add('w', '장비 한 대가 1초에 ' + r2(per) + '번 깜박입니다. 방송 무대에서 넓은 면적에 쓰면 플래시 기준(1초에 3번)을 넘습니다(10장, 17장).');
+    else if (per * s.n > 3 && s.n > 1) add('i', '장비 한 대는 ' + r2(per) + '회/초이지만 무대 전체에서는 위상 칸마다 따로 터져 최대 ' + r2(per * s.n) + '회/초입니다. 방송이라면 면적과 함께 봅니다.');
+    if (lastSame) add('w', '첫 장비와 마지막 장비가 같은 위상을 받아 함께 켜집니다. 글자 그대로 계산하는 곳에는 마지막 위상을 ' + r2(360 - 360 / s.n) + '로 넣습니다(26.3절).');
+    if (P.path === 'lit' && s.n > 1 && !lastSame && Math.abs(+P.endv - (360 - 360 / s.n)) > 0.01) add('w', '글자 그대로 계산하는 곳에 마지막 위상 ' + r2(+P.endv) + '을(를) 넣으면 ' + s.n + '분할의 간격이 고르지 않습니다. 고르게 펼치려면 마지막 위상을 ' + r2(360 - 360 / s.n) + '로 넣습니다.');
+    if (P.path === 'auto' && s.n > 1 && Math.abs(+P.endv - (360 - 360 / s.n)) < 0.01) add('i', '자동으로 펼쳐 주는 버튼에 ' + P.endv + '를 넣으면 콘솔이 그 범위를 다시 나눠 간격이 좁아질 수 있습니다. 버튼에는 360을 씁니다.');
+    if (P.shape === 'sine' && P.steps.some(function (x) { return +x.tr < 100; })) add('i', '사인 모양인데 Transition이 100이 아닌 스텝이 있습니다. 숨 쉬는 펄스라면 모든 스텝을 Transition 100으로 둡니다.');
+    if (P.mx === 'wings') add('i', 'Wings의 두 날개가 위상을 거울처럼 받는지는 매뉴얼에 적혀 있지 않습니다. 콘솔의 3D 화면에서 한 번 봅니다.');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; })) add('ok', '스텝, 깜박임, 위상에서 걸린 곳이 없습니다.');
+    $('checks').innerHTML = out.join('');
+  }
+  function renderLine() {
+    var ph = phases(), s = slots();
+    $('line').textContent = 'Speed = 스피드 마스터(' + P.bpm + ' BPM) · Measure ' + (+P.mea > 0 ? P.mea : '없음(Width 합)') + ' · Width ' + P.steps.map(function (x) { return x.w; }).join(' / ') +
+      ' · Transition ' + P.steps.map(function (x) { return x.tr; }).join(' / ') + (P.shape === 'sine' ? ' · Accel·Decel −100' : '') +
+      ' · Phase ' + (s.n > 1 ? '0~' + r2(Math.max.apply(null, ph)) + '(' + s.n + '분할' + ({ block: ', Block ', group: ', Group ', wings: ', Wings ' }[P.mx] ? ({ block: ', Block ', group: ', Group ', wings: ', Wings ' }[P.mx] + P.k) : '') + ')' : '모두 0');
+  }
+  function render() {
+    $('bpm').value = P.bpm; $('mea').value = P.mea; $('shape').value = P.shape; $('nfx').value = P.n; $('mx').value = P.mx; $('mxk').value = P.k; $('mxk').disabled = !/block|group|wings/.test(P.mx);
+    $('dir').value = P.dir || 'f'; $('path').value = P.path || 'auto'; $('endv').value = P.endv; $('endv').disabled = P.path !== 'lit'; $('preset').value = P.pi != null ? P.pi : '';
+    renderSteps(); renderWave(); renderRes(); var ls = renderPh(); renderChecks(ls); renderLine();
+  }
+
+  // ── 재생 ──
+  var raf = 0, t0 = 0;
+  function tick(now) {
+    var ls = loopSec(), ph = phases(), el = (now - t0) / 1000;
+    var lamps = $('lamps').children;
+    for (var i = 0; i < lamps.length; i++) {
+      var v = valAt(el / ls - ph[i] / 360) / 100;
+      lamps[i].style.background = 'color-mix(in srgb, var(--accent) ' + Math.round(v * 100) + '%, var(--panel2))';
+      lamps[i].style.color = v > 0.5 ? 'var(--accent-ink)' : 'var(--muted)';
+    }
+    $('clock').textContent = (el / ls).toFixed(1) + '사이클 · ' + (el * P.bpm / 60).toFixed(1) + '박';
+    raf = requestAnimationFrame(tick);
+  }
+  $('play').addEventListener('click', function () {
+    if (raf) { cancelAnimationFrame(raf); raf = 0; $('play').textContent = '재생'; return; }
+    t0 = performance.now(); raf = requestAnimationFrame(tick); $('play').textContent = '멈춤';
+  });
+
+  // ── 입력 ──
+  function num(v, d) { v = +v; return isFinite(v) ? v : d; }
+  $('steps').addEventListener('change', function (e) { var t = e.target; if (t.dataset.i == null) return; P.steps[+t.dataset.i][t.dataset.k] = Math.max(0, num(t.value, 0)); P.pi = null; save(); render(); });
+  [['bpm', 'bpm'], ['mea', 'mea'], ['nfx', 'n'], ['mxk', 'k'], ['endv', 'endv']].forEach(function (x) {
+    $(x[0]).addEventListener('change', function () { var v = num($(x[0]).value, P[x[1]]); if (x[1] === 'n') v = Math.max(1, Math.min(64, Math.round(v))); if (x[1] === 'k') v = Math.max(2, Math.round(v)); if (x[1] === 'bpm') v = Math.max(20, Math.min(300, v)); if (x[1] === 'mea') v = Math.max(0, v); P[x[1]] = v; P.pi = null; save(); render(); });
+  });
+  [['shape', 'shape'], ['mx', 'mx'], ['dir', 'dir'], ['path', 'path']].forEach(function (x) { $(x[0]).addEventListener('change', function () { P[x[1]] = $(x[0]).value; if (x[1] === 'path' && P.path === 'lit' && !isFinite(+P.endv)) P.endv = 360; save(); render(); }); });
+  $('preset').addEventListener('change', function () { var i = +$('preset').value, q = JSON.parse(JSON.stringify(PRE[i][1])); q.bpm = P.bpm; q.dir = q.dir || 'f'; q.path = 'auto'; q.endv = 360; q.pi = i; P = q; save(); render(); });
+  $('addStep').addEventListener('click', function () { if (P.steps.length >= 8) return; P.steps.push(st(0, 100, 0)); save(); render(); });
+  $('delStep').addEventListener('click', function () { if (P.steps.length <= 1) return; P.steps.pop(); save(); render(); });
+  $('mkSnap').addEventListener('click', function () { P.steps.forEach(function (x) { x.tr = 0; }); P.shape = 'lin'; save(); render(); });
+  $('mkSine').addEventListener('click', function () { P.steps.forEach(function (x) { x.tr = 100; }); P.shape = 'sine'; save(); render(); });
+  L.confirmBtn($('reset'), '한 번 더 누르면 예시로 바뀝니다', function () { P = example(); save(); render(); $('msg').textContent = '예시(스냅 펄스)로 되돌렸습니다.'; });
+  $('copy').addEventListener('click', function () {
+    var ph = phases(), txt = '페이저 설정\n' + $('line').textContent + '\n스텝\t값\tWidth\tTransition\n' + P.steps.map(function (x, i) { return (i + 1) + '\t' + x.v + '\t' + x.w + '\t' + x.tr; }).join('\n') +
+      '\n장비\t위상\n' + ph.map(function (p, i) { return (i + 1) + '\t' + r2(p); }).join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? '설정을 복사했습니다.' : '복사가 막혀 있습니다.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  render();
+})();
+</script>
+</body>
+</html>

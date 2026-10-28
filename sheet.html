@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>곡 구성표</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위에 구성 고르기와 점검 결과, 가운데 음악 지도, 아래에 구성표(기본 구성 6칸 + 상세 구성 4칸) */
+.head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding-block:22px 6px}
+.head p{flex-basis:100%;margin:0;color:var(--muted);max-width:66ch}
+.mode{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px;background:var(--panel)}
+.mode button{border:0;border-radius:999px;padding:6px 14px;background:transparent;color:var(--muted)}
+.mode button[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:700}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:16px;margin-top:14px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.checks{display:grid;gap:8px}
+.ck{display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:13.5px;padding:8px 0;border-bottom:1px solid var(--line)}
+.ck:last-child{border-bottom:0}
+.ck i{font-style:normal;font-weight:700;text-align:center}
+.ck.ok i{color:var(--ok)} .ck.warn i{color:var(--warn)} .ck.info i{color:var(--sec)}
+.ck b{color:var(--ink);font-weight:600}
+.svgbox{overflow-x:auto;margin-top:8px}
+svg#mapsvg{display:block;min-width:620px;width:100%;height:auto}
+.sheet td:first-child{width:8.5em;color:var(--muted);font-size:13px;white-space:nowrap}
+.sheet td:last-child{width:5.5em;text-align:center}
+.sheet tr.long td:first-child{color:var(--accent)}
+.sheet td{white-space:normal;line-height:1.7}
+.chip{display:inline-block;font-size:12.5px;padding:1px 7px;border-radius:5px;background:var(--panel2);margin:2px 3px 2px 0;white-space:nowrap}
+.chip .n{font-family:var(--f-num);color:var(--muted);margin-right:4px}
+.en{display:grid;gap:4px}
+.enrow{display:grid;grid-template-columns:9.5em 1fr auto;gap:8px;align-items:center;font-size:13px}
+.enrow .b{height:10px;border-radius:3px;background:var(--accent)}
+.enrow input{width:3.6em;padding:3px 6px}
+.stepsbox{overflow-x:auto}
+.steps16{display:grid;grid-template-columns:3.4em repeat(16,minmax(13px,1fr));gap:2px;align-items:center;font-size:12px;min-width:260px}
+.steps16 .lab{color:var(--muted)}
+.steps16 .hd{font-family:var(--f-num);font-size:12px;color:var(--muted);text-align:center}
+.steps16 button{padding:0;height:24px;border-radius:4px;background:var(--panel2);border:1px solid var(--line)}
+.steps16 button.beat{border-color:var(--grid4)}
+.steps16 button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent)}
+.timer{display:grid;gap:8px}
+.tstep{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;font-size:13.5px}
+.tstep span.m{font-family:var(--f-num);font-size:12px;color:var(--muted)}
+.clock{font-family:var(--f-num);font-size:26px;color:var(--ink)}
+.over{color:var(--warn)}
+#copyMsg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>곡 구성표</h1><span id="sampleFlag" class="sample-flag" hidden>예시 곡: LOVE ATTACK</span>
+    <div class="mode" role="group" aria-label="구성 고르기"><button type="button" id="mShort" aria-pressed="true">기본 구성</button><button type="button" id="mLong" aria-pressed="false">상세 구성</button></div>
+    <p>5장의 곡 구성표입니다. 듣기 노트와 사운드와 조명 매칭에 적은 것을 종이 한 장으로 모으고, 빠진 것과 아직 확인하지 않은 것을 짚어 줍니다. 시간이 짧으면 기본 구성, 넉넉하면 상세 구성을 씁니다.</p>
+  </div>
+
+  <div class="grid">
+    <section class="panel" aria-label="음악 지도">
+      <div class="row" style="justify-content:space-between"><h2>음악 지도</h2><span class="note">구간 색은 에너지, 아래 기호는 변화</span></div>
+      <div class="svgbox"><svg id="mapsvg" viewBox="0 0 1000 210" role="img" aria-label="구간과 에너지, 변화를 마디 위에 겹친 지도"></svg></div>
+    </section>
+    <section class="panel" aria-label="점검">
+      <h2>점검</h2>
+      <div class="checks" id="checks"></div>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-top:16px" aria-label="구성표">
+    <div class="row" style="justify-content:space-between"><h2 id="sheetTitle">구성표 · 기본 구성</h2>
+      <div class="row"><button type="button" id="copy" class="primary">구성표 복사</button><a class="btn" href="listen.html" id="toListen">듣기 노트에서 고치기</a></div></div>
+    <p class="note" id="copyMsg"></p>
+    <div class="tbl"><table class="sheet" id="sheet"></table></div>
+  </section>
+
+  <div class="grid" id="longBox" hidden>
+    <section class="panel" aria-label="에너지 전체">
+      <h2>에너지 전체 (구간마다 1~5)</h2>
+      <p class="note">4장의 다섯 단계입니다. 1도 조명 0은 아니고, 5는 곡에서 몇 번만 둡니다.</p>
+      <div class="en" id="energy"></div>
+    </section>
+    <section class="panel" aria-label="리듬 레이어">
+      <h2>리듬 레이어 · 후렴 한 마디</h2>
+      <p class="note">한 마디를 16칸으로 나눠 소리가 떨어지는 칸을 누릅니다(4장 4.5절).</p>
+      <div class="stepsbox"><div class="steps16" id="steps"></div></div>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-top:16px" aria-label="기본 구성 순서">
+    <div class="row" style="justify-content:space-between"><h2>기본 구성 순서와 시간 · 3분 곡 기준</h2>
+      <div class="row"><span class="clock" id="clock">0:00</span><button type="button" id="tgo">시간 재기</button><button type="button" id="treset" class="ghost">처음부터</button></div></div>
+    <p class="note">모두 합쳐 한 시간입니다. 30분밖에 없다면 3회차 듣기와 에너지 판정을 줄이되, 2번과 3번은 줄이지 않습니다(표 5-1).</p>
+    <div class="timer" id="tsteps"></div>
+  </section>
+</div>
+
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('sheet.html'), $ = function (id) { return document.getElementById(id); };
+  var embedded = /^about:/.test(location.href); if (embedded) $('toListen').hidden = true;
+  var mode = 'short';
+  try { mode = localStorage.getItem('lx-sheet-mode') || 'short'; } catch (e) {}
+  $('sampleFlag').hidden = !S.sample;
+  function save() { L.put(S); }
+  function css(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  var secs = L.sections(S), marks = S.marks.slice().sort(L.sortMarks), others = marks.filter(function (m) { return m.t !== 'sec'; });
+  S.energy = S.energy || {};
+
+  function conf(sel, val, key) { return '<select data-conf="' + key + '" aria-label="확신">' + ['●', '◐', '○'].map(function (c) { return '<option' + (c === val ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select>'; }
+  function mLabel(m) { var d = L.markDef(m.t); return (m.beat > 1 ? m.bar + '마디 ' + m.beat + '박' : m.bar) + (m.end && m.end > m.bar ? '~' + m.end : '') + ' ' + d.sym + ' ' + (m.memo || d.label); }
+  function at(m) { return L.fmt(L.timeOf(S, m.bar, m.beat)); }
+  function impacts() { return others.filter(function (m) { return L.markDef(m.t).k === 'impact'; }); }
+  function five() {
+    var list = impacts().map(function (m) { return (m.beat > 1 ? m.bar + '마디 ' + m.beat + '박' : m.bar + '마디') + ' ▼'; });
+    secs.forEach(function (sc) { if (+S.energy[sc.m.id] === 5) list.push(sc.m.name + ' 구간'); });
+    return list;
+  }
+  function allConf() {
+    var o = [], u = [];
+    if (S.bpmConf !== '●') u.push(['BPM ' + S.bpm, S.bpmConf]);
+    if (S.t0Conf !== '●') u.push(['첫 다운비트 ' + (+S.t0).toFixed(2) + '초', S.t0Conf]);
+    marks.forEach(function (m) { if (m.conf !== '●') u.push([(m.t === 'sec' ? m.name + ' (' + m.bar + '마디)' : mLabel(m)), m.conf]); });
+    (S.questions || []).forEach(function (q) { if (q.text) u.push([q.text, q.conf]); });
+    u.forEach(function (x) { if (x[1] === '○') o.unshift(x); else o.push(x); });
+    return o;
+  }
+
+  // ---------- 점검 ----------
+  function renderChecks() {
+    var c = [];
+    if (!secs.length) c.push(['warn', '!', '<b>구간이 없습니다.</b> 듣기 노트 2회차에서 "구간 시작"을 먼저 적어 봅니다.']);
+    if (S.duration && S.musicEnd && S.duration - S.musicEnd > 2) c.push(['warn', '!', '<b>파일 ' + L.fmt(S.duration) + ', 음악 끝 약 ' + L.fmt(S.musicEnd) + '.</b> 뒤의 ' + Math.round(S.duration - S.musicEnd) + '초는 거의 무음입니다. 마지막 큐는 음악 끝에 맞춥니다.']);
+    else if (S.duration) c.push(['ok', '✓', '음악 끝과 파일 길이가 거의 같습니다.']);
+    else c.push(['info', 'i', '음악 파일을 열지 않아 음악 끝 시각을 모릅니다. 듣기 노트에서 파일을 열면 채워집니다.']);
+    var f = five(); c.push([f.length > 3 ? 'warn' : 'ok', f.length > 3 ? '!' : '✓', '<b>에너지 5 자리 ' + f.length + '곳</b>' + (f.length > 3 ? ' · 세 곳이 넘습니다. 하나를 4로 내려 봅니다(4장).' : (f.length ? ' · ' + f.join(', ') : ' · 아직 없습니다.'))]);
+    var odd = secs.filter(function (sc, i) { return i < secs.length - 1 && sc.len % 8 !== 0 && sc.len % 4 !== 0; });
+    if (secs.length) c.push(['info', 'i', odd.length ? '<b>8마디로 떨어지지 않는 구간</b> · ' + odd.map(function (sc) { return sc.m.name + ' ' + sc.len + '마디'; }).join(', ') + '. 큐를 8마디씩 복사하면 여기서 어긋납니다(3장).' : '모든 구간이 4마디나 8마디 단위입니다.']);
+    var early = others.filter(function (m) { return m.t === 'pull' || (m.beat > 1 && L.markDef(m.t).k !== 'trans'); });
+    if (early.length) c.push(['info', 'i', '<b>다운비트가 아닌 진입</b> · ' + early.map(function (m) { return m.bar + '마디 ' + m.beat + '박'; }).filter(function (v, i, a) { return a.indexOf(v) === i; }).join(', ') + '. 큐도 그 박에 겁니다(3장 3.4절).']);
+    var u = allConf();
+    c.push([u.length ? 'warn' : 'ok', u.length ? String(u.length) : '✓', u.length ? '<b>리허설 전에 들을 것</b> · ' + u.slice(0, 6).map(function (x) { return x[1] + ' ' + L.esc(x[0]); }).join(' / ') + (u.length > 6 ? ' 외 ' + (u.length - 6) + '개' : '') : '모든 칸이 ● 입니다.']);
+    $('checks').innerHTML = c.map(function (x) { return '<div class="ck ' + x[0] + '"><i>' + x[1] + '</i><span>' + x[2] + '</span></div>'; }).join('');
+  }
+
+  // ---------- 지도 ----------
+  function renderMap() {
+    var N = L.nbars(S), x0 = 70, x1 = 990, w = (x1 - x0) / N, X = function (b) { return x0 + (b - 1) * w; };
+    var mut = css('--muted'), ink = css('--ink'), grid = css('--grid4'), s = '';
+    s += '<text x="8" y="20" font-size="12" fill="' + mut + '">마디</text>';
+    var step = N > 64 ? 8 : 4;
+    for (var b = 1; b <= N; b += step) s += '<line x1="' + X(b) + '" y1="26" x2="' + X(b) + '" y2="160" stroke="' + grid + '" stroke-width="1"/><text x="' + (X(b) + 2) + '" y="20" font-size="11" fill="' + mut + '" font-family="IBM Plex Mono,monospace">' + b + '</text>';
+    s += '<text x="8" y="50" font-size="12" fill="' + mut + '">구간</text>';
+    var eTop = 70, eH = 80;
+    s += '<text x="8" y="' + (eTop + 30) + '" font-size="12" fill="' + mut + '">에너지</text>';
+    var ecol = ['', '#5b6b8c', '#3b7bb8', '#7a5ea8', '#d2782a', '#e0352b'];
+    var line = '';
+    secs.forEach(function (sc) {
+      var e = +S.energy[sc.m.id] || 0, xa = X(sc.start), xb = X(sc.end + 1);
+      var col = (S.colors[sc.m.id] || []).map(L.colorHex).filter(Boolean)[0] || ecol[e] || grid;
+      s += '<rect x="' + (xa + .5) + '" y="32" width="' + Math.max(1, xb - xa - 1) + '" height="26" rx="2" fill="' + col + '" opacity=".9"/>';
+      if (xb - xa > sc.m.name.length * 11 + 6) s += '<text x="' + (xa + 4) + '" y="50" font-size="11.5" font-weight="700" fill="#111">' + L.esc(sc.m.name) + '</text>';
+      if (e) { var y = eTop + eH - e * eH / 5; line += (line ? ' L' : 'M') + xa + ',' + y + ' L' + xb + ',' + y; s += '<rect x="' + xa + '" y="' + y + '" width="' + Math.max(1, xb - xa) + '" height="' + (eTop + eH - y) + '" fill="' + css('--accent') + '" opacity=".14"/>'; }
+    });
+    if (line) s += '<path d="' + line + '" fill="none" stroke="' + css('--accent') + '" stroke-width="2.2"/>';
+    for (var v = 1; v <= 5; v++) s += '<text x="' + (x0 - 6) + '" y="' + (eTop + eH - v * eH / 5 + 4) + '" font-size="9.5" text-anchor="end" fill="' + mut + '">' + v + '</text>';
+    s += '<text x="8" y="188" font-size="12" fill="' + mut + '">변화</text>';
+    var used = [];
+    others.forEach(function (m) {
+      var d = L.markDef(m.t), x = X(m.bar) + (m.beat - 1) * w / (S.bpb || 4), row = 0;
+      while (used.some(function (u) { return u[1] === row && Math.abs(u[0] - x) < 11; })) row++; used.push([x, row]);
+      s += '<text x="' + x + '" y="' + (182 + row * 15) + '" font-size="14" text-anchor="middle" fill="' + css('--' + d.k) + '">' + d.sym + '</text>';
+    });
+    $('mapsvg').innerHTML = s;
+  }
+
+  // ---------- 구성표 ----------
+  function rows() {
+    var secList = secs.map(function (sc) { return '<span class="chip"><span class="n">' + sc.start + '</span>' + L.esc(sc.m.name) + '</span>'; }).join('');
+    var big = others.filter(function (m) { var k = L.markDef(m.t).k; return k === 'impact' || m.t === 'pull' || m.t === 'stop'; }).map(function (m) { return '<span class="chip"><span class="n">' + at(m) + '</span>' + L.esc(mLabel(m)) + '</span>'; }).join('');
+    var u = allConf();
+    var r = [
+      ['곡 정보', L.esc([S.title, S.artist, S.duration ? '파일 ' + L.fmt(S.duration) : '', S.musicEnd ? '음악 끝 약 ' + L.fmt(S.musicEnd) : ''].filter(Boolean).join(', ')), S.duration ? '●' : '—', 'short'],
+      ['BPM · 첫 박', S.bpm + ' BPM ' + conf(0, S.bpmConf, 'bpm') + ' · 첫 다운비트 ' + (+S.t0).toFixed(2) + '초 ' + conf(0, S.t0Conf, 't0') + ' · 1마디 ' + L.barLen(S).toFixed(3) + '초 · ' + L.nbars(S) + '마디', '', 'short'],
+      ['구간 지도', secList || '<span class="muted">듣기 노트에서 구간을 적습니다</span>', secs.some(function (sc) { return sc.m.conf !== '●'; }) ? '● / ◐' : (secs.length ? '●' : '—'), 'short'],
+      ['주요 변화', big || '<span class="muted">임팩트(▼ ◆)와 킥 아웃(×)을 적습니다</span>', big ? '●' : '—', 'short'],
+      ['에너지 5', L.esc(five().join(', ')) || '<span class="muted">아직 없음</span>', five().length ? '◐(판정)' : '—', 'short'],
+      ['확신', u.length ? u.map(function (x) { return x[1] + ' ' + L.esc(x[0]); }).join('<br>') : '모두 ●', '—', 'short']
+    ];
+    if (mode === 'long') {
+      r.push(['에너지 전체', secs.map(function (sc) { return '<span class="chip"><span class="n">' + sc.start + '</span>' + L.esc(sc.m.name) + ' ' + (S.energy[sc.m.id] || '–') + '</span>'; }).join('') || '—', '◐', 'long']);
+      r.push(['변화 전체', others.map(function (m) { return '<span class="chip">' + L.esc(mLabel(m)) + '</span>'; }).join('') || '—', '', 'long']);
+      r.push(['리듬 레이어', L.esc(layerText()) || '<span class="muted">아래 16칸에 표시합니다</span>', '', 'long']);
+      r.push(['색 노트', secs.map(function (sc) { var c = S.colors[sc.m.id] || []; return c.length ? '<span class="chip">' + L.esc(sc.m.name) + ' ' + c.map(function (n) { return '<i style="display:inline-block;width:10px;height:10px;border-radius:2px;background:' + L.colorHex(n) + ';margin:0 2px 0 4px"></i>' + n; }).join(' ') + '</span>' : ''; }).join('') || '<span class="muted">듣기 노트 3회차에서 고릅니다</span>', '', 'long']);
+      r.push(['따라갈 소리', followText() || '<span class="muted">사운드와 조명 매칭에서 정합니다</span>', '', 'long']);
+    }
+    return r;
+  }
+  function renderSheet() {
+    $('sheetTitle').textContent = '구성표 · ' + (mode === 'long' ? '상세 구성' : '기본 구성');
+    $('sheet').innerHTML = '<tr><th>칸</th><th>내용</th><th>확신</th></tr>' + rows().map(function (r) { return '<tr class="' + r[3] + '"><td>' + r[0] + '</td><td>' + r[1] + '</td><td>' + r[2] + '</td></tr>'; }).join('');
+  }
+  $('sheet').addEventListener('change', function (e) { var k = e.target.dataset.conf; if (!k) return; S[k + 'Conf'] = e.target.value; save(); renderAll(); });
+
+  // ---------- 상세 구성: 에너지, 리듬 레이어 ----------
+  var LAY = [['kick', '킥'], ['snare', '스네어'], ['hat', '하이햇'], ['bass', '저음']];
+  S.layers = S.layers || {};
+  function layerText() { return LAY.map(function (l) { var a = S.layers[l[0]] || []; var on = []; a.forEach(function (v, i) { if (v) on.push(i + 1); }); return on.length ? l[1] + ' ' + on.join('·') : ''; }).filter(Boolean).join(' / '); }
+  function followText() {
+    var names = { kick: '킥', snare: '스네어', hat: '하이햇', bass: '베이스', pad: '패드', lead: '리드', vox: '보컬', riser: '라이저', crash: '크래시' };
+    return secs.map(function (sc) { var f = (S.follow || {})[sc.m.id] || {}; var k = Object.keys(f).filter(function (x) { return f[x] === 2; }); return k.length ? '<span class="chip">' + L.esc(sc.m.name) + ' ' + k.map(function (x) { return names[x]; }).join('·') + '</span>' : ''; }).join('');
+  }
+  function renderEnergy() {
+    $('energy').innerHTML = secs.map(function (sc) { var e = +S.energy[sc.m.id] || 0; return '<div class="enrow"><span>' + L.esc(sc.m.name) + ' <span class="num muted">' + sc.start + '</span></span><span class="b" style="width:' + (e * 20) + '%"></span><input type="number" min="1" max="5" data-e="' + sc.m.id + '" value="' + (e || '') + '" aria-label="' + L.esc(sc.m.name) + ' 에너지"></div>'; }).join('') || '<p class="note">구간이 없습니다.</p>';
+  }
+  $('energy').addEventListener('input', function (e) { var id = e.target.dataset.e; if (!id) return; var v = Math.max(1, Math.min(5, Math.round(+e.target.value || 0))); if (e.target.value === '') delete S.energy[id]; else S.energy[id] = v; save(); renderMap(); renderChecks(); renderSheet(); var bar = e.target.previousElementSibling; bar.style.width = (S.energy[id] || 0) * 20 + '%'; });
+  function renderSteps() {
+    var h = '<span></span>'; for (var i = 1; i <= 16; i++) h += '<span class="hd">' + ((i - 1) % 4 === 0 ? ((i - 1) / 4 + 1) + '박' : '') + '</span>';
+    LAY.forEach(function (l) { var a = S.layers[l[0]] || []; h += '<span class="lab">' + l[1] + '</span>'; for (var j = 0; j < 16; j++) h += '<button type="button" class="' + (j % 4 === 0 ? 'beat' : '') + '" data-l="' + l[0] + '" data-i="' + j + '" aria-pressed="' + !!a[j] + '" aria-label="' + l[1] + ' ' + (j + 1) + '번째 칸"></button>'; });
+    $('steps').innerHTML = h;
+  }
+  $('steps').addEventListener('click', function (e) { var l = e.target.dataset.l; if (!l) return; var a = S.layers[l] = S.layers[l] || []; var i = +e.target.dataset.i; a[i] = !a[i]; e.target.setAttribute('aria-pressed', String(!!a[i])); save(); renderSheet(); });
+
+  // ---------- 기본 구성 순서와 시간 ----------
+  var TS = [['세 번 듣기(1회차·2회차 중심)', '1장', 15], ['BPM을 들어서 확인하고 첫 다운비트 찾기', '2장', 10], ['구간 시작 마디와 이름·회차 적기', '3장', 15], ['임팩트(▼ ◆)와 킥 아웃(×), 에너지 5 자리 적기', '4장', 10], ['곡 뒤쪽 마디로 눈금 확인, 확신 표시', '2장·5.4절', 10]];
+  S.sheetDone = S.sheetDone || [];
+  function renderTs() {
+    var acc = 0;
+    $('tsteps').innerHTML = TS.map(function (t, i) { acc += t[2]; return '<label class="tstep" for="ts' + i + '"><input type="checkbox" id="ts' + i + '" data-ts="' + i + '"' + (S.sheetDone[i] ? ' checked' : '') + '><span>' + (i + 1) + '. ' + t[0] + ' <span class="muted">(' + t[1] + ')</span></span><span class="m">' + t[2] + '분 · 누적 ' + acc + '분</span></label>'; }).join('');
+  }
+  $('tsteps').addEventListener('change', function (e) { var i = e.target.dataset.ts; if (i == null) return; S.sheetDone[+i] = e.target.checked; save(); });
+  var t0 = null, acc = 0, tick = null;
+  function showClock() { var s = Math.floor((acc + (t0 ? Date.now() - t0 : 0)) / 1000); $('clock').textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); $('clock').classList.toggle('over', s > 3600); }
+  $('tgo').addEventListener('click', function () { if (t0) { acc += Date.now() - t0; t0 = null; clearInterval(tick); $('tgo').textContent = '이어서 재기'; } else { t0 = Date.now(); tick = setInterval(showClock, 500); $('tgo').textContent = '멈추기'; } showClock(); });
+  $('treset').addEventListener('click', function () { t0 = null; acc = 0; clearInterval(tick); $('tgo').textContent = '시간 재기'; S.sheetDone = []; save(); renderTs(); showClock(); });
+
+  // ---------- 구성 고르기와 복사 ----------
+  function setMode(m) { mode = m; try { localStorage.setItem('lx-sheet-mode', m); } catch (e) {} $('mShort').setAttribute('aria-pressed', String(m === 'short')); $('mLong').setAttribute('aria-pressed', String(m === 'long')); $('longBox').hidden = m !== 'long'; renderSheet(); }
+  $('mShort').addEventListener('click', function () { setMode('short'); }); $('mLong').addEventListener('click', function () { setMode('long'); });
+  function plainH(h) { var d = document.createElement('div'); d.innerHTML = String(h).replace(/<br>/g, ' / ').replace(/<\/span>\s*<span class="chip">/g, '</span> · <span class="chip">'); d.querySelectorAll('select').forEach(function (s) { s.replaceWith(s.value); }); return d.textContent.replace(/\s+/g, ' ').trim(); }
+  L.copyBar($('copy'), $('copyMsg'), function () {
+    return { title: '곡 구성표 · ' + (S.title || '') + ' · ' + (mode === 'long' ? '상세 구성' : '기본 구성'), head: ['칸', '내용', '확신'], rows: rows().map(function (r) { return [r[0], plainH(r[1]), r[2]]; }) };
+  });
+
+
+  function renderAll() { renderChecks(); renderMap(); renderSheet(); renderEnergy(); renderSteps(); renderTs(); }
+  renderAll(); setMode(mode); showClock();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(renderMap);
+})();
+</script>
+</body>
+</html>

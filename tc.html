@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>타임코드 표</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 설정(프레임, 시작 TC, 앞당김), 가운데 트랙 타임라인, 아래 트랙 요약(기록과 견주기)과 이벤트 표 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:76ch}
+.stack{display:grid;gap:16px}
+svg{display:block;width:100%;height:auto}
+.tracks{display:grid;gap:6px;margin-top:10px}
+.trk{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr) 5em 6.5em minmax(0,1.6fr);gap:8px;align-items:center;font-size:13.5px;padding:6px 8px;border-radius:8px;background:var(--panel2)}
+.trk input{width:100%}
+.trk .c{font-family:var(--f-num);color:var(--ink);text-align:right}
+.trk .st{font-size:12.5px}
+.trk .st.w{color:var(--warn)} .trk .st.ok{color:var(--ok)}
+.trk.hd{background:none;color:var(--muted);font-size:12px}
+@media (max-width:760px){.trk{grid-template-columns:1fr 1fr}.trk.hd{display:none}}
+td.tc,td.t{font-family:var(--f-num);white-space:nowrap}
+td .on{color:var(--ok);font-weight:700} td .off{color:var(--muted)} td .go{color:var(--accent);font-weight:700}
+#msg:empty{display:none}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>타임코드 표</h1>
+    <p>28장 실습을 해 보는 판입니다. 큐 시트(웹 부록 14)를 불러와 장면 시퀀스와 리듬 레이어마다 트랙을 나누고, 이벤트마다 마디·박을 시각과 타임코드(시:분:초:프레임)로 바꿉니다. 레이어의 켜고 끄기는 큐 시트의 "레이어" 칸에 적은 말(켬, 끔, 정지, 모든 레이어 끔)에서 읽습니다. 콘솔에 기록한 이벤트 수를 적으면 트랙마다 견줘 줍니다.</p>
+  </div>
+  <div class="stack">
+    <section class="panel">
+      <div class="row">
+        <span class="muted" id="songInfo"></span>
+        <label class="f">프레임(초당)<select id="fps"><option value="23.976">23.976</option><option value="24">24</option><option value="25">25</option><option value="29.97df">29.97 DF(드롭 프레임)</option><option value="29.97">29.97 NDF</option><option value="30">30</option><option value="50">50</option><option value="59.94">59.94</option><option value="60">60</option></select></label>
+        <label class="f">곡의 0초 = 타임코드<input id="start" value="00:00:00:00" style="width:9em;font-family:var(--f-num)"></label>
+        <label class="f">이벤트 앞당기기(초)<input type="number" id="lead" class="n" step="0.01" min="0" max="1" style="width:6em"></label>
+      </div>
+      <p class="note" style="margin:8px 0 0">앞당기기는 콘솔이 명령을 받고 빛이 나오기까지의 시간을 메우려고 이벤트를 다운비트보다 조금 앞에 두는 값입니다. 0에서 시작해 리허설에서 맞춥니다.</p>
+      <svg id="tl" viewBox="0 0 960 330" role="img" aria-label="트랙마다 이벤트를 그린 타임라인" style="margin-top:12px"></svg>
+    </section>
+    <section class="panel">
+      <h2>트랙</h2>
+      <div class="tracks" id="tracks"></div>
+      <div class="row" style="margin-top:8px"><button type="button" id="addTrk" class="ghost">레이어 트랙 더하기</button><button type="button" id="reset" class="ghost">예시 트랙으로 되돌리기</button></div>
+      <p class="note" style="margin:8px 0 0">찾을 말에는 큐 시트의 레이어 칸에서 이 트랙을 가리키는 말을 쉼표로 적습니다(예: 백 저음 베이스, 백 펄스). 기록한 수는 콘솔의 타임코드 창에서 센 이벤트 수입니다.</p>
+    </section>
+    <section class="panel"><h2 style="margin-bottom:10px">점검</h2><ul class="checks" id="checks"></ul></section>
+    <section class="panel">
+      <div class="row" style="justify-content:space-between"><h2>이벤트 표</h2><div class="row"><button type="button" id="copy">표 복사</button></div></div>
+      <p class="note" id="msg"></p>
+      <div class="tbl" style="margin-top:8px"><table><thead><tr><th>트랙</th><th>큐</th><th>마디·박</th><th>시각</th><th>타임코드</th><th>이벤트</th><th>큐 시트의 말</th></tr></thead><tbody id="tb"></tbody></table></div>
+    </section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('tc.html'), D = L.design(S);
+  var $ = function (id) { return document.getElementById(id); };
+  var COL = ['#4f7f8f', '#c9862a', '#3f8f6f', '#5a5ec8', '#8a6fb0', '#b07a3a', '#c8553d', '#2f8c8c'];
+  function defTracks() {
+    return [{ name: '백 저음 베이스', keys: '백 저음 베이스, 백 펄스' }, { name: '바닥 빔 킥', keys: '바닥 빔' }, { name: '사이드 하이햇', keys: '사이드' },
+      { name: '픽셀 박수', keys: '픽셀 박수' }, { name: '위 무빙', keys: '위 무빙' }, { name: '아래 무빙', keys: '아래 무빙' }];
+  }
+  var T = L.getKey('tc') || { fps: 30, start: '00:00:00:00', lead: 0, tracks: defTracks(), rec: {} };
+  if (!T.rec) T.rec = {};
+  function save() { L.putKey('tc', T); }
+  // 큐 시트: 큐 시트 도구에 저장한 것을 먼저, 없으면 실습 곡의 표 16-4
+  function sampleCues() {
+    var R = [['1', 1, 1, ''], ['1.1', 3, 1, '백 저음 베이스 마디 첫 박 켬'], ['1.2', 5, 1, '그대로'], ['10', 7, 1, '사이드 하이햇 켬, 아래 무빙 틸트 웨이브'], ['10.1', 11, 1, '아래 무빙 정지, 위 무빙 느린 팬'],
+      ['20', 14, 1, '사이드 가속, 위·아래 무빙 같은 스윕'], ['29', 17, 3, '모든 레이어 끔'], ['30', 18, 1, '백 저음 베이스 켬, 픽셀 박수 켬'], ['30.1', 22, 1, '픽셀 박수 끔, 위 무빙 팬 웨이브'],
+      ['30.2', 26, 1, '위 무빙 정지, 픽셀 박수 켬'], ['30.3', 30, 1, '픽셀 박수 끔, 위 무빙 팬 웨이브'], ['39', 33, 1, '모든 레이어 끔'], ['40', 34, 1, '사이드 하이햇, 바닥 빔 킥 마디 첫 박'],
+      ['50', 42, 1, '사이드 끔'], ['50.1', 44, 1, '사이드 가속, 위·아래 무빙 같은 스윕'], ['59', 45, 4, '모든 레이어 끔'], ['60', 46, 1, '백 저음 베이스, 픽셀 박수'], ['60.1', 47, 1, '픽셀 박수 잠시 멈춤'],
+      ['60.2', 49, 1, '픽셀 박수 켬'], ['60.3', 50, 1, '픽셀 박수 끔, 위 무빙 팬 웨이브'], ['60.4', 54, 1, '위 무빙 정지, 픽셀 박수 켬'], ['60.5', 58, 1, '픽셀 박수 끔, 위 무빙 팬 웨이브'],
+      ['69', 61, 1, '모든 레이어 끔'], ['70', 62, 1, ''], ['75', 63, 1, '백 저음 베이스, 아래 무빙 크로스 스윕'], ['79', 67, 1, '모든 레이어 끔'], ['80', 67, 4, ''], ['80.1', 68, 1, '백 저음 베이스, 바닥 빔 킥, 픽셀 박수'],
+      ['80.2', 78, 1, '그대로'], ['90', 82, 1, '모든 레이어 끔']];
+    return R.map(function (r) { return { no: r[0], bar: r[1], beat: r[2], layers: r[3] }; });
+  }
+  var fromSheet = !!(D.cueSheet && D.cueSheet.rows && D.cueSheet.rows.length);
+  var CUES = (fromSheet ? D.cueSheet.rows : (S.sample ? sampleCues() : [])).filter(function (r) { return +r.bar >= 1; })
+    .map(function (r) { return { no: String(r.no), bar: +r.bar, beat: +r.beat || 1, layers: r.layers || '' }; })
+    .sort(function (a, b) { return (a.bar - b.bar) || (a.beat - b.beat); });
+
+  // 프레임 수(rate)와 표기 기준(nominal), 드롭 프레임(29.97 DF)
+  function FR() { var k = String(T.fps), df = /df$/.test(k), v = parseFloat(k) || 30, nom = Math.round(v), rate = (Math.abs(v - nom) > 0.001) ? nom * 1000 / 1001 : v; return { rate: rate, nom: nom, df: df }; }
+  function parseTC(s) {
+    var m = String(s).match(/^(\d+):(\d+):(\d+)[:;.](\d+)$/); if (!m) return 0; var F = FR();
+    var mins = +m[1] * 60 + +m[2], fr = ((+m[1] * 3600 + +m[2] * 60 + +m[3]) * F.nom) + +m[4];
+    if (F.df) fr -= 2 * (mins - Math.floor(mins / 10));
+    return fr / F.rate;
+  }
+  function toTC(t) {
+    var F = FR(), tot = Math.max(0, Math.round(t * F.rate)), f = F.nom;
+    if (F.df) { var d = 2, per10 = 17982, per1 = 1798, q = Math.floor(tot / per10), r = tot % per10; tot += 18 * q + (r > d ? d * Math.floor((r - d) / per1) : 0); }
+    var ff = tot % f, sAll = Math.floor(tot / f), hh = Math.floor(sAll / 3600), mm = Math.floor(sAll / 60) % 60, ss = sAll % 60;
+    function p(n) { return (n < 10 ? '0' : '') + n; } return p(hh) + ':' + p(mm) + ':' + p(ss) + (F.df ? ';' : ':') + p(ff);
+  }
+  function keysOf(tr) { return String(tr.keys || tr.name).split(/[,，]/).map(function (x) { return x.trim(); }).filter(Boolean); }
+  function events() {
+    var ev = [], on = T.tracks.map(function () { return false; });
+    CUES.forEach(function (c) {
+      var t = L.timeOf(S, c.bar, c.beat);
+      ev.push({ tr: -1, no: c.no, bar: c.bar, beat: c.beat, t: t, kind: 'go', src: '' });
+      var txt = c.layers.replace(/위\s*[·,/]\s*아래\s*무빙/g, '위 무빙, 아래 무빙');
+      if (/모든\s*레이어\s*(끔|정지|멈춤)/.test(txt)) {
+        on.forEach(function (v, i) { if (v) { ev.push({ tr: i, no: c.no, bar: c.bar, beat: c.beat, t: t, kind: 'off', src: c.layers }); on[i] = false; } });
+        return;
+      }
+      txt.split(/[,，]/).forEach(function (cl) {
+        cl = cl.trim(); if (!cl || /^그대로/.test(cl)) return;
+        var off = /(끔|정지|멈춤|빠짐|아웃)/.test(cl);
+        T.tracks.forEach(function (tr, i) {
+          if (!keysOf(tr).some(function (k) { return cl.indexOf(k) >= 0; })) return;
+          if (off && on[i]) { ev.push({ tr: i, no: c.no, bar: c.bar, beat: c.beat, t: t, kind: 'off', src: cl }); on[i] = false; }
+          else if (!off && !on[i]) { ev.push({ tr: i, no: c.no, bar: c.bar, beat: c.beat, t: t, kind: 'on', src: cl }); on[i] = true; }
+        });
+      });
+    });
+    var endT = L.timeOf(S, (L.nbars(S) || 1) + 1, 1);
+    on.forEach(function (v, i) { if (v) ev.push({ tr: i, no: '—', bar: (L.nbars(S) || 1) + 1, beat: 1, t: endT, kind: 'open', src: '곡 끝까지 켜져 있음' }); });
+    return ev;
+  }
+  function trName(i) { return i < 0 ? '장면' : T.tracks[i].name; }
+  function render() {
+    $('fps').value = String(T.fps); $('start').value = T.start; $('lead').value = T.lead;
+    $('songInfo').textContent = (S.title || '곡') + ' · ' + S.bpm + ' BPM · ' + (fromSheet ? '큐 시트 도구의 큐 ' : (S.sample ? '실습 곡 표 16-4의 큐 ' : '큐 ')) + CUES.length + '개';
+    var ev = events(), st = parseTC(T.start), lead = +T.lead || 0;
+    // 타임라인
+    var W = 960, x0 = 130, x1 = 940, top = 30, rh = 34, N = T.tracks.length, endT = L.timeOf(S, (L.nbars(S) || 1) + 1, 1) || 180;
+    function X(t) { return x0 + t / endT * (x1 - x0); }
+    var H = top + (N + 1) * rh + 40, g = '';
+    $('tl').setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    L.sections(S).forEach(function (sc) { var x = X(L.timeOf(S, sc.m.bar, 1)); g += '<line x1="' + x + '" y1="' + (top - 10) + '" x2="' + x + '" y2="' + (H - 34) + '" stroke="var(--grid4)" stroke-dasharray="2 4"/><text x="' + (x + 3) + '" y="' + (top - 14) + '" font-size="10.5" fill="var(--muted)">' + L.esc(sc.m.name) + '</text>'; });
+    [-1].concat(T.tracks.map(function (_, i) { return i; })).forEach(function (i, r) {
+      var y = top + r * rh + 14, c = i < 0 ? 'var(--accent)' : COL[i % COL.length];
+      g += '<text x="' + (x0 - 10) + '" y="' + (y + 4) + '" font-size="12" text-anchor="end" fill="' + c + '" font-weight="700">' + L.esc(trName(i)) + '</text><line x1="' + x0 + '" y1="' + y + '" x2="' + x1 + '" y2="' + y + '" stroke="var(--line)"/>';
+      if (i < 0) ev.filter(function (e) { return e.tr < 0; }).forEach(function (e) { g += '<circle cx="' + X(e.t) + '" cy="' + y + '" r="4.5" fill="' + c + '"><title>큐 ' + L.esc(e.no) + '</title></circle>'; });
+      else { var open = null; ev.filter(function (e) { return e.tr === i; }).forEach(function (e) { if (e.kind === 'on') open = e.t; else if (open != null) { g += '<rect x="' + X(open) + '" y="' + (y - 9) + '" width="' + Math.max(2, X(e.t) - X(open)) + '" height="18" rx="3" fill="' + c + '" opacity=".85"/>'; open = null; } }); }
+    });
+    for (var t = 0; t <= endT; t += 30) { var x = X(t); g += '<line x1="' + x + '" y1="' + (H - 34) + '" x2="' + x + '" y2="' + (H - 28) + '" stroke="var(--muted)"/><text x="' + x + '" y="' + (H - 14) + '" font-size="10.5" text-anchor="middle" fill="var(--muted)">' + L.fmt(t).replace(/\.\d$/, '') + '</text>'; }
+    $('tl').innerHTML = g;
+    // 트랙 요약
+    var cnt = {}; ev.forEach(function (e) { if (e.kind !== 'open') cnt[e.tr] = (cnt[e.tr] || 0) + 1; });
+    var h = '<div class="trk hd"><span>트랙</span><span>찾을 말</span><span>이벤트</span><span>기록한 수</span><span>견주기</span></div>';
+    [-1].concat(T.tracks.map(function (_, i) { return i; })).forEach(function (i) {
+      var n = cnt[i] || 0, rec = T.rec[i < 0 ? 'scene' : T.tracks[i].name], cmp = rec === '' || rec == null ? '<span class="st">—</span>' : (+rec === n ? '<span class="st ok">같음</span>' : '<span class="st w">' + (+rec > n ? '+' : '') + (+rec - n) + '개 다름</span>');
+      h += '<div class="trk">' + (i < 0 ? '<b>장면(Go)</b><span class="note">큐마다 Go 하나</span>' :
+        '<input data-i="' + i + '" data-k="name" value="' + L.esc(T.tracks[i].name) + '" aria-label="트랙 이름"><input data-i="' + i + '" data-k="keys" value="' + L.esc(T.tracks[i].keys) + '" aria-label="찾을 말">') +
+        '<span class="c">' + n + '</span><input type="number" min="0" data-rec="' + (i < 0 ? 'scene' : L.esc(T.tracks[i].name)) + '" value="' + (rec == null ? '' : rec) + '" aria-label="기록한 이벤트 수">' + cmp + '</div>';
+    });
+    $('tracks').innerHTML = h;
+    // 표
+    var rows = ev.slice().sort(function (a, b) { return (a.t - b.t) || (a.tr - b.tr); });
+    $('tb').innerHTML = rows.map(function (e) {
+      var tt = Math.max(0, e.t - (e.kind === 'open' ? 0 : lead));
+      return '<tr><td>' + L.esc(trName(e.tr)) + '</td><td>' + L.esc(e.no) + '</td><td>' + e.bar + '마디 ' + e.beat + '박</td><td class="t">' + L.fmt(tt) + '</td><td class="tc">' + toTC(st + tt) + '</td><td>' +
+        ({ go: '<span class="go">Go 큐 ' + L.esc(e.no) + '</span>', on: '<span class="on">켬</span>', off: '<span class="off">끔</span>', open: '<span class="off">끄는 큐 없음</span>' }[e.kind]) + '</td><td class="note">' + L.esc(e.src) + '</td></tr>';
+    }).join('') || '<tr><td colspan="7" class="note">큐 시트가 비어 있습니다. 큐 시트(웹 부록 14)를 먼저 채웁니다.</td></tr>';
+    checks(ev, cnt);
+  }
+  function checks(ev, cnt) {
+    var out = [];
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: '확인', i: '참고', ok: '좋음' }[lv] + '</span>' + h + '</li>'); }
+    if (!CUES.length) add('w', '큐 시트가 비어 있습니다.');
+    T.tracks.forEach(function (tr, i) { if (!cnt[i]) add('i', '<b>' + L.esc(tr.name) + '</b> 트랙에 이벤트가 없습니다. 큐 시트의 레이어 칸에 이 트랙을 가리키는 말이 있는지, 찾을 말이 맞는지 봅니다.'); });
+    ev.filter(function (e) { return e.kind === 'open'; }).forEach(function (e) { add('w', '<b>' + L.esc(trName(e.tr)) + '</b>을(를) 끄는 큐가 없어 곡 끝까지 켜져 있습니다. 끝 큐에 "모든 레이어 끔"을 적습니다.'); });
+    var close = []; ev.filter(function (e) { return e.tr < 0; }).forEach(function (e, i, a) { if (i && e.t - a[i - 1].t < 0.3) close.push('큐 ' + a[i - 1].no + ' → ' + e.no + ' (' + (e.t - a[i - 1].t).toFixed(2) + '초)'); });
+    if (close.length) add('i', '0.3초 안에 이어지는 Go가 있습니다: ' + close.join(', ') + '. 손으로 기록하면 놓치기 쉬우니 기록한 뒤 시각을 고쳐 넣습니다.');
+    var recN = Object.keys(T.rec).filter(function (k) { return T.rec[k] !== '' && T.rec[k] != null; }).length;
+    if (recN) {
+      var bad = 0; [-1].concat(T.tracks.map(function (_, i) { return i; })).forEach(function (i) { var r = T.rec[i < 0 ? 'scene' : T.tracks[i].name]; if (r !== '' && r != null && +r !== (cnt[i] || 0)) bad++; });
+      if (bad) add('w', '기록한 이벤트 수가 다른 트랙이 ' + bad + '개 있습니다. 빠진 큐나 두 번 누른 큐를 타임코드 창에서 찾습니다(28.5절).');
+      else add('ok', '기록한 이벤트 수가 모든 트랙에서 같습니다. 이제 히트가 있는 이벤트의 시각을 봅니다.');
+    }
+    add('i', '확인 재생 전에는 켜져 있던 시퀀스를 모두 끕니다. 손으로 켠 레이어가 남아 있으면 타임코드가 맞는지 구분할 수 없습니다(28.3절).');
+    $('checks').innerHTML = out.join('');
+  }
+  $('fps').addEventListener('change', function () { T.fps = $('fps').value; save(); render(); });
+  $('start').addEventListener('change', function () { var v = $('start').value.trim(); if (/^\d+:\d+:\d+[:;.]\d+$/.test(v)) { T.start = v; save(); } render(); });
+  $('lead').addEventListener('change', function () { var v = +$('lead').value; T.lead = isFinite(v) ? Math.max(0, Math.min(1, v)) : 0; save(); render(); });
+  $('tracks').addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.dataset.rec != null) { T.rec[t.dataset.rec] = t.value === '' ? '' : Math.max(0, parseInt(t.value, 10) || 0); save(); render(); return; }
+    if (t.dataset.i == null) return; var tr = T.tracks[+t.dataset.i];
+    if (t.dataset.k === 'name') { var old = tr.name; tr.name = t.value || old; if (T.rec[old] != null) { T.rec[tr.name] = T.rec[old]; delete T.rec[old]; } } else tr.keys = t.value;
+    save(); render();
+  });
+  $('addTrk').addEventListener('click', function () { T.tracks.push({ name: '새 레이어 ' + (T.tracks.length + 1), keys: '' }); save(); render(); });
+  L.confirmBtn($('reset'), '한 번 더 누르면 예시로 바뀝니다', function () { T.tracks = defTracks(); T.rec = {}; save(); render(); $('msg').textContent = '예시 트랙(13장 시퀀스 목록)으로 되돌렸습니다.'; });
+  $('copy').addEventListener('click', function () {
+    var st = parseTC(T.start), lead = +T.lead || 0, ev = events().sort(function (a, b) { return (a.t - b.t) || (a.tr - b.tr); });
+    var txt = ['트랙\t큐\t마디\t박\t시각(초)\t타임코드(' + String(T.fps).replace('df', ' DF') + 'fps)\t이벤트'].concat(ev.map(function (e) { var tt = Math.max(0, e.t - (e.kind === 'open' ? 0 : lead)); return [trName(e.tr), e.no, e.bar, e.beat, tt.toFixed(2), toTC(st + tt), { go: 'Go', on: '켬', off: '끔', open: '끄는 큐 없음' }[e.kind]].join('\t'); })).join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? '표를 복사했습니다. 스프레드시트에 붙여 넣을 수 있습니다.' : '복사가 막혀 있습니다.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  render();
+})();
+</script>
+</body>
+</html>

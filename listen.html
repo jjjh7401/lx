@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>듣기 노트</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위에 곡 정보와 재생기, 가운데 마디 눈금 위의 파형 지도, 아래에 회차별 탭 */
+.head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding-block:22px 6px}
+.head p{flex-basis:100%;margin:0;color:var(--muted);max-width:62ch}
+.info{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:end;margin:14px 0}
+.info input.t{width:13em}.info input.a{width:10em}.info input.n{width:6.2em}
+.tapbox{display:flex;gap:6px;align-items:end}
+.player{display:grid;gap:12px}
+.load{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;border:1px dashed var(--line);border-radius:10px;padding:12px 14px}
+.load.drag{border-color:var(--accent);background:var(--panel2)}
+.load .fname{font-size:13.5px;color:var(--ink)}
+.transport{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.transport .play{min-width:92px;font-weight:700}
+.pos{margin-left:auto;display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
+.pos .bar{font-family:var(--f-num);font-size:30px;color:var(--ink);font-weight:600;letter-spacing:-.02em}
+.pos .bar small{font-size:15px;color:var(--muted);font-weight:400;margin-left:2px}
+.pos .sec{font-size:14px;color:var(--accent);font-weight:700}
+.pos .time{font-family:var(--f-num);font-size:13px;color:var(--muted)}
+.mapbox{position:relative;overflow-x:auto}
+canvas#map{display:block;width:100%;min-width:640px;height:190px;cursor:crosshair;border-radius:8px;background:var(--panel2)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--muted)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:22px 0 0;border-bottom:1px solid var(--line)}
+.tabs button{border:0;border-bottom:3px solid transparent;border-radius:0;background:transparent;padding:10px 12px;color:var(--muted);font-weight:500}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent);font-weight:700}
+.tabs button .n{font-family:var(--f-num);font-size:12px;margin-right:6px;color:var(--accent)}
+.pane{padding-top:16px;display:grid;gap:14px}
+.guide{font-size:14px;color:var(--body);max-width:72ch;margin:0}
+.markbtns{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+#copyMsg:empty{display:none}
+.markbtns button{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;text-align:left;padding:10px 12px;font-size:14px}
+.markbtns button .s{font-size:18px;width:1.1em;text-align:center}
+.markbtns .sec .s{color:var(--sec)} .markbtns .point .s{color:var(--point)} .markbtns .impact .s{color:var(--impact)} .markbtns .trans .s{color:var(--trans)}
+.markbtns .grp{grid-column:1/-1;font-size:12px;color:var(--muted);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chips button{padding:5px 10px;font-size:13px;border-radius:999px}
+td .sym{font-size:17px}
+tr.now td{background:var(--panel2)}
+.secrow{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:10px 16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.secrow.now{background:linear-gradient(90deg,var(--panel2),transparent)}
+.secname{display:grid;gap:2px}
+.secname b{color:var(--ink)}
+.secname span{font-size:12.5px;color:var(--muted);font-family:var(--f-num)}
+.pal{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.sw{width:30px;height:30px;border-radius:50%;border:2px solid transparent;padding:0;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
+.sw[aria-pressed="true"]{border-color:var(--ink);transform:scale(1.08)}
+.picked{display:flex;gap:6px;align-items:center;min-width:120px;font-size:13px}
+.picked i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:4px}
+.mood{width:9em;font-size:13px}
+.out table td:first-child{width:9em;color:var(--muted);font-size:13px}
+.out table td{white-space:normal}
+.moody{font-size:13px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px;margin:0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:760px){.two{grid-template-columns:1fr}.secrow{grid-template-columns:1fr}.pos{margin-left:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>듣기 노트</h1><span id="sampleFlag" class="sample-flag" hidden>예시 곡: LOVE ATTACK 노트가 들어 있습니다</span>
+    <p>1장의 세 번 듣기를 그대로 따라 하는 도구입니다. 음악 파일을 열고 재생하면서, 2회차에는 변화를 마디로 적고, 3회차에는 구간마다 색을 고릅니다.</p>
+  </div>
+
+  <div class="info">
+    <label class="f" for="title">곡<input id="title" class="t" type="text"></label>
+    <label class="f" for="artist">아티스트<input id="artist" class="a" type="text"></label>
+    <label class="f" for="bpm">BPM<input id="bpm" class="n" type="number" step="0.01" min="30" max="300"></label>
+    <div class="tapbox">
+      <button type="button" id="half" title="BPM을 반으로">½</button>
+      <button type="button" id="dbl" title="BPM을 두 배로">×2</button>
+      <button type="button" id="tap" title="박에 맞춰 여러 번 누르기 (T)">탭 <span class="kbd">T</span></button>
+      <span id="tapRead" class="note num"></span>
+    </div>
+    <label class="f" for="t0">첫 다운비트(초)<input id="t0" class="n" type="number" step="0.01" min="0"></label>
+    <button type="button" id="setT0" title="재생 위치를 첫 다운비트로">지금 위치를 첫 박으로</button>
+    <label class="f" for="bpb">박/마디<select id="bpb"><option value="4">4</option><option value="3">3</option><option value="6">6</option></select></label>
+  </div>
+
+  <section class="panel player" aria-label="재생">
+    <div class="load" id="drop">
+      <button type="button" class="primary" id="open">내 음악 파일 열기</button>
+      <input type="file" id="file" accept="audio/*,.mp3,.wav,.m4a,.aac,.flac,.ogg" hidden>
+      <span class="fname" id="fname">파일을 여기에 끌어다 놓아도 됩니다</span>
+      <p class="privacy" style="margin:0">음악 파일은 이 브라우저 안에서만 재생됩니다. 어디에도 올라가지 않고 저장되지도 않습니다. 저장되는 것은 적은 노트뿐입니다.</p>
+    </div>
+    <div class="transport">
+      <button type="button" id="home" title="처음으로">⏮</button>
+      <button type="button" id="back" title="한 마디 뒤로 (←)">− 1마디</button>
+      <button type="button" class="primary play" id="play" disabled>▶ 재생</button>
+      <button type="button" id="fwd" title="한 마디 앞으로 (→)">+ 1마디</button>
+      <label class="f" style="flex-direction:row;display:flex;gap:6px;align-items:center" for="click"><input type="checkbox" id="click"> 박 클릭 소리</label>
+      <div class="pos" aria-live="off">
+        <span class="sec" id="posSec"></span>
+        <span class="bar" id="posBar">1<small>마디</small> 1<small>박</small></span>
+        <span class="time" id="posTime">0:00.0</span>
+      </div>
+    </div>
+    <div class="mapbox"><canvas id="map" aria-label="마디 눈금 위의 파형과 표시한 변화. 누르면 그 위치로 이동합니다"></canvas></div>
+    <div class="legend"><span class="k-sec">┃ 구간 시작</span><span class="k-point">▲ ◆ 포인트</span><span class="k-impact">▼ 임팩트</span><span class="k-trans">↗ ≋ ○ × 트랜지션</span><span>색 띠는 3회차에 고른 색</span><span>지도를 누르면 그 마디로 이동</span></div>
+  </section>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab1" aria-selected="false" data-p="p1"><span class="n">1</span>즐기며 듣기</button>
+    <button role="tab" id="tab2" aria-selected="true" data-p="p2"><span class="n">2</span>변화 적기</button>
+    <button role="tab" id="tab3" aria-selected="false" data-p="p3"><span class="n">3</span>색 고르기</button>
+    <button role="tab" id="tab4" aria-selected="false" data-p="p4"><span class="n">✓</span>노트 보기</button>
+  </div>
+
+  <section class="pane" id="p1" role="tabpanel" hidden>
+    <p class="guide">아무것도 적지 않고 처음부터 끝까지 듣습니다. 중간에 멈추지 않습니다. 곡이 어떻게 흘러가는지가 몸에 남으면 됩니다. 다 듣고 나서 느낌을 한 줄로 적어 봅니다.</p>
+    <div class="row"><span class="note">끝까지 들은 비율</span><span class="num" id="heard" style="color:var(--ink)">0%</span></div>
+    <label class="f" for="impression">1회차 한 줄<textarea id="impression" placeholder="예: 기타로 거칠게 열리고, 후렴에서 드럼이 터진다."></textarea></label>
+  </section>
+
+  <section class="pane" id="p2" role="tabpanel">
+    <p class="guide">재생하면서 바뀌는 자리에서 버튼이나 키를 누릅니다. 누른 자리는 가장 가까운 박에 붙어 마디 번호로 적힙니다. 멈추고 지도를 눌러 위치를 옮긴 뒤 눌러도 됩니다.</p>
+    <div class="markbtns" id="markBtns"></div>
+    <div class="row">
+      <label class="f" for="snap">붙일 자리<select id="snap"><option value="beat">가장 가까운 박</option><option value="bar">가장 가까운 마디 첫 박</option></select></label>
+      <label class="f" for="lag">누르는 늦음 보정<select id="lag"><option value="0">없음</option><option value="0.1" selected>0.1초</option><option value="0.2">0.2초</option></select></label>
+      <span class="note">구간 이름 바로 붙이기</span>
+      <div class="chips" id="nameChips"></div>
+    </div>
+    <div class="tbl"><table id="marks"></table></div>
+  </section>
+
+  <section class="pane" id="p3" role="tabpanel" hidden>
+    <p class="guide">눈을 감고 들으면서 구간마다 떠오르는 색을 한두 개 고릅니다. 재생 중인 구간이 밝게 표시됩니다. 구간은 2회차에 적은 "구간 시작"으로 나뉩니다.</p>
+    <p class="moody">무디의 출발점: 밝고 즐거운 곡은 노랑·주황, 우울한 곡은 파랑·라벤더, 뜨거운 곡은 빨강, 편안한 곡은 초록·청록. 정답이 아니라 출발점입니다(1장, 8장).</p>
+    <div id="secColors"></div>
+  </section>
+
+  <section class="pane out" id="p4" role="tabpanel" hidden>
+    <div class="two">
+      <label class="f" for="mvBeat">뮤직비디오: 안무가 따르는 박<input id="mvBeat" type="text" placeholder="예: 벌스는 반 박, 후렴은 박마다"></label>
+      <label class="f" for="mvMove">뮤직비디오: 포인트 안무가 나오는 마디<input id="mvMove" type="text" placeholder="예: 18, 46마디"></label>
+    </div>
+    <div>
+      <div class="row" style="justify-content:space-between"><h3>아직 못 정한 것</h3><button type="button" id="addQ">항목 추가</button></div>
+      <div class="tbl"><table id="qs"></table></div>
+    </div>
+    <div class="row" style="justify-content:space-between;margin-top:6px"><h2>듣기 노트 (표 1-2 양식)</h2>
+      <div class="row"><button type="button" id="copy" class="primary">노트 복사</button><a class="btn" href="sheet.html" id="toSheet">곡 구성표로 이어 가기 →</a></div></div>
+    <p class="note" id="copyMsg"></p>
+    <div class="tbl"><table id="note"></table></div>
+  </section>
+</div>
+
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, embedded = /^about:/.test(location.href);
+  var S = L.top('listen.html');
+  var $ = function (id) { return document.getElementById(id); };
+  if (embedded) { var ts = $('toSheet'); if (ts) ts.hidden = true; }
+  function save() { S.sample = S.sample && S.title === 'LOVE ATTACK'; L.put(S); drawStatic(); }
+
+  // ---------- 곡 정보 ----------
+  function fillInfo() {
+    $('title').value = S.title; $('artist').value = S.artist || ''; $('bpm').value = S.bpm; $('t0').value = (+S.t0).toFixed(2); $('bpb').value = String(S.bpb || 4);
+    $('impression').value = S.impression || ''; $('mvBeat').value = (S.mv && S.mv.beat) || ''; $('mvMove').value = (S.mv && S.mv.move) || '';
+    $('sampleFlag').hidden = !S.sample;
+  }
+  fillInfo();
+  $('title').addEventListener('input', function (e) { S.title = e.target.value; save(); renderNote(); var o = document.querySelector('#lx-song option:checked'); if (o) o.textContent = S.title || '제목 없음'; });
+  $('artist').addEventListener('input', function (e) { S.artist = e.target.value; save(); renderNote(); });
+  $('bpm').addEventListener('input', function (e) { var v = +e.target.value; if (v >= 30 && v <= 300) { S.bpm = v; save(); refreshAll(); } });
+  $('t0').addEventListener('input', function (e) { var v = +e.target.value; if (v >= 0) { S.t0 = v; save(); refreshAll(); } });
+  $('bpb').addEventListener('change', function (e) { S.bpb = +e.target.value; save(); refreshAll(); });
+  $('half').addEventListener('click', function () { S.bpm = Math.round(S.bpm / 2 * 100) / 100; fillInfo(); save(); refreshAll(); });
+  $('dbl').addEventListener('click', function () { S.bpm = Math.round(S.bpm * 2 * 100) / 100; fillInfo(); save(); refreshAll(); });
+  $('impression').addEventListener('input', function (e) { S.impression = e.target.value; save(); renderNote(); });
+  $('mvBeat').addEventListener('input', function (e) { S.mv = S.mv || {}; S.mv.beat = e.target.value; save(); renderNote(); });
+  $('mvMove').addEventListener('input', function (e) { S.mv = S.mv || {}; S.mv.move = e.target.value; save(); renderNote(); });
+
+  // 탭 템포
+  var taps = [];
+  function tap() {
+    var now = performance.now();
+    if (taps.length && now - taps[taps.length - 1] > 2000) taps = [];
+    taps.push(now); if (taps.length > 9) taps.shift();
+    if (taps.length >= 3) {
+      var d = (taps[taps.length - 1] - taps[0]) / (taps.length - 1), b = 60000 / d;
+      $('tapRead').innerHTML = b.toFixed(1) + ' BPM <button type="button" id="tapUse">적용</button>';
+      $('tapUse').onclick = function () { S.bpm = Math.round(b * 10) / 10; fillInfo(); save(); refreshAll(); };
+    } else $('tapRead').textContent = '계속 누르기…';
+  }
+  $('tap').addEventListener('click', tap);
+
+  // ---------- 오디오 ----------
+  var ctx = null, buf = null, src = null, playing = false, off = 0, startCtx = 0, cursor = 0, peaks = null, heardMax = 0;
+  function now() { return playing ? off + (ctx.currentTime - startCtx) : cursor; }
+  function totalT() { return buf ? buf.duration : L.total(S); }
+  function loadFile(f) {
+    if (!f) return;
+    $('fname').textContent = f.name + ' 여는 중…';
+    var rd = new FileReader();
+    rd.onload = function () {
+      try { ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { $('fname').textContent = '이 브라우저는 소리 재생을 지원하지 않습니다.'; return; }
+      ctx.decodeAudioData(rd.result.slice(0), function (b) {
+        stop(); buf = b; cursor = 0; heardMax = 0;
+        if (S.sample) { S = L.blank(f.name.replace(/\.[^.]+$/, '')); L.put(S); L.refreshPicker(); fillInfo(); }
+        S.duration = Math.round(b.duration * 100) / 100; S.fileName = f.name;
+        if (S.title === '새 곡' || !S.title) { S.title = f.name.replace(/\.[^.]+$/, ''); fillInfo(); }
+        S.musicEnd = Math.round(findEnd(b) * 10) / 10;
+        if (!S.nbars || S.sample === false) S.nbars = 0;
+        peaks = makePeaks(b, 1800);
+        $('fname').textContent = f.name + ' · ' + L.fmt(b.duration) + (S.musicEnd && b.duration - S.musicEnd > 2 ? ' · 음악은 약 ' + L.fmt(S.musicEnd) + '에 끝남' : '');
+        $('play').disabled = false; save(); refreshAll();
+      }, function () { $('fname').textContent = '이 파일은 열 수 없습니다. mp3, wav, m4a 파일로 다시 해 봅니다.'; });
+    };
+    rd.readAsArrayBuffer(f);
+  }
+  function makePeaks(b, n) {
+    var ch = b.numberOfChannels, len = b.length, step = Math.max(1, Math.floor(len / n)), out = new Float32Array(n), data = [];
+    for (var c = 0; c < ch; c++) data.push(b.getChannelData(c));
+    for (var i = 0; i < n; i++) { var mx = 0, s0 = i * step, s1 = Math.min(len, s0 + step); for (var j = s0; j < s1; j += 16) { for (var c2 = 0; c2 < ch; c2++) { var v = Math.abs(data[c2][j]); if (v > mx) mx = v; } } out[i] = mx; }
+    var top = 0; for (var k = 0; k < n; k++) if (out[k] > top) top = out[k]; if (top > 0) for (var q = 0; q < n; q++) out[q] /= top;
+    return out;
+  }
+  function findEnd(b) {
+    var d = b.getChannelData(0), sr = b.sampleRate, win = Math.floor(sr * 0.05);
+    for (var i = d.length - win; i > 0; i -= win) { var s = 0; for (var j = i; j < i + win; j += 4) s += d[j] * d[j]; if (Math.sqrt(s / (win / 4)) > 0.01) return (i + win) / sr; }
+    return b.duration;
+  }
+  function play() {
+    if (!buf) return; if (ctx.state === 'suspended') ctx.resume();
+    if (off >= buf.duration - 0.05) off = 0;
+    src = ctx.createBufferSource(); src.buffer = buf; src.connect(ctx.destination);
+    src.onended = function () { if (playing && now() >= buf.duration - 0.05) { stop(); cursor = 0; off = 0; frame(); } };
+    startCtx = ctx.currentTime + 0.03; src.start(startCtx, off); playing = true; nextBeat = null;
+    $('play').textContent = '⏸ 멈춤'; loop();
+  }
+  function stop() { if (src) { try { src.onended = null; src.stop(); } catch (e) {} src = null; } if (playing) { cursor = Math.max(0, off + (ctx.currentTime - startCtx)); } playing = false; $('play').textContent = '▶ 재생'; }
+  function toggle() { if (!buf) return; if (playing) { stop(); off = cursor; } else { off = cursor; play(); } frame(); }
+  function seek(t) { t = Math.max(0, Math.min(totalT(), t)); var was = playing; if (playing) stop(); cursor = t; off = t; if (was) play(); frame(); }
+  $('play').addEventListener('click', toggle);
+  $('home').addEventListener('click', function () { seek(0); });
+  $('back').addEventListener('click', function () { seek(now() - L.barLen(S)); });
+  $('fwd').addEventListener('click', function () { seek(now() + L.barLen(S)); });
+  $('open').addEventListener('click', function () { $('file').click(); });
+  $('file').addEventListener('change', function (e) { loadFile(e.target.files[0]); e.target.value = ''; });
+  var drop = $('drop');
+  ['dragenter', 'dragover'].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.add('drag'); }); });
+  ['dragleave', 'drop'].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.remove('drag'); }); });
+  drop.addEventListener('drop', function (e) { var f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) loadFile(f); });
+  $('setT0').addEventListener('click', function () { S.t0 = Math.round(now() * 100) / 100; fillInfo(); save(); refreshAll(); });
+
+  // 박 클릭(메트로놈): 오디오 시계에 맞춰 미리 예약
+  var nextBeat = null;
+  function scheduleClicks() {
+    if (!playing || !$('click').checked) { nextBeat = null; return; }
+    var bl = L.beatLen(S), t0 = +S.t0, bpb = +S.bpb || 4, t = now();
+    if (nextBeat === null) nextBeat = Math.ceil((t - t0) / bl);
+    while (true) {
+      var bt = t0 + nextBeat * bl; if (bt > t + 0.15) break;
+      var at = startCtx + (bt - off); if (at >= ctx.currentTime - 0.01 && bt >= 0) {
+        var o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.value = (((nextBeat % bpb) + bpb) % bpb === 0) ? 1650 : 1050;
+        g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(0.35, at + 0.002); g.gain.exponentialRampToValueAtTime(0.0001, at + 0.05);
+        o.connect(g); g.connect(ctx.destination); o.start(at); o.stop(at + 0.06);
+      }
+      nextBeat++;
+    }
+  }
+  $('click').addEventListener('change', function () { nextBeat = null; });
+
+  // ---------- 지도 ----------
+  var cv = $('map'), g2 = cv.getContext('2d'), layer = document.createElement('canvas'), W = 0, H = 190, PAD = 14;
+  function css(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  function X(t) { return PAD + (t / totalT()) * (W - 2 * PAD); }
+  function T(x) { return (x - PAD) / (W - 2 * PAD) * totalT(); }
+  function drawStatic() {
+    var dpr = window.devicePixelRatio || 1; W = cv.clientWidth || 900;
+    cv.width = W * dpr; cv.height = H * dpr; layer.width = W * dpr; layer.height = H * dpr;
+    var c = layer.getContext('2d'); c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, W, H);
+    var N = L.nbars(S), bl = L.barLen(S), muted = css('--muted');
+    // 마디 눈금
+    var every = 1; while ((W - 2 * PAD) / N * every < 30) every *= 2;
+    for (var b = 1; b <= N + 1; b++) {
+      var x = X(L.timeOf(S, b, 1)); if (x > W - PAD + 1) break;
+      c.strokeStyle = (b - 1) % 4 === 0 ? css('--grid4') : css('--grid'); c.lineWidth = 1;
+      c.beginPath(); c.moveTo(x + .5, 16); c.lineTo(x + .5, 124); c.stroke();
+      if ((b - 1) % every === 0 && b <= N) { c.fillStyle = muted; c.font = '10px ' + css('--f-num'); c.fillText(String(b), x + 2, 11); }
+    }
+    // 파형
+    var mid = 60, amp = 40;
+    if (peaks) {
+      c.fillStyle = css('--wave-hi');
+      var n = peaks.length, bw = (W - 2 * PAD) / n;
+      for (var i = 0; i < n; i++) { var h = Math.max(1, peaks[i] * amp); c.fillRect(PAD + i * bw, mid - h, Math.max(1, bw), h * 2); }
+    } else {
+      c.fillStyle = muted; c.font = '13px ' + css('--f-body'); c.textAlign = 'center';
+      c.fillText('음악 파일을 열면 여기에 파형이 그려집니다. 지금은 마디 눈금만 보입니다.', W / 2, mid + 4); c.textAlign = 'left';
+    }
+    // 구간 띠
+    L.sections(S).forEach(function (sc) {
+      var x0 = X(L.timeOf(S, sc.start, 1)), x1 = X(L.timeOf(S, sc.end + 1, 1)), cols = (S.colors[sc.m.id] || []).map(L.colorHex).filter(Boolean);
+      if (!cols.length) { c.fillStyle = css('--grid4'); c.fillRect(x0, 104, Math.max(1, x1 - x0 - 1), 20); }
+      else { var hh = 20 / cols.length; cols.forEach(function (col, k) { c.fillStyle = col; c.fillRect(x0, 104 + k * hh, Math.max(1, x1 - x0 - 1), hh); }); }
+      c.strokeStyle = css('--sec'); c.lineWidth = 2; c.beginPath(); c.moveTo(x0 + 1, 16); c.lineTo(x0 + 1, 124); c.stroke();
+      var name = sc.m.name || '구간'; c.font = '11px ' + css('--f-body');
+      if (c.measureText(name).width < x1 - x0 - 6) { c.fillStyle = cols.length ? '#111' : css('--ink'); c.fillText(name, x0 + 4, 118); }
+    });
+    // 변화 표시
+    var used = [];
+    S.marks.filter(function (m) { return m.t !== 'sec'; }).sort(L.sortMarks).forEach(function (m) {
+      var d = L.markDef(m.t), x = X(L.timeOf(S, m.bar, m.beat)), row = 0;
+      while (used.some(function (u) { return u[1] === row && Math.abs(u[0] - x) < 12; })) row++;
+      used.push([x, row]);
+      if (m.end && m.end >= m.bar) { var xe = X(L.timeOf(S, m.end + 1, 1)); c.fillStyle = css('--trans'); c.globalAlpha = .28; c.fillRect(x, 130 + row * 17, xe - x, 13); c.globalAlpha = 1; }
+      c.fillStyle = css('--' + d.k); c.font = '15px ' + css('--f-body'); c.textAlign = 'center'; c.fillText(d.sym, x, 142 + row * 17); c.textAlign = 'left';
+    });
+  }
+  function frame() {
+    var dpr = window.devicePixelRatio || 1;
+    g2.setTransform(1, 0, 0, 1, 0, 0); g2.clearRect(0, 0, cv.width, cv.height); g2.drawImage(layer, 0, 0);
+    g2.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var t = now(), x = X(t);
+    g2.strokeStyle = css('--accent'); g2.lineWidth = 2; g2.beginPath(); g2.moveTo(x, 0); g2.lineTo(x, H); g2.stroke();
+    g2.fillStyle = css('--accent'); g2.beginPath(); g2.moveTo(x - 5, 0); g2.lineTo(x + 5, 0); g2.lineTo(x, 7); g2.fill();
+    var p = L.posOf(S, t), sc = L.sectionAt(S, p.bar);
+    $('posBar').innerHTML = (p.bar < 1 ? '픽업' : p.bar + '<small>마디</small> ' + p.beat + '<small>박</small>');
+    $('posSec').textContent = sc && p.bar >= 1 ? sc.m.name : '';
+    $('posTime').textContent = L.fmt(t) + ' / ' + L.fmt(totalT());
+    if (playing) { heardMax = Math.max(heardMax, t); $('heard').textContent = Math.round(heardMax / totalT() * 100) + '%'; }
+    highlightNow(p.bar);
+  }
+  var lastHi = null;
+  function highlightNow(bar) {
+    var sc = L.sectionAt(S, bar), id = sc ? sc.m.id : null; if (id === lastHi) return; lastHi = id;
+    document.querySelectorAll('.secrow').forEach(function (r) { r.classList.toggle('now', r.dataset.id === id); });
+  }
+  function loop() { if (!playing) return; scheduleClicks(); frame(); requestAnimationFrame(loop); }
+  cv.addEventListener('click', function (e) { var r = cv.getBoundingClientRect(); seek(T(e.clientX - r.left)); });
+  window.addEventListener('resize', function () { drawStatic(); frame(); });
+
+  // ---------- 2회차: 변화 적기 ----------
+  var lastSecId = null;
+  var mb = $('markBtns'), groups = [['sec', '구간'], ['point', '포인트 · 박 하나에서 들어오는 지점'], ['impact', '임팩트 · 가장 크게 터지는 지점'], ['trans', '트랜지션 · 몇 마디에 걸쳐 넘어가는 구간']];
+  groups.forEach(function (gp) {
+    var hdr = document.createElement('div'); hdr.className = 'grp'; hdr.textContent = gp[1]; mb.appendChild(hdr);
+    L.MARKS.filter(function (m) { return m.k === gp[0]; }).forEach(function (m) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = m.k; b.id = 'mk-' + m.id;
+      b.innerHTML = '<span class="s">' + m.sym + '</span><span>' + m.label + '</span><span class="kbd">' + m.key + '</span>';
+      b.addEventListener('click', function () { addMark(m.id); }); mb.appendChild(b);
+    });
+  });
+  L.SEC_NAMES.forEach(function (n) {
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = n;
+    b.addEventListener('click', function () {
+      var m = S.marks.find(function (x) { return x.id === lastSecId; });
+      if (!m) { addMark('sec'); m = S.marks.find(function (x) { return x.id === lastSecId; }); }
+      m.name = L.nextSecName(Object.assign({}, S, { marks: S.marks.filter(function (x) { return x.id !== m.id; }) }), n); save(); renderMarks(); renderSecColors(); renderNote(); frame();
+    });
+    $('nameChips').appendChild(b);
+  });
+  function addMark(t) {
+    var lag = playing ? +$('lag').value : 0, tt = Math.max(0, now() - lag), p;
+    if ($('snap').value === 'bar' || t === 'sec') { var q = L.posOf(S, tt + L.barLen(S) / 2); p = { bar: Math.max(1, q.bar), beat: 1 }; }
+    else { p = L.posOf(S, tt, true); if (p.bar < 1) p = { bar: 1, beat: 1 }; }
+    var m = { id: L.uid(), t: t, bar: p.bar, beat: p.beat, end: null, name: '', memo: '', conf: '◐' };
+    if (t === 'sec') { m.name = '구간 ' + (S.marks.filter(function (x) { return x.t === 'sec'; }).length + 1); lastSecId = m.id; }
+    S.marks.push(m); save(); renderMarks(); renderSecColors(); renderNote(); frame();
+    var row = document.querySelector('tr[data-id="' + m.id + '"]'); if (row) { row.classList.add('now'); setTimeout(function () { row.classList.remove('now'); }, 900); }
+  }
+  function renderMarks() {
+    var list = S.marks.slice().sort(L.sortMarks);
+    var h = '<tr><th>마디</th><th>박</th><th>시각</th><th>분류</th><th>기호</th><th>이름 · 메모</th><th>끝 마디</th><th>확신</th><th></th><th></th></tr>';
+    list.forEach(function (m) {
+      var d = L.markDef(m.t);
+      h += '<tr data-id="' + m.id + '"><td><input class="n" type="number" min="1" data-f="bar" value="' + m.bar + '" aria-label="마디"></td>' +
+        '<td><input class="n" type="number" min="1" max="' + (S.bpb || 4) + '" data-f="beat" value="' + m.beat + '" aria-label="박"></td>' +
+        '<td class="num muted">' + L.fmt(L.timeOf(S, m.bar, m.beat)) + '</td>' +
+        '<td><span class="tag k-' + d.k + '">' + L.KIND[d.k] + '</span></td>' +
+        '<td><select data-f="t" aria-label="기호">' + L.MARKS.map(function (x) { return '<option value="' + x.id + '"' + (x.id === m.t ? ' selected' : '') + '>' + x.sym + ' ' + x.label + '</option>'; }).join('') + '</select></td>' +
+        '<td><input type="text" data-f="' + (m.t === 'sec' ? 'name' : 'memo') + '" value="' + L.esc(m.t === 'sec' ? m.name : m.memo) + '" aria-label="이름 또는 메모"></td>' +
+        '<td>' + (d.k === 'trans' ? '<input class="n" type="number" min="1" data-f="end" value="' + (m.end || '') + '" aria-label="끝 마디">' : '') + '</td>' +
+        '<td><select data-f="conf" aria-label="확신">' + ['●', '◐', '○'].map(function (c) { return '<option' + (c === m.conf ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select></td>' +
+        '<td><button type="button" data-go="' + m.id + '" title="이 자리로 이동">▶</button></td>' +
+        '<td><button type="button" data-del="' + m.id + '" title="지우기" aria-label="지우기">✕</button></td></tr>';
+    });
+    if (!list.length) h += '<tr><td colspan="10" class="note">아직 적은 변화가 없습니다. 재생하면서 위 버튼을 눌러 봅니다.</td></tr>';
+    $('marks').innerHTML = h;
+  }
+  $('marks').addEventListener('change', onMarkEdit); $('marks').addEventListener('input', function (e) { if (e.target.type === 'text') onMarkEdit(e); });
+  function onMarkEdit(e) {
+    var tr = e.target.closest('tr'), m = tr && S.marks.find(function (x) { return x.id === tr.dataset.id; }); if (!m) return;
+    var f = e.target.dataset.f, v = e.target.value;
+    if (f === 'bar' || f === 'beat' || f === 'end') m[f] = v === '' ? null : Math.max(1, Math.round(+v)); else m[f] = v;
+    if (f === 't' && v === 'sec' && !m.name) m.name = '구간';
+    save(); if (e.type === 'change') { renderMarks(); renderSecColors(); } renderNote(); frame();
+  }
+  $('marks').addEventListener('click', function (e) {
+    var go = e.target.dataset.go, del = e.target.dataset.del;
+    if (go) { var m = S.marks.find(function (x) { return x.id === go; }); seek(L.timeOf(S, m.bar, m.beat) - 0.01); }
+    if (del) { S.marks = S.marks.filter(function (x) { return x.id !== del; }); delete S.colors[del]; save(); renderMarks(); renderSecColors(); renderNote(); frame(); }
+  });
+
+  // ---------- 3회차: 색 ----------
+  function renderSecColors() {
+    var box = $('secColors'), list = L.sections(S);
+    if (!list.length) { box.innerHTML = '<p class="note">2회차에서 "구간 시작"을 먼저 적으면 여기에 구간이 나타납니다.</p>'; return; }
+    box.innerHTML = list.map(function (sc) {
+      var sel = S.colors[sc.m.id] || [];
+      return '<div class="secrow" data-id="' + sc.m.id + '"><div class="secname"><b>' + L.esc(sc.m.name) + '</b><span>' + sc.start + (sc.end > sc.start ? '~' + sc.end : '') + '마디 · ' + sc.len + '마디</span>' +
+        '<span class="picked">' + (sel.length ? sel.map(function (n) { return '<span><i style="background:' + L.colorHex(n) + '"></i>' + n + '</span>'; }).join(' ') : '<span class="muted">색 없음</span>') + '</span></div>' +
+        '<div class="pal">' + L.PALETTE.map(function (p) { return '<button type="button" class="sw" title="' + p[0] + '" aria-label="' + p[0] + '" aria-pressed="' + (sel.indexOf(p[0]) >= 0) + '" data-c="' + p[0] + '" style="background:' + p[1] + '"></button>'; }).join('') +
+        '<input class="mood" type="text" data-mood="1" placeholder="느낌 한 단어" value="' + L.esc((S.mood || {})[sc.m.id] || '') + '" aria-label="느낌 한 단어"></div></div>';
+    }).join('');
+    lastHi = null; highlightNow(L.posOf(S, now()).bar);
+  }
+  $('secColors').addEventListener('click', function (e) {
+    var c = e.target.dataset.c; if (!c) return; var id = e.target.closest('.secrow').dataset.id, sel = (S.colors[id] || []).slice(), i = sel.indexOf(c);
+    if (i >= 0) sel.splice(i, 1); else { sel.push(c); if (sel.length > 2) sel.shift(); }
+    S.colors[id] = sel; save(); renderSecColors(); renderNote(); frame();
+  });
+  $('secColors').addEventListener('input', function (e) { if (!e.target.dataset.mood) return; S.mood = S.mood || {}; S.mood[e.target.closest('.secrow').dataset.id] = e.target.value; save(); renderNote(); });
+
+  // ---------- 노트 ----------
+  function renderQs() {
+    var h = '<tr><th>내용</th><th>확신</th><th></th></tr>';
+    (S.questions || []).forEach(function (q, i) {
+      h += '<tr><td><input type="text" style="width:100%" data-q="' + i + '" data-f="text" value="' + L.esc(q.text) + '" aria-label="못 정한 것"></td><td><select data-q="' + i + '" data-f="conf" aria-label="확신">' + ['○', '◐'].map(function (c) { return '<option' + (c === q.conf ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select></td><td><button type="button" data-qdel="' + i + '" aria-label="지우기">✕</button></td></tr>';
+    });
+    $('qs').innerHTML = h;
+  }
+  $('addQ').addEventListener('click', function () { S.questions = S.questions || []; S.questions.push({ text: '', conf: '○' }); save(); renderQs(); renderNote(); });
+  $('qs').addEventListener('input', function (e) { var i = e.target.dataset.q; if (i == null) return; S.questions[+i][e.target.dataset.f] = e.target.value; save(); renderNote(); });
+  $('qs').addEventListener('click', function (e) { var i = e.target.dataset.qdel; if (i == null) return; S.questions.splice(+i, 1); save(); renderQs(); renderNote(); });
+
+  function noteRows() {
+    var list = S.marks.slice().sort(L.sortMarks), secs = L.sections(S);
+    var ev = list.map(function (m) { var d = L.markDef(m.t); return (m.beat > 1 ? m.bar + '마디 ' + m.beat + '박' : m.bar) + (m.end && m.end > m.bar ? '~' + m.end : '') + ' ' + (m.t === 'sec' ? m.name : d.sym + ' ' + (m.memo || d.label)); }).join(' / ');
+    var cols = secs.map(function (sc) { var c = (S.colors[sc.m.id] || []).join('·'); var md = (S.mood || {})[sc.m.id]; return sc.m.name + ' ' + (c || '—') + (md ? '(' + md + ')' : ''); }).join(' / ');
+    var unsure = [];
+    if (S.t0Conf !== '●') unsure.push('첫 다운비트 ' + (+S.t0).toFixed(2) + '초 ◐');
+    S.marks.forEach(function (m) { if (m.conf !== '●') unsure.push((m.t === 'sec' ? m.name : L.markDef(m.t).sym + ' ' + (m.memo || L.markDef(m.t).label)) + ' ' + m.bar + '마디 ' + m.conf); });
+    (S.questions || []).forEach(function (q) { if (q.text) unsure.push(q.text + ' ' + q.conf); });
+    return [
+      ['곡', [S.title, S.artist, S.duration ? '파일 ' + L.fmt(S.duration) : '', S.musicEnd ? '음악 끝 약 ' + L.fmt(S.musicEnd) : ''].filter(Boolean).join(', ')],
+      ['BPM · 첫 박', S.bpm + ' BPM, 첫 다운비트 ' + (+S.t0).toFixed(2) + '초, ' + (S.bpb || 4) + '/4박, 1마디 ' + L.barLen(S).toFixed(3) + '초, ' + L.nbars(S) + '마디'],
+      ['1회차 한 줄', S.impression || '—'],
+      ['2회차 변화', ev || '—'],
+      ['3회차 색', cols || '—'],
+      ['뮤직비디오', [(S.mv || {}).beat ? '안무가 따르는 박: ' + S.mv.beat : '', (S.mv || {}).move ? '포인트 안무: ' + S.mv.move : ''].filter(Boolean).join(' · ') || '—'],
+      ['확신', unsure.length ? unsure.join(' / ') : '모두 ●']
+    ];
+  }
+  function renderNote() { $('note').innerHTML = noteRows().map(function (r) { return '<tr><td>' + r[0] + '</td><td>' + L.esc(r[1]) + '</td></tr>'; }).join(''); }
+  L.copyBar($('copy'), $('copyMsg'), function () { return { title: '듣기 노트 · ' + (S.title || ''), head: ['칸', '내용'], rows: noteRows() }; });
+
+
+  // ---------- 탭과 키 ----------
+  document.querySelectorAll('.tabs button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.tabs button').forEach(function (x) { x.setAttribute('aria-selected', String(x === b)); $(x.dataset.p).hidden = x !== b; });
+      if (b.dataset.p === 'p3') renderSecColors();
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    var tg = e.target.tagName; if (tg === 'INPUT' || tg === 'TEXTAREA' || tg === 'SELECT' || e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key;
+    if (k === ' ') { e.preventDefault(); toggle(); return; }
+    if (k === 'ArrowLeft' || k === 'ArrowRight') { e.preventDefault(); var d = e.shiftKey ? L.beatLen(S) : L.barLen(S); seek(now() + (k === 'ArrowLeft' ? -d : d)); return; }
+    if (k === 't' || k === 'T') { tap(); return; }
+    var m = L.MARKS.find(function (x) { return x.key.toLowerCase() === k.toLowerCase(); }); if (m) { e.preventDefault(); addMark(m.id); }
+  });
+
+  function refreshAll() { drawStatic(); renderMarks(); renderSecColors(); renderQs(); renderNote(); frame(); }
+  if (S.fileName) $('fname').textContent = '지난번 파일: ' + S.fileName + ' · 다시 열면 이어서 적을 수 있습니다';
+  refreshAll();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { drawStatic(); frame(); });
+})();
+</script>
+</body>
+</html>

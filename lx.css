@@ -1,0 +1,87 @@
+/* 조명 연출 도구모음 공통 스타일
+   무대 뒤 어두운 곳에서 쓰는 것을 기본으로 한 어두운 화면 우선 설계. 콘솔 화면의 앰버를 강조색으로. */
+:root{
+  --bg:#121417; --panel:#1a1d22; --panel2:#22262d; --ink:#eeece6; --body:#d0cec7; --muted:#8e939c; --line:#2e333a;
+  --accent:#f29a4e; --accent-ink:#1c1208; --sec:#8fb4e8; --point:#69adff; --impact:#ff6f5e; --trans:#b994ff;
+  --ok:#7fd494; --warn:#ffbe55; --bad:#ff7b6b; --wave:#4b5563; --wave-hi:#9aa3af; --grid:#2a2f36; --grid4:#3d444d;
+  --f-body:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --f-num:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  --bg:#f4f3ef; --panel:#ffffff; --panel2:#f0eee8; --ink:#1c1d21; --body:#34353b; --muted:#6b6e76; --line:#dedbd2;
+  --accent:#b8562b; --accent-ink:#ffffff; --sec:#2f5f95; --point:#2a6fd0; --impact:#c8392b; --trans:#7a4fd0;
+  --ok:#2f7d45; --warn:#a86800; --bad:#c8392b; --wave:#c4c8cf; --wave-hi:#6b7280; --grid:#ebe8e0; --grid4:#d3cfc4;
+  color-scheme:light } }
+:root[data-theme="light"]{
+  --bg:#f4f3ef; --panel:#ffffff; --panel2:#f0eee8; --ink:#1c1d21; --body:#34353b; --muted:#6b6e76; --line:#dedbd2;
+  --accent:#b8562b; --accent-ink:#ffffff; --sec:#2f5f95; --point:#2a6fd0; --impact:#c8392b; --trans:#7a4fd0;
+  --ok:#2f7d45; --warn:#a86800; --bad:#c8392b; --wave:#c4c8cf; --wave-hi:#6b7280; --grid:#ebe8e0; --grid4:#d3cfc4;
+  color-scheme:light }
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--body);font-family:var(--f-body);font-size:15px;line-height:1.6;word-break:keep-all;overflow-wrap:break-word}
+.wrap{max-width:1180px;margin:0 auto;padding-block:0 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent)}
+h1,h2,h3{color:var(--ink);text-wrap:balance;margin:0}
+h1{font-size:clamp(22px,3.2vw,30px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:17px;font-weight:700}
+h3{font-size:15px;font-weight:700}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+/* 상단 */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.top .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding-block:10px}
+.brand{font-weight:700;color:var(--ink);text-decoration:none;font-size:14px;letter-spacing:.02em}
+.brand b{color:var(--accent)}
+.nav{display:flex;flex-wrap:wrap;gap:4px}
+.nav a{font-size:13.5px;color:var(--body);text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a[aria-current="page"]{background:var(--panel2);color:var(--ink);font-weight:700}
+.song-pick{margin-left:auto;display:flex;gap:6px;align-items:center;font-size:13px}
+/* 공통 컨트롤 */
+button,.btn{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);padding:8px 12px;border-radius:8px;cursor:pointer;line-height:1.2}
+button:hover{border-color:var(--muted)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+button.ghost{background:transparent}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.danger{background:#b3261e;border-color:#b3261e;color:#fff;font-weight:700}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:7px 9px}
+input[type=number]{font-family:var(--f-num)}
+textarea{width:100%;min-height:64px;resize:vertical}
+label.f{display:grid;gap:4px;font-size:12.5px;color:var(--muted)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+.kbd{font-family:var(--f-num);font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;color:var(--muted)}
+.tag{font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:5px;border:1px solid currentColor;white-space:nowrap}
+.k-sec{color:var(--sec)} .k-point{color:var(--point)} .k-impact{color:var(--impact)} .k-trans{color:var(--trans)}
+.sample-flag{font-size:12px;color:var(--warn);border:1px dashed var(--warn);padding:2px 8px;border-radius:6px}
+.note{font-size:13px;color:var(--muted)}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);font-size:14px;vertical-align:middle}
+th{font-size:12px;color:var(--muted);font-weight:600}
+td input,td select{padding:4px 6px;font-size:14px}
+td input.n{width:4.4em}
+.privacy{font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+.privacy::before{content:"";flex:0 0 8px;height:8px;margin-top:6px;border-radius:50%;background:var(--ok)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+#copyMsg:empty{display:none}
+@media (max-width:760px){
+  .nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;width:100%;mask-image:linear-gradient(90deg,#000 88%,transparent)}
+  .nav::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;flex:none}
+}
+
+/* 모바일 개선: 고정 헤더 해제·터치 대상 확대 */
+@media (max-width:760px){
+  .top{position:static}
+  .top .wrap{gap:6px 10px;padding-block:8px}
+  .brand{order:1}.song-pick{order:2;margin-left:auto}.nav{order:3}
+  button,.btn{min-height:40px}
+  input[type=checkbox],input[type=radio]{width:22px;height:22px}
+  td button,td select,td input{min-height:36px}
+  .kbd,.tag{font-size:12px}th{font-size:12.5px}
+}

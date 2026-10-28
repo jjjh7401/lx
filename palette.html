@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>팔레트</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위에 팔레트 편집(컬러 칩 줄), 가운데 구간별 두 색 흐름(띠), 아래 왼쪽 점검, 오른쪽 픽셀 바 혼색 비교 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:70ch}
+.pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.pc{display:grid;grid-template-columns:44px 1fr;gap:6px 10px;padding:10px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);align-items:center}
+.pc .sw{width:44px;height:44px;border-radius:8px;border:1px solid var(--line);grid-row:span 2;position:relative;overflow:hidden}
+.pc .sw input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.pc input.t{width:100%;font-weight:700}
+.pc .rgb{display:flex;gap:4px;grid-column:1/-1}
+.pc .rgb label{display:grid;font-size:12px;color:var(--muted);gap:2px}
+.pc .rgb input{width:4.2em;padding:4px 5px;font-size:13px}
+.pc .rgb input[data-k=kelvin]{width:6em}
+.pc .knote{grid-column:1/-1;margin:0;font-size:12px}
+.pc .meta{display:flex;gap:6px;align-items:center}
+.pc select{font-size:12.5px;padding:3px 5px}
+.pc .x{font-size:12px;padding:3px 7px;color:var(--muted);margin-left:auto}
+.band{display:flex;gap:2px;margin:10px 0 12px}
+.band .sec{display:grid;gap:3px;min-width:0}
+.band .sec b{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.band .sec .cols{display:grid;border-radius:4px;overflow:hidden;border:1px solid var(--line);height:46px}
+.band .sec .cols i{display:block}
+.flowT .pick{display:flex;flex-wrap:wrap;gap:4px}
+.flowT .pick button{display:flex;align-items:center;gap:5px;padding:3px 8px 3px 4px;font-size:12.5px;border-radius:999px;color:var(--muted)}
+.flowT .pick button i{width:16px;height:16px;border-radius:50%;border:1px solid var(--line);display:block}
+.flowT .pick button[aria-pressed="true"]{color:var(--ink);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 16%,var(--panel2));font-weight:700}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start;margin-top:16px}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+.checks b{color:var(--ink)}
+canvas{width:100%;height:auto;display:block;border-radius:8px;background:#0d0f13}
+.mix{display:grid;gap:8px}
+.mix .row{align-items:center}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>팔레트</h1>
+    <p>8장 실습을 해 보는 판입니다. 색을 이름과 RGB 값(%)으로 정하고 자리(기준, 강조, 짝, 한 장면, 아껴 둠, 흰색, 키 흰색)를 붙인 뒤, 구간마다 동시에 보일 두 색을 고릅니다. 구간은 듣기 노트와 곡 구성표에 적은 그대로 불러옵니다.</p>
+  </div>
+
+  <section class="panel">
+    <div class="row" style="justify-content:space-between;margin-bottom:10px"><h2>팔레트</h2>
+      <div class="row"><button type="button" class="primary" id="addC">색 더하기</button><button type="button" id="copy">팔레트 복사</button></div></div>
+    <p class="note" id="msg"></p>
+    <div class="pal" id="pal"></div>
+  </section>
+
+  <section class="panel" style="margin-top:16px">
+    <h2>구간별 두 색</h2>
+    <p class="note" style="margin:4px 0 0">표에서 색을 눌러 그 구간에 동시에 보일 색을 고릅니다. 먼저 고른 색이 베이스 컬러, 다음 색이 서브 컬러입니다. 얼굴을 비추는 키의 흰색은 세지 않으므로 여기에 고르지 않습니다.</p>
+    <div class="band" id="band" aria-hidden="true"></div>
+    <div class="tbl"><table class="flowT" id="flowT"></table></div>
+  </section>
+
+  <div class="grid">
+    <section class="panel"><h2 style="margin-bottom:10px">점검</h2><ul class="checks" id="checks"></ul></section>
+    <section class="panel mix"><h2>픽셀 바 혼색 비교</h2>
+      <p class="note" style="margin:0">픽셀 바에 고른 색을 번갈아 흘렸을 때, 이웃한 셀의 빛을 빛의 양으로 평균해 그립니다. 위는 셀, 가운데는 가까이서, 아래는 객석 뒤에서 본 모습입니다.</p>
+      <div class="row"><label class="f">흘릴 색<select id="mixSel"><option value="2">팔레트의 앞 두 색</option><option value="4">팔레트의 앞 네 색</option></select></label></div>
+      <canvas id="cv" width="640" height="200" aria-label="픽셀 바 혼색 그림"></canvas>
+      <p class="note" id="mixNote" style="margin:0"></p>
+    </section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('palette.html'), D = L.design(S), P = D.pal;
+  var $ = function (id) { return document.getElementById(id); };
+  var ROLE_ORDER = ['base', 'acc', 'pair', 'scene', 'reserve', 'white', 'key'];
+  function save() { L.put(S); }
+  function byId(id) { for (var i = 0; i < P.colors.length; i++) if (P.colors[i].id === id) return P.colors[i]; }
+  function secs() { return L.sections(S); }
+  function energy(m) { return S.energy[m.id] || 3; }
+
+  function renderPal() {
+    $('pal').innerHTML = P.colors.map(function (c) {
+      return '<div class="pc" data-id="' + c.id + '"><div class="sw" style="background:' + L.hexOf(c) + '">' + (c.role === 'key' ? '' : '<input type="color" data-k="hex" value="' + L.hexOf(c) + '" aria-label="' + L.esc(c.name) + ' 색 고르기">') + '</div>' +
+        '<input class="t" data-k="name" value="' + L.esc(c.name) + '" aria-label="색 이름">' +
+        '<div class="meta"><select data-k="role" aria-label="자리">' + ROLE_ORDER.map(function (r) { return '<option value="' + r + '"' + (c.role === r ? ' selected' : '') + '>' + L.PROLE[r] + '</option>'; }).join('') + '</select>' +
+        '<button type="button" class="ghost x" data-del="1" aria-label="색 지우기">지우기</button></div>' +
+        (c.role === 'key' ? '<div class="rgb"><label>색온도 K<input type="number" min="2700" max="7000" step="100" data-k="kelvin" value="' + (c.kelvin || 4200) + '"></label></div><p class="note knote">키 흰색은 RGB로 섞지 않고 색온도로 정합니다. 색은 화면 표시용 근사입니다.</p>' :
+        '<div class="rgb">' + ['r', 'g', 'b'].map(function (k, i) { return '<label>' + ['R', 'G', 'B'][i] + ' %<input type="number" min="0" max="100" data-k="' + k + '" value="' + c[k] + '"></label>'; }).join('') + '</div>') + '</div>';
+    }).join('') || '<p class="note">색이 없습니다. "색 더하기"로 메인 컬러부터 정합니다.</p>';
+  }
+  function renderBand() {
+    var pick = P.colors.filter(function (c) { return c.role !== 'key'; }), list = secs();
+    if (!list.length) { $('band').innerHTML = '<p class="note">구간이 없습니다. 듣기 노트에서 구간을 먼저 적습니다.</p>'; $('flowT').innerHTML = ''; return; }
+    $('band').innerHTML = list.map(function (x) {
+      var cols = (P.flow[x.m.id] || []).map(byId).filter(Boolean);
+      return '<div class="sec" style="flex:' + x.len + ' 0 18px" title="' + L.esc(x.m.name) + '"><div class="cols" style="grid-template-rows:repeat(' + Math.max(1, cols.length) + ',1fr)">' + (cols.length ? cols.map(function (c) { return '<i style="background:' + L.hexOf(c) + '"></i>'; }).join('') : '<i style="background:var(--panel2)"></i>') + '</div>' + (x.len >= 4 ? '<b>' + L.esc(x.m.name.replace(/\(.*\)/, '')) + '</b>' : '<b>&nbsp;</b>') + '</div>';
+    }).join('');
+    $('flowT').innerHTML = '<tr><th>구간</th><th>마디</th><th>에너지</th><th>보일 색(눌러서 고르기)</th></tr>' + list.map(function (x) {
+      var sel = P.flow[x.m.id] || [];
+      return '<tr><td><b style="color:var(--ink)">' + L.esc(x.m.name) + '</b></td><td class="num">' + x.start + '~' + x.end + '</td><td class="num">' + energy(x.m) + '</td><td><div class="pick">' +
+        pick.map(function (c) { return '<button type="button" data-sec="' + x.m.id + '" data-c="' + c.id + '" aria-pressed="' + (sel.indexOf(c.id) >= 0) + '" aria-label="' + L.esc(x.m.name) + '에 ' + L.esc(c.name) + '"><i style="background:' + L.hexOf(c) + '"></i>' + L.esc(c.name) + '</button>'; }).join('') + '</div></td></tr>';
+    }).join('');
+  }
+  function checks() {
+    var out = [];
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: '확인', i: '참고', ok: '좋음' }[lv] + '</span>' + h + '</li>'); }
+    var cnt = {}; ROLE_ORDER.forEach(function (r) { cnt[r] = P.colors.filter(function (c) { return c.role === r; }).length; });
+    if (cnt.base !== 1) add('w', '메인 컬러가 <b>' + cnt.base + '개</b>입니다. 곡 전체의 베이스가 될 색 하나를 정합니다.');
+    if (cnt.acc < 1 || cnt.acc > 2) add('w', '서브 컬러가 <b>' + cnt.acc + '개</b>입니다. 한두 개가 출발점입니다. 서브 컬러와 짝을 이루는 색은 "짝"으로 둡니다.');
+    var core = cnt.base + cnt.acc + cnt.pair; if (core > 5) add('w', '기준·강조·짝을 합쳐 <b>' + core + '색</b>입니다. 다섯을 넘으면 곡의 색이 흐려집니다.');
+    if (cnt.reserve > 1) add('i', '스페셜 컬러가 ' + cnt.reserve + '개입니다. 원색 하나면 충분한 경우가 많습니다.');
+    var list = secs(), used = {}, whiteSec = 0;
+    list.forEach(function (x, i) {
+      var sel = (P.flow[x.m.id] || []).map(byId).filter(Boolean);
+      if (sel.length > 2) add('w', '<b>' + L.esc(x.m.name) + '</b>에 동시에 보이는 색이 ' + sel.length + '개입니다. 둘로 줄입니다.');
+      sel.forEach(function (c) { (used[c.id] = used[c.id] || []).push(x); if (c.role === 'white') whiteSec++; if (c.role === 'key') add('w', '<b>' + L.esc(x.m.name) + '</b>에 키 흰색(' + L.esc(c.name) + ')이 있습니다. 키 흰색은 얼굴을 비추는 빛이라 베이스나 강조로 쓰지 않습니다.'); });
+      if (i > 0) { var a = (P.flow[list[i - 1].m.id] || []).join(), b = (P.flow[x.m.id] || []).join(); if (a && a === b && list[i - 1].m.name.split(' ')[0] !== x.m.name.split(' ')[0]) add('i', L.josa('<b>' + L.esc(list[i - 1].m.name) + '</b>', '과와') + ' <b>' + L.esc(x.m.name) + '</b>의 베이스 컬러와 서브 컬러가 같습니다. 구간이 바뀐 것이 색으로는 보이지 않습니다.'); }
+    });
+    P.colors.forEach(function (c) {
+      var u = used[c.id] || [];
+      if (c.role === 'scene' && u.length > 1) add('w', '한 장면 색 ' + L.josa('<b>' + L.esc(c.name) + '</b>', '이가') + ' ' + u.length + '개 구간에 쓰였습니다.');
+      if (c.role === 'reserve') {
+        if (u.length > 1) add('w', '아껴 둔 ' + L.josa('<b>' + L.esc(c.name) + '</b>', '이가') + ' ' + u.length + '개 구간에 쓰였습니다. 한 장면에만 꺼냅니다.');
+        if (u.length && /후렴 1|^후렴$/.test(u[0].m.name)) add('i', '아껴 둔 ' + L.josa('<b>' + L.esc(c.name) + '</b>', '을를') + ' 첫 후렴에 꺼냈습니다. 뒤로 미룰 수 있는지 봅니다.');
+        if (u.length) add('i', '아껴 둔 ' + L.josa('<b>' + L.esc(c.name) + '</b>', '은는') + ' ' + u[0].start + '마디(' + L.esc(u[0].m.name) + ')에서 처음 꺼냅니다. 10장 스페셜 큐에 옮겨 적습니다.');
+      }
+      if ((c.role === 'base' || c.role === 'acc') && !u.length) add('i', L.josa('<b>' + L.esc(c.name) + '</b>', '이가') + ' 어느 구간에도 쓰이지 않았습니다.');
+      if (c.role === 'base' || c.role === 'acc' || c.role === 'pair') { var mx = Math.max(+c.r, +c.g, +c.b), mn = Math.min(+c.r, +c.g, +c.b); if (c.role === 'base' && mx > 0 && (mx - mn) / mx > 0.9) add('i', '메인 컬러 <b>' + L.esc(c.name) + '</b>의 채도가 아주 높습니다. 넓게 오래 깔 색이라면 파스텔 쪽으로 낮춰 봅니다.'); }
+    });
+    if (list.length && whiteSec > list.length / 2) add('w', '흰색이 ' + whiteSec + '개 구간에 있습니다. 흰색이 베이스처럼 깔리면 히트의 힘이 사라집니다.');
+    if (!cnt.key) add('i', '키 흰색이 없습니다. 얼굴을 비출 화이트의 색온도(K)를 팔레트에 함께 적어 둡니다. 카메라가 있으면 화이트밸런스와 함께 정합니다.');
+    if (cnt.key > 1) add('w', '키 흰색이 <b>' + cnt.key + '개</b>입니다. 키는 곡 내내 한 색온도로 둡니다.');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; }) && P.colors.length) add('ok', '메인 컬러 하나, 서브 컬러 한두 개, 구간마다 두 색 이하입니다. 표로 복사해 컨셉 시트(웹 부록 7)에 옮깁니다.');
+    $('checks').innerHTML = out.join('');
+  }
+  function drawMix() {
+    var n = +$('mixSel').value, cols = P.colors.filter(function (c) { return c.role !== 'key'; }).slice(0, n);
+    var cv = $('cv'), g = cv.getContext('2d'), W = cv.width, N = 32, cw = W / N;
+    g.clearRect(0, 0, W, cv.height);
+    if (cols.length < 2) { $('mixNote').textContent = '팔레트에 색이 둘 이상 있어야 합니다.'; return; }
+    // 빛은 양으로 더해지므로 sRGB 값을 선형(빛의 양)으로 바꿔 평균한 뒤 다시 sRGB로 돌립니다.
+    function lin(v) { v /= 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }
+    function srgb(v) { v = v <= 0.0031308 ? v * 12.92 : 1.055 * Math.pow(v, 1 / 2.4) - 0.055; return Math.max(0, Math.min(255, v * 255)); }
+    var seq = []; for (var i = 0; i < N; i++) { var c = cols[Math.floor(i / 2) % cols.length], hx = L.hexOf(c); seq.push([1, 3, 5].map(function (o) { return parseInt(hx.slice(o, o + 2), 16); })); }
+    function blur(w) { var r = Math.floor(w.length / 2); return seq.map(function (_, i) { var a = [0, 0, 0], t = 0; w.forEach(function (k, j) { var q = i + j - r; if (q >= 0 && q < N) { for (var ch = 0; ch < 3; ch++) a[ch] += lin(seq[q][ch]) * k; t += k; } }); return a.map(function (v) { return srgb(v / t); }); }); }
+    var rows = [seq, blur([1, 2, 4, 2, 1]), blur([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])], y = 6;
+    rows.forEach(function (row, ri) { row.forEach(function (c, i) { g.fillStyle = 'rgb(' + c.map(Math.round).join(',') + ')'; g.fillRect(i * cw + (ri ? 0 : 1), y, cw - (ri ? 0 : 2), 56); }); y += 64; });
+    var far = rows[2], sat = far.reduce(function (s, c) { var mx = Math.max.apply(0, c), mn = Math.min.apply(0, c); return s + (mx ? (mx - mn) / mx : 0); }, 0) / N;
+    $('mixNote').textContent = cols.map(function (c) { return c.name; }).join(' · ') + ' — 객석 뒤에서 본 평균 채도 약 ' + Math.round(sat * 100) + '%. 빛은 섞일수록 채도가 빠져 화이트 쪽으로 갑니다. 색이 많을수록, 이웃한 색이 색상환에서 멀수록 뿌옇게 보입니다.';
+  }
+  function render() { renderPal(); renderBand(); checks(); drawMix(); }
+
+  $('pal').addEventListener('input', function (e) {
+    var t = e.target, box = t.closest('.pc'); if (!box) return; var c = byId(box.dataset.id), k = t.dataset.k;
+    if (k === 'hex') { var h = t.value; c.r = Math.round(parseInt(h.slice(1, 3), 16) / 2.55); c.g = Math.round(parseInt(h.slice(3, 5), 16) / 2.55); c.b = Math.round(parseInt(h.slice(5, 7), 16) / 2.55); }
+    else if (k === 'name') c.name = t.value;
+    else if (k === 'r' || k === 'g' || k === 'b') c[k] = Math.max(0, Math.min(100, +t.value || 0));
+    else if (k === 'kelvin') { c.kelvin = Math.max(2700, Math.min(7000, +t.value || 4200)); var q = L.kelvinPct(c.kelvin); c.r = q.r; c.g = q.g; c.b = q.b; }
+    else return;
+    save(); box.querySelector('.sw').style.background = L.hexOf(c); var ci = box.querySelector('input[type=color]'); if (k !== 'hex' && ci) ci.value = L.hexOf(c);
+    if (k !== 'name' && k !== 'kelvin') { box.querySelectorAll('.rgb input').forEach(function (inp) { inp.value = c[inp.dataset.k]; }); }
+    renderBand(); checks(); drawMix();
+  });
+  $('pal').addEventListener('change', function (e) { var t = e.target; if (t.dataset.k !== 'role') return; var cc = byId(t.closest('.pc').dataset.id); cc.role = t.value; if (cc.role === 'key' && !cc.kelvin) cc.kelvin = 4200; save(); render(); });
+  $('pal').addEventListener('click', function (e) {
+    if (!e.target.dataset.del) return; var id = e.target.closest('.pc').dataset.id;
+    P.colors = P.colors.filter(function (c) { return c.id !== id; }); Object.keys(P.flow).forEach(function (k) { P.flow[k] = P.flow[k].filter(function (x) { return x !== id; }); }); save(); render();
+  });
+  $('flowT').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b || !b.dataset.sec) return; var a = P.flow[b.dataset.sec] || (P.flow[b.dataset.sec] = []), i = a.indexOf(b.dataset.c);
+    if (i >= 0) a.splice(i, 1); else a.push(b.dataset.c); save(); renderBand(); checks();
+  });
+  $('addC').addEventListener('click', function () { P.colors.push({ id: L.uid(), name: '새 색', r: 100, g: 70, b: 80, role: P.colors.some(function (c) { return c.role === 'base'; }) ? 'acc' : 'base' }); save(); render(); });
+  $('mixSel').addEventListener('change', drawMix);
+  $('copy').addEventListener('click', function () {
+    var lines = ['이름\t자리\tR %\tG %\tB %'].concat(P.colors.map(function (c) { return c.role === 'key' ? [c.name, L.PROLE[c.role], '색온도 ' + (c.kelvin || 4200) + 'K', '', ''].join('\t') : [c.name, L.PROLE[c.role], c.r, c.g, c.b].join('\t'); }));
+    lines.push('', '구간\t시작 마디\t두 색');
+    secs().forEach(function (x) { lines.push(x.m.name + '\t' + x.start + '\t' + (P.flow[x.m.id] || []).map(function (id) { var c = byId(id); return c ? c.name : ''; }).join(', ')); });
+    var txt = (S.title || '') + ' 팔레트\n' + lines.join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? '팔레트를 복사했습니다. 스프레드시트에 붙여 넣으면 칸이 나뉩니다.' : '복사가 막혀 있습니다.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  save(); render();
+})();
+</script>
+</body>
+</html>

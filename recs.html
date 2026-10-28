@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>구간 추천표</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 템포 밴드 요약, 가운데 구간마다 출발값 | 내 설계 | 다른 점과 이유 표 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:74ch}
+.band{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:760px){.band{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.band div{background:var(--panel2);border-radius:9px;padding:10px 12px}
+.band b{display:block;color:var(--ink);font-size:16px;font-family:var(--f-num)}
+.band span{font-size:12.5px;color:var(--muted)}
+table.rec td{vertical-align:top;font-size:13px}
+table.rec td.sec b{color:var(--ink);white-space:nowrap}
+table.rec td.sec span{display:block;font-size:12px;color:var(--muted);font-family:var(--f-num)}
+table.rec td.st{color:var(--body);min-width:15em}
+table.rec td.my{min-width:12em}
+table.rec .diff{display:block;margin-top:4px;font-size:12px;color:var(--warn);font-weight:700}
+table.rec textarea{min-height:52px;font-size:13px;min-width:14em}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:1px 8px}
+.kv i{font-style:normal;color:var(--muted);font-size:12px;white-space:nowrap}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>구간 추천표</h1>
+    <p>12장 실습을 해 보는 판입니다. 곡 구성표의 구간과 에너지, BPM으로 구간마다 출발값(표 12-1, 12-2, 12-4)을 보여 주고, 룩 시트와 밝기 계획에 적은 내 설계를 옆에 놓습니다. 출발값과 다른 칸에는 이유를 적어 둡니다. <b>출발값은 실습 무대 기준</b>입니다. 현장 장비와 곡에 맞춰 고치는 것이 기본입니다.</p>
+  </div>
+  <section class="panel">
+    <div class="row" style="justify-content:space-between;margin-bottom:10px"><h2 id="bandT">템포 밴드</h2><span class="note" id="bandN"></span></div>
+    <div class="band" id="band"></div>
+  </section>
+  <section class="panel" style="margin-top:16px">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>구간마다 출발값과 내 설계</h2><button type="button" id="copy">표 복사</button></div>
+    <p class="note" id="msg"></p>
+    <div class="tbl"><table class="rec" id="rec"></table></div>
+    <p class="note" style="margin:10px 0 0">다른 점이 있다고 틀린 것은 아닙니다. 이유가 컨셉 시트의 어느 줄에서 나왔는지 적어 두면, 리허설에서 고칠 때 무엇을 지켜야 하는지 알 수 있습니다.</p>
+  </section>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('recs.html'), D = L.design(S), R = D.recs;
+  var $ = function (id) { return document.getElementById(id); };
+  function save() { L.put(S); }
+  // 표 12-1: [역할, 색, 움직임, 밝기 범위, 인 타임 종류]
+  var T = {
+    intro: ['키 또는 스페셜 하나 + 백', '대표색 하나', '정지 또는 느린 스윕', [20, 40], '블랙에서 4~8박 페이드 또는 첫 다운비트 스냅', ['페이드', '스냅']],
+    verse: ['키 + 백·사이드 + 약한 워시', '후렴과 반대쪽 색', '정지, 2~4마디에 한 번 숨 쉬는 디머', [30, 60], '스냅 또는 1박 페이드', ['스냅', '1박', '2박']],
+    verse2: ['벌스 1 + 새 요소 하나', '벌스 1과 같음', '벌스 1과 같음', [30, 70], '스냅', ['스냅', '페이드']],
+    pre: ['마디마다 역할을 하나씩 더함', '후렴 색을 미리 조금', '점점 빨라짐, 빔이 위로 모임', [50, 80], '프리코러스 길이만큼 페이드 업', ['페이드', '스냅']],
+    chorus: ['거의 전부', '벌스와 대비되는 두 번째 색 + 화이트 강조', '1~2박마다 포지션이 바뀌거나 체이스', [80, 100], '스냅, 또는 1마디 화이트 뒤 본 룩', ['스냅', '히트']],
+    last: ['후렴 + 하나', '후렴 색 + 새 색 하나 또는 화이트', '후렴과 같음', [95, 100], '화이트 플래시 뒤 스냅', ['스냅', '히트']],
+    bridge: ['역할 2~3개로 줄임', '아직 쓰지 않은 색', '1~2마디에 한 번 느린 크로스 스윕', [50, 70], '1마디 딥 뒤 히트, 또는 긴 페이드', ['페이드', '히트']],
+    beat: ['빔 중심, 키는 낮게 유지', '두 색', '크게, 안무 포인트에 히트', [70, 90], '스냅', ['스냅']],
+    outro: ['대표 룩으로 되돌림', '대표색', '정지', [0, 60], '긴 페이드, 또는 마지막 음에 0박 컷(버튼 엔딩)', ['페이드', '컷']]
+  };
+  var EN = { 1: ['키 + 하나', '0'], 2: ['셋~넷', '0~1(느리게)'], 3: ['넷~다섯', '1'], 4: ['여섯 이상', '1~2'], 5: ['전부 + 스페셜 큐', '2 + 순간 강조 하나'] };
+  var BANDS = [[0, 80, '80 미만', [4, 8], [8, 16], [16, 32]], [80, 100, '80~100', [2, 4], [4, 8], [8, 16]], [100, 120, '100~120', [1, 4], [4, 8], [4, 8]],
+    [120, 135, '120~135', [1, 2], [2, 4], [4, 8]], [135, 160, '135~160', [2, 2], [4, 4], [4, 8]], [160, 999, '160 이상', [2, 4], [4, 8], [8, 8]]];
+  function band() { var b = +S.bpm || 120; for (var i = 0; i < BANDS.length; i++) if (b >= BANDS[i][0] && b < BANDS[i][1]) return BANDS[i]; return BANDS[2]; }
+  function kind(list, i) {
+    var nm = list[i].m.name, verses = 0, choruses = list.filter(function (x) { return /^후렴/.test(x.m.name); });
+    for (var k = 0; k <= i; k++) if (/^벌스/.test(list[k].m.name)) verses++;
+    if (i === 0 || /인트로/.test(nm)) return 'intro';
+    if (/^벌스/.test(nm)) return verses > 1 ? 'verse2' : 'verse';
+    if (/^프리/.test(nm) || /빌드업/.test(nm)) return 'pre';
+    if (/^후렴|포스트/.test(nm)) return choruses.length > 1 && choruses[choruses.length - 1] === list[i] ? 'last' : 'chorus';
+    if (/브리지|브릿지/.test(nm)) return 'bridge';
+    if (/비트|브레이크|드롭/.test(nm)) return 'beat';
+    if (/끝|아웃트로/.test(nm)) return 'outro';
+    return (S.energy[list[i].m.id] || 3) >= 4 ? 'chorus' : 'verse';
+  }
+  function sec(beats) { return (beats * L.beatLen(S)).toFixed(1) + '초'; }
+  function renderBand() {
+    var b = band();
+    $('bandT').textContent = '템포 밴드 ' + b[2] + ' BPM'; $('bandN').textContent = (S.title || '') + ' · ' + S.bpm + ' BPM · 표 12-2 출발값';
+    $('band').innerHTML = [['디머 이펙트', b[3]], ['컬러 이펙트', b[4]], ['포지션 이펙트', b[5]]].map(function (x) {
+      return '<div><span>' + x[0] + ' 주기</span><b>' + x[1][0] + (x[1][1] !== x[1][0] ? '~' + x[1][1] : '') + '박</b><span>' + sec(x[1][0]) + (x[1][1] !== x[1][0] ? '~' + sec(x[1][1]) : '') + '</span></div>';
+    }).join('') + '<div><span>체이스 한 칸</span><b>' + (b[2] === '80 미만' ? '1마디' : b[2] === '80~100' ? '1~2박' : b[2] === '135~160' ? '1~2박' : b[2] === '160 이상' ? '2박' : '1박') + '</b><span>주기는 1·2·4·8박으로</span></div>';
+  }
+  function render() {
+    var list = L.sections(S);
+    if (!list.length) { $('rec').innerHTML = '<tr><td class="note">구간이 없습니다. 듣기 노트에서 구간을 먼저 적습니다.</td></tr>'; return; }
+    $('rec').innerHTML = '<tr><th>구간</th><th>에너지</th><th>출발값(표 12-1·12-4)</th><th>내 설계(룩 시트·밝기 계획)</th><th>다른 점과 이유</th></tr>' + list.map(function (x, i) {
+      var k = kind(list, i), t = T[k], e = S.energy[x.m.id] || 3, en = EN[e], lk = D.looks[x.m.id] || {}, br = D.bright.rows[x.m.id] || {};
+      var diffs = [];
+      if (br.hero != null && br.hero !== '' && (+br.hero < t[3][0] || +br.hero > t[3][1])) diffs.push('메인 밝기 ' + br.hero + '%가 출발값(' + t[3][0] + '~' + t[3][1] + '%) 밖');
+      if (lk.entry) { var ok = t[5].some(function (w) { return lk.entry.indexOf(w) >= 0 || (w === '히트' && /히트/.test(lk.entry)); }); if (!ok) diffs.push('인 타임 "' + lk.entry + '"이 출발값과 다름'); }
+      if (k === 'bridge' && (D.pal.flow[x.m.id] || []).length) {
+        var before = {}; list.slice(0, i).forEach(function (y) { (D.pal.flow[y.m.id] || []).forEach(function (c) { before[c] = 1; }); });
+        if ((D.pal.flow[x.m.id] || []).every(function (c) { return before[c]; })) diffs.push('브리지 색이 앞에서 이미 쓴 색');
+      }
+      var rs = R[x.m.id] || '';
+      return '<tr><td class="sec"><b>' + L.esc(x.m.name) + '</b><span>' + x.start + '~' + x.end + '마디</span></td><td class="num">' + e + '</td>' +
+        '<td class="st"><div class="kv"><i>켜는 역할</i><span>' + t[0] + ' · ' + en[0] + '개</span><i>색</i><span>' + t[1] + '</span><i>움직임</i><span>' + t[2] + '</span><i>이펙트</i><span>동시에 ' + en[1] + '개</span><i>메인 밝기</i><span>' + t[3][0] + '~' + t[3][1] + '%</span><i>인 타임</i><span>' + t[4] + '</span></div></td>' +
+        '<td class="my">' + (lk.name || br.hero != null ? '<div class="kv"><i>룩</i><span>' + L.esc(lk.name || '—') + '</span><i>메인</i><span>' + L.esc(lk.hero || '—') + '</span><i>포지션</i><span>' + L.esc(lk.pos || '—') + '</span><i>이펙트</i><span>' + L.esc(lk.fx || '—') + '</span><i>밝기</i><span>' + (br.hero != null ? br.hero + '%' : '—') + '</span><i>인 타임</i><span>' + L.esc(lk.entry || '—') + '</span></div>' : '<span class="note">룩 시트에 아직 없음</span>') +
+        (diffs.length ? diffs.map(function (d) { return '<span class="diff">' + d + '</span>'; }).join('') : '') + '</td>' +
+        '<td><textarea data-id="' + x.m.id + '" aria-label="' + L.esc(x.m.name) + ' 이유" placeholder="' + (diffs.length ? '왜 다른지, 컨셉 시트의 어느 줄 때문인지' : '출발값 안') + '">' + L.esc(rs) + '</textarea></td></tr>';
+    }).join('');
+  }
+  $('rec').addEventListener('input', function (e) { var t = e.target; if (t.dataset.id) { R[t.dataset.id] = t.value; save(); } });
+  $('copy').addEventListener('click', function () {
+    var list = L.sections(S), lines = ['구간\t마디\t에너지\t출발 역할\t출발 밝기\t출발 인 타임\t룩\t밝기\t인 타임\t이유'];
+    list.forEach(function (x, i) { var t = T[kind(list, i)], lk = D.looks[x.m.id] || {}, br = D.bright.rows[x.m.id] || {}; lines.push([x.m.name, x.start + '~' + x.end, S.energy[x.m.id] || 3, t[0], t[3][0] + '~' + t[3][1] + '%', t[4], lk.name || '', br.hero != null ? br.hero + '%' : '', lk.entry || '', (R[x.m.id] || '').replace(/\n/g, ' ')].join('\t')); });
+    var txt = (S.title || '') + ' 구간 추천표\n' + lines.join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? '표를 복사했습니다.' : '복사가 막혀 있습니다.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  if (S.sample && !D.recs.seeded) {
+    var by = {}; L.sections(S).forEach(function (x) { by[x.m.name] = x.m.id; });
+    var ex = { '인트로': '하트가 곡의 모티브라 처음부터 또렷이 보여 줌(컨셉 시트: 모티브)', '후렴 1': '후렴 3까지 헤드룸을 남김(10장)', '브리지': '컨셉의 팔레트 세 색을 지키는 대신 밝기를 45%로 내려 라일락 단색의 다른 장면을 만듦', '벌스 2': '바닥 빔 킥 펄스를 더하고 무빙은 세움(리듬 레이어 둘)' };
+    Object.keys(ex).forEach(function (n) { if (by[n]) R[by[n]] = ex[n]; });
+    D.recs.seeded = 1;
+  }
+  save(); renderBand(); render();
+})();
+</script>
+</body>
+</html>

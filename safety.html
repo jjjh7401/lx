@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>안전 점검</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 깜박이는 큐(방송·공연 판정), 가운데 관객을 향하는 큐, 아래 왼쪽 협의 항목, 오른쪽 매다는 장비와 신고 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:76ch}
+.stack{display:grid;gap:16px}
+table.fl input[type=text]{min-width:12em;width:100%}
+table.fl input.n{width:5em}
+.v{font-size:12.5px;font-weight:700;white-space:nowrap}
+.v.ok{color:var(--ok)} .v.w{color:var(--warn)} .v.bad{color:var(--bad)}
+td.hz{font-family:var(--f-num);white-space:nowrap}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}}
+.cl{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.cl li{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start;padding:8px 10px;border-radius:9px;background:var(--panel2);font-size:13.5px}
+.cl input[type=text]{grid-column:2;width:100%;font-size:13px;padding:4px 7px}
+.cl .grp{grid-template-columns:1fr;background:none;padding:6px 2px 0;font-size:12px;font-weight:700;color:var(--accent)}
+.kv{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:14px;margin:8px 0}
+.kv b{font-family:var(--f-num);color:var(--ink);text-align:right}
+.alert{padding:9px 12px;border-radius:9px;background:var(--panel2);border-left:4px solid var(--warn);font-size:13.5px;margin-top:8px}
+.alert.ok{border-left-color:var(--ok)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>안전 점검</h1>
+    <p>32장 실습을 해 보는 판입니다. 깜박이는 큐마다 단위를 고르면 1초에 몇 번 깜박이는지 계산해 방송(세 번)과 공연(네 번)의 기준과 비교합니다. 관객을 향하는 큐의 길이, 헤이즈와 특수효과의 협의 항목, 매다는 장비의 무게와 전력, 공연 신고 날짜를 한 장으로 모아 공연장과 리깅 담당에게 보낼 점검표로 만들어 줍니다. 법령과 기준은 공연마다 담당 기관과 공연장에서 다시 확인합니다.</p>
+  </div>
+  <div class="stack">
+    <section class="panel">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 id="flT">깜박이는 큐</h2>
+        <div class="row"><label class="f">BPM<input type="number" id="bpm" class="n" min="40" max="240" step="0.1" title="여기서 바꾼 BPM은 이 점검에만 씁니다. 곡 BPM은 그대로입니다."></label><button type="button" id="bpmBack" class="ghost" hidden>곡 BPM으로</button><button type="button" id="addF">큐 더하기</button></div></div>
+      <div class="tbl"><table class="fl" id="fl"></table></div>
+      <p class="note" style="margin:8px 0 0">1초에 깜박이는 횟수 = BPM ÷ 60 ÷ Measure(장비 한 대 기준). 방송: 화면의 4분의 1이 넘는 면적이 1초에 세 번을 넘지 않음(ITU-R BT.1702, Ofcom). 공연: 스트로브는 1초에 네 번을 넘지 않음(영국 HSE의 클럽 권고). 위상을 나눈 체이스는 무대 전체에서 더 자주 터지므로, 객석을 크게 덮는 큐는 무대 전체 횟수로도 확인합니다.</p>
+    </section>
+    <section class="panel">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>관객을 향하는 큐</h2><button type="button" id="addA">큐 더하기</button></div>
+      <div class="tbl"><table class="fl" id="au"></table></div>
+      <p class="note" style="margin:8px 0 0">블라인더와 오디언스 포지션은 짧게 씁니다. 한 마디 넘게 머무는 큐를 표시해 줍니다. 레이저가 객석을 향하는 큐는 업체의 측정과 안전 조치를 함께 적습니다(32.3절).</p>
+    </section>
+    <div class="grid2">
+      <section class="panel"><h2 style="margin-bottom:8px">공연장·업체와 협의할 것</h2><ul class="cl" id="cl"></ul></section>
+      <section class="panel">
+        <h2>매다는 장비와 전원</h2>
+        <p class="note" id="rigSrc" style="margin:4px 0 0"></p>
+        <div class="kv" id="kv"></div>
+        <div class="row"><label class="f">트러스 한 줄의 장비(kg)<input type="number" id="tkg" class="n" min="0" style="width:6em"></label><label class="f">트러스·케이블(kg)<input type="number" id="tadd" class="n" min="0" style="width:6em"></label><label class="f">호이스트 수<input type="number" id="thn" class="n" min="1" style="width:5em"></label></div>
+        <div class="kv" id="hoist"></div>
+        <p class="note" style="margin:0">실제 안전 하중은 트러스와 호이스트의 제조사 규격과 공연장 리깅 담당의 확인을 따릅니다. 매다는 도구의 안전율: 구동용 와이어로프 6 이상, 고정용 4 이상, 체인 6 이상, 샤클 등 4 이상(KS A 6110 인용).</p>
+        <h2 style="margin-top:16px">공연 신고</h2>
+        <div class="row" style="margin-top:8px"><label class="f">공연 장소<select id="venue"><option value="hall">공연장</option><option value="out">공연장이 아닌 곳</option></select></label><label class="f">예상 관람객(명)<input type="number" id="aud" class="n" min="0" style="width:7em"></label><label class="f">공연 날짜<input type="date" id="day"></label></div>
+        <div id="report"></div>
+      </section>
+    </div>
+    <section class="panel">
+      <div class="row" style="justify-content:space-between"><h2>보낼 점검표</h2><button type="button" id="copy" class="primary">글로 복사</button></div>
+      <p class="note" id="msg"></p>
+    </section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('safety.html'), D = L.design(S);
+  var $ = function (id) { return document.getElementById(id); };
+  var UNITS = [['once', '한 번(이어지지 않음)', 0], ['2bar', '2마디마다(8)', 8], ['bar', '마디마다(4)', 4], ['2beat', '2박마다(2)', 2], ['beat', '박마다(1)', 1], ['8th', '반 박마다(0.5)', 0.5], ['16th', '16분음표마다(0.25)', 0.25]];
+  var CHK = [
+    ['헤이즈', [['det', '공연장의 감지기 종류와 헤이즈를 쓸 수 있는 조건을 소방안전관리자에게 받았다'], ['amt', '헤이즈의 양과 쓰는 시간(리허설·본 공연)을 정했다'], ['air', '공연 사이와 끝난 뒤의 환기를 정했다'], ['fire', '화재가 의심될 때 누가 어떻게 알리는지 정했다']]],
+    ['특수효과', [['sfx', '특수효과 큐를 큐 시트에 따로 표시하고 콜을 누가 줄지 정했다'], ['wind', '야외라면 풍속 기준(5m/s 자제, 10m/s 꽃불류 중지)과 빠질 때의 조명 큐를 정했다']]],
+    ['레이저·관객', [['laser', '레이저가 객석을 향하는 큐가 있으면 업체의 측정과 안전 조치를 받았다'], ['notice', '스트로브를 쓰면 예매 안내나 입구, 안내 방송으로 알린다']]],
+    ['매다는 장비', [['clamp', '모든 매다는 장비에 안전고리(와이어·체인)를 단다'], ['list', '장비 목록(무게·위치·전력)을 리깅 담당에게 넘겼다'], ['add', '리허설 중 장비를 더 달 때는 먼저 리깅 담당에게 무게를 알린다']]]];
+  if (!D.safety) {
+    D.safety = { flash: [], aud: [], chk: {}, memo: {}, tkg: 228, tadd: 0, thn: 4, tv: 2, venue: 'hall', aud_n: '', day: '' };
+    if (S.sample) {
+      D.safety.flash = [['스냅 펄스·저음 베이스 매 박(표 25-3, 25-4)', 'beat', 30, false], ['홀짝 빠르게(Measure 0.5)', '8th', 30, false], ['스파클(Measure 0.5)', '8th', 20, false], ['사이드 하이햇 좌우 교차', '2beat', 20, false],
+        ['픽셀 박수 두 색 스냅', 'bar', 15, false], ['화이트 플래시(큐 80)', 'once', 100, false], ['밝기 히트(큐 30)', 'once', 100, false]]
+        .map(function (x) { return { id: L.uid(), name: x[0], unit: x[1], area: x[2], strobe: x[3] }; });
+      D.safety.aud = [['큐 30 옥상 팬 · 빔이 객석 위를 지나는지', 2, false], ['큐 75 크로스 빔 · 빔이 객석 위를 지나는지', 2, false]]
+        .map(function (x) { return { id: L.uid(), name: x[0], beats: x[1], laser: x[2] }; });
+    }
+  }
+  var F = D.safety;
+  if (!F.tv) { if (+F.tkg === 264) F.tkg = 228; F.tv = 2; } // 22장 v0.3: 예시 트러스를 뒤 트러스(워시 6 + 스트로브 8 = 228kg)로
+  function save() { L.put(S); }
+  function unit(k) { for (var i = 0; i < UNITS.length; i++) if (UNITS[i][0] === k) return UNITS[i]; return UNITS[0]; }
+  var bpmV = +S.bpm || 120; // 점검용 BPM. 곡 BPM(S.bpm)은 바꾸지 않음
+  function hz(r) { var m = unit(r.unit)[2]; return m ? bpmV / 60 / m : 0; }
+  function jB(r) { var h = hz(r), a = +r.area || 0; if (!h) return ['ok', '한 번']; if (a <= 25) return h > 3 ? ['w', '면적 작음, 와이드 샷 확인'] : ['ok', '기준 안']; if (h > 3.0001) return ['bad', '초과']; if (h >= 2.95) return ['w', '기준선']; return ['ok', '기준 안']; }
+  function jL(r) { var h = hz(r); if (!h) return ['ok', '한 번']; if (h > 4.0001) return ['bad', '초과']; if (h >= 3.95) return ['w', '기준선']; return ['ok', '기준 안']; }
+  function renderFlash() {
+    $('bpm').value = bpmV; $('bpmBack').hidden = bpmV === (+S.bpm || 120); $('bpmBack').textContent = '곡 BPM(' + (+S.bpm || 120) + ')으로'; $('flT').textContent = (S.title || '') + ' 깜박이는 큐';
+    $('fl').innerHTML = '<tr><th>큐</th><th>단위(Measure)</th><th>1초에</th><th>화면 면적 %</th><th>방송</th><th>공연</th><th></th></tr>' + F.flash.map(function (r, i) {
+      var b = jB(r), l = jL(r), h = hz(r);
+      return '<tr><td><input type="text" data-t="flash" data-i="' + i + '" data-k="name" value="' + L.esc(r.name) + '" aria-label="큐"></td>' +
+        '<td><select data-t="flash" data-i="' + i + '" data-k="unit" aria-label="단위">' + UNITS.map(function (u) { return '<option value="' + u[0] + '"' + (u[0] === r.unit ? ' selected' : '') + '>' + u[1] + '</option>'; }).join('') + '</select></td>' +
+        '<td class="hz">' + (h ? h.toFixed(2) + '회' : '—') + '</td>' +
+        '<td><input type="number" class="n" min="0" max="100" data-t="flash" data-i="' + i + '" data-k="area" value="' + L.esc(r.area) + '" aria-label="면적"></td>' +
+        '<td><span class="v ' + b[0] + '">' + b[1] + '</span></td><td><span class="v ' + l[0] + '">' + l[1] + '</span></td>' +
+        '<td><button type="button" class="ghost" data-del="flash" data-i="' + i + '" aria-label="지우기">×</button></td></tr>';
+    }).join('');
+  }
+  function renderAud() {
+    var bl = L.beatLen(S), bpb = +S.bpb || 4;
+    $('au').innerHTML = '<tr><th>큐</th><th>머무는 박</th><th>초</th><th>레이저</th><th>판정</th><th></th></tr>' + F.aud.map(function (r, i) {
+      var b = +r.beats || 0, j = b > bpb ? ['w', '한 마디가 넘음, 짧게'] : ['ok', '짧음'];
+      if (r.laser) j = ['w', '업체의 측정·안전 조치 확인'];
+      return '<tr><td><input type="text" data-t="aud" data-i="' + i + '" data-k="name" value="' + L.esc(r.name) + '" aria-label="큐"></td>' +
+        '<td><input type="number" class="n" min="0" step="0.5" data-t="aud" data-i="' + i + '" data-k="beats" value="' + L.esc(r.beats) + '" aria-label="머무는 박"></td>' +
+        '<td class="hz">' + (b * bl).toFixed(1) + '</td><td><input type="checkbox" data-t="aud" data-i="' + i + '" data-k="laser"' + (r.laser ? ' checked' : '') + ' aria-label="레이저"></td>' +
+        '<td><span class="v ' + j[0] + '">' + j[1] + '</span></td><td><button type="button" class="ghost" data-del="aud" data-i="' + i + '" aria-label="지우기">×</button></td></tr>';
+    }).join('') || '<tr><td colspan="6" class="note">관객을 향하는 큐가 없습니다.</td></tr>';
+  }
+  function renderCl() {
+    $('cl').innerHTML = CHK.map(function (g) {
+      return '<li class="grp">' + g[0] + '</li>' + g[1].map(function (c) {
+        return '<li><input type="checkbox" data-c="' + c[0] + '"' + (F.chk[c[0]] ? ' checked' : '') + ' aria-label="' + L.esc(c[1]) + '"><span>' + L.esc(c[1]) + '</span><input type="text" data-m="' + c[0] + '" value="' + L.esc(F.memo[c[0]] || '') + '" placeholder="메모(담당자, 조건)" aria-label="메모"></li>';
+      }).join('');
+    }).join('');
+  }
+  function rig() { var rc = L.getKey('rigcalc'); return rc && rc.rows && rc.rows.length ? { rows: rc.rows, src: '장비 계산기와 패치 시트(웹 부록 18)에서 불러온 장비입니다.' } : null; }
+  function renderRig() {
+    var R = rig(), rows = R ? R.rows : [['LED 프로파일', 8, 15, 300, '행잉'], ['LED 프레넬', 6, 9, 250, '행잉'], ['워시 무빙', 12, 22, 650, '행잉'], ['워시 무빙(사이드 타워)', 8, 22, 650, '정면'], ['스팟 무빙', 8, 30, 800, '행잉'], ['빔 무빙', 16, 18, 450, '플로어'], ['LED 바', 24, 8, 150, '정면'], ['스트로브', 8, 12, 800, '행잉'], ['블라인더', 4, 6, 400, '플로어']]
+      .map(function (x) { return { name: x[0], qty: x[1], kg: x[2], w: x[3], mount: x[4] }; });
+    $('rigSrc').textContent = R ? R.src : '장비 계산기와 패치 시트가 비어 있어 6장 실습 장비(94대)로 계산합니다.';
+    var hang = 0, all = 0, kw = 0, hq = 0;
+    rows.forEach(function (r) { var q = +r.qty || 0, kg = q * (+r.kg || 0); all += kg; kw += q * (+r.w || 0) / 1000; if (r.mount === '행잉') { hang += kg; hq += q; } });
+    $('kv').innerHTML = '<span>매다는 장비(행잉)</span><b>' + hq + '대 · ' + hang.toLocaleString('ko-KR') + 'kg</b><span>전체 장비 무게</span><b>' + all.toLocaleString('ko-KR') + 'kg</b><span>전체 전력</span><b>' + kw.toFixed(2) + 'kW</b>';
+    $('tkg').value = F.tkg; $('tadd').value = F.tadd; $('thn').value = F.thn;
+    var per = ((+F.tkg || 0) + (+F.tadd || 0)) / Math.max(1, +F.thn || 1);
+    $('hoist').innerHTML = '<span>호이스트 1대당(고르게 나눌 때)</span><b>' + per.toFixed(1) + 'kg</b>';
+    return { hang: hang, hq: hq, all: all, kw: kw, per: per };
+  }
+  function renderReport() {
+    $('venue').value = F.venue; $('aud').value = F.aud_n; $('day').value = F.day;
+    var need = F.venue === 'out' && +F.aud_n >= 1000, h = '';
+    if (need) {
+      var d = F.day ? new Date(F.day + 'T00:00:00') : null, f = function (n) { var x = new Date(d); x.setDate(x.getDate() - n); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
+      h = '<div class="alert">공연장이 아닌 곳에서 1천 명 이상이므로 재해대처계획 신고 대상입니다(공연법 제11조). ' + (d ? '신고는 <b>' + f(14) + '</b>까지(14일 전), 바뀐 것이 있으면 <b>' + f(7) + '</b>까지(7일 전) 변경 신고합니다.' : '공연 날짜를 넣으면 신고 기한을 계산합니다.') + ' 계획서의 장비·특수효과 목록은 조명과 특수효과에서 나옵니다.</div>';
+    } else h = '<div class="alert ok">' + (F.venue === 'out' ? '예상 관람객이 1천 명 미만입니다. 그래도 공연장 밖 공연은 지자체의 안내를 확인합니다.' : '공연장 공연은 공연장이 정한 안전 절차를 따릅니다. 공연장의 안전 담당과 일정을 맞춥니다.') + '</div>';
+    $('report').innerHTML = h;
+    return need;
+  }
+  function render() { renderFlash(); renderAud(); renderCl(); renderRig(); renderReport(); }
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.id === 'bpm') { var v = +t.value; if (v >= 40 && v <= 240) { bpmV = v; } render(); return; }
+    if (t.dataset.t) { var r = F[t.dataset.t][+t.dataset.i], k = t.dataset.k; r[k] = t.type === 'checkbox' ? t.checked : t.value; save(); t.dataset.t === 'flash' ? renderFlash() : renderAud(); return; }
+    if (t.dataset.c) { F.chk[t.dataset.c] = t.checked; save(); return; }
+    if (t.dataset.m) { F.memo[t.dataset.m] = t.value; save(); return; }
+    if (t.id === 'tkg' || t.id === 'tadd' || t.id === 'thn') { F[t.id] = +t.value || 0; save(); renderRig(); return; }
+    if (t.id === 'venue') { F.venue = t.value; save(); renderReport(); return; }
+    if (t.id === 'aud') { F.aud_n = t.value; save(); renderReport(); return; }
+    if (t.id === 'day') { F.day = t.value; save(); renderReport(); return; }
+  });
+  document.addEventListener('click', function (e) { var d = e.target.dataset.del; if (!d) return; F[d].splice(+e.target.dataset.i, 1); save(); d === 'flash' ? renderFlash() : renderAud(); });
+  $('addF').addEventListener('click', function () { F.flash.push({ id: L.uid(), name: '', unit: 'beat', area: 30, strobe: false }); save(); renderFlash(); });
+  $('addA').addEventListener('click', function () { F.aud.push({ id: L.uid(), name: '', beats: 2, laser: false }); save(); renderAud(); });
+  $('copy').addEventListener('click', function () {
+    var g = renderRig(), need = renderReport(), out = [(S.title || '곡') + ' 안전 점검 · ' + bpmV + ' BPM', '', '[깜박이는 큐] 1초에 깜박이는 횟수(방송 / 공연)'];
+    F.flash.forEach(function (r) { var h = hz(r); out.push('- ' + r.name + ': ' + (h ? h.toFixed(2) + '회' : '한 번') + ' (방송 ' + jB(r)[1] + ' / 공연 ' + jL(r)[1] + ')'); });
+    out.push('', '[관객을 향하는 큐]'); F.aud.forEach(function (r) { out.push('- ' + r.name + ': ' + r.beats + '박' + (r.laser ? ', 레이저(업체 측정 필요)' : '')); });
+    out.push('', '[협의 항목]'); CHK.forEach(function (gr) { gr[1].forEach(function (c) { out.push((F.chk[c[0]] ? '[확인] ' : '[미정] ') + c[1] + (F.memo[c[0]] ? ' — ' + F.memo[c[0]] : '')); }); });
+    out.push('', '[매다는 장비와 전원]', '- 매다는 장비 ' + g.hq + '대, ' + g.hang + 'kg / 전체 ' + g.all + 'kg / 전력 ' + g.kw.toFixed(2) + 'kW', '- 트러스 한 줄 ' + ((+F.tkg || 0) + (+F.tadd || 0)) + 'kg ÷ 호이스트 ' + F.thn + '대 = 1대당 ' + g.per.toFixed(1) + 'kg(제조사 규격과 리깅 담당 확인 필요)');
+    if (need) out.push('', '[공연 신고] 재해대처계획 신고 대상(공연장 밖, 1천 명 이상): 14일 전 신고, 변경은 7일 전');
+    var txt = out.join('\n');
+    try { navigator.clipboard.writeText(txt).then(function () { $('msg').textContent = '점검표를 글로 복사했습니다. 메일이나 메신저에 붙여 넣을 수 있습니다.'; }, function () { $('msg').textContent = '복사가 막혀 있습니다.'; }); } catch (err) { $('msg').textContent = '복사가 막혀 있습니다.'; }
+  });
+  $('bpmBack').addEventListener('click', function () { bpmV = +S.bpm || 120; render(); });
+  render();
+})();
+</script>
+</body>
+</html>

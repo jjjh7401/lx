@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>큐 시트</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 큐 시트 표(편집), 아래 자체 점검 열네 가지와 유지·수정·변경 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:74ch}
+table.cs td{vertical-align:top;padding:4px 4px}
+table.cs input{width:100%;min-width:4em;font-size:13px;padding:4px 6px}
+table.cs input.no{width:4.6em;font-family:var(--f-num)}
+table.cs input.bb{width:3.4em;font-family:var(--f-num)}
+table.cs input.w{min-width:15em}
+table.cs td.t{font-family:var(--f-num);font-size:13px;white-space:nowrap;padding-top:9px;color:var(--muted)}
+table.cs tr.sec td{border-top:2px solid var(--line)}
+table.cs button.x{padding:3px 8px;font-size:12px}
+.chk{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.chk li{display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;gap:10px;align-items:start;padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--ok)}
+.chk li.w{border-left-color:var(--warn)} .chk li.m{border-left-color:var(--muted)}
+.chk .no{font-family:var(--f-num);font-weight:700;color:var(--ink)}
+.chk b{color:var(--ink)}
+.chk .hit{display:block;color:var(--warn);font-size:12.5px;margin-top:3px}
+.chk select{font-size:13px;padding:4px 6px}
+.sum{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.sum span{font-size:13px;padding:4px 10px;border-radius:999px;background:var(--panel2)}
+.sum b{color:var(--ink);font-family:var(--f-num)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>큐 시트</h1>
+    <p>16장 실습을 해 보는 판입니다. 곡 구성표, 룩 시트, 밝기 계획, 비트 그리드에 적은 것으로 큐 시트 초안을 만들고, 자체 점검 열네 가지 가운데 도구가 볼 수 있는 것을 짚어 줍니다. 걸린 항목은 유지·수정·변경 가운데 하나를 고릅니다.</p>
+  </div>
+  <section class="panel">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 id="csT">큐 시트</h2>
+      <div class="row"><button type="button" id="add">큐 더하기</button><button type="button" id="sort" class="ghost">마디 순으로</button><button type="button" id="regen" class="ghost">초안 다시 만들기</button><button type="button" id="copy" class="primary">시트 복사</button></div></div>
+    <p class="note" id="msg"></p>
+    <div class="tbl"><table class="cs" id="cs"></table></div>
+    <p class="note" style="margin:10px 0 0">번호: 구간마다 10 단위 정수, 끼워 넣는 큐는 소수(30.1). 반복 구간은 앞 회차를 복사해 새 요소 하나. 키는 이 표 밖에 따로 둡니다. 다크 큐 뒤 한 박 만에 오는 히트처럼 손이 따라가기 어려운 큐는 Follow나 타임코드로 겁니다.</p>
+  </section>
+  <section class="panel" style="margin-top:16px">
+    <h2 style="margin-bottom:10px">자체 점검 열네 가지</h2>
+    <div class="sum" id="sum"></div>
+    <ul class="chk" id="chk"></ul>
+    <p class="note" style="margin:10px 0 0">점검은 막는 것이 아니라 알려 주는 것입니다. 유지는 의도라서 그대로, 수정은 큐 하나의 값만, 변경은 2부의 설계까지 거슬러 올라가 고치는 것입니다.</p>
+  </section>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('cues.html'), D = L.design(S);
+  var $ = function (id) { return document.getElementById(id); };
+  function save() { L.put(S); }
+  var COLS = [['no', '큐', 'no'], ['name', '이름', 'w'], ['bar', '마디', 'bb'], ['beat', '박', 'bb'], ['entry', '인 타임', ''], ['scene', '장면', 'w'], ['layers', '레이어', 'w'], ['memo', '메모', '']];
+  function sampleRows() {
+    var R = [['0.5', '블로킹', 0, 1, '—', '모두 0, 무빙은 인트로 포지션', '모든 레이어 끔'], ['1', '인트로 · 진주 하트', 1, 1, '스냅', '진주 하트, 픽셀, 50%, 워시 30%', ''],
+      ['1.1', '인트로 · 백 펄스', 3, 1, '0박', '그대로', '백 저음 베이스 마디 첫 박 켬'], ['1.2', '인트로 · 빔 한 칸', 5, 1, '1박', '아래 무빙 한 칸 올림', '그대로'], ['10', '벌스 1 · 정원 햇빛', 7, 1, '페이드 2박', '정원 햇빛(메인 키), 50%, 다운라이트', '사이드 하이햇 켬, 아래 무빙 틸트 웨이브'],
+      ['10.1', '벌스 1 · 라일락 틴트', 11, 1, '페이드 3마디', '워시를 라일락 쪽으로', '아래 무빙 정지, 위 무빙 느린 팬'], ['20', '프리 1 · 풍선 하늘', 14, 1, '스냅', '풍선 하늘, 사이드 메인, 70%, 월, 베이스 25%부터', '사이드 가속, 위·아래 무빙 같은 스윕'],
+      ['29', '다크 큐', 17, 3, '0박', '베이스만, 그 사이 팬 포지션·아쿠아로', '모든 레이어 끔'], ['30', '후렴 1 · 밝기 히트', 18, 1, '스냅', '옥상 팬, 빔 메인, 80%, 아쿠아 베이스 60%', '백 저음 베이스 켬, 픽셀 박수 켬'],
+      ['30.1', '후렴 1 · 위 무빙', 22, 1, '0박', '그대로', '픽셀 박수 끔, 위 무빙 팬 웨이브'], ['30.2', '후렴 1 · 픽셀', 26, 1, '0박', '그대로', '위 무빙 정지, 픽셀 박수 켬'],
+      ['30.3', '후렴 1 · 위 무빙', 30, 1, '0박', '그대로', '픽셀 박수 끔, 위 무빙 팬 웨이브'], ['39', '킥 아웃', 33, 1, '프리즈', '베이스만, 그 사이 다운라이트로', '모든 레이어 끔'],
+      ['40', '벌스 2 · 정원 햇빛', 34, 1, '페이드 2박', '10을 복사, 60%', '사이드 하이햇, 바닥 빔 킥 마디 첫 박'], ['50', '프리 2 · 베이스만', 42, 1, '스냅', '20을 복사, 75%, 42~43마디는 베이스만', '사이드 끔'],
+      ['50.1', '프리 2 · 쌓기', 44, 1, '0박', '마디마다 올림', '사이드 가속, 위·아래 무빙 같은 스윕'], ['59', '다크 큐', 45, 4, '0박', '베이스만, 그 사이 아쿠아로', '모든 레이어 끔'],
+      ['60', '후렴 2 · 무빙 버스트', 46, 1, '스냅, 이동 1~1.5박', '30을 복사, 90%, 무빙 버스트', '백 저음 베이스, 픽셀 박수'], ['60.1', '후렴 2 · 빨강 하트', 47, 1, '0박', '픽셀만 빨강 하트(스페셜 컬러)', '픽셀 박수 잠시 멈춤'],
+      ['60.2', '후렴 2 · 본 룩', 49, 1, '0박', '픽셀 두 색으로 돌아옴', '픽셀 박수 켬'], ['60.3', '후렴 2 · 위 무빙', 50, 1, '0박', '그대로', '픽셀 박수 끔, 위 무빙 팬 웨이브'],
+      ['60.4', '후렴 2 · 픽셀', 54, 1, '0박', '그대로', '위 무빙 정지, 픽셀 박수 켬'], ['60.5', '후렴 2 · 위 무빙', 58, 1, '0박', '그대로', '픽셀 박수 끔, 위 무빙 팬 웨이브'],
+      ['69', '킥 아웃', 61, 1, '프리즈', '베이스만, 그 사이 스카이 빔으로', '모든 레이어 끔'], ['70', '브리지 · 라일락 역광', 62, 1, '페이드 1마디', '라일락 역광, 백 메인, 45%', ''],
+      ['75', '비트 구간 · 크로스 빔', 63, 1, '스냅', '크로스 빔, 85%', '백 저음 베이스, 아래 무빙 크로스 스윕'], ['79', '브레이크', 67, 1, '0박', '베이스만, 그 사이 팬·아쿠아·라일락으로', '모든 레이어 끔'],
+      ['80', '후렴 3 · 화이트 플래시', 67, 4, '스냅', '모든 빛 화이트 한 번', ''], ['80.1', '후렴 3 · 옥상 팬 · 밤', 68, 1, '화이트가 2박에 가라앉음', '옥상 팬 · 밤, 100%, 베이스 75%', '백 저음 베이스, 바닥 빔 킥, 픽셀 박수'],
+      ['80.2', '후렴 3 · 모든 역할', 78, 1, '0박', '모든 역할 켬', '그대로'], ['90', '끝 · 진주 하트 · 밤', 82, 1, '페이드 2마디', '진주 하트 · 밤, 라일락, 40%에서 0으로', '모든 레이어 끔'],
+      ['99', '마침', 84, 1, '손', '인사용 앞 조명, 또는 다음 곡 전환 큐', '']];
+    return R.map(function (r) { return { id: L.uid(), no: r[0], name: r[1], bar: r[2], beat: r[3], entry: r[4], scene: r[5], layers: r[6], memo: '' }; });
+  }
+  function draft() {
+    var list = L.sections(S), rows = [{ id: L.uid(), no: '0.5', name: '블로킹', bar: 0, beat: 1, entry: '—', scene: '곡이 시작되기 전 상태', layers: '모든 레이어 끔', memo: '' }];
+    list.forEach(function (x, i) {
+      var base = i === 0 ? 1 : i * 10, lk = D.looks[x.m.id] || {}, br = D.bright.rows[x.m.id] || {};
+      rows.push({ id: L.uid(), no: String(base), name: x.m.name + (lk.name ? ' · ' + lk.name : ''), bar: x.start, beat: 1, entry: lk.entry || '', scene: [lk.name, lk.hero, br.hero != null ? br.hero + '%' : '', lk.pos].filter(Boolean).join(', '), layers: lk.fx || '', memo: '' });
+      var sub = 1;
+      S.marks.filter(function (m) { return m.t !== 'sec' && m.bar >= x.start && m.bar <= x.end; }).sort(L.sortMarks).forEach(function (m) {
+        var md = L.markDef(m.t), nxt = list[i + 1];
+        if ((m.t === 'stop' || m.t === 'drop') && nxt && m.bar >= nxt.start - 1) rows.push({ id: L.uid(), no: String((i + 1) * 10 - 1), name: md.label, bar: m.bar, beat: m.beat, entry: m.t === 'stop' ? '프리즈' : '0박', scene: '베이스만(키는 따로 유지)', layers: '모든 레이어 끔', memo: m.memo || '' });
+        else if (m.bar !== x.start || m.beat !== 1) rows.push({ id: L.uid(), no: base + '.' + (sub++), name: md.label, bar: m.bar, beat: m.beat, entry: m.t === 'hit' || m.t === 'pull' ? '스냅' : '', scene: '', layers: '', memo: m.memo || '' });
+      });
+    });
+    rows.push({ id: L.uid(), no: '99', name: '마침', bar: L.nbars(S) + 1, beat: 1, entry: '손', scene: '인사용 앞 조명, 또는 다음 곡 전환 큐', layers: '', memo: '' });
+    return rows;
+  }
+  if (!D.cueSheet || (S.sample && D.cueSheet.v !== 2)) {
+    D.cueSheet = { v: 2, rows: S.sample ? sampleRows() : draft(), verdict: {} };
+    if (S.sample) D.cueSheet.verdict = { c3: '변경', c4: '유지', c9: '수정', c10: '유지' };
+  }
+  var CS = D.cueSheet;
+  function tOf(r) { return +r.bar >= 1 ? L.fmt(L.timeOf(S, +r.bar, +r.beat || 1)) : '—'; }
+  function render() {
+    $('csT').textContent = (S.title || '') + ' 큐 시트 · 큐 ' + CS.rows.length + '개';
+    var secStarts = {}; L.sections(S).forEach(function (x) { secStarts[x.start] = 1; });
+    $('cs').innerHTML = '<tr>' + COLS.map(function (c) { return '<th>' + c[1] + '</th>'; }).join('').replace('<th>박</th>', '<th>박</th><th>시각</th>') + '<th></th></tr>' + CS.rows.map(function (r, i) {
+      return '<tr class="' + (secStarts[r.bar] && +r.beat === 1 && /^\d+$/.test(r.no) ? 'sec' : '') + '">' + COLS.map(function (c) {
+        var cell = '<td><input class="' + c[2] + '" data-i="' + i + '" data-k="' + c[0] + '" value="' + L.esc(r[c[0]] == null ? '' : r[c[0]]) + '" aria-label="' + c[1] + '"' + (c[0] === 'bar' || c[0] === 'beat' ? ' inputmode="decimal"' : '') + '></td>';
+        return c[0] === 'beat' ? cell + '<td class="t" data-t="' + i + '">' + tOf(r) + '</td>' : cell;
+      }).join('') + '<td><button type="button" class="x ghost" data-del="' + i + '" aria-label="이 큐 지우기">지우기</button></td></tr>';
+    }).join('');
+    checks();
+  }
+  // 점검
+  var WIDE = ['팬', '월', '스카이 빔', '단색 워시', '오디언스 빔', '스타', '상하 분할', '프리즘 스타버스트'], NARROW = ['크로스', '센터 포커스', '터널', '원뿔', '키 스팟', 'V', '다운라이트', '실루엣'];
+  function checks() {
+    var list = L.sections(S), LK = D.looks, BR = D.bright.rows, P = D.pal, rows = CS.rows, res = [];
+    function R(no, title, hits, auto) { res.push({ no: no, title: title, hits: hits || [], auto: auto !== false }); }
+    var lastCh = null; list.forEach(function (x) { if (/^후렴/.test(x.m.name)) lastCh = x; });
+    // 1
+    R(1, '구간마다 큐가 하나 이상 있다', list.filter(function (x) { return !rows.some(function (r) { return +r.bar >= x.start && +r.bar <= x.end; }); }).map(function (x) { return x.m.name + '에 큐가 없음'; }));
+    // 2
+    R(2, '에너지가 오를 때 키 레벨이 내려가지 않는다', +D.bright.key > 0 ? [] : ['밝기 계획에 키 레벨이 없음']);
+    // 3
+    var h3 = [];
+    if (lastCh) list.forEach(function (x) { if (x.start >= lastCh.start) return; var b = +((BR[x.m.id] || {}).hero) || 0, lk = LK[x.m.id] || {}, ll = LK[lastCh.m.id] || {};
+      if (b >= 100) h3.push(x.m.name + ' 밝기 100%, 마지막 후렴 전'); else if (b >= 90 && lk.pos && lk.pos === ll.pos) h3.push(x.m.name + ': 밝기 ' + b + '%에 포지션(' + lk.pos + ')이 마지막 후렴과 같음. 마지막 후렴에서 더 열 것이 적음'); });
+    R(3, '최고점 전에 밝기, 이펙트 속도, 빔 폭 셋을 함께 최대로 쓰지 않는다', h3);
+    // 4
+    var h4 = [];
+    list.forEach(function (x, i) { if (!i) return; var p = list[i - 1], a = (LK[p.m.id] || {}).pos, b = (LK[x.m.id] || {}).pos;
+      if ((S.energy[x.m.id] || 3) > (S.energy[p.m.id] || 3) && WIDE.indexOf(a) >= 0 && NARROW.indexOf(b) >= 0) h4.push(p.m.name + '(' + a + ') → ' + x.m.name + '(' + b + '): 에너지가 오르는데 빔이 모임'); });
+    R(4, '에너지가 오르는 경계에서 빔 폭이 좁아지지 않는다', h4);
+    // 5
+    var nc = P.colors.filter(function (c) { return c.role !== 'white' && c.role !== 'key'; }).length;
+    R(5, '팔레트는 다섯 색 이하다(화이트와 키 색온도 제외)', nc > 5 ? ['팔레트 ' + nc + '색'] : []);
+    // 6
+    R(6, '노래가 이어지는 동안 키가 꺼지지 않는다', rows.filter(function (r) { return /키\s*(끔|0%|아웃)/.test(r.scene + r.layers); }).map(function (r) { return '큐 ' + r.no + ': ' + r.scene; }));
+    // 7
+    R(7, '백이 키보다 밝은 것은 실루엣일 때뿐이다', list.filter(function (x) { var lk = LK[x.m.id] || {}, b = +((BR[x.m.id] || {}).hero) || 0; return lk.hero === '백' && b > +D.bright.key && lk.pos !== '실루엣'; }).map(function (x) { return x.m.name + ': 백 메인 ' + BR[x.m.id].hero + '% > 키 ' + D.bright.key + '%'; }));
+    // 8
+    var bo = rows.filter(function (r) { return /블랙아웃|암전/.test(r.name + r.scene); });
+    R(8, '키까지 모두 끄는 블랙아웃은 세 번 이하다', bo.length > 3 ? ['블랙아웃 ' + bo.length + '번'] : []);
+    // 9
+    var hits = S.marks.filter(function (m) { return m.t === 'hit' || m.t === 'pull'; }), firstMus = rows.filter(function (r) { return +r.bar >= 1; })[0];
+    R(9, '스냅은 곡 시작, 히트, 드롭·비트 구간 진입, 버튼 엔딩에만 쓴다', rows.filter(function (r) { if (!/스냅/.test(r.entry) || r === firstMus) return false; var sec = L.sectionAt(S, +r.bar);
+      return !hits.some(function (m) { return m.bar === +r.bar && m.beat === (+r.beat || 1); }) && !(sec && /끝|아웃트로|드롭|비트/.test(sec.m.name)); }).map(function (r) { return '큐 ' + r.no + ' ' + r.name + '(' + r.bar + '.' + r.beat + ')'; }));
+    // 10
+    var bud = { 1: 0, 2: 2, 3: 2, 4: 2, 5: 3 }, G = D.grid, h10 = [];
+    if (G && G.cuts) G.cuts.forEach(function (b) { var n = 0; L.GRID_ROWS.forEach(function (r) { var c = G.cells[r[0] + '|' + b]; if (r[2] && c && c.lay) n++; }); var sec = L.sectionAt(S, b), e = sec ? (S.energy[sec.m.id] || 3) : 3; if (n > bud[e]) h10.push(b + '마디(' + (sec ? sec.m.name : '') + ', 에너지 ' + e + '): 리듬 레이어 ' + n + ' > 예산 ' + bud[e]); });
+    R(10, '동시에 도는 이펙트 수가 에너지의 예산 안이다(비트 그리드의 ♪)', h10);
+    // 11
+    var h11 = [];
+    if (G && G.cells) Object.keys(G.cells).forEach(function (k) { var m = /(?:주기|한 바퀴)\s*(\d+)\s*박/.exec(G.cells[k].txt || ''); if (m && [1, 2, 4, 8, 16, 32].indexOf(+m[1]) < 0) h11.push(k.split('|')[1] + '마디: 주기 ' + m[1] + '박'); });
+    R(11, '이펙트 주기가 1·2·4·8박이다', h11);
+    // 12
+    var h12 = [];
+    list.forEach(function (x, i) { if (!i) return; var p = list[i - 1], a = LK[p.m.id] || {}, b = LK[x.m.id] || {}, ca = P.flow[p.m.id] || [], cb = P.flow[x.m.id] || [], n = 0;
+      if (a.pos && b.pos && a.pos !== b.pos) n++;
+      if (ca.length && cb.length && !ca.some(function (c) { return cb.indexOf(c) >= 0; })) n++;
+      var ba = +((BR[p.m.id] || {}).hero) || 0, bb = +((BR[x.m.id] || {}).hero) || 0; if (Math.abs(ba - bb) >= 25) n++;
+      if (a.fx && b.fx && a.fx.split(',')[0] !== b.fx.split(',')[0]) n++;
+      var dark = rows.some(function (r) { var tb = (+r.bar - 1) * 4 + (+r.beat || 1); return tb >= (x.start - 1) * 4 - 3 && tb < (x.start - 1) * 4 + 1 && /딥|브레이크|킥 아웃|다크|프리즈/.test(r.name + r.entry); });
+      if (n >= 3 && !dark) h12.push(p.m.name + ' → ' + x.m.name + ': 크게 바뀌는 속성 ' + n + '개, 앞에 비움 없음'); });
+    R(12, '이웃한 큐에서 크게 바뀌는 속성이 한두 개다', h12);
+    // 13
+    R(13, '같은 포지션, 같은 두 색, 같은 이펙트가 이웃한 구간에 이어지지 않는다', list.filter(function (x, i) { if (!i) return false; var p = list[i - 1], a = LK[p.m.id] || {}, b = LK[x.m.id] || {};
+      return a.pos && a.pos === b.pos && (a.fx || '') === (b.fx || '') && (P.flow[p.m.id] || []).slice().sort().join() === (P.flow[x.m.id] || []).slice().sort().join(); }).map(function (x) { return x.m.name + '이 앞 구간과 같은 그림'; }));
+    // 14
+    var aud = rows.filter(function (r) { return /오디언스|블라인더/.test(r.name + r.scene); }).length + (+D.bright.cards.aud ? 1 : 0) + (+D.bright.cards.blinder ? 1 : 0);
+    R(14, '오디언스와 블라인더는 곡에 두 번 이하다', aud > 2 ? ['오디언스·블라인더 ' + aud + '번'] : []);
+    var cnt = { '유지': 0, '수정': 0, '변경': 0, '': 0 };
+    $('chk').innerHTML = res.map(function (c) {
+      var v = CS.verdict['c' + c.no] || '', hit = c.hits.length;
+      if (hit) cnt[v]++;
+      return '<li class="' + (hit ? 'w' : 'ok') + '"><span class="no">' + c.no + '</span><div><b>' + c.title + '</b>' + (hit ? c.hits.map(function (h) { return '<span class="hit">' + L.esc(h) + '</span>'; }).join('') : '<span class="note" style="display:block">걸린 곳 없음</span>') + '</div>' +
+        (hit ? '<select data-v="' + c.no + '" aria-label="' + c.no + '번 판정"><option value="">판정</option>' + ['유지', '수정', '변경'].map(function (o) { return '<option' + (v === o ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select>' : '<span></span>') + '</li>';
+    }).join('');
+    var nh = res.filter(function (c) { return c.hits.length; }).length;
+    $('sum').innerHTML = '<span>걸린 항목 <b>' + nh + '</b></span><span>변경 <b>' + cnt['변경'] + '</b></span><span>수정 <b>' + cnt['수정'] + '</b></span><span>유지 <b>' + cnt['유지'] + '</b></span>' + (cnt[''] ? '<span>판정 전 <b>' + cnt[''] + '</b></span>' : '');
+  }
+  $('cs').addEventListener('input', function (e) {
+    var t = e.target; if (t.dataset.i == null) return; var r = CS.rows[+t.dataset.i]; r[t.dataset.k] = t.value; save();
+    if (t.dataset.k === 'bar' || t.dataset.k === 'beat') { var td = document.querySelector('[data-t="' + t.dataset.i + '"]'); if (td) td.textContent = tOf(r); }
+  });
+  $('cs').addEventListener('change', function () { checks(); });
+  $('cs').addEventListener('click', function (e) { var d = e.target.dataset.del; if (d != null) { CS.rows.splice(+d, 1); save(); render(); } });
+  $('chk').addEventListener('change', function (e) { var n = e.target.dataset.v; if (n) { CS.verdict['c' + n] = e.target.value; save(); checks(); } });
+  $('add').addEventListener('click', function () { var last = CS.rows[CS.rows.length - 2] || {}; CS.rows.splice(Math.max(0, CS.rows.length - 1), 0, { id: L.uid(), no: '', name: '', bar: last.bar || 1, beat: 1, entry: '', scene: '', layers: '', memo: '' }); save(); render(); $('msg').textContent = '마침 큐 앞에 빈 큐를 더했습니다.'; });
+  $('sort').addEventListener('click', function () { CS.rows.sort(function (a, b) { return ((+a.bar || 0) - (+b.bar || 0)) || ((+a.beat || 1) - (+b.beat || 1)); }); save(); render(); });
+  $('regen').addEventListener('click', function () {
+    if ($('regen').dataset.ask !== '1') { $('regen').dataset.ask = '1'; $('regen').textContent = '정말 다시 만들기(지금 표는 지워짐)'; return; }
+    $('regen').dataset.ask = ''; $('regen').textContent = '초안 다시 만들기';
+    CS.rows = S.sample ? sampleRows() : draft(); save(); render(); $('msg').textContent = '곡 노트로 초안을 다시 만들었습니다.';
+  });
+  $('copy').addEventListener('click', function () {
+    var lines = ['큐\t이름\t마디\t박\t시각\t인 타임\t장면\t레이어\t메모'];
+    CS.rows.forEach(function (r) { lines.push([r.no, r.name, r.bar, r.beat, tOf(r), r.entry, r.scene, r.layers, r.memo].join('\t')); });
+    var txt = (S.title || '') + ' 큐 시트\n' + lines.join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? '시트를 복사했습니다. 스프레드시트에 붙여 넣으면 칸이 나뉩니다.' : '복사가 막혀 있습니다.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  save(); render();
+})();
+</script>
+</body>
+</html>

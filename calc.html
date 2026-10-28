@@ -1,0 +1,327 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>박자 계산기 A1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap">
+<style>
+/* 레이아웃: 왼쪽은 입력과 요약(콘솔의 프로그래머 창처럼), 오른쪽은 눈금자와 표. 좁은 화면에서는 한 줄로 쌓는다. */
+:root {
+  --bg: #f4f5f2;
+  --panel: #ffffff;
+  --ink: #1b1f24;
+  --muted: #5f6670;
+  --line: #d9ddd6;
+  --accent: #d2782a;      /* 텅스텐 앰버: 다운비트·강조 */
+  --beat: #2f6f8f;        /* 박 눈금 */
+  --ok: #3d7a4f;
+  --warn: #b7791f;
+  --bad: #b8432f;
+  --chip-ok: #e3f0e6;
+  --chip-warn: #f8ecd6;
+  --chip-bad: #f6e0dc;
+  --font-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --font-num: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14171b; --panel: #1d2127; --ink: #e8eaed; --muted: #9aa2ad; --line: #2e343c;
+    --accent: #f0a050; --beat: #6fb3d2; --ok: #7cc48f; --warn: #e5b45a; --bad: #ef8a76;
+    --chip-ok: #1f3326; --chip-warn: #3a2f1a; --chip-bad: #3e2420; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14171b; --panel: #1d2127; --ink: #e8eaed; --muted: #9aa2ad; --line: #2e343c;
+  --accent: #f0a050; --beat: #6fb3d2; --ok: #7cc48f; --warn: #e5b45a; --bad: #ef8a76;
+  --chip-ok: #1f3326; --chip-warn: #3a2f1a; --chip-bad: #3e2420; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 24px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; margin-bottom: 20px; }
+h1 { font-size: 1.6rem; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.tag { font-family: var(--font-num); font-size: 0.78rem; letter-spacing: 0.08em; color: var(--accent); border: 1px solid var(--accent); padding: 1px 8px; border-radius: 3px; }
+.lead { color: var(--muted); margin: 0; flex-basis: 100%; max-width: 62ch; }
+.grid { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 860px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 18px; min-width: 0; }
+.stack { display: grid; gap: 20px; min-width: 0; }
+h2 { font-size: 1rem; margin: 0 0 12px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+h2 small { font-weight: 400; color: var(--muted); font-size: 0.8rem; }
+label { display: block; font-size: 0.82rem; color: var(--muted); margin-bottom: 4px; letter-spacing: 0.02em; }
+.field { margin-bottom: 14px; }
+input[type=number], select {
+  width: 100%; font-family: var(--font-num); font-size: 1.25rem; padding: 8px 10px; border: 1px solid var(--line);
+  border-radius: 4px; background: var(--bg); color: var(--ink); }
+input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+button { font-family: var(--font-body); font-size: 0.85rem; border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+  padding: 6px 10px; border-radius: 4px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button.primary { background: var(--accent); border-color: var(--accent); color: #1b1f24; font-weight: 700; }
+.sum { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 6px; }
+.sum div { border-top: 2px solid var(--line); padding-top: 6px; }
+.sum b { display: block; font-family: var(--font-num); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+.sum span { font-size: 0.78rem; color: var(--muted); }
+.note { font-size: 0.82rem; color: var(--muted); margin: 10px 0 0; }
+.ruler-box { overflow-x: auto; }
+svg text { font-family: var(--font-num); }
+.ctrl { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; font-size: 0.85rem; color: var(--muted); }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); font-size: 0.9rem; }
+th { color: var(--muted); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.03em; }
+td.n { font-family: var(--font-num); }
+.tbl { overflow-x: auto; }
+.chip { display: inline-block; font-size: 0.75rem; padding: 1px 7px; border-radius: 10px; font-weight: 600; }
+.chip.ok { background: var(--chip-ok); color: var(--ok); }
+.chip.warn { background: var(--chip-warn); color: var(--warn); }
+.chip.bad { background: var(--chip-bad); color: var(--bad); }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 640px) { .two { grid-template-columns: minmax(0, 1fr); } }
+.conv { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; align-items: end; }
+.out { font-family: var(--font-num); font-size: 1.1rem; padding: 8px 0; }
+.bars-step { display: flex; gap: 6px; }
+.bars-step button[aria-pressed=true] { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+footer { margin-top: 24px; font-size: 0.8rem; color: var(--muted); max-width: 80ch; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <p style="margin:0 0 12px;font-size:13px"><a href="index.html" style="color:var(--accent)">← LX 조명 연출 도구모음</a></p>
+  <header>
+    <h1>박자 계산기</h1><span class="tag">웹 부록 3 · 2장</span>
+    <p class="lead">BPM과 첫 다운비트 시각을 넣으면 마디 시각, 페이드 길이, 깜박임 속도를 한 번에 계산합니다. 처음에는 이 책의 실습 곡 LOVE ATTACK(112 BPM, 첫 다운비트 1.50초) 값이 들어 있습니다.</p>
+  </header>
+
+  <div class="grid">
+    <section class="panel" aria-label="입력">
+      <h2>곡의 숫자 <small>입력</small></h2>
+      <div class="field">
+        <label for="bpm">BPM</label>
+        <input id="bpm" type="number" min="30" max="300" step="0.01" value="112">
+        <div class="presets">
+          <button data-p="112,1.5,4,83">LOVE ATTACK 예</button>
+          <button data-p="120,0,4,64">120 기준</button>
+          <button data-p="128,0,4,96">128</button>
+          <button data-p="140,0,4,96">140</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="t0">첫 다운비트(초)</label>
+        <input id="t0" type="number" min="0" step="0.01" value="1.5">
+      </div>
+      <div class="field">
+        <label for="meter">한 마디의 박 수</label>
+        <select id="meter">
+          <option value="4" selected>4박 (4/4)</option>
+          <option value="3">3박 (3/4)</option>
+          <option value="2">큰 박 2개 (6/8)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="nbars">곡의 마디 수</label>
+        <input id="nbars" type="number" min="1" max="999" step="1" value="83">
+      </div>
+      <div class="sum" id="sum"></div>
+      <p class="note" id="octave"></p>
+    </section>
+
+    <div class="stack">
+      <section class="panel" aria-label="눈금자">
+        <h2>마디 눈금자 <small id="rulerCap"></small></h2>
+        <div class="ruler-box"><svg id="ruler" width="760" height="150" role="img" aria-label="박과 마디 눈금"></svg></div>
+        <div class="ctrl">
+          <button class="primary" id="play">메트로놈 켜기</button>
+          <span>소리를 켜고 곡을 같이 틀어 봅니다. 메트로놈과 곡이 같이 가면 BPM이 맞습니다(2.5절 짧은 실험).</span>
+        </div>
+      </section>
+
+      <div class="two">
+        <section class="panel" aria-label="변환">
+          <h2>바꿔 계산하기</h2>
+          <div class="conv">
+            <div><label for="qbar">마디</label><input id="qbar" type="number" min="1" step="1" value="68"></div>
+            <div><label for="qbeat">박</label><input id="qbeat" type="number" min="1" step="1" value="1"></div>
+          </div>
+          <div class="out" id="qout"></div>
+          <div class="conv">
+            <div><label for="qsec">곡의 시각(초)</label><input id="qsec" type="number" min="0" step="0.01" value="144.57"></div>
+            <div class="out" id="qsecout"></div>
+          </div>
+          <div class="conv">
+            <div><label for="qfade">페이드(초)</label><input id="qfade" type="number" min="0" step="0.1" value="3"></div>
+            <div class="out" id="qfadeout"></div>
+          </div>
+        </section>
+
+        <section class="panel" aria-label="페이드 표">
+          <h2>페이드·딜레이 표 <small>박으로 정하고 초로 적기</small></h2>
+          <div class="tbl"><table id="fade"></table></div>
+        </section>
+      </div>
+
+      <section class="panel" aria-label="깜박임 속도">
+        <h2>깜박임 속도 <small>방송 3 Hz · 공연장 4 Hz</small></h2>
+        <div class="tbl"><table id="hz"></table></div>
+        <p class="note">방송 3 Hz는 화면의 25%가 넘는 면적이 깜박일 때의 기준입니다(Ofcom, ITU-R BT.1702). 공연장 4 Hz는 영국 HSE의 권고 상한입니다. 깜박임 한 번 = 밝아졌다 어두워지는 한 쌍.</p>
+      </section>
+
+      <section class="panel" aria-label="마디 시각표">
+        <h2>마디 시각표
+          <span class="bars-step" role="group" aria-label="간격">
+            <button data-step="1" aria-pressed="false">1마디</button>
+            <button data-step="4" aria-pressed="true">4마디</button>
+            <button data-step="8" aria-pressed="false">8마디</button>
+          </span>
+        </h2>
+        <div class="tbl"><table id="bars"></table></div>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    공식: 1박 = 60 ÷ BPM · 1마디 = 박 수 × 1박 · n마디 시작 = 첫 다운비트 + (n − 1) × 1마디 · Hz = BPM ÷ 60 × 한 박의 깜박임 수.
+    6/8을 고르면 큰 박(점4분음표)을 박으로 보고 BPM도 큰 박 기준으로 넣습니다.
+    이 책 2장의 웹 부록 3.
+  </footer>
+</div>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  let step = 4;
+  const fmt = (s) => {
+    if (!isFinite(s)) return '–';
+    const sign = s < 0 ? '−' : '';
+    s = Math.abs(s);
+    const m = Math.floor(s / 60);
+    const r = s - m * 60;
+    return sign + m + ':' + (r < 10 ? '0' : '') + r.toFixed(2);
+  };
+  const f2 = (x) => (Math.round(x * 100) / 100).toFixed(2);
+  function read() {
+    const bpm = parseFloat($('bpm').value);
+    const t0 = parseFloat($('t0').value) || 0;
+    const per = parseInt($('meter').value, 10);
+    const nb = Math.max(1, parseInt($('nbars').value, 10) || 1);
+    return { bpm: bpm > 0 ? bpm : NaN, t0, per, nb };
+  }
+  function render() {
+    const { bpm, t0, per, nb } = read();
+    const beat = 60 / bpm, bar = beat * per;
+    $('sum').innerHTML = [
+      ['1박', f2(beat) + '초'], ['1마디', f2(bar) + '초'], ['4마디', (bar * 4).toFixed(1) + '초'], ['8마디', (bar * 8).toFixed(1) + '초'],
+      ['곡 끝(' + nb + '마디 뒤)', fmt(t0 + nb * bar)], ['박 / 초', (bpm / 60).toFixed(2)]
+    ].map(([k, v]) => `<div><b>${v}</b><span>${k}</span></div>`).join('');
+    $('octave').textContent = isFinite(bpm)
+      ? `반이나 두 배로 틀렸을 수 있는 숫자: ${f2(bpm / 2)} · ${f2(bpm * 2)} BPM. 스네어가 2·4박에 오는지 귀로 확인합니다.`
+      : 'BPM을 넣어 주세요.';
+    drawRuler(bpm, t0, per);
+    // 변환
+    const qb = Math.max(1, parseInt($('qbar').value, 10) || 1), qk = Math.max(1, parseInt($('qbeat').value, 10) || 1);
+    $('qout').textContent = `${qb}마디 ${qk}박 = ${fmt(t0 + (qb - 1) * bar + (qk - 1) * beat)}`;
+    const qs = parseFloat($('qsec').value);
+    const idx = (qs - t0) / beat;
+    const bn = Math.floor(idx / per) + 1, bk = Math.floor(idx - (bn - 1) * per) + 1, frac = idx - Math.floor(idx);
+    $('qsecout').textContent = isFinite(idx) ? `${bn}마디 ${bk}박` + (frac > 0.15 && frac < 0.85 ? ' 사이' : '') : '–';
+    const qf = parseFloat($('qfade').value);
+    $('qfadeout').textContent = isFinite(qf) ? `${f2(qf / beat)}박 = ${f2(qf / bar)}마디` : '–';
+    // 페이드 표
+    const rows = [['반 박', 0.5], ['1박', 1], ['2박', 2], ['1마디', per], ['2마디', per * 2], ['4마디', per * 4], ['8마디', per * 8]];
+    $('fade').innerHTML = '<tr><th>원하는 길이</th><th>박 수</th><th>초</th></tr>' +
+      rows.map(([k, b]) => `<tr><td>${k}</td><td class="n">${b}</td><td class="n">${f2(b * beat)}</td></tr>`).join('');
+    // Hz 표
+    const notes = [['박마다 (4분음표)', 1], ['반 박마다 (8분음표)', 2], ['셋잇단 8분음표', 3], ['16분음표', 4]];
+    const chip = (hz) => hz > 4 ? '<span class="chip bad">공연장 4 Hz 넘음</span>' : hz > 3 ? '<span class="chip warn">방송 3 Hz 넘음</span>' : '<span class="chip ok">3 Hz 이하</span>';
+    $('hz').innerHTML = '<tr><th>깜박임</th><th>Hz</th><th>판정</th></tr>' +
+      notes.map(([k, m]) => { const hz = bpm / 60 * m; return `<tr><td>${k}</td><td class="n">${hz.toFixed(2)}</td><td>${chip(hz)}</td></tr>`; }).join('');
+    // 마디 표
+    let html = '<tr><th>마디</th><th>시작</th><th>초</th></tr>';
+    for (let n = 1; n <= nb; n += step) {
+      const t = t0 + (n - 1) * bar;
+      html += `<tr><td class="n">${n}</td><td class="n">${fmt(t)}</td><td class="n">${f2(t)}</td></tr>`;
+    }
+    $('bars').innerHTML = html;
+  }
+  let playStart = null, playTimer = null, audio = null, nextBeatTime = 0, beatCount = 0;
+  function drawRuler(bpm, t0, per) {
+    const svg = $('ruler');
+    const W = 760, H = 150, x0 = 30, x1 = 726, bars = 8;
+    const beat = 60 / bpm, bar = beat * per;
+    const bw = (x1 - x0) / bars;
+    let s = '';
+    const cs = getComputedStyle(document.documentElement);
+    const ink = cs.getPropertyValue('--ink'), mut = cs.getPropertyValue('--muted'), acc = cs.getPropertyValue('--accent'), bt = cs.getPropertyValue('--beat'), ln = cs.getPropertyValue('--line');
+    s += `<line x1="${x0}" y1="90" x2="${x1}" y2="90" stroke="${ink}" stroke-width="2"/>`;
+    for (let b = 0; b <= bars; b++) {
+      const x = x0 + b * bw;
+      const tall = b % 4 === 0 ? 60 : 40;
+      s += `<line x1="${x}" y1="90" x2="${x}" y2="${90 - tall}" stroke="${ink}" stroke-width="${b % 4 === 0 ? 2.2 : 1.4}"/>`;
+      if (b < bars) {
+        s += `<text x="${x + 4}" y="${90 - tall + 12}" font-size="11" fill="${mut}">${b + 1}</text>`;
+        for (let k = 0; k < per; k++) {
+          const xx = x + k * bw / per;
+          if (k) s += `<line x1="${xx}" y1="90" x2="${xx}" y2="74" stroke="${bt}" stroke-width="1.2"/>`;
+          s += `<circle class="dot" data-i="${b * per + k}" cx="${xx}" cy="104" r="${k ? 3 : 4.5}" fill="${k ? bt : acc}"/>`;
+        }
+      }
+      s += `<text x="${x}" y="134" font-size="10.5" text-anchor="middle" fill="${mut}">${isFinite(bar) ? (t0 + b * bar).toFixed(2) : ''}</text>`;
+    }
+    s += `<text x="${x0}" y="20" font-size="11" fill="${mut}">마디 번호 · 아래 숫자는 곡의 시각(초)</text>`;
+    s += `<line id="ph" x1="${x0}" y1="28" x2="${x0}" y2="112" stroke="${acc}" stroke-width="2" opacity="0"/>`;
+    svg.innerHTML = s;
+    $('rulerCap').textContent = `처음 8마디 · 1마디 ${isFinite(bar) ? bar.toFixed(3) : '–'}초`;
+  }
+  function tick() {
+    if (!audio) return;
+    const { bpm, per } = read();
+    const beat = 60 / bpm;
+    while (nextBeatTime < audio.currentTime + 0.12) {
+      const o = audio.createOscillator(), g = audio.createGain();
+      const down = beatCount % per === 0;
+      o.frequency.value = down ? 1760 : 1100;
+      g.gain.setValueAtTime(0.0001, nextBeatTime);
+      g.gain.exponentialRampToValueAtTime(down ? 0.5 : 0.25, nextBeatTime + 0.002);
+      g.gain.exponentialRampToValueAtTime(0.0001, nextBeatTime + 0.06);
+      o.connect(g).connect(audio.destination);
+      o.start(nextBeatTime); o.stop(nextBeatTime + 0.07);
+      const i = beatCount % (8 * per), when = nextBeatTime;
+      setTimeout(() => {
+        document.querySelectorAll('#ruler .dot').forEach((d) => d.setAttribute('opacity', d.dataset.i == i ? '1' : '0.45'));
+        const dot = document.querySelector(`#ruler .dot[data-i="${i}"]`);
+        const ph = $('ph');
+        if (dot && ph) { ph.setAttribute('x1', dot.getAttribute('cx')); ph.setAttribute('x2', dot.getAttribute('cx')); ph.setAttribute('opacity', '0.9'); }
+      }, Math.max(0, (when - audio.currentTime) * 1000));
+      nextBeatTime += beat; beatCount++;
+    }
+  }
+  $('play').addEventListener('click', async () => {
+    if (playTimer) {
+      clearInterval(playTimer); playTimer = null; $('play').textContent = '메트로놈 켜기';
+      document.querySelectorAll('#ruler .dot').forEach((d) => d.setAttribute('opacity', '1'));
+      const ph = $('ph'); if (ph) ph.setAttribute('opacity', '0');
+      return;
+    }
+    try {
+      audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+      await audio.resume();
+    } catch (e) { $('play').textContent = '이 화면에서는 소리를 낼 수 없습니다'; return; }
+    nextBeatTime = audio.currentTime + 0.1; beatCount = 0;
+    playTimer = setInterval(tick, 25); $('play').textContent = '메트로놈 끄기';
+  });
+  document.querySelectorAll('.presets button').forEach((b) => b.addEventListener('click', () => {
+    const [bpm, t0, per, nb] = b.dataset.p.split(',');
+    $('bpm').value = bpm; $('t0').value = t0; $('meter').value = per; $('nbars').value = nb; render();
+  }));
+  document.querySelectorAll('.bars-step button').forEach((b) => b.addEventListener('click', () => {
+    step = parseInt(b.dataset.step, 10);
+    document.querySelectorAll('.bars-step button').forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+    render();
+  }));
+  ['bpm', 't0', 'meter', 'nbars', 'qbar', 'qbeat', 'qsec', 'qfade'].forEach((id) => $(id).addEventListener('input', render));
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', render);
+  render();
+})();
+</script>
+
+</body></html>

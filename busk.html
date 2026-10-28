@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>버스킹 페이지</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 BPM과 탭 템포, 가운데 6줄 × 6칸 페이지(편집), 아래 장비 역할과 점검 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:74ch}
+.bpmbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.bpmbar .big{font-family:var(--f-num);font-size:28px;color:var(--ink);min-width:4.5em}
+#tap{min-width:9em;min-height:48px;font-weight:700}
+.page{display:grid;grid-template-columns:110px repeat(6,minmax(120px,1fr));gap:6px;overflow-x:auto;margin-top:14px}
+.page .rl{font-weight:700;color:var(--ink);font-size:13.5px;align-self:center}
+.cell{border:1px solid var(--line);border-radius:9px;padding:7px;display:grid;gap:4px;background:var(--panel2)}
+.cell input{width:100%;font-size:13px;padding:4px 6px}
+.cell .b{display:flex;gap:4px;align-items:center;font-size:12px;color:var(--muted)}
+.cell .b input{width:4em}
+.cell .s{font-family:var(--f-num);font-size:12px;color:var(--muted)}
+.cell.safe{background:var(--panel);border-color:var(--accent)}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:16px;align-items:start}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+.roles{display:flex;flex-wrap:wrap;gap:6px}
+.roles span{font-size:12.5px;padding:4px 10px;border-radius:999px;background:var(--panel2)}
+.roles span.miss{outline:1px dashed var(--warn);color:var(--warn)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>버스킹 페이지</h1>
+    <p>21장 실습을 해 보는 판입니다. 줄마다 한 종류의 버튼을 왼쪽에서 오른쪽으로 강해지게 놓고, 이펙트 칸에는 주기를 박으로 적습니다. BPM을 킥에 맞춰 탭하면 칸마다 주기를 초로 보여 줍니다. 맨 아래 세이프티 줄은 늘 같은 자리에 두고, 키는 페이지 밖의 고정 페이더에 둡니다.</p>
+  </div>
+  <section class="panel">
+    <div class="bpmbar"><span class="muted">BPM</span><span class="big" id="bpmv"></span><button type="button" class="primary" id="tap">탭(킥에 맞춰)</button>
+      <label class="f">직접 적기<input type="number" id="bpmIn" class="n" min="40" max="240" step="0.1"></label><button type="button" id="half" class="ghost">÷2</button><button type="button" id="dbl" class="ghost">×2</button><span class="note" id="tapMsg"></span></div>
+    <div class="page" id="page"></div>
+    <p class="note" id="msg"></p>
+    <div class="row" style="margin-top:10px"><button type="button" id="copy">페이지 복사</button><button type="button" id="reset" class="ghost">예시로 되돌리기</button><button type="button" id="clear" class="ghost">비우고 새로 시작</button></div><p class="note" id="copyMsg"></p>
+  </section>
+  <div class="grid2">
+    <section class="panel"><h2 style="margin-bottom:10px">장비의 역할</h2><div class="roles" id="roles"></div><p class="note" style="margin:10px 0 0">장비 역할표(웹 부록 6)에 적은 역할입니다. 점선은 장비에 없는 역할입니다.</p></section>
+    <section class="panel"><h2 style="margin-bottom:10px">점검</h2><ul class="checks" id="checks"></ul></section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX; L.top('busk.html', { noSong: true });
+  var $ = function (id) { return document.getElementById(id); };
+  var ROWN = ['컬러', '포지션', '디머 이펙트', '무빙 이펙트', '강조', '세이프티'];
+  function example() {
+    var R = [[['시안·파랑'], ['라벤더·핑크'], ['핑크·앰버'], ['빨강·화이트'], ['앰버·화이트'], ['화이트']],
+      [['다운라이트'], ['크로스'], ['월'], ['팬'], ['스카이 빔'], ['오디언스']],
+      [['펄스', 4], ['펄스', 2], ['펄스', 1], ['체이스', 2], ['체이스', 1], ['홀짝', 0.5]],
+      [['틸트 웨이브', 8], ['팬 웨이브', 4], ['서클', 4], ['팬 웨이브', 2], ['서클', 2], ['랜덤', 1]],
+      [['밝기 히트'], ['무빙 버스트'], ['컬러 스냅'], ['화이트 플래시'], ['스트로브', 0.5], ['오디언스']],
+      [['세이프티 룩'], ['다크 큐'], ['블랙'], ['프리즈'], ['화이트 리셋'], ['BPM 탭']]];
+    return { bpm: 128, rows: R.map(function (r) { return r.map(function (c) { return { t: c[0], b: c[1] || '' }; }); }) };
+  }
+  var BK = L.getKey('busk') || example();
+  BK.rows.forEach(function (r) { r.forEach(function (c) { if (c.t === '안전한 룩') c.t = '세이프티 룩'; }); });
+  function save() { L.putKey('busk', BK); }
+  function sec(b) { return b ? (b * 60 / BK.bpm).toFixed(2) + '초' : ''; }
+  function render() {
+    $('bpmv').textContent = (+BK.bpm).toFixed(1); $('bpmIn').value = BK.bpm;
+    var h = '<div></div>' + [1, 2, 3, 4, 5, 6].map(function (k) { return '<div class="note" style="text-align:center">' + (k === 1 ? '약함' : k === 6 ? '강함' : '') + '</div>'; }).join('');
+    BK.rows.forEach(function (r, ri) {
+      h += '<div class="rl">' + ROWN[ri] + '</div>';
+      r.forEach(function (c, ci) {
+        var fx = ri === 2 || ri === 3 || ri === 4;
+        h += '<div class="cell' + (ri === 5 ? ' safe' : '') + '"><input data-r="' + ri + '" data-c="' + ci + '" data-k="t" value="' + L.esc(c.t) + '" aria-label="' + ROWN[ri] + ' ' + (ci + 1) + '">' +
+          (fx ? '<span class="b">주기 <input type="number" step="0.5" min="0" data-r="' + ri + '" data-c="' + ci + '" data-k="b" value="' + (c.b || '') + '" aria-label="주기(박)"> 박</span><span class="s">' + sec(+c.b) + (c.b ? ' · ' + (BK.bpm / 60 / c.b).toFixed(2) + 'Hz' : '') + '</span>' : '') + '</div>';
+      });
+    });
+    $('page').innerHTML = h; roles(); checks();
+  }
+  function roles() {
+    var rig = L.rig(), have = {};
+    if (rig && rig.rows) rig.rows.forEach(function (r) { (r.roles || []).forEach(function (x) { have[x] = 1; }); });
+    $('roles').innerHTML = L.ROLES.map(function (x) { return '<span class="' + (have[x] ? '' : 'miss') + '">' + x + '</span>'; }).join('');
+  }
+  function checks() {
+    var out = [];
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: '확인', i: '참고', ok: '좋음' }[lv] + '</span>' + h + '</li>'); }
+    var safe = BK.rows[5].map(function (c) { return c.t; }).join(' ');
+    ['세이프티', '다크', '블랙'].forEach(function (k) { if (safe.indexOf(k) < 0) add('w', '세이프티 줄에 "' + k + '"이(가) 없습니다. 무엇이 와도 돌아갈 자리를 둡니다(21.1절).'); });
+    BK.rows.forEach(function (r, ri) { r.forEach(function (c, ci) { if (/(^|\s)키(\s|$)/.test(c.t)) add('i', ROWN[ri] + ' ' + (ci + 1) + '번 칸의 "키"는 페이지 밖의 고정 페이더로 옮깁니다. 페이지를 넘기거나 블랙을 눌러도 얼굴이 꺼지지 않게 합니다(21.2절).'); }); });
+    [2, 3].forEach(function (ri) { BK.rows[ri].forEach(function (c, ci) { var b = +c.b; if (c.t && b && [0.5, 1, 2, 4, 8, 16].indexOf(b) < 0) add('w', ROWN[ri] + ' ' + (ci + 1) + '번 칸의 주기 ' + b + '박은 마디를 나누어떨어지게 하지 않습니다(12장).'); }); });
+    BK.rows[2].concat(BK.rows[4]).forEach(function (c) { var b = +c.b; if (c.t && b && BK.bpm / 60 / b > 3) add('i', '"' + L.esc(c.t) + '"은(는) ' + (BK.bpm / 60 / b).toFixed(1) + 'Hz입니다. 방송 무대라면 넓은 면적에서 쓰지 않습니다(17장).'); });
+    var pos = BK.rows[1].map(function (c) { return c.t; }), want = ['다운라이트', '팬'];
+    want.forEach(function (w) { if (pos.indexOf(w) < 0) add('i', '포지션 줄에 "' + w + '"이(가) 없습니다. 좁은 것과 넓은 것을 하나씩은 둡니다.'); });
+    if (BK.bpm > 160) add('i', BK.bpm + ' BPM은 하프타임으로 읽어 ' + (BK.bpm / 2) + ' BPM으로 이펙트를 맞추는 편이 자연스러울 수 있습니다(21.3절).');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; })) add('ok', '세이프티 줄과 이펙트 주기에서 걸린 곳이 없습니다.');
+    $('checks').innerHTML = out.join('');
+  }
+  $('page').addEventListener('change', function (e) {
+    var t = e.target; if (t.dataset.r == null) return; var c = BK.rows[+t.dataset.r][+t.dataset.c];
+    c[t.dataset.k] = t.dataset.k === 'b' ? (+t.value || '') : t.value; save(); render();
+  });
+  var taps = [];
+  $('tap').addEventListener('click', function () {
+    var now = performance.now(); if (taps.length && now - taps[taps.length - 1] > 2000) taps = [];
+    taps.push(now); if (taps.length > 8) taps.shift();
+    if (taps.length >= 4) { var d = (taps[taps.length - 1] - taps[0]) / (taps.length - 1); BK.bpm = Math.round(60000 / d * 10) / 10; save(); render(); $('tapMsg').textContent = taps.length + '번 탭의 평균'; }
+    else $('tapMsg').textContent = '네 번 이상 탭합니다(' + taps.length + ')';
+  });
+  $('bpmIn').addEventListener('change', function () { var v = +$('bpmIn').value; if (v >= 40 && v <= 240) { BK.bpm = v; save(); render(); } });
+  $('half').addEventListener('click', function () { BK.bpm = Math.round(BK.bpm / 2 * 10) / 10; save(); render(); });
+  $('dbl').addEventListener('click', function () { BK.bpm = Math.round(BK.bpm * 2 * 10) / 10; save(); render(); });
+  L.confirmBtn($('reset'), '한 번 더 누르면 예시로 바뀝니다', function () { BK = example(); save(); render(); $('msg').textContent = '예시 페이지로 되돌렸습니다.'; });
+  L.copyBar($('copy'), $('copyMsg'), function () {
+    return { title: '버스킹 페이지 · ' + BK.bpm + ' BPM', head: ['줄', '1', '2', '3', '4', '5', '6'], rows: BK.rows.map(function (r, ri) { return [ROWN[ri]].concat(r.map(function (c) { return c.t ? c.t + (c.b ? ' (' + c.b + '박 · ' + sec(c.b) + ')' : '') : ''; })); }) };
+  });
+  L.confirmBtn($('clear'), '한 번 더 누르면 모든 칸을 지웁니다', function () { BK = { bpm: BK.bpm, rows: ROWN.map(function () { return [0, 1, 2, 3, 4, 5].map(function () { return { t: '', b: '' }; }); }) }; save(); render(); $('msg').textContent = '빈 페이지입니다. 칸을 눌러 채웁니다.'; });
+
+  render();
+})();
+</script>
+</body>
+</html>

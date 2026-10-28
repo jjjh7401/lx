@@ -1,0 +1,203 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>조명 연출 도구모음</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 맨 위 한 줄 소개, 곡 하나를 다루는 세 단계(순서가 있는 흐름), 보조 도구, 내 곡 목록과 백업 */
+.hero{padding-block:30px 8px;display:grid;gap:8px}
+.hero p{margin:0;max-width:64ch;color:var(--muted)}
+.flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px;counter-reset:st}
+@media (max-width:860px){.flow{grid-template-columns:1fr}}
+.step{display:grid;gap:8px;align-content:start;padding:18px;border-radius:12px;background:var(--panel);border:1px solid var(--line);text-decoration:none;color:var(--body);position:relative}
+.step:hover{border-color:var(--accent)}
+.step .no{font-family:var(--f-num);font-size:12px;color:var(--accent);letter-spacing:.08em}
+.step h2{font-size:19px}
+.step p{margin:0;font-size:14px}
+.step .use{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+.step .go{font-weight:700;color:var(--accent);font-size:14px}
+.arrow{display:none}
+.flow4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1000px){.flow4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.flow4{grid-template-columns:1fr}}
+.sub{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
+@media (max-width:860px){.sub{grid-template-columns:1fr}}
+.subt{display:flex;gap:12px;align-items:center;padding:12px 16px;border-radius:10px;border:1px solid var(--line);text-decoration:none;color:var(--body);background:var(--panel)}
+.subt b{color:var(--ink)}
+.subt span{font-size:13px;color:var(--muted)}
+.subt .ch{margin-left:auto;font-family:var(--f-num);font-size:12px;color:var(--muted);white-space:nowrap}
+h2.sec{margin:34px 0 10px;font-size:16px}
+.songs td{font-size:14px}
+.songs td.num{font-family:var(--f-num)}
+.songs tr.cur td{background:var(--panel2)}
+.bk{display:grid;gap:10px}
+#copyMsg:empty,#impMsg:empty{display:none}
+.later{display:flex;flex-wrap:wrap;gap:6px}
+.later span{font-size:13px;padding:4px 10px;border-radius:999px;border:1px dashed var(--line);color:var(--muted)}
+</style>
+<div class="wrap">
+  <section class="hero">
+    <h1>조명 연출 도구모음</h1>
+    <p>『음악을 비추다』 실습을 현장에서 그대로 쓰는 도구들입니다. 1부의 세 도구로 곡을 듣고 구성표로 모으고, 2부의 네 도구로 그 곡의 컨셉과 색, 룩, 밝기를 설계하고, 3부의 네 도구로 박과 마디 위에 배치해 큐 시트로 옮기고, 4부의 네 도구로 현장(방송, 콘서트, 페스티벌)과 장비에 맞추고, 5부의 세 도구로 grandMA3 쇼 파일의 번호, 페이저, 타임코드를 계산하고, 6부의 세 도구로 리허설을 점검하고 GO를 연습하고 안전 기준을 확인합니다. 모든 도구가 같은 곡 노트를 나눠 써서, 앞에서 적은 것이 뒤로 그대로 이어집니다.</p>
+    <p>이펙트 사전 153종과 작업 양식, 기준표는 <a href="ref/">자료실 ↗</a>에 모았습니다.</p>
+    <p class="privacy">음악 파일은 각자 자기 파일을 열어 씁니다. 파일은 이 브라우저 안에서만 재생되고 어디에도 올라가지 않습니다. 저장되는 것은 적은 노트뿐이고, 그것도 이 브라우저에만 남습니다.</p>
+  </section>
+
+  <h2 class="sec" style="margin-top:22px">곡 읽기 — 1부</h2>
+  <div class="flow">
+    <a class="step" href="listen.html"><span class="no">1단계 · 1장</span><h2>듣기 노트</h2>
+      <p>음악 파일을 열고 재생하면서 바뀌는 자리를 키 하나로 마디에 적습니다. 3회차에는 구간마다 색을 고릅니다.</p>
+      <span class="use">현장에서: 새 곡을 받은 날, 콘솔을 켜기 전에</span><span class="go">열기 →</span></a>
+    <a class="step" href="pairs.html"><span class="no">2단계 · 1장</span><h2>사운드와 조명 매칭</h2>
+      <p>구간마다 들리는 소리 가운데 조명이 따라갈 소리를 고릅니다. 너무 많이 따라가면 무대 혼잡도로 알려 줍니다.</p>
+      <span class="use">현장에서: 큐 아이디어가 막힐 때, 후렴이 시끄러워 보일 때</span><span class="go">열기 →</span></a>
+    <a class="step" href="sheet.html"><span class="no">3단계 · 5장</span><h2>곡 구성표</h2>
+      <p>적은 것을 기본 구성과 상세 구성으로 모으고, 음악 끝 시각과 에너지 5 개수, 리허설 전에 들을 것을 짚어 줍니다.</p>
+      <span class="use">현장에서: 팀에 공유할 때, 리허설 직전 확인</span><span class="go">열기 →</span></a>
+  </div>
+
+  <h2 class="sec">곡 하나의 설계 — 2부</h2>
+  <div class="flow flow4">
+    <a class="step" href="concept.html"><span class="no">7장 · 10장</span><h2>컨셉 시트</h2>
+      <p>곡에서 읽은 컨셉 레이어와 한 줄 컨셉, 쓰지 않을 조명, 모티브, 장면 컬러 칩, 미팅 질문을 적고 팔레트·룩·밝기까지 한 장으로 모읍니다.</p>
+      <span class="use">현장에서: 컨셉 미팅 전날</span><span class="go">열기 →</span></a>
+    <a class="step" href="palette.html"><span class="no">8장</span><h2>팔레트</h2>
+      <p>색을 이름과 RGB 값으로 정하고 구간마다 두 색을 고릅니다. 픽셀 바 혼색도 비교합니다.</p>
+      <span class="use">현장에서: 색 프리셋을 찍기 전</span><span class="go">열기 →</span></a>
+    <a class="step" href="looks.html"><span class="no">9장</span><h2>룩 시트</h2>
+      <p>구간마다 룩 이름과 메인 하나, 위치, 효과, 인 타임을 적습니다.</p>
+      <span class="use">현장에서: 큐를 짜기 전, 리허설 메모</span><span class="go">열기 →</span></a>
+    <a class="step" href="bright.html"><span class="no">10장</span><h2>밝기 계획</h2>
+      <p>구간마다 밝기를 정해 곡선을 그리고, 다크 큐와 스페셜 큐를 처음 꺼낼 마디를 적습니다.</p>
+      <span class="use">현장에서: 모든 큐가 100%처럼 보일 때</span><span class="go">열기 →</span></a>
+  </div>
+
+  <h2 class="sec">곡 연출 — 3부</h2>
+  <div class="flow flow4">
+    <a class="step" href="grid.html"><span class="no">11장 · 13장</span><h2>비트 그리드</h2>
+      <p>역할 줄과 4마디 칸에 할 일을 적고 리듬 레이어(♪)와 메인(★)을 표시합니다. 클릭이나 내 음원에 맞춰 지금 칸을 따라갑니다.</p>
+      <span class="use">현장에서: 큐를 찍기 전, 무대가 바빠 보일 때</span><span class="go">열기 →</span></a>
+    <a class="step" href="recs.html"><span class="no">12장</span><h2>구간 추천표</h2>
+      <p>구간과 에너지, BPM으로 출발값을 보여 주고 내 설계와 다른 칸에 이유를 적게 합니다.</p>
+      <span class="use">현장에서: 처음 받은 곡, 설계를 점검할 때</span><span class="go">열기 →</span></a>
+    <a class="step" href="trans.html"><span class="no">14장</span><h2>전환 곡선</h2>
+      <p>전환 도구 두 가지의 밝기 곡선을 박과 초로 견주고, 곡의 경계마다 인 타임을 계산합니다.</p>
+      <span class="use">현장에서: 인 타임을 정할 때</span><span class="go">열기 →</span></a>
+    <a class="step" href="cues.html"><span class="no">16장</span><h2>큐 시트</h2>
+      <p>적어 둔 것으로 큐 시트 초안을 만들고, 자체 점검 열네 가지로 짚어 유지·수정·변경을 고릅니다.</p>
+      <span class="use">현장에서: 리허설 전날, 오퍼레이터에게 넘길 때</span><span class="go">열기 →</span></a>
+  </div>
+
+  <h2 class="sec">현장별 연출 — 4부</h2>
+  <div class="flow flow4">
+    <a class="step" href="bcast.html"><span class="no">17장</span><h2>방송 점검</h2>
+      <p>깜박이는 큐마다 박 단위, 면적, 길이, 빨강을 적으면 Hz를 계산해 방송 플래시 기준과 견주고, 카메라 점검표를 함께 봅니다.</p>
+      <span class="use">현장에서: 카메라 리허설 전</span><span class="go">열기 →</span></a>
+    <a class="step" href="setlist.html"><span class="no">18장 · 19장</span><h2>셋리스트 아크</h2>
+      <p>곡마다 에너지와 메인 컬러, 운영 방식, 스페셜을 적어 쇼 전체의 아크와 컬러 띠를 그립니다. 시상식 진행표도 짤 수 있습니다.</p>
+      <span class="use">현장에서: 콘서트·시상식 설계 첫날</span><span class="go">열기 →</span></a>
+    <a class="step" href="busk.html"><span class="no">21장</span><h2>버스킹 페이지</h2>
+      <p>컬러·포지션·이펙트·강조·세이프티 줄로 버스킹 페이지를 짜고, 탭 템포로 주기를 초로 봅니다.</p>
+      <span class="use">현장에서: 셋리스트를 모르는 무대</span><span class="go">열기 →</span></a>
+    <a class="step" href="rigcalc.html"><span class="no">22장</span><h2>장비 계산기와 패치 시트</h2>
+      <p>장비 목록 → 번호·주소 → 위치·좌표 → 패치 시트의 네 단계. 유니버스 지도와 도면, 점검을 보여 주고, 스프레드시트·Vectorworks 표를 붙여 넣거나 패치 시트를 복사합니다.</p>
+      <span class="use">현장에서: 무대를 직접 디자인할 때, 받은 무대의 패치를 점검할 때</span><span class="go">열기 →</span></a>
+  </div>
+
+  <h2 class="sec">콘솔로 만들기 — 5부 grandMA3</h2>
+  <div class="flow">
+    <a class="step" href="showplan.html"><span class="no">24장 · 29장</span><h2>쇼 파일 계획</h2>
+      <p>장비 역할표에서 ID 번호 범위와 그룹 3단계를 정하고, 곡의 수에 맞춰 프리셋 풀·시퀀스·페이지의 번호 범위를 계산합니다.</p>
+      <span class="use">현장에서: 패치 전, 템플릿을 만들 때</span><span class="go">열기 →</span></a>
+    <a class="step" href="phaser.html"><span class="no">25장 · 26장</span><h2>페이저 계산기</h2>
+      <p>BPM과 Measure, 스텝으로 한 사이클과 깜박임을 계산하고, MAtricks와 입력하는 곳에 따라 마지막 위상을 알려 줍니다.</p>
+      <span class="use">현장에서: 이펙트를 걸기 전, 첫 대와 마지막 대가 같이 켜질 때</span><span class="go">열기 →</span></a>
+    <a class="step" href="tc.html"><span class="no">28장</span><h2>타임코드 표</h2>
+      <p>큐 시트에서 장면과 레이어마다 트랙을 나누고, 이벤트를 타임코드로 바꿔 기록한 결과와 견줍니다.</p>
+      <span class="use">현장에서: 타임코드를 기록하기 전후</span><span class="go">열기 →</span></a>
+  </div>
+
+  <h2 class="sec">무대에 올리기 — 6부 리허설과 본 공연</h2>
+  <div class="flow">
+    <a class="step" href="rehearsal.html"><span class="no">28장 · 30장</span><h2>리허설 노트</h2>
+      <p>프리비즈 점검표 9개 항목과 리허설 점검표 10개 항목을 확인하며 표시하고, 찾은 문제를 큐·마디·판정과 함께 적어 패치 → 프리셋 → 큐 → 타임코드 순서의 할 일 목록을 만듭니다.</p>
+      <span class="use">현장에서: 리허설 전날, 리허설 중, 리허설 사이</span><span class="go">열기 →</span></a>
+    <a class="step" href="gocall.html"><span class="no">31장</span><h2>GO 연습</h2>
+      <p>곡의 BPM으로 클릭 소리를 내며 스탠바이를 띄우고, GO를 큐의 박보다 얼마나 앞이나 뒤에 눌렀는지 기록해 줍니다.</p>
+      <span class="use">현장에서: 본 공연 전, GO 큐 목록을 만든 뒤</span><span class="go">열기 →</span></a>
+    <a class="step" href="safety.html"><span class="no">32장</span><h2>안전 점검</h2>
+      <p>깜박임을 방송·공연 기준과 비교하고, 관객 빔, 헤이즈·특수효과 협의, 매다는 장비의 무게와 전력, 공연 신고 기한을 한 장으로 모읍니다.</p>
+      <span class="use">현장에서: 큐 시트를 넘기기 전, 공연장과 협의할 때</span><span class="go">열기 →</span></a>
+  </div>
+
+  <h2 class="sec">한 곡을 처음부터 끝까지 — 8부 사례</h2>
+  <div class="flow">
+    <a class="step" href="song.html"><span class="no">33장</span><h2>한 곡 작업판</h2>
+      <p>지금 고른 곡의 작업이 여섯 단계 가운데 어디까지 왔는지 도구마다 채움과 비어 있음으로 보여 주고, 구간·밝기·컬러·변화·큐를 마디 띠 한 장으로 그립니다.</p>
+      <span class="use">현장에서: 곡 하나를 맡았을 때, 팀에 진행 상황을 알릴 때</span><span class="go">열기 →</span></a>
+  </div>
+
+  <h2 class="sec">함께 쓰는 도구</h2>
+  <div class="sub">
+    <a class="subt" href="scene.html"><div><b>장면 보기</b><br><span>책에서 마디로 말하는 장면을 무대 그림과 레벨 흐름으로 재생하기. 실습 곡도 내 곡도</span></div><span class="ch">전체</span></a>
+    <a class="subt" href="calc.html"><div><b>박자 계산기</b><br><span>BPM과 첫 다운비트로 마디 시각표, 페이드 표, 깜박임 Hz 표</span></div><span class="ch">2장</span></a>
+    <a class="subt" href="map.html"><div><b>음악 지도 연습장</b><br><span>구간과 변화를 마디로 적어 음악 지도 그리기</span></div><span class="ch">3·4장</span></a>
+    <a class="subt" href="rig.html"><div><b>장비 역할표</b><br><span>장비 목록을 역할로 나누고 비어 있는 역할과 어긋난 속성 찾기</span></div><span class="ch">6장</span></a>
+  </div>
+
+  <h2 class="sec">내 곡</h2>
+  <div class="panel">
+    <div class="tbl"><table class="songs" id="songs"></table></div>
+    <p class="note" style="margin:10px 0 0">곡을 고르면 모든 도구가 그 곡으로 열립니다. 예시 곡 LOVE ATTACK은 노트만 들어 있고 음악 파일은 없습니다.</p>
+  </div>
+
+  <h2 class="sec">노트 백업과 옮기기</h2>
+  <div class="panel bk">
+    <p class="note" style="margin:0">노트는 이 브라우저에만 저장됩니다. 다른 컴퓨터나 태블릿으로 옮기려면 백업을 복사해 메신저나 메모에 붙여 두고, 옮길 기기에서 붙여 넣습니다.</p>
+    <div class="row"><button type="button" class="primary" id="exp">노트 백업 복사</button><span class="note" id="copyMsg"></span></div>
+    <label class="f" for="imp">백업 붙여 넣기<textarea id="imp" placeholder="복사해 둔 백업 글을 여기에 붙여 넣습니다"></textarea></label>
+    <div class="row"><button type="button" id="impGo">불러오기</button><span class="note" id="impMsg"></span></div>
+  </div>
+
+  <h2 class="sec">다음에 더해질 도구</h2>
+  <div class="later"><span>깜박임 안전 확인 · 2장</span><span>탭 템포 · 2장</span></div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var go = { listen: 'listen.html', pairs: 'pairs.html', sheet: 'sheet.html', rig: 'rig.html', concept: 'concept.html', palette: 'palette.html', looks: 'looks.html', bright: 'bright.html', grid: 'grid.html', recs: 'recs.html', trans: 'trans.html', cues: 'cues.html', bcast: 'bcast.html', setlist: 'setlist.html', busk: 'busk.html', rigcalc: 'rigcalc.html', scene: 'scene.html', phaser: 'phaser.html', song: 'song.html', tc: 'tc.html', showplan: 'showplan.html', rehearsal: 'rehearsal.html', gocall: 'gocall.html', safety: 'safety.html' }[(location.hash || '').slice(1).split('&')[0]];
+  if (go) { var rest = (location.hash || '').slice(1).split('&').slice(1).join('&'); location.replace(go + (rest ? '#' + rest : '')); return; }
+  var L = window.LX; L.top('index.html');
+  var $ = function (id) { return document.getElementById(id); };
+  var pending = null;
+  function render() {
+    var l = L.lib(), ids = Object.keys(l.songs).sort(function (a, b) { return (l.songs[b].updated || 0) - (l.songs[a].updated || 0); });
+    $('songs').innerHTML = '<tr><th>곡</th><th>BPM</th><th>구간</th><th>변화</th><th>마지막 수정</th><th></th></tr>' + ids.map(function (id) {
+      var s = l.songs[id], secs = s.marks.filter(function (m) { return m.t === 'sec'; }).length, ev = s.marks.length - secs, d = new Date(s.updated || 0);
+      return '<tr class="' + (id === l.current ? 'cur' : '') + '"><td><b style="color:var(--ink)">' + L.esc(s.title || '제목 없음') + '</b>' + (s.sample ? ' <span class="sample-flag">예시</span>' : '') + (s.artist ? '<br><span class="note">' + L.esc(s.artist) + '</span>' : '') + '</td>' +
+        '<td class="num">' + s.bpm + '</td><td class="num">' + secs + '</td><td class="num">' + ev + '</td><td class="note">' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0') + '</td>' +
+        '<td><div class="row" style="flex-wrap:nowrap;gap:6px"><button type="button" data-open="' + id + '">듣기 노트로</button>' +
+        (pending === id ? '<button type="button" data-del="' + id + '" style="color:var(--bad)">정말 지우기</button><button type="button" data-cancel="1" class="ghost">취소</button>' : '<button type="button" data-ask="' + id + '" class="ghost" aria-label="지우기">지우기</button>') + '</div></td></tr>';
+    }).join('');
+  }
+  $('songs').addEventListener('click', function (e) {
+    var t = e.target, l = L.lib();
+    if (t.dataset.open) { l.current = t.dataset.open; L.put(l.songs[t.dataset.open]); location.href = 'listen.html'; }
+    if (t.dataset.ask) { pending = t.dataset.ask; render(); }
+    if (t.dataset.cancel) { pending = null; render(); }
+    if (t.dataset.del) { L.remove(t.dataset.del); pending = null; L.refreshPicker(); render(); }
+  });
+  $('exp').addEventListener('click', function () {
+    var txt = L.exportLib(), done = function (ok) { $('copyMsg').textContent = ok ? '복사했습니다. 곡 ' + Object.keys(L.lib().songs).length + '개의 노트와 쇼 데이터(' + (Object.keys(L.lib()).filter(function (k) { return ['songs', 'current'].indexOf(k) < 0; }).length) + '가지: 장비, 셋리스트, 버스킹, 패치 등)가 들어 있습니다.' : '복사가 막혀 있습니다. 아래 칸에 백업 글을 넣어 두었으니 직접 복사합니다.'; if (!ok) { $('imp').value = txt; $('imp').select(); } };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  $('impGo').addEventListener('click', function () {
+    try { var o = JSON.parse($('imp').value); if (!o.songs) throw 0; L.importLib(o); $('impMsg').textContent = '곡 ' + Object.keys(o.songs).length + '개와 쇼 데이터를 불러왔습니다.'; $('imp').value = ''; L.refreshPicker(); render(); }
+    catch (err) { $('impMsg').textContent = '백업 글이 아닙니다. "노트 백업 복사"로 만든 글 전체를 붙여 넣습니다.'; }
+  });
+  render();
+})();
+</script>
+
+</body></html>

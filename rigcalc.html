@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>장비 계산기와 패치 시트</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 화면 구성: 위 요약 칩과 가져오기 → 단계 탭 4개(장비 목록 / 번호·주소 / 위치·좌표 / 패치 시트) + 빔 지름 계산 탭.
+   같은 장비 줄을 탭마다 필요한 칸만 보여 줌. 결과(유니버스 지도, 도면, 점검)는 해당 탭 안에서 바로 바뀜. */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:80ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.chip{background:var(--panel2);border-radius:9px;padding:7px 12px;font-size:12px;color:var(--muted)}
+.chip b{display:block;font-family:var(--f-num);font-size:17px;color:var(--ink)}
+.chip.w b{color:var(--warn)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 12px}
+.tabs button{border-radius:999px;padding:8px 14px}
+.tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.tabs .n{font-family:var(--f-num);opacity:.75;margin-right:4px}
+.guide{font-size:13.5px;color:var(--body);margin:0 0 10px;padding:9px 12px;border-left:3px solid var(--accent);background:var(--panel2);border-radius:0 8px 8px 0}
+table.rc td{vertical-align:middle;padding:3px 4px}
+table.rc th{white-space:nowrap}
+table.rc input[type=text]{width:100%;min-width:11em}
+table.rc input.n{width:5em} table.rc input.s{width:4.4em} table.rc input.m{width:6.2em}
+table.rc td.name{min-width:12em;font-weight:500;color:var(--ink)}
+table.rc td.name small{display:block;font-weight:400;color:var(--muted)}
+table.rc tr.tot td{font-weight:700;color:var(--ink);border-top:2px solid var(--line)}
+table.rc td.calc{font-family:var(--f-num);color:var(--muted);white-space:nowrap}
+table.rc td.bad{color:var(--warn);font-weight:700}
+.rowbtn{display:flex;gap:2px}
+.rowbtn button{padding:4px 7px;font-size:12px}
+.grid2{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px;margin-top:14px;align-items:start}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}}
+.out{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.out div{background:var(--panel2);border-radius:9px;padding:10px 12px}
+.out b{display:block;font-family:var(--f-num);font-size:20px;color:var(--ink)}
+.out span{font-size:12px;color:var(--muted)}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+.msg{font-size:13px;color:var(--ok);margin:6px 0 0}
+.msg:empty{display:none}
+.views{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+@media (max-width:900px){.views{grid-template-columns:1fr}}
+.views figure{margin:0;background:var(--panel2);border-radius:10px;padding:8px}
+.views figcaption{font-size:12px;color:var(--muted);padding:4px 4px 0}
+.views svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+table.ps td{font-family:var(--f-num);font-size:12.5px;padding:3px 8px;white-space:nowrap}
+table.ps td.t{font-family:var(--f-body)}
+table.ps tr.bad td{color:var(--warn)}
+table.ps tr.out td{color:var(--muted)}
+details.imp{margin-top:10px}
+details.imp summary{cursor:pointer;color:var(--ink);font-weight:700;font-size:14px}
+details.imp textarea{min-height:130px;font-family:var(--f-num);font-size:12.5px;margin-top:8px}
+.sub{margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>장비 계산기와 패치 시트</h1>
+    <p>장비 목록을 적으면 무게·전력·유니버스를 계산하고, 번호와 주소, 위치를 정하면 패치 시트와 유니버스 지도, 평면도·정면도를 만들어 점검합니다. 22장 실습에도, 현장의 내 무대에도 씁니다. 적은 내용은 이 브라우저에 저장됩니다.</p>
+  </div>
+
+  <section class="panel">
+    <div class="row" style="justify-content:space-between">
+      <div class="chips" id="chips" style="margin:0"></div>
+      <div class="row"><button type="button" id="ex" class="ghost">예시 불러오기(실습 무대)</button><button type="button" id="clear" class="ghost">비우고 새로 시작</button></div>
+    </div>
+    <details class="imp" id="impBox"><summary>가져오기 · 내보내기 — 스프레드시트, Vectorworks, 장비 역할표, 백업</summary>
+      <p class="note" style="margin:8px 0 0">스프레드시트나 Vectorworks에서 내보낸 표를 첫 줄(칸 이름)까지 복사해 붙여 넣습니다. 칸 이름은 한글(장비, 위치, 역할, 수량, 채널, ID, 유니버스, 주소, X, Y, Z, 무게, 전력)이나 영어(Instrument Type, Position, Purpose, Channel, Universe, DMX Address, Footprint, Weight, Wattage)를 알아봅니다. 주소는 2.301, 2/301처럼 써도 되고, 유니버스 칸이 없으면 813처럼 이어 센 주소도 나눠 읽습니다. 이 도구의 백업(아래 "백업 복사")을 붙여 넣으면 그대로 되살립니다.</p>
+      <textarea id="impText" placeholder="여기에 붙여 넣기"></textarea>
+      <div class="row" style="margin-top:8px"><button type="button" id="imp" class="primary">붙여 넣은 표 가져오기</button><button type="button" id="fromRig" class="ghost">장비 역할표(웹 부록 6)에서</button><button type="button" id="backup" class="ghost">백업 복사</button></div>
+      <p class="msg" id="impMsg"></p>
+    </details>
+  </section>
+
+  <div class="tabs" role="tablist" id="tabs">
+    <button type="button" role="tab" data-t="list"><span class="n">1</span>장비 목록</button>
+    <button type="button" role="tab" data-t="addr"><span class="n">2</span>번호·주소</button>
+    <button type="button" role="tab" data-t="pos"><span class="n">3</span>위치·좌표</button>
+    <button type="button" role="tab" data-t="sheet"><span class="n">4</span>패치 시트·점검</button>
+    <button type="button" role="tab" data-t="beam">빔 지름 계산</button>
+  </div>
+
+  <!-- 1 장비 목록 -->
+  <section class="panel" data-p="list">
+    <p class="guide">장비를 <b>종류와 위치</b>로 한 줄씩 적습니다. 같은 기종이라도 걸리는 위치가 다르면 줄을 나눕니다(뒤 트러스 워시, 가운데 트러스 워시). 채널은 쓸 모드의 채널 수, 무게와 전력은 1대 값을 제조사 사양서에서 옮깁니다.</p>
+    <div class="tbl"><table class="rc" id="tList"></table></div>
+    <div class="row" style="margin-top:10px"><button type="button" id="add" class="primary">줄 더하기</button><button type="button" id="copyList" class="ghost">장비 목록 복사</button></div>
+    <p class="msg" id="listMsg"></p>
+    <div class="grid2">
+      <div><h3 style="margin-bottom:8px">역할별 수량</h3><div class="tbl"><table id="byRole"></table></div></div>
+      <div><h3 style="margin-bottom:8px">확인할 것</h3><ul class="checks" id="listChecks"></ul></div>
+    </div>
+  </section>
+
+  <!-- 2 번호·주소 -->
+  <section class="panel" data-p="addr" hidden>
+    <p class="guide">줄마다 <b>ID 시작 번호</b>와 <b>유니버스</b>를 적고 <b>주소 채우기</b>를 누르면 시작 주소가 채워집니다. 같은 유니버스에서 앞 줄과 같은 종류면 이어 붙이고, 종류가 바뀌면 다음 100 단위 주소(101, 201…)에서 시작합니다. 유니버스를 비우면 콘솔 밖 장비(팔로우 스팟 등)로 봅니다.</p>
+    <div class="row" style="margin-bottom:10px"><button type="button" id="autoId" class="ghost">ID 매기기(종류마다 100 단위)</button><button type="button" id="auto" class="primary">주소 채우기</button><label class="f">여유 유니버스<input type="number" id="spare" class="n" min="0" max="20" step="1"></label></div>
+    <p class="msg" id="addrMsg"></p>
+    <div class="tbl"><table class="rc" id="tAddr"></table></div>
+    <div class="sub"><h3 style="margin-bottom:6px">유니버스 지도</h3><p class="note" style="margin:0 0 8px">막대 하나가 512채널의 유니버스 하나입니다. 색은 장비가 쓰는 채널(역할), 회색은 비워 둔 채널, 빨간 점선은 512를 넘는 장비입니다. 막대에 마우스를 올리면 장비와 주소가 보입니다.</p><div id="umap"></div></div>
+  </section>
+
+  <!-- 3 위치·좌표 -->
+  <section class="panel" data-p="pos" hidden>
+    <p class="guide">줄마다 <b>X(좌우)·Y(앞뒤)·Z(높이)</b>를 미터로 적습니다. 원점은 무대 앞 끝의 가운데, +X는 무대 왼쪽(객석에서 보아 오른쪽), +Y는 무대 안쪽입니다. 한 줄의 장비는 시작~끝 사이에 고르게 놓입니다. 타워처럼 위아래로 쌓으면 X는 같게, Z를 시작~끝으로 적습니다.</p>
+    <div class="row" style="margin-bottom:10px"><label class="f">무대 폭(m)<input type="number" id="sw" class="n" min="1" max="200" step="0.5"></label><label class="f">무대 깊이(m)<input type="number" id="sd" class="n" min="1" max="200" step="0.5"></label></div>
+    <div class="tbl"><table class="rc" id="tPos"></table></div>
+    <div class="views sub"><figure><div id="plan"></div><figcaption>평면도 — 위에서 본 그림, 객석이 아래</figcaption></figure><figure><div id="front"></div><figcaption>정면도 — 객석에서 본 그림</figcaption></figure></div>
+    <div class="legend" id="leg"></div>
+  </section>
+
+  <!-- 4 패치 시트 -->
+  <section class="panel" data-p="sheet" hidden>
+    <p class="guide">장비별로 펼친 패치 시트입니다. 다섯 가지 점검을 확인한 뒤 복사해 스프레드시트에 붙여 넣거나, 리깅·전기·시스템 담당에게 보냅니다.</p>
+    <ul class="checks" id="pchecks"></ul>
+    <div class="row sub" style="justify-content:space-between"><h3 id="sheetSum">패치 시트</h3>
+      <div class="row"><label class="f">정렬<select id="sort"><option value="list">장비 목록 순서</option><option value="id">ID 순서</option><option value="addr">유니버스·주소 순서</option></select></label><button type="button" id="copySheet" class="primary">패치 시트 복사</button><button type="button" id="copyLoad" class="ghost">하중·전력 표 복사</button></div></div>
+    <p class="msg" id="sheetMsg"></p>
+    <div class="tbl"><table class="ps" id="ps"></table></div>
+  </section>
+
+  <!-- 빔 지름 계산 -->
+  <section class="panel" data-p="beam" hidden>
+    <p class="guide">장비 한 대가 비추는 지름과, 폭을 고르게 덮는 데 필요한 수량을 계산합니다. 키와 워시의 수량을 정할 때 씁니다. 빔 역할의 수량은 덮는 폭이 아니라 그릴 모양으로 정합니다.</p>
+    <div class="row"><label class="f">빔 앵글(°)<input type="number" id="ang" class="n" min="1" max="90" step="0.5"></label><label class="f">거리(m)<input type="number" id="dist" class="n" min="1" max="60" step="0.5"></label>
+      <label class="f">덮을 폭(m)<input type="number" id="wid" class="n" min="1" max="100" step="0.5"></label><label class="f">겹침<select id="ovl"><option value="50">가장자리를 이웃 가운데에(오버랩 50%)</option><option value="0">가장자리끼리 맞닿게(오버랩 0%)</option></select></label></div>
+    <div class="out" id="beam"></div>
+    <p class="note" style="margin:10px 0 0">빔 지름 = 2 × 거리 × tan(빔 앵글 ÷ 2). 수량 = (폭 − 지름) ÷ 간격을 올림 + 1(양 끝 장비를 무대 끝에서 반지름만큼 안쪽에 둠). 사양서의 필드 앵글이 아니라 빔 앵글을 씁니다. 겹침의 두 기준은 22.4절에 있습니다. 가장자리가 부드러운 기종은 덜 겹쳐도 되므로 현장에서는 한 대를 먼저 걸어 보고 정합니다.</p>
+  </section>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX; L.top('rigcalc.html', { noSong: true });
+  var $ = function (id) { return document.getElementById(id); };
+  var MOUNT = ['행잉', '정면', '플로어'];
+  var RCOL = { '키': '#5f8f6a', '필': '#7aa384', '백': '#4f7f8f', '사이드': '#3f8f6f', '탑': '#8e9a5a', '워시': '#3b6ea8', '빔': '#c9862a', 'FX': '#c8553d', '픽셀': '#5a5ec8', '오디언스': '#a8693b' };
+  // 실습 무대(22장 표 22-8·22-10): 이름, 역할, 설치, 위치, 수량, 채널, kg, W, ID, 유니버스, 시작 주소, X 시작, X 끝, Y, Z 시작, Z 끝
+  var EX = [
+    ['LED 프로파일', '키', '행잉', '객석 트러스', 8, 8, 15, 300, 101, 1, 1, -6, 6, -4, 8.5, 8.5],
+    ['LED 프레넬', '필', '행잉', '객석 바', 6, 8, 9, 250, 121, 1, 101, -5, 5, -3, 4.5, 4.5],
+    ['스팟 무빙', '빔', '행잉', '앞 트러스', 8, 36, 30, 800, 301, 2, 1, -5.25, 5.25, 1.5, 7.5, 7.5],
+    ['워시 무빙', '워시', '행잉', '가운데 트러스', 6, 28, 22, 650, 201, 2, 301, -5, 5, 4, 7, 7],
+    ['워시 무빙', '백', '행잉', '뒤 트러스', 6, 28, 22, 650, 207, 3, 1, -5, 5, 7, 8, 8],
+    ['스트로브', 'FX', '행잉', '뒤 트러스', 8, 4, 12, 800, 601, 3, 201, -5.25, 5.25, 7, 8, 8],
+    ['워시 무빙', '사이드', '정면', '사이드 타워 SR', 4, 28, 22, 650, 221, 4, 1, -7, -7, 3, 0.5, 4.1],
+    ['워시 무빙', '사이드', '정면', '사이드 타워 SL', 4, 28, 22, 650, 225, 4, 113, 7, 7, 3, 0.5, 4.1],
+    ['블라인더', '오디언스', '정면', '앞 바닥', 4, 2, 6, 400, 701, 4, 301, -4.5, 4.5, 0.3, 0, 0],
+    ['빔 무빙', '빔', '플로어', '뒤 바닥', 8, 20, 18, 450, 401, 5, 1, -5.25, 5.25, 7.5, 0, 0],
+    ['빔 무빙', '빔', '정면', '뒤 타워 SR', 4, 20, 18, 450, 409, 5, 161, -4.5, -4.5, 7.8, 1, 4],
+    ['빔 무빙', '빔', '정면', '뒤 타워 SL', 4, 20, 18, 450, 413, 5, 241, 4.5, 4.5, 7.8, 1, 4],
+    ['LED 바', '픽셀', '정면', '계단 1단', 8, 30, 8, 150, 501, 6, 1, -3.5, 3.5, 5.5, 0.4, 0.4],
+    ['LED 바', '픽셀', '정면', '계단 2단', 8, 30, 8, 150, 509, 6, 241, -3.5, 3.5, 6, 0.8, 0.8],
+    ['LED 바', '픽셀', '정면', '계단 3단', 8, 30, 8, 150, 517, 7, 1, -3.5, 3.5, 6.5, 1.2, 1.2]];
+  var PK = ['pos', 'fid', 'uni', 'addr', 'x1', 'x2', 'y', 'z1', 'z2'];
+  function blankRow() { return { id: L.uid(), name: '', role: '워시', mount: '행잉', pos: '', qty: 1, ch: null, kg: null, w: null, fid: null, uni: null, addr: null, x1: null, x2: null, y: null, z1: null, z2: null }; }
+  function example() {
+    return { v: 3, stage: { w: 12, d: 8 }, spare: 1, beam: { ang: 40, dist: 7, wid: 12, ovl: 50 }, tab: 'list', sort: 'list', isExample: true,
+      rows: EX.map(function (x) { return { id: L.uid(), name: x[0], role: x[1], mount: x[2], pos: x[3], qty: x[4], ch: x[5], kg: x[6], w: x[7], fid: x[8], uni: x[9], addr: x[10], x1: x[11], x2: x[12], y: x[13], z1: x[14], z2: x[15] }; }) };
+  }
+  var RC = L.getKey('rigcalc') || example();
+  // 이전 판 저장값 맞추기
+  if (!RC.v) {
+    var old = RC.rows && RC.rows.length === 9 && RC.rows[0].name === 'LED 프로파일' && RC.rows[8].name === '블라인더' && RC.beam && RC.beam.wid === 16;
+    if (old) RC = example();
+  }
+  RC.v = 3; RC.stage = RC.stage || { w: 12, d: 8 }; if (RC.spare == null) RC.spare = 1; RC.beam = RC.beam || { ang: 40, dist: 7, wid: 12, ovl: 50 }; RC.tab = RC.tab || 'list'; RC.sort = RC.sort || 'list';
+  if (RC.beam.ovl !== 0 && RC.beam.ovl !== 50) RC.beam.ovl = 50;
+  RC.rows.forEach(function (r) {
+    r.mount = { '매달기': '행잉', '바닥': '플로어', '수직': '정면' }[r.mount] || r.mount;
+    if (r.name === '천장 픽셀 워시') r.name = '픽셀 워시 바';
+    if (r.name === '워시 무빙(사이드 타워)') r.name = '워시 무빙';
+    PK.forEach(function (k) { if (r[k] === undefined) r[k] = k === 'pos' ? '' : null; });
+  });
+  function save() { RC.isExample = false; L.putKey('rigcalc', RC); }
+  function num(v) { return v === null || v === '' || v === undefined || isNaN(+v) ? null : +v; }
+  function fmt(n, d) { return (+n).toLocaleString('ko-KR', { maximumFractionDigits: d == null ? 1 : d }); }
+  function opt(list, v) { return list.map(function (x) { return '<option' + (x === v ? ' selected' : '') + '>' + x + '</option>'; }).join(''); }
+  function pad3(n) { return ('00' + n).slice(-3); }
+  function f2(v) { return v == null ? '—' : (Math.round(v * 100) / 100).toFixed(2); }
+  function label(r) { return '<td class="name">' + (L.esc(r.name) || '<span class="note">이름 없음</span>') + '<small>' + (L.esc(r.pos) || '위치 미정') + ' · ' + L.esc(r.role) + '</small></td>'; }
+  function say(id, t) { $(id).textContent = t; clearTimeout(say[id]); say[id] = setTimeout(function () { $(id).textContent = ''; }, 6000); }
+
+  // 탭
+  function showTab(t) {
+    RC.tab = t; L.putKey('rigcalc', RC);
+    [].forEach.call(document.querySelectorAll('#tabs button'), function (b) { b.setAttribute('aria-selected', b.dataset.t === t ? 'true' : 'false'); });
+    [].forEach.call(document.querySelectorAll('[data-p]'), function (p) { p.hidden = p.dataset.p !== t; });
+    render();
+  }
+  $('tabs').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) showTab(b.dataset.t); });
+
+  // 장비별로 펼치기
+  function expand() {
+    var out = [];
+    RC.rows.forEach(function (r, ri) {
+      var q = +r.qty || 0, x1 = num(r.x1), x2 = num(r.x2), z1 = num(r.z1), z2 = num(r.z2), y = num(r.y);
+      if (x2 == null) x2 = x1; if (z2 == null) z2 = z1;
+      for (var i = 0; i < q; i++) {
+        var t = q > 1 ? i / (q - 1) : 0;
+        out.push({ ri: ri, fid: num(r.fid) == null ? null : num(r.fid) + i, name: r.name, ch: +r.ch || 0, role: r.role, mount: r.mount, pos: r.pos || '',
+          uni: num(r.uni), addr: num(r.addr) == null || num(r.uni) == null ? null : num(r.addr) + i * (+r.ch || 0),
+          x: x1 == null ? null : x1 + (x2 - x1) * t, y: y, z: z1 == null ? null : z1 + (z2 - z1) * t, kg: +r.kg || 0, w: +r.w || 0 });
+      }
+    });
+    return out;
+  }
+  function totals() {
+    var T = { qty: 0, ch: 0, kg: 0, w: 0, seq: 0 }, acc = 512;
+    RC.rows.forEach(function (r) { var q = +r.qty || 0; T.qty += q; T.ch += q * (+r.ch || 0); T.kg += q * (+r.kg || 0); T.w += q * (+r.w || 0);
+      for (var i = 0; i < q; i++) { var c = +r.ch || 0; if (!c) continue; if (acc + c > 512) { T.seq++; acc = 0; } acc += c; } });
+    return T;
+  }
+  function checks(F) {
+    var out = [], bad = {};
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: '확인', i: '참고', ok: '좋음' }[lv] + '</span>' + h + '</li>'); }
+    var P = F.filter(function (f) { return f.uni != null; }), outside = F.length - P.length;
+    var seen = {}, dup = [], noid = 0;
+    P.forEach(function (f) { if (f.fid == null) { noid++; return; } if (seen[f.fid]) { dup.push(f.fid); bad[f.fid] = 1; } seen[f.fid] = 1; });
+    if (dup.length) add('w', '1 ID가 겹칩니다: ' + dup.slice(0, 8).join(', ') + (dup.length > 8 ? ' 외 ' + (dup.length - 8) + '개' : '') + '. 2단계에서 ID 시작 번호를 고칩니다.');
+    else if (noid) add('w', '1 ID가 빈 장비가 ' + noid + '대 있습니다. 2단계에서 "ID 매기기"를 눌러 봅니다.'); else if (P.length) add('ok', '1 ID가 겹치지 않습니다.');
+    var used = {}, over = [], clash = [], noaddr = 0;
+    P.forEach(function (f) {
+      if (f.addr == null || !f.ch) { noaddr++; return; }
+      if (f.addr < 1 || f.addr + f.ch - 1 > 512) { over.push(f.fid); bad[f.fid] = 1; return; }
+      for (var c = f.addr; c < f.addr + f.ch; c++) { var k = f.uni + '.' + c; if (used[k] && used[k] !== f.fid) { clash.push(f.fid + '과 ' + used[k]); bad[f.fid] = 1; break; } used[k] = f.fid; }
+    });
+    if (over.length) add('w', '2 512를 넘는 장비: ' + over.slice(0, 8).join(', ') + '. 장비 하나를 두 유니버스에 나눠 넣을 수 없으므로 그 줄을 다음 유니버스로 옮깁니다.');
+    if (clash.length) add('w', '2 주소가 겹칩니다: ' + clash.slice(0, 6).join(', ') + '.');
+    if (noaddr) add('w', '2 시작 주소가 빈 장비가 ' + noaddr + '대 있습니다. 2단계에서 "주소 채우기"를 누릅니다.');
+    if (!over.length && !clash.length && !noaddr && P.length) add('ok', '2 주소가 겹치거나 512를 넘는 장비가 없습니다.');
+    var nopos = F.filter(function (f) { return !f.pos || f.x == null || f.y == null || f.z == null; }).length;
+    var stx = (+RC.stage.w || 0) / 2 + 3, far = F.filter(function (f) { return f.x != null && Math.abs(f.x) > stx; }).length;
+    if (nopos) add('w', '3 위치나 X·Y·Z가 빈 장비가 ' + nopos + '대 있습니다. 3단계에서 채웁니다.');
+    else if (F.length) add('ok', '3 모든 장비에 위치와 X·Y·Z가 있습니다. 3단계의 도면에서 공중에 뜬 장비가 없는지 봅니다.');
+    if (far) add('i', '3 무대 폭보다 3m 넘게 바깥에 있는 장비가 ' + far + '대 있습니다. 좌표의 부호(무대 오른쪽은 음수)를 확인합니다.');
+    var chs = P.reduce(function (a, f) { return a + f.ch; }, 0);
+    var t4 = '4 패치할 장비 ' + P.length + '대, 채널 합 ' + fmt(chs, 0) + (outside ? ', 콘솔 밖 ' + outside + '대' : '') + '.';
+    var rig = L.rig(), rq = rig && rig.rows ? rig.rows.reduce(function (a, r) { return a + (+r.qty || 0); }, 0) : 0;
+    if (rq && rq !== F.length && !RC.isExample) add('i', t4 + ' 장비 역할표(웹 부록 6)에는 ' + rq + '대가 있습니다. 빠지거나 두 번 들어간 장비가 없는지 봅니다.');
+    else add(F.length ? 'ok' : 'i', t4);
+    var us = {}; P.forEach(function (f) { us[f.uni] = 1; }); var ul = Object.keys(us).map(Number).sort(function (a, b) { return a - b; });
+    var maxU = ul.length ? ul[ul.length - 1] : 0, sp = +RC.spare || 0;
+    if (!ul.length) add('i', '5 아직 유니버스를 적은 줄이 없습니다.');
+    else if (sp > 0) add('ok', '5 쓴 유니버스 ' + ul.join(', ') + '(' + ul.length + '개), 여유 ' + (sp === 1 ? (maxU + 1) : (maxU + 1) + '~' + (maxU + sp)) + '. 모두 ' + (maxU + sp) + '개가 필요합니다.');
+    else add('w', '5 여유 유니버스가 없습니다. 장비가 더해지거나 DMX 라인 하나가 고장 났을 때 옮길 자리를 둡니다.');
+    return { html: out.join(''), bad: bad, warn: out.filter(function (x) { return x.indexOf('class="w"') >= 0; }).length };
+  }
+
+  // 요약 칩
+  function chips(F) {
+    var T = totals(), C = checks(F), us = {}; F.forEach(function (f) { if (f.uni != null) us[f.uni] = 1; });
+    var nu = Object.keys(us).length;
+    $('chips').innerHTML = [['장비', T.qty + '대'], ['채널', fmt(T.ch, 0)], ['유니버스', nu ? nu + ' + 여유 ' + (+RC.spare || 0) : '—'], ['무게', fmt(T.kg) + 'kg'], ['전력', fmt(T.w / 1000, 2) + 'kW'], ['점검', C.warn ? C.warn + '곳 확인' : '좋음', C.warn ? 'w' : '']]
+      .map(function (c) { return '<div class="chip ' + (c[2] || '') + '">' + c[0] + '<b>' + c[1] + '</b></div>'; }).join('') + (RC.isExample ? '<div class="chip w">지금은<b>예시</b></div>' : '');
+  }
+
+  function rowBtns(i) { return '<td><div class="rowbtn"><button type="button" class="ghost" data-act="up" data-i="' + i + '" aria-label="위로" title="위로">↑</button><button type="button" class="ghost" data-act="down" data-i="' + i + '" aria-label="아래로" title="아래로">↓</button><button type="button" class="ghost" data-act="dup" data-i="' + i + '" aria-label="복제" title="복제">⧉</button><button type="button" class="ghost" data-act="del" data-i="' + i + '" aria-label="지우기" title="지우기">×</button></div></td>'; }
+  function inp(i, k, v, cls, step, type) { return '<td><input type="' + (type || 'number') + '"' + (cls ? ' class="' + cls + '"' : '') + (step ? ' step="' + step + '"' : '') + ' data-i="' + i + '" data-k="' + k + '" value="' + (v == null ? '' : L.esc(v)) + '" aria-label="' + k + '"></td>'; }
+
+  // 1 장비 목록
+  function renderList() {
+    var T = totals();
+    $('tList').innerHTML = '<tr><th>장비(기종)</th><th>위치</th><th>역할</th><th>설치</th><th>수량</th><th>채널(모드)</th><th>무게 kg/대</th><th>전력 W/대</th><th>무게 합</th><th>전력 합</th><th></th></tr>' + RC.rows.map(function (r, i) {
+      var q = +r.qty || 0;
+      return '<tr>' + inp(i, 'name', r.name, '', '', 'text') + inp(i, 'pos', r.pos, '', '', 'text') +
+        '<td><select data-i="' + i + '" data-k="role" aria-label="역할">' + opt(L.ROLES, r.role) + '</select></td><td><select data-i="' + i + '" data-k="mount" aria-label="설치">' + opt(MOUNT, r.mount) + '</select></td>' +
+        inp(i, 'qty', r.qty, 's', '1') + inp(i, 'ch', r.ch, 's', '1') + inp(i, 'kg', r.kg, 's', '0.1') + inp(i, 'w', r.w, 'm', '1') +
+        '<td class="calc">' + fmt(q * (+r.kg || 0)) + 'kg</td><td class="calc">' + fmt(q * (+r.w || 0) / 1000, 2) + 'kW</td>' + rowBtns(i) + '</tr>';
+    }).join('') + '<tr class="tot"><td>합계</td><td></td><td></td><td></td><td class="num">' + T.qty + '</td><td class="num">' + fmt(T.ch, 0) + '</td><td></td><td></td><td class="num">' + fmt(T.kg) + 'kg</td><td class="num">' + fmt(T.w / 1000, 2) + 'kW</td><td></td></tr>';
+    var R = {}; RC.rows.forEach(function (r) { R[r.role] = (R[r.role] || 0) + (+r.qty || 0); });
+    $('byRole').innerHTML = '<tr><th>역할</th><th>수량</th></tr>' + L.ROLES.map(function (k) { return '<tr><td><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:' + RCOL[k] + ';margin-right:6px"></i>' + k + '</td><td class="num">' + (R[k] || '<span class="note">—</span>') + '</td></tr>'; }).join('');
+    var out = [];
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: '확인', i: '참고', ok: '좋음' }[lv] + '</span>' + h + '</li>'); }
+    var miss = ['키', '필', '백', '워시'].filter(function (k) { return !R[k]; });
+    if (miss.length) add('i', miss.join(', ') + ' 역할이 없습니다. 이 무대에 필요한지 22장 표 22-3의 질문으로 확인합니다. 사람이 서지 않는 라이트쇼라면 비어 있어도 됩니다.');
+    RC.rows.forEach(function (r) {
+      var nm = L.esc(r.name || '이름 없는 줄') + (r.pos ? '(' + L.esc(r.pos) + ')' : '');
+      if (!r.ch) add('w', nm + '의 채널 수가 비었습니다. 쓸 모드의 채널 수를 사양서나 콘솔의 채널 맵에서 옮깁니다.');
+      else if (r.ch > 512) add('w', nm + '의 채널(' + r.ch + ')이 한 유니버스(512)보다 많습니다. 모드를 확인합니다.');
+      if (!r.kg || !r.w) add('i', nm + '의 무게나 전력이 비었습니다.');
+    });
+    if (T.ch) add('i', '채널 합 ' + fmt(T.ch, 0) + ' ÷ 512 = ' + (T.ch / 512).toFixed(1) + '. 순서대로 이어 붙이면 유니버스 ' + T.seq + '개가 필요합니다. 나누는 방법은 2단계에서 정합니다.');
+    add('i', '무게 ' + fmt(T.kg) + 'kg, 전력 ' + fmt(T.w / 1000, 2) + 'kW. 트러스·호이스트 하중과 공연장 전력은 리깅·전기 담당과 확인합니다(22.7절).');
+    $('listChecks').innerHTML = out.join('');
+  }
+
+  // 2 번호·주소
+  function renderAddr() {
+    $('spare').value = RC.spare;
+    $('tAddr').innerHTML = '<tr><th>장비 · 위치</th><th>수량</th><th>채널</th><th>ID 시작</th><th>ID 끝</th><th>유니버스</th><th>시작 주소</th><th>끝 주소</th></tr>' + RC.rows.map(function (r, i) {
+      var q = +r.qty || 0, f0 = num(r.fid), a0 = num(r.addr), u = num(r.uni), end = a0 != null && r.ch ? a0 + q * r.ch - 1 : null;
+      return '<tr>' + label(r) + '<td class="calc">' + q + '</td><td class="calc">' + (r.ch || '—') + '</td>' + inp(i, 'fid', r.fid, 'n', '1') + '<td class="calc">' + (f0 == null ? '—' : f0 + q - 1) + '</td>' +
+        inp(i, 'uni', r.uni, 's', '1') + inp(i, 'addr', r.addr, 's', '1') +
+        (u == null ? '<td class="calc">콘솔 밖</td>' : end == null ? '<td class="calc">—</td>' : '<td class="' + (end > 512 ? 'bad' : 'calc') + '">' + u + '.' + pad3(Math.min(end, 999)) + (end > 512 ? ' (512 넘음)' : '') + '</td>') + '</tr>';
+    }).join('');
+    umap(expand());
+  }
+  function umap(F) {
+    var P = F.filter(function (f) { return f.uni != null && f.addr != null && f.ch; });
+    if (!P.length) { $('umap').innerHTML = '<p class="note">유니버스와 시작 주소를 적으면 지도가 그려집니다.</p>'; return; }
+    var maxU = 0; P.forEach(function (f) { maxU = Math.max(maxU, f.uni); }); var sp = +RC.spare || 0;
+    var W = 640, LX = 96, RW = 46, H = 22, G = 12, cw = (W - LX - RW) / 512, rows = maxU + sp, Ht = rows * (H + G) + 22;
+    var ink = getComputedStyle(document.body).getPropertyValue('--muted') || '#888';
+    var o = '<svg viewBox="0 0 ' + W + ' ' + Ht + '" role="img" aria-label="유니버스 지도" style="display:block;width:100%;height:auto">';
+    [1, 101, 201, 301, 401, 512].forEach(function (k) { var x = LX + (k - 1) * cw; o += '<line x1="' + x + '" y1="14" x2="' + x + '" y2="' + (Ht - 4) + '" stroke="' + ink + '" stroke-opacity="0.2"/><text x="' + x + '" y="10" font-size="9" fill="' + ink + '" text-anchor="' + (k === 512 ? 'end' : 'middle') + '">' + k + '</text>'; });
+    for (var u = 1; u <= rows; u++) {
+      var y = 18 + (u - 1) * (H + G), used = 0;
+      o += '<text x="0" y="' + (y + 15) + '" font-size="11" fill="currentColor">유니버스 ' + u + (u > maxU ? ' (여유)' : '') + '</text>';
+      o += '<rect x="' + LX + '" y="' + y + '" width="' + (512 * cw) + '" height="' + H + '" fill="' + ink + '" fill-opacity="0.12" rx="2"/>';
+      P.filter(function (f) { return f.uni === u; }).forEach(function (f) {
+        var a = f.addr, b = f.addr + f.ch - 1, over = b > 512; used += Math.max(0, Math.min(b, 512) - a + 1);
+        o += '<rect x="' + (LX + (a - 1) * cw) + '" y="' + y + '" width="' + Math.max(1, f.ch * cw) + '" height="' + H + '" fill="' + (over ? 'none' : (RCOL[f.role] || '#888')) + '" stroke="' + (over ? '#c8553d' : '#ffffff') + '" stroke-width="' + (over ? 1.4 : 0.5) + '"' + (over ? ' stroke-dasharray="3 2"' : '') + '><title>' + (f.fid || '') + ' ' + L.esc(f.name) + ' · ' + L.esc(f.pos) + ' · ' + u + '.' + pad3(a) + '~' + pad3(b) + '</title></rect>';
+      });
+      o += '<text x="' + (W - RW + 6) + '" y="' + (y + 15) + '" font-size="10.5" fill="currentColor">' + used + 'ch</text>';
+    }
+    $('umap').innerHTML = o + '</svg>';
+  }
+
+  // 3 위치·좌표
+  function renderPos() {
+    $('sw').value = RC.stage.w; $('sd').value = RC.stage.d;
+    $('tPos').innerHTML = '<tr><th>장비 · 위치</th><th>수량</th><th>X 시작</th><th>X 끝</th><th>Y</th><th>Z 시작</th><th>Z 끝</th></tr>' + RC.rows.map(function (r, i) {
+      return '<tr>' + label(r) + '<td class="calc">' + (+r.qty || 0) + '</td>' + inp(i, 'x1', r.x1, 's', '0.05') + inp(i, 'x2', r.x2, 's', '0.05') + inp(i, 'y', r.y, 's', '0.05') + inp(i, 'z1', r.z1, 's', '0.05') + inp(i, 'z2', r.z2, 's', '0.05') + '</tr>';
+    }).join('');
+    draw(expand());
+  }
+  function draw(F) {
+    var G = F.filter(function (f) { return f.x != null && f.y != null && f.z != null; });
+    var sw = +RC.stage.w || 12, sd = +RC.stage.d || 8;
+    var xs = G.map(function (f) { return f.x; }).concat([-sw / 2, sw / 2]), ys = G.map(function (f) { return f.y; }).concat([0, sd]), zs = G.map(function (f) { return f.z; }).concat([0]);
+    var mnx = Math.min.apply(null, xs) - 1, mxx = Math.max.apply(null, xs) + 1, mny = Math.min.apply(null, ys) - 1, mxy = Math.max.apply(null, ys) + 1, mxz = Math.max.apply(null, zs) + 1;
+    var Wv = 600, LM = 92, sc = (Wv - LM - 8) / (mxx - mnx);
+    var cs = getComputedStyle(document.body), ink = cs.getPropertyValue('--muted') || '#888', line = cs.getPropertyValue('--line') || '#555';
+    function circ(cx, cy, c, t) { return '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="5" fill="' + c + '" stroke="#00000033" stroke-width="0.8"><title>' + t + '</title></circle>'; }
+    var Hp = (mxy - mny) * sc, X = function (x) { return LM + (x - mnx) * sc; }, Y = function (y) { return (mxy - y) * sc; };
+    var s = '<svg viewBox="0 0 ' + Wv + ' ' + Hp.toFixed(0) + '" role="img" aria-label="평면도"><rect x="' + X(-sw / 2) + '" y="' + Y(sd) + '" width="' + sw * sc + '" height="' + sd * sc + '" fill="' + line + '" opacity="0.45"/><circle cx="' + X(0) + '" cy="' + Y(0) + '" r="3.5" fill="#c8553d"/>';
+    var lines = {};
+    G.forEach(function (f) { (lines[f.pos] = lines[f.pos] || []).push(f); });
+    Object.keys(lines).forEach(function (k) { var a = lines[k], x0 = Math.min.apply(null, a.map(function (f) { return f.x; })), x1 = Math.max.apply(null, a.map(function (f) { return f.x; })), y = a[0].y;
+      s += '<line x1="' + (X(x0) - 8) + '" y1="' + Y(y) + '" x2="' + (X(x1) + 8) + '" y2="' + Y(y) + '" stroke="' + ink + '" stroke-width="1.2" opacity="0.6"/>' +
+        (x1 - x0 < 0.5 ? '<text x="' + Math.min(Wv - 4, Math.max(4, X(x0))) + '" y="' + (Y(y) - 10) + '" font-size="10" fill="' + ink + '" text-anchor="' + (X(x0) < 60 ? 'start' : X(x0) > Wv - 60 ? 'end' : 'middle') + '">' + L.esc(k) + '</text>'
+          : '<text x="' + (X(x0) - 12) + '" y="' + (Y(y) + 3.5) + '" font-size="10" fill="' + ink + '" text-anchor="end">' + L.esc(k) + '</text>'); });
+    G.forEach(function (f) { s += circ(X(f.x), Y(f.y), RCOL[f.role] || '#888', (f.fid || '') + ' ' + L.esc(f.name)); });
+    s += '<text x="' + X(0) + '" y="' + (Hp - 4) + '" font-size="10.5" fill="' + ink + '" text-anchor="middle">객석</text></svg>';
+    $('plan').innerHTML = G.length ? s : '<p class="note">좌표를 적으면 평면도가 그려집니다.</p>';
+    var Hf = (mxz + 0.5) * sc, Z = function (z) { return Hf - (z + 0.3) * sc; };
+    var t = '<svg viewBox="0 0 ' + Wv + ' ' + Hf.toFixed(0) + '" role="img" aria-label="정면도"><line x1="' + X(-sw / 2) + '" y1="' + Z(0) + '" x2="' + X(sw / 2) + '" y2="' + Z(0) + '" stroke="' + ink + '" stroke-width="3" opacity="0.6"/>';
+    G.slice().sort(function (a, b) { return b.y - a.y; }).forEach(function (f) { t += circ(X(f.x), Z(f.z), RCOL[f.role] || '#888', (f.fid || '') + ' ' + L.esc(f.name) + ' Z ' + f2(f.z)); });
+    $('front').innerHTML = G.length ? t + '</svg>' : '';
+    var roles = {}; G.forEach(function (f) { roles[f.role] = 1; });
+    $('leg').innerHTML = L.ROLES.filter(function (k) { return roles[k]; }).map(function (k) { return '<span><i style="background:' + RCOL[k] + '"></i>' + k + '</span>'; }).join('') + (G.length ? '<span><i style="background:#c8553d;width:7px;height:7px"></i>원점(무대 앞 끝의 가운데)</span>' : '');
+  }
+
+  // 4 패치 시트
+  function sorted(F) {
+    var A = F.slice();
+    if (RC.sort === 'id') A.sort(function (a, b) { return (a.fid == null ? 1e9 : a.fid) - (b.fid == null ? 1e9 : b.fid); });
+    if (RC.sort === 'addr') A.sort(function (a, b) { var ka = a.uni == null ? 1e9 : a.uni * 1000 + (a.addr || 0), kb = b.uni == null ? 1e9 : b.uni * 1000 + (b.addr || 0); return ka - kb; });
+    return A;
+  }
+  function renderSheet() {
+    var F = expand(), C = checks(F);
+    $('pchecks').innerHTML = C.html; $('sort').value = RC.sort;
+    $('sheetSum').textContent = '패치 시트 — ' + F.length + '대';
+    $('ps').innerHTML = '<tr><th>ID</th><th>장비</th><th>채널</th><th>유니버스.주소</th><th>위치</th><th>X</th><th>Y</th><th>Z</th><th>설치</th><th>역할</th></tr>' + sorted(F).map(function (f) {
+      return '<tr class="' + (C.bad[f.fid] ? 'bad' : f.uni == null ? 'out' : '') + '"><td>' + (f.fid == null ? '—' : f.fid) + '</td><td class="t">' + L.esc(f.name) + '</td><td>' + f.ch + 'ch</td><td>' + (f.uni == null ? '콘솔 밖' : f.addr == null ? '—' : f.uni + '.' + pad3(f.addr)) + '</td><td class="t">' + L.esc(f.pos) + '</td><td>' + f2(f.x) + '</td><td>' + f2(f.y) + '</td><td>' + f2(f.z) + '</td><td class="t">' + L.esc(f.mount) + '</td><td class="t">' + L.esc(f.role) + '</td></tr>';
+    }).join('');
+  }
+
+  // 빔 계산
+  function renderBeam() {
+    var b = RC.beam; $('ang').value = b.ang; $('dist').value = b.dist; $('wid').value = b.wid; $('ovl').value = String(b.ovl);
+    var D = 2 * b.dist * Math.tan(b.ang / 2 * Math.PI / 180), sp = D * (1 - b.ovl / 100), n = sp > 0 ? (b.wid <= D ? 1 : Math.ceil((b.wid - D) / sp - 1e-9) + 1) : 0;
+    $('beam').innerHTML = '<div><span>빔 지름</span><b>' + D.toFixed(2) + 'm</b></div><div><span>장비 사이 간격</span><b>' + sp.toFixed(2) + 'm</b></div><div><span>폭 ' + b.wid + 'm를 덮는 수량</span><b>' + n + '대</b></div>';
+  }
+
+  function render() {
+    var F = expand(); chips(F);
+    if (RC.tab === 'list') renderList(); else if (RC.tab === 'addr') renderAddr(); else if (RC.tab === 'pos') renderPos(); else if (RC.tab === 'sheet') renderSheet(); else renderBeam();
+  }
+
+  // 입력
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.dataset.i != null && t.dataset.k) {
+      var r = RC.rows[+t.dataset.i], k = t.dataset.k;
+      r[k] = (t.type === 'number') ? (t.value === '' ? null : +t.value) : t.value;
+      save(); render(); return;
+    }
+    if (t.id === 'spare') { RC.spare = Math.max(0, +t.value || 0); save(); render(); }
+    if (t.id === 'sw') { RC.stage.w = +t.value || 12; save(); render(); }
+    if (t.id === 'sd') { RC.stage.d = +t.value || 8; save(); render(); }
+    if (t.id === 'sort') { RC.sort = t.value; L.putKey('rigcalc', RC); render(); }
+    if (['ang', 'dist', 'wid', 'ovl'].indexOf(t.id) >= 0) { RC.beam[t.id] = +t.value || 0; L.putKey('rigcalc', RC); renderBeam(); }
+  });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-act]'); if (!b) return;
+    var i = +b.dataset.i, a = b.dataset.act, R = RC.rows;
+    if (a === 'del') { if (R[i].name && !confirmDel(R[i])) return; R.splice(i, 1); }
+    if (a === 'dup') { var c = JSON.parse(JSON.stringify(R[i])); c.id = L.uid(); c.fid = null; c.addr = null; R.splice(i + 1, 0, c); }
+    if (a === 'up' && i > 0) { R.splice(i - 1, 0, R.splice(i, 1)[0]); }
+    if (a === 'down' && i < R.length - 1) { R.splice(i + 1, 0, R.splice(i, 1)[0]); }
+    save(); render();
+  });
+  var lastDel = null;
+  function confirmDel(r) { if (lastDel === r.id) { lastDel = null; return true; } lastDel = r.id; say('listMsg', '"' + r.name + '" 줄을 지우려면 × 를 한 번 더 누릅니다.'); return false; }
+  $('add').addEventListener('click', function () { RC.rows.push(blankRow()); save(); render(); var ins = $('tList').querySelectorAll('input[data-k=name]'); if (ins.length) ins[ins.length - 1].focus(); });
+  $('ex').addEventListener('click', function () { var t = RC.tab; RC = example(); RC.tab = t; L.putKey('rigcalc', RC); render(); say('impMsg', '22장 실습 무대(94대)를 불러왔습니다.'); });
+  var clearArmed = false;
+  $('clear').addEventListener('click', function () {
+    if (!clearArmed) { clearArmed = true; $('clear').textContent = '정말 비울까요? 한 번 더 누르기'; setTimeout(function () { clearArmed = false; $('clear').textContent = '비우고 새로 시작'; }, 4000); return; }
+    clearArmed = false; $('clear').textContent = '비우고 새로 시작';
+    RC.rows = [blankRow()]; RC.isExample = false; RC.tab = 'list'; save(); showTab('list');
+  });
+
+  // 번호·주소 자동
+  $('autoId').addEventListener('click', function () {
+    var h = {}, next = 100, used = {};
+    RC.rows.forEach(function (r) {
+      if (num(r.uni) == null && /팔로우/.test(r.name || '')) return;
+      var k = (r.name || '') + '|' + (r.ch || ''), q = +r.qty || 0;
+      if (!h[k]) { h[k] = next + 1; next += Math.max(1, Math.ceil(q / 99)) * 100; }
+      r.fid = h[k]; h[k] += q;
+    });
+    save(); render(); say('addrMsg', '종류(이름·채널)마다 100 단위 번호를 매겼습니다. 같은 종류는 줄 순서대로 이어 매깁니다.');
+  });
+  $('auto').addEventListener('click', function () {
+    var end = {}, kind = {}, moved = [], none = 0;
+    RC.rows.forEach(function (r) {
+      var u = num(r.uni); if (u == null) { none++; return; } if (!r.ch || !(+r.qty)) return;
+      var need = (+r.qty) * r.ch, k = r.name + '|' + r.ch, a;
+      if (!end[u]) a = 1; else if (kind[u] === k) a = end[u] + 1; else a = Math.ceil(end[u] / 100) * 100 + 1;
+      if (a + need - 1 > 512) moved.push(L.esc(r.name) + (r.pos ? '(' + L.esc(r.pos) + ')' : ''));
+      r.addr = a; end[u] = a + need - 1; kind[u] = k;
+    });
+    save(); render();
+    say('addrMsg', moved.length ? '512 안에 들어가지 않는 줄: ' + moved.join(', ') + '. 그 줄의 유니버스를 바꾸고 다시 누릅니다.' : '주소를 채웠습니다.' + (none ? ' 유니버스가 빈 ' + none + '줄은 콘솔 밖으로 두었습니다.' : ''));
+  });
+
+  // 가져오기
+  var SYN = { name: ['장비', '기종', '이름', '장비명', 'instrument type', 'fixture type', 'type', 'name', 'fixture'], pos: ['위치', 'position', 'location', '트러스'], role: ['역할', 'purpose', 'role'],
+    mount: ['설치', 'mount', 'mounting'], qty: ['수량', 'qty', 'count', 'quantity'], ch: ['채널', '채널 수', '모드 채널', 'footprint', 'dmx footprint', 'channels', 'num channels'],
+    fid: ['id', 'fid', 'fixture id', '픽스처 id', '번호', 'channel', 'chan'], uni: ['유니버스', 'universe', 'univ'], addr: ['주소', 'address', 'dmx address', 'dmx', 'addr', 'patch'],
+    x: ['x'], y: ['y'], z: ['z'], kg: ['무게', 'weight', 'kg'], w: ['전력', 'power', 'wattage', 'w', 'watt'] };
+  function colOf(h) { h = h.toLowerCase().replace(/\s*\(.*\)\s*/g, '').replace(/[_]/g, ' ').trim(); for (var k in SYN) if (SYN[k].indexOf(h) >= 0) return k; if (/^x\b/.test(h)) return 'x'; if (/^y\b/.test(h)) return 'y'; if (/^z\b/.test(h)) return 'z'; return null; }
+  function splitLine(l, sep) { if (sep === '\t') return l.split('\t'); var out = [], cur = '', q = false; for (var i = 0; i < l.length; i++) { var c = l[i]; if (c === '"') { if (q && l[i + 1] === '"') { cur += '"'; i++; } else q = !q; } else if (c === sep && !q) { out.push(cur); cur = ''; } else cur += c; } out.push(cur); return out; }
+  function parseAddr(v, u) { v = String(v || '').trim(); if (!v) return [u, null]; var m = v.match(/^(\d+)\s*[.\/:\-]\s*(\d+)$/); if (m) return [+m[1], +m[2]]; var n = +v; if (isNaN(n)) return [u, null]; if (u == null && n > 512) return [Math.floor((n - 1) / 512) + 1, (n - 1) % 512 + 1]; return [u == null ? (n ? 1 : null) : u, n]; }
+  function nOr(v) { v = String(v == null ? '' : v).replace(/[^0-9.\-]/g, ''); return v === '' || isNaN(+v) ? null : +v; }
+  function guessRole(name) { var n = (name || '').toLowerCase(); if (/profile|프로파일|ers|leko|source four/.test(n)) return '키'; if (/fresnel|프레넬/.test(n)) return '필'; if (/strobe|스트로브|jdc/.test(n)) return 'FX'; if (/blinder|블라인더/.test(n)) return '오디언스'; if (/bar|바|pixel|픽셀/.test(n)) return '픽셀'; if (/beam|빔|spot|스팟/.test(n)) return '빔'; return '워시'; }
+  $('imp').addEventListener('click', function () {
+    var txt = $('impText').value.trim(); if (!txt) { say('impMsg', '붙여 넣은 내용이 없습니다.'); return; }
+    if (txt[0] === '{') { try { var o = JSON.parse(txt); if (!o.rows) throw 0; RC = o; RC.tab = 'list'; RC.isExample = false; save(); showTab('list'); say('impMsg', '백업을 되살렸습니다(' + RC.rows.length + '줄).'); } catch (err) { say('impMsg', '백업 내용을 읽지 못했습니다.'); } return; }
+    var lines = txt.split(/\r?\n/).filter(function (l) { return l.trim(); }), sep = lines[0].indexOf('\t') >= 0 ? '\t' : (lines[0].indexOf(';') >= 0 && lines[0].indexOf(',') < 0 ? ';' : ',');
+    var head = splitLine(lines[0], sep).map(colOf), known = head.filter(Boolean);
+    if (known.indexOf('name') < 0) { say('impMsg', '첫 줄에서 "장비"(또는 Instrument Type) 칸을 찾지 못했습니다. 칸 이름이 있는 첫 줄까지 붙여 넣습니다.'); return; }
+    var recs = lines.slice(1).map(function (l) { var c = splitLine(l, sep), o = {}; head.forEach(function (k, i) { if (k && o[k] == null) o[k] = (c[i] || '').trim(); }); return o; }).filter(function (o) { return o.name; });
+    var rows = [];
+    recs.forEach(function (o) {
+      var ua = parseAddr(o.addr, nOr(o.uni)), q = nOr(o.qty) || 1;
+      var r = { id: L.uid(), name: o.name, pos: o.pos || '', role: L.ROLES.indexOf(o.role) >= 0 ? o.role : guessRole(o.name), mount: MOUNT.indexOf(o.mount) >= 0 ? o.mount : '행잉', qty: q, ch: nOr(o.ch), kg: nOr(o.kg), w: nOr(o.w), fid: nOr(o.fid), uni: ua[0], addr: ua[1], x1: nOr(o.x), x2: nOr(o.x), y: nOr(o.y), z1: nOr(o.z), z2: nOr(o.z) };
+      var p = rows[rows.length - 1];
+      // 같은 장비가 같은 위치에서 번호·주소가 이어지면 한 줄로 묶음
+      if (q === 1 && p && p.name === r.name && p.pos === r.pos && p.ch === r.ch && p.uni === r.uni && p.y === r.y && p.fid != null && r.fid === p.fid + p.qty && (p.addr == null ? r.addr == null : r.addr === p.addr + p.qty * (p.ch || 0))) { p.qty++; p.x2 = r.x2; p.z2 = r.z2; }
+      else rows.push(r);
+    });
+    RC.rows = rows; RC.isExample = false; save(); showTab('list');
+    var miss = rows.filter(function (r) { return !r.ch; }).length;
+    say('impMsg', recs.length + '대를 ' + rows.length + '줄로 가져왔습니다(같은 위치에서 번호·주소가 이어지는 장비는 한 줄로 묶음).' + (miss ? ' 채널 수가 빈 줄 ' + miss + '개를 채웁니다.' : ''));
+  });
+  $('fromRig').addEventListener('click', function () {
+    var rig = L.rig(); if (!rig || !rig.rows || !rig.rows.length) { say('impMsg', '장비 역할표에 적은 장비가 없습니다.'); return; }
+    RC.rows = rig.rows.map(function (r) { var b = blankRow(); b.name = r.name; b.role = (r.roles && r.roles[0]) || '워시'; b.qty = +r.qty || 0; b.pos = r.place || ''; b.mount = /바닥/.test(r.place || '') ? '플로어' : /타워|벽|정면/.test(r.place || '') ? '정면' : '행잉'; return b; });
+    RC.isExample = false; save(); showTab('list'); say('impMsg', '장비 역할표의 장비 ' + RC.rows.length + '줄을 불러왔습니다. 채널, 무게, 전력을 채웁니다.');
+  });
+  function clip(txt, id, okMsg) { var done = function (ok) { say(id, ok ? okMsg : '복사가 막혀 있습니다. 브라우저의 클립보드 권한을 확인합니다.'); }; try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); } }
+  $('backup').addEventListener('click', function () { clip(JSON.stringify(RC), 'impMsg', '백업을 복사했습니다. 메모나 파일에 붙여 두었다가, 위 칸에 붙여 넣으면 되살아납니다.'); });
+  $('copyList').addEventListener('click', function () {
+    var T = totals(), lines = ['장비\t위치\t역할\t설치\t수량\t채널\t무게kg/대\t전력W/대\t무게 합kg\t전력 합kW'];
+    RC.rows.forEach(function (r) { var q = +r.qty || 0; lines.push([r.name, r.pos, r.role, r.mount, q, r.ch || '', r.kg || '', r.w || '', fmt(q * (+r.kg || 0)), fmt(q * (+r.w || 0) / 1000, 2)].join('\t')); });
+    lines.push(['합계', '', '', '', T.qty, T.ch, '', '', fmt(T.kg), fmt(T.w / 1000, 2)].join('\t'));
+    clip(lines.join('\n'), 'listMsg', '장비 목록을 복사했습니다. 스프레드시트에 붙여 넣습니다.');
+  });
+  $('copySheet').addEventListener('click', function () {
+    var lines = ['ID\t장비\t채널\t유니버스\t주소\t유니버스.주소\t위치\tX\tY\tZ\t설치\t역할'];
+    sorted(expand()).forEach(function (f) { lines.push([f.fid == null ? '' : f.fid, f.name, f.ch, f.uni == null ? '콘솔 밖' : f.uni, f.addr == null ? '' : f.addr, f.uni == null || f.addr == null ? '' : f.uni + '.' + pad3(f.addr), f.pos, f2(f.x), f2(f.y), f2(f.z), f.mount, f.role].join('\t')); });
+    clip(lines.join('\n'), 'sheetMsg', '패치 시트를 복사했습니다. 스프레드시트에 붙여 넣습니다.');
+  });
+  $('copyLoad').addEventListener('click', function () {
+    var P = {}, T = totals();
+    RC.rows.forEach(function (r) { var k = r.pos || '위치 미정', q = +r.qty || 0; P[k] = P[k] || { q: 0, kg: 0, w: 0 }; P[k].q += q; P[k].kg += q * (+r.kg || 0); P[k].w += q * (+r.w || 0); });
+    var lines = ['위치\t수량\t장비 무게kg\t전력kW'];
+    Object.keys(P).forEach(function (k) { lines.push([k, P[k].q, fmt(P[k].kg), fmt(P[k].w / 1000, 2)].join('\t')); });
+    lines.push(['합계', T.qty, fmt(T.kg), fmt(T.w / 1000, 2)].join('\t'));
+    clip(lines.join('\n') + '\n\n트러스와 케이블 무게는 따로 더합니다. 안전 하중은 제조사 규격과 리깅 담당의 확인을 따릅니다.', 'sheetMsg', '위치별 하중·전력 표를 복사했습니다. 리깅·전기 담당에게 보냅니다.');
+  });
+
+  showTab(RC.tab);
+})();
+</script>
+</body>
+</html>

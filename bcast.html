@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>방송 점검</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 플래시 표(큐마다 Hz 판정), 아래 왼쪽 카메라 점검표, 오른쪽 템포별 Hz 표 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:74ch}
+table.fl td{vertical-align:middle}
+table.fl input[type=text]{min-width:12em;width:100%}
+table.fl input.n{width:5em}
+.v{font-size:12.5px;font-weight:700;white-space:nowrap}
+.v.ok{color:var(--ok)} .v.w{color:var(--warn)} .v.bad{color:var(--bad)}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:16px;align-items:start}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+.cl{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.cl label{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:14px}
+.cl input{margin-top:4px}
+.hz td{font-family:var(--f-num);font-size:13px}
+.hz td.bad{color:var(--bad);font-weight:700}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>방송 점검</h1>
+    <p>17장 실습을 해 보는 판입니다. 깜박이거나 끊어 바뀌는 큐마다 박 단위, 화면에서 차지할 면적, 이어지는 길이, 빨강이 들어가는지를 적으면, 1초에 몇 번 깜박이는지(Hz) 계산해 방송 플래시 기준(화면 4분의 1이 넘는 면적이 1초에 세 번보다 많이 깜박이지 않음)과 견줍니다.</p>
+  </div>
+  <section class="panel">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 id="flT">깜박이는 큐</h2>
+      <div class="row"><label class="f">BPM<input type="number" id="bpm" class="n" min="40" max="240" step="0.1" title="여기서 바꾼 BPM은 이 점검에만 씁니다. 곡 BPM은 그대로입니다."></label><button type="button" id="bpmBack" class="ghost" hidden>곡 BPM으로</button><button type="button" id="add">큐 더하기</button><button type="button" id="copy" class="ghost">표 복사</button></div></div>
+    <p class="note" id="msg"></p>
+    <div class="tbl"><table class="fl" id="fl"></table></div>
+    <p class="note" style="margin:10px 0 0">기준: ITU-R BT.1702, Ofcom. 국내 방송사의 자체 기준은 방송사마다 확인합니다. 면적은 와이드 샷 화면에서 깜박이는 부분의 비율로 어림합니다.</p>
+  </section>
+  <div class="grid2">
+    <section class="panel"><h2 style="margin-bottom:10px">카메라 점검표</h2><ul class="cl" id="cl"></ul></section>
+    <section class="panel"><h2 style="margin-bottom:10px" id="hzT">이 곡의 깜박임 빠르기</h2><div class="tbl"><table class="hz" id="hz"></table></div></section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('bcast.html'), D = L.design(S);
+  var $ = function (id) { return document.getElementById(id); };
+  var UNITS = [['once', '한 번', 0], ['2bar', '2마디마다', 1 / 8], ['bar', '마디마다', 1 / 4], ['2beat', '2박마다', 1 / 2], ['beat', '박마다', 1], ['8th', '반 박마다(8분)', 2], ['16th', '16분음표마다', 4]];
+  var CHK = [['key', '키가 곡 큐 리스트 밖(고정 페이더)에 있다'], ['face', '댄스 구간에서 얼굴이 하얗게 뜨는지 모니터로 봤다'], ['led', 'LED 월이 가장 밝은 구간에서 얼굴 노출을 확인했다'],
+    ['pwm', '카메라를 보며 LED 장비의 주파수(PWM)를 맞춰 줄무늬가 없다'], ['red', '빨강과 검정 사이를 오가는 범프가 없다'], ['ct', '키 장비가 같은 기종, 같은 색온도다']];
+  if (!D.bcast) {
+    D.bcast = { rows: [], chk: {} };
+    if (S.sample) D.bcast.rows = [['후렴 픽셀 두 색 스냅', '2beat', 15, 4, false], ['빨강 픽셀 하트(47~48마디)', 'once', 15, 2, true], ['화이트 플래시(67마디 4박)', 'once', 100, 0.5, false], ['18마디 밝기 히트', 'once', 100, 0.5, false]]
+      .map(function (x) { return { id: L.uid(), name: x[0], unit: x[1], area: x[2], bars: x[3], red: x[4] }; });
+  }
+  var B = D.bcast;
+  function save() { L.put(S); }
+  function unit(k) { for (var i = 0; i < UNITS.length; i++) if (UNITS[i][0] === k) return UNITS[i]; return UNITS[0]; }
+  var bpmV = +S.bpm || 120; // 점검용 BPM. 곡 BPM(S.bpm)은 바꾸지 않음
+  function hz(r) { return bpmV / 60 * unit(r.unit)[2]; }
+  function judge(r) {
+    var h = hz(r), a = +r.area || 0, sec = (+r.bars || 0) * L.barLen(S), out = [];
+    if (h === 0) out.push(['ok', '한 번 — 연속 깜박임이 아님']);
+    else if (h > 3 && a > 25) out.push(['bad', '기준 밖: ' + h.toFixed(1) + 'Hz, 면적 ' + a + '%']);
+    else if (h >= 2.9 && a > 25) out.push(['w', '경계: ' + h.toFixed(1) + 'Hz. 한 단계 느리게']);
+    else if (h > 3) out.push(['w', h.toFixed(1) + 'Hz지만 면적 ' + a + '%. 와이드 샷에서 확인']);
+    else out.push(['ok', h.toFixed(1) + 'Hz — 기준 안']);
+    if (r.red && h > 0) out.push(['w', '빨강이 깜박임. 빨강↔화이트로 바꾸거나 채도를 낮춤']);
+    else if (r.red) out.push(['w', '빨강으로 바뀌는 순간. 깜박이지 않게 유지']);
+    if (h > 0 && sec > 5 && a > 25) out.push(['w', '깜박임이 ' + sec.toFixed(1) + '초 — 5초 안에서 끊기']);
+    return out;
+  }
+  function render() {
+    $('bpm').value = bpmV; $('bpmBack').hidden = bpmV === (+S.bpm || 120); $('bpmBack').textContent = '곡 BPM(' + (+S.bpm || 120) + ')으로'; $('flT').textContent = (S.title || '') + ' 깜박이는 큐';
+    $('fl').innerHTML = '<tr><th>큐</th><th>단위</th><th>Hz</th><th>면적 %</th><th>길이(마디)</th><th>빨강</th><th>판정</th><th></th></tr>' + B.rows.map(function (r, i) {
+      return '<tr><td><input type="text" data-i="' + i + '" data-k="name" value="' + L.esc(r.name) + '" aria-label="큐 이름"></td>' +
+        '<td><select data-i="' + i + '" data-k="unit" aria-label="단위">' + UNITS.map(function (u) { return '<option value="' + u[0] + '"' + (u[0] === r.unit ? ' selected' : '') + '>' + u[1] + '</option>'; }).join('') + '</select></td>' +
+        '<td class="num">' + hz(r).toFixed(2) + '</td>' +
+        '<td><input type="number" class="n" min="0" max="100" data-i="' + i + '" data-k="area" value="' + r.area + '" aria-label="면적"></td>' +
+        '<td><input type="number" class="n" min="0" step="0.5" data-i="' + i + '" data-k="bars" value="' + r.bars + '" aria-label="길이"></td>' +
+        '<td><input type="checkbox" data-i="' + i + '" data-k="red"' + (r.red ? ' checked' : '') + ' aria-label="빨강"></td>' +
+        '<td>' + judge(r).map(function (j) { return '<div class="v ' + j[0] + '">' + j[1] + '</div>'; }).join('') + '</td>' +
+        '<td><button type="button" class="ghost" data-del="' + i + '">지우기</button></td></tr>';
+    }).join('');
+    $('cl').innerHTML = CHK.map(function (c) { return '<li><label><input type="checkbox" data-c="' + c[0] + '"' + (B.chk[c[0]] ? ' checked' : '') + '>' + c[1] + '</label></li>'; }).join('');
+    var b = bpmV; $('hzT').textContent = b + ' BPM의 깜박임 빠르기';
+    $('hz').innerHTML = '<tr><th>단위</th><th>Hz</th><th>넓은 면적</th></tr>' + UNITS.slice(1).map(function (u) { var h = b / 60 * u[2]; return '<tr><td>' + u[1] + '</td><td>' + h.toFixed(2) + '</td><td class="' + (h > 3 ? 'bad' : '') + '">' + (h > 3 ? '기준 밖' : h >= 2.9 ? '경계' : '기준 안') + '</td></tr>'; }).join('');
+  }
+  $('fl').addEventListener('change', function (e) {
+    var t = e.target; if (t.dataset.i == null) return; var r = B.rows[+t.dataset.i];
+    r[t.dataset.k] = t.type === 'checkbox' ? t.checked : (t.type === 'number' ? +t.value : t.value); save(); render();
+  });
+  $('fl').addEventListener('click', function (e) { var d = e.target.dataset.del; if (d != null) { B.rows.splice(+d, 1); save(); render(); } });
+  $('cl').addEventListener('change', function (e) { var c = e.target.dataset.c; if (c) { B.chk[c] = e.target.checked; save(); } });
+  $('bpm').addEventListener('change', function () { var v = +$('bpm').value; if (v >= 40 && v <= 240) { bpmV = v; render(); } });
+  $('add').addEventListener('click', function () { B.rows.push({ id: L.uid(), name: '', unit: 'beat', area: 30, bars: 1, red: false }); save(); render(); });
+  $('copy').addEventListener('click', function () {
+    var lines = ['큐\t단위\tHz\t면적%\t길이(마디)\t빨강\t판정'];
+    B.rows.forEach(function (r) { lines.push([r.name, unit(r.unit)[1], hz(r).toFixed(2), r.area, r.bars, r.red ? '예' : '', judge(r).map(function (j) { return j[1]; }).join(' / ')].join('\t')); });
+    var txt = (S.title || '') + ' 방송 점검 (' + bpmV + ' BPM)\n' + lines.join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? '표를 복사했습니다.' : '복사가 막혀 있습니다.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  $('bpmBack').addEventListener('click', function () { bpmV = +S.bpm || 120; render(); });
+  save(); render();
+})();
+</script>
+</body>
+</html>

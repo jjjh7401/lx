@@ -1,0 +1,277 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>음악 지도 연습장 A2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap">
+<style>
+/* 레이아웃: 위에 지도(가로로 긴 타임라인), 아래 두 칸에 구간 표와 변화 표, 맨 아래 구성표 출력. 좁은 화면에서는 한 줄. */
+:root {
+  --bg: #f4f5f2; --panel: #ffffff; --ink: #1b1f24; --muted: #5f6670; --line: #d9ddd6;
+  --accent: #d2782a; --s-intro: #5b6b8c; --s-verse: #3b6ea8; --s-pre: #7a5ea8; --s-chorus: #c8553d;
+  --s-bridge: #2f8c8c; --s-other: #9aa3b2; --s-final: #d9902a; --energy: #d9902a; --energy-fill: rgba(217,144,42,.18);
+  --font-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --font-num: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14171b; --panel: #1d2127; --ink: #e8eaed; --muted: #9aa2ad; --line: #2e343c; --accent: #f0a050;
+    --energy: #f0a050; --energy-fill: rgba(240,160,80,.2); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14171b; --panel: #1d2127; --ink: #e8eaed; --muted: #9aa2ad; --line: #2e343c; --accent: #f0a050;
+  --energy: #f0a050; --energy-fill: rgba(240,160,80,.2); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 24px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; margin-bottom: 16px; }
+h1 { font-size: 1.6rem; margin: 0; text-wrap: balance; }
+.tag { font-family: var(--font-num); font-size: .78rem; letter-spacing: .08em; color: var(--accent); border: 1px solid var(--accent); padding: 1px 8px; border-radius: 3px; }
+.lead { color: var(--muted); margin: 0; flex-basis: 100%; max-width: 70ch; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 16px; min-width: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-bottom: 14px; }
+.row label { display: grid; gap: 4px; font-size: .8rem; color: var(--muted); }
+input, select { font-family: var(--font-num); font-size: 1rem; padding: 6px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--ink); }
+input[type=text] { font-family: var(--font-body); }
+input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button { font-family: var(--font-body); font-size: .85rem; border: 1px solid var(--line); background: var(--bg); color: var(--ink); padding: 6px 10px; border-radius: 4px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button.primary { background: var(--accent); border-color: var(--accent); color: #1b1f24; font-weight: 700; }
+.map-box { overflow-x: auto; }
+svg text { font-family: var(--font-body); }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 16px; }
+@media (max-width: 860px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+h2 { font-size: 1rem; margin: 0 0 10px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.tbl { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 4px 4px; border-bottom: 1px solid var(--line); font-size: .85rem; vertical-align: middle; }
+th { color: var(--muted); font-weight: 600; font-size: .75rem; }
+td input { width: 100%; min-width: 3.5em; font-size: .9rem; }
+td input.n { width: 4.2em; }
+td select { font-size: .9rem; }
+td.t { font-family: var(--font-num); color: var(--muted); white-space: nowrap; }
+.del { padding: 2px 8px; }
+pre { background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 12px; font-family: var(--font-num); font-size: .8rem; white-space: pre; overflow-x: auto; margin: 0; }
+.note { font-size: .8rem; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .8rem; color: var(--muted); margin-top: 8px; }
+.sample { font-size: .75rem; color: var(--accent); font-weight: 600; }
+</style>
+
+<div class="wrap">
+  <p style="margin:0 0 12px;font-size:13px"><a href="index.html" style="color:var(--accent)">← LX 조명 연출 도구모음</a></p>
+  <header>
+    <h1>음악 지도 연습장</h1><span class="tag">웹 부록 4 · 3·4장</span>
+    <p class="lead">BPM과 첫 다운비트, 구간과 변화를 마디로 적으면 시각을 계산해 음악 지도를 그리고, 곡 구성표 텍스트를 만들어 줍니다. 처음에는 실습 곡 LOVE ATTACK의 예가 들어 있습니다. 표를 고치면 지도가 바로 바뀝니다.</p>
+  </header>
+
+  <section class="panel" aria-label="곡 정보와 지도">
+    <div class="row">
+      <label for="title">곡<input id="title" type="text" value="LOVE ATTACK"></label>
+      <label for="bpm">BPM<input id="bpm" type="number" step="0.01" min="30" max="300" value="112" style="width:7em"></label>
+      <label for="t0">첫 다운비트(초)<input id="t0" type="number" step="0.01" min="0" value="1.5" style="width:7em"></label>
+      <label for="nbars">마디 수<input id="nbars" type="number" step="1" min="1" max="400" value="83" style="width:6em"></label>
+      <button id="loadSample">LOVE ATTACK 예 불러오기</button>
+      <button id="clearAll">빈 양식</button>
+      <span class="sample" id="sampleFlag">예시 데이터</span>
+    </div>
+    <div class="map-box"><svg id="map" width="1120" height="300" role="img" aria-label="음악 지도"></svg></div>
+    <div class="legend">
+      <span>▲ 킥·진입</span><span>↗ 빌드업·상승</span><span>≋ 스네어 롤</span><span>▼ 큰 히트</span><span>○ 브레이크</span><span>× 킥 아웃</span><span>◆ 한 박 당김</span>
+      <span>● 잰 것 · ◐ 짐작 · ○ 못 정함</span>
+    </div>
+  </section>
+
+  <div class="grid2">
+    <section class="panel" aria-label="구간">
+      <h2>구간 <button id="addSec">구간 추가</button></h2>
+      <div class="tbl"><table id="secTbl"></table></div>
+      <p class="note">시작 마디만 적으면 끝 마디는 다음 구간 앞까지로 계산합니다. 에너지는 1~5(4장).</p>
+    </section>
+    <section class="panel" aria-label="변화">
+      <h2>변화 <button id="addEv">변화 추가</button></h2>
+      <div class="tbl"><table id="evTbl"></table></div>
+      <p class="note">박은 1~4. 한 박 당겨 들어오는 히트는 앞 마디의 4박으로 적습니다.</p>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-top:16px" aria-label="구성표">
+    <h2>곡 구성표 텍스트 <button class="primary" id="copy">복사</button></h2>
+    <pre id="out"></pre>
+    <p class="note" id="copyMsg"></p>
+  </section>
+</div>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const SAMPLE = {
+    title: 'LOVE ATTACK', bpm: 112, t0: 1.5, nbars: 83,
+    secs: [
+      [1, '인트로', 2, '●'], [7, '벌스 1', 2, '●'], [14, '프리코러스 1', 3, '◐'], [18, '후렴 1', 4, '●'], [33, '킥 아웃', 2, '●'],
+      [34, '벌스 2', 3, '●'], [42, '프리코러스 2', 3, '◐'], [46, '후렴 2', 4, '●'], [61, '킥 아웃', 2, '●'], [62, '브릿지', 2, '◐'],
+      [63, '비트(드롭 후보)', 4, '○'], [67, '브레이크', 1, '●'], [68, '후렴 3', 5, '●'], [82, '끝', 2, '●']
+    ],
+    evs: [
+      [7, 1, '▲', '벌스 진입', '●'], [14, 1, '↗', '빌드업 1', '●'], [18, 1, '▼', '후렴 1 큰 히트', '●'], [33, 1, '×', '킥 아웃', '●'],
+      [42, 1, '○', '저음 비움', '●'], [44, 1, '↗', '다시 올림', '●'], [46, 1, '▼', '후렴 2 큰 히트', '●'], [61, 1, '×', '킥 아웃', '●'],
+      [67, 1, '○', '브레이크', '●'], [67, 4, '◆', '후렴 3 한 박 당김', '●'], [69, 1, '↗', '후렴 3 안에서 상승', '●'], [82, 1, '×', '킥 아웃·끝', '●']
+    ]
+  };
+  let state = JSON.parse(JSON.stringify(SAMPLE));
+  let isSample = true;
+  try { const saved = localStorage.getItem('a2-map'); if (saved) { state = JSON.parse(saved); isSample = false; } } catch (e) {}
+
+  const SYMS = ['▲', '↗', '≋', '▼', '○', '×', '◆'];
+  const CONF = ['●', '◐', '○'];
+  function colorFor(name) {
+    const cs = getComputedStyle(document.documentElement);
+    const v = (k) => cs.getPropertyValue(k).trim();
+    if (/인트로|intro|끝|아웃트로|outro/i.test(name)) return v('--s-intro');
+    if (/프리|pre|빌드|build/i.test(name)) return v('--s-pre');
+    if (/후렴 3|마지막/i.test(name)) return v('--s-final');
+    if (/후렴|코러스|chorus|드롭|drop/i.test(name)) return v('--s-chorus');
+    if (/브릿지|bridge|비트|브레이크/i.test(name)) return v('--s-bridge');
+    if (/벌스|verse/i.test(name)) return v('--s-verse');
+    return v('--s-other');
+  }
+  const fmt = (s) => { if (!isFinite(s)) return '–'; const m = Math.floor(s / 60); const r = s - m * 60; return m + ':' + (r < 10 ? '0' : '') + r.toFixed(1); };
+  function times() { const bpm = +state.bpm; const beat = 60 / bpm; return { beat, bar: beat * 4, t0: +state.t0 }; }
+  function save() { try { localStorage.setItem('a2-map', JSON.stringify(state)); } catch (e) {} }
+
+  function renderTables() {
+    const { beat, bar, t0 } = times();
+    const secs = state.secs.slice().sort((a, b) => a[0] - b[0]);
+    let h = '<tr><th>시작 마디</th><th>시각</th><th>이름</th><th>에너지</th><th>확신</th><th></th></tr>';
+    state.secs.forEach((s, i) => {
+      h += `<tr><td><input class="n" type="number" min="1" data-k="sec" data-i="${i}" data-f="0" value="${s[0]}" aria-label="시작 마디"></td>` +
+        `<td class="t">${fmt(t0 + (s[0] - 1) * bar)}</td>` +
+        `<td><input type="text" data-k="sec" data-i="${i}" data-f="1" value="${s[1]}" aria-label="구간 이름"></td>` +
+        `<td><input class="n" type="number" min="1" max="5" data-k="sec" data-i="${i}" data-f="2" value="${s[2]}" aria-label="에너지"></td>` +
+        `<td><select data-k="sec" data-i="${i}" data-f="3" aria-label="확신">${CONF.map(c => `<option${c === s[3] ? ' selected' : ''}>${c}</option>`).join('')}</select></td>` +
+        `<td><button class="del" data-del="sec" data-i="${i}" aria-label="구간 지우기">×</button></td></tr>`;
+    });
+    $('secTbl').innerHTML = h;
+    let e = '<tr><th>마디</th><th>박</th><th>시각</th><th>기호</th><th>메모</th><th>확신</th><th></th></tr>';
+    state.evs.forEach((v, i) => {
+      e += `<tr><td><input class="n" type="number" min="1" data-k="ev" data-i="${i}" data-f="0" value="${v[0]}" aria-label="마디"></td>` +
+        `<td><input class="n" type="number" min="1" max="4" data-k="ev" data-i="${i}" data-f="1" value="${v[1]}" aria-label="박"></td>` +
+        `<td class="t">${fmt(t0 + (v[0] - 1) * bar + (v[1] - 1) * beat)}</td>` +
+        `<td><select data-k="ev" data-i="${i}" data-f="2" aria-label="기호">${SYMS.map(c => `<option${c === v[2] ? ' selected' : ''}>${c}</option>`).join('')}</select></td>` +
+        `<td><input type="text" data-k="ev" data-i="${i}" data-f="3" value="${v[3]}" aria-label="메모"></td>` +
+        `<td><select data-k="ev" data-i="${i}" data-f="4" aria-label="확신">${CONF.map(c => `<option${c === v[4] ? ' selected' : ''}>${c}</option>`).join('')}</select></td>` +
+        `<td><button class="del" data-del="ev" data-i="${i}" aria-label="변화 지우기">×</button></td></tr>`;
+    });
+    $('evTbl').innerHTML = e;
+  }
+
+  function renderMap() {
+    const cs = getComputedStyle(document.documentElement);
+    const ink = cs.getPropertyValue('--ink'), mut = cs.getPropertyValue('--muted'), ln = cs.getPropertyValue('--line');
+    const en = cs.getPropertyValue('--energy'), enf = cs.getPropertyValue('--energy-fill');
+    const N = Math.max(1, +state.nbars || 1);
+    const { beat, bar, t0 } = times();
+    const W = 1120, x0 = 90, x1 = 1100, cw = (x1 - x0) / N;
+    const X = (b) => x0 + (b - 1) * cw;
+    const secs = state.secs.slice().sort((a, b) => a[0] - b[0]).filter(s => s[0] >= 1 && s[0] <= N);
+    let s = '';
+    s += `<text x="10" y="34" font-size="12" fill="${mut}">시각</text>`;
+    const total = N * bar;
+    const step = total > 300 ? 60 : 30;
+    for (let sec = 0; sec <= t0 + total; sec += step) {
+      const b = (sec - t0) / bar + 1; if (b < 1 || b > N + 1) continue;
+      s += `<line x1="${X(b)}" y1="38" x2="${X(b)}" y2="44" stroke="${mut}"/><text x="${X(b)}" y="32" font-size="11" text-anchor="middle" fill="${mut}">${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}</text>`;
+    }
+    s += `<text x="10" y="70" font-size="12" fill="${mut}">구간</text>`;
+    let lastLab = -100;
+    secs.forEach((sc, i) => {
+      const end = i + 1 < secs.length ? secs[i + 1][0] - 1 : N;
+      const w = (end - sc[0] + 1) * cw;
+      s += `<rect x="${X(sc[0]) + .5}" y="54" width="${Math.max(0, w - 1)}" height="26" fill="${colorFor(sc[1])}" opacity=".88"/>`;
+      if (w > String(sc[1]).length * 11.5 + 8) s += `<text x="${X(sc[0]) + w / 2}" y="72" font-size="11.5" text-anchor="middle" fill="#fff" font-weight="700">${sc[1]}</text>`;
+      if (X(sc[0]) - lastLab > 24) { s += `<text x="${X(sc[0]) + 1}" y="96" font-size="10" fill="${mut}">${sc[0]}</text>`; lastLab = X(sc[0]); }
+    });
+    // energy
+    const ey = 190, eh = 80;
+    s += `<text x="10" y="150" font-size="12" fill="${mut}">에너지</text>`;
+    for (let v = 1; v <= 5; v++) s += `<line x1="${x0}" y1="${ey - v * eh / 5}" x2="${x1}" y2="${ey - v * eh / 5}" stroke="${ln}" stroke-width=".6"/><text x="${x0 - 6}" y="${ey - v * eh / 5 + 4}" font-size="10" text-anchor="end" fill="${mut}">${v}</text>`;
+    let d = `M${x0},${ey}`, dl = '';
+    secs.forEach((sc, i) => {
+      const end = i + 1 < secs.length ? secs[i + 1][0] - 1 : N;
+      const y = ey - Math.min(5, Math.max(1, +sc[2])) * eh / 5;
+      d += ` L${X(sc[0])},${y} L${X(end) + cw},${y}`;
+      dl += (dl ? ' L' : 'M') + `${X(sc[0])},${y} L${X(end) + cw},${y}`;
+    });
+    d += ` L${x1},${ey} Z`;
+    s += `<path d="${d}" fill="${enf}" stroke="none"/><path d="${dl}" fill="none" stroke="${en}" stroke-width="2.2"/>`;
+    // events
+    s += `<text x="10" y="236" font-size="12" fill="${mut}">변화</text>`;
+    state.evs.forEach(v => {
+      if (v[0] < 1 || v[0] > N) return;
+      const x = X(v[0]) + (v[1] - 1) * cw / 4 + cw / 8;
+      s += `<text x="${x}" y="240" font-size="16" text-anchor="middle" fill="${ink}">${v[2]}</text>`;
+    });
+    s += `<text x="10" y="280" font-size="11" fill="${mut}">${state.title || ''} · ${state.bpm} BPM · 첫 다운비트 ${(+state.t0).toFixed(2)}초 · ${N}마디 · 끝 ${fmt(t0 + N * bar)}</text>`;
+    $('map').innerHTML = s;
+  }
+
+  function renderOut() {
+    const { beat, bar, t0 } = times();
+    const N = +state.nbars;
+    const secs = state.secs.slice().sort((a, b) => a[0] - b[0]);
+    let o = `곡: ${state.title}\nBPM: ${state.bpm} · 첫 다운비트: ${(+state.t0).toFixed(2)}초 · ${N}마디 · 1마디 ${bar.toFixed(3)}초\n\n`;
+    o += '| 마디 | 시각 | 마디 수 | 구간 | 에너지 | 확신 |\n|---|---|---|---|---|---|\n';
+    secs.forEach((sc, i) => {
+      const end = i + 1 < secs.length ? secs[i + 1][0] - 1 : N;
+      o += `| ${sc[0]}${end > sc[0] ? '~' + end : ''} | ${fmt(t0 + (sc[0] - 1) * bar)} | ${end - sc[0] + 1} | ${sc[1]} | ${sc[2]} | ${sc[3]} |\n`;
+    });
+    o += '\n| 마디 | 박 | 시각 | 기호 | 변화 | 확신 |\n|---|---|---|---|---|---|\n';
+    state.evs.slice().sort((a, b) => (a[0] - b[0]) || (a[1] - b[1])).forEach(v => {
+      o += `| ${v[0]} | ${v[1]} | ${fmt(t0 + (v[0] - 1) * bar + (v[1] - 1) * beat)} | ${v[2]} | ${v[3]} | ${v[4]} |\n`;
+    });
+    const fives = secs.filter(s => +s[2] === 5).length;
+    o += `\n에너지 5 구간: ${fives}곳${fives > 3 ? ' (세 곳이 넘습니다. 하나를 4로 내려 보세요)' : ''}`;
+    $('out').textContent = o;
+  }
+
+  function renderAll() {
+    $('title').value = state.title; $('bpm').value = state.bpm; $('t0').value = state.t0; $('nbars').value = state.nbars;
+    $('sampleFlag').hidden = !isSample;
+    renderTables(); renderMap(); renderOut();
+  }
+  function refreshLight() { renderMap(); renderOut();
+    const { beat, bar, t0 } = times();
+    document.querySelectorAll('#secTbl tr').forEach((tr, i) => { if (!i) return; const s = state.secs[i - 1]; tr.querySelector('.t').textContent = fmt(t0 + (s[0] - 1) * bar); });
+    document.querySelectorAll('#evTbl tr').forEach((tr, i) => { if (!i) return; const v = state.evs[i - 1]; tr.querySelector('.t').textContent = fmt(t0 + (v[0] - 1) * bar + (v[1] - 1) * beat); });
+  }
+
+  ['title', 'bpm', 't0', 'nbars'].forEach(id => $(id).addEventListener('input', () => {
+    state[id] = id === 'title' ? $(id).value : (+$(id).value || 0); isSample = false; $('sampleFlag').hidden = true; save(); refreshLight();
+  }));
+  document.addEventListener('input', (ev) => {
+    const t = ev.target; if (!t.dataset || !t.dataset.k) return;
+    const arr = t.dataset.k === 'sec' ? state.secs : state.evs; const i = +t.dataset.i, f = +t.dataset.f;
+    const numeric = (t.dataset.k === 'sec' && (f === 0 || f === 2)) || (t.dataset.k === 'ev' && (f === 0 || f === 1));
+    arr[i][f] = numeric ? (+t.value || 1) : t.value; isSample = false; $('sampleFlag').hidden = true; save(); refreshLight();
+  });
+  document.addEventListener('change', (ev) => { if (ev.target.tagName === 'SELECT' && ev.target.dataset.k) { refreshLight(); } });
+  document.addEventListener('click', (ev) => {
+    const t = ev.target;
+    if (t.dataset && t.dataset.del) { const arr = t.dataset.del === 'sec' ? state.secs : state.evs; arr.splice(+t.dataset.i, 1); save(); renderAll(); }
+  });
+  $('addSec').addEventListener('click', () => { const last = state.secs.length ? Math.max(...state.secs.map(s => s[0])) : 0; state.secs.push([Math.min(+state.nbars, last + 8) || 1, '새 구간', 3, '◐']); save(); renderAll(); });
+  $('addEv').addEventListener('click', () => { state.evs.push([1, 1, '▼', '새 변화', '◐']); save(); renderAll(); });
+  $('loadSample').addEventListener('click', () => { state = JSON.parse(JSON.stringify(SAMPLE)); isSample = true; try { localStorage.removeItem('a2-map'); } catch (e) {} renderAll(); });
+  $('clearAll').addEventListener('click', () => { state = { title: '', bpm: 120, t0: 0, nbars: 64, secs: [[1, '인트로', 2, '◐']], evs: [] }; isSample = false; save(); renderAll(); });
+  $('copy').addEventListener('click', async () => {
+    const txt = $('out').textContent;
+    try { await navigator.clipboard.writeText(txt); $('copyMsg').textContent = '복사했습니다.'; }
+    catch (e) { const r = document.createRange(); r.selectNodeContents($('out')); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); $('copyMsg').textContent = '텍스트를 선택해 두었습니다. 직접 복사해 주세요.'; }
+  });
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', renderMap);
+  renderAll();
+})();
+</script>
+
+</body></html>

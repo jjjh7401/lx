@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>컨셉 시트</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위에 적는 칸(컨셉 레이어, 모티브, 장면 컬러 칩, 합의), 아래에 모아 보는 한 장. 인쇄하면 한 장만 나온다 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:70ch}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:700}
+.layers{display:grid;gap:10px}
+.layers .f small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.f input,.f textarea{width:100%}
+.helper{margin-top:14px;padding:12px 14px;border-radius:10px;background:var(--panel2);display:grid;gap:10px}
+.helper .sel{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.helper ul{margin:0;padding-left:18px;font-size:13.5px}
+.helper ul li{margin:2px 0}
+.chips td input{width:100%}
+.chips td input.n{width:4.4em}
+.chips td input[type=color]{width:44px;height:30px;padding:2px}
+.chipband{position:relative;height:46px;margin-top:10px;border-radius:8px;background:var(--panel2);overflow:hidden}
+.chipband i{position:absolute;top:8px;bottom:8px;border-radius:4px;border:1px solid var(--line)}
+.meet td{vertical-align:top}
+.meet td textarea{min-height:46px}
+.checks{display:grid;gap:8px;margin:12px 0 0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+/* 한 장 */
+.one{background:#fff;color:#1c1d21;border-radius:12px;padding:22px 24px;margin-top:16px;border:1px solid var(--line)}
+.one h2{color:#1c1d21;font-size:20px}
+.one .sub{color:#6b6e76;font-size:13px;margin:2px 0 12px}
+.one dl{display:grid;grid-template-columns:150px 1fr;gap:0;margin:0}
+.one dt{font-weight:700;font-size:13.5px;padding:10px 0;border-top:1px solid #e3e0d6;color:#1c1d21}
+.one dt small{display:block;font-weight:400;color:#8a8d94;font-size:12px}
+.one dd{margin:0;padding:10px 0;border-top:1px solid #e3e0d6;font-size:14px;color:#2f3036}
+.one .emp{color:#a8692b;font-size:13px}
+.one .pchips{display:flex;flex-wrap:wrap;gap:10px}
+.one .pchips span{display:flex;align-items:center;gap:6px;font-size:13px}
+.one .pchips i{width:22px;height:22px;border-radius:4px;border:1px solid #ccc;display:inline-block}
+.one .flow{display:flex;gap:4px;flex-wrap:wrap}
+.one .flow div{min-width:86px;font-size:12px}
+.one .flow div b{display:block;font-size:12.5px}
+.one .flow .c2{display:flex;height:22px;border-radius:4px;overflow:hidden;border:1px solid #ddd;margin:3px 0}
+.one .flow .c2 i{flex:1}
+@media (max-width:640px){.one dl{grid-template-columns:1fr}.one dd{border-top:0;padding-top:0}}
+@media print{body{background:#fff}.top,.edit,.head,.tabs{display:none!important}.one{border:0;margin:0;padding:0}}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>컨셉 시트</h1>
+    <p>7장과 10장 실습을 해 보는 판입니다. 곡에서 읽은 컨셉 레이어(사운드, 감정, 가사, 아티스트 콘셉트), 한 줄 컨셉과 쓰지 않을 조명, 모티브, 뮤직비디오 장면의 컬러 칩, 미팅에서 물을 것을 적고, 팔레트·룩 시트·밝기 계획(웹 부록 8~10)에 적은 것과 함께 한 장으로 모아 봅니다.</p>
+  </div>
+  <div class="edit">
+    <div class="tabs" role="tablist" id="tabs"><button type="button" role="tab" data-t="id" aria-selected="true">컨셉 레이어</button><button type="button" role="tab" data-t="form">모티브</button><button type="button" role="tab" data-t="chip">장면 컬러 칩</button><button type="button" role="tab" data-t="meet">합의</button></div>
+    <section class="panel" data-p="id">
+      <div class="layers" id="layers"></div>
+      <div class="helper">
+        <b style="color:var(--ink)">사운드 → 조명 출발값(7장 표 7-2)</b>
+        <div class="sel" id="hsel"></div>
+        <ul id="hout"></ul>
+        <p class="note" style="margin:0">음악과 색 연구에서 온 경향입니다. 아티스트 콘셉트가 다른 말을 하면 그쪽을 따를 수 있습니다.</p>
+      </div>
+      <label class="f" style="margin-top:12px">한 줄 컨셉 — [사운드]의 곡, [처음 감정]에서 [끝 감정]으로, [콘셉트가 담긴 조명].<input id="line"></label>
+      <label class="f" style="margin-top:10px">쓰지 않을 조명 하나<input id="avoid" placeholder="예: 화이트 없음, 스트로브 없음, 어두운 단색 워시"></label>
+      <ul class="checks" id="checks"></ul>
+    </section>
+    <section class="panel" data-p="form" hidden>
+      <label class="f">모티브(되풀이되는 모양)<input id="forms" placeholder="예: 원과 호, 팬, 액자 틀"></label>
+      <label class="f" style="margin-top:10px">레퍼런스에서 가져올 것과 두고 올 것<textarea id="refs" placeholder="영상 이름 — 가져올 것(모양, 색의 관계, 속도, 어둠) 한 줄씩"></textarea></label>
+      <p class="note" style="margin:8px 0 0">모티브는 6장 장비 역할표에서 그 모양을 맡을 역할이 있는지 확인합니다.</p>
+    </section>
+    <section class="panel" data-p="chip" hidden>
+      <div class="row" style="justify-content:space-between"><p class="note" style="margin:0">뮤직비디오 장면이 바뀌는 마디와 대표 색만 적습니다. 화면 캡처는 넣지 않습니다.</p><button type="button" id="addChip">장면 더하기</button></div>
+      <div class="tbl"><table class="chips" id="chips"></table></div>
+      <div class="chipband" id="chipband" aria-hidden="true"></div>
+    </section>
+    <section class="panel" data-p="meet" hidden>
+      <div class="tbl"><table class="meet" id="meet"></table></div>
+    </section>
+  </div>
+
+  <div class="row" style="margin-top:16px;justify-content:space-between"><h2>모아 본 한 장</h2><div class="row"><button type="button" id="copy">글로 복사</button><button type="button" class="primary" id="print">인쇄</button></div></div>
+  <p class="note" id="msg"></p>
+  <article class="one" id="one"></article>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('concept.html'), D = L.design(S), C = D.concept;
+  var $ = function (id) { return document.getElementById(id); };
+  var LY = [['sound', '1 사운드', '빠르기, 밝게/어둡게 들리는지, 곡을 이끄는 음색(거친/부드러운, 전자/어쿠스틱)', '예: 120 BPM, 밝게 들림, 날카로운 신스 리드'],
+    ['emotion', '2 감정', '처음 감정에서 끝 감정으로', '예: 체념에서 다짐으로'],
+    ['voice', '3 가사', '누가 누구에게 무엇을 말하나(노래가 있을 때만, 가사가 말하는 것만)', '예: 떠난 사람에게 괜찮다고 말하는 노래'],
+    ['artist', '4 아티스트 콘셉트', '이번 활동의 콘셉트 키워드, 앨범 아트, 뮤직비디오, 의상', '예: 청량, 몽환, 걸크러시']];
+  var HS = [['tempo', '빠르기', [['', '—'], ['fast', '빠름'], ['mid', '중간'], ['slow', '느림']]], ['mode', '밝게/어둡게', [['', '—'], ['bright', '밝게 들림'], ['dark', '어둡게 들림']]],
+    ['reg', '곡을 이끄는 음역', [['', '—'], ['high', '높음'], ['low', '낮음']]], ['loud', '소리와 편곡', [['', '—'], ['full', '크고 꽉 참'], ['thin', '작고 비어 있음']]],
+    ['timbre', '음색', [['', '—'], ['sharp', '밝고 날카로움'], ['soft', '어둡고 부드러움']]]];
+  C.layers = C.layers || { sound: '', emotion: '', voice: '', artist: '' }; C.hs = C.hs || {};
+  var M = [['artist', '아티스트·소속사', '꼭 지키고 싶은 이미지, 피하고 싶은 색'], ['director', '연출', '카메라가 공들이는 순간, 동선'], ['choreo', '안무팀', '대형이 크게 바뀌는 마디, 정지 동작'], ['video', '영상팀', 'LED 화면의 주된 색, 화면과 조명의 밝기 비율, 바뀌는 마디'],
+    ['camera', '카메라·기술감독(방송)', '화이트밸런스 기준, 키 색온도, 카메라가 공들이는 컷'], ['costume', '의상·헤어메이크업', '의상의 색과 소재(흰 옷, 검은 옷, 스팽글)'], ['stage', '무대·특효', '세트 전환, 불꽃·CO₂·레이저 시점, 그 순간의 메인'], ['audio', '연출·소속사(음원)', '최종 음원 버전, 길이가 바뀌는지']];
+  C.meetA = C.meetA || {};
+  function save() { L.put(S); }
+  function build() {
+    $('layers').innerHTML = LY.map(function (q) { return '<label class="f">' + q[1] + '<small>' + q[2] + '</small><input data-ly="' + q[0] + '" value="' + L.esc(C.layers[q[0]] || '') + '" placeholder="' + q[3] + '"></label>'; }).join('');
+    $('hsel').innerHTML = HS.map(function (h) { return '<label class="f">' + h[1] + '<select data-hs="' + h[0] + '">' + h[2].map(function (o) { return '<option value="' + o[0] + '"' + (C.hs[h[0]] === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></label>'; }).join('');
+    helper();
+    $('line').value = C.line || ''; $('avoid').value = C.avoid || ''; $('forms').value = C.forms || ''; $('refs').value = C.refs || '';
+    $('meet').innerHTML = '<tr><th>누구에게</th><th>물을 것</th><th>받은 답</th></tr>' + M.map(function (m) { return '<tr><td><b style="color:var(--ink)">' + m[1] + '</b></td><td><textarea data-m="' + m[0] + '" placeholder="' + m[2] + '">' + L.esc(C.meet[m[0]] || '') + '</textarea></td><td><textarea data-a="' + m[0] + '">' + L.esc(C.meetA[m[0]] || '') + '</textarea></td></tr>'; }).join('');
+    chips();
+  }
+  function chips() {
+    $('chips').innerHTML = '<tr><th>마디</th><th>장면 이름</th><th>대표 색</th><th></th></tr>' + C.chips.map(function (c) { return '<tr><td><input class="n" type="number" min="1" data-c="' + c.id + '" data-k="bar" value="' + c.bar + '"></td><td><input data-c="' + c.id + '" data-k="name" value="' + L.esc(c.name) + '"></td><td><input type="color" data-c="' + c.id + '" data-k="hex" value="' + c.hex + '"></td><td><button type="button" class="ghost" data-del="' + c.id + '">지우기</button></td></tr>'; }).join('');
+    var N = L.nbars(S), list = C.chips.slice().sort(function (a, b) { return a.bar - b.bar; });
+    $('chipband').innerHTML = list.map(function (c, i) { var a = (c.bar - 1) / N * 100, b = ((list[i + 1] ? list[i + 1].bar : N + 1) - 1) / N * 100; return '<i style="left:' + a + '%;width:calc(' + (b - a) + '% - 2px);background:' + c.hex + '" title="' + L.esc(c.name) + '"></i>'; }).join('');
+  }
+  function helper() {
+    var h = C.hs, o = [];
+    if (h.tempo === 'fast' && h.mode === 'bright') o.push('채도 높게, 밝게, 노랑·주황 쪽');
+    else if (h.tempo === 'slow' && h.mode === 'dark') o.push('채도 낮게, 어둡게, 파랑 쪽');
+    else {
+      if (h.mode === 'bright') o.push('밝게 들림 → 밝고 따뜻한 쪽');
+      if (h.mode === 'dark') o.push('어둡게 들림 → 어둡고 차가운 쪽, 채도 낮게');
+      if (h.tempo === 'fast') o.push('빠름 → 채도를 높이는 쪽');
+      if (h.tempo === 'slow') o.push('느림 → 채도를 낮추는 쪽');
+      if (h.tempo === 'mid' && !h.mode) o.push('중간 빠르기 → 밝게/어둡게 들리는지가 색을 정합니다');
+    }
+    if (h.reg === 'high') o.push('높은 음역 → 밝은 색');
+    if (h.reg === 'low') o.push('낮은 음역 → 어두운 색');
+    if (h.loud === 'full') o.push('크고 꽉 찬 소리 → 밝기와 빛의 면적을 크게');
+    if (h.loud === 'thin') o.push('작고 비어 있는 소리 → 밝기와 면적을 작게, 어둠을 남김');
+    if (h.timbre === 'sharp') o.push('밝고 날카로운 음색 → 선명한 색, 또렷한 빔');
+    if (h.timbre === 'soft') o.push('어둡고 부드러운 음색 → 부드러운 워시, 넓은 면');
+    $('hout').innerHTML = o.length ? o.map(function (x) { return '<li>' + x + '</li>'; }).join('') : '<li style="list-style:none;margin-left:-18px;color:var(--muted)">위에서 사운드를 고르면 조명 출발값을 보여 줍니다.</li>';
+  }
+  function checks() {
+    var out = [];
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: '확인', i: '참고', ok: '좋음' }[lv] + '</span>' + h + '</li>'); }
+    var Y = C.layers, filled = ['sound', 'emotion', 'voice', 'artist'].filter(function (k) { return (Y[k] || '').trim(); }).length;
+    if (!(Y.sound || '').trim()) add('w', '<b>사운드</b>가 비어 있습니다. 컨셉은 음악에서 출발합니다. 가사를 보지 않고 한 번 들은 느낌부터 적습니다.');
+    if (!(Y.emotion || '').trim()) add('w', '<b>감정</b>이 비어 있습니다. 처음 감정과 끝 감정을 적습니다.');
+    else if (!/에서|→|->/.test(Y.emotion)) add('i', '감정에 끝 감정이 없습니다. "○○에서 ○○으로"처럼 처음과 끝을 함께 적으면 색과 밝기가 움직일 방향이 됩니다.');
+    if (!(Y.voice || '').trim()) add('i', '가사 레이어가 비어 있습니다. 연주곡이라면 비워 둡니다.');
+    if (!(Y.artist || '').trim()) add('i', '아티스트 콘셉트가 비어 있습니다. 미팅에서 이번 활동의 콘셉트 키워드를 물어 채웁니다(표 7-4).');
+    var vague = (C.line || '').match(/예쁜|예쁘게|화려한|화려하게|멋있게|신나는/g);
+    if (vague) add('w', '한 줄 컨셉에 <b>' + vague.filter(function (v, i, a) { return a.indexOf(v) === i; }).join(', ') + '</b> 같은 말이 있습니다. 이 말은 아무것도 정하지 못합니다. 채도, 색의 방향, 밝기가 떠오르는 말로 바꿉니다.');
+    if (!(C.line || '').trim()) add('i', '한 줄 컨셉이 비어 있습니다. 네 레이어를 [사운드]의 곡, [처음 감정]에서 [끝 감정]으로, [콘셉트가 담긴 조명]의 틀에 넣어 봅니다.');
+    else if (C.line.length > 70) add('i', '한 줄 컨셉이 ' + C.line.length + '자입니다. 팀 누구에게나 한 번에 전할 길이로 줄여 봅니다.');
+    if (!(C.avoid || '').trim()) add('i', '쓰지 않을 조명이 비어 있습니다. 하나를 정해 두면 리허설에서 컨셉이 흐려지지 않습니다.');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; }) && filled >= 3 && C.line) add('ok', '컨셉 레이어와 한 줄 컨셉이 적혔습니다. 처음 듣는 사람에게 읽어 주고 떠오르는 색과 밝기를 물어봅니다.');
+    $('checks').innerHTML = out.join('');
+  }
+  function one() {
+    var P = D.pal, LK = D.looks, B = D.bright, list = L.sections(S);
+    function cb(id) { for (var i = 0; i < P.colors.length; i++) if (P.colors[i].id === id) return P.colors[i]; }
+    function emp(t) { return '<span class="emp">' + t + '</span>'; }
+    var lys = LY.filter(function (x) { return (C.layers[x[0]] || '').trim(); }).map(function (x) { return '<b>' + x[1].replace(/^\d /, '') + '</b> ' + L.esc(C.layers[x[0]]); }).join('<br>');
+    var pal = P.colors.length ? '<div class="pchips">' + P.colors.map(function (c) { return '<span><i style="background:' + L.hexOf(c) + '"></i><b>' + L.esc(c.name) + '</b> ' + L.PROLE[c.role] + ' <small style="color:#8a8d94">' + (c.role === 'key' ? (c.kelvin || 4200) + 'K' : c.r + '·' + c.g + '·' + c.b) + '</small></span>'; }).join('') + '</div>' : emp('팔레트(웹 부록 8)에서 정합니다');
+    var flow = list.length ? '<div class="flow">' + list.map(function (x) { var cols = (P.flow[x.m.id] || []).map(cb).filter(Boolean), r = LK[x.m.id] || {}; return '<div><b>' + L.esc(x.m.name.replace(/\(.*\)/, '')) + '</b><div class="c2">' + (cols.length ? cols.map(function (c) { return '<i style="background:' + L.hexOf(c) + '"></i>'; }).join('') : '<i style="background:#eee"></i>') + '</div>' + L.esc(r.name || '—') + '<br><span style="color:#8a8d94">메인 ' + (r.hero || '—') + '</span></div>'; }).join('') + '</div>' : emp('구간이 없습니다(듣기 노트)');
+    var bright = list.length ? list.map(function (x) { var r = B.rows[x.m.id]; return L.esc(x.m.name.replace(/\(.*\)/, '')) + ' ' + (r ? r.hero : '—'); }).join(' · ') + '<br>키 ' + B.key + '% 곡 내내' : emp('밝기 계획(웹 부록 10)에서 정합니다');
+    var darks = S.marks.filter(function (m) { return B.dark[m.id]; }).sort(L.sortMarks).map(function (m) { return m.bar + '마디' + (m.beat > 1 ? ' ' + m.beat + '박' : '') + ' ' + L.markDef(m.t).label; }).join(' · ');
+    var CN = { burst: '무빙 버스트', reserve: '스페셜 컬러', blinder: '블라인더', flash: '화이트 플래시', strobe: '스트로브', aud: '오디언스 빔', all: '모든 역할 한꺼번에' }, byBar = {};
+    Object.keys(CN).forEach(function (k) { var b = +B.cards[k]; if (b) (byBar[b] = byBar[b] || []).push(CN[k]); });
+    var cards = Object.keys(byBar).sort(function (a, b) { return a - b; }).map(function (b) { return b + '마디 ' + byBar[b].join(', '); }).join('<br>');
+    var meet = M.filter(function (m) { return C.meet[m[0]] || C.meetA[m[0]]; }).map(function (m) { return '<b>' + m[1] + '</b> ' + L.esc(C.meet[m[0]] || '') + (C.meetA[m[0]] ? ' → ' + L.esc(C.meetA[m[0]]) : ''); }).join('<br>');
+    $('one').innerHTML = '<h2>' + L.esc(S.title || '제목 없음') + ' — 컨셉 시트</h2><p class="sub">' + L.esc(S.artist || '') + (S.bpm ? ' · ' + S.bpm + ' BPM' : '') + ' · ' + L.nbars(S) + '마디</p><dl>' +
+      '<dt>컨셉 레이어<small>7장</small></dt><dd>' + (lys || emp('네 레이어를 적습니다')) + '</dd>' +
+      '<dt>한 줄 컨셉<small>7장</small></dt><dd><b>' + (L.esc(C.line) || emp('비어 있음')) + '</b>' + (C.avoid ? '<br><span style="color:#b4432f">쓰지 않을 조명: ' + L.esc(C.avoid) + '</span>' : '') + '</dd>' +
+      '<dt>모티브<small>7장</small></dt><dd>' + (L.esc(C.forms) || emp('비어 있음')) + (C.refs ? '<br><span style="color:#6b6e76">' + L.esc(C.refs).replace(/\n/g, '<br>') + '</span>' : '') + '</dd>' +
+      '<dt>팔레트<small>8장</small></dt><dd>' + pal + '</dd>' +
+      '<dt>색 흐름 · 룩 시트<small>8·9장</small></dt><dd>' + flow + '</dd>' +
+      '<dt>밝기 · 어둠<small>10장</small></dt><dd>메인 ' + bright + '<br>어둠: ' + (darks || '없음') + '</dd>' +
+      '<dt>스페셜 큐<small>10장</small></dt><dd>' + (cards || emp('밝기 계획에서 처음 마디를 적습니다')) + '</dd>' +
+      '<dt>합의할 것<small>7장</small></dt><dd>' + (meet || emp('합의 탭에서 적습니다')) + '</dd></dl>';
+    return { layers: C.layers, pal: P, list: list, cards: byBar, darks: darks };
+  }
+  function render() { checks(); one(); }
+  document.querySelector('.edit').addEventListener('input', function (e) {
+    var t = e.target;
+    if (t.dataset.ly) C.layers[t.dataset.ly] = t.value;
+    else if (t.dataset.hs) { C.hs[t.dataset.hs] = t.value; helper(); }
+    else if (t.id === 'line' || t.id === 'avoid' || t.id === 'forms' || t.id === 'refs') C[t.id] = t.value;
+    else if (t.dataset.m) C.meet[t.dataset.m] = t.value;
+    else if (t.dataset.a) C.meetA[t.dataset.a] = t.value;
+    else if (t.dataset.c) { var c = C.chips.filter(function (x) { return x.id === t.dataset.c; })[0]; c[t.dataset.k] = t.dataset.k === 'bar' ? Math.max(1, +t.value || 1) : t.value; save(); var bandOnly = true; var N = L.nbars(S); chipsBand(); render(); return; }
+    else return;
+    save(); render();
+  });
+  function chipsBand() { var keep = document.activeElement; var N = L.nbars(S), list = C.chips.slice().sort(function (a, b) { return a.bar - b.bar; }); $('chipband').innerHTML = list.map(function (c, i) { var a = (c.bar - 1) / N * 100, b = ((list[i + 1] ? list[i + 1].bar : N + 1) - 1) / N * 100; return '<i style="left:' + a + '%;width:calc(' + (b - a) + '% - 2px);background:' + c.hex + '"></i>'; }).join(''); }
+  $('chips').addEventListener('click', function (e) { var id = e.target.dataset.del; if (!id) return; C.chips = C.chips.filter(function (c) { return c.id !== id; }); save(); chips(); });
+  $('addChip').addEventListener('click', function () { var last = C.chips.reduce(function (m, c) { return Math.max(m, c.bar); }, 0); C.chips.push({ id: L.uid(), bar: last + 4, name: '새 장면', hex: '#888888' }); save(); chips(); });
+  $('tabs').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; [].forEach.call($('tabs').children, function (x) { x.setAttribute('aria-selected', String(x === b)); }); document.querySelectorAll('[data-p]').forEach(function (p) { p.hidden = p.dataset.p !== b.dataset.t; }); });
+  $('print').addEventListener('click', function () { window.print(); });
+  $('copy').addEventListener('click', function () {
+    var txt = $('one').innerText;
+    var done = function (ok) { $('msg').textContent = ok ? '한 장을 글로 복사했습니다. 메신저나 문서에 붙여 넣습니다.' : '복사가 막혀 있습니다.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  save(); build(); render();
+})();
+</script>
+</body>
+</html>

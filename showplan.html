@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>쇼 파일 계획</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 패치 표(장비 역할표에서), 가운데 그룹 3단계와 번호 범위표, 아래 점검과 복사 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:76ch}
+.stack{display:grid;gap:16px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+td.id{font-family:var(--f-num);white-space:nowrap}
+td input.s{width:5.5em}
+.band{display:grid;gap:6px}
+.band .b{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:8px;align-items:start;font-size:13.5px;padding:8px 10px;border-radius:8px;background:var(--panel2)}
+.band .b b{color:var(--ink)}
+.band .b code{font-family:var(--f-num);font-size:12.5px;background:var(--bg);padding:1px 6px;border-radius:5px;margin:0 2px 2px 0;display:inline-block}
+.gl{display:grid;gap:4px;font-size:13px}
+.gl div{display:grid;grid-template-columns:3.2em minmax(0,1fr) auto;gap:8px;padding:5px 8px;border-radius:7px;background:var(--panel2)}
+.gl .n{font-family:var(--f-num);color:var(--ink)}
+.gl .lv{font-size:12px;color:var(--muted)}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>쇼 파일 계획</h1>
+    <p>24장과 29장 실습을 해 보는 판입니다. 장비 역할표(웹 부록 6)의 장비를 불러와 종류마다 ID 번호 범위를 주고, 그룹 3단계(전체·부분·이펙트)의 번호를 매기고, 곡의 수에 맞춰 프리셋 풀·시퀀스·페이지의 번호 범위를 계산합니다. 번호가 겹치거나 번호 범위를 넘는 곳을 짚어 줍니다.</p>
+  </div>
+  <div class="stack">
+    <section class="panel">
+      <div class="row" style="justify-content:space-between"><h2>패치(ID 번호 범위)</h2><div class="row"><button type="button" id="renum" class="ghost">백 단위로 다시 매기기</button><button type="button" id="reload" class="ghost">장비 역할표에서 다시 불러오기</button><button type="button" id="fromSheet" class="ghost">패치 시트(웹 부록 18)에서 불러오기</button></div></div>
+      <p class="note" id="rigInfo" style="margin:6px 0 0"></p>
+      <div class="tbl" style="margin-top:8px"><table><thead><tr><th>장비</th><th>수량</th><th>역할</th><th>콘솔</th><th>시작 ID</th><th>ID 범위</th><th>DMX 시작(유니버스.주소)</th></tr></thead><tbody id="patch"></tbody></table></div>
+    </section>
+    <div class="grid2">
+      <section class="panel"><h2 style="margin-bottom:10px">그룹 3단계</h2><div class="gl" id="groups"></div>
+        <p class="note" style="margin:8px 0 0">이펙트 그룹은 같은 장비를 순서만 바꿔 고른 그룹입니다(24.3절). 홀짝과 바깥→안은 MAtricks(Group 2, Wings 2)로도 만들 수 있습니다(26장).</p></section>
+      <section class="panel">
+        <h2>번호 범위</h2>
+        <div class="row" style="margin-top:10px"><label class="f">곡의 수<input type="number" id="songs" class="n" min="1" max="40" style="width:5em"></label>
+          <label class="f">곡마다 색 칸<input type="number" id="ncol" class="n" min="5" max="99" style="width:5em"></label>
+          <label class="f">곡마다 포지션 칸<input type="number" id="npos" class="n" min="5" max="99" style="width:5em"></label>
+          <label class="f">곡마다 페이저 칸<input type="number" id="nfx" class="n" min="5" max="99" style="width:5em"></label></div>
+        <div class="band" id="band" style="margin-top:10px"></div>
+        <p class="note" style="margin:8px 0 0">곡의 번호 범위는 곡 n이 n × 100 + 1부터입니다(29장 표 29-2). 프리셋 풀의 First Index를 그 곡의 시작 번호로 바꾸면 새로 저장하는 프리셋이 그 번호 범위에 들어갑니다.</p>
+      </section>
+    </div>
+    <section class="panel"><h2 style="margin-bottom:10px">점검</h2><ul class="checks" id="checks"></ul>
+      <div class="row" style="margin-top:12px"><button type="button" id="cpPatch">패치 목록 복사</button><button type="button" id="cpGroup">그룹 목록 복사</button><button type="button" id="cpBand">번호 범위표 복사</button><button type="button" id="reset" class="ghost">예시로 되돌리기</button></div>
+      <p class="note" id="msg"></p></section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX; L.top('showplan.html', { noSong: true });
+  var $ = function (id) { return document.getElementById(id); };
+  // 장비 역할표의 예시(표 6-4)와 24장 표 24-1의 번호
+  var EXR = [['LED 프로파일', 8, ['키'], 101], ['팔로우 스팟', 2, ['키'], 0], ['LED 프레넬', 6, ['필'], 121], ['워시 무빙', 12, ['워시', '백'], 201], ['워시 무빙(사이드 타워)', 8, ['사이드'], 221],
+    ['스팟 무빙', 8, ['빔', '키'], 301], ['빔 무빙', 16, ['빔'], 401], ['LED 바', 24, ['픽셀'], 501], ['스트로브', 8, ['FX'], 601], ['블라인더', 4, ['오디언스'], 701]];
+  var CH = { 'LED 프로파일': 8, 'LED 프레넬': 8, '워시 무빙': 28, '워시 무빙(사이드 타워)': 28, '스팟 무빙': 36, '빔 무빙': 20, 'LED 바': 30, '스트로브': 4, '블라인더': 2 };
+  function fromRig(r) {
+    var ex = !r || r.example;
+    var rows = ex ? EXR.map(function (x) { return { name: x[0], qty: x[1], roles: x[2], start: x[3], off: !x[3], ch: CH[x[0]] || 16 }; }) :
+      r.rows.map(function (x) { return { name: x.name || '이름 없는 장비', qty: +x.qty || 0, roles: x.roles || [], start: 0, off: /팔로우/.test(x.name || ''), ch: 16 }; });
+    return { rows: rows, songs: 4, ncol: 20, npos: 10, nfx: 20, fromExample: ex };
+  }
+  var P = L.getKey('showplan') || (function () { var q = fromRig(L.rig()); return q.fromExample ? q : renumber(q); })();
+  function save() { L.putKey('showplan', P); }
+  function renumber(p) {
+    var h = 1; p.rows.forEach(function (r) { if (r.off) { r.start = 0; return; } r.start = h * 100 + 1; h += Math.max(1, Math.ceil((+r.qty || 1) / 99)); }); return p;
+  }
+  function rng(r) { return r.off || !r.start ? null : [r.start, r.start + (+r.qty || 1) - 1]; }
+  function dmx() { // 패치 시트에서 불러온 줄은 그 주소를, 나머지는 같은 유니버스 안에서 이어 붙이고 넘치면 다음 유니버스
+    var u = 1, a = 1, out = [];
+    P.rows.forEach(function (r) {
+      if (r.off) { out.push(null); return; }
+      if (r.da) { out.push(r.da); return; }
+      var need = (+r.ch || 16) * (+r.qty || 0);
+      if (a + Math.min(need, 512) - 1 > 512) { u++; a = 1; }
+      out.push(u + '.' + a); a += need; while (a > 512) { u++; a -= 512; }
+    });
+    return out;
+  }
+  function groups() {
+    var g = [], n = 1, on = P.rows.filter(function (r) { return !r.off; });
+    on.forEach(function (r) { g.push({ no: n++, lv: '전체', name: r.name + (r.roles.length ? '(' + r.roles[0] + ')' : '') }); });
+    n = 11;
+    on.forEach(function (r) {
+      if (r.roles.length > 1) r.roles.forEach(function (x) { g.push({ no: n++, lv: '부분', name: r.name + ' · ' + x }); });
+      if (/사이드|타워/.test(r.name)) { g.push({ no: n++, lv: '부분', name: r.name + ' · 무대 오른쪽' }); g.push({ no: n++, lv: '부분', name: r.name + ' · 무대 왼쪽' }); }
+      else if (/바닥.*타워|타워.*바닥/.test(r.name) || (r.qty >= 12 && /빔/.test(r.name))) { g.push({ no: n++, lv: '부분', name: r.name + ' · 바닥' }); g.push({ no: n++, lv: '부분', name: r.name + ' · 타워' }); }
+      if (/바|픽셀/.test(r.name) || r.roles.indexOf('픽셀') >= 0) g.push({ no: n++, lv: '부분', name: r.name + ' · 서브 픽스처 전체(Down)' });
+    });
+    n = 31;
+    on.forEach(function (r) {
+      if ((+r.qty || 0) < 4) return;
+      var k = r.name; ['좌→우', '우→좌', '바깥→안'].forEach(function (x) { g.push({ no: n++, lv: '이펙트', name: k + ' ' + x }); });
+      if (r.qty % 2 === 0) g.push({ no: n++, lv: '이펙트', name: k + ' 홀짝' });
+    });
+    return g;
+  }
+  function bands() {
+    var S = +P.songs || 1, b = [];
+    function songs(len) { var a = []; for (var i = 1; i <= S; i++) a.push('곡 ' + i + ': ' + (i * 100 + 1) + '~' + (i * 100 + len)); return a; }
+    b.push(['그룹', ['1~10 전체', '11~30 부분', '31~60 이펙트'], ['쇼 공통(곡마다 만들지 않음)']]);
+    b.push(['Dimmer 풀', ['1~10 밝기 단계(0, 25, 50, 75, 100)'], ['쇼 공통(곡에만 쓰는 밝기는 큐에 하드 밸류)']]);
+    b.push(['Color 풀', ['1~20 화이트, CTO, 기본색'], songs(+P.ncol || 20)]);
+    b.push(['Position 풀', ['1~30 공통 포지션'], songs(+P.npos || 10)]);
+    b.push(['All 풀(페이저)', ['1~30 디머 페이저 세트', '31~60 무빙 페이저'], songs(+P.nfx || 20)]);
+    var sq = []; for (var i = 1; i <= S; i++) sq.push('곡 ' + i + ': ' + (i * 10 + 1) + '~' + (i * 10 + 8));
+    b.push(['시퀀스', ['1~10 키, 세이프티, 하우스 라이트(모든 페이지에 Auto Fix)'], sq]);
+    var pg = []; for (var j = 1; j <= S; j++) pg.push('곡 ' + j + ': 페이지 ' + (j + 1));
+    b.push(['익스큐터 페이지', ['페이지 1 세이프티와 버스킹'], pg]);
+    return b;
+  }
+  function render() {
+    var d = dmx();
+    $('rigInfo').textContent = P.fromExample ? '장비 역할표가 비어 있어 표 6-4의 실습 장비와 24장 표 24-1의 번호로 시작했습니다. 채널 수는 기종마다 다르니 내 장비의 모드에 맞게 고칩니다.' : '장비 역할표에서 불러온 장비입니다. 채널 수(DMX 칸)는 기종의 모드에 맞게 고칩니다.';
+    $('patch').innerHTML = P.rows.map(function (r, i) {
+      var g = rng(r);
+      return '<tr><td>' + L.esc(r.name) + '</td><td class="id">' + r.qty + '</td><td>' + L.esc(r.roles.join(', ')) + '</td>' +
+        '<td><label><input type="checkbox" data-i="' + i + '" data-k="off"' + (r.off ? '' : ' checked') + '> 패치</label></td>' +
+        '<td><input class="s n" type="number" min="1" data-i="' + i + '" data-k="start" value="' + (r.start || '') + '"' + (r.off ? ' disabled' : '') + ' aria-label="시작 ID"></td>' +
+        '<td class="id">' + (g ? g[0] + '~' + g[1] : '콘솔 밖') + '</td>' +
+        '<td class="id">' + (d[i] || '—') + ' <span class="note">· ' + '<input class="n" type="number" min="1" max="512" data-i="' + i + '" data-k="ch" value="' + r.ch + '" style="width:4em" aria-label="장비당 채널"' + (r.off ? ' disabled' : '') + '>채널</span></td></tr>';
+    }).join('');
+    $('groups').innerHTML = groups().map(function (x) { return '<div><span class="n">' + x.no + '</span><span>' + L.esc(x.name) + '</span><span class="lv">' + x.lv + '</span></div>'; }).join('');
+    $('songs').value = P.songs; $('ncol').value = P.ncol; $('npos').value = P.npos; $('nfx').value = P.nfx;
+    $('band').innerHTML = bands().map(function (b) { return '<div class="b"><b>' + b[0] + '</b><div>' + b[1].map(function (x) { return '<code>' + L.esc(x) + '</code>'; }).join('') + '<br>' + b[2].map(function (x) { return '<code>' + L.esc(x) + '</code>'; }).join('') + '</div></div>'; }).join('');
+    checks();
+  }
+  function checks() {
+    var out = [];
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: '확인', i: '참고', ok: '좋음' }[lv] + '</span>' + h + '</li>'); }
+    var R = P.rows.map(function (r) { return { r: r, g: rng(r) }; }).filter(function (x) { return x.g; });
+    R.forEach(function (a, i) { R.slice(i + 1).forEach(function (b) { if (a.g[0] <= b.g[1] && b.g[0] <= a.g[1]) add('w', '<b>' + L.esc(a.r.name) + '</b>(' + a.g.join('~') + ')와 <b>' + L.esc(b.r.name) + '</b>(' + b.g.join('~') + ')의 ID가 겹칩니다.'); }); });
+    R.forEach(function (a) { if (Math.floor(a.g[0] / 100) !== Math.floor(a.g[1] / 100)) add('i', '<b>' + L.esc(a.r.name) + '</b>이(가) 백 단위 번호 범위를 넘어갑니다(' + a.g.join('~') + '). 번호만 보고 종류를 알 수 있게 다음 번호 범위를 비워 둡니다.'); });
+    var hund = {}; R.forEach(function (a) { var h = Math.floor(a.g[0] / 100); (hund[h] = hund[h] || []).push(a.r.name); });
+    Object.keys(hund).forEach(function (h) { if (hund[h].length > 1) add('i', h + '00번대에 ' + hund[h].map(L.esc).join(', ') + '이(가) 함께 있습니다. 같은 계열(예: 키와 필)이라면 괜찮고, 아니라면 번호 범위를 나눕니다.'); });
+    var d = dmx(), maxU = 0; d.forEach(function (x) { if (x) maxU = Math.max(maxU, +x.split('.')[0]); });
+    var lastRow = P.rows.filter(function (r) { return !r.off; }).length ? Math.ceil(P.rows.reduce(function (a, r) { return a + (r.off ? 0 : (+r.ch || 0) * (+r.qty || 0)); }, 0) / 512) : 0;
+    add('i', '패치에 필요한 유니버스는 대략 ' + Math.max(maxU, lastRow) + '개입니다(패치 시트에서 불러온 줄은 그 주소를 따르고, 나머지는 행마다 이어 붙이고 넘치면 다음 유니버스로 셈).');
+    if (+P.songs > 9) add('i', '곡이 ' + P.songs + '곡이면 곡의 시퀀스 번호 범위가 ' + (+P.songs * 10 + 10) + '번까지 갑니다. 쇼 공통 시퀀스(1~10)와는 겹치지 않습니다.');
+    if (+P.ncol > 99 || +P.npos > 99 || +P.nfx > 99) add('w', '곡마다 칸이 99를 넘으면 다음 곡의 번호 범위와 겹칩니다.');
+    var hasPix = P.rows.some(function (r) { return !r.off && (r.roles.indexOf('픽셀') >= 0); });
+    if (hasPix) add('i', '서브 픽스처가 있는 장비는 메인 픽스처 그룹과 서브 픽스처 그룹을 따로 만듭니다. 서브 픽스처 그룹은 장비를 고르고 Down을 눌러 펼친 뒤 저장합니다(24.4절).');
+    add('i', '프리셋 풀의 프리셋 모드를 모두 Selective로 바꿔 둡니다(24.6절). 이 번호 범위표를 쇼 파일의 첫 페이지에 적어 둡니다(29.2절).');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; })) add('ok', 'ID와 번호 범위가 겹치는 곳이 없습니다.');
+    $('checks').innerHTML = out.join('');
+  }
+  $('patch').addEventListener('change', function (e) {
+    var t = e.target; if (t.dataset.i == null) return; var r = P.rows[+t.dataset.i];
+    if (t.dataset.k === 'off') { r.off = !t.checked; if (!r.off && !r.start) { var mx = 0; P.rows.forEach(function (x) { var g = rng(x); if (g) mx = Math.max(mx, Math.floor(g[1] / 100)); }); r.start = (mx + 1) * 100 + 1; } }
+    else r[t.dataset.k] = Math.max(1, parseInt(t.value, 10) || 1);
+    save(); render();
+  });
+  ['songs', 'ncol', 'npos', 'nfx'].forEach(function (k) { $(k).addEventListener('change', function () { P[k] = Math.max(1, Math.min(k === 'songs' ? 40 : 99, parseInt($(k).value, 10) || 1)); save(); render(); }); });
+  L.confirmBtn($('renum'), '한 번 더 누르면 번호를 새로 매깁니다', function () { renumber(P); save(); render(); $('msg').textContent = '장비마다 백 단위 번호 범위를 새로 매겼습니다.'; });
+  L.confirmBtn($('reload'), '한 번 더 누르면 패치를 바꿉니다', function () { var keep = { songs: P.songs, ncol: P.ncol, npos: P.npos, nfx: P.nfx }; P = fromRig(L.rig()); if (!P.fromExample) renumber(P); Object.keys(keep).forEach(function (k) { P[k] = keep[k]; }); save(); render(); $('msg').textContent = '장비 역할표에서 다시 불러왔습니다.'; });
+  L.confirmBtn($('fromSheet'), '한 번 더 누르면 패치를 바꿉니다', function () {
+    var rc = L.getKey('rigcalc'); if (!rc || !rc.rows || !rc.rows.length) { $('msg').textContent = '웹 부록 18에 적은 장비가 없습니다.'; return; }
+    var keep = { songs: P.songs, ncol: P.ncol, npos: P.npos, nfx: P.nfx };
+    P = { rows: rc.rows.map(function (x) { var u = x.uni == null || x.uni === '' ? null : +x.uni, a = x.addr == null || x.addr === '' ? null : +x.addr;
+      return { name: (x.name || '이름 없는 장비') + (x.pos ? ' · ' + x.pos : ''), qty: +x.qty || 0, roles: x.role ? [x.role] : [], start: +x.fid || 0, off: u == null, ch: +x.ch || 16, da: u != null && a != null ? u + '.' + a : null }; }) };
+    Object.keys(keep).forEach(function (k) { P[k] = keep[k]; }); save(); render();
+    $('msg').textContent = '22장 패치 시트(웹 부록 18)의 ID와 주소를 그대로 불러왔습니다. 유니버스가 빈 줄은 콘솔 밖 장비로 둡니다.';
+  });
+  L.confirmBtn($('reset'), '한 번 더 누르면 예시로 바뀝니다', function () { P = fromRig(null); save(); render(); $('msg').textContent = '예시(표 24-1)로 되돌렸습니다.'; });
+  function copy(txt, what) { var done = function (ok) { $('msg').textContent = ok ? what + '을(를) 복사했습니다. 스프레드시트에 붙여 넣을 수 있습니다.' : '복사가 막혀 있습니다.'; }; try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); } }
+  $('cpPatch').addEventListener('click', function () { var d = dmx(); copy(['장비\t수량\t역할\tID 시작\tID 끝\tDMX 시작\t장비당 채널'].concat(P.rows.map(function (r, i) { var g = rng(r); return [r.name, r.qty, r.roles.join(', '), g ? g[0] : '콘솔 밖', g ? g[1] : '', d[i] || '', r.ch].join('\t'); })).join('\n'), '패치 목록'); });
+  $('cpGroup').addEventListener('click', function () { copy(['번호\t단계\t그룹'].concat(groups().map(function (x) { return [x.no, x.lv, x.name].join('\t'); })).join('\n'), '그룹 목록'); });
+  $('cpBand').addEventListener('click', function () { copy(['풀\t쇼 공통\t곡마다'].concat(bands().map(function (b) { return [b[0], b[1].join(' / '), b[2].join(' / ')].join('\t'); })).join('\n'), '번호 범위표'); });
+  render();
+})();
+</script>
+</body>
+</html>

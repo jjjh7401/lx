@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>리허설 노트</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 왼쪽 프리비즈·리허설 점검표, 오른쪽 위 노트 표, 아래 고칠 순서(할 일 목록) */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:76ch}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.9fr);gap:16px;align-items:start}
+@media (max-width:980px){.grid2{grid-template-columns:1fr}}
+.cl{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.cl label{display:grid;grid-template-columns:auto 1.6em 1fr;gap:8px;align-items:start;padding:8px 10px;border-radius:9px;background:var(--panel2);font-size:13.5px;cursor:pointer}
+.cl .no{font-family:var(--f-num);color:var(--accent);font-weight:700}
+.cl .ch{font-size:12px;color:var(--muted);display:block}
+.cl .stage{font-size:12px;color:var(--muted);margin:10px 2px 2px;font-weight:700;letter-spacing:.02em}
+.cl input{margin-top:3px}
+.cl label.on{opacity:.62}
+.bar{height:8px;border-radius:5px;background:var(--panel2);overflow:hidden;margin:6px 0 12px}
+.bar i{display:block;height:100%;background:var(--ok)}
+table.nt td{vertical-align:top}
+table.nt input[type=text]{width:100%;min-width:12em}
+table.nt select{max-width:9em} table.nt select[data-k="cue"]{max-width:6.5em}
+td.bb{font-family:var(--f-num);white-space:nowrap;font-size:13px}
+tr.done td{opacity:.55}
+.todo{display:grid;gap:10px}
+.todo h3{font-size:13.5px;margin:0 0 4px;color:var(--accent)}
+.todo ul{margin:0;padding-left:18px;font-size:14px}
+.todo .empty{color:var(--muted);font-size:13px}
+.v-유지{color:var(--ok)} .v-수정{color:var(--warn)} .v-변경{color:var(--bad)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>리허설 노트</h1>
+    <p>30장 실습을 해 보는 판입니다. 왼쪽의 프리비즈 점검표(28.5절) 9개 항목과 리허설 점검표(30장) 10개 항목을 하나씩 확인하며 표시하고, 오른쪽에 리허설에서 찾은 문제를 큐 번호와 마디, 점검 항목, 판정과 함께 적습니다. 아래에는 완료되지 않은 노트를 패치 → 프리셋 → 큐 → 타임코드 순서로 모아 다음 리허설의 할 일 목록을 만들어 줍니다.</p>
+  </div>
+  <div class="grid2">
+    <section class="panel">
+      <div class="row" style="justify-content:space-between"><h2>점검표</h2><button type="button" id="clr" class="ghost">표시 지우기</button></div>
+      <div class="bar" aria-hidden="true"><i id="pbar" style="width:0"></i></div>
+      <p class="note" id="pnote" style="margin:-6px 0 8px"></p>
+      <ul class="cl" id="cl"></ul>
+    </section>
+    <div style="display:grid;gap:16px">
+      <section class="panel">
+        <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 id="ntT">노트</h2>
+          <div class="row"><button type="button" id="add" class="primary">노트 더하기</button><button type="button" id="copy" class="ghost">표 복사</button></div></div>
+        <p class="note" id="msg"></p>
+        <div class="tbl"><table class="nt" id="nt"></table></div>
+        <p class="note" style="margin:8px 0 0">큐를 고르면 마디·박이 큐 시트(웹 부록 14)에서 채워집니다. 판정은 16.5절과 같습니다: 유지는 의도한 것이니 이유만 적고, 수정은 값 하나를 고치고, 변경은 설계까지 거슬러 올라가 고칩니다.</p>
+      </section>
+      <section class="panel">
+        <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>다음 리허설까지 고칠 것</h2><button type="button" id="copyTodo" class="ghost">목록 복사</button></div>
+        <div class="todo" id="todo"></div>
+      </section>
+    </div>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('rehearsal.html'), D = L.design(S);
+  var $ = function (id) { return document.getElementById(id); };
+  // 프리비즈 점검표(28.5절) 9개 · 리허설 점검표(30장) 10개. [확인할 것, 확인 방법, 관련 장, 단계 머리말]
+  var PV = [
+    ['켜진 그룹마다 포지션이 있는가', '트랙 시트에서 디머 값이 있는 칸에 포지션 값도 있는지', '9·24장', '큐 시트를 옮길 때'],
+    ['켜진 그룹마다 컬러가 있는가', '같은 방법으로 컬러 값을 확인', '8·24장', ''],
+    ['곡 내내 포지션이 바뀌지 않는 그룹이 있는가', '의도한 것인지 큐 시트와 비교', '9장', ''],
+    ['기본 포지션(바로 아래 바닥)에 남은 그룹이 있는가', '시뮬레이션 화면에서 바닥을 비추는 장비 찾기', '9·24장', ''],
+    ['프리셋에 그 그룹의 장비가 모두 들어 있는가', '프리셋 편집 창의 장비 수와 그룹의 수량이 같은지', '24장', '프리셋을 저장할 때'],
+    ['프리셋 모드가 모두 Selective인가', '프리셋 풀에 모드 표시 S가 있는지', '24장', ''],
+    ['처음부터 순서대로 재생했을 때 큐 시트와 같은가', '앞 큐의 값이 남아 섞이지 않는지', '16·23장', '재생할 때'],
+    ['멈춰야 할 큐에서 이펙트가 실제로 멈추는가', '킥 아웃, 브레이크, 끝 큐의 무빙과 디머', '27장', ''],
+    ['타임코드 트랙과 이벤트 수, 시각이 큐 시트와 같은가', '트랙마다 이벤트를 세고 히트 시각을 확인', '28장', '타임코드를 기록할 때']];
+  var ITEMS = [
+    ['모든 장비가 켜지고 패치한 번호대로 반응하는가', '그룹마다 켜 보고 주소를 확인', '22·24장', '첫 점등'],
+    ['고정 장비(LED 바, 스트로브 등)가 도면대로 객석 쪽을 향하는가', '장비를 켜고 방향을 봄', '24장', ''],
+    ['무빙의 팬·틸트 방향이 맞는가', '같은 포지션으로 보내 혼자 반대로 가는 장비 찾기, 패치에서 인버트', '24장', ''],
+    ['포지션 프리셋이 의도한 곳을 비추는가(포커싱)', '가수 자리, 객석으로 새는 빛, LED 월과 겹침', '9·24장', '첫 런스루'],
+    ['같은 프리셋에서 한 대만 튀는 장비가 없는가', '그룹마다 색, 줌, 포커스', '8·24장', ''],
+    ['무대가 큐 시트의 밝기로 보이는가', '그랜드마스터와 익스큐터 페이더부터', '10·27장', ''],
+    ['헤이즈에서 빔이 계획대로 보이는가', '빔이 주인공인 큐를 헤이즈를 켜고 봄', '6·32장', ''],
+    ['무빙이 박 안에 모양을 끝내는가', '무빙 버스트와 웨이브를 실제 속도로', '25·26·28장', ''],
+    ['카메라 화면에서 얼굴과 색이 맞는가', '방송 모니터(PGM)로 키 라이트와 얼굴', '17장', '카메라·밴드 리허설'],
+    ['밴드의 템포에서 큐가 박에 맞는가', '탭으로 템포를 맞추고 GO 타이밍', '28·31장', '']];
+  var FIX = ['패치', '프리셋', '큐', '타임코드', '기타'];
+  var VERD = ['유지', '수정', '변경'];
+  function sampleCues() {
+    return [['0.5', 0, 1, '블로킹'], ['1', 1, 1, '인트로 · 진주 하트'], ['1.1', 3, 1, '인트로 · 백 펄스'], ['1.2', 5, 1, '인트로 · 빔 한 칸'], ['10', 7, 1, '벌스 1 · 정원 햇빛'], ['10.1', 11, 1, '벌스 1 · 라일락 틴트'],
+      ['20', 14, 1, '프리 1 · 풍선 하늘'], ['29', 17, 3, '다크 큐'], ['30', 18, 1, '후렴 1 · 밝기 히트'], ['30.1', 22, 1, '후렴 1 · 위 무빙'], ['30.2', 26, 1, '후렴 1 · 픽셀'], ['30.3', 30, 1, '후렴 1 · 위 무빙'],
+      ['39', 33, 1, '킥 아웃'], ['40', 34, 1, '벌스 2 · 정원 햇빛'], ['50', 42, 1, '프리 2 · 베이스만'], ['50.1', 44, 1, '프리 2 · 쌓기'], ['59', 45, 4, '다크 큐'], ['60', 46, 1, '후렴 2 · 무빙 버스트'],
+      ['60.1', 47, 1, '후렴 2 · 빨강 하트'], ['60.2', 49, 1, '후렴 2 · 본 룩'], ['69', 61, 1, '킥 아웃'], ['70', 62, 1, '브리지 · 라일락 역광'], ['75', 63, 1, '비트 구간 · 크로스 빔'], ['79', 67, 1, '브레이크'],
+      ['80', 67, 4, '후렴 3 · 화이트 플래시'], ['80.1', 68, 1, '후렴 3 · 옥상 팬 · 밤'], ['80.2', 78, 1, '후렴 3 · 모든 역할'], ['90', 82, 1, '끝 · 진주 하트 · 밤'], ['99', 84, 1, '마침']]
+      .map(function (r) { return { no: r[0], bar: r[1], beat: r[2], name: r[3] }; });
+  }
+  var fromSheet = !!(D.cueSheet && D.cueSheet.rows && D.cueSheet.rows.length);
+  var CUES = (fromSheet ? D.cueSheet.rows : (S.sample ? sampleCues() : [])).map(function (r) { return { no: String(r.no), bar: +r.bar || 0, beat: +r.beat || 1, name: r.name || '' }; });
+  function cueOf(no) { for (var i = 0; i < CUES.length; i++) if (CUES[i].no === String(no)) return CUES[i]; return null; }
+  if (!D.reh || D.reh.v !== 2) {
+    var keep = D.reh && !S.sample ? D.reh.rows : [];
+    D.reh = { v: 2, chk: {}, pv: {}, rows: keep || [] };
+    if (S.sample) D.reh.rows = [['30', '헤이즈가 옅어 빔 무빙의 팬 모양이 거의 안 보임', 7, '수정', '큐', '빔의 디머 레벨을 올리고 헤이즈 담당과 양을 맞춤'], ['60', '무빙 버스트가 1.5박 안에 다 펼쳐지지 않음', 8, '수정', '큐', '큐 60의 포지션 페이드 시간을 줄임'],
+      ['75', '크로스 빔이 무대 뒤 LED 월과 겹쳐 빔이 묻힘', 4, '변경', '프리셋', '크로스 빔 포지션 다시 잡기, 9장 룩 시트까지']]
+      .map(function (x) { var c = cueOf(x[0]); return { id: L.uid(), cue: x[0], bar: c ? c.bar : '', beat: c ? c.beat : '', seen: x[1], item: x[2], verdict: x[3], fix: x[4], what: x[5], done: false }; });
+  }
+  var R = D.reh;
+  function save() { L.put(S); }
+  function opts(list, v, blank) { return (blank ? '<option value="">' + blank + '</option>' : '') + list.map(function (x) { var val = Array.isArray(x) ? x[0] : x, lab = Array.isArray(x) ? x[1] : x; return '<option value="' + L.esc(val) + '"' + (String(val) === String(v) ? ' selected' : '') + '>' + L.esc(lab) + '</option>'; }).join(''); }
+  function list(arr, store, key, pre) {
+    var n = 0, h = '';
+    arr.forEach(function (it, i) {
+      var on = !!store[i]; if (on) n++;
+      if (it[3]) h += '<li class="stage">' + it[3] + '</li>';
+      h += '<li><label class="' + (on ? 'on' : '') + '"><input type="checkbox" data-' + key + '="' + i + '"' + (on ? ' checked' : '') + '><span class="no">' + pre + (i + 1) + '</span><span>' + L.esc(it[0]) + '<span class="ch">' + L.esc(it[1]) + ' · ' + it[2] + '</span></span></label></li>';
+    });
+    return { n: n, h: h };
+  }
+  function renderCl() {
+    R.pv = R.pv || {};
+    var a = list(PV, R.pv, 'p', 'P'), b = list(ITEMS, R.chk, 'c', '');
+    $('cl').innerHTML = '<li class="stage" style="color:var(--accent)">프리비즈 점검표 · 리허설 전, 시뮬레이션에서(28.5절)</li>' + a.h + '<li class="stage" style="color:var(--accent);margin-top:16px">리허설 점검표 · 실제 무대에서(30장)</li>' + b.h;
+    var n = a.n + b.n, all = PV.length + ITEMS.length;
+    $('pbar').style.width = (n / all * 100) + '%';
+    $('pnote').textContent = '프리비즈 ' + a.n + ' / ' + PV.length + ' · 리허설 ' + b.n + ' / ' + ITEMS.length + ' 확인. 프리비즈 점검은 리허설 전에 끝내고, 리허설에서는 첫 점등 → 첫 런스루 → 카메라·밴드 리허설 순서로 봅니다.';
+  }
+  function renderNt() {
+    $('ntT').textContent = (S.title || '곡') + ' 노트';
+    var cueOpts = CUES.map(function (c) { return [c.no, c.no + (c.name ? ' ' + c.name : '')]; });
+    $('nt').innerHTML = '<tr><th>큐</th><th>마디·박</th><th>문제</th><th>점검 항목</th><th>판정</th><th>수정 단계</th><th>수정 내용</th><th>완료</th><th></th></tr>' + R.rows.map(function (r, i) {
+      var cueSel = cueOpts.length ? '<select data-i="' + i + '" data-k="cue" aria-label="큐">' + opts(cueOpts, r.cue, '—') + '</select>' : '<input type="text" class="n" data-i="' + i + '" data-k="cue" value="' + L.esc(r.cue) + '" aria-label="큐" style="min-width:4em;width:4.5em">';
+      return '<tr class="' + (r.done ? 'done' : '') + '"><td>' + cueSel + '</td>' +
+        '<td class="bb"><input type="number" class="n" min="0" data-i="' + i + '" data-k="bar" value="' + L.esc(r.bar) + '" aria-label="마디" style="width:3.8em"> · <input type="number" class="n" min="1" max="12" data-i="' + i + '" data-k="beat" value="' + L.esc(r.beat) + '" aria-label="박" style="width:3em"></td>' +
+        '<td><input type="text" data-i="' + i + '" data-k="seen" value="' + L.esc(r.seen) + '" aria-label="문제"></td>' +
+        '<td><select data-i="' + i + '" data-k="item" aria-label="점검 항목">' + opts(ITEMS.map(function (it, j) { return [j + 1, (j + 1) + '. ' + it[0].slice(0, 14) + '…']; }).concat(PV.map(function (it, j) { return ['P' + (j + 1), 'P' + (j + 1) + '. ' + it[0].slice(0, 14) + '…']; })), r.item, '—') + '</select></td>' +
+        '<td><select class="v-' + L.esc(r.verdict) + '" data-i="' + i + '" data-k="verdict" aria-label="판정">' + opts(VERD, r.verdict) + '</select></td>' +
+        '<td><select data-i="' + i + '" data-k="fix" aria-label="수정 단계">' + opts(FIX, r.fix) + '</select></td>' +
+        '<td><input type="text" data-i="' + i + '" data-k="what" value="' + L.esc(r.what) + '" aria-label="수정 내용" style="min-width:9em"></td>' +
+        '<td><input type="checkbox" data-i="' + i + '" data-k="done"' + (r.done ? ' checked' : '') + ' aria-label="완료"></td>' +
+        '<td><button type="button" class="ghost" data-del="' + i + '" aria-label="지우기">×</button></td></tr>';
+    }).join('');
+    if (!R.rows.length) $('nt').innerHTML += '<tr><td colspan="9" class="note">아직 노트가 없습니다. 리허설에서 찾은 문제를 "노트 더하기"로 적습니다.</td></tr>';
+    if (!CUES.length) $('msg').textContent = '큐 시트(웹 부록 14)가 비어 있어 큐 번호를 직접 적습니다.';
+  }
+  function todoList() {
+    var open = R.rows.filter(function (r) { return !r.done && r.verdict !== '유지'; });
+    return FIX.map(function (f) {
+      var list = open.filter(function (r) { return (r.fix || '기타') === f; }).sort(function (a, b) { return ((+a.bar || 0) - (+b.bar || 0)) || ((+a.beat || 0) - (+b.beat || 0)); });
+      return { fix: f, list: list };
+    });
+  }
+  function line(r) { return '큐 ' + (r.cue || '—') + (r.bar ? ' (' + r.bar + '마디 ' + (r.beat || 1) + '박)' : '') + ': ' + (r.what || r.seen || '') + (r.item ? ' [점검 항목 ' + r.item + ']' : '') + (r.verdict === '변경' ? ' — 설계까지 고침' : ''); }
+  function renderTodo() {
+    var T = todoList(), any = false, h = T.map(function (g, k) {
+      if (!g.list.length) return '';
+      any = true;
+      return '<div><h3>' + (k + 1) + ' ' + g.fix + '</h3><ul>' + g.list.map(function (r) { return '<li>' + L.esc(line(r)) + '</li>'; }).join('') + '</ul></div>';
+    }).join('');
+    var keep = R.rows.filter(function (r) { return r.verdict === '유지'; });
+    if (keep.length) h += '<div><h3>유지(이유만 남김)</h3><ul>' + keep.map(function (r) { return '<li>' + L.esc(line(r)) + '</li>'; }).join('') + '</ul></div>';
+    $('todo').innerHTML = any || keep.length ? h + '<p class="note" style="margin:0">패치부터 차례로 고칩니다. 프리셋을 고친 뒤에는 그 프리셋을 쓰는 큐를 모두 다시 보고, 고친 구간은 앞뒤 큐를 하나씩 넣어 다시 돌립니다(30.5절).</p>' : '<p class="empty">고칠 것이 없습니다. 완료한 노트는 표에 남아 있습니다.</p>';
+  }
+  function render() { renderCl(); renderNt(); renderTodo(); }
+  $('cl').addEventListener('change', function (e) { var c = e.target.dataset.c, p = e.target.dataset.p; if (c != null) R.chk[c] = e.target.checked; else if (p != null) { R.pv = R.pv || {}; R.pv[p] = e.target.checked; } else return; save(); renderCl(); });
+  $('clr').addEventListener('click', function () { R.chk = {}; R.pv = {}; save(); renderCl(); });
+  $('nt').addEventListener('change', function (e) {
+    var t = e.target, i = t.dataset.i, k = t.dataset.k; if (i == null) return;
+    var r = R.rows[+i];
+    if (k === 'done') r.done = t.checked;
+    else if (k === 'item') r.item = t.value === '' ? 0 : (/^P/.test(t.value) ? t.value : +t.value);
+    else r[k] = t.value;
+    if (k === 'cue') { var c = cueOf(t.value); if (c) { r.bar = c.bar; r.beat = c.beat; } }
+    save(); setTimeout(function () { renderNt(); renderTodo(); }, 0);
+  });
+  $('nt').addEventListener('click', function (e) { var d = e.target.dataset.del; if (d == null) return; R.rows.splice(+d, 1); save(); renderNt(); renderTodo(); });
+  $('add').addEventListener('click', function () { R.rows.push({ id: L.uid(), cue: '', bar: '', beat: '', seen: '', item: 0, verdict: '수정', fix: '프리셋', what: '', done: false }); save(); renderNt(); renderTodo(); });
+  function copyText(txt, ok) { try { navigator.clipboard.writeText(txt).then(function () { $('msg').textContent = ok; }, function () { $('msg').textContent = '복사가 막혀 있습니다.'; }); } catch (err) { $('msg').textContent = '복사가 막혀 있습니다.'; } }
+  $('copy').addEventListener('click', function () {
+    var txt = ['큐\t마디\t박\t문제\t점검 항목\t판정\t수정 단계\t수정 내용\t완료'].concat(R.rows.map(function (r) { return [r.cue, r.bar, r.beat, r.seen, r.item || '', r.verdict, r.fix, r.what, r.done ? '예' : ''].join('\t'); })).join('\n');
+    copyText(txt, '노트 표를 복사했습니다. 스프레드시트에 붙여 넣을 수 있습니다.');
+  });
+  $('copyTodo').addEventListener('click', function () {
+    var T = todoList(), txt = [(S.title || '곡') + ' 다음 리허설까지 고칠 것'];
+    T.forEach(function (g, k) { if (g.list.length) { txt.push((k + 1) + ' ' + g.fix); g.list.forEach(function (r) { txt.push('- ' + line(r)); }); } });
+    copyText(txt.join('\n'), '할 일 목록을 복사했습니다.');
+  });
+  render();
+})();
+</script>
+</body>
+</html>

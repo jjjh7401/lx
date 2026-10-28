@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>룩 시트</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위에 구간별 룩 시트(표), 아래 왼쪽 메인 흐름 띠, 오른쪽 점검 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:70ch}
+.sheet td{vertical-align:top}
+.sheet td input,.sheet td select{width:100%;min-width:7em}
+.sheet td.sec b{color:var(--ink);white-space:nowrap}
+.sheet td.sec span{display:block;font-size:12px;color:var(--muted);font-family:var(--f-num)}
+.two{display:flex;gap:3px}
+.two i{width:22px;height:22px;border-radius:4px;border:1px solid var(--line);display:block}
+.two em{font-style:normal;font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start;margin-top:16px}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.heroband{display:flex;gap:2px;overflow-x:auto}
+.heroband div{min-width:56px;padding:8px 6px;border-radius:6px;font-size:12px;color:#fff;display:grid;gap:2px}
+.heroband div b{font-size:13px}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+.checks b{color:var(--ink)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>룩 시트</h1>
+    <p>9장 실습을 해 보는 판입니다. 곡 구성표의 구간마다 룩 이름, 메인 역할 하나, 포지션(포지션 프리셋), 이펙트, 인 타임을 적습니다. 두 색은 팔레트(웹 부록 8)에서 고른 것을 그대로 보여 줍니다.</p>
+  </div>
+  <section class="panel">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>시트</h2><button type="button" id="copy">시트 복사</button></div>
+    <p class="note" id="msg"></p>
+    <div class="tbl"><table class="sheet" id="sheet"></table></div>
+  </section>
+  <div class="grid">
+    <section class="panel"><h2 style="margin-bottom:10px">메인 흐름</h2><div class="heroband" id="band"></div>
+      <p class="note" style="margin:10px 0 0">같은 색이 세 칸 넘게 이어지면 곡 전체가 한 가지 그림으로 보입니다. 키는 메인 규칙에서 빠지므로, 키가 메인인 구간은 노래가 중심인 구간입니다.</p></section>
+    <section class="panel"><h2 style="margin-bottom:10px">점검</h2><ul class="checks" id="checks"></ul></section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('looks.html'), D = L.design(S), LK = D.looks, P = D.pal;
+  var $ = function (id) { return document.getElementById(id); };
+  var ENTRY = ['첫 박 스냅', '1박 페이드', '2박 페이드', '4박 페이드', '1마디 페이드', '브레이크 뒤 히트', '2마디 페이드', '3마디 페이드'];
+  var HC = { '키': '#5f8f6a', '필': '#7aa384', '백': '#4f7f8f', '사이드': '#3f8f6f', '탑': '#6f9f5f', '워시': '#3b6ea8', '픽셀': '#5a5ec8', '빔': '#c9862a', 'FX': '#c8553d', '오디언스': '#a8693b' };
+  function save() { L.put(S); }
+  function secs() { return L.sections(S); }
+  function cbyId(id) { for (var i = 0; i < P.colors.length; i++) if (P.colors[i].id === id) return P.colors[i]; }
+  function opt(list, v, empty) { return (empty ? '<option value="">' + empty + '</option>' : '') + list.map(function (x) { return '<option' + (x === v ? ' selected' : '') + '>' + x + '</option>'; }).join(''); }
+  function render() {
+    var list = secs();
+    if (!list.length) { $('sheet').innerHTML = '<tr><td class="note">구간이 없습니다. 듣기 노트에서 구간을 먼저 적습니다.</td></tr>'; $('band').innerHTML = ''; $('checks').innerHTML = ''; return; }
+    $('sheet').innerHTML = '<tr><th>구간</th><th>에너지</th><th>룩 이름</th><th>메인</th><th>두 색</th><th>포지션</th><th>이펙트</th><th>인 타임</th></tr>' + list.map(function (x) {
+      var r = LK[x.m.id] || {}, cols = (P.flow[x.m.id] || []).map(cbyId).filter(Boolean), id = x.m.id;
+      return '<tr><td class="sec"><b>' + L.esc(x.m.name) + '</b><span>' + x.start + '~' + x.end + '마디</span></td><td class="num">' + (S.energy[id] || 3) + '</td>' +
+        '<td><input data-id="' + id + '" data-k="name" value="' + L.esc(r.name || '') + '" placeholder="그림이 떠오르는 이름" aria-label="' + L.esc(x.m.name) + ' 룩 이름"></td>' +
+        '<td><select data-id="' + id + '" data-k="hero" aria-label="메인">' + opt(L.ROLES, r.hero, '고르기') + '</select></td>' +
+        '<td><div class="two">' + (cols.length ? cols.map(function (c) { return '<i title="' + L.esc(c.name) + '" style="background:' + L.hexOf(c) + '"></i>'; }).join('') : '<em>팔레트에서</em>') + '</div></td>' +
+        '<td><select data-id="' + id + '" data-k="pos" aria-label="포지션">' + opt(['움직임'].concat(L.STILLS), r.pos, '—') + '</select></td>' +
+        '<td><input data-id="' + id + '" data-k="fx" value="' + L.esc(r.fx || '') + '" placeholder="이펙트 하나와 속도(박)" aria-label="이펙트"></td>' +
+        '<td><select data-id="' + id + '" data-k="entry" aria-label="인 타임">' + opt(ENTRY, r.entry, '—') + '</select></td></tr>';
+    }).join('');
+    renderBand(); checks();
+  }
+  function renderBand() {
+    $('band').innerHTML = secs().map(function (x) { var r = LK[x.m.id] || {}; return '<div style="flex:' + x.len + ' 0 56px;background:' + (HC[r.hero] || '#555b66') + '"><b>' + (r.hero || '—') + '</b><span>' + L.esc(x.m.name) + '</span></div>'; }).join('');
+  }
+  function checks() {
+    var out = [], list = secs();
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: '확인', i: '참고', ok: '좋음' }[lv] + '</span>' + h + '</li>'); }
+    var names = {}, run = 1;
+    list.forEach(function (x, i) {
+      var r = LK[x.m.id] || {}, cols = P.flow[x.m.id] || [];
+      if (!r.hero) add('w', '<b>' + L.esc(x.m.name) + '</b>에 메인이 없습니다. 이 장면에서 가장 크게 보일 역할 하나를 고릅니다.');
+      if (!r.name) add('i', '<b>' + L.esc(x.m.name) + '</b>에 룩 이름이 없습니다.');
+      if (r.pos === '실루엣') add('i', '<b>' + L.esc(x.m.name) + '</b>의 실루엣은 키를 일부러 내리는 예외입니다. 노래가 이어지는 구간이라면 역광으로 키를 남기는 쪽도 견주어 보고, 몇 마디인지 연출과 확인합니다.');
+      if (cols.length > 2) add('w', '<b>' + L.esc(x.m.name) + '</b>에 동시에 보이는 색이 ' + cols.length + '개입니다(팔레트에서 고침).');
+      if (r.name) { var fam = r.name.split(' · ')[0]; names[fam] = (names[fam] || 0) + 1; }
+      if (i > 0) {
+        var p = LK[list[i - 1].m.id] || {};
+        if (r.hero && r.hero === p.hero) run++; else run = 1;
+        if (run === 4) add('w', '메인 ' + L.josa('<b>' + r.hero + '</b>', '이가') + ' ' + list[i - 3].m.name + '부터 네 구간 이어집니다. 그중 한 구간의 메인을 바꿔 봅니다.');
+        var same = r.hero && r.hero === p.hero && r.pos === p.pos && cols.slice().sort().join() === (P.flow[list[i - 1].m.id] || []).slice().sort().join();
+        if (same) add('w', L.josa('<b>' + L.esc(list[i - 1].m.name) + '</b>', '과와') + ' <b>' + L.esc(x.m.name) + '</b>의 메인, 두 색, 포지션이 모두 같습니다. 구간이 바뀐 것이 보이지 않습니다.');
+        if (r.pos === '움직임' && p.pos === '움직임' && r.hero === '빔') add('i', '빔이 <b>' + L.esc(x.m.name) + '</b>까지 계속 움직입니다. 한 구간은 포지션 프리셋으로 세워 모양을 보여 줄 수 있습니다.');
+      }
+    });
+    var n = Object.keys(names).length;
+    if (n > 7) add('i', '룩이 ' + n + '가지입니다("옥상 팬 · 밤"처럼 가운뎃점 뒤만 다른 이름은 같은 룩의 변형으로 셉니다). 대표 룩 하나와 구간 룩 네다섯 개가 출발점입니다. 같은 성격의 구간은 같은 룩을 다시 써도 됩니다.');
+    var ch = list.filter(function (x) { return /^후렴/.test(x.m.name); });
+    if (ch.length > 1) { var a = LK[ch[0].m.id] || {}, b = LK[ch[1].m.id] || {}; if (a.name && b.name && a.name !== b.name && a.hero !== b.hero && a.pos !== b.pos) add('i', '후렴 1과 후렴 2가 완전히 다른 룩입니다. 후렴은 같은 룩에서 한 칸씩 바꾸면 관객이 "후렴"으로 알아봅니다(3장 후렴 빌드업).'); }
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; })) add('ok', '구간마다 메인이 있고, 이웃한 구간이 같은 그림으로 이어지지 않습니다. 시트를 복사해 컨셉 시트에 옮깁니다.');
+    $('checks').innerHTML = out.join('');
+  }
+  function upd(e) {
+    var t = e.target; if (!t.dataset.id) return; var r = LK[t.dataset.id] || (LK[t.dataset.id] = {});
+    r[t.dataset.k] = t.value; save(); renderBand(); checks();
+  }
+  $('sheet').addEventListener('input', upd); $('sheet').addEventListener('change', upd);
+  $('copy').addEventListener('click', function () {
+    var lines = ['구간\t마디\t에너지\t룩 이름\t메인\t두 색\t포지션\t이펙트\t인 타임'];
+    secs().forEach(function (x) { var r = LK[x.m.id] || {}; lines.push([x.m.name, x.start + '~' + x.end, S.energy[x.m.id] || 3, r.name || '', r.hero || '', (P.flow[x.m.id] || []).map(function (id) { var c = cbyId(id); return c ? c.name : ''; }).join(', '), r.pos || '', r.fx || '', r.entry || ''].join('\t')); });
+    var txt = (S.title || '') + ' 룩 시트\n' + lines.join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? '시트를 복사했습니다. 스프레드시트에 붙여 넣으면 칸이 나뉩니다.' : '복사가 막혀 있습니다.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  save(); render();
+})();
+</script>
+</body>
+</html>

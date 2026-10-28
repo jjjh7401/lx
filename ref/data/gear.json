@@ -1,0 +1,2355 @@
+[
+ {
+  "id": "G-01",
+  "brand": "Martin",
+  "model": "MAC Aura XB",
+  "cat": "wash",
+  "role": "워시·빔 / 오라 워시",
+  "source": "RGBW LED 19×15W(빔) + RGB 30×0.3W(오라 백라이트)",
+  "lumens": 6000,
+  "lumensNote": "장비 출력 와이드 6,000 lm / 내로 4,300 lm, 엔진 10,000 lm, 220,000 cd",
+  "zoomMin": 9,
+  "zoomMax": 41.7,
+  "zoomNote": "빔각(반치) 9.0–41.7°, 필드각 10.3–59.1°, 1:6",
+  "color": "RGBW 혼합, 색온도 2,500–10,000K, 가상 컬러 휠(프리셋 33개), calibrated/extended/raw 컬러 모드",
+  "shaping": "없음(워시), 오라 백라이트 효과, 내장 이펙트",
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 6.5,
+  "power": null,
+  "dmx": [
+   {
+    "name": "Standard",
+    "ch": 14
+   },
+   {
+    "name": "Extended",
+    "ch": 25
+   }
+  ],
+  "use": "콘서트·TV 음악방송·행사 워시와 아이캔디",
+  "year": null,
+  "mine": true,
+  "url": "https://www.martin.com/en-US/products/MAC-Aura-XB.html",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [
+   "픽셀",
+   "IP",
+   "전력",
+   "출시 연도"
+  ],
+  "notes": "최대 빔 LED 엔진 전력 285W(전체 소비전력 아님), 전류 1.7A@230V. 소비전력과 IP는 원문을 다시 확인해야 합니다.",
+  "fit": [
+   "음악방송",
+   "콘서트"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-02",
+  "brand": "Robe",
+  "model": "Spiider",
+  "cat": "wash",
+  "role": "워시·빔 / 픽셀 워시(플라워 이펙트)",
+  "source": "RGBW 18×40W + 중앙 RGBW 1×60W LED",
+  "lumens": 11000,
+  "lumensNote": "적분구 13,700 lm / 고니오미터 11,000 lm, 50,100 lx @5m",
+  "zoomMin": 4,
+  "zoomMax": 50,
+  "zoomNote": "12.5:1",
+  "color": "RGBW(내부 18비트), 가상 컬러 휠",
+  "shaping": "MCFE 멀티 컬러 플라워 이펙트(중앙 LED)",
+  "pixel": true,
+  "cri": null,
+  "tlci": null,
+  "ip": "IP20",
+  "weight": 13.3,
+  "power": 660,
+  "dmx": [
+   {
+    "name": "mode1",
+    "ch": 49
+   },
+   {
+    "name": "mode2",
+    "ch": 27
+   },
+   {
+    "name": "mode3",
+    "ch": 33
+   },
+   {
+    "name": "mode4",
+    "ch": 90
+   },
+   {
+    "name": "mode5",
+    "ch": 27
+   },
+   {
+    "name": "mode6",
+    "ch": 47
+   },
+   {
+    "name": "mode7",
+    "ch": 91
+   },
+   {
+    "name": "mode8",
+    "ch": 110
+   },
+   {
+    "name": "mode9",
+    "ch": 104
+   },
+   {
+    "name": "mode10",
+    "ch": 123
+   }
+  ],
+  "use": "아레나·콘서트·TV 음악방송",
+  "year": null,
+  "mine": true,
+  "url": "https://www.robe.cz/res/downloads/catalogues/ROBE_Spiider_leaflet_online_version.pdf",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [],
+  "notes": "DMX 모드 10개, 리플렛에는 모드 이름 없이 순서만 나옵니다. 프로토콜 DMX/RDM/Art-Net/MA Net/MA Net2/sACN/Kling-Net.",
+  "fit": [
+   "음악방송",
+   "콘서트"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-03",
+  "brand": "Robe",
+  "model": "Robin MegaPointe",
+  "cat": "beam",
+  "role": "하이브리드(빔·스팟·워시)",
+  "source": "Osram Sirius HRI 470W RO 방전 램프",
+  "lumens": 20375,
+  "lumensNote": "렌탈 스펙 20,375 lm, 리플렛 빔 모드 1.8° 측광 적분구 13,447 lm / 고니오 12,807 lm, 2,200,000 lx @5m(빔)",
+  "zoomMin": 1.8,
+  "zoomMax": 42,
+  "zoomNote": "빔 모드 1.8–21°, 스팟 모드 3–42°, 14:1",
+  "color": "CMY + 컬러 휠, CRI 80/90 선택",
+  "shaping": "회전 유리 고보 9개 + 고정 고보 14개, 애니메이션 휠, 휠 2개에 프리즘 6개(빔·플라워 효과 12종), 프로스트",
+  "pixel": false,
+  "cri": null,
+  "tlci": null,
+  "ip": "IP20",
+  "weight": 22,
+  "power": 670,
+  "dmx": [
+   {
+    "name": "mode1",
+    "ch": 39
+   },
+   {
+    "name": "mode2",
+    "ch": 34
+   }
+  ],
+  "use": "콘서트·아레나·TV 음악방송 에어리얼 빔과 고보",
+  "year": null,
+  "mine": true,
+  "url": "https://www.robe.cz/res/downloads/catalogues/ROBE_MegaPointe_leaflet.pdf",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [],
+  "notes": "CRI는 필터로 80 또는 90을 고르는 값이라 고정값이 아닙니다. 보조 출처 https://www.r90lighting.com/rental-inventory/robe-megapointe. 빔이 보이려면 헤이즈가 필요합니다.",
+  "fit": [
+   "음악방송",
+   "콘서트"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-04",
+  "brand": "Martin",
+  "model": "RUSH PAR 2 RGBW Zoom",
+  "cat": "par",
+  "role": "업라이트 / LED PAR 워시",
+  "source": "RGBW Osram Ostar LED 12×10W",
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": 10,
+  "zoomMax": 60,
+  "zoomNote": null,
+  "color": "RGBW",
+  "shaping": "전자식 디머·스트로브",
+  "pixel": false,
+  "cri": null,
+  "tlci": null,
+  "ip": "IP20",
+  "weight": 5.5,
+  "power": 151,
+  "dmx": [
+   {
+    "name": "5ch",
+    "ch": 5
+   },
+   {
+    "name": "9ch",
+    "ch": 9
+   }
+  ],
+  "use": "행사·소규모 무대·업라이트 워시",
+  "year": null,
+  "mine": true,
+  "url": "https://www.martin.com/en-US/products/rush-par-2-rgbw-zoom",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [
+   "밝기"
+  ],
+  "notes": "151W는 일반 소비전력이며 최대값이 아닙니다. 측광 파일의 효율은 12.3 lm/W이고, 페이지에 총 광속은 없습니다(원문 재확인 필요).",
+  "fit": [
+   "행사"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-05",
+  "brand": "Elation",
+  "model": "CUEPIX Blinder WW2",
+  "cat": "bar",
+  "role": "블라인더(2구 COB)",
+  "source": "웜 화이트 3,200K COB LED 2×100W",
+  "lumens": null,
+  "lumensNote": "풀 출력 5,900 lux @1m",
+  "zoomMin": 60,
+  "zoomMax": 60,
+  "zoomNote": "빔 60°, 필드 80°(고정)",
+  "color": "웜 화이트 3,200K 단색",
+  "shaping": "없음",
+  "pixel": true,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 5.1,
+  "power": 229,
+  "dmx": [
+   {
+    "name": "1ch",
+    "ch": 1
+   },
+   {
+    "name": "2ch",
+    "ch": 2
+   },
+   {
+    "name": "3ch",
+    "ch": 3
+   },
+   {
+    "name": "4ch",
+    "ch": 4
+   }
+  ],
+  "use": "콘서트·TV 관객 블라인더, TV·영화용 플리커 프리",
+  "year": null,
+  "mine": true,
+  "url": "https://www.elationlighting.eu/cuepix-blinder-ww2",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [
+   "밝기",
+   "CRI",
+   "IP"
+  ],
+  "notes": "브랜드는 Elation입니다(Chauvet 아님). 픽셀 제어는 COB 셀 2개를 따로 켜는 것을 뜻합니다. 제조사가 플리커 프리를 명시합니다.",
+  "fit": [
+   "음악방송",
+   "콘서트",
+   "행사"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-06",
+  "brand": "Martin",
+  "model": "Atomic 3000 LED",
+  "cat": "bar",
+  "role": "스트로브 / 하이브리드 스트로브(RGB 오라)",
+  "source": "화이트 LED Cree XP-L 228×10W 5,700K + RGB 오라 백라이트",
+  "lumens": 180000,
+  "lumensNote": "최대 총 출력 180,000 lm(제조사 표기, 별표 조건부)",
+  "zoomMin": null,
+  "zoomMax": null,
+  "zoomNote": null,
+  "color": "화이트 5,700K 스트로브 + RGB 오라 백라이트",
+  "shaping": "반사경, 스트로브 0.289–16.667 Hz, 블라인더·램프·랜덤·라이트닝 이펙트, 옵션 Atomic Colors 스크롤러",
+  "pixel": false,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 7.8,
+  "power": 740,
+  "dmx": [
+   {
+    "name": "3ch",
+    "ch": 3
+   },
+   {
+    "name": "4ch (Atomic 3000 compatible)",
+    "ch": 4
+   },
+   {
+    "name": "14ch Extended",
+    "ch": 14
+   }
+  ],
+  "use": "콘서트·페스티벌 스트로브와 블라인더",
+  "year": 2016,
+  "mine": true,
+  "url": "https://www.martin.com/en/site_elements/atomic-3000-led-spec-sheet-english",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [
+   "IP",
+   "출시 연도"
+  ],
+  "notes": "디머 16.7% 이상은 전류 제어로 플리커 프리, 16.7% 미만은 PWM 6000Hz입니다(스펙시트). 출시 연도는 2016년 뉴스 기준 추정입니다.",
+  "fit": [
+   "음악방송",
+   "콘서트"
+  ],
+  "caution": "스트로브는 카메라 셔터와의 상호작용을 미리 시험합니다."
+ },
+ {
+  "id": "G-07",
+  "brand": "ETC",
+  "model": "Source Four LED Series 3 Lustr X8",
+  "cat": "spot",
+  "role": "키·프론트 / 프로파일(엘립소이달)",
+  "source": "Lumileds LUXEON C/CZ LED 90개, 8색 혼합(Lustr X8)",
+  "lumens": 14214,
+  "lumensNote": "OFL 커뮤니티 값(ETC 페이지에서 확인 못 함)",
+  "zoomMin": 5,
+  "zoomMax": 90,
+  "zoomNote": "교체식 렌즈 튜브(고정 화각 배럴), 모터 줌 아님",
+  "color": "8색 LED 혼합(X8)",
+  "shaping": "수동 프레이밍 셔터, 고보 슬롯, 아이리스 옵션(엘립소이달)",
+  "pixel": false,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 8.9,
+  "power": 340,
+  "dmx": [
+   {
+    "name": "Direct",
+    "ch": 12
+   },
+   {
+    "name": "Expanded",
+    "ch": 11
+   },
+   {
+    "name": "Studio",
+    "ch": 7
+   },
+   {
+    "name": "3ch RGB",
+    "ch": 3
+   },
+   {
+    "name": "Intensity",
+    "ch": 1
+   }
+  ],
+  "use": "극장·방송 키, 프론트, 스페셜",
+  "year": null,
+  "mine": true,
+  "url": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/etc/source-four-led-series-3-lustr-x8.json",
+  "srcType": "OFL(커뮤니티)",
+  "verif": "일부 확인",
+  "unverified": [
+   "밝기",
+   "무게",
+   "전력",
+   "DMX 모드",
+   "CRI",
+   "TLCI"
+  ],
+  "notes": "ETC 페이지에서 Series 3에 Multiverse 무선 DMX/RDM과 NFC가 더해진 것을 확인했습니다(https://www.etcconnect.com/Products/Lighting-Fixtures/Source-Four-LED-Series-3/Features.aspx). X8 색 구성(deep red/red/amber/lime/green/cyan/blue/indigo)은 미확인입니다. TLCI는 확인하지 못했습니다.",
+  "fit": [
+   "음악방송",
+   "행사",
+   "홈쇼핑"
+  ],
+  "caution": "TLCI가 확인되지 않아 카메라 키로 쓰기 전에 확인합니다."
+ },
+ {
+  "id": "G-08",
+  "brand": "Martin",
+  "model": "MAC Aura (original)",
+  "cat": "wash",
+  "role": "워시 / 오라 워시",
+  "source": "RGBW LED + 오라 백라이트",
+  "lumens": 3850,
+  "lumensNote": "OFL 커뮤니티 값",
+  "zoomMin": 11,
+  "zoomMax": 58,
+  "zoomNote": null,
+  "color": "RGBW + CTC",
+  "shaping": "오라 백라이트",
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 5.6,
+  "power": 260,
+  "dmx": [
+   {
+    "name": "Standard",
+    "ch": 14
+   },
+   {
+    "name": "Extended",
+    "ch": 25
+   }
+  ],
+  "use": "TV 스튜디오·콘서트 워시와 아이캔디",
+  "year": null,
+  "mine": true,
+  "url": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/martin/mac-aura.json",
+  "srcType": "OFL(커뮤니티)",
+  "verif": "일부 확인",
+  "unverified": [
+   "밝기",
+   "무게",
+   "전력",
+   "IP",
+   "출시 연도"
+  ],
+  "notes": "제조사 페이지 https://www.martin.com/en/products/mac-aura",
+  "fit": [
+   "행사"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-09",
+  "brand": "Chauvet Professional",
+  "model": "Maverick MK1 Hybrid",
+  "cat": "beam",
+  "role": "하이브리드(스팟·빔·워시)",
+  "source": "Osram Sirius HRI 440W, 램프 7,000K(출력 6,207K)",
+  "lumens": 15500,
+  "lumensNote": "출력 15,500 lm, 광원 22,000 lm, 212,100 lux @15m(2°)",
+  "zoomMin": 1,
+  "zoomMax": 41,
+  "zoomNote": "빔 모드 1°(필드 2°), 스팟 3–18°, 워시 19–41°",
+  "color": "CMY + 컬러 휠",
+  "shaping": "회전·고정 고보, 8면 회전 프리즘, 프로스트(워시 모드), 무브 인 블랙",
+  "pixel": false,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 30.3,
+  "power": null,
+  "dmx": [
+   {
+    "name": "personality A",
+    "ch": 26
+   },
+   {
+    "name": "personality B",
+    "ch": 29
+   }
+  ],
+  "use": "콘서트·투어·행사",
+  "year": 2018,
+  "mine": true,
+  "url": "https://chauvetprofessional.com/product/maverick-mk1-hybrid",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [
+   "DMX 모드",
+   "IP",
+   "전력"
+  ],
+  "notes": "DMX 채널 수가 출처마다 다릅니다: 딜러 페이지 26/29, 제조사 페이지 발췌 27/30(Art-Net). 사용 전에 DMX 차트로 확인합니다. Seetronic powerKON IP65 커넥터가 있다고 장비가 IP65인 것은 아닙니다.",
+  "fit": [
+   "콘서트"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-10",
+  "brand": "Clay Paky",
+  "model": "Mythos 2",
+  "cat": "beam",
+  "role": "하이브리드(빔·스팟)",
+  "source": "Osram Sirius HRI 440W X 방전 램프(램프 광속 22,000 lm)",
+  "lumens": null,
+  "lumensNote": "램프 광속 22,000 lm(광원), 4Wall 렌탈 목록은 최대 24,000 lm",
+  "zoomMin": 2.5,
+  "zoomMax": 50,
+  "zoomNote": "스팟 4–50°(1:12), 빔 모드 2.5° 애퍼처",
+  "color": "CMY(페이딩 휠 3개) + 컬러 필터 15개 + CTO 3200/2500 + CTB",
+  "shaping": "회전 유리 고보 6개 + 고정 18+1개(빔 리듀서 6개 포함), 애니메이션 디스크, 8면·리니어 프리즘, 프로스트",
+  "pixel": false,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 32,
+  "power": 700,
+  "dmx": [
+   {
+    "name": "mode A",
+    "ch": 30
+   },
+   {
+    "name": "mode B",
+    "ch": 34
+   }
+  ],
+  "use": "콘서트·아레나·TV 음악방송",
+  "year": null,
+  "mine": true,
+  "url": "https://www.hd-production.com.au/product-page/clay-paky-mythos-2",
+  "srcType": "렌탈·딜러",
+  "verif": "일부 확인",
+  "unverified": [
+   "전력"
+  ],
+  "notes": "전력 700은 230V에서 700VA입니다. 보조 출처 https://www.huss-licht-ton.de/product_info.php/en/Clay-Paky-Mythos-2-Hybrid-Moving-Head/info/41511.html. 빔이 보이려면 헤이즈가 필요합니다.",
+  "fit": [
+   "음악방송",
+   "콘서트"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-11",
+  "brand": "Showtec",
+  "model": "Sunstrip Active MKII",
+  "cat": "bar",
+  "role": "LED·할로겐 배튼(레트로 픽셀 바)",
+  "source": "GU10 할로겐 10×240V/50W",
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": 35,
+  "zoomMax": 35,
+  "zoomNote": null,
+  "color": "웜 할로겐(젤)",
+  "shaping": null,
+  "pixel": true,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 6.2,
+  "power": 550,
+  "dmx": [
+   {
+    "name": "1x10",
+    "ch": 1
+   },
+   {
+    "name": "2x5",
+    "ch": 2
+   },
+   {
+    "name": "5x2",
+    "ch": 5
+   },
+   {
+    "name": "10x1 (per-lamp)",
+    "ch": 10
+   }
+  ],
+  "use": "아이캔디 배튼, 세트·라이저 가장자리, TV 음악방송",
+  "year": null,
+  "mine": true,
+  "url": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/showtec/sunstrip-active-mkii.json",
+  "srcType": "OFL(커뮤니티)",
+  "verif": "일부 확인",
+  "unverified": [
+   "DMX 모드",
+   "무게",
+   "전력",
+   "밝기"
+  ],
+  "notes": "OFL 원본은 10x1 모드를 1채널로 적었는데 데이터 오류로 보여 램프별 10채널 모드로 가정했습니다. 매뉴얼로 확인합니다. 제조사 페이지 https://www.highlite.com/en/30714-sunstrip-active-mkii.html. 보유 장비가 MKII가 아닌 원래 Sunstrip Active일 수 있습니다.",
+  "fit": [],
+  "caution": null
+ },
+ {
+  "id": "G-12",
+  "brand": "Robe",
+  "model": "T2 Profile",
+  "cat": "spot",
+  "role": "키·프론트 / 스팟 프로파일(프레이밍)",
+  "source": "MSL 850W 멀티 스펙트럴 LED",
+  "lumens": 17600,
+  "lumensNote": "적분구 22,000 lm / 고니오 17,600 lm",
+  "zoomMin": 5,
+  "zoomMax": 55,
+  "zoomNote": "11:1",
+  "color": "CMY/RGB 또는 RGBAL, 색온도 2,700–8,000K, ±그린, CRI 80–95+ 조절, 텅스텐 에뮬레이션",
+  "shaping": "Plano4 4블레이드 프레이밍(±60° 회전), 회전·고정 고보 휠, 애니메이션 휠, 6면 원형·리니어 프리즘, 아이리스, 프로스트 1°/5°",
+  "pixel": false,
+  "cri": 95,
+  "tlci": 94,
+  "ip": "IP20",
+  "weight": 36.9,
+  "power": 1150,
+  "dmx": [
+   {
+    "name": "mode1",
+    "ch": 52
+   },
+   {
+    "name": "mode2",
+    "ch": 36
+   },
+   {
+    "name": "mode3",
+    "ch": 56
+   }
+  ],
+  "use": "방송·극장·투어 키와 장거리",
+  "year": 2021,
+  "mine": false,
+  "url": "https://saleswl.com/wp-content/uploads/2022/01/Robe-T2-Profile-Data-Sheet-2026.pdf",
+  "srcType": "제조사 자료(딜러 게시)",
+  "verif": "확인",
+  "unverified": [],
+  "notes": "Cpulse로 HD/UHD 카메라에서 플리커 프리입니다. T2 Profile FS 버전은 RoboSpot용 카메라를 답니다. 출시 연도는 TPi 출시 기사(2021-04) 기준입니다.",
+  "fit": [
+   "음악방송"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-13",
+  "brand": "Robe",
+  "model": "T1 Profile",
+  "cat": "spot",
+  "role": "키·프론트 / 스팟 프로파일(프레이밍)",
+  "source": "MSL 550W 멀티 스펙트럴 LED",
+  "lumens": 10075,
+  "lumensNote": "Robe Product Guide 2021: MSL 엔진 출력 10,075 lm, OFL은 12,600 lm",
+  "zoomMin": 7,
+  "zoomMax": 49,
+  "zoomNote": null,
+  "color": "CMY/RGB(MSL 멀티 스펙트럴), 가변 색온도",
+  "shaping": "프레이밍 셔터, 고보, 프리즘, 아이리스, 프로스트",
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 24.3,
+  "power": 440,
+  "dmx": [
+   {
+    "name": "M1",
+    "ch": 49
+   },
+   {
+    "name": "M2",
+    "ch": 33
+   },
+   {
+    "name": "M3",
+    "ch": 53
+   }
+  ],
+  "use": "극장·TV·기업 행사 키",
+  "year": null,
+  "mine": false,
+  "url": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/robe/robin-t1-profile.json",
+  "srcType": "OFL(커뮤니티)·제조사 가이드",
+  "verif": "일부 확인",
+  "unverified": [
+   "빔각",
+   "무게",
+   "전력",
+   "DMX 모드",
+   "CRI",
+   "TLCI"
+  ],
+  "notes": "밝기는 제조사 가이드와 OFL이 다릅니다(10,075 lm와 12,600 lm). 제조사 가이드 https://www.robe.cz/res/downloads/catalogues/ROBE_Product_Guide_2021.pdf. OFL은 M1/M2를 CMY/RGB 버전으로 나눕니다. CRI/TLCI는 원문을 다시 확인해야 합니다.",
+  "fit": [
+   "음악방송",
+   "행사",
+   "홈쇼핑"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-14",
+  "brand": "Robe",
+  "model": "T11 Profile",
+  "cat": "spot",
+  "role": "키·프론트 / 고정 프로파일(엘립소이달형)",
+  "source": "MSL-TE 350W LED",
+  "lumens": 9500,
+  "lumensNote": "엔진 16,760 lm, 출력 약 9,500 lm(TPi)",
+  "zoomMin": null,
+  "zoomMax": null,
+  "zoomNote": null,
+  "color": null,
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 15.7,
+  "power": null,
+  "dmx": [],
+  "use": "극장·TV·컨퍼런스 키와 스페셜",
+  "year": 2021,
+  "mine": false,
+  "url": "https://www.tpimagazine.com/robe-highlights-three-in-one-t11-range/",
+  "srcType": "업계 매체",
+  "verif": "일부 확인",
+  "unverified": [
+   "빔각",
+   "DMX 모드",
+   "CRI",
+   "TLCI",
+   "전력"
+  ],
+  "notes": "무게 출처 https://prolight.com.pl/en/product/t11-profile.html",
+  "fit": [
+   "행사",
+   "홈쇼핑"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-15",
+  "brand": "Robe",
+  "model": "BMFL Spot",
+  "cat": "spot",
+  "role": "스팟·프로파일(고출력, 프레이밍 없음)",
+  "source": "OSRAM Lok-it! HTI 1700/PS 1700W",
+  "lumens": 40000,
+  "lumensNote": "40,000 lm @1700W / 36,500 lm @1500W / 32,000 lm @1200W 저소음, 250,000 lx @5m",
+  "zoomMin": 5,
+  "zoomMax": 55,
+  "zoomNote": "11:1",
+  "color": "CMY + CTO + 컬러 휠",
+  "shaping": "회전 유리 고보, 고정 고보, 프리즘, 프로스트, 아이리스",
+  "pixel": false,
+  "cri": 92,
+  "tlci": null,
+  "ip": "IP20",
+  "weight": 36,
+  "power": 2000,
+  "dmx": [
+   {
+    "name": "mode1",
+    "ch": 41
+   },
+   {
+    "name": "mode2",
+    "ch": 33
+   }
+  ],
+  "use": "아레나·스타디움·대형 TV 쇼 스팟",
+  "year": null,
+  "mine": false,
+  "url": "https://cdn.aws.robe.cz/print/en_product_644.pdf",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [],
+  "notes": "CRI 92+(램프 기준). 프레이밍이 필요하면 BMFL Blade가 있습니다.",
+  "fit": [
+   "콘서트"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-16",
+  "brand": "Ayrton",
+  "model": "Khamsin (S / TC)",
+  "cat": "spot",
+  "role": "스팟·프로파일(프레이밍)",
+  "source": "750W LED 모듈, 7,000K",
+  "lumens": 40000,
+  "lumensNote": "Khamsin S 40,000 lm, Khamsin TC 네이티브 CRI >90",
+  "zoomMin": 7,
+  "zoomMax": 58,
+  "zoomNote": "8:1, 렌즈 158mm",
+  "color": "CMY + CTO + 컬러 휠(세부 미확인)",
+  "shaping": "프로파일(프레이밍 시스템, 고보, 프리즘, 아이리스, 세부 미확인)",
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": "IP20",
+  "weight": 39.8,
+  "power": null,
+  "dmx": [],
+  "use": "아레나·TV·극장 프로파일",
+  "year": null,
+  "mine": false,
+  "url": "https://www.ayrton.eu/produit/khamsin/",
+  "srcType": "제조사",
+  "verif": "일부 확인",
+  "unverified": [
+   "컬러",
+   "빔 셰이핑",
+   "전력",
+   "DMX 모드"
+  ],
+  "notes": "CRI >90은 TC 버전에 해당합니다.",
+  "fit": [
+   "음악방송"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-17",
+  "brand": "Ayrton",
+  "model": "Diablo (S / TC)",
+  "cat": "spot",
+  "role": "스팟·프로파일(프레이밍, 소형)",
+  "source": "단색 LED 7,000K",
+  "lumens": 19000,
+  "lumensNote": "Diablo S 19,000 lm(TC: CRI >90)",
+  "zoomMin": 7,
+  "zoomMax": 53,
+  "zoomNote": "7.5:1, 렌즈 119mm",
+  "color": null,
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": "IP20",
+  "weight": 22,
+  "power": 550,
+  "dmx": [
+   {
+    "name": "Standard",
+    "ch": 36
+   },
+   {
+    "name": "Basic",
+    "ch": 34
+   },
+   {
+    "name": "Extended",
+    "ch": 56
+   }
+  ],
+  "use": "극장·TV·행사 소형 프로파일",
+  "year": null,
+  "mine": false,
+  "url": "https://www.ayrton.eu/produit/diablo/",
+  "srcType": "제조사",
+  "verif": "일부 확인",
+  "unverified": [
+   "전력",
+   "DMX 모드"
+  ],
+  "notes": "DMX와 전력은 OFL 값입니다(https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/ayrton/diablo-s.json). CRI >90은 TC 버전에 해당합니다.",
+  "fit": [
+   "음악방송",
+   "행사"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-18",
+  "brand": "Ayrton",
+  "model": "Domino LT",
+  "cat": "spot",
+  "role": "스팟·프로파일 장거리(IP65)",
+  "source": "1000W LED, 6,700K",
+  "lumens": 51000,
+  "lumensNote": null,
+  "zoomMin": 3.5,
+  "zoomMax": 53,
+  "zoomNote": "15:1, 렌즈 225mm",
+  "color": null,
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": "IP65",
+  "weight": 60,
+  "power": null,
+  "dmx": [
+   {
+    "name": "3 modes (44–70ch)",
+    "ch": null
+   }
+  ],
+  "use": "스타디움·페스티벌·야외 장거리",
+  "year": 2023,
+  "mine": false,
+  "url": "https://www.ayrton.eu/produit/domino-lt",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [],
+  "notes": "네이티브 CRI >70, 보정 필터로 색온도 2,900–15,000K. DMX는 '44–70채널의 3개 모드'로만 나오고 모드별 채널 수는 없습니다.",
+  "fit": [
+   "콘서트",
+   "야외"
+  ],
+  "caution": "네이티브 CRI >70이라 얼굴 키로 쓰지 않습니다."
+ },
+ {
+  "id": "G-19",
+  "brand": "Martin",
+  "model": "MAC Ultra Performance",
+  "cat": "spot",
+  "role": "스팟·프로파일(프레이밍) 고출력",
+  "source": "1150W LED 엔진(화이트 84×20W)",
+  "lumens": 46500,
+  "lumensNote": "엔진 90,000 lm, 장비 46,500 lm, 3,000,000 cd. 표준 CRI 66, 스펙트럴 필터 5,300K에서 23,500 lm·CRI 83, CTO+시안 3,200K에서 12,000 lm·CRI 90",
+  "zoomMin": 8,
+  "zoomMax": 54,
+  "zoomNote": "필드각 1:7",
+  "color": "CMY + CTO + 컬러 휠(다이크로익 6개)",
+  "shaping": "확장 프레이밍(블레이드 ±30°, 회전 ±83°), 회전 고보 2층, 애니메이션 휠, 4면 프리즘, 아이리스, 프로스트",
+  "pixel": null,
+  "cri": 66,
+  "tlci": null,
+  "ip": null,
+  "weight": 44,
+  "power": null,
+  "dmx": [],
+  "use": "아레나·스타디움·방송 대형 쇼 프로파일",
+  "year": null,
+  "mine": false,
+  "url": "https://www.martin.com/en-US/products/mac-ultra-performance",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [
+   "DMX 모드",
+   "전력",
+   "IP"
+  ],
+  "notes": "LED 리프레시 3000Hz. Martin은 방송·극장용 저소음을 내세웁니다.",
+  "fit": [
+   "콘서트"
+  ],
+  "caution": "표준 모드 CRI 66이라 얼굴 키로 쓰지 않습니다(필터로 CRI 90을 맞추면 출력이 12,000 lm으로 줄어듭니다)."
+ },
+ {
+  "id": "G-20",
+  "brand": "Martin",
+  "model": "MAC Viper Performance",
+  "cat": "spot",
+  "role": "스팟·프로파일(프레이밍, 방전)",
+  "source": "1000W 쇼트 아크 방전 램프 6,000K",
+  "lumens": 26000,
+  "lumensNote": null,
+  "zoomMin": 10,
+  "zoomMax": 44,
+  "zoomNote": null,
+  "color": null,
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 37.9,
+  "power": 1225,
+  "dmx": [
+   {
+    "name": "Basic",
+    "ch": 32
+   },
+   {
+    "name": "Extended",
+    "ch": 40
+   }
+  ],
+  "use": "콘서트·TV(오래 쓰인 주력 장비)",
+  "year": null,
+  "mine": false,
+  "url": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/martin/mac-viper-performance.json",
+  "srcType": "OFL(커뮤니티)",
+  "verif": "일부 확인",
+  "unverified": [
+   "밝기",
+   "빔각",
+   "무게",
+   "전력",
+   "DMX 모드"
+  ],
+  "notes": "수치는 OFL 커뮤니티 값입니다.",
+  "fit": [],
+  "caution": null
+ },
+ {
+  "id": "G-21",
+  "brand": "Martin",
+  "model": "MAC Encore Performance (CLD/WRM)",
+  "cat": "spot",
+  "role": "키·프론트 / 프로파일(프레이밍, 저소음 LED)",
+  "source": "화이트 LED(CLD 쿨 / WRM 웜)",
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": 12,
+  "zoomMax": 48,
+  "zoomNote": null,
+  "color": null,
+  "shaping": "프레이밍, 고보, 아이리스, 애니메이션(세부 미확인)",
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 31,
+  "power": 585,
+  "dmx": [
+   {
+    "name": "CLD",
+    "ch": 38
+   },
+   {
+    "name": "WRM",
+    "ch": 38
+   }
+  ],
+  "use": "극장·TV 스튜디오 저소음 프로파일",
+  "year": null,
+  "mine": false,
+  "url": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/martin/mac-encore-performance.json",
+  "srcType": "OFL(커뮤니티)",
+  "verif": "일부 확인",
+  "unverified": [
+   "밝기",
+   "CRI",
+   "TLCI",
+   "빔각",
+   "무게",
+   "전력"
+  ],
+  "notes": "제조사 페이지 https://www.martin.com/en/products/mac-encore-performance-cld (WRM은 ...-wrm). 수치는 OFL 커뮤니티 값입니다.",
+  "fit": [],
+  "caution": null
+ },
+ {
+  "id": "G-22",
+  "brand": "ETC",
+  "model": "Source Four LED Series 3 Daylight HDR",
+  "cat": "spot",
+  "role": "키·프론트 / 프로파일",
+  "source": "Lumileds LUXEON C/CZ LED 90개(Daylight HDR 튜너블 화이트)",
+  "lumens": 10889,
+  "lumensNote": "OFL 커뮤니티 값",
+  "zoomMin": 5,
+  "zoomMax": 90,
+  "zoomNote": "교체식 렌즈 튜브",
+  "color": "튜너블 화이트(Daylight HDR 어레이)",
+  "shaping": "수동 프레이밍 셔터, 고보 슬롯",
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 8.9,
+  "power": 307,
+  "dmx": [
+   {
+    "name": "Direct",
+    "ch": 10
+   },
+   {
+    "name": "Expanded",
+    "ch": 11
+   },
+   {
+    "name": "Studio",
+    "ch": 7
+   },
+   {
+    "name": "3ch RGB",
+    "ch": 3
+   },
+   {
+    "name": "Intensity",
+    "ch": 1
+   }
+  ],
+  "use": "방송·극장 키(화이트)",
+  "year": null,
+  "mine": false,
+  "url": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/etc/source-four-led-series-3-daylight-hdr.json",
+  "srcType": "OFL(커뮤니티)",
+  "verif": "일부 확인",
+  "unverified": [
+   "밝기",
+   "무게",
+   "전력",
+   "DMX 모드",
+   "CRI",
+   "TLCI"
+  ],
+  "notes": "TLCI는 확인하지 못했습니다.",
+  "fit": [
+   "음악방송",
+   "행사",
+   "홈쇼핑"
+  ],
+  "caution": "TLCI가 확인되지 않아 카메라 키로 쓰기 전에 확인합니다."
+ },
+ {
+  "id": "G-23",
+  "brand": "ETC",
+  "model": "fos/4 Panel PD16",
+  "cat": "spot",
+  "role": "키·필 소프트 라이트(패널)",
+  "source": "LED 패널(멀티컬러)",
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": null,
+  "zoomMax": null,
+  "zoomNote": null,
+  "color": null,
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 25.4,
+  "power": 1070,
+  "dmx": [
+   {
+    "name": "Direct",
+    "ch": 10
+   },
+   {
+    "name": "Expanded",
+    "ch": 11
+   },
+   {
+    "name": "Studio",
+    "ch": 7
+   },
+   {
+    "name": "3ch RGB",
+    "ch": 3
+   },
+   {
+    "name": "Intensity",
+    "ch": 1
+   }
+  ],
+  "use": "방송 스튜디오·영화 키와 필",
+  "year": null,
+  "mine": false,
+  "url": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/etc/fos4PD16.json",
+  "srcType": "OFL(커뮤니티)",
+  "verif": "일부 확인",
+  "unverified": [
+   "밝기",
+   "CRI",
+   "TLCI",
+   "무게",
+   "전력"
+  ],
+  "notes": "제조사 페이지 https://www.etcconnect.com/Products/Lighting-Fixtures/fos/4-Panels/Features.aspx",
+  "fit": [
+   "음악방송",
+   "홈쇼핑"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-24",
+  "brand": "Robe",
+  "model": "RoboSpot (BaseStation system)",
+  "cat": "follow",
+  "role": "팔로우(원격 제어 시스템)",
+  "source": "해당 없음(카메라 달린 FS 장비용 컨트롤러)",
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": null,
+  "zoomMax": null,
+  "zoomNote": null,
+  "color": null,
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 16.5,
+  "power": 15,
+  "dmx": [],
+  "use": "콘서트·TV·극장 원격 팔로우",
+  "year": null,
+  "mine": false,
+  "url": "https://www.robe.cz/res/downloads/user_manuals/User_manual_RoboSpot.pdf",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [],
+  "notes": "Robin Forte/Forte FS/iForte/iForte FS, BMFL FollowSpot, T2 Profile FS 등을 지원합니다. 16.5kg은 BaseStation 무게입니다. 호환 목록은 원문을 다시 확인해야 합니다.",
+  "fit": [
+   "콘서트"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-25",
+  "brand": "Robe",
+  "model": "BMFL FollowSpot LT",
+  "cat": "follow",
+  "role": "팔로우(장거리)",
+  "source": "OSRAM Lok-it! HTI 1700/PS",
+  "lumens": 34600,
+  "lumensNote": "34,600 lm @1700W, 455,000 lx @5m",
+  "zoomMin": 1,
+  "zoomMax": 8,
+  "zoomNote": "Solotech 1–8°, Magnum 2–8°(출처 불일치)",
+  "color": "CMY + CTO 2,700–6,000K + 컬러 휠(6)",
+  "shaping": "아이리스, 가변·고정 프로스트, 포커스·줌, 듀얼 블레이드 셔터",
+  "pixel": null,
+  "cri": 92,
+  "tlci": null,
+  "ip": "IP20",
+  "weight": 38.1,
+  "power": 2000,
+  "dmx": [
+   {
+    "name": "mode1",
+    "ch": 33
+   },
+   {
+    "name": "mode2",
+    "ch": 27
+   }
+  ],
+  "use": "아레나·스타디움 팔로우(수동 또는 RoboSpot)",
+  "year": null,
+  "mine": false,
+  "url": "https://shop.solotech.com/products/robe-bmfl-followspot-lt-long-throw-moving-light",
+  "srcType": "딜러",
+  "verif": "일부 확인",
+  "unverified": [
+   "빔각",
+   "DMX 모드"
+  ],
+  "notes": "줌 1–8°(Solotech)와 2–8°(Magnum)로 출처가 다릅니다. 채널도 Solotech 33/27, Magnum 32/26으로 다릅니다(https://www.magnum.fr/produits/3583-robe-bmfl-followspot-lt). Magnum은 전력을 2000W @230V로 적습니다. 사용 전에 DMX 차트로 확인합니다.",
+  "fit": [
+   "콘서트"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-26",
+  "brand": "Robe",
+  "model": "FORTE (FS)",
+  "cat": "follow",
+  "role": "팔로우 / 스팟 프로파일(프레이밍)",
+  "source": "TE 1000W 화이트 LED 엔진(교체식)",
+  "lumens": 50000,
+  "lumensNote": "최대 50,000 lm, 고CRI 엔진 옵션(CRI 96)",
+  "zoomMin": 5,
+  "zoomMax": 55,
+  "zoomNote": null,
+  "color": null,
+  "shaping": null,
+  "pixel": null,
+  "cri": 96,
+  "tlci": null,
+  "ip": null,
+  "weight": 42.2,
+  "power": null,
+  "dmx": [],
+  "use": "아레나·TV 키 팔로우(RoboSpot)",
+  "year": null,
+  "mine": false,
+  "url": "https://www.mainlight.com/used-sales/robe-forte-led-followspot",
+  "srcType": "딜러(중고)",
+  "verif": "일부 확인",
+  "unverified": [
+   "CRI",
+   "DMX 모드",
+   "전력"
+  ],
+  "notes": "CRI 96은 고연색 엔진 옵션에만 해당합니다. 중계 카메라가 들어가면 키·팔로우는 이 고CRI 옵션을 확보합니다.",
+  "fit": [
+   "콘서트"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-27",
+  "brand": "Clay Paky",
+  "model": "Sharpy",
+  "cat": "beam",
+  "role": "빔",
+  "source": "MSD 200W 방전 램프 8,000K",
+  "lumens": 7950,
+  "lumensNote": "OFL 커뮤니티 값",
+  "zoomMin": 0,
+  "zoomMax": 3.8,
+  "zoomNote": "고정 약 3.8° 빔(줌 없음)",
+  "color": "컬러 휠",
+  "shaping": "고보, 프리즘, 프로스트(세부 미확인)",
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 19,
+  "power": 200,
+  "dmx": [
+   {
+    "name": "Standard",
+    "ch": 16
+   },
+   {
+    "name": "Vector",
+    "ch": 20
+   }
+  ],
+  "use": "콘서트·TV 음악방송 에어리얼 빔",
+  "year": null,
+  "mine": false,
+  "url": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/clay-paky/sharpy.json",
+  "srcType": "OFL(커뮤니티)",
+  "verif": "일부 확인",
+  "unverified": [
+   "밝기",
+   "전력",
+   "무게",
+   "빔 셰이핑"
+  ],
+  "notes": "OFL 전력 200W는 램프 와트이며 전체 소비전력이 아닙니다.",
+  "fit": [
+   "음악방송"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-28",
+  "brand": "Clay Paky",
+  "model": "Xtylos",
+  "cat": "beam",
+  "role": "빔(RGB 레이저 광원)",
+  "source": "전용 RGB 레이저 엔진",
+  "lumens": 2900,
+  "lumensNote": null,
+  "zoomMin": 1,
+  "zoomMax": 7,
+  "zoomNote": "빔 리듀서로 0.5°까지",
+  "color": "RGB 레이저 혼합 + 리니어 가상 CTO 2,500K–",
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": null,
+  "power": 400,
+  "dmx": [],
+  "use": "아레나·페스티벌 초협각 빔",
+  "year": null,
+  "mine": false,
+  "url": "https://www.claypaky.it/en/products/xtylos",
+  "srcType": "제조사",
+  "verif": "일부 확인",
+  "unverified": [
+   "무게",
+   "DMX 모드",
+   "IP"
+  ],
+  "notes": "전력은 최대 400VA입니다. IP66 버전은 Xtylos Aqua입니다.",
+  "fit": [
+   "콘서트"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-29",
+  "brand": "Chauvet Professional",
+  "model": "Maverick Storm 1 Hybrid",
+  "cat": "beam",
+  "role": "하이브리드(스팟·빔·워시) IP65",
+  "source": "Osram Sirius HRI 420W 7,700K",
+  "lumens": 30978,
+  "lumensNote": null,
+  "zoomMin": 1.3,
+  "zoomMax": 40.8,
+  "zoomNote": "스팟 빔각 1.3–17.7°, 필드각 2.2–31.9°",
+  "color": "CMY + 컬러 휠",
+  "shaping": "고보, 겹칠 수 있는 프리즘 2개(딜러 자료), 프로스트",
+  "pixel": null,
+  "cri": 80.6,
+  "tlci": 59,
+  "ip": "IP65",
+  "weight": 29.2,
+  "power": null,
+  "dmx": [
+   {
+    "name": "mode A",
+    "ch": 24
+   },
+   {
+    "name": "mode B",
+    "ch": 29
+   }
+  ],
+  "use": "야외 페스티벌·아레나",
+  "year": 2023,
+  "mine": false,
+  "url": "https://chauvetprofessional.com/product/maverick-storm-1-hybrid/",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [
+   "전력"
+  ],
+  "notes": "TLCI 59라 카메라 앞 피부 키에는 맞지 않습니다.",
+  "fit": [
+   "콘서트",
+   "야외"
+  ],
+  "caution": "TLCI 59라 얼굴 키로 쓰지 않습니다."
+ },
+ {
+  "id": "G-30",
+  "brand": "Elation",
+  "model": "Proteus Hybrid",
+  "cat": "beam",
+  "role": "하이브리드(빔·스팟·워시) IP65",
+  "source": "Philips MSD Platinum 21R 470W",
+  "lumens": 23000,
+  "lumensNote": "OFL 값(램프 광속일 가능성)",
+  "zoomMin": 2,
+  "zoomMax": 40,
+  "zoomNote": null,
+  "color": null,
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 38,
+  "power": 750,
+  "dmx": [
+   {
+    "name": "Basic",
+    "ch": 24
+   },
+   {
+    "name": "Standard",
+    "ch": 26
+   },
+   {
+    "name": "Extended",
+    "ch": 37
+   }
+  ],
+  "use": "야외·아레나 하이브리드",
+  "year": null,
+  "mine": false,
+  "url": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/elation/proteus-hybrid.json",
+  "srcType": "OFL(커뮤니티)",
+  "verif": "일부 확인",
+  "unverified": [
+   "밝기",
+   "IP",
+   "무게",
+   "전력"
+  ],
+  "notes": "역할 표기는 IP65지만 IP 등급 원문은 확인하지 못했습니다. 수치는 OFL 커뮤니티 값입니다.",
+  "fit": [
+   "콘서트",
+   "야외"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-31",
+  "brand": "Elation",
+  "model": "Proteus Maximus",
+  "cat": "spot",
+  "role": "스팟·프로파일 IP65(프레이밍)",
+  "source": "950W 6,500K 화이트 LED",
+  "lumens": 50000,
+  "lumensNote": "최대 50,000 lm",
+  "zoomMin": null,
+  "zoomMax": null,
+  "zoomNote": null,
+  "color": "CMY + 컬러 휠(UV, 고CRI 필터 포함)",
+  "shaping": "고보 휠 2개, 애니메이션 휠, 프리즘, 프레이밍(미확인)",
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": "IP65",
+  "weight": 53,
+  "power": 1400,
+  "dmx": [
+   {
+    "name": "mode A",
+    "ch": 37
+   },
+   {
+    "name": "mode B",
+    "ch": 61
+   }
+  ],
+  "use": "스타디움·야외 페스티벌 프로파일",
+  "year": null,
+  "mine": false,
+  "url": "https://www.elationlighting.com/products/proteus-maximus",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [
+   "빔 셰이핑",
+   "빔각"
+  ],
+  "notes": null,
+  "fit": [
+   "콘서트",
+   "야외"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-32",
+  "brand": "Robe",
+  "model": "Robin LEDBeam 150",
+  "cat": "wash",
+  "role": "워시(소형 줌, RGBW)",
+  "source": "RGBW LED 7개",
+  "lumens": 1380,
+  "lumensNote": null,
+  "zoomMin": 3.8,
+  "zoomMax": 60,
+  "zoomNote": null,
+  "color": "RGBW 또는 CMY 에뮬레이션",
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 5.7,
+  "power": 220,
+  "dmx": [
+   {
+    "name": "1-16bit RGBW",
+    "ch": 22
+   },
+   {
+    "name": "2-8bit RGBW",
+    "ch": 15
+   },
+   {
+    "name": "1-16bit CMY",
+    "ch": 22
+   },
+   {
+    "name": "2-8bit CMY",
+    "ch": 16
+   }
+  ],
+  "use": "TV 세트·무대 소형 고속 워시",
+  "year": null,
+  "mine": false,
+  "url": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/robe/robin-ledbeam-150.json",
+  "srcType": "OFL(커뮤니티)",
+  "verif": "일부 확인",
+  "unverified": [
+   "밝기",
+   "무게",
+   "전력"
+  ],
+  "notes": "수치는 OFL 커뮤니티 값입니다.",
+  "fit": [
+   "행사"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-33",
+  "brand": "Clay Paky",
+  "model": "A.leda B-EYE K20",
+  "cat": "wash",
+  "role": "워시·빔 / 픽셀 워시(만화경 이펙트)",
+  "source": "Osram Ostar 15W RGBW LED",
+  "lumens": 9800,
+  "lumensNote": null,
+  "zoomMin": 4,
+  "zoomMax": 60,
+  "zoomNote": null,
+  "color": "RGBW",
+  "shaping": "회전 전면 렌즈 만화경 이펙트",
+  "pixel": true,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 21,
+  "power": 555,
+  "dmx": [
+   {
+    "name": "Standard",
+    "ch": 21
+   },
+   {
+    "name": "Shapes",
+    "ch": 35
+   },
+   {
+    "name": "Pixel RGB",
+    "ch": null
+   },
+   {
+    "name": "Pixel RGBW",
+    "ch": null
+   }
+  ],
+  "use": "콘서트·TV 음악방송 워시와 아이캔디",
+  "year": null,
+  "mine": false,
+  "url": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/clay-paky/a-leda-b-eye-k20.json",
+  "srcType": "OFL(커뮤니티)",
+  "verif": "일부 확인",
+  "unverified": [
+   "밝기",
+   "무게",
+   "전력",
+   "DMX 모드"
+  ],
+  "notes": "OFL에서 픽셀 모드 채널 수가 잘려 있습니다(매트릭스). 매뉴얼로 확인합니다.",
+  "fit": [
+   "콘서트"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-34",
+  "brand": "GLP",
+  "model": "JDC1",
+  "cat": "bar",
+  "role": "스트로브 / 하이브리드 스트로브(화이트 튜브 + RGB 플레이트)",
+  "source": "화이트 LED 216개(스트로브 튜브) + RGB LED 1,320개(플레이트)",
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": 86,
+  "zoomMax": 148,
+  "zoomNote": "OFL 렌즈 값",
+  "color": "화이트 스트로브 + RGB 플레이트",
+  "shaping": null,
+  "pixel": true,
+  "cri": 73,
+  "tlci": null,
+  "ip": null,
+  "weight": 12,
+  "power": 1200,
+  "dmx": [
+   {
+    "name": "M1",
+    "ch": 14
+   },
+   {
+    "name": "M2",
+    "ch": 23
+   },
+   {
+    "name": "M3",
+    "ch": 22
+   },
+   {
+    "name": "M4",
+    "ch": 16
+   },
+   {
+    "name": "M5",
+    "ch": 17
+   },
+   {
+    "name": "M6",
+    "ch": 11
+   }
+  ],
+  "use": "콘서트·TV 음악방송 스트로브와 픽셀 이펙트",
+  "year": null,
+  "mine": false,
+  "url": "https://glp.de/en/products/discontinued/jdc1-en",
+  "srcType": "제조사",
+  "verif": "일부 확인",
+  "unverified": [
+   "무게",
+   "전력",
+   "DMX 모드",
+   "빔각"
+  ],
+  "notes": "GLP 페이지: 제어 모드 Compressed/HighRes/Pixel-Mapping, CRI Ra 73, 틸트 185°. 단종 목록에 있고 후속은 JDC2입니다. 모드별 채널 수는 OFL 값입니다(https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/glp/jdc1.json).",
+  "fit": [
+   "음악방송",
+   "콘서트"
+  ],
+  "caution": "Ra 73이라 얼굴 키로 쓰지 않고, 스트로브는 카메라 셔터와의 상호작용을 미리 시험합니다."
+ },
+ {
+  "id": "G-35",
+  "brand": "GLP",
+  "model": "impression X4 Bar 10",
+  "cat": "bar",
+  "role": "LED 배튼 / 픽셀 바(틸트, 줌)",
+  "source": "Osram Ostar RGBW 15W 10개(대략)",
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": 7,
+  "zoomMax": 50,
+  "zoomNote": null,
+  "color": "RGBW",
+  "shaping": null,
+  "pixel": true,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 8,
+  "power": 200,
+  "dmx": [
+   {
+    "name": "NORM",
+    "ch": 33
+   },
+   {
+    "name": "COMP",
+    "ch": 19
+   },
+   {
+    "name": "HIRES",
+    "ch": 34
+   },
+   {
+    "name": "DPIX",
+    "ch": 9
+   },
+   {
+    "name": "DPIXH",
+    "ch": 10
+   },
+   {
+    "name": "SPIX",
+    "ch": 9
+   },
+   {
+    "name": "SPIXH",
+    "ch": 10
+   }
+  ],
+  "use": "TV 세트 라인, 콘서트 바닥·트러스 바",
+  "year": null,
+  "mine": false,
+  "url": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/glp/impression-x4-bar-10.json",
+  "srcType": "OFL(커뮤니티)",
+  "verif": "일부 확인",
+  "unverified": [
+   "무게",
+   "전력",
+   "DMX 모드"
+  ],
+  "notes": "GLP 링크 기준 단종입니다. 수치는 OFL 커뮤니티 값입니다.",
+  "fit": [
+   "음악방송"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-36",
+  "brand": "GLP",
+  "model": "impression X4 Bar 20",
+  "cat": "bar",
+  "role": "LED 배튼 / 픽셀 바(틸트, 줌)",
+  "source": "RGBW 15W LED",
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": 7,
+  "zoomMax": 50,
+  "zoomNote": null,
+  "color": "RGBW",
+  "shaping": null,
+  "pixel": true,
+  "cri": 69,
+  "tlci": null,
+  "ip": "IP20",
+  "weight": 16,
+  "power": 400,
+  "dmx": [],
+  "use": "콘서트·TV 픽셀 배튼",
+  "year": null,
+  "mine": false,
+  "url": "https://glp.de/?catid=55&id=850%3Aimpression-x4-bar-20-product-data&view=article",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [
+   "DMX 모드",
+   "전력"
+  ],
+  "notes": "전력은 GLP 데이터 페이지 값입니다(발췌에서 전압 조건이 잘림).",
+  "fit": [
+   "음악방송"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-37",
+  "brand": "GLP",
+  "model": "impression X4",
+  "cat": "wash",
+  "role": "워시(줌) / 픽셀 워시",
+  "source": "RGBW LED 19×15W",
+  "lumens": 5085,
+  "lumensNote": "GLP 미국 사이트 값",
+  "zoomMin": 7,
+  "zoomMax": 50,
+  "zoomNote": null,
+  "color": "RGBW + 가변 CTO",
+  "shaping": null,
+  "pixel": true,
+  "cri": 69,
+  "tlci": null,
+  "ip": null,
+  "weight": 7.5,
+  "power": 350,
+  "dmx": [
+   {
+    "name": "Normal",
+    "ch": null
+   },
+   {
+    "name": "Compressed",
+    "ch": null
+   },
+   {
+    "name": "HighRes",
+    "ch": null
+   }
+  ],
+  "use": "TV 스튜디오·콘서트 워시",
+  "year": null,
+  "mine": false,
+  "url": "https://glp.de/en/?view=article&id=848&catid=55",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [],
+  "notes": "밝기 출처 https://www.germanlightproducts.com/product/impression-x4/. 팬 623°, 틸트 295°.",
+  "fit": [],
+  "caution": "CRI 69라 얼굴 키로 쓰지 않습니다."
+ },
+ {
+  "id": "G-38",
+  "brand": "GLP",
+  "model": "impression X5 IP (wash)",
+  "cat": "wash",
+  "role": "워시(줌) IP65",
+  "source": "RGBL LED 19×40W",
+  "lumens": 11400,
+  "lumensNote": "최대 11,400 lm",
+  "zoomMin": null,
+  "zoomMax": null,
+  "zoomNote": null,
+  "color": "RGBL, iQ.Gamut 보정",
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": "IP65",
+  "weight": null,
+  "power": null,
+  "dmx": [],
+  "use": "야외·아레나·TV 워시",
+  "year": null,
+  "mine": false,
+  "url": "https://glp.de/images/files/main-catalog/GLP-Catalog-2026_EN-20260120.pdf",
+  "srcType": "제조사",
+  "verif": "일부 확인",
+  "unverified": [
+   "빔각",
+   "무게",
+   "전력",
+   "DMX 모드"
+  ],
+  "notes": null,
+  "fit": [
+   "콘서트",
+   "야외"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-39",
+  "brand": "GLP",
+  "model": "impression X5 IP Bar",
+  "cat": "bar",
+  "role": "LED 배튼 / 픽셀 바 IP65",
+  "source": "RGBL LED 18×40W",
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": null,
+  "zoomMax": null,
+  "zoomNote": null,
+  "color": "RGBL, iQ.Gamut",
+  "shaping": null,
+  "pixel": true,
+  "cri": null,
+  "tlci": null,
+  "ip": "IP65",
+  "weight": null,
+  "power": null,
+  "dmx": [],
+  "use": "야외·아레나·TV 라인",
+  "year": null,
+  "mine": false,
+  "url": "https://glp.de/images/files/main-catalog/GLP-Katalog-2025_digi_EN-20250327.pdf",
+  "srcType": "제조사",
+  "verif": "일부 확인",
+  "unverified": [
+   "밝기",
+   "빔각",
+   "무게",
+   "전력",
+   "DMX 모드"
+  ],
+  "notes": null,
+  "fit": [
+   "콘서트",
+   "야외"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-40",
+  "brand": "Robe",
+  "model": "Tetra2",
+  "cat": "bar",
+  "role": "매트릭스·아이캔디 / 픽셀 배튼(틸트, 줌)",
+  "source": "RGBW LED 멀티칩 18×40W",
+  "lumens": 8439,
+  "lumensNote": "고니오 8,439 lm / 적분구 10,549 lm(45°)",
+  "zoomMin": 4,
+  "zoomMax": 45,
+  "zoomNote": "독립 줌 구역 2개",
+  "color": "RGBW 또는 CMY",
+  "shaping": "MCFE 플라워 이펙트 2개",
+  "pixel": true,
+  "cri": null,
+  "tlci": null,
+  "ip": "IP20",
+  "weight": 18.1,
+  "power": 600,
+  "dmx": [
+   {
+    "name": "mode1",
+    "ch": 34
+   },
+   {
+    "name": "mode2",
+    "ch": 56
+   },
+   {
+    "name": "mode3",
+    "ch": 97
+   },
+   {
+    "name": "mode4",
+    "ch": 115
+   },
+   {
+    "name": "mode5",
+    "ch": 110
+   },
+   {
+    "name": "mode6",
+    "ch": 128
+   }
+  ],
+  "use": "콘서트·TV 빛의 커튼, 사이크, 풋라이트",
+  "year": null,
+  "mine": false,
+  "url": "https://www.robe.cz/res/downloads/catalogues/ROBE_Tetra2_leaflet_online_version.pdf",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [],
+  "notes": "틸트 191°.",
+  "fit": [
+   "음악방송",
+   "콘서트"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-41",
+  "brand": "Martin",
+  "model": "Atomic 3000 DMX (xenon, legacy)",
+  "cat": "bar",
+  "role": "스트로브(구형 제논)",
+  "source": "Xenon MAX-15 3000W 제논 램프",
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": null,
+  "zoomMax": null,
+  "zoomNote": null,
+  "color": "화이트(+ Atomic Colors 스크롤러)",
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 7.5,
+  "power": 3000,
+  "dmx": [
+   {
+    "name": "1ch",
+    "ch": 1
+   },
+   {
+    "name": "3ch",
+    "ch": 3
+   },
+   {
+    "name": "4ch",
+    "ch": 4
+   }
+  ],
+  "use": "구형 콘서트 스트로브(단종)",
+  "year": null,
+  "mine": false,
+  "url": "https://www.martin.com/en-US/site_elements/atomic-3000-dmx-spec-sheet-english",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [],
+  "notes": "피크 전류 33A로, LED 버전으로 바꾸는 이유가 됩니다.",
+  "fit": [],
+  "caution": null
+ },
+ {
+  "id": "G-42",
+  "brand": "Astera",
+  "model": "AX5 TriplePAR",
+  "cat": "par",
+  "role": "업라이트 / 배터리 PAR",
+  "source": "RGBAW LED 3×15W",
+  "lumens": 1413,
+  "lumensNote": "1,080 lm @3200K / 1,413 lm @5500K",
+  "zoomMin": 13,
+  "zoomMax": 13,
+  "zoomNote": "빔 13°/필드 26°, 클립 필터 플러드 32°, 월워시 17×46°",
+  "color": "RGBAW",
+  "shaping": null,
+  "pixel": false,
+  "cri": 92,
+  "tlci": null,
+  "ip": "IP65",
+  "weight": 3.4,
+  "power": 45,
+  "dmx": [],
+  "use": "기업 행사·이벤트 업라이트, TV 세트 연출, 무선",
+  "year": null,
+  "mine": false,
+  "url": "https://astera-led.com/products/ax5-triplepar/specs",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [
+   "TLCI",
+   "DMX 모드"
+  ],
+  "notes": "CRI는 현재 스펙 페이지 CRI(Ra)/TLCI ≤92, 예전 데이터시트·카탈로그 ≥96으로 출처가 다릅니다. 보수적으로 92를 넣었습니다. 배터리 최대 20시간, CRMX 내장.",
+  "fit": [
+   "콘서트",
+   "행사",
+   "홈쇼핑",
+   "야외"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-43",
+  "brand": "Astera",
+  "model": "FP1 Titan Tube",
+  "cat": "bar",
+  "role": "LED 튜브(배터리, 픽셀)",
+  "source": "RGB + 민트 + 앰버 LED(LED 72W, 소비 48W)",
+  "lumens": 2900,
+  "lumensNote": null,
+  "zoomMin": 120,
+  "zoomMax": 120,
+  "zoomNote": null,
+  "color": "RGBMA(RGBAW 모드), 색온도",
+  "shaping": null,
+  "pixel": true,
+  "cri": 96,
+  "tlci": 96,
+  "ip": "IP65",
+  "weight": 1.35,
+  "power": 48,
+  "dmx": [
+   {
+    "name": "RGB",
+    "ch": 3
+   },
+   {
+    "name": "RGBW",
+    "ch": 4
+   },
+   {
+    "name": "RGBAW",
+    "ch": 5
+   },
+   {
+    "name": "Dim RGBAW",
+    "ch": 6
+   },
+   {
+    "name": "RGB.RGB 4pix",
+    "ch": 15
+   },
+   {
+    "name": "RGB.RGB 16pix",
+    "ch": 63
+   },
+   {
+    "name": "D16 CCT GM H SAT",
+    "ch": 7
+   }
+  ],
+  "use": "TV·영화 세트 프랙티컬, 라이브커머스 배경, 아이캔디",
+  "year": null,
+  "mine": false,
+  "url": "https://astera-led.com/wp-content/uploads/FP1_TitanTube_Technical_Reference_Manual_V1.pdf",
+  "srcType": "제조사",
+  "verif": "확인",
+  "unverified": [],
+  "notes": "CRI/TLCI 96–98(3,200–6,500K) 중 하한값을 넣었습니다. 16픽셀, 배터리 최대 20시간. DMX 모드는 OFL의 여러 모드 중 일부입니다(https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/astera/fp1-titan-tube.json).",
+  "fit": [
+   "행사",
+   "홈쇼핑",
+   "야외"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-44",
+  "brand": "ETC",
+  "model": "ColorSource PAR",
+  "cat": "par",
+  "role": "업라이트 / LED PAR",
+  "source": "Lumileds LUXEON Z LED 40개",
+  "lumens": 3039,
+  "lumensNote": "OFL 값",
+  "zoomMin": 14.5,
+  "zoomMax": 14.5,
+  "zoomNote": "교체식 렌즈",
+  "color": null,
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 3.77,
+  "power": 90,
+  "dmx": [
+   {
+    "name": "5ch",
+    "ch": 5
+   },
+   {
+    "name": "Direct",
+    "ch": 6
+   },
+   {
+    "name": "1ch",
+    "ch": 1
+   },
+   {
+    "name": "RGB",
+    "ch": 3
+   }
+  ],
+  "use": "극장·기업 행사·TV 세트 워시",
+  "year": null,
+  "mine": false,
+  "url": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/fixtures/etc/colorsource-par.json",
+  "srcType": "OFL(커뮤니티)",
+  "verif": "일부 확인",
+  "unverified": [
+   "밝기",
+   "무게",
+   "전력",
+   "CRI",
+   "TLCI"
+  ],
+  "notes": "수치는 OFL 커뮤니티 값입니다.",
+  "fit": [
+   "행사"
+  ],
+  "caution": null
+ },
+ {
+  "id": "G-45",
+  "brand": "Kvant",
+  "model": "Clubmax 6500 FB4",
+  "cat": "laser",
+  "role": "레이저(RGB 쇼 레이저)",
+  "source": "RGB 레이저(다이오드)",
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": null,
+  "zoomMax": null,
+  "zoomNote": null,
+  "color": null,
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": 11.6,
+  "power": null,
+  "dmx": [],
+  "use": "클럽·콘서트 에어리얼 레이저(FB4 / DMX / ILDA)",
+  "year": null,
+  "mine": false,
+  "url": "https://www.kvantlasers.sk/products/clubmax-6000-fb4",
+  "srcType": "제조사",
+  "verif": "일부 확인",
+  "unverified": [
+   "밝기",
+   "전력",
+   "DMX 모드"
+  ],
+  "notes": "레이저 출력은 루멘이 아니라 mW/W로 표기합니다. EN 60825-1(TÜV SÜD), FDA 적합. 레이저 안전 책임자와 허가가 필요합니다. 출처 링크는 Clubmax 6000 FB4 페이지로 연결되어 모델명과 다릅니다. 쓰기 전에 제조사 자료를 다시 확인합니다.",
+  "fit": [
+   "콘서트"
+  ],
+  "caution": "레이저 안전 책임자와 허가가 필요하고, 관객 스캔 금지 구역을 지킵니다(EN 60825-1)."
+ },
+ {
+  "id": "G-46",
+  "brand": "국내 렌탈 표기",
+  "model": "460W LED SPOT (CMY/CTO)",
+  "cat": "spot",
+  "role": "스팟",
+  "source": null,
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": null,
+  "zoomMax": null,
+  "zoomNote": null,
+  "color": null,
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": null,
+  "power": null,
+  "dmx": [],
+  "use": "국내 행사 렌탈 표준 스팟",
+  "year": null,
+  "mine": false,
+  "url": "https://sonicrental.co.kr/light-rental",
+  "srcType": "국내 렌탈 목록",
+  "verif": "렌탈 표기만",
+  "unverified": [],
+  "notes": "제조사·모델 미표기. 24시간 렌탈가 약 250,000원(국내 렌탈 목록 기준).",
+  "fit": [
+   "행사"
+  ],
+  "caution": "CRI·플리커 데이터가 없어 영상 송출 시 키라이트로 쓰지 않습니다."
+ },
+ {
+  "id": "G-47",
+  "brand": "국내 렌탈 표기",
+  "model": "380W BEAM",
+  "cat": "beam",
+  "role": "빔",
+  "source": null,
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": null,
+  "zoomMax": null,
+  "zoomNote": null,
+  "color": null,
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": null,
+  "power": null,
+  "dmx": [],
+  "use": "국내 행사 렌탈 표준 빔",
+  "year": null,
+  "mine": false,
+  "url": "https://sonicrental.co.kr/light-rental",
+  "srcType": "국내 렌탈 목록",
+  "verif": "렌탈 표기만",
+  "unverified": [],
+  "notes": "제조사·모델 미표기. 24시간 렌탈가 약 200,000원(국내 렌탈 목록 기준).",
+  "fit": [
+   "행사"
+  ],
+  "caution": "CRI·플리커 데이터가 없어 영상 송출 시 키라이트로 쓰지 않습니다."
+ },
+ {
+  "id": "G-48",
+  "brand": "국내 렌탈 표기",
+  "model": "1915 LED B-EYES / 1915 LED AURA",
+  "cat": "wash",
+  "role": "워시·빔 / 픽셀 워시(B-EYE·Aura 계열 클론)",
+  "source": "LED 19×15W(모델명 기준 추정)",
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": null,
+  "zoomMax": null,
+  "zoomNote": null,
+  "color": null,
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": null,
+  "power": null,
+  "dmx": [],
+  "use": "국내 행사 렌탈 워시",
+  "year": null,
+  "mine": false,
+  "url": "https://sonicrental.co.kr/light-rental",
+  "srcType": "국내 렌탈 목록",
+  "verif": "렌탈 표기만",
+  "unverified": [
+   "광원"
+  ],
+  "notes": "'1915'는 19×15W 표기 관례로 추정합니다. 24시간 렌탈가 약 150,000–200,000원(국내 렌탈 목록 기준).",
+  "fit": [],
+  "caution": null
+ },
+ {
+  "id": "G-49",
+  "brand": "국내 렌탈 표기",
+  "model": "440W / 330W LED FOLLOW PIN",
+  "cat": "follow",
+  "role": "팔로우",
+  "source": null,
+  "lumens": null,
+  "lumensNote": null,
+  "zoomMin": null,
+  "zoomMax": null,
+  "zoomNote": null,
+  "color": null,
+  "shaping": null,
+  "pixel": null,
+  "cri": null,
+  "tlci": null,
+  "ip": null,
+  "weight": null,
+  "power": null,
+  "dmx": [],
+  "use": "국내 행사 렌탈 팔로우",
+  "year": null,
+  "mine": false,
+  "url": "https://sonicrental.co.kr/light-rental",
+  "srcType": "국내 렌탈 목록",
+  "verif": "렌탈 표기만",
+  "unverified": [],
+  "notes": "24시간 렌탈가 약 200,000원(440W) / 100,000원(330W)(국내 렌탈 목록 기준).",
+  "fit": [],
+  "caution": null
+ }
+]

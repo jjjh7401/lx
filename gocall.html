@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>GO 연습</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 재생판(마디·박, 스탠바이, GO 버튼), 아래 왼쪽 누를 큐 고르기, 오른쪽 결과 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:76ch}
+.stage{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:stretch}
+@media (max-width:860px){.stage{grid-template-columns:1fr}}
+.counter{display:grid;gap:4px;align-content:center;justify-items:center;padding:18px;border-radius:12px;background:var(--panel2);min-height:190px}
+.counter .bb{font-family:var(--f-num);font-size:clamp(40px,7vw,64px);color:var(--ink);font-weight:600;line-height:1}
+.counter .and{font-family:var(--f-num);font-size:14px;color:var(--muted);height:20px}
+.counter .sb{font-size:16px;font-weight:700;color:var(--muted);text-align:center;min-height:48px}
+.counter .sb.on{color:var(--warn)}
+.counter .sb small{display:block;font-size:12.5px;font-weight:400;color:var(--muted)}
+.beats{display:flex;gap:8px}
+.beats i{width:16px;height:16px;border-radius:50%;background:var(--line)}
+.beats i.on{background:var(--accent)}
+.gobtn{width:100%;min-height:150px;font-size:40px;font-weight:700;letter-spacing:.06em;border-radius:14px;background:#2c7a43;border-color:#2c7a43;color:#fff}
+.gobtn:active{transform:translateY(1px)}
+.gobtn.flash{outline:4px solid var(--ok)}
+.last{font-family:var(--f-num);font-size:14px;text-align:center;min-height:22px;margin-top:8px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px;margin-top:16px;align-items:start}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+.cues{display:grid;gap:4px;max-height:420px;overflow:auto}
+.cues label{display:grid;grid-template-columns:auto 4em 1fr auto;gap:8px;align-items:center;font-size:13.5px;padding:5px 8px;border-radius:7px;background:var(--panel2)}
+.cues .no{font-family:var(--f-num);color:var(--accent)} .cues .bb2{font-family:var(--f-num);font-size:12px;color:var(--muted)}
+td.t{font-family:var(--f-num);white-space:nowrap}
+.v{font-size:12.5px;font-weight:700} .v.ok{color:var(--ok)} .v.w{color:var(--warn)} .v.bad{color:var(--bad)}
+.sum{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;margin-bottom:8px}
+.sum b{font-family:var(--f-num);color:var(--ink)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>GO 연습</h1>
+    <p>31장 실습을 해 보는 판입니다. 곡의 BPM으로 클릭 소리를 내며 마디와 박을 세어 주고, 누를 큐가 다가오면 스탠바이를 띄웁니다. GO 버튼이나 스페이스 키를 누르면 큐의 박(대개 다운비트)보다 몇 초 앞이나 뒤에 눌렀는지 기록합니다. 각자 불러온 음원으로도 연습할 수 있고, 음원은 이 브라우저 안에서만 재생되며 저장되지 않습니다.</p>
+  </div>
+  <section class="panel">
+    <div class="row" style="margin-bottom:12px">
+      <span class="muted" id="songInfo"></span>
+      <label class="f">시작 마디<input type="number" id="from" class="n" min="1" style="width:5em"></label>
+      <label class="f">스탠바이(마디 앞)<input type="number" id="sbBars" class="n" min="1" max="8" style="width:5em"></label>
+      <label class="f">누르는 기준<select id="ref"><option value="down">큐의 박(출발값)</option><option value="and">반 박 앞(넷-앤의 앤)</option></select></label>
+      <label class="f">소리<select id="src"><option value="click">클릭 소리</option><option value="file">내 음원</option></select></label>
+      <input type="file" id="file" accept="audio/*" hidden>
+      <button type="button" id="play" class="primary">시작</button><button type="button" id="stop" class="ghost">멈춤</button>
+    </div>
+    <div class="stage">
+      <div class="counter" aria-live="polite">
+        <div class="beats" id="beats"><i></i><i></i><i></i><i></i></div>
+        <div class="bb" id="bb">— · —</div>
+        <div class="and" id="and"></div>
+        <div class="sb" id="sb">시작을 누르면 한 마디를 세고 들어갑니다.</div>
+      </div>
+      <div>
+        <button type="button" class="gobtn" id="go">GO</button>
+        <div class="last" id="last"></div>
+        <p class="note" style="margin:6px 0 0;text-align:center">스페이스 키로도 누릅니다(<span class="kbd">Space</span>).</p>
+      </div>
+    </div>
+    <p class="note" id="msg" style="margin:10px 0 0"></p>
+  </section>
+  <div class="grid2">
+    <section class="panel">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>누를 큐</h2><div class="row"><button type="button" id="selDef" class="ghost">기본으로</button><button type="button" id="selNone" class="ghost">모두 해제</button></div></div>
+      <div class="cues" id="cues"></div>
+      <p class="note" style="margin:8px 0 0">큐 시트(웹 부록 14)의 큐를 불러옵니다. 구간 경계의 큐만 남기고, 마디 사이의 짧은 큐와 Time·Follow로 넘어가는 큐는 빼고 연습합니다(표 31-5의 GO 큐 목록).</p>
+    </section>
+    <section class="panel">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>결과</h2><div class="row"><button type="button" id="clearRes" class="ghost">결과 지우기</button><button type="button" id="copy" class="ghost">표 복사</button></div></div>
+      <div class="sum" id="sum"></div>
+      <div class="tbl"><table id="res"></table></div>
+      <p class="note" style="margin:8px 0 0">음수는 기준보다 앞에 누른 것입니다. 기준은 14장의 출발값인 큐의 박(대개 다운비트)이고, 앞뒤 0.08초 안에 모이면 좋습니다(출발값). 사람은 박을 세며 칠 때 보통 0.02~0.1초쯤 앞서 칩니다. 장비에 따라 빛이 늦게 보이면 리허설에서 조금씩 앞당깁니다(31.2절).</p>
+    </section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('gocall.html'), D = L.design(S);
+  var $ = function (id) { return document.getElementById(id); };
+  function sampleCues() {
+    return [['1', 1, 1, '인트로 · 진주 하트'], ['1.1', 3, 1, '인트로 · 백 펄스'], ['1.2', 5, 1, '인트로 · 빔 한 칸'], ['10', 7, 1, '벌스 1'], ['10.1', 11, 1, '벌스 1 · 라일락 틴트'], ['20', 14, 1, '프리 1'],
+      ['29', 17, 3, '다크 큐'], ['30', 18, 1, '후렴 1 · 밝기 히트'], ['30.1', 22, 1, '후렴 1 · 위 무빙'], ['30.2', 26, 1, '후렴 1 · 픽셀'], ['30.3', 30, 1, '후렴 1 · 위 무빙'], ['39', 33, 1, '킥 아웃'],
+      ['40', 34, 1, '벌스 2'], ['50', 42, 1, '프리 2'], ['59', 45, 4, '다크 큐'], ['60', 46, 1, '후렴 2 · 무빙 버스트'], ['69', 61, 1, '킥 아웃'], ['70', 62, 1, '브리지'], ['75', 63, 1, '비트 구간'],
+      ['79', 67, 1, '브레이크'], ['80', 67, 4, '후렴 3 · 화이트 플래시'], ['80.1', 68, 1, '후렴 3 · 옥상 팬 · 밤(Time)'], ['90', 82, 1, '끝 · 진주 하트 · 밤']]
+      .map(function (r) { return { no: r[0], bar: r[1], beat: r[2], name: r[3], entry: r[0] === '80.1' ? 'Time' : '' }; });
+  }
+  var fromSheet = !!(D.cueSheet && D.cueSheet.rows && D.cueSheet.rows.length);
+  var CUES = (fromSheet ? D.cueSheet.rows : (S.sample ? sampleCues() : [])).filter(function (r) { return +r.bar >= 1; })
+    .map(function (r) { return { no: String(r.no), bar: +r.bar, beat: +r.beat || 1, name: r.name || '', entry: r.entry || '' }; })
+    .sort(function (a, b) { return (a.bar - b.bar) || (a.beat - b.beat); });
+  CUES.forEach(function (c) { c.t = L.timeOf(S, c.bar, c.beat); });
+  function defSel(c) { return /^\d+$/.test(c.no) && !/time|follow/i.test(c.entry) && c.no !== '99'; }
+  var G = D.gocall || (D.gocall = { sel: {}, from: 1, sb: 2, res: [], ref: 'down', refV: 2 });
+  if (!G.ref || G.refV !== 2) { G.ref = 'down'; G.refV = 2; }
+  if (!G.res) G.res = [];
+  if (!Object.keys(G.sel).length) CUES.forEach(function (c) { G.sel[c.no] = defSel(c); });
+  function save() { L.put(S); }
+  var bl = L.beatLen(S), bpb = +S.bpb || 4;
+  // ---- 재생 ----
+  var ctx = null, ctx0 = 0, song0 = 0, playing = false, timer = null, raf = 0, nextBeat = 0, audio = null, url = null, done = {}, lastIdx = -1;
+  function songTime() {
+    if (!playing) return null;
+    if ($('src').value === 'file' && audio) return audio.currentTime;
+    return ctx.currentTime - ctx0 + song0;
+  }
+  function click(at, accent) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.value = accent ? 1660 : 1100; g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(accent ? 0.5 : 0.28, at + 0.002); g.gain.exponentialRampToValueAtTime(0.0001, at + 0.05);
+    o.connect(g); g.connect(ctx.destination); o.start(at); o.stop(at + 0.06);
+  }
+  function schedule() {
+    if (!playing || $('src').value !== 'click') return;
+    var t0 = +S.t0 || 0;
+    while (true) {
+      var st = t0 + nextBeat * bl, at = st - song0 + ctx0;
+      if (at > ctx.currentTime + 0.12) break;
+      if (at >= ctx.currentTime - 0.01) click(at, ((nextBeat % bpb) + bpb) % bpb === 0);
+      nextBeat++;
+    }
+  }
+  function sel() { return CUES.filter(function (c) { return G.sel[c.no]; }); }
+  function tick() {
+    if (!playing) return;
+    var t = songTime(), rel = (t - (+S.t0 || 0)) / bl, beatIdx = Math.floor(rel), bar = Math.floor(beatIdx / bpb) + 1, beat = ((beatIdx % bpb) + bpb) % bpb + 1, frac = rel - beatIdx;
+    $('bb').textContent = (bar >= 1 ? bar : '—') + ' · ' + (bar >= 1 ? beat : '—');
+    $('and').textContent = frac >= 0.5 ? 'and' : '';
+    Array.prototype.forEach.call($('beats').children, function (el, i) { el.className = i === beat - 1 && frac < 0.5 ? 'on' : ''; });
+    var up = sel().filter(function (c) { return c.t > t - bl * 0.5 && !done[c.no]; })[0];
+    if (up) {
+      var left = up.t - t, sbOn = left <= (+G.sb || 2) * bl * bpb;
+      $('sb').className = 'sb' + (sbOn ? ' on' : '');
+      $('sb').innerHTML = (sbOn ? '스탠바이 큐 ' : '다음 큐 ') + L.esc(up.no) + ' · ' + L.esc(up.name) + '<small>' + up.bar + '마디 ' + up.beat + '박 · ' + (left > 0 ? left.toFixed(1) + '초 뒤' : '지금') + '</small>';
+    } else { $('sb').className = 'sb'; $('sb').innerHTML = '누를 큐가 더 없습니다.'; }
+    // 놓친 큐
+    sel().forEach(function (c) { if (!done[c.no] && t > c.t + bl) { done[c.no] = true; G.res.push({ no: c.no, name: c.name, bar: c.bar, beat: c.beat, off: null }); save(); renderRes(); } });
+    if ($('src').value === 'file' && audio && audio.ended) stop();
+    raf = requestAnimationFrame(tick);
+  }
+  function start() {
+    stop(true);
+    done = {}; var from = Math.max(1, +$('from').value || 1); G.from = from; G.sb = +$('sbBars').value || 2; save();
+    CUES.forEach(function (c) { if (c.bar < from) done[c.no] = true; });
+    if ($('src').value === 'file') {
+      if (!audio) { $('msg').textContent = '내 음원을 먼저 고릅니다.'; $('file').click(); return; }
+      audio.currentTime = Math.max(0, L.timeOf(S, from, 1) - L.barLen(S)); audio.play();
+      ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+      playing = true; $('msg').textContent = '';
+    } else {
+      ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); if (ctx.state === 'suspended') ctx.resume();
+      song0 = L.timeOf(S, from, 1) - L.barLen(S); ctx0 = ctx.currentTime + 0.1;
+      nextBeat = Math.ceil((song0 - (+S.t0 || 0)) / bl - 1e-6); playing = true;
+      timer = setInterval(schedule, 25); schedule();
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  function stop(silent) {
+    playing = false; clearInterval(timer); cancelAnimationFrame(raf);
+    if (audio) audio.pause();
+    if (!silent) { $('sb').className = 'sb'; $('sb').textContent = '멈췄습니다.'; }
+  }
+  function press() {
+    var b = $('go'); b.classList.add('flash'); setTimeout(function () { b.classList.remove('flash'); }, 120);
+    if (!playing) { $('last').textContent = '시작을 먼저 누릅니다.'; return; }
+    var t = songTime(), best = null;
+    sel().forEach(function (c) { if (done[c.no]) return; var d = t - c.t; if (Math.abs(d) <= bl && (!best || Math.abs(d) < Math.abs(best.d))) best = { c: c, d: d }; });
+    if (!best) { $('last').textContent = '근처에 누를 큐가 없습니다(빈 GO).'; return; }
+    done[best.c.no] = true;
+    G.res.push({ no: best.c.no, name: best.c.name, bar: best.c.bar, beat: best.c.beat, off: +best.d.toFixed(3) }); save();
+    var rr = rel(best.d);
+    $('last').textContent = '큐 ' + best.c.no + ': ' + refName() + (rr < 0 ? '보다 ' + (-rr).toFixed(2) + '초 앞' : '보다 ' + rr.toFixed(2) + '초 뒤') + ' (큐의 박 ' + (best.d < 0 ? (-best.d).toFixed(2) + '초 앞' : best.d.toFixed(2) + '초 뒤') + ')';
+    renderRes();
+  }
+  function lead() { return G.ref === 'and' ? bl / 2 : 0; }
+  function rel(o) { return o == null ? null : o + lead(); }
+  function refName() { return G.ref === 'and' ? '반 박 앞' : '큐의 박'; }
+  function judge(o) {
+    var r = rel(o);
+    if (r == null) return ['bad', '놓침'];
+    if (Math.abs(r) <= 0.08) return ['ok', '좋음'];
+    if (r < -0.08 && r >= -0.25) return ['w', '조금 이름'];
+    if (r < -0.25) return ['bad', '이름'];
+    return r <= 0.2 ? ['w', '조금 늦음'] : ['bad', '늦음'];
+  }
+  function renderRes() {
+    var R = G.res, ok = 0, late = 0, miss = 0, sum = 0, n = 0;
+    R.forEach(function (r) { var j = judge(r.off), x = rel(r.off); if (j[1] === '좋음') ok++; if (r.off == null) miss++; else { n++; sum += x; if (x > 0.08) late++; } });
+    $('sum').innerHTML = R.length ? '<span>누른 큐 <b>' + n + '</b></span><span>좋음 <b>' + ok + '</b></span><span>늦음 <b>' + late + '</b></span><span>놓침 <b>' + miss + '</b></span><span>' + refName() + ' 기준 평균 <b>' + (n ? (sum / n >= 0 ? '+' : '') + (sum / n).toFixed(2) + '초' : '—') + '</b></span>' : '<span class="note">아직 결과가 없습니다.</span>';
+    $('res').innerHTML = '<tr><th>큐</th><th>이름</th><th>마디·박</th><th>' + refName() + ' 기준</th><th>박으로</th><th>판정</th></tr>' + R.slice().reverse().map(function (r) {
+      var j = judge(r.off), x = rel(r.off);
+      return '<tr><td>' + L.esc(r.no) + '</td><td>' + L.esc(r.name) + '</td><td class="t">' + r.bar + ' · ' + r.beat + '</td><td class="t">' + (r.off == null ? '—' : (x >= 0 ? '+' : '') + x.toFixed(2) + '초') + '</td><td class="t">' + (r.off == null ? '—' : (r.off >= 0 ? '+' : '') + (r.off / bl).toFixed(2) + '박') + '</td><td><span class="v ' + j[0] + '">' + j[1] + '</span></td></tr>';
+    }).join('');
+    if (late > n / 2 && n >= 3) $('msg').textContent = refName() + '보다 늦게 누른 큐가 절반을 넘습니다. 빛은 그보다 더 늦게 보이니, "넷"에서 손을 키 위에 올리는 연습을 합니다.';
+  }
+  function renderCues() {
+    $('cues').innerHTML = CUES.map(function (c) {
+      return '<label><input type="checkbox" data-no="' + L.esc(c.no) + '"' + (G.sel[c.no] ? ' checked' : '') + '><span class="no">' + L.esc(c.no) + '</span><span>' + L.esc(c.name) + (c.entry ? ' <span class="note">(' + L.esc(c.entry) + ')</span>' : '') + '</span><span class="bb2">' + c.bar + ' · ' + c.beat + '</span></label>';
+    }).join('') || '<p class="note">큐 시트가 비어 있습니다. 큐 시트(웹 부록 14)를 먼저 채웁니다.</p>';
+  }
+  $('songInfo').textContent = (S.title || '곡') + ' · ' + S.bpm + ' BPM · ' + (fromSheet ? '큐 시트 도구의 큐 ' : (S.sample ? '실습 곡 표 16-4의 큐 ' : '큐 ')) + CUES.length + '개';
+  $('from').value = G.from || 1; $('sbBars').value = G.sb || 2; $('ref').value = G.ref;
+  $('ref').addEventListener('change', function () { G.ref = $('ref').value; save(); renderRes(); });
+  $('cues').addEventListener('change', function (e) { var no = e.target.dataset.no; if (no == null) return; G.sel[no] = e.target.checked; save(); });
+  $('selDef').addEventListener('click', function () { CUES.forEach(function (c) { G.sel[c.no] = defSel(c); }); save(); renderCues(); });
+  $('selNone').addEventListener('click', function () { CUES.forEach(function (c) { G.sel[c.no] = false; }); save(); renderCues(); });
+  $('play').addEventListener('click', start);
+  $('stop').addEventListener('click', function () { stop(); });
+  $('go').addEventListener('click', press);
+  document.addEventListener('keydown', function (e) { if (e.code !== 'Space' || /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; e.preventDefault(); if (!e.repeat) press(); });
+  $('src').addEventListener('change', function () { if ($('src').value === 'file' && !audio) $('file').click(); });
+  $('file').addEventListener('change', function () {
+    var f = $('file').files[0]; if (!f) return;
+    if (url) URL.revokeObjectURL(url); url = URL.createObjectURL(f); audio = new Audio(url);
+    $('msg').textContent = '"' + f.name + '"을(를) 열었습니다. 음원은 저장되지 않습니다. 곡 노트의 첫 다운비트(곡 구성표)가 음원과 맞아야 마디가 맞습니다.';
+  });
+  $('clearRes').addEventListener('click', function () { G.res = []; save(); renderRes(); $('msg').textContent = ''; });
+  $('copy').addEventListener('click', function () {
+    var txt = ['큐\t이름\t마디\t박\t' + refName() + ' 기준(초)\t큐의 박 기준(초)\t판정'].concat(G.res.map(function (r) { return [r.no, r.name, r.bar, r.beat, r.off == null ? '' : rel(r.off).toFixed(2), r.off == null ? '' : r.off.toFixed(2), judge(r.off)[1]].join('\t'); })).join('\n');
+    try { navigator.clipboard.writeText(txt).then(function () { $('msg').textContent = '결과를 복사했습니다.'; }, function () { $('msg').textContent = '복사가 막혀 있습니다.'; }); } catch (err) { $('msg').textContent = '복사가 막혀 있습니다.'; }
+  });
+  renderCues(); renderRes();
+})();
+</script>
+</body>
+</html>

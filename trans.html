@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>전환 곡선 비교</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 두 전환 고르기, 가운데 곡선 그래프와 무대 모형 두 개, 아래 곡의 경계표 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:74ch}
+.pick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.pick{grid-template-columns:1fr}}
+.pick .panel{display:grid;gap:8px}
+.pick h2 i{font-style:normal;display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.viz{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:14px;margin-top:14px;align-items:stretch}
+@media (max-width:760px){.viz{grid-template-columns:1fr}}
+svg.cv{width:100%;height:auto;display:block}
+.lamps{display:grid;gap:10px}
+.lamp{border-radius:12px;border:1px solid var(--line);background:#0b0d10;display:grid;place-items:center;min-height:110px;position:relative;overflow:hidden}
+.lamp .glow{position:absolute;inset:14px;border-radius:50%;filter:blur(6px)}
+.lamp span{position:relative;font-size:12px;color:#fff;font-weight:700;text-shadow:0 1px 2px #000}
+table.bd td{font-size:13.5px}
+table.bd td.w{color:var(--warn);font-weight:700}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>전환 곡선 비교</h1>
+    <p>14장 실습을 해 보는 판입니다. 전환 도구 두 가지를 골라 밝기 곡선을 박과 초 위에 나란히 그립니다. 재생하면 클릭 소리에 맞춰 무대 모형 두 개의 밝기가 곡선대로 바뀝니다. 아래 표는 룩 시트의 인 타임으로 곡의 경계마다 몇 초인지 계산합니다.</p>
+  </div>
+  <div class="pick">
+    <section class="panel"><h2><i style="background:#69adff"></i>전환 A</h2>
+      <div class="row"><label class="f">전환 도구<select id="ka"></select></label><label class="f">길이(박)<input type="number" id="na" min="0" max="32" step="1" class="n"></label></div><p class="note" id="da" style="margin:0"></p></section>
+    <section class="panel"><h2><i style="background:#ff6f5e"></i>전환 B</h2>
+      <div class="row"><label class="f">전환 도구<select id="kb"></select></label><label class="f">길이(박)<input type="number" id="nb" min="0" max="32" step="1" class="n"></label></div><p class="note" id="db" style="margin:0"></p></section>
+  </div>
+  <div class="viz">
+    <section class="panel"><div class="row" style="justify-content:space-between;margin-bottom:6px"><h2 id="cvT">밝기 곡선</h2>
+      <div class="row"><button type="button" class="primary" id="play" aria-pressed="false">재생</button><label class="row" style="gap:6px;align-items:center;font-size:13.5px"><input type="checkbox" id="click" checked> 클릭</label></div></div>
+      <svg class="cv" id="cv" viewBox="0 0 720 300" role="img" aria-label="두 전환의 밝기 곡선"></svg></section>
+    <section class="lamps"><div class="lamp" id="la"><div class="glow"></div><span>A</span></div><div class="lamp" id="lb"><div class="glow"></div><span>B</span></div></section>
+  </div>
+  <section class="panel" style="margin-top:16px">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>곡의 경계와 인 타임</h2><button type="button" id="copy">표 복사</button></div>
+    <p class="note" id="msg"></p>
+    <div class="tbl"><table class="bd" id="bd"></table></div>
+  </section>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('trans.html'), D = L.design(S), TR = D.trans;
+  var $ = function (id) { return document.getElementById(id); };
+  var K = [
+    ['스냅', 0, '다운비트에 한 번에 바뀜. 후렴 진입, 비트 구간 진입, 버튼 엔딩.'],
+    ['페이드', 2, '일정하게 바뀜. 벌스 진입, 브리지.'],
+    ['딥 뒤 히트', 2, '길이만큼 내렸다가 다운비트에 침. 큰 후렴 진입, 드롭.'],
+    ['화이트 리셋', 4, '다운비트에 모두 화이트, 길이에 걸쳐 새 색으로 가라앉음. 곡과 곡 사이.'],
+    ['범프', 1, '짧게 올렸다가 원래대로. 노래 한 줄의 끝, 크래시.'],
+    ['스웰', 8, '다운비트까지 천천히 부풀어 오름. 프리코러스, 빌드업.'],
+    ['프리즈', 0, '이펙트를 세우고 그대로 둠. 킥 아웃 마디.'],
+    ['크로스페이드', 16, '색이 길게 번지며 바뀜. 발라드, 긴 인트로.']
+  ];
+  var W = 8, DB = 8; // 다운비트 앞 8박, 뒤 8박
+  ['ka', 'kb'].forEach(function (id) { $(id).innerHTML = K.map(function (k, i) { return '<option value="' + i + '">' + k[0] + '</option>'; }).join(''); });
+  $('ka').value = TR.a != null ? TR.a : 1; $('kb').value = TR.b != null ? TR.b : 2;
+  $('na').value = TR.na != null ? TR.na : K[$('ka').value][1]; $('nb').value = TR.nb != null ? TR.nb : K[$('kb').value][1];
+  function save() { TR.a = +$('ka').value; TR.b = +$('kb').value; TR.na = +$('na').value; TR.nb = +$('nb').value; L.put(S); }
+  // u: 다운비트 기준 박(-8..8). 반환 [밝기 0..1, 색 섞임 0..1(새 색 비율), 화이트 0..1]
+  function val(k, n, u) {
+    var nm = K[k][0], lo = .45, hi = .85;
+    if (nm === '스냅') return u < 0 ? [lo, 0, 0] : [hi, 1, 0];
+    if (nm === '페이드') { if (n <= 0) return u < 0 ? [lo, 0, 0] : [hi, 1, 0]; var p = Math.max(0, Math.min(1, (u + n) / n)); return [lo + (hi - lo) * p, p, 0]; }
+    if (nm === '딥 뒤 히트') return u < -n ? [.55, 0, 0] : u < 0 ? [.06, 0, 0] : [Math.max(.85, 1 - u * .02), 1, 0];
+    if (nm === '화이트 리셋') { if (u < 0) return [.55, 0, 0]; var q = n > 0 ? Math.min(1, u / n) : 1; return [.7 + .3 * Math.exp(-q * 3), 1, Math.max(0, 1 - q * 1.2)]; }
+    if (nm === '범프') return u >= 0 && u < Math.max(.5, n) ? [.95, 0, .3] : [.5, 0, 0];
+    if (nm === '스웰') { var s = n > 0 ? Math.max(0, Math.min(1, (u + n) / n)) : (u < 0 ? 0 : 1); return [.25 + .65 * Math.pow(s, 1.8), 0, 0]; }
+    if (nm === '프리즈') return u < 0 ? [.55 + .2 * Math.sin(u * Math.PI), 0, 0] : [.55, 0, 0];
+    if (nm === '크로스페이드') { var c = n > 0 ? Math.max(0, Math.min(1, (u + n / 2) / n)) : (u < 0 ? 0 : 1); return [.6, c, 0]; }
+    return [.5, 0, 0];
+  }
+  function sec(b) { return (b * L.beatLen(S)).toFixed(2) + '초'; }
+  function draw() {
+    var x0 = 50, x1 = 700, y0 = 30, y1 = 250, h = '';
+    function X(u) { return x0 + (u + W) / (W + DB) * (x1 - x0); }
+    function Y(v) { return y1 - v * (y1 - y0); }
+    for (var b = -W; b <= DB; b++) {
+      h += '<line x1="' + X(b) + '" y1="' + y0 + '" x2="' + X(b) + '" y2="' + y1 + '" stroke="' + (b === 0 ? 'currentColor' : 'var(--grid' + (b % 4 ? '' : '4') + ')') + '" stroke-width="' + (b === 0 ? 2 : 1) + '"/>';
+      if (b % 2 === 0) h += '<text x="' + X(b) + '" y="' + (y1 + 18) + '" font-size="11" text-anchor="middle" fill="var(--muted)">' + (b === 0 ? '다운비트' : (b > 0 ? '+' : '') + b + '박') + '</text>';
+      if (b % 4 === 0 && b !== 0) h += '<text x="' + X(b) + '" y="' + (y1 + 34) + '" font-size="10.5" text-anchor="middle" fill="var(--muted)" font-family="IBM Plex Mono,monospace">' + (b * L.beatLen(S)).toFixed(1) + 's</text>';
+    }
+    [['ka', 'na', '#69adff'], ['kb', 'nb', '#ff6f5e']].forEach(function (z) {
+      var k = +$(z[0]).value, n = +$(z[1]).value || 0, d = '';
+      for (var i = 0; i <= 320; i++) { var u = -W + i / 320 * (W + DB), v = val(k, n, u); d += (i ? 'L' : 'M') + X(u).toFixed(1) + ',' + Y(v[0]).toFixed(1); }
+      h += '<path d="' + d + '" fill="none" stroke="' + z[2] + '" stroke-width="3" stroke-linejoin="round"/>';
+    });
+    h += '<line id="ph" x1="0" y1="' + y0 + '" x2="0" y2="' + y1 + '" stroke="var(--accent)" stroke-width="2" opacity="0"/>';
+    h += '<text x="' + x0 + '" y="18" font-size="11" fill="var(--muted)">밝기</text>';
+    $('cv').innerHTML = h; $('cv').style.color = 'var(--ink)';
+    $('cvT').textContent = '밝기 곡선 · ' + S.bpm + ' BPM, 1박 ' + L.beatLen(S).toFixed(2) + '초';
+    $('da').textContent = K[$('ka').value][2] + ' 길이 ' + $('na').value + '박 = ' + sec(+$('na').value);
+    $('db').textContent = K[$('kb').value][2] + ' 길이 ' + $('nb').value + '박 = ' + sec(+$('nb').value);
+    lamp('la', +$('ka').value, +$('na').value, -W); lamp('lb', +$('kb').value, +$('nb').value, -W);
+  }
+  var OLD = [255, 184, 217], NEW = [0, 242, 217];
+  function lamp(id, k, n, u) {
+    var v = val(k, n, u), c = [0, 1, 2].map(function (i) { var m = OLD[i] * (1 - v[1]) + NEW[i] * v[1]; return Math.round(m * (1 - v[2]) + 255 * v[2]); });
+    var g = $(id).querySelector('.glow'); g.style.background = 'rgb(' + c.join(',') + ')'; g.style.opacity = v[0].toFixed(3);
+  }
+  ['ka', 'kb'].forEach(function (id, i) { $(id).addEventListener('change', function () { $(i ? 'nb' : 'na').value = K[$(id).value][1]; save(); draw(); }); });
+  ['na', 'nb'].forEach(function (id) { $(id).addEventListener('input', function () { save(); draw(); }); });
+  // 재생: 16박을 반복
+  var ctx = null, playing = false, t0 = 0, raf = 0, nextB = 0;
+  function blip(at, down) { if (!$('click').checked) return; var o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.value = down ? 1560 : 1040; g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(down ? .5 : .25, at + .002); g.gain.exponentialRampToValueAtTime(.0001, at + .06); o.connect(g); g.connect(ctx.destination); o.start(at); o.stop(at + .08); }
+  function tick() {
+    var bl = L.beatLen(S), t = ctx.currentTime - t0, tot = (W + DB) * bl;
+    while (nextB * bl < t + .12) { var at = t0 + nextB * bl, bi = nextB % (W + DB); blip(at, bi === W || bi === 0); nextB++; }
+    var u = -W + (t % tot) / bl;
+    lamp('la', +$('ka').value, +$('na').value, u); lamp('lb', +$('kb').value, +$('nb').value, u);
+    var ph = document.getElementById('ph'); if (ph) { var x = 50 + (u + W) / (W + DB) * 650; ph.setAttribute('x1', x); ph.setAttribute('x2', x); ph.setAttribute('opacity', 1); }
+    raf = requestAnimationFrame(tick);
+  }
+  $('play').addEventListener('click', function () {
+    if (playing) { playing = false; cancelAnimationFrame(raf); $('play').textContent = '재생'; $('play').setAttribute('aria-pressed', 'false'); draw(); return; }
+    try { ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return; }
+    if (ctx.state === 'suspended') ctx.resume();
+    playing = true; t0 = ctx.currentTime + .05; nextB = 0; $('play').textContent = '멈춤'; $('play').setAttribute('aria-pressed', 'true'); raf = requestAnimationFrame(tick);
+  });
+  // 곡의 경계
+  function beatsOf(entry) {
+    if (!entry) return null; var m;
+    if (/스냅|컷|히트/.test(entry) && !/페이드/.test(entry)) return 0;
+    if ((m = entry.match(/(\d+)\s*박/))) return +m[1];
+    if ((m = entry.match(/(\d+)\s*마디/))) return +m[1] * (+S.bpb || 4);
+    return null;
+  }
+  function renderBd() {
+    var list = L.sections(S), rows = [];
+    if (!list.length) { $('bd').innerHTML = '<tr><td class="note">구간이 없습니다.</td></tr>'; return; }
+    $('bd').innerHTML = '<tr><th>경계</th><th>마디</th><th>에너지</th><th>인 타임(룩 시트)</th><th>박</th><th>초</th><th>점검</th></tr>' + list.map(function (x, i) {
+      var lk = D.looks[x.m.id] || {}, e = S.energy[x.m.id] || 3, pe = i ? (S.energy[list[i - 1].m.id] || 3) : 0, nb = beatsOf(lk.entry), dir = e > pe ? '오름' : e < pe ? '내림' : '같음', w = '';
+      if (nb != null) { var s = nb * L.beatLen(S); if (dir === '오름' && s > 4) w = '오르는 전환이 깁니다(14장: 오르면 짧게)'; if (dir === '내림' && nb === 0 && !/끝|아웃트로/.test(x.m.name)) w = '내려가는 전환이 스냅입니다(내리면 길게)'; }
+      else if (lk.entry) w = '길이를 읽지 못했습니다. "2박 페이드"처럼 적습니다';
+      else w = '룩 시트에 인 타임이 없습니다';
+      rows.push([(i ? list[i - 1].m.name : '시작') + ' → ' + x.m.name, x.start, dir, lk.entry || '', nb == null ? '' : nb, nb == null ? '' : (nb * L.beatLen(S)).toFixed(1), w]);
+      return '<tr><td>' + L.esc(rows[i][0]) + '</td><td class="num">' + x.start + '</td><td>' + e + ' · ' + dir + '</td><td>' + L.esc(lk.entry || '—') + '</td><td class="num">' + (nb == null ? '—' : nb) + '</td><td class="num">' + (nb == null ? '—' : (nb * L.beatLen(S)).toFixed(2)) + '</td><td class="' + (w ? 'w' : '') + '">' + (w || '—') + '</td></tr>';
+    }).join('');
+    renderBd.rows = rows;
+  }
+  $('copy').addEventListener('click', function () {
+    var txt = (S.title || '') + ' 전환표\n경계\t마디\t에너지\t인 타임\t박\t초\t점검\n' + (renderBd.rows || []).map(function (r) { return r.join('\t'); }).join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? '표를 복사했습니다. 크게 바꾸는 속성과 어둠 속에서 바꿀 것은 14장 표 14-3처럼 옆에 더 적습니다.' : '복사가 막혀 있습니다.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  save(); draw(); renderBd();
+})();
+</script>
+</body>
+</html>

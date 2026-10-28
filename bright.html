@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>밝기 계획</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위에 밝기 곡선(그림), 아래 왼쪽 구간별 밝기 표, 오른쪽 어둠과 스페셜 큐, 맨 아래 점검 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:70ch}
+canvas{width:100%;height:auto;display:block;border-radius:8px;background:var(--panel2)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:5px;border-radius:2px}
+.grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:start;margin-top:16px}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.rows td input{width:4.6em}
+.rows td b{color:var(--ink)}
+.cards{display:grid;gap:6px}
+.cards label{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;font-size:13.5px;color:var(--body);padding:6px 10px;border-radius:8px;background:var(--panel2)}
+.cards input{width:5em}
+.darks{display:grid;gap:4px;margin-bottom:14px}
+.darks label{font-size:13.5px;display:flex;gap:8px;align-items:center}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+.checks b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>밝기 계획</h1>
+    <p>10장 실습을 해 보는 판입니다. 곡 구성표의 구간과 에너지를 불러와, 구간마다 메인 역할과 베이스(워시)의 밝기를 정합니다. 키는 곡 내내 한 값입니다. 다크 큐와 스페셜 큐를 처음 꺼낼 마디도 함께 적습니다. 퍼센트는 콘솔 값이라 눈이 느끼는 밝기와 같지 않습니다. 구간 사이의 순서를 정하는 데 쓰고, 실제 차이는 무대와 모니터에서 확인합니다.</p>
+  </div>
+  <section class="panel">
+    <canvas id="cv" width="1100" height="300" aria-label="구간별 밝기 곡선"></canvas>
+    <div class="legend"><span><i style="background:#d9902a"></i>메인</span><span><i style="background:#3b6ea8"></i>베이스</span><span><i style="background:#4f8a5b"></i>키</span><span><i style="background:#8e939c;height:8px;opacity:.4"></i>에너지(4장)</span><span>▼ 스페셜 큐를 처음 꺼내는 마디 · 검은 띠는 어둠</span></div>
+  </section>
+  <div class="grid">
+    <section class="panel"><h2 style="margin-bottom:8px">구간별 밝기 %</h2>
+      <div class="row" style="margin-bottom:8px"><label class="f">키 밝기(곡 내내)<input type="number" id="key" min="0" max="100" class="n"></label></div>
+      <div class="tbl"><table class="rows" id="rows"></table></div>
+      <div class="row" style="margin-top:10px"><button type="button" id="copy">복사</button></div><p class="note" id="copyMsg"></p></section>
+    <section class="panel"><h2 style="margin-bottom:8px">다크 큐</h2>
+      <p class="note" style="margin:0 0 8px">듣기 노트에 적은 킥 아웃(×)과 브레이크(○)입니다. 조명도 비울 자리를 고릅니다. 곡당 두세 번이 출발점입니다.</p>
+      <div class="darks" id="darks"></div>
+      <h2 style="margin:6px 0 8px">스페셜 큐 — 처음 꺼내는 마디</h2>
+      <div class="cards" id="cards"></div>
+      <p class="note" style="margin:8px 0 0">0이나 빈칸은 이 곡에서 쓰지 않는다는 뜻입니다.</p></section>
+  </div>
+  <section class="panel" style="margin-top:16px"><h2 style="margin-bottom:10px">점검</h2><ul class="checks" id="checks"></ul></section>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('bright.html'), D = L.design(S), B = D.bright;
+  var $ = function (id) { return document.getElementById(id); };
+  var CARDS = [['burst', '무빙 버스트'], ['reserve', '스페셜 컬러(8장)'], ['blinder', '블라인더(객석)'], ['flash', '화이트 플래시'], ['strobe', '스트로브'], ['aud', '오디언스 빔'], ['all', '모든 역할 한꺼번에']];
+  function save() { L.put(S); }
+  function secs() { return L.sections(S); }
+  function en(x) { return S.energy[x.m.id] || 3; }
+  function row(x) { return B.rows[x.m.id] || (B.rows[x.m.id] = { hero: 60, base: 40 }); }
+  function darkMarks() { return S.marks.filter(function (m) { return m.t === 'stop' || m.t === 'drop'; }).sort(L.sortMarks); }
+  function render() {
+    var list = secs();
+    $('key').value = B.key;
+    $('rows').innerHTML = '<tr><th>구간</th><th>마디</th><th>에너지</th><th>메인</th><th>베이스</th></tr>' + (list.length ? list.map(function (x) {
+      var r = row(x); return '<tr><td><b>' + L.esc(x.m.name) + '</b></td><td class="num">' + x.start + '~' + x.end + '</td><td class="num">' + en(x) + '</td>' +
+        '<td><input type="number" min="0" max="100" data-id="' + x.m.id + '" data-k="hero" value="' + r.hero + '" aria-label="' + L.esc(x.m.name) + ' 메인 밝기"></td>' +
+        '<td><input type="number" min="0" max="100" data-id="' + x.m.id + '" data-k="base" value="' + r.base + '" aria-label="' + L.esc(x.m.name) + ' 베이스 밝기"></td></tr>';
+    }).join('') : '<tr><td colspan="5" class="note">구간이 없습니다. 듣기 노트에서 구간을 먼저 적습니다.</td></tr>');
+    var dm = darkMarks();
+    $('darks').innerHTML = dm.length ? dm.map(function (m) { var d = L.markDef(m.t); return '<label><input type="checkbox" data-dark="' + m.id + '"' + (B.dark[m.id] ? ' checked' : '') + '> ' + d.sym + ' ' + m.bar + '마디' + (m.beat > 1 ? ' ' + m.beat + '박' : '') + ' · ' + d.label + (m.memo ? ' — ' + L.esc(m.memo) : '') + '</label>'; }).join('') : '<p class="note">킥 아웃이나 브레이크가 적혀 있지 않습니다.</p>';
+    $('cards').innerHTML = CARDS.map(function (c) { return '<label>' + c[1] + '<input type="number" min="0" data-card="' + c[0] + '" value="' + (B.cards[c[0]] || '') + '" aria-label="' + c[1] + ' 처음 마디"></label>'; }).join('');
+    draw(); checks();
+  }
+  function draw() {
+    var cv = $('cv'), g = cv.getContext('2d'), W = cv.width, H = cv.height, list = secs(), N = L.nbars(S);
+    var cs = getComputedStyle(document.documentElement), ink = cs.getPropertyValue('--muted').trim() || '#888';
+    g.clearRect(0, 0, W, H);
+    var x0 = 40, x1 = W - 10, y0 = 20, y1 = H - 40;
+    function X(bar) { return x0 + (bar - 1) / N * (x1 - x0); }
+    function Y(v) { return y1 - v / 100 * (y1 - y0); }
+    g.font = '12px sans-serif'; g.fillStyle = ink; g.strokeStyle = 'rgba(128,128,128,.25)';
+    [0, 50, 100].forEach(function (v) { g.beginPath(); g.moveTo(x0, Y(v)); g.lineTo(x1, Y(v)); g.stroke(); g.fillText(v, 6, Y(v) + 4); });
+    list.forEach(function (x) { var e = en(x); g.fillStyle = 'rgba(142,147,156,.22)'; g.fillRect(X(x.start), Y(e * 20), X(x.end + 1) - X(x.start) - 1, y1 - Y(e * 20)); g.fillStyle = ink; var nm = x.m.name.replace(/\(.*\)/, ''); if (g.measureText(nm).width + 6 < X(x.end + 1) - X(x.start)) g.fillText(nm, X(x.start) + 3, H - 22); });
+    darkMarks().forEach(function (m) { if (!B.dark[m.id]) return; var a = X(m.bar), b = X((m.end || m.bar) + 1); g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(a, y0, Math.max(4, b - a), y1 - y0); });
+    function line(key, col, w) { g.strokeStyle = col; g.lineWidth = w; g.beginPath(); list.forEach(function (x, i) { var v = key === 'key' ? +B.key : row(x)[key]; var a = X(x.start), b = X(x.end + 1); if (i === 0) g.moveTo(a, Y(v)); else g.lineTo(a, Y(v)); g.lineTo(b, Y(v)); }); g.stroke(); }
+    if (list.length) { line('base', '#3b6ea8', 2.5); line('key', '#4f8a5b', 2); line('hero', '#d9902a', 3); }
+    g.lineWidth = 1; g.fillStyle = '#c8553d'; g.font = '11px sans-serif';
+    var grp = {}; CARDS.forEach(function (c) { var b = +B.cards[c[0]]; if (b) (grp[b] = grp[b] || []).push(c[1].replace(/\(.*\)/, '')); });
+    Object.keys(grp).sort(function (a, b) { return a - b; }).forEach(function (b, i) { var xx = X(+b); g.beginPath(); g.moveTo(xx - 6, y0 - 4); g.lineTo(xx + 6, y0 - 4); g.lineTo(xx, y0 + 8); g.fill(); g.fillText(grp[b].join('·'), Math.min(xx + 8, W - 8 - g.measureText(grp[b].join('·')).width), y0 + 6 + (i % 2) * 14); });
+  }
+  function checks() {
+    var out = [], list = secs();
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: '확인', i: '참고', ok: '좋음' }[lv] + '</span>' + h + '</li>'); }
+    if (!list.length) { $('checks').innerHTML = ''; return; }
+    var maxE = Math.max.apply(0, list.map(en)), peakIdx = -1;
+    list.forEach(function (x, i) { if (en(x) === maxE) peakIdx = i; });
+    var peak = list[peakIdx];
+    list.forEach(function (x, i) {
+      var r = row(x);
+      if (i < peakIdx && +r.hero >= 100) add('w', '최고점(' + L.esc(peak.m.name) + ') 앞의 <b>' + L.esc(x.m.name) + '</b>에서 이미 100%를 씁니다. 최고점이 더 크게 보이도록 85~90%로 낮춰 봅니다.');
+      if (+r.base > +r.hero) add('i', '<b>' + L.esc(x.m.name) + '</b>에서 베이스가 메인보다 밝습니다. 메인이 묻힐 수 있습니다.');
+      if (+r.base > +B.key) add('i', '<b>' + L.esc(x.m.name) + '</b>에서 베이스(' + r.base + '%)이 키(' + B.key + '%)보다 밝습니다. 얼굴이 배경보다 어두워 보일 수 있습니다.');
+      if (i > 0) { var p = list[i - 1]; if (en(x) > en(p) && +r.hero < +row(p).hero) add('i', L.josa('<b>' + L.esc(x.m.name) + '</b>', '은는') + ' 에너지가 오르는데 메인 밝기가 내려갑니다.'); }
+    });
+    if (+row(peak).hero < 100) add('i', '최고점(' + L.esc(peak.m.name) + ')의 메인이 ' + row(peak).hero + '%입니다. 아껴 둔 100%를 여기서 씁니다.');
+    var nd = darkMarks().filter(function (m) { return B.dark[m.id]; }).length;
+    if (nd > 3) add('w', '어둠이 ' + nd + '번입니다. 곡당 두세 번을 넘기면 어둠도 습관이 됩니다.');
+    if (!nd) add('i', '다크 큐가 없습니다. 큰 히트 앞의 브레이크나 킥 아웃 하나를 골라 조명도 비워 봅니다.');
+    var firstCh = list.filter(function (x) { return /^후렴/.test(x.m.name); })[0];
+    if (firstCh) {
+      var early = CARDS.filter(function (c) { var b = +B.cards[c[0]]; return b && b <= firstCh.end; });
+      if (early.length >= 3) add('w', '첫 후렴이 끝나기 전에 스페셜 큐 ' + early.length + '장(' + early.map(function (c) { return c[1].replace(/\(.*\)/, ''); }).join(', ') + ')을 꺼냅니다. 하나를 뒤로 미룹니다.');
+    }
+    var bars = {}; CARDS.forEach(function (c) { var b = +B.cards[c[0]]; if (b) (bars[b] = bars[b] || []).push(c[1].replace(/\(.*\)/, '')); });
+    Object.keys(bars).forEach(function (b) { if (bars[b].length > 1) add('w', b + '마디에 스페셜 큐 ' + bars[b].length + '장(' + bars[b].join(', ') + ')이 몰려 있습니다. 한 큐에 스페셜 큐는 하나만 꺼냅니다(3장 후렴 빌드업).'); });
+    if (+B.cards.all && (+B.cards.all < peak.start || +B.cards.all > peak.end)) add('w', '모든 역할을 한꺼번에 켜는 스페셜 큐가 최고점 구간(' + peak.start + '~' + peak.end + '마디) 밖에 있습니다. 메인 규칙을 일부러 깨는 한 순간이라 최고점 안에서 씁니다.');
+    if (+B.cards.strobe && firstCh && +B.cards.strobe < firstCh.start) add('w', '스트로브를 첫 후렴 앞에서 꺼냅니다. 진짜 임팩트에만 씁니다.');
+    var pal = D.pal.colors.filter(function (c) { return c.role === 'reserve'; })[0];
+    if (pal && !+B.cards.reserve) add('i', '팔레트에 스페셜 컬러 ' + L.josa('<b>' + L.esc(pal.name) + '</b>', '이가') + ' 있습니다. 처음 꺼낼 마디를 적습니다.');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; })) add('ok', '최고점에만 100%를 쓰고, 스페셜 큐가 뒤로 갈수록 한 장씩 더해집니다. 컨셉 시트(웹 부록 7)에서 함께 모아 봅니다.');
+    $('checks').innerHTML = out.join('');
+  }
+  L.copyBar($('copy'), $('copyMsg'), function () {
+    var rows = secs().map(function (x) { var r = row(x); return [x.m.name, x.start + '~' + x.end, en(x), r.hero + '%', r.base + '%', B.key + '%']; });
+    darkMarks().forEach(function (m) { if (B.dark[m.id]) rows.push(['다크 큐', m.bar + (m.beat > 1 ? '.' + m.beat : ''), '', '0%', '0%', '0%']); });
+    CARDS.forEach(function (c) { var b = +B.cards[c[0]]; if (b) rows.push(['스페셜 큐: ' + c[1], String(b), '', '', '', '']); });
+    return { title: '밝기 계획 · ' + (S.title || ''), head: ['구간', '마디', '에너지', '메인', '베이스', '키'], rows: rows };
+  });
+  $('rows').addEventListener('input', function (e) { var t = e.target; if (!t.dataset.id) return; var x = secs().filter(function (s) { return s.m.id === t.dataset.id; })[0]; row(x)[t.dataset.k] = Math.max(0, Math.min(100, +t.value || 0)); save(); draw(); checks(); });
+  $('key').addEventListener('input', function (e) { B.key = Math.max(0, Math.min(100, +e.target.value || 0)); save(); draw(); checks(); });
+  $('darks').addEventListener('change', function (e) { var t = e.target; if (!t.dataset.dark) return; B.dark[t.dataset.dark] = t.checked; save(); draw(); checks(); });
+  $('cards').addEventListener('input', function (e) { var t = e.target; if (!t.dataset.card) return; B.cards[t.dataset.card] = Math.max(0, parseInt(t.value, 10) || 0); save(); draw(); checks(); });
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  save(); render();
+})();
+</script>
+</body>
+</html>
