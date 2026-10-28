@@ -612,7 +612,9 @@ var CUR=null;
 function fld(label,html,cls){return html?'<div class="fld'+(cls?' '+cls:'')+'"><h4>'+label+'</h4>'+html+'</div>':''}
 function p(s){return s?'<p>'+rich(s)+'</p>':''}
 var BK={chapters:{}};fetch('../book.json').then(function(r){return r.json()}).then(function(j){BK=j}).catch(function(){});
-function bookLink(n){n=parseInt(n,10);if(!n)return '';var c=(BK.chapters||{})[n]||{};var u=c.url||BK.home||M.book;var t=c.title||M.chapters[n]||'';return '<a class="btn" href="'+u+'" target="_blank" rel="noopener">책 '+n+'장 '+esc(t)+(c.url?'':' (준비 중)')+' ↗</a>'}
+function bkOpen(c){return !!(c&&c.url&&(!c.open||Date.now()>=Date.parse(c.open)))}
+function bkWhen(c){if(!c||!c.open)return '준비 중';var d=new Date(Date.parse(c.open));return (d.getMonth()+1)+'월 '+d.getDate()+'일 공개'}
+function bookLink(n){n=parseInt(n,10);if(!n)return '';var c=(BK.chapters||{})[n]||{};var ok=bkOpen(c);var u=ok?c.url:(BK.home||M.book);var t=c.title||M.chapters[n]||'';return '<a class="btn" href="'+u+'" target="_blank" rel="noopener">책 '+n+'장 '+esc(t)+(ok?'':' ('+bkWhen(c)+')')+' ↗</a>'}
 function toolLink(k){return M.tools[k]?'<a class="btn" href="'+M.hub+k+'.html" target="_blank" rel="noopener">'+esc(M.tools[k])+' ↗</a>':''}
 function fxDetail(it){
   var c=CAT[it.cat]||{},f=it.field||{};

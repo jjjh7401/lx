@@ -240,7 +240,7 @@
       var chs = TOOL_CH[active] || [];
       fetch(new URL('book.json', document.baseURI)).then(function (r) { return r.json(); }).then(function (bk) {
         var c = null, n = 0;
-        for (var i = 0; i < chs.length; i++) { var x = (bk.chapters || {})[chs[i]]; if (x && x.url) { c = x; n = chs[i]; break; } }
+        for (var i = 0; i < chs.length; i++) { var x = (bk.chapters || {})[chs[i]]; if (x && x.url && (!x.open || Date.now() >= Date.parse(x.open))) { c = x; n = chs[i]; break; } }
         var a = document.createElement('a'); a.className = 'book-link'; a.target = '_blank'; a.rel = 'noopener';
         if (c) { a.href = c.url; a.textContent = '책 ' + n + '장 읽기 ↗'; } else { a.href = bk.home; a.textContent = '책 읽기 ↗'; }
         var w = h.querySelector('.wrap'), b = w && w.querySelector('.brand'); if (b) b.insertAdjacentElement('afterend', a);
