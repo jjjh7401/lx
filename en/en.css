@@ -31,8 +31,8 @@ body #article-view .bk .chapter,body #article-view .bk .part-page{max-width:800p
 body #article-view .bk .part-page{margin-bottom:24px}
 #article-view .bk .chapter{overflow-wrap:break-word;word-break:normal}
 #article-view .bk figure.plate,#article-view .bk .web{margin-left:0;margin-right:0}
-#article-view .bk .web-open{display:inline-flex;align-items:center;min-height:40px;padding:8px 16px;border:0;border-radius:10px;background:var(--e-accent);color:#fff;font-size:15px;box-shadow:0 2px 0 var(--e-accent-dark)}
-#article-view .bk .web-open:hover{background:var(--e-accent-dark);color:#fff}
+body #article-view .bk .web-open{display:inline-flex;align-items:center;min-height:40px;padding:8px 16px;border:0;border-radius:10px;background:var(--e-accent);color:#fff;font-size:15px;box-shadow:0 2px 0 var(--e-accent-dark)}
+body #article-view .bk .web-open:hover{background:var(--e-accent-dark);color:#fff}
 #article-view .bk .ltm-ko-note{margin:0;padding:0 18px 12px;font-size:13px;color:var(--e-muted)}
 #article-view .bk .part-page ol li a{text-decoration:none}
 #article-view .bk .soon{color:var(--e-muted)}
