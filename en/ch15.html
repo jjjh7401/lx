@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chapter 15 · Adjusting for Genre · Lighting the Music</title>
+<meta name="description" content="Treat genre as five adjustments to the starting values, compare ten genres, follow the song over the genre, and correct values for each venue.">
+<link rel="alternate" hreflang="ko" href="https://ablitzdesign.tistory.com/65">
+<link rel="alternate" hreflang="en" href="https://jjjh7401.github.io/lx/en/ch15.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 15 · Adjusting for Genre · Lighting the Music">
+<meta property="og:description" content="Treat genre as five adjustments to the starting values, compare ten genres, follow the song over the genre, and correct values for each venue.">
+<meta property="og:image" content="https://jjjh7401.github.io/lx/cover-800.jpg">
+<meta property="og:url" content="https://jjjh7401.github.io/lx/en/ch15.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="en.css?v=2">
+</head>
+<body>
+<header class="ltm-bar" id="ltmBar"></header>
+<main id="article-view">
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch15"><header class="ch-head"><div class="ch-num"><span>Chapter</span> 15</div><h1 class="ch-title">Adjusting for Genre</h1><p class="ch-sub">From ballads to EDM</p></header>
+<aside class="box goals"><div class="box-label">In this chapter</div><div class="box-body">
+<ul class="checks">
+<li>Use genre not as the answer but as an adjustment that moves the starting values of Chapter 12.</li>
+<li>Compare the starting values of ten genres in palette, movement, rhythm layers and accents.</li>
+<li>Correct the starting values three times, in the order genre → concept → venue.</li>
+</ul>
+</div></aside>
+<div class="open-label">Opening scene</div><p class="lead">You have been given a ballad stage. It is a slow song, so you lay down blue and purple and hold the movers still. At rehearsal you hear the lyrics properly for the first time. It is a song about a confession that was put off for a long time on a spring afternoon. The stage stands as cold as a midwinter night.</p>
+<p>The genre was right, but the song was wrong. “It’s a ballad, so blue” may be a starting point, but it cannot be a conclusion. In Chapter 7 you read the concept from the sound first, then the emotion, the lyrics and the artist’s concept, in that order. Genre is only one part of that first layer, the sound. This chapter is about how far to trust genre, and where to start following the song.</p>
+<h2 id="c15-15-1-five-things-that-change-with-genre">15.1 Five Things That Change with Genre</h2><p class="lead">Genre is not a rule to keep. It is only a guide for nudging the starting values of Chapter 12 up or down.</p>
+<p>In this book the values you move according to genre are called adjustments. There are five.</p>
+<ul class="keyed">
+<li><strong>Tempo</strong>Sets the effect cycle (Table 12-2 in Chapter 12). Each genre has a typical BPM range.</li>
+<li><strong>Density</strong>The number of rhythm layers running at once, and how tightly the cues are packed.</li>
+<li><strong>Saturation</strong>Whether the palette leans pastel or primary (Chapter 8).</li>
+<li><strong>Movement</strong>How big the movers move, and how often.</li>
+<li><strong>Accent</strong>Which of the accent means of Chapter 13 you mainly use.</li>
+</ul>
+<p>Genre tells you the first value of these five adjustments. After that, the song decides. Even for two ballads, a song about a breakup and a song about a confession may have their saturation adjustments on opposite sides.</p>
+<h2 id="c15-15-2-starting-values-for-ten-genres">15.2 Starting Values for Ten Genres</h2><p class="lead">Comparing the ten genres often handled on domestic music stages by the five adjustments gives Table 15-1. The values in the table are only a place to start from with a song you have just been given, and they differ from song to song even within the same genre.</p>
+<div class="tbl"><div class="tcap"><b>Table 15-1</b> Starting values for ten genres <span class="badge start">Starting value</span> <code>[Author to confirm]</code></div><table>
+<thead>
+<tr class="header">
+<th>Genre</th>
+<th>Typical BPM</th>
+<th>Saturation</th>
+<th>Movement</th>
+<th>Rhythm layers</th>
+<th>Main accents</th>
+<th>Watch out for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ballad</td>
+<td>60–80</td>
+<td>Depends on the song. Blue and purple easily become a habit</td>
+<td>Almost still, long crossfade</td>
+<td>0–1</td>
+<td>Brightness swell, one special</td>
+<td>Hold the key level all through the song. One hit in the last chorus</td>
+</tr>
+<tr class="even">
+<td>R&amp;B · Soul</td>
+<td>70–100</td>
+<td>Mostly warm tones, medium saturation</td>
+<td>Slow wave</td>
+<td>1</td>
+<td>Bump, backlight</td>
+<td>Do not mark the groove on every beat</td>
+</tr>
+<tr class="odd">
+<td>Medium dance pop</td>
+<td>100–120</td>
+<td>Pastel to medium</td>
+<td>Position every 4 bars</td>
+<td>2</td>
+<td>Brightness hit, mover burst</td>
+<td>Match the bars where the choreography freezes</td>
+</tr>
+<tr class="even">
+<td>Performance dance (strong idol songs)</td>
+<td>110–140</td>
+<td>Primary colors, high contrast</td>
+<td>Big and fast, hits on choreography points</td>
+<td>2–3</td>
+<td>White flash, strobe</td>
+<td>Use the flash standard; do not bury the faces</td>
+</tr>
+<tr class="odd">
+<td>Hip-hop</td>
+<td>80–100 (half-time feel)</td>
+<td>Single color and white, low saturation</td>
+<td>Little, bumps on the beat</td>
+<td>1–2</td>
+<td>Dark cue, white bump</td>
+<td>Put the low bass (808) and the kick on different fixtures</td>
+</tr>
+<tr class="even">
+<td>EDM</td>
+<td>120–135</td>
+<td>Primary colors, complementary contrast</td>
+<td>Big from build-up to drop</td>
+<td>2–3</td>
+<td>Dip then hit at the drop, strobe</td>
+<td>Dark cue at the end of the build-up</td>
+</tr>
+<tr class="odd">
+<td>Rock · Band</td>
+<td>120–160</td>
+<td>Primary colors, white</td>
+<td>Centered on the players’ positions</td>
+<td>1–2</td>
+<td>White blast, blinders</td>
+<td>One light per player, drum fills</td>
+</tr>
+<tr class="even">
+<td>Trot</td>
+<td>Wide depending on the song (from around 70 for slow songs to 130 or more for fast ones)</td>
+<td>Warm primary colors, sparkle</td>
+<td>Medium, big in the chorus</td>
+<td>1–2</td>
+<td>Color snap, audience</td>
+<td>Bars where the audience claps along</td>
+</tr>
+<tr class="odd">
+<td>City pop · Retro</td>
+<td>100–120</td>
+<td>Sunset, two neon colors</td>
+<td>Slow sweep</td>
+<td>1</td>
+<td>Color snap</td>
+<td>Too many colors</td>
+</tr>
+<tr class="even">
+<td>Acoustic · Indie folk</td>
+<td>70–110</td>
+<td>Warm white, low saturation</td>
+<td>Almost still</td>
+<td>0–1</td>
+<td>Brightness swell</td>
+<td>Keep the instruments and hands visible</td>
+</tr>
+</tbody>
+</table></div>
+<p>Read the table down the columns and you see two things. First, even with the same typical BPM, the adjustments differ. Medium dance pop and city pop overlap in BPM range but differ in rhythm layers and saturation. Second, in no genre is <strong>the key among the adjustments.</strong> As long as there is a vocal, the key keeps the same level whatever the genre (Chapter 6).</p>
+<aside class="box try"><div class="box-label">A short experiment</div><div class="box-body"><ol class="steps"><li>Find one ballad and one dance song sung by the same artist, and watch 30 seconds of each stage video with the sound off.</li><li>Write down which of the five adjustments differed most between the two stages.</li><li>Usually movement and density differ more than tempo does.</li></ol></div></aside>
+<h2 id="c15-15-3-the-song-comes-before-the-genre">15.3 The Song Comes Before the Genre</h2><p class="lead">If the values picked by genre do not fit the song’s concept, follow the song.</p>
+<p>For the ballad in the opening scene, genre says blue and purple, but the lyrics speak of a spring afternoon. If you had read emotion and lyrics after the sound, in the order of the concept layers in Chapter 7, you would have moved the adjustments toward warm white and pale amber.</p>
+<p>LOVE ATTACK is the same. By genre it is medium dance pop, and because the drums burst in the chorus, you could also have picked the primary colors and strobes of performance dance. But the one-line concept set in Part 2 was “pastels that spread like a scent, and one last heart.” So the saturation adjustment sits on the pastel side, and instead of strobes it uses a white flash only once (Chapter 10).</p>
+<p>When you do not follow the genre, write the reason in the concept sheet. When the directing side or the artist side asks, “It’s a dance song, so why no strobes?”, one line in the concept sheet is the answer.</p>
+<h2 id="c15-15-4-what-to-fix-first-at-each-venue">15.4 What to Fix First at Each Venue</h2><p class="lead">The values set by genre and song are corrected once more to fit the venue where you will perform.</p>
+<p>The same song has a different stage on a music show, at a concert, at an awards show, at a festival and in a light show. Part 4 covers each venue in detail; here only the items to fix are gathered.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 406" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#1f2430" height="34.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="142.0" x="202.0" y="96.0"></rect>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="273.0" y="118.0">Music show</text>
+<rect fill="#1f2430" height="34.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="142.0" x="348.0" y="96.0"></rect>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="419.0" y="118.0">Concert</text>
+<rect fill="#1f2430" height="34.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="142.0" x="494.0" y="96.0"></rect>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="565.0" y="118.0">Awards show</text>
+<rect fill="#1f2430" height="34.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="142.0" x="640.0" y="96.0"></rect>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="711.0" y="118.0">Festival</text>
+<rect fill="#1f2430" height="34.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="142.0" x="786.0" y="96.0"></rect>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="857.0" y="118.0">Light show</text>
+<text fill="#1f2430" font-size="15" font-weight="700" opacity="1.0" text-anchor="start" x="36.0" y="172.0">Slow songs</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="36.0" y="192.0">Ballad · R&amp;B ·</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="36.0" y="206.0">Acoustic</text>
+<rect fill="#eef4fb" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="202.0" y="138.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="212.0" y="162.0">Fix key color temp.,</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="212.0" y="179.0">check crossfade</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="212.0" y="196.0">length on camera</text>
+<rect fill="#eef4fb" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="348.0" y="138.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="358.0" y="162.0">Contrast with songs</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="358.0" y="179.0">around, one special</text>
+<rect fill="#eef4fb" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="494.0" y="138.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="504.0" y="162.0">Short transition cue, key</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="504.0" y="179.0">first</text>
+<rect fill="#eef4fb" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="640.0" y="138.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="650.0" y="162.0">Find warm white in</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="650.0" y="179.0">the venue’s fixtures</text>
+<rect fill="#eef4fb" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="786.0" y="138.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="796.0" y="162.0">A rare pairing —</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="796.0" y="179.0">keep the density low</text>
+<text fill="#1f2430" font-size="15" font-weight="700" opacity="1.0" text-anchor="start" x="36.0" y="276.0">Medium</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="36.0" y="296.0">Dance pop · City pop ·</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="36.0" y="310.0">Hip-hop · Trot</text>
+<rect fill="#fdf3e4" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="202.0" y="242.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="212.0" y="266.0">Flash standard,</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="212.0" y="283.0">match positions to</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="212.0" y="300.0">the camera cuts</text>
+<rect fill="#fdf3e4" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="348.0" y="242.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="358.0" y="266.0">A different signature</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="358.0" y="283.0">look for each song</text>
+<rect fill="#fdf3e4" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="494.0" y="242.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="504.0" y="266.0">Share fixtures,</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="504.0" y="283.0">one special cue</text>
+<rect fill="#fdf3e4" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="640.0" y="242.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="650.0" y="266.0">Start with one</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="650.0" y="283.0">fewer rhythm layer</text>
+<rect fill="#fdf3e4" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="786.0" y="242.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="796.0" y="266.0">Accents closer together</text>
+<text fill="#1f2430" font-size="15" font-weight="700" opacity="1.0" text-anchor="start" x="36.0" y="380.0">Fast songs</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="36.0" y="400.0">Performance dance · EDM</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="36.0" y="414.0">· Rock</text>
+<rect fill="#fbe9e6" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="202.0" y="346.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="212.0" y="370.0">Swap strobe for</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="212.0" y="387.0">white bumps</text>
+<rect fill="#fbe9e6" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="348.0" y="346.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="358.0" y="370.0">Spread accents</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="358.0" y="387.0">over the whole show</text>
+<rect fill="#fbe9e6" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="494.0" y="346.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="504.0" y="370.0">Audience once,</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="504.0" y="387.0">do not overlap with</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="504.0" y="404.0">the stages around</text>
+<rect fill="#fbe9e6" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="640.0" y="346.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="650.0" y="370.0">Secure the dark cue</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="650.0" y="387.0">before the drop</text>
+<rect fill="#fbe9e6" height="96.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="142.0" x="786.0" y="346.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="796.0" y="370.0">Maximum density,</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="796.0" y="387.0">flash within 5 s</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="456.0">Detailed adjustment for each venue is covered in Part 4. The contents of the cells are the starting values the author filled in first.</text>
+</svg>
+<figcaption><b>Figure 15-1</b> Adjustment chart for genre and venue. The horizontal axis is venue and the vertical axis is genres grouped by tempo. Each cell lists the adjustment to fix first for that combination.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>Table 15-2</b> What to fix first at each venue <span class="badge start">Starting value</span> <sup class="ref"><a href="#c15-s1">1</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>Venue</th>
+<th>What to fix first</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Music show</td>
+<td>Keep flashes within the standard, fix the key color temperature</td>
+<td>The camera watches the stage, and each broadcaster has a flash standard (the Ofcom example in Chapter 10; check each broadcaster’s own domestic standard, Chapter 17)</td>
+</tr>
+<tr class="even">
+<td>Concert</td>
+<td>Give each song a different signature look, spread accents over the whole show</td>
+<td>Several songs run together, so repetition between songs becomes a weakness (Chapter 14)</td>
+</tr>
+<tr class="odd">
+<td>Awards show</td>
+<td>Share fixtures between stages, keep transition cues short</td>
+<td>Several teams share the same fixtures, and the gap between stages is short</td>
+</tr>
+<tr class="even">
+<td>Festival</td>
+<td>A stage designed by someone else, start with lower density</td>
+<td>You have to build it in a short time on a stage you are seeing for the first time</td>
+</tr>
+<tr class="odd">
+<td>Light show</td>
+<td>Raise density, put accents closer together</td>
+<td>The light, not a person, is the lead</td>
+</tr>
+</tbody>
+</table></div>
+<aside class="box heard"><div class="box-label">Heard in the field</div><div class="box-body">
+<p> “It’s TV this time, so please take out the strobes.” If you take the strobes out of a performance dance song, first decide what will fill that place. If you swap in a white bump on each beat or one bar of white, you can mark the same moment within the flash standard.</p>
+</div></aside>
+<h2 id="c15-15-5-practice-correct-the-starting-values-three-times">15.5 [Practice] Correct the Starting Values Three Times</h2><p class="lead">Pick one song and refine the values in the order genre → concept → venue.</p>
+<p>If you write down what changed and why each time, you can always trace where the final value came from.</p>
+<p><strong>Follow along</strong></p>
+<ol type="1">
+<li>Decide the song’s genre and copy that row from Table 15-1. If it is between two genres, write both rows.</li>
+<li>With the concept sheet (Chapter 7) beside you, correct whichever of the five adjustments clashes with the concept. For each cell you correct, write which line of the concept sheet it was for.</li>
+<li>Decide the venue where the stage will stand, and apply what to fix first from Table 15-2.</li>
+<li>Move the values corrected three times into the section table of Chapter 12 (Table 12-5).</li>
+</ol>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>For each cell of the final values, mark where it came from: “genre,” “concept” or “venue.”</li><li>If most cells carry only “genre,” you may not yet have read the song enough.</li><li>Go back to the concept layers of Chapter 7 and read the emotion and lyrics again.</li></ol></div></aside>
+<div class="tbl"><div class="tcap"><b>Table 15-3</b> Correcting LOVE ATTACK’s starting values three times — the author’s example, assuming a music show <code>[Author to confirm]</code></div><table>
+<thead>
+<tr class="header">
+<th>Adjustment</th>
+<th>Genre (medium dance pop)</th>
+<th>Corrected for concept</th>
+<th>Corrected for venue (music show)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tempo</td>
+<td>112 BPM, 100–120 band</td>
+<td>Unchanged</td>
+<td>Unchanged</td>
+</tr>
+<tr class="even">
+<td>Density</td>
+<td>2 rhythm layers</td>
+<td>Unchanged, 3 only in Chorus 3</td>
+<td>Unchanged</td>
+</tr>
+<tr class="odd">
+<td>Saturation</td>
+<td>Pastel to medium</td>
+<td>Three pastels (pearl pink, lilac, aqua) + special red</td>
+<td>Red only on the pixels for two bars, not blinking (watch the transition of highly saturated red)</td>
+</tr>
+<tr class="even">
+<td>Movement</td>
+<td>Position every 4 bars</td>
+<td>Unchanged, one side held still in the verse</td>
+<td>Check the Chorus entry position ahead of time against the camera cuts</td>
+</tr>
+<tr class="odd">
+<td>Accent</td>
+<td>Brightness hit, mover burst</td>
+<td>+ one white flash, no strobes or blinders</td>
+<td>The white flash is a single one, so it is within the standard</td>
+</tr>
+</tbody>
+</table></div>
+<aside class="box mine"><div class="box-label">Try it with your own song</div><div class="box-body"><ol class="steps"><li>Build the same table for the song you are working on now.</li><li>If every “Corrected for concept” cell says “Unchanged,” ask whether that song’s concept truly follows the genre as it is, or whether you have not set a concept yet.</li></ol></div></aside>
+<section class="summary"><h2>Key points</h2><ul>
+<li>Genre is not a rule but an adjustment that moves the starting values of Chapter 12. There are five: tempo, density, saturation, movement and accent.</li>
+<li>Ten genres differ in their adjustments even when their typical BPM overlaps. The key is not among the adjustments in any genre.</li>
+<li>When genre and concept clash, follow the song and write the reason in the concept sheet.</li>
+<li>What to fix first differs by venue. For a music show it is flashes and the key, for a concert repetition between songs, for a festival density.</li>
+<li>Correct the starting values three times, in the order genre → concept → venue, and keep the reasons for the corrections.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">On the job tomorrow</div><div class="box-body"><ol class="steps"><li>In today’s song, find one color you picked because “this is that genre,” and pick again from the layer of the lyrics.</li><li>If the same color comes out, leave it; if a different color comes out, compare the two in rehearsal.</li></ol></div></aside>
+<section class="notes"><h2>Notes</h2><ol><li id="c15-s1">The author’s unpublished working notes. What to fix first at each venue (flashes and key for a music show, repetition between songs for a concert, sharing fixtures for an awards show, the fixtures you are given for a festival, density for a light show).</li></ol></section>
+</article>
+</div>
+
+</main>
+<nav class="ltm-pager" id="ltmPager" aria-label="Chapters"></nav>
+<footer class="ltm-foot">
+<p><b>Lighting the Music</b> by Jaehyun Jung. Free to read online. English edition translated from the Korean original with AI.</p>
+<p>Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener license" target="_blank">CC BY-NC-ND 4.0</a>: you may share it with credit (title, author and a link to this page), but not for commercial use and not in modified form.</p>
+</footer>
+<script src="book.js?v=3"></script>
+<script>LTM_chapter("ch15");</script>
+</body>
+</html>
