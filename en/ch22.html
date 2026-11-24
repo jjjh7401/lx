@@ -1,0 +1,1700 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chapter 22 · Lighting Design and the Rig · Lighting the Music</title>
+<meta name="description" content="From song to plot and patch sheet: the seven-step flow, roles before fixtures, beam diameter for quantities, the lighting plot, universe planning, three-level groups, load and power, and the documents you hand over.">
+<link rel="alternate" hreflang="ko" href="https://ablitzdesign.tistory.com/72">
+<link rel="alternate" hreflang="en" href="https://jjjh7401.github.io/lx/en/ch22.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 22 · Lighting Design and the Rig · Lighting the Music">
+<meta property="og:description" content="From song to plot and patch sheet: the seven-step flow, roles before fixtures, beam diameter for quantities, the lighting plot, universe planning, three-level groups, load and power, and the documents you hand over.">
+<meta property="og:image" content="https://jjjh7401.github.io/lx/cover-800.jpg">
+<meta property="og:url" content="https://jjjh7401.github.io/lx/en/ch22.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="en.css?v=2">
+</head>
+<body>
+<header class="ltm-bar" id="ltmBar"></header>
+<main id="article-view">
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch22"><header class="ch-head"><div class="ch-num"><span>Chapter</span> 22</div><h1 class="ch-title">Lighting Design and the Rig</h1><p class="ch-sub">From the song to the lighting plot and patch sheet</p></header>
+<aside class="box goals"><div class="box-label">In this chapter</div><div class="box-body">
+<ul class="checks">
+<li>Work through lighting design in this order: song, artist and venue → looks → roles → fixtures → positions and quantities → lighting plot → patch sheet.</li>
+<li>Pull the roles you need out of the look sheet, and for each role decide the type of fixture, its position and its quantity.</li>
+<li>Make the lighting plot and patch sheet of the practice stage and hand them to the console, the simulation, and the rigging and electrical crews.</li>
+</ul>
+</div></aside>
+<div class="open-label">Opening scene</div><p class="lead">Put two concert photos side by side. In one, dozens of beams rise into the sky from towers behind the stage; in the other, a soft light falling from overhead wraps the whole stage.</p>
+<p>Say the moving lights in the two photos are the same model. Then what made the two stages look different is not the equipment but <strong>how many were hung where, and pointed which way</strong>. And what decides those places is the music that will be played on the stage. A stage where light streaks shoot into the sky is a design for a song whose main is the beams, and a stage that wraps from overhead is a design for a song whose main is the singing and the face.</p>
+<p>At a concert or a music show the lighting director sometimes receives a stage designed by someone else, but often designs the stage himself or herself.<code>[Author to confirm]</code> You talk with the artist’s team, listen to the songs and choose the equipment. Then you draw the lighting plot, make the patch sheet and hand them to the console. In this chapter we follow that process from the song through to the end. The weight is on <strong>the order in which you choose equipment to suit the song</strong> rather than on the specifications of each fixture.</p>
+<h2 id="c22-22-1-from-the-song-to-the-patch-sheet">22.1 From the Song to the Patch Sheet</h2><p class="lead">Lighting design starts not from an equipment list but from the song. From looking at the song to making the patch sheet takes seven steps.</p>
+<p>If you pick equipment first, you end up worrying about “what shall I do with this equipment?”; if you look at the song first, you worry about “what does this song need?”</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 296" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#ffffff" height="108.0" opacity="1.0" rx="9" stroke="#7a5ea8" stroke-width="1.6" width="118.0" x="24.0" y="112.0"></rect>
+<text fill="#7a5ea8" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="36.0" y="134.0">1 Song · artist</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="36.0" y="154.0">Concept sheet,</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="36.0" y="169.0">look sheet,</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="36.0" y="184.0">site survey</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.4" x1="144.0" x2="155.0" y1="166.0" y2="166.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="155.0,166.0 149.6,168.6 149.6,163.4" stroke="none"></polygon>
+<rect fill="#ffffff" height="108.0" opacity="1.0" rx="9" stroke="#7a5ea8" stroke-width="1.6" width="118.0" x="156.0" y="112.0"></rect>
+<text fill="#7a5ea8" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="168.0" y="134.0">2 Looks → roles</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="168.0" y="154.0">Gather the</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="168.0" y="169.0">main roles of looks</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.4" x1="276.0" x2="287.0" y1="166.0" y2="166.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="287.0,166.0 281.6,168.6 281.6,163.4" stroke="none"></polygon>
+<rect fill="#ffffff" height="108.0" opacity="1.0" rx="9" stroke="#3b6ea8" stroke-width="1.6" width="118.0" x="288.0" y="112.0"></rect>
+<text fill="#3b6ea8" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="300.0" y="134.0">3 Fixtures</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="300.0" y="154.0">Type and model</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="300.0" y="169.0">for each role</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.4" x1="408.0" x2="419.0" y1="166.0" y2="166.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="419.0,166.0 413.6,168.6 413.6,163.4" stroke="none"></polygon>
+<rect fill="#ffffff" height="108.0" opacity="1.0" rx="9" stroke="#3b6ea8" stroke-width="1.6" width="118.0" x="420.0" y="112.0"></rect>
+<text fill="#3b6ea8" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="432.0" y="134.0">4 Positions</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="432.0" y="154.0">Direction, beam</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="432.0" y="169.0">diameter, mounting</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.4" x1="540.0" x2="551.0" y1="166.0" y2="166.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="551.0,166.0 545.6,168.6 545.6,163.4" stroke="none"></polygon>
+<rect fill="#ffffff" height="108.0" opacity="1.0" rx="9" stroke="#d9902a" stroke-width="1.6" width="118.0" x="552.0" y="112.0"></rect>
+<text fill="#d9902a" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="564.0" y="134.0">5 Lighting plot</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="564.0" y="154.0">Plan, elevation,</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="564.0" y="169.0">legend, position table</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.4" x1="672.0" x2="683.0" y1="166.0" y2="166.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="683.0,166.0 677.6,168.6 677.6,163.4" stroke="none"></polygon>
+<rect fill="#ffffff" height="108.0" opacity="1.0" rx="9" stroke="#d9902a" stroke-width="1.6" width="118.0" x="684.0" y="112.0"></rect>
+<text fill="#d9902a" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="696.0" y="134.0">6 Patch sheet</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="696.0" y="154.0">ID, mode,</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="696.0" y="169.0">universe.address</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.4" x1="804.0" x2="815.0" y1="166.0" y2="166.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="815.0,166.0 809.6,168.6 809.6,163.4" stroke="none"></polygon>
+<rect fill="#ffffff" height="108.0" opacity="1.0" rx="9" stroke="#c8553d" stroke-width="1.6" width="118.0" x="816.0" y="112.0"></rect>
+<text fill="#c8553d" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="828.0" y="134.0">7 Check · hand off</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="828.0" y="154.0">Load, power,</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="828.0" y="169.0">MVR, documents</text>
+<path d="M875,222 C755,300 467,300 347,222" fill="none" opacity="1.0" stroke="#c8553d" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path>
+<text fill="#c8553d" font-size="12" font-weight="400" opacity="1.0" text-anchor="middle" x="611.0" y="296.0">Go back if load or power is exceeded or a role is empty</text>
+<text fill="#7a5ea8" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="middle" x="142.0" y="92.0">Decided from the music</text>
+<text fill="#3b6ea8" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="middle" x="419.0" y="92.0">Decided by the equipment</text>
+<text fill="#d9902a" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="middle" x="683.0" y="92.0">Left as documents</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="346.0">The documents of steps 5 and 6 are the starting point for Part 5 (the console) and for the simulation.</text>
+</svg>
+<figcaption><b>Figure 22-1</b> From the song to the patch sheet. Starting from the song and the venue, decide the looks, roles, fixtures, and positions and quantities, then leave them as a lighting plot and a patch sheet and hand them over. If the check gets stuck, go back to an earlier step.</figcaption></figure>
+<ol type="1">
+<li><strong>Understand the song, artist and venue</strong>: the concept sheet and look sheet made through Part 2, and the conditions of the stage (Table 22-1).</li>
+<li><strong>Find the roles the looks need</strong>: gather the main role of each look, and decide the direction and place of light that the song needs (Section 22.2).</li>
+<li><strong>Choose fixtures</strong>: choose the type of fixture for each role (Section 22.3).</li>
+<li><strong>Position, angle, quantity</strong>: set each fixture’s position according to its role, and calculate the quantity from the beam diameter (Section 22.4).</li>
+<li><strong>Lighting plot</strong>: draw where each fixture hangs and which way it points (Section 22.5).</li>
+<li><strong>Patch sheet</strong>: arrange the console number (ID) and DMX address for each fixture (Section 22.6).</li>
+<li><strong>Check and hand over</strong>: check the load and power, and hand the documents to the people in charge (Section 22.7).</li>
+</ol>
+<p>When we trimmed the tour rig in Chapter 18 we said “keep the role, cut the quantity.” That is possible because the role of step 2 comes before the quantity of step 4.</p>
+<p>What to ask the artist’s team is in the concept meeting of Chapter 7 (Table 7-4). Ask about the conditions of the stage to the stage manager, rigging, electrical and camera sides.</p>
+<div class="tbl"><div class="tcap"><b>Table 22-1</b> What to check in the site survey <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>What to check</th>
+<th>Whom to ask</th>
+<th>What it decides in the design</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Width, depth and height of the stage, the places of the set and the LED wall</td>
+<td>Stage manager, set designer</td>
+<td>Where equipment can go and the space the beams will pass through</td>
+</tr>
+<tr class="even">
+<td>Where you can hang, and the load</td>
+<td>Rigging crew, venue</td>
+<td>Number and height of trusses, number of hung fixtures</td>
+</tr>
+<tr class="odd">
+<td>Camera positions and the main shots</td>
+<td>Director (PD), camera director</td>
+<td>The direction of the key, the fixtures that will show on screen (Section 17.4)</td>
+</tr>
+<tr class="even">
+<td>Available power</td>
+<td>Electrical crew, venue</td>
+<td>Number and types of fixtures</td>
+</tr>
+<tr class="odd">
+<td>Owned equipment and rental budget</td>
+<td>Production company, lighting supplier</td>
+<td>Models you can choose</td>
+</tr>
+<tr class="even">
+<td>Whether haze can be used</td>
+<td>Venue, broadcaster</td>
+<td>Whether beams can be the main (Section 6.3)</td>
+</tr>
+<tr class="odd">
+<td>Whether it tours, setup time</td>
+<td>Production company</td>
+<td>The number of fixture types, the trimmed version (Chapter 18)</td>
+</tr>
+</tbody>
+</table></div>
+<p>On a music show the stage design and the basic rig are set by the broadcaster and the period (Section 17.2), and on a stage made for one song, like a comeback stage, equipment is sometimes added to suit that song.<code>[Author to confirm]</code> Either way, the starting point of the design is the same: the looks of the song that will be on that stage.</p>
+<h2 id="c22-22-2-finding-the-roles-the-looks-need">22.2 Finding the Roles the Looks Need</h2><p class="lead">The first material you open when choosing equipment is the look sheet you made in Chapter 9. If you gather the main role of each look, it tells you what light the song needs, from which direction and in which place.</p>
+<p>Arranging the eight looks of LOVE ATTACK (Section 9.5) by role gives Table 22-2.</p>
+<div class="tbl"><div class="tcap"><b>Table 22-2</b> The roles and fixtures needed by the looks of LOVE ATTACK</div><table>
+<thead>
+<tr class="header">
+<th>Look (section)</th>
+<th>Main</th>
+<th>Light needed</th>
+<th>Fixtures to take it on (Table 6-4, Chapter 6)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pearl Heart, Pearl Heart · Night (intro, end)</td>
+<td>Pixel</td>
+<td>Cell-by-cell color facing the audience from behind the stage</td>
+<td>LED bars 24, stairs</td>
+</tr>
+<tr class="even">
+<td>Garden Sunlight (verse)</td>
+<td>Key</td>
+<td>Light on the face from front-above in two directions, left and right</td>
+<td>LED profiles 8, follow spots 2</td>
+</tr>
+<tr class="odd">
+<td>Balloon Sky (pre-chorus)</td>
+<td>Side</td>
+<td>The outline of the body from both sides of the stage</td>
+<td>Side tower moving washes 8</td>
+</tr>
+<tr class="even">
+<td>Rooftop Fan, Rooftop Fan · Night (Choruses 1–3)</td>
+<td>Beam</td>
+<td>Streaks of light fanning into the air from behind the stage, a narrow fan and a wide fan</td>
+<td>Rear floor moving beams 8 (fan), front truss moving spots 8 (solo rotation)</td>
+</tr>
+<tr class="odd">
+<td>Lilac Backlight (bridge)</td>
+<td>Back</td>
+<td>Head and shoulders from behind and above</td>
+<td>Back truss moving washes 6</td>
+</tr>
+<tr class="even">
+<td>Cross Beams (beat section)</td>
+<td>Beam</td>
+<td>Streaks of light crossing from left and right</td>
+<td>Moving beams 16, front truss moving spots 8</td>
+</tr>
+<tr class="odd">
+<td>The base of every look</td>
+<td>Wash, fill</td>
+<td>The color of the stage floor, filling shadows on faces</td>
+<td>Middle truss moving washes 6, LED Fresnels 6</td>
+</tr>
+</tbody>
+</table></div>
+<p>Read the table backwards and you can see why the practice rig of Chapter 6 was put together the way it was. There are two sections where beams are the main — the chorus and the beat section — and the fan has to be drawn in two kinds, narrow and wide. That is why there are the most moving beams. There is a section where the side is the main, so there is a side tower, and the main of the verse is the key, so there is separate equipment to take the key.</p>
+<p>Conversely, there are roles that do not appear in this song’s look sheet. LOVE ATTACK uses neither strobes nor audience lights (Table 13-3, Chapter 13). Even so, the practice rig has 8 strobes and 4 blinders because this stage is used not for one song but for several.</p>
+<p>When there are several songs, lay the look sheets on top of one another. A role that appears repeatedly across many songs of the set list (Chapter 18) is treated as <strong>base equipment</strong>, and a role that appears in only one or two songs as <strong>equipment added for that song</strong>. If equipment for one song is expensive or heavy, first see whether the same picture can be made with the base equipment. Handling a different song every week by cues on a music show (Section 17.2) is the same idea. You cannot change equipment for each song, so the base equipment takes the roles common to many songs.</p>
+<p>More equipment does not mean a better design. The equipment of a role that does not appear in the look sheet is equipment that rests in that song.</p>
+<h2 id="c22-22-3-choosing-fixtures">22.3 Choosing Fixtures</h2><p class="lead">Once you have gathered the roles, now choose what type of fixture to use for each role. Before that, decide which roles to have on this stage at all.</p>
+<p>Which roles are needed differs from venue to venue. On a music show the key cannot be left out, but a light show with no people on stage has no key (Chapter 20). So instead of a fixed list, answer the questions of Table 22-3 for each role, and check them against the roles you gathered in Table 22-2.</p>
+<div class="tbl"><div class="tcap"><b>Table 22-3</b> What to check when deciding whether to have a role <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Role</th>
+<th>What to check</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Key, fill</td>
+<td>Whether people whose faces and bodies must be seen will stand on stage. If there are cameras, whether you can keep the brightness and color of the face even through the whole song (Section 17.4)</td>
+</tr>
+<tr class="even">
+<td>Back</td>
+<td>Whether people or the set must be separated from the background</td>
+</tr>
+<tr class="odd">
+<td>Wash</td>
+<td>Whether color must be laid over the stage floor and people, or whether the LED wall or the set’s lighting does that job</td>
+</tr>
+<tr class="even">
+<td>Side</td>
+<td>Whether there is a lot of dance or movement so that the outline of the body must be brought out from the side</td>
+</tr>
+<tr class="odd">
+<td>Top</td>
+<td>Whether the look sheet has a scene that needs light falling from directly above</td>
+</tr>
+<tr class="even">
+<td>Beam</td>
+<td>Whether the look sheet has a section where beams are the main, and whether haze can be used (Section 6.3)</td>
+</tr>
+<tr class="odd">
+<td>Pixel</td>
+<td>Whether cell-by-cell color or patterns are needed, and whether the role overlaps with the LED wall</td>
+</tr>
+<tr class="even">
+<td>FX, audience</td>
+<td>Whether there are scenes to emphasize, and whether they can be used within the broadcast flash standard and the venue’s standard (Section 17.5, Chapter 32)</td>
+</tr>
+</tbody>
+</table></div>
+<p>The type of fixture that suits each role is in Table 6-2 of Chapter 6. When choosing a model within the same type, look at the beam angle and zoom range (whether the diameter you want comes out at the hanging distance, Section 22.4), brightness, the color system (whether it can make the pastels and deep red of the Chapter 8 palette), and, for a key, color rendering and color temperature (Section 17.4). Channel count, weight and power are used in the universes and the load and power calculations (Sections 22.6–22.7), so copy them from the spec sheet at the same time.</p>
+<p>If the role is the same, the model can be swapped. If the rental company doesn’t have the same model, change to one with a similar beam angle, brightness and color system, and fix only that line of the plot and patch sheet. Conversely, even with the same model, a different role means different equipment. The same moving wash becomes a back on the back truss and a side on the side tower.</p>
+<p>More equipment does not mean it suits every stage. A stage with no people, like the light show of Chapter 20, has no key, fill or side even when it has more than twice the fixtures of the practice rig; most of it is beams and pixels. If you played a stage with people on that rig, before adding equipment you would have to decide where the key comes from.<sup class="ref"><a href="#c22-s1">1</a></sup></p>
+<h2 id="c22-22-4-position-angle-quantity">22.4 Position, Angle, Quantity</h2><p class="lead">Once you have chosen the type of fixture, decide where, at what angle and how many to hang. You decide the position by looking at the role, and the quantity by looking at the size of the circle one fixture lights.</p>
+<p><strong>Position is decided by the role.</strong> That is because which direction the light comes from is exactly the fixture’s role.</p>
+<ul class="keyed">
+<li><strong>Key</strong>From about 45 degrees front-above. Divide the stage into zones and light each zone from two directions, left and right, crossing over (Chapter 6).<sup class="ref"><a href="#c22-s3">3</a></sup></li>
+<li><strong>Fill</strong>Lower and weaker than the key, from close to the front.</li>
+<li><strong>Back</strong>From behind and above. It comes down steeper than the key in front.</li>
+<li><strong>Side</strong>From both sides of the stage, close to horizontal. The low layer lights the outline of the body at the height from knee to shoulder, and the high layer lights obliquely from above (<span class="badge start">Starting value</span>).</li>
+<li><strong>Top</strong>Directly overhead.</li>
+<li><strong>Beam, pixel</strong>Places seen from the audience. Usually behind the stage, to the sides, and on the floor.</li>
+</ul>
+<p><strong>Quantity is calculated from the beam diameter.</strong> The diameter of the circle one fixture lights is set by the beam angle and the distance. The beam angle is the value written on the fixture’s spec sheet: the angle between the two directions where the brightness falls to 50% of the center.<sup class="ref"><a href="#c22-s4">4</a></sup> The spec sheet also lists the field angle, out to the point where it falls to 10%, but this book uses the beam angle for the calculation of even coverage (<span class="badge start">Starting value</span>).</p>
+<div class="formula"><span class="f-label">Formula</span>
+<p><strong>Beam diameter</strong> = 2 × distance × tan(beam angle ÷ 2)</p>
+<p>If the distance from the fixture to the lit surface is 10 m and the beam angle is 20°, the diameter is 2 × 10 × tan 10° ≈ 3.5 m.</p>
+</div>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 416" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<polygon fill="#3b6ea8" opacity="0.25" points="140.0,130.0 360.0,91.2 360.0,168.8" stroke="none"></polygon>
+<line opacity="1.0" stroke="#3b6ea8" stroke-linecap="butt" stroke-width="1.6" x1="140.0" x2="360.0" y1="130.0" y2="91.2"></line>
+<line opacity="1.0" stroke="#3b6ea8" stroke-linecap="butt" stroke-width="1.6" x1="140.0" x2="360.0" y1="130.0" y2="168.8"></line>
+<line opacity="1.0" stroke="#3b6ea8" stroke-linecap="butt" stroke-width="3" x1="360.0" x2="360.0" y1="91.2" y2="168.8"></line>
+<text fill="#3b6ea8" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="368.0" y="134.0">3.53m</text>
+<rect fill="#1f2430" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="14.0" x="126.0" y="123.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="120.0" y="134.0">20° · 10m</text>
+<polygon fill="#4f8a5b" opacity="0.25" points="140.0,340.0 360.0,259.9 360.0,420.1" stroke="none"></polygon>
+<line opacity="1.0" stroke="#4f8a5b" stroke-linecap="butt" stroke-width="1.6" x1="140.0" x2="360.0" y1="340.0" y2="259.9"></line>
+<line opacity="1.0" stroke="#4f8a5b" stroke-linecap="butt" stroke-width="1.6" x1="140.0" x2="360.0" y1="340.0" y2="420.1"></line>
+<line opacity="1.0" stroke="#4f8a5b" stroke-linecap="butt" stroke-width="3" x1="360.0" x2="360.0" y1="259.9" y2="420.1"></line>
+<text fill="#4f8a5b" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="368.0" y="344.0">7.28m</text>
+<rect fill="#1f2430" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="14.0" x="126.0" y="333.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="120.0" y="344.0">40° · 10m</text>
+<polygon fill="#d9902a" opacity="0.25" points="140.0,210.0 470.0,198.5 470.0,221.5" stroke="none"></polygon>
+<line opacity="1.0" stroke="#d9902a" stroke-linecap="butt" stroke-width="1.6" x1="140.0" x2="470.0" y1="210.0" y2="198.5"></line>
+<line opacity="1.0" stroke="#d9902a" stroke-linecap="butt" stroke-width="1.6" x1="140.0" x2="470.0" y1="210.0" y2="221.5"></line>
+<line opacity="1.0" stroke="#d9902a" stroke-linecap="butt" stroke-width="3" x1="470.0" x2="470.0" y1="198.5" y2="221.5"></line>
+<text fill="#d9902a" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="478.0" y="214.0">1.05m</text>
+<rect fill="#1f2430" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="14.0" x="126.0" y="203.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="120.0" y="214.0">4° · 15m</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="140.0" y="458.0">0m</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="140.0" x2="140.0" y1="440.0" y2="446.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="250.0" y="458.0">5m</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="250.0" x2="250.0" y1="440.0" y2="446.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="360.0" y="458.0">10m</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="360.0" x2="360.0" y1="440.0" y2="446.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="470.0" y="458.0">15m</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="470.0" x2="470.0" y1="440.0" y2="446.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="140.0" x2="470.0" y1="443.0" y2="443.0"></line>
+<rect fill="#eef0f3" height="310.0" opacity="1.0" rx="10" stroke="none" stroke-width="1" width="400.0" x="540.0" y="84.0"></rect>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="556.0" y="110.0">Two overlap standards · diameter 5.1 m</text>
+<text fill="#3b6ea8" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="556.0" y="130.0">Edges just touching</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="556.0" y="146.0">Spacing 5.1 m · fewer fixtures</text>
+<ellipse cx="628.1" cy="184" fill="#3b6ea8" fill-opacity="0.16" rx="56.1" ry="20" stroke="#3b6ea8" stroke-width="1.4"></ellipse>
+<circle cx="628.1" cy="184.0" fill="#3b6ea8" opacity="1.0" r="2.6" stroke="none" stroke-width="1"></circle>
+<ellipse cx="740.3" cy="184" fill="#3b6ea8" fill-opacity="0.16" rx="56.1" ry="20" stroke="#3b6ea8" stroke-width="1.4"></ellipse>
+<circle cx="740.3" cy="184.0" fill="#3b6ea8" opacity="1.0" r="2.6" stroke="none" stroke-width="1"></circle>
+<ellipse cx="852.5" cy="184" fill="#3b6ea8" fill-opacity="0.16" rx="56.1" ry="20" stroke="#3b6ea8" stroke-width="1.4"></ellipse>
+<circle cx="852.5" cy="184.0" fill="#3b6ea8" opacity="1.0" r="2.6" stroke="none" stroke-width="1"></circle>
+<line opacity="1.0" stroke="#3b6ea8" stroke-linecap="butt" stroke-width="1.2" x1="628.1" x2="740.3" y1="214.0" y2="214.0"></line>
+<line opacity="1.0" stroke="#3b6ea8" stroke-linecap="butt" stroke-width="1" x1="628.1" x2="628.1" y1="210.0" y2="218.0"></line>
+<line opacity="1.0" stroke="#3b6ea8" stroke-linecap="butt" stroke-width="1" x1="740.3" x2="740.3" y1="210.0" y2="218.0"></line>
+<text fill="#3b6ea8" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="684.2" y="228.0">Spacing</text>
+<text fill="#3b6ea8" font-size="12" font-weight="700" opacity="1.0" text-anchor="end" x="924.0" y="130.0">3 in 12 m</text>
+<text fill="#4f8a5b" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="556.0" y="260.0">Edge at neighbor’s center (50%)</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="556.0" y="276.0">Spacing 2.5 m · fewer seams · book’s start</text>
+<ellipse cx="628.1" cy="314" fill="#4f8a5b" fill-opacity="0.16" rx="56.1" ry="20" stroke="#4f8a5b" stroke-width="1.4"></ellipse>
+<circle cx="628.1" cy="314.0" fill="#4f8a5b" opacity="1.0" r="2.6" stroke="none" stroke-width="1"></circle>
+<ellipse cx="684.2" cy="314" fill="#4f8a5b" fill-opacity="0.16" rx="56.1" ry="20" stroke="#4f8a5b" stroke-width="1.4"></ellipse>
+<circle cx="684.2" cy="314.0" fill="#4f8a5b" opacity="1.0" r="2.6" stroke="none" stroke-width="1"></circle>
+<ellipse cx="740.3" cy="314" fill="#4f8a5b" fill-opacity="0.16" rx="56.1" ry="20" stroke="#4f8a5b" stroke-width="1.4"></ellipse>
+<circle cx="740.3" cy="314.0" fill="#4f8a5b" opacity="1.0" r="2.6" stroke="none" stroke-width="1"></circle>
+<ellipse cx="796.4" cy="314" fill="#4f8a5b" fill-opacity="0.16" rx="56.1" ry="20" stroke="#4f8a5b" stroke-width="1.4"></ellipse>
+<circle cx="796.4" cy="314.0" fill="#4f8a5b" opacity="1.0" r="2.6" stroke="none" stroke-width="1"></circle>
+<line opacity="1.0" stroke="#4f8a5b" stroke-linecap="butt" stroke-width="1.2" x1="628.1" x2="684.2" y1="344.0" y2="344.0"></line>
+<line opacity="1.0" stroke="#4f8a5b" stroke-linecap="butt" stroke-width="1" x1="628.1" x2="628.1" y1="340.0" y2="348.0"></line>
+<line opacity="1.0" stroke="#4f8a5b" stroke-linecap="butt" stroke-width="1" x1="684.2" x2="684.2" y1="340.0" y2="348.0"></line>
+<text fill="#4f8a5b" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="656.2" y="358.0">Spacing</text>
+<text fill="#4f8a5b" font-size="12" font-weight="700" opacity="1.0" text-anchor="end" x="924.0" y="260.0">4 in 12 m</text>
+</svg>
+<figcaption><b>Figure 22-2</b> Beam angle and beam diameter. Even with the same fixture, when the distance doubles the diameter doubles. A moving beam with a narrow beam angle stays a thin line even from far away, and a wide wash spreads widely even up close. On the right are two standards for overlapping washes: if you space beams of the same diameter apart by the diameter, the edges just touch, and if you space them by half the diameter, one beam’s edge lands at the center of the neighboring beam.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>Table 22-4</b> Beam diameter by beam angle and distance <span class="badge calc">Calculation</span></div><table>
+<thead>
+<tr class="header">
+<th>Beam angle</th>
+<th>Distance 5 m</th>
+<th>Distance 10 m</th>
+<th>Distance 15 m</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>4°</td>
+<td>0.35m</td>
+<td>0.70m</td>
+<td>1.05m</td>
+<td>Beam (lines in the air)</td>
+</tr>
+<tr class="even">
+<td>10°</td>
+<td>0.87m</td>
+<td>1.75m</td>
+<td>2.62m</td>
+<td>Narrow spot</td>
+</tr>
+<tr class="odd">
+<td>20°</td>
+<td>1.76m</td>
+<td>3.53m</td>
+<td>5.29m</td>
+<td>Key, spot</td>
+</tr>
+<tr class="even">
+<td>40°</td>
+<td>3.64m</td>
+<td>7.28m</td>
+<td>10.92m</td>
+<td>Wash</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Quantity and beam angle of the key</strong>: the audience truss of the practice stage (Section 22.5) is 4 m out from the front edge of the stage toward the seats, at a height of 8.5 m. Calculating the key profiles hung there in turn gives Table 22-5.</p>
+<div class="tbl"><div class="tcap"><b>Table 22-5</b> Key calculation for the practice stage <span class="badge calc">Calculation</span></div><table>
+<thead>
+<tr class="header">
+<th>What to decide</th>
+<th>Practice stage</th>
+<th>Basis and other standards</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Zones</td>
+<td>Stage width 12 m in four 3 m zones</td>
+<td>Common zone width is about 2.4–3 m, overlapping the neighboring zone a little<sup class="ref"><a href="#c22-s5">5</a></sup></td>
+</tr>
+<tr class="even">
+<td>Quantity</td>
+<td>4 zones × 2 on left and right = 8</td>
+<td>Two directions from the front for each zone (Chapter 6)</td>
+</tr>
+<tr class="odd">
+<td>Measuring height</td>
+<td>Face height 1.6 m (2 m inside from the front edge of the stage)</td>
+<td>If you set it from the floor, a gap opens at head height<sup class="ref"><a href="#c22-s7">7</a></sup></td>
+</tr>
+<tr class="even">
+<td>Distance</td>
+<td>About 9.3–9.6 m</td>
+<td>The profile sits 1.5–3 m sideways from the center of the zone</td>
+</tr>
+<tr class="odd">
+<td>Vertical angle</td>
+<td>About 46–48 degrees</td>
+<td>The standard is about 45 degrees upward<sup class="ref"><a href="#c22-s8">8</a></sup></td>
+</tr>
+<tr class="even">
+<td>Horizontal angle between the two</td>
+<td>About 30–50 degrees</td>
+<td>The standard is about 90 degrees<sup class="ref"><a href="#c22-s8">8</a></sup>. If you can hang the truss wider than the stage, open the outer ones further</td>
+</tr>
+<tr class="odd">
+<td>Beam angle</td>
+<td>2 × atan(2 ÷ 9.6) ≈ 24°</td>
+<td>Diameter 4 m (zone 3 m plus a share for overlapping the neighbors)</td>
+</tr>
+</tbody>
+</table></div>
+<p>A model with a beam angle narrower than this leaves dark gaps between zones, and a wider one spills light off the stage.</p>
+<p><strong>Quantity of washes</strong>: if you bring the middle truss’s (height 7 m) washes down to the floor at zoom 40°, the diameter is 2 × 7 × tan 20° ≈ 5.1 m. How much to overlap neighboring circles has two standards (the right of Figure 22-2).</p>
+<div class="tbl"><div class="tcap"><b>Table 22-6</b> Two standards for overlapping washes (stage width 12 m, diameter 5.1 m) <span class="badge calc">Calculation</span></div><table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Edges just touching</th>
+<th>Edge at the center of the neighboring beam</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>How to place</td>
+<td>One beam’s edge (50% brightness) meets the neighboring beam’s edge<sup class="ref"><a href="#c22-s6">6</a></sup></td>
+<td>One beam’s edge lands at the center of the neighboring beam<sup class="ref"><a href="#c22-s7">7</a></sup></td>
+</tr>
+<tr class="even">
+<td>Spacing</td>
+<td>Equal to the diameter (5.1 m)</td>
+<td>Half the diameter (2.5 m, 50% overlap)</td>
+</tr>
+<tr class="odd">
+<td>Quantity on the practice stage</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>Good point</td>
+<td>Fewer fixtures</td>
+<td>Seams are less visible, and if one goes out fewer holes appear</td>
+</tr>
+</tbody>
+</table></div>
+<div class="formula"><span class="f-label">Formula</span>
+<p><strong>Quantity</strong> = (stage width − diameter) ÷ spacing, rounded up, + 1</p>
+<p>The fixtures at both ends sit inside by one radius from the edge of the stage. With the standard on the right, (12 − 5.1) ÷ 2.5 ≈ 2.8 rounds up to 3, plus 1 makes 4.</p>
+</div>
+<p>This book uses the right-hand standard as the starting value. The practice rig puts 6 at 2 m spacing to light more evenly and so that an odd/even effect can be drawn. A model with soft beam edges can overlap less, so on site you hang one first and then decide the spacing.<sup class="ref"><a href="#c22-s7">7</a></sup></p>
+<p><strong>Quantity of beams</strong>: beams do not cover the floor evenly but draw shapes in the air, so instead of the calculation above you decide by looking at the shape you will draw (the Chapter 9 position presets).</p>
+<ul class="keyed">
+<li><span class="badge start">Starting value</span>5–8 fixtures for one fan, and with three groups at both sides and the middle, 15–24. These are numbers from the author’s own work, and I did not find a common standard.<code>[Author to confirm]</code></li>
+<li><strong>The practice rig</strong>Of the 16 moving beams, the 8 on the rear floor draw one fan, and 4 each on the two rear towers take the cross and the bottom → top effects.</li>
+</ul>
+<p><strong>Mounting method</strong>: there are three ways to hang a fixture. The direction the fixture sits in differs by mounting method, and so does the reference by which the console reads pan and tilt. So write it on the plot and the patch sheet together. How to set the direction on the console is covered in Section 24.2.</p>
+<div class="tbl"><div class="tcap"><b>Table 22-7</b> Three mounting methods <sup class="ref"><a href="#c22-s1">1</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>Mounting method</th>
+<th>Which fixtures</th>
+<th>Character</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hang</td>
+<td>Movers and profiles on the overhead truss</td>
+<td>Hung facing down. Draws downlight, fan and cross from above</td>
+</tr>
+<tr class="even">
+<td>Floor</td>
+<td>Movers shooting up from the floor</td>
+<td>Set facing up. Draws sky beams and cross from below</td>
+</tr>
+<tr class="odd">
+<td>Face</td>
+<td>Movers on towers, pixel bars on the stairs, blinders</td>
+<td>Attached to a tower, a wall or a floor stand so that it looks at the audience or the middle of the stage</td>
+</tr>
+</tbody>
+</table></div>
+<p>On a stage with people you need back, wash and key lighting from above, so there is a lot of hanging. In a light show with no people, face mounting grows, to show beams and pixels toward the audience.</p>
+<h2 id="c22-22-5-the-lighting-plot">22.5 The Lighting Plot</h2><p class="lead">The lighting plot is a drawing that shows where each fixture hangs and which way it points. Several people look at one drawing, each for a different purpose.</p>
+<p>The rigging crew uses it to check the trusses and the load, the systems crew to check DMX lines and cables, and the programmer to check the fixtures’ coordinates.</p>
+<p>The plot needs four things.</p>
+<ol type="1">
+<li><strong>Plan</strong>: the view from above. The front-back and left-right places of trusses and fixtures.</li>
+<li><strong>Elevation</strong>: the view from the audience. The heights of fixtures and the levels of the towers.</li>
+<li><strong>Legend</strong>: the symbol is the type of fixture and the color is the role. Next to each symbol, the fixture number (ID).</li>
+<li><strong>Position table</strong>: the names and heights of the trusses and towers and the fixtures hung on them.</li>
+</ol>
+<p>There are four rules for drawing.</p>
+<ul class="keyed">
+<li><strong>Set the origin and axes the same as the console.</strong> X 0 is the center of the stage and +X is stage left (the right as seen from the audience), Y 0 is the front edge of the stage and +Y is upstage, and Z 0 is the stage floor (Section 24.2). The numbers on the plot become the console’s coordinates as they are.</li>
+<li><strong>Every fixture hangs somewhere.</strong> It is one of a truss, a tower, the floor or the set. If there is a fixture floating in the air, the plot is wrong.</li>
+<li><strong>Give each position a name.</strong> A name such as “audience truss” or “back tower SR” becomes the position column of the patch sheet and the name of a sub-group on the console.</li>
+<li><strong>Within the same position, number from stage right (the left as seen from the audience).</strong> It is the same as the numbering rule of Chapter 24. In a position name, SR is stage right and SL is stage left.</li>
+</ul>
+<p>The imaginary stage on which to hang the practice rig of Chapter 6 is 12 m wide and 8 m deep. The positions are as in Table 22-8. The last column gives the reason for putting equipment in that place. If you follow each position back to which look of Section 22.2 it is for, you can see that the plot came from the song.</p>
+<div class="tbl"><div class="tcap"><b>Table 22-8</b> Positions on the practice stage (an imaginary mid-size stage) <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Position</th>
+<th>Y(m)</th>
+<th>Z(m)</th>
+<th>X(m)</th>
+<th>Fixtures hung</th>
+<th>Reason for this place (the look in Table 22-2)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Audience truss</td>
+<td>−4</td>
+<td>8.5</td>
+<td>−6 ~ 6</td>
+<td>LED profiles 8 (key)</td>
+<td>Cross over the face from front-above at about 46 degrees, left and right (Garden Sunlight)</td>
+</tr>
+<tr class="even">
+<td>Audience bar (low)</td>
+<td>−3</td>
+<td>4.5</td>
+<td>−5 ~ 5</td>
+<td>LED Fresnels 6 (fill)</td>
+<td>Lower and weaker than the key, filling the shadows on faces (every look)</td>
+</tr>
+<tr class="odd">
+<td>Front truss</td>
+<td>1.5</td>
+<td>7.5</td>
+<td>−5.25 ~ 5.25</td>
+<td>Moving spots 8 (beam, key assist)</td>
+<td>Beams crossing patterns from front-above on stage (Cross Beams)</td>
+</tr>
+<tr class="even">
+<td>Middle truss</td>
+<td>4</td>
+<td>7</td>
+<td>−5 ~ 5</td>
+<td>Moving washes 6 (wash)</td>
+<td>Lays color on the floor from directly above center stage (the base of every look)</td>
+</tr>
+<tr class="odd">
+<td>Back truss</td>
+<td>7</td>
+<td>8</td>
+<td>−5.25 ~ 5.25</td>
+<td>Moving washes 6 (back), strobes 8 (FX)</td>
+<td>Lights heads and shoulders from behind and above (Lilac Backlight). The strobes are not used in this song</td>
+</tr>
+<tr class="even">
+<td>Side tower SR · SL</td>
+<td>3</td>
+<td>0.5 ~ 4.1</td>
+<td>−7, 7</td>
+<td>Moving washes, 4 each (side)</td>
+<td>The outline of the body from both sides of the stage (Balloon Sky)</td>
+</tr>
+<tr class="odd">
+<td>Stairs, levels 1 · 2 · 3</td>
+<td>5.5, 6, 6.5</td>
+<td>0.4, 0.8, 1.2</td>
+<td>−3.5 ~ 3.5</td>
+<td>LED bars, 8 each (pixel)</td>
+<td>Faces the audience from behind the performers and shows cell-by-cell color (Pearl Heart)</td>
+</tr>
+<tr class="even">
+<td>Back floor</td>
+<td>7.5</td>
+<td>0</td>
+<td>−5.25 ~ 5.25</td>
+<td>Moving beams 8 (beam)</td>
+<td>Spreads a fan into the air from the floor at the back of the stage (Rooftop Fan)</td>
+</tr>
+<tr class="odd">
+<td>Back tower SR · SL</td>
+<td>7.8</td>
+<td>1 ~ 4</td>
+<td>−4.5, 4.5</td>
+<td>Moving beams, 4 each (beam)</td>
+<td>Crossing beams from high at both sides and the bottom → top effect (Cross Beams)</td>
+</tr>
+<tr class="even">
+<td>Front floor</td>
+<td>0.3</td>
+<td>0</td>
+<td>−4.5 ~ 4.5</td>
+<td>Blinders 4 (audience)</td>
+<td>Lights the audience. Not used in this song</td>
+</tr>
+<tr class="odd">
+<td>Follow spot position</td>
+<td>−20</td>
+<td>6</td>
+<td>−3, 3</td>
+<td>Follow spots 2 (off the console)</td>
+<td>Follows the lead’s face (Garden Sunlight)</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 656" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#eef0f3" height="320.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1.2" width="480.0" x="130.0" y="112.0"></rect>
+<rect fill="#e2e5ea" height="20.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="320.0" x="210.0" y="202.0"></rect>
+<rect fill="#e2e5ea" height="20.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="320.0" x="210.0" y="182.0"></rect>
+<rect fill="#e2e5ea" height="20.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="320.0" x="210.0" y="162.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="536.0" y="196.0">Stairs</text>
+<rect fill="#ffffff" height="6.0" opacity="1.0" rx="0" stroke="#9aa3b2" stroke-width="1.2" width="512.0" x="114.0" y="589.0"></rect>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="26.0" y="596.0">Aud. truss · Z 8.5</text>
+<rect fill="#ffffff" height="6.0" opacity="1.0" rx="0" stroke="#9aa3b2" stroke-width="1.2" width="432.0" x="154.0" y="549.0"></rect>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="26.0" y="556.0">Audience bar · Z 4.5</text>
+<rect fill="#ffffff" height="6.0" opacity="1.0" rx="0" stroke="#9aa3b2" stroke-width="1.2" width="480.0" x="130.0" y="369.0"></rect>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="26.0" y="376.0">Front truss · Z 7.5</text>
+<rect fill="#ffffff" height="6.0" opacity="1.0" rx="0" stroke="#9aa3b2" stroke-width="1.2" width="480.0" x="130.0" y="269.0"></rect>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="26.0" y="276.0">Middle truss · Z 7</text>
+<rect fill="#ffffff" height="6.0" opacity="1.0" rx="0" stroke="#9aa3b2" stroke-width="1.2" width="512.0" x="114.0" y="149.0"></rect>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="26.0" y="156.0">Back truss · Z 8</text>
+<rect fill="#ffffff" height="18.0" opacity="1.0" rx="0" stroke="#9aa3b2" stroke-width="1.2" width="18.0" x="81.0" y="303.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="90.0" y="336.0">Side tower SR</text>
+<rect fill="#ffffff" height="18.0" opacity="1.0" rx="0" stroke="#9aa3b2" stroke-width="1.2" width="18.0" x="641.0" y="303.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="650.0" y="336.0">Side tower SL</text>
+<rect fill="#ffffff" height="18.0" opacity="1.0" rx="0" stroke="#9aa3b2" stroke-width="1.2" width="18.0" x="181.0" y="111.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="190.0" y="106.0">Back tower SR</text>
+<rect fill="#ffffff" height="18.0" opacity="1.0" rx="0" stroke="#9aa3b2" stroke-width="1.2" width="18.0" x="541.0" y="111.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="550.0" y="106.0">Back tower SL</text>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="125.0" y="585.0"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="193.6" y="585.0"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="262.1" y="585.0"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="330.7" y="585.0"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="399.3" y="585.0"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="467.9" y="585.0"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="536.4" y="585.0"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="605.0" y="585.0"></rect>
+<rect fill="#7aa384" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="165.0" y="545.0"></rect>
+<rect fill="#7aa384" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="245.0" y="545.0"></rect>
+<rect fill="#7aa384" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="325.0" y="545.0"></rect>
+<rect fill="#7aa384" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="405.0" y="545.0"></rect>
+<rect fill="#7aa384" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="485.0" y="545.0"></rect>
+<rect fill="#7aa384" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="565.0" y="545.0"></rect>
+<circle cx="160.0" cy="372.0" fill="#c9862a" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="160.0" cy="372.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="220.0" cy="372.0" fill="#c9862a" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="220.0" cy="372.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="280.0" cy="372.0" fill="#c9862a" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="280.0" cy="372.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="340.0" cy="372.0" fill="#c9862a" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="340.0" cy="372.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="400.0" cy="372.0" fill="#c9862a" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="400.0" cy="372.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="460.0" cy="372.0" fill="#c9862a" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="460.0" cy="372.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="520.0" cy="372.0" fill="#c9862a" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="520.0" cy="372.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="580.0" cy="372.0" fill="#c9862a" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="580.0" cy="372.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="170.0" cy="272.0" fill="#3b6ea8" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="250.0" cy="272.0" fill="#3b6ea8" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="330.0" cy="272.0" fill="#3b6ea8" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="410.0" cy="272.0" fill="#3b6ea8" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="490.0" cy="272.0" fill="#3b6ea8" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="570.0" cy="272.0" fill="#3b6ea8" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="170.0" cy="157.0" fill="#4f7f8f" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="250.0" cy="157.0" fill="#4f7f8f" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="330.0" cy="157.0" fill="#4f7f8f" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="410.0" cy="157.0" fill="#4f7f8f" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="490.0" cy="157.0" fill="#4f7f8f" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="570.0" cy="157.0" fill="#4f7f8f" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="154.0" y="140.0"></rect>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="214.0" y="140.0"></rect>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="274.0" y="140.0"></rect>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="334.0" y="140.0"></rect>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="394.0" y="140.0"></rect>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="454.0" y="140.0"></rect>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="514.0" y="140.0"></rect>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="574.0" y="140.0"></rect>
+<rect fill="#a8693b" height="11.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="11.0" x="184.5" y="414.5"></rect>
+<line opacity="1.0" stroke="#ffffff" stroke-linecap="butt" stroke-width="1.2" x1="184.5" x2="195.5" y1="420.0" y2="420.0"></line>
+<rect fill="#a8693b" height="11.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="11.0" x="304.5" y="414.5"></rect>
+<line opacity="1.0" stroke="#ffffff" stroke-linecap="butt" stroke-width="1.2" x1="304.5" x2="315.5" y1="420.0" y2="420.0"></line>
+<rect fill="#a8693b" height="11.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="11.0" x="424.5" y="414.5"></rect>
+<line opacity="1.0" stroke="#ffffff" stroke-linecap="butt" stroke-width="1.2" x1="424.5" x2="435.5" y1="420.0" y2="420.0"></line>
+<rect fill="#a8693b" height="11.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="11.0" x="544.5" y="414.5"></rect>
+<line opacity="1.0" stroke="#ffffff" stroke-linecap="butt" stroke-width="1.2" x1="544.5" x2="555.5" y1="420.0" y2="420.0"></line>
+<circle cx="160.0" cy="132.0" fill="#ffffff" opacity="1.0" r="4.5" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="220.0" cy="132.0" fill="#ffffff" opacity="1.0" r="4.5" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="280.0" cy="132.0" fill="#ffffff" opacity="1.0" r="4.5" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="340.0" cy="132.0" fill="#ffffff" opacity="1.0" r="4.5" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="400.0" cy="132.0" fill="#ffffff" opacity="1.0" r="4.5" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="460.0" cy="132.0" fill="#ffffff" opacity="1.0" r="4.5" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="520.0" cy="132.0" fill="#ffffff" opacity="1.0" r="4.5" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="580.0" cy="132.0" fill="#ffffff" opacity="1.0" r="4.5" stroke="#c9862a" stroke-width="2.4"></circle>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="217.0" y="209.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="257.0" y="209.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="297.0" y="209.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="337.0" y="209.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="377.0" y="209.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="417.0" y="209.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="457.0" y="209.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="497.0" y="209.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="217.0" y="189.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="257.0" y="189.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="297.0" y="189.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="337.0" y="189.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="377.0" y="189.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="417.0" y="189.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="457.0" y="189.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="497.0" y="189.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="217.0" y="169.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="257.0" y="169.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="297.0" y="169.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="337.0" y="169.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="377.0" y="169.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="417.0" y="169.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="457.0" y="169.0"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="497.0" y="169.0"></rect>
+<circle cx="85.5" cy="307.5" fill="#3f8f6f" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="94.5" cy="307.5" fill="#3f8f6f" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="85.5" cy="316.5" fill="#3f8f6f" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="94.5" cy="316.5" fill="#3f8f6f" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="645.5" cy="307.5" fill="#3f8f6f" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="654.5" cy="307.5" fill="#3f8f6f" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="645.5" cy="316.5" fill="#3f8f6f" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="654.5" cy="316.5" fill="#3f8f6f" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="185.5" cy="115.5" fill="#ffffff" opacity="1.0" r="2.7" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="194.5" cy="115.5" fill="#ffffff" opacity="1.0" r="2.7" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="185.5" cy="124.5" fill="#ffffff" opacity="1.0" r="2.7" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="194.5" cy="124.5" fill="#ffffff" opacity="1.0" r="2.7" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="545.5" cy="115.5" fill="#ffffff" opacity="1.0" r="2.7" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="554.5" cy="115.5" fill="#ffffff" opacity="1.0" r="2.7" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="545.5" cy="124.5" fill="#ffffff" opacity="1.0" r="2.7" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="554.5" cy="124.5" fill="#ffffff" opacity="1.0" r="2.7" stroke="#c9862a" stroke-width="2.4"></circle>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="end" x="117.0" y="608.0">101</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="start" x="623.0" y="608.0">108</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="end" x="157.0" y="568.0">121</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="start" x="583.0" y="568.0">126</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="end" x="147.0" y="388.0">301</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="start" x="593.0" y="388.0">308</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="end" x="157.0" y="288.0">201</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="start" x="583.0" y="288.0">206</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="end" x="157.0" y="168.0">207</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="start" x="583.0" y="168.0">212</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="end" x="147.0" y="148.0">401</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="start" x="593.0" y="148.0">408</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="end" x="177.0" y="436.0">701</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="start" x="563.0" y="436.0">704</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="middle" x="90.0" y="350.0">221–224</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="middle" x="650.0" y="350.0">225–228</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="middle" x="190.0" y="146.0">409–412</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="middle" x="550.0" y="146.0">413–416</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="end" x="214.0" y="216.0">501</text>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="start" x="526.0" y="176.0">524</text>
+<circle cx="370.0" cy="432.0" fill="#c8553d" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<text fill="#c8553d" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="370.0" y="449.0">Origin (0, 0, 0)</text>
+<line opacity="1.0" stroke="#c8553d" stroke-linecap="butt" stroke-width="1.4" x1="40.0" x2="86.0" y1="505.0" y2="505.0"></line>
+<polygon fill="#c8553d" opacity="1.0" points="86.0,505.0 80.6,507.6 80.6,502.4" stroke="none"></polygon>
+<text fill="#c8553d" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="90.0" y="509.0">+X stage left (SL)</text>
+<line opacity="1.0" stroke="#c8553d" stroke-linecap="butt" stroke-width="1.4" x1="40.0" x2="40.0" y1="505.0" y2="465.0"></line>
+<polygon fill="#c8553d" opacity="1.0" points="40.0,465.0 42.6,470.4 37.4,470.4" stroke="none"></polygon>
+<text fill="#c8553d" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="46.0" y="471.0">+Y upstage</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="370.0" y="98.0">Upstage</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="370.0" y="628.0">Audience ↓ (follow spot position Y −20)</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="130.0" y="449.0">Stage right (SR)</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="610.0" y="448.0">Stage left (SL)</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="130.0" x2="130.0" y1="640.0" y2="648.0"></line>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="middle" x="130.0" y="660.0">-6</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="210.0" y1="640.0" y2="648.0"></line>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="middle" x="210.0" y="660.0">-4</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="290.0" x2="290.0" y1="640.0" y2="648.0"></line>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="middle" x="290.0" y="660.0">-2</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="370.0" x2="370.0" y1="640.0" y2="648.0"></line>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="middle" x="370.0" y="660.0">0</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="450.0" x2="450.0" y1="640.0" y2="648.0"></line>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="middle" x="450.0" y="660.0">2</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="530.0" x2="530.0" y1="640.0" y2="648.0"></line>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="middle" x="530.0" y="660.0">4</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="610.0" x2="610.0" y1="640.0" y2="648.0"></line>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="middle" x="610.0" y="660.0">6</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="130.0" x2="610.0" y1="644.0" y2="644.0"></line>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="760.0" y="110.0">Legend (color = role)</text>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="769.0" y="123.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="794.0" y="134.0">LED profile (key)</text>
+<rect fill="#7aa384" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="769.0" y="147.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="794.0" y="158.0">LED Fresnel (fill)</text>
+<circle cx="774.0" cy="178.0" fill="#c9862a" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<circle cx="774.0" cy="178.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="794.0" y="182.0">Moving spot</text>
+<circle cx="774.0" cy="202.0" fill="#3b6ea8" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="794.0" y="206.0">Moving wash (wash)</text>
+<circle cx="774.0" cy="226.0" fill="#4f7f8f" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="794.0" y="230.0">Moving wash (back)</text>
+<circle cx="774.0" cy="250.0" fill="#3f8f6f" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="794.0" y="254.0">Moving wash (side)</text>
+<circle cx="774.0" cy="274.0" fill="#ffffff" opacity="1.0" r="4.5" stroke="#c9862a" stroke-width="2.4"></circle>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="794.0" y="278.0">Moving beam</text>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="761.0" y="295.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="794.0" y="302.0">LED bar</text>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="768.0" y="319.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="794.0" y="326.0">Strobe</text>
+<rect fill="#a8693b" height="11.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="11.0" x="768.5" y="340.5"></rect>
+<line opacity="1.0" stroke="#ffffff" stroke-linecap="butt" stroke-width="1.2" x1="768.5" x2="779.5" y1="346.0" y2="346.0"></line>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="794.0" y="350.0">Blinder</text>
+<text fill="#1f2430" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="start" x="760.0" y="390.0">Stage 12 m × 8 m (imaginary)</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="760.0" y="414.0">Back truss strobes are drawn behind</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="760.0" y="432.0">the truss so they do not overlap.</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="760.0" y="450.0">A tower’s 4 fixtures are drawn as</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="760.0" y="468.0">a group (levels in the elevation).</text>
+</svg>
+<figcaption><b>Figure 22-3</b> The lighting plot of the practice stage — plan. A view from above, with the audience at the bottom. Each truss and tower has a name, and the color of a fixture symbol is its role. The washes and strobes of the back truss are drawn split in front and behind the truss so they do not overlap. The follow spot position is outside the drawing, behind the audience (Y −20).</figcaption></figure>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 496" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#eef0f3" height="10.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="504.0" x="118.0" y="480.0"></rect>
+<rect fill="#e2e5ea" height="16.8" opacity="0.9" rx="0" stroke="#d6d9df" stroke-width="1" width="336.0" x="202.0" y="463.2"></rect>
+<rect fill="#e2e5ea" height="16.8" opacity="0.9" rx="0" stroke="#d6d9df" stroke-width="1" width="336.0" x="202.0" y="446.4"></rect>
+<rect fill="#e2e5ea" height="16.8" opacity="0.9" rx="0" stroke="#d6d9df" stroke-width="1" width="336.0" x="202.0" y="429.6"></rect>
+<line opacity="1.0" stroke="#9aa3b2" stroke-dasharray="4 3" stroke-linecap="butt" stroke-width="2" x1="101.2" x2="638.8" y1="123.0" y2="123.0"></line>
+<text fill="#1f2430" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="681.4" y="127.0">Audience truss 8.5</text>
+<line opacity="1.0" stroke="#9aa3b2" stroke-linecap="butt" stroke-width="2" x1="101.2" x2="638.8" y1="144.0" y2="144.0"></line>
+<text fill="#1f2430" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="681.4" y="148.0">Back truss 8</text>
+<line opacity="1.0" stroke="#9aa3b2" stroke-linecap="butt" stroke-width="2" x1="118.0" x2="622.0" y1="165.0" y2="165.0"></line>
+<text fill="#1f2430" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="681.4" y="169.0">Front truss 7.5</text>
+<line opacity="1.0" stroke="#9aa3b2" stroke-linecap="butt" stroke-width="2" x1="118.0" x2="622.0" y1="186.0" y2="186.0"></line>
+<text fill="#1f2430" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="681.4" y="190.0">Middle truss 7</text>
+<line opacity="1.0" stroke="#9aa3b2" stroke-dasharray="4 3" stroke-linecap="butt" stroke-width="2" x1="143.2" x2="596.8" y1="291.0" y2="291.0"></line>
+<text fill="#1f2430" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="681.4" y="295.0">Audience bar 4.5</text>
+<rect fill="none" height="184.8" opacity="1.0" rx="0" stroke="#9aa3b2" stroke-width="1.2" width="10.0" x="71.0" y="286.8"></rect>
+<rect fill="none" height="184.8" opacity="1.0" rx="0" stroke="#9aa3b2" stroke-width="1.2" width="10.0" x="659.0" y="286.8"></rect>
+<rect fill="none" height="155.4" opacity="1.0" rx="0" stroke="#9aa3b2" stroke-width="1.2" width="10.0" x="176.0" y="299.4"></rect>
+<rect fill="none" height="155.4" opacity="1.0" rx="0" stroke="#9aa3b2" stroke-width="1.2" width="10.0" x="554.0" y="299.4"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="113.0" y="116.0"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="185.0" y="116.0"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="257.0" y="116.0"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="329.0" y="116.0"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="401.0" y="116.0"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="473.0" y="116.0"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="545.0" y="116.0"></rect>
+<rect fill="#5f8f6a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="617.0" y="116.0"></rect>
+<rect fill="#7aa384" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="155.0" y="284.0"></rect>
+<rect fill="#7aa384" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="239.0" y="284.0"></rect>
+<rect fill="#7aa384" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="323.0" y="284.0"></rect>
+<rect fill="#7aa384" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="407.0" y="284.0"></rect>
+<rect fill="#7aa384" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="491.0" y="284.0"></rect>
+<rect fill="#7aa384" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="10.0" x="575.0" y="284.0"></rect>
+<circle cx="149.5" cy="165.0" fill="#c9862a" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="149.5" cy="165.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="212.5" cy="165.0" fill="#c9862a" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="212.5" cy="165.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="275.5" cy="165.0" fill="#c9862a" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="275.5" cy="165.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="338.5" cy="165.0" fill="#c9862a" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="338.5" cy="165.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="401.5" cy="165.0" fill="#c9862a" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="401.5" cy="165.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="464.5" cy="165.0" fill="#c9862a" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="464.5" cy="165.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="527.5" cy="165.0" fill="#c9862a" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="527.5" cy="165.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="590.5" cy="165.0" fill="#c9862a" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="590.5" cy="165.0" fill="#ffffff" opacity="1.0" r="2.2" stroke="none" stroke-width="1"></circle>
+<circle cx="160.0" cy="186.0" fill="#3b6ea8" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="244.0" cy="186.0" fill="#3b6ea8" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="328.0" cy="186.0" fill="#3b6ea8" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="412.0" cy="186.0" fill="#3b6ea8" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="496.0" cy="186.0" fill="#3b6ea8" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="580.0" cy="186.0" fill="#3b6ea8" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="160.0" cy="150.0" fill="#4f7f8f" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="244.0" cy="150.0" fill="#4f7f8f" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="328.0" cy="150.0" fill="#4f7f8f" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="412.0" cy="150.0" fill="#4f7f8f" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="496.0" cy="150.0" fill="#4f7f8f" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="580.0" cy="150.0" fill="#4f7f8f" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="143.5" y="133.0"></rect>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="206.5" y="133.0"></rect>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="269.5" y="133.0"></rect>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="332.5" y="133.0"></rect>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="395.5" y="133.0"></rect>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="458.5" y="133.0"></rect>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="521.5" y="133.0"></rect>
+<rect fill="#c8553d" height="6.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="12.0" x="584.5" y="133.0"></rect>
+<circle cx="76.0" cy="459.0" fill="#3f8f6f" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="76.0" cy="408.6" fill="#3f8f6f" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="76.0" cy="358.2" fill="#3f8f6f" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="76.0" cy="307.8" fill="#3f8f6f" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="664.0" cy="459.0" fill="#3f8f6f" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="664.0" cy="408.6" fill="#3f8f6f" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="664.0" cy="358.2" fill="#3f8f6f" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<circle cx="664.0" cy="307.8" fill="#3f8f6f" opacity="1.0" r="5.5" stroke="none" stroke-width="1"></circle>
+<rect fill="#a8693b" height="11.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="11.0" x="175.5" y="467.5"></rect>
+<line opacity="1.0" stroke="#ffffff" stroke-linecap="butt" stroke-width="1.2" x1="175.5" x2="186.5" y1="473.0" y2="473.0"></line>
+<rect fill="#a8693b" height="11.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="11.0" x="301.5" y="467.5"></rect>
+<line opacity="1.0" stroke="#ffffff" stroke-linecap="butt" stroke-width="1.2" x1="301.5" x2="312.5" y1="473.0" y2="473.0"></line>
+<rect fill="#a8693b" height="11.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="11.0" x="427.5" y="467.5"></rect>
+<line opacity="1.0" stroke="#ffffff" stroke-linecap="butt" stroke-width="1.2" x1="427.5" x2="438.5" y1="473.0" y2="473.0"></line>
+<rect fill="#a8693b" height="11.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="11.0" x="553.5" y="467.5"></rect>
+<line opacity="1.0" stroke="#ffffff" stroke-linecap="butt" stroke-width="1.2" x1="553.5" x2="564.5" y1="473.0" y2="473.0"></line>
+<circle cx="149.5" cy="473.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="212.5" cy="473.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="275.5" cy="473.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="338.5" cy="473.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="401.5" cy="473.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="464.5" cy="473.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="527.5" cy="473.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="590.5" cy="473.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="181.0" cy="438.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="181.0" cy="396.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="181.0" cy="354.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="181.0" cy="312.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="559.0" cy="438.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="559.0" cy="396.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="559.0" cy="354.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<circle cx="559.0" cy="312.0" fill="#ffffff" opacity="1.0" r="4.0" stroke="#c9862a" stroke-width="2.4"></circle>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="210.0" y="456.2"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="252.0" y="456.2"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="294.0" y="456.2"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="336.0" y="456.2"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="378.0" y="456.2"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="420.0" y="456.2"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="462.0" y="456.2"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="504.0" y="456.2"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="210.0" y="439.4"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="252.0" y="439.4"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="294.0" y="439.4"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="336.0" y="439.4"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="378.0" y="439.4"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="420.0" y="439.4"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="462.0" y="439.4"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="504.0" y="439.4"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="210.0" y="422.6"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="252.0" y="422.6"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="294.0" y="422.6"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="336.0" y="422.6"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="378.0" y="422.6"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="420.0" y="422.6"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="462.0" y="422.6"></rect>
+<rect fill="#5a5ec8" height="6.0" opacity="1.0" rx="1.5" stroke="none" stroke-width="1" width="26.0" x="504.0" y="422.6"></rect>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="76.0" y="270.0">Side tower SR</text>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="664.0" y="270.0">Side tower SL</text>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="start" x="193.0" y="358.2">Back tower SR</text>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="end" x="547.0" y="358.2">Back tower SL</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="370.0" y="508.0">Stage floor Z 0 · left as seen from the audience is stage right (SR), X negative</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="25.6" x2="31.6" y1="480.0" y2="480.0"></line>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="end" x="21.6" y="484.0">0</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="25.6" x2="31.6" y1="396.0" y2="396.0"></line>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="end" x="21.6" y="400.0">2</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="25.6" x2="31.6" y1="312.0" y2="312.0"></line>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="end" x="21.6" y="316.0">4</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="25.6" x2="31.6" y1="228.0" y2="228.0"></line>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="end" x="21.6" y="232.0">6</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="25.6" x2="31.6" y1="144.0" y2="144.0"></line>
+<text fill="#6b7280" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="end" x="21.6" y="148.0">8</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="28.6" x2="28.6" y1="480.0" y2="102.0"></line>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="end" x="21.6" y="96.0">Z(m)</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="32.0" y="545.0">The dotted line is the truss in front of the stage (toward the audience). Washes and strobes on the same truss are drawn split above and below so they do not overlap.</text>
+</svg>
+<figcaption><b>Figure 22-4</b> The lighting plot of the practice stage — elevation. A view from the audience. The audience truss and audience bar are in front of the stage but are drawn together to show their heights. You can see the levels of the side towers and back towers, and the heights of the three stair levels.</figcaption></figure>
+<p>On site the lighting plot is usually drawn in Vectorworks.<sup class="ref"><a href="#c22-s10">10</a></sup> You keep the fixture information in one drawing, and the patch sheet, the console and the simulation program all use that data.</p>
+<ol type="1">
+<li><strong>Plot</strong>: place trusses and fixtures in Vectorworks, and enter a number, universe and address, and position for each fixture.</li>
+<li><strong>Patch sheet</strong>: make the patch sheet from the fixture information entered in the plot. Because the plot and the patch sheet are linked, when you fix one you can bring the other into line.<sup class="ref"><a href="#c22-s10">10</a></sup></li>
+<li><strong>MVR export</strong>: when you export the plot as an MVR file, the console (grandMA3) and the simulation programs (Vision, Capture, Depence and others) receive the same fixture layout.<sup class="ref"><a href="#c22-s2">2</a></sup> <sup class="ref"><a href="#c22-s9">9</a></sup></li>
+<li><strong>Merging the revised layout back into the plot</strong>: a layout changed in the simulation program can be merged back into the plot.<sup class="ref"><a href="#c22-s9">9</a></sup></li>
+</ol>
+<p>The flow of previewing and programming with a simulation is covered in Part 5 (Chapter 23, Section 28.5).</p>
+<h2 id="c22-22-6-the-patch-sheet">22.6 The Patch Sheet</h2><p class="lead">The patch sheet is a table that arranges, for each fixture, the <strong>console number (ID), mode and DMX address</strong> (universe.address). If the plot shows where a fixture is, the patch sheet says what number it is on the console and what address.</p>
+<p>You can write fixtures one by one, or group them by type or position and write only the ID range and the start address (Table 22-10). To make it, either link it with the plot in Vectorworks (Section 22.5) or write it separately in a spreadsheet. When you patch the console in Chapter 24, you carry this table over from top to bottom.</p>
+<div class="tbl"><div class="tcap"><b>Table 22-9</b> A patch sheet example — fixtures written one by one (practice stage, first few lines) <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>ID</th>
+<th>Fixture (mode)</th>
+<th>Universe.address</th>
+<th>Position</th>
+<th>X</th>
+<th>Y</th>
+<th>Z</th>
+<th>Mounting</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>101</td>
+<td>LED profile (8ch)</td>
+<td>1.001</td>
+<td>Audience truss</td>
+<td>−6.00</td>
+<td>−4.0</td>
+<td>8.5</td>
+<td>Hang</td>
+<td>Key</td>
+</tr>
+<tr class="even">
+<td>102</td>
+<td>LED profile (8ch)</td>
+<td>1.009</td>
+<td>Audience truss</td>
+<td>−4.29</td>
+<td>−4.0</td>
+<td>8.5</td>
+<td>Hang</td>
+<td>Key</td>
+</tr>
+<tr class="odd">
+<td>…</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>221</td>
+<td>Moving wash (28ch)</td>
+<td>4.001</td>
+<td>Side tower SR</td>
+<td>−7.00</td>
+<td>3.0</td>
+<td>0.5</td>
+<td>Face</td>
+<td>Side</td>
+</tr>
+<tr class="odd">
+<td>222</td>
+<td>Moving wash (28ch)</td>
+<td>4.029</td>
+<td>Side tower SR</td>
+<td>−7.00</td>
+<td>3.0</td>
+<td>1.7</td>
+<td>Face</td>
+<td>Side</td>
+</tr>
+<tr class="even">
+<td>…</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>501</td>
+<td>LED bar (30ch)</td>
+<td>6.001</td>
+<td>Stairs level 1</td>
+<td>−3.50</td>
+<td>5.5</td>
+<td>0.4</td>
+<td>Face</td>
+<td>Pixel</td>
+</tr>
+</tbody>
+</table></div>
+<p>You can build all 94 fixtures in Web tool 18.</p>
+<p><strong>ID</strong>: fixture numbers (fixture IDs) are assigned by dividing number ranges by type (in the 100s, the 200s and so on). For the practice rig, LED profiles are 101–108, LED Fresnels 121–126, moving washes 201–212, side tower washes 221–228, moving spots 301–308, moving beams 401–416, LED bars 501–524, strobes 601–608 and blinders 701–704 (Table 24-1, Chapter 24). From the number alone you can tell which fixture it is, and if you add more of the same type later the numbers do not get mixed up.</p>
+<p><strong>Channel count</strong> is not guessed. Copy it for each mode from the fixture’s spec sheet or the console’s channel map (Section 24.1). For the onPC practice you can use a similar model. But when you patch real equipment, if you put in a different model that merely looks similar because the model is not in the console library, the fixtures will move wrongly on the first day of rehearsal.</p>
+<p><strong>Universes</strong>: one DMX universe holds 512 channels, and you cannot split one fixture across two universes. There are three ways to divide universes.</p>
+<ul class="keyed">
+<li><strong>Chaining</strong>You put fixtures into addresses in order and, when 512 channels are full, move on to the next universe. There are few empty channels, so it uses the fewest universes. For the practice rig the channels add up to 2,040. Divided by 512 it looks as if 4 would do, but if you fill them in the order of Table 22-11 you need 5. That is because when there is not enough room for the next fixture, the remaining channels are left empty and you move on to the next universe.</li>
+<li><strong>By type</strong>Start a new universe each time the fixture type changes. You can tell the fixture from the universe number alone, but the universes multiply. The practice rig needs 10.</li>
+<li><strong>By DMX line</strong>Use a separate universe for each place on stage where a signal cable runs. The positions on the plot and the universes match, so it is easy to lay cables and to find a place that has failed.</li>
+</ul>
+<p>The practice stage is divided by DMX line, and within one universe it chains the same type, but when the type changes it starts at the next hundred address (101, 201…) (<span class="badge start">Starting value</span>). From the address alone you can tell which type it is.</p>
+<div class="tbl"><div class="tcap"><b>Table 22-10</b> The universe plan of the practice stage <span class="badge calc">Calculation</span></div><table>
+<thead>
+<tr class="header">
+<th>Universe (DMX line)</th>
+<th>Position</th>
+<th>Fixtures and addresses</th>
+<th>Channels used</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 Audience side</td>
+<td>Audience truss, audience bar</td>
+<td>Profiles 101–108: 1.001–064, Fresnels 121–126: 1.101–148</td>
+<td>112</td>
+</tr>
+<tr class="even">
+<td>2 Onstage front · middle</td>
+<td>Front truss, middle truss</td>
+<td>Spots 301–308: 2.001–288, washes 201–206: 2.301–468</td>
+<td>456</td>
+</tr>
+<tr class="odd">
+<td>3 Onstage back</td>
+<td>Back truss</td>
+<td>Washes 207–212: 3.001–168, strobes 601–608: 3.201–232</td>
+<td>200</td>
+</tr>
+<tr class="even">
+<td>4 Stage sides · front</td>
+<td>Side towers, front floor</td>
+<td>Sides 221–228: 4.001–224, blinders 701–704: 4.301–308</td>
+<td>232</td>
+</tr>
+<tr class="odd">
+<td>5 Upstage</td>
+<td>Back floor, back towers</td>
+<td>Beams 401–416: 5.001–320</td>
+<td>320</td>
+</tr>
+<tr class="even">
+<td>6 Stairs levels 1 · 2</td>
+<td>Stairs</td>
+<td>LED bars 501–516: 6.001–480</td>
+<td>480</td>
+</tr>
+<tr class="odd">
+<td>7 Stairs level 3</td>
+<td>Stairs</td>
+<td>LED bars 517–524: 7.001–240</td>
+<td>240</td>
+</tr>
+<tr class="even">
+<td>8 Spare</td>
+<td>—</td>
+<td>Left empty</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div>
+<p>Figure 22-5 draws Table 22-10 as bars. One bar is one universe of 512 channels, the colored cells are the channels the fixtures use, and the gray is the channels left empty. When the type changes it starts at the next hundred address (101, 201…), so gaps appear between types.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 496" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<line opacity="1.0" stroke="#e3e6eb" stroke-linecap="butt" stroke-width="1" x1="151.4" x2="151.4" y1="82.0" y2="436.0"></line>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="151.4" y="78.0">1</text>
+<line opacity="1.0" stroke="#e3e6eb" stroke-linecap="butt" stroke-width="1" x1="286.7" x2="286.7" y1="82.0" y2="436.0"></line>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="286.7" y="78.0">100</text>
+<line opacity="1.0" stroke="#e3e6eb" stroke-linecap="butt" stroke-width="1" x1="423.4" x2="423.4" y1="82.0" y2="436.0"></line>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="423.4" y="78.0">200</text>
+<line opacity="1.0" stroke="#e3e6eb" stroke-linecap="butt" stroke-width="1" x1="560.2" x2="560.2" y1="82.0" y2="436.0"></line>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="560.2" y="78.0">300</text>
+<line opacity="1.0" stroke="#e3e6eb" stroke-linecap="butt" stroke-width="1" x1="696.9" x2="696.9" y1="82.0" y2="436.0"></line>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="696.9" y="78.0">400</text>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="end" x="850.0" y="78.0">512</text>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="103.0">Universe 1</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="118.0">Audience side</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="700.0" x="150.0" y="90.0"></rect>
+<rect fill="#5f8f6a" height="26.0" opacity="1.0" rx="0" stroke="#ffffff" stroke-width="1" width="87.5" x="150.0" y="90.0"></rect>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="160.9" x2="160.9" y1="93.0" y2="113.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="171.9" x2="171.9" y1="93.0" y2="113.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="182.8" x2="182.8" y1="93.0" y2="113.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="193.8" x2="193.8" y1="93.0" y2="113.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="204.7" x2="204.7" y1="93.0" y2="113.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="215.6" x2="215.6" y1="93.0" y2="113.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="226.6" x2="226.6" y1="93.0" y2="113.0"></line>
+<text fill="#ffffff" font-size="10.5" font-weight="700" opacity="1.0" text-anchor="middle" x="193.8" y="107.0">Profiles 101–108</text>
+<rect fill="#7aa384" height="26.0" opacity="1.0" rx="0" stroke="#ffffff" stroke-width="1" width="65.6" x="286.7" y="90.0"></rect>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="297.7" x2="297.7" y1="93.0" y2="113.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="308.6" x2="308.6" y1="93.0" y2="113.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="319.5" x2="319.5" y1="93.0" y2="113.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="330.5" x2="330.5" y1="93.0" y2="113.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="341.4" x2="341.4" y1="93.0" y2="113.0"></line>
+<text fill="#1f2430" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="middle" x="319.5" y="127.0">Fresnels 121–126</text>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="860.0" y="107.0">112ch</text>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="149.0">Universe 2</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="164.0">Onstage front · middle</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="700.0" x="150.0" y="136.0"></rect>
+<rect fill="#c9862a" height="26.0" opacity="1.0" rx="0" stroke="#ffffff" stroke-width="1" width="393.8" x="150.0" y="136.0"></rect>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="199.2" x2="199.2" y1="139.0" y2="159.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="248.4" x2="248.4" y1="139.0" y2="159.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="297.7" x2="297.7" y1="139.0" y2="159.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="346.9" x2="346.9" y1="139.0" y2="159.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="396.1" x2="396.1" y1="139.0" y2="159.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="445.3" x2="445.3" y1="139.0" y2="159.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="494.5" x2="494.5" y1="139.0" y2="159.0"></line>
+<text fill="#ffffff" font-size="10.5" font-weight="700" opacity="1.0" text-anchor="middle" x="346.9" y="153.0">Spots 301–308</text>
+<rect fill="#3b6ea8" height="26.0" opacity="1.0" rx="0" stroke="#ffffff" stroke-width="1" width="229.7" x="560.2" y="136.0"></rect>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="598.4" x2="598.4" y1="139.0" y2="159.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="636.7" x2="636.7" y1="139.0" y2="159.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="675.0" x2="675.0" y1="139.0" y2="159.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="713.3" x2="713.3" y1="139.0" y2="159.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="751.6" x2="751.6" y1="139.0" y2="159.0"></line>
+<text fill="#ffffff" font-size="10.5" font-weight="700" opacity="1.0" text-anchor="middle" x="675.0" y="153.0">Washes 201–206</text>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="860.0" y="153.0">456ch</text>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="195.0">Universe 3</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="210.0">Onstage back</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="700.0" x="150.0" y="182.0"></rect>
+<rect fill="#4f7f8f" height="26.0" opacity="1.0" rx="0" stroke="#ffffff" stroke-width="1" width="229.7" x="150.0" y="182.0"></rect>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="188.3" x2="188.3" y1="185.0" y2="205.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="226.6" x2="226.6" y1="185.0" y2="205.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="264.8" x2="264.8" y1="185.0" y2="205.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="303.1" x2="303.1" y1="185.0" y2="205.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="341.4" x2="341.4" y1="185.0" y2="205.0"></line>
+<text fill="#ffffff" font-size="10.5" font-weight="700" opacity="1.0" text-anchor="middle" x="264.8" y="199.0">Washes 207–212</text>
+<rect fill="#c8553d" height="26.0" opacity="1.0" rx="0" stroke="#ffffff" stroke-width="1" width="43.8" x="423.4" y="182.0"></rect>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="428.9" x2="428.9" y1="185.0" y2="205.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="434.4" x2="434.4" y1="185.0" y2="205.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="439.8" x2="439.8" y1="185.0" y2="205.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="445.3" x2="445.3" y1="185.0" y2="205.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="450.8" x2="450.8" y1="185.0" y2="205.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="456.2" x2="456.2" y1="185.0" y2="205.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="461.7" x2="461.7" y1="185.0" y2="205.0"></line>
+<text fill="#1f2430" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="middle" x="445.3" y="219.0">Strobes 601–608</text>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="860.0" y="199.0">200ch</text>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="241.0">Universe 4</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="256.0">Stage sides · front</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="700.0" x="150.0" y="228.0"></rect>
+<rect fill="#3f8f6f" height="26.0" opacity="1.0" rx="0" stroke="#ffffff" stroke-width="1" width="306.2" x="150.0" y="228.0"></rect>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="188.3" x2="188.3" y1="231.0" y2="251.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="226.6" x2="226.6" y1="231.0" y2="251.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="264.8" x2="264.8" y1="231.0" y2="251.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="303.1" x2="303.1" y1="231.0" y2="251.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="341.4" x2="341.4" y1="231.0" y2="251.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="379.7" x2="379.7" y1="231.0" y2="251.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="418.0" x2="418.0" y1="231.0" y2="251.0"></line>
+<text fill="#ffffff" font-size="10.5" font-weight="700" opacity="1.0" text-anchor="middle" x="303.1" y="245.0">Sides 221–228</text>
+<rect fill="#a8693b" height="26.0" opacity="1.0" rx="0" stroke="#ffffff" stroke-width="1" width="10.9" x="560.2" y="228.0"></rect>
+<text fill="#1f2430" font-size="9.5" font-weight="400" opacity="1.0" text-anchor="middle" x="565.6" y="265.0">Blinders 701–704</text>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="860.0" y="245.0">232ch</text>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="287.0">Universe 5</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="302.0">Upstage</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="700.0" x="150.0" y="274.0"></rect>
+<rect fill="#c9862a" height="26.0" opacity="1.0" rx="0" stroke="#ffffff" stroke-width="1" width="437.5" x="150.0" y="274.0"></rect>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="177.3" x2="177.3" y1="277.0" y2="297.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="204.7" x2="204.7" y1="277.0" y2="297.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="232.0" x2="232.0" y1="277.0" y2="297.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="259.4" x2="259.4" y1="277.0" y2="297.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="286.7" x2="286.7" y1="277.0" y2="297.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="314.1" x2="314.1" y1="277.0" y2="297.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="341.4" x2="341.4" y1="277.0" y2="297.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="368.8" x2="368.8" y1="277.0" y2="297.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="396.1" x2="396.1" y1="277.0" y2="297.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="423.4" x2="423.4" y1="277.0" y2="297.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="450.8" x2="450.8" y1="277.0" y2="297.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="478.1" x2="478.1" y1="277.0" y2="297.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="505.5" x2="505.5" y1="277.0" y2="297.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="532.8" x2="532.8" y1="277.0" y2="297.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="560.2" x2="560.2" y1="277.0" y2="297.0"></line>
+<text fill="#ffffff" font-size="10.5" font-weight="700" opacity="1.0" text-anchor="middle" x="368.8" y="291.0">Beams 401–416</text>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="860.0" y="291.0">320ch</text>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="333.0">Universe 6</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="348.0">Stairs levels 1 · 2</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="700.0" x="150.0" y="320.0"></rect>
+<rect fill="#5a5ec8" height="26.0" opacity="1.0" rx="0" stroke="#ffffff" stroke-width="1" width="656.2" x="150.0" y="320.0"></rect>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="191.0" x2="191.0" y1="323.0" y2="343.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="232.0" x2="232.0" y1="323.0" y2="343.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="273.0" x2="273.0" y1="323.0" y2="343.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="314.1" x2="314.1" y1="323.0" y2="343.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="355.1" x2="355.1" y1="323.0" y2="343.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="396.1" x2="396.1" y1="323.0" y2="343.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="437.1" x2="437.1" y1="323.0" y2="343.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="478.1" x2="478.1" y1="323.0" y2="343.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="519.1" x2="519.1" y1="323.0" y2="343.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="560.2" x2="560.2" y1="323.0" y2="343.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="601.2" x2="601.2" y1="323.0" y2="343.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="642.2" x2="642.2" y1="323.0" y2="343.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="683.2" x2="683.2" y1="323.0" y2="343.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="724.2" x2="724.2" y1="323.0" y2="343.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="765.2" x2="765.2" y1="323.0" y2="343.0"></line>
+<text fill="#ffffff" font-size="10.5" font-weight="700" opacity="1.0" text-anchor="middle" x="478.1" y="337.0">LED bars 501–516</text>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="860.0" y="337.0">480ch</text>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="379.0">Universe 7</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="394.0">Stairs level 3</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="700.0" x="150.0" y="366.0"></rect>
+<rect fill="#5a5ec8" height="26.0" opacity="1.0" rx="0" stroke="#ffffff" stroke-width="1" width="328.1" x="150.0" y="366.0"></rect>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="191.0" x2="191.0" y1="369.0" y2="389.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="232.0" x2="232.0" y1="369.0" y2="389.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="273.0" x2="273.0" y1="369.0" y2="389.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="314.1" x2="314.1" y1="369.0" y2="389.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="355.1" x2="355.1" y1="369.0" y2="389.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="396.1" x2="396.1" y1="369.0" y2="389.0"></line>
+<line opacity="0.7" stroke="#ffffff" stroke-linecap="butt" stroke-width="0.6" x1="437.1" x2="437.1" y1="369.0" y2="389.0"></line>
+<text fill="#ffffff" font-size="10.5" font-weight="700" opacity="1.0" text-anchor="middle" x="314.1" y="383.0">LED bars 517–524</text>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="860.0" y="383.0">240ch</text>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="425.0">Universe 8</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="440.0">Spare</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="700.0" x="150.0" y="412.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="860.0" y="429.0">0ch</text>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="start" x="860.0" y="70.0">Used</text>
+<text fill="#c8553d" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="477.0">If level 3 were also</text>
+<text fill="#c8553d" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="492.0">chained onto 6</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="700.0" x="150.0" y="464.0"></rect>
+<rect fill="#5a5ec8" height="26.0" opacity="1.0" rx="0" stroke="#fff" stroke-width="1" width="656.2" x="150.0" y="464.0"></rect>
+<text fill="#fff" font-size="10.5" font-weight="700" opacity="1.0" text-anchor="middle" x="478.1" y="481.0">LED bars 501–516 · 1–480</text>
+<rect fill="#5a5ec8" height="26.0" opacity="0.8" rx="0" stroke="#fff" stroke-width="1" width="41.0" x="806.2" y="464.0"></rect>
+<rect fill="none" height="26.0" opacity="1.0" rx="0" stroke="#c8553d" stroke-dasharray="4 3" stroke-width="1.6" width="41.0" x="847.3" y="464.0"></rect>
+<text fill="#1f2430" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="826.8" y="460.0">517</text>
+<text fill="#c8553d" font-size="11" font-weight="700" opacity="1.0" text-anchor="end" x="843.3" y="503.0">518 needs 511–540 → over 512</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="546.0">Because one fixture cannot be split across two universes, all 8 fixtures of stair level 3 were moved to universe 7. Universe 8 is a spare for when fixtures are added or a line fails.</text>
+</svg>
+<figcaption><b>Figure 22-5</b> The universe map of the practice stage. The bottom row shows what happens if stair level 3 is chained onto universe 6. Up to 517 fits, but 518 needs channels 511–540 and goes over 512. Because one fixture cannot be split across two universes, all 8 fixtures of level 3 were moved to universe 7.</figcaption></figure>
+<p>An LED bar has 30 channels, so up to 17 fit in one universe. After the 16 fixtures of stair levels 1 and 2 use 480 channels, 32 channels are left in universe 6, and only one fixture of level 3, number 517, fits. So the 8 fixtures of level 3 were moved to universe 7. The <strong>spare universe</strong> (8) is the place to move things to when fixtures are added on site or one DMX line fails.</p>
+<p>When the patch sheet is written, check five things.</p>
+<ol type="1">
+<li><strong>No IDs overlap.</strong></li>
+<li><strong>No fixture overlaps or goes past 512.</strong> A fixture’s start address + channel count − 1 must be within 512.</li>
+<li><strong>Every fixture has a position and X, Y, Z.</strong> Every fixture on the plot must be in the patch sheet, and the reverse as well.</li>
+<li><strong>The quantities and channel total match the fixture list.</strong> If the number of lines in the patch sheet differs from the quantities in the fixture list, a fixture has been missed or entered twice.</li>
+<li><strong>There is a spare universe or spare addresses.</strong></li>
+</ol>
+<p><strong>Three levels of groups</strong>: the position and role columns of the patch sheet become the console’s groups as they are. Build groups in three levels: all-group → sub-group → effect group.<sup class="ref"><a href="#c22-s1">1</a></sup></p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 336" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#ffffff" height="50.0" opacity="1.0" rx="9" stroke="#d9902a" stroke-width="1.6" width="200.0" x="380.0" y="90.0"></rect>
+<text fill="#d9902a" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="392.0" y="112.0">All moving beams 16</text>
+<rect fill="#ffffff" height="56.0" opacity="1.0" rx="9" stroke="#3b6ea8" stroke-width="1.6" width="220.0" x="90.0" y="190.0"></rect>
+<text fill="#3b6ea8" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="102.0" y="212.0">Back floor</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="102.0" y="232.0">8 fixtures · 401–408</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1.4" x1="480.0" x2="200.0" y1="140.0" y2="190.0"></line>
+<rect fill="#ffffff" height="56.0" opacity="1.0" rx="9" stroke="#3b6ea8" stroke-width="1.6" width="220.0" x="370.0" y="190.0"></rect>
+<text fill="#3b6ea8" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="382.0" y="212.0">Back tower SR</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="382.0" y="232.0">4 fixtures · 409–412</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1.4" x1="480.0" x2="480.0" y1="140.0" y2="190.0"></line>
+<rect fill="#ffffff" height="56.0" opacity="1.0" rx="9" stroke="#3b6ea8" stroke-width="1.6" width="220.0" x="650.0" y="190.0"></rect>
+<text fill="#3b6ea8" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="662.0" y="212.0">Back tower SL</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="662.0" y="232.0">4 fixtures · 413–416</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1.4" x1="480.0" x2="760.0" y1="140.0" y2="190.0"></line>
+<rect fill="#ffffff" height="50.0" opacity="1.0" rx="9" stroke="#4f8a5b" stroke-width="1.6" width="160.0" x="50.0" y="300.0"></rect>
+<text fill="#4f8a5b" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="62.0" y="322.0">Floor odd · even</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1.2" x1="200.0" x2="130.0" y1="246.0" y2="300.0"></line>
+<rect fill="#ffffff" height="50.0" opacity="1.0" rx="9" stroke="#4f8a5b" stroke-width="1.6" width="160.0" x="228.0" y="300.0"></rect>
+<text fill="#4f8a5b" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="240.0" y="322.0">Floor left → right</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1.2" x1="200.0" x2="308.0" y1="246.0" y2="300.0"></line>
+<rect fill="#ffffff" height="50.0" opacity="1.0" rx="9" stroke="#4f8a5b" stroke-width="1.6" width="160.0" x="406.0" y="300.0"></rect>
+<text fill="#4f8a5b" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="418.0" y="322.0">Floor out → in</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1.2" x1="200.0" x2="486.0" y1="246.0" y2="300.0"></line>
+<rect fill="#ffffff" height="50.0" opacity="1.0" rx="9" stroke="#4f8a5b" stroke-width="1.6" width="160.0" x="584.0" y="300.0"></rect>
+<text fill="#4f8a5b" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="596.0" y="322.0">Tower bottom → top</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1.2" x1="480.0" x2="664.0" y1="246.0" y2="300.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1.2" x1="760.0" x2="664.0" y1="246.0" y2="300.0"></line>
+<rect fill="#ffffff" height="50.0" opacity="1.0" rx="9" stroke="#4f8a5b" stroke-width="1.6" width="160.0" x="762.0" y="300.0"></rect>
+<text fill="#4f8a5b" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="774.0" y="322.0">Tower SR ↔ SL</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1.2" x1="480.0" x2="842.0" y1="246.0" y2="300.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1.2" x1="760.0" x2="842.0" y1="246.0" y2="300.0"></line>
+<text fill="#d9902a" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="104.0">All</text>
+<text fill="#3b6ea8" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="182.0">Sub</text>
+<text fill="#4f8a5b" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="292.0">For effects</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="386.0">Use the position names of the plot for the names of the sub-groups. Effect groups are made from other groups, so make the all-groups and sub-groups first.</text>
+</svg>
+<figcaption><b>Figure 22-6</b> Three levels of groups. Taking the 16 moving beams of the practice rig as an example, one all-group is split into the sub-groups back floor, back tower SR and back tower SL, and then into the effect groups odd/even, left → right and bottom → top.</figcaption></figure>
+<ol type="1">
+<li><strong>All-group</strong>: a whole type. “All beams,” “all LED bars.”</li>
+<li><strong>Sub-group</strong>: divided by position on the plot. “Back tower SR,” “stairs level 1,” left and right, front and back.</li>
+<li><strong>Effect group</strong>: split for the direction and order of an effect. Odd/even, left → right, bottom → top, checker.</li>
+</ol>
+<p>Effect groups are made from other groups, so make the all-groups and sub-groups first. As on the tour in Chapter 18, even if the quantities change from venue to venue, if the names and levels of the groups are the same, the cue structure is used as it is. How to make groups on the console is covered in Section 24.3.</p>
+<h2 id="c22-22-7-load-power-and-the-documents-to-hand-over">22.7 Load, Power and the Documents to Hand Over</h2><p class="lead">When the plot and patch sheet are done, check the weight the trusses can bear and the venue’s power, and hand the documents over, divided by recipient. If you get stuck on weight or power, go back to an earlier step and fix the quantities or positions.</p>
+<p><strong>Load</strong>: add up the weight of the fixtures hung on one truss, and divide by the number of hoists that hang the truss to see the load per hoist. On the practice stage’s back truss, 6 moving washes (132 kg) and 8 strobes (96 kg) are hung, so the fixtures alone are 228 kg, and with 4 hoists that is 57 kg each (<span class="badge calc">Calculation</span>). Add the weight of the truss itself and the cables. The actual safe load follows the manufacturer’s specifications for the truss and hoists and the check of the venue’s rigging crew. Safety and regulations are covered in Part 6 (Section 32.5).</p>
+<p><strong>Power</strong>: add up each fixture’s power consumption. The 94 fixtures of the practice rig (excluding the 2 follow spots) total 42.1 kW (Table 22-11, <span class="badge calc">Calculation</span>). On a tour the power available differs from venue to venue, so also calculate the power of the trimmed rig (Chapter 18).</p>
+<div class="tbl"><div class="tcap"><b>Table 22-11</b> The Chapter 6 practice rig — quantity, channels, weight, power <span class="badge start">Starting value</span> <span class="badge calc">Calculation</span></div><table>
+<thead>
+<tr class="header">
+<th>Fixture (role)</th>
+<th>Quantity</th>
+<th>Channels (mode)</th>
+<th>Fixtures per universe</th>
+<th>Total weight</th>
+<th>Total power</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LED profile (key)</td>
+<td>8</td>
+<td>8</td>
+<td>64</td>
+<td>120kg</td>
+<td>2.40kW</td>
+</tr>
+<tr class="even">
+<td>LED Fresnel (fill)</td>
+<td>6</td>
+<td>8</td>
+<td>64</td>
+<td>54kg</td>
+<td>1.50kW</td>
+</tr>
+<tr class="odd">
+<td>Moving wash (wash/back)</td>
+<td>12</td>
+<td>28</td>
+<td>18</td>
+<td>264kg</td>
+<td>7.80kW</td>
+</tr>
+<tr class="even">
+<td>Moving wash, side tower (side)</td>
+<td>8</td>
+<td>28</td>
+<td>18</td>
+<td>176kg</td>
+<td>5.20kW</td>
+</tr>
+<tr class="odd">
+<td>Moving spot (beam, key assist)</td>
+<td>8</td>
+<td>36</td>
+<td>14</td>
+<td>240kg</td>
+<td>6.40kW</td>
+</tr>
+<tr class="even">
+<td>Moving beam (beam)</td>
+<td>16</td>
+<td>20</td>
+<td>25</td>
+<td>288kg</td>
+<td>7.20kW</td>
+</tr>
+<tr class="odd">
+<td>LED bar (pixel)</td>
+<td>24</td>
+<td>30</td>
+<td>17</td>
+<td>192kg</td>
+<td>3.60kW</td>
+</tr>
+<tr class="even">
+<td>Strobe (FX)</td>
+<td>8</td>
+<td>4</td>
+<td>128</td>
+<td>96kg</td>
+<td>6.40kW</td>
+</tr>
+<tr class="odd">
+<td>Blinder (audience)</td>
+<td>4</td>
+<td>2</td>
+<td>256</td>
+<td>24kg</td>
+<td>1.60kW</td>
+</tr>
+<tr class="even">
+<td>Total</td>
+<td>94</td>
+<td>—</td>
+<td>—</td>
+<td>1,454kg</td>
+<td>42.10kW</td>
+</tr>
+</tbody>
+</table></div>
+<p>The channel total (channels × quantity) is 2,040. The channels, weights and power are example values for practicing the calculation. The real values differ by model and mode, so copy them from the manufacturer’s spec sheet.</p>
+<p><strong>Documents to hand over</strong>: when the design is done, hand the documents over, divided by who receives them.</p>
+<ul class="keyed">
+<li><strong>Rigging crew, stage manager</strong>The lighting plot, the position table, the load per truss.</li>
+<li><strong>Electrical crew</strong>The power total and the power per position.</li>
+<li><strong>Systems crew</strong>The DMX lines and universe plan of the patch sheet.</li>
+<li><strong>Programmer, simulation operator</strong>The patch sheet and the plot file (MVR). They are the material for starting programming on the console and in the simulation (the workflow of Chapter 23). The receiving side first checks that the number and places of fixtures match the patch sheet and plot (Section 24.7).</li>
+</ul>
+<p>If even one fixture changes, fix the four documents (lighting plot, position table, load and power table, patch sheet) together and hand them over again. If you fix only the plot and leave the patch sheet as it is, the console’s coordinates and the actual places of the fixtures drift apart.</p>
+<p>If you receive a stage someone else designed, you walk this order backwards. From the plot and patch sheet you received, re-divide the fixtures by role, and fill the empty roles first. That order is in Table 21-2 of Chapter 21.</p>
+<h2 id="c22-22-8-exercise-the-plot-and-patch-sheet-for-the-love-attack-s">22.8 [Exercise] The Plot and Patch Sheet for the LOVE ATTACK Stage</h2><p class="lead">Look at the practice rig of Chapter 6 again to suit the looks of LOVE ATTACK, and make the plot and patch sheet of the practice stage. You will use this patch sheet when you patch the console in Section 24.8.</p>
+<p><strong>Follow along</strong></p>
+<ol type="1">
+<li>Gather the main roles of the look sheet in Section 9.5 and match them to the lines of Table 6-4 in Chapter 6 (Table 22-2). Mark the fixtures that do not appear as a main (strobes, blinders) as “equipment for other songs.”</li>
+<li>Set the dimensions and positions of the practice stage with Table 22-8. When you do it for your own stage, use the values of the site survey (Table 22-1).</li>
+<li>Place the 94 fixtures on the plan and elevation, and write the 2 follow spots only in the position table. Within the same position, place them evenly, and number them from stage right (the left as seen from the audience).</li>
+<li>Check the quantities of the key profiles and the middle truss washes with the beam diameter (Section 22.4).</li>
+<li>Make the patch sheet of the 94 fixtures. Divide universes by DMX line, and when the type changes start at the next hundred address. Write the 2 follow spots as “off the console.”</li>
+<li>Check the five points (Section 22.6).</li>
+</ol>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>It should match Table 22-10.</li><li>Seven universes are used and 8 is the spare.</li><li>No fixture overlaps or goes past 512.</li><li>Check that LED bars 517–524 moved as a block to universe 7.</li><li>If you had chained them straight onto 6, the end address of 518 would go past 512.</li><li>Finally, check that for each main role of Table 22-2 there is a fixture on the plot to take it, and that no fixture is floating in the air.</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">Try it with your own song</div><div class="box-body"><ol class="steps"><li>Gather the main roles from the look sheet of the song or set list you are working on now, and find the roles missing from your current rig and the fixtures that rest.</li><li>If there are several songs, separate the roles that appear in many songs from those that appear in only one, and make a list of base equipment and equipment to add.</li></ol></div></aside>
+<aside class="web" id="web-W17-23"><div class="web-head"><span class="web-tag">Web tool 18</span><h4>Rig Calculator and Patch Sheet</h4><a class="web-open" href="https://jjjh7401.github.io/lx/rigcalc.html" rel="noopener" target="_blank">Open in new window ↗</a></div><p class="web-desc">A tool for both the practice and the field. Fill in four steps in turn: 1 fixture list (type · position · quantity · channels · weight · power) → 2 numbers · addresses (assign IDs, fill addresses, universe map) → 3 positions · coordinates (plan · elevation) → 4 patch sheet · checks. You can paste in and import a table exported from a spreadsheet or Vectorworks, and copy the fixture list, patch sheet and per-position load and power tables into a spreadsheet to send to the people in charge. It also includes the beam diameter calculation. The practice stage (94 fixtures) comes in as the example.</p><div class="tool-embed"><iframe allow="autoplay" loading="lazy" src="https://jjjh7401.github.io/lx/rigcalc.html?embed=1" style="--h:1900px" title="Rig Calculator and Patch Sheet"></iframe></div><p class="tool-open"><span>The notes you write are saved in this browser only. To use it on a wide screen, press "Open in new window" above.</span></p></aside>
+<section class="summary"><h2>Key points</h2><ul>
+<li>Lighting design proceeds in this order: song, artist and venue → looks → roles → fixtures → positions and quantities → lighting plot → patch sheet. Roles come before fixtures.</li>
+<li>Gather the main roles of the look sheet and the equipment you need comes out. Roles that appear across many songs are base equipment, and roles that appear in only one song are equipment added for that song.</li>
+<li>Which roles to have differs from venue to venue, so ask what to check for each role and decide by matching against the look sheet. If the role is the same, the model can be swapped.</li>
+<li>Decide position by role, and calculate the quantities of key and wash from the beam diameter (2 × distance × tan(beam angle ÷ 2)). Decide the quantity of beams by looking at the shape you will draw.</li>
+<li>The lighting plot is the plan, elevation, legend and position table. Set the origin and axes the same as the console, and draw it so that every fixture hangs somewhere.</li>
+<li>The patch sheet is a table that arranges ID, mode and universe.address for each fixture. Do not split a fixture at a universe boundary, keep a spare universe, and check the five points.</li>
+<li>If the equipment changes, fix the plot, position table, load and power table and patch sheet together and hand them over again.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">On the job tomorrow</div><div class="box-body"><ol class="steps"><li>Open the patch sheet of the stage you are using now and check whether each fixture has a position and X, Y, Z written in.</li><li>If it is empty, fill in the position names first, matching them to the plot.</li><li>Those names become the names of the sub-groups as they are.</li></ol></div></aside>
+<section class="part-end"><div class="pe-label">Closing Part 4</div><p class="lead">In Part 4 we saw how the same song changes from venue to venue.</p>
+<p>On a music show the camera came first (Chapter 17), at a concert the flow of the whole set list (Chapter 18), at an awards show the space between parts (Chapter 19), in a light show the solos of the equipment (Chapter 20), and at a festival improvisation (Chapter 21). And when you design the stage yourself, the starting point was still the looks of the song (Chapter 22).</p>
+<p>The principles of Parts 1–3 held as they were at every venue. Keep the key separate. One main per scene. Save the peak. What changed from venue to venue was not the principles but the unit at which they were applied. In Part 5, starting from the patch sheet of Chapter 22, we cover how to move all of this onto a grandMA3 console.</p>
+</section><section class="notes"><h2>Notes</h2><ol><li id="c22-s1">The author’s unpublished working notes and the lighting plot file of a light show (a 3D plot). The types, quantities, mode channels, weights, power, fixture ID number ranges, three levels of groups, three mounting methods, and load per truss and number of hoists for 208 fixtures.</li><li id="c22-s2">MA Lighting, grandMA3 User Manual 2.5, “MVR.” MVR (My Virtual Rig) is a file format for exchanging stage setup information between consoles, simulation programs and drawing programs, and it complements GDTF; exported to MVR from the Patch menu. <a href="https://help.malighting.com/grandMA3/2.5/HTML/patch_mvr.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/patch_mvr.html</a> (checked 2026-10-27)</li><li id="c22-s3">On Stage Lighting, “Lighting the Stage.” Two fixtures from the front for each zone, each coming down at about 45 degrees from the stage floor and spread about 45 degrees to left and right of the front. Back and side add a sense of depth. <a href="https://onstagelighting.co.uk/lighting-design/lighting-the-stage/" rel="noopener" target="_blank">https://onstagelighting.co.uk/lighting-design/lighting-the-stage/</a> (checked 2026-10-27)</li><li id="c22-s4">Wikipedia, “Beam angle.” The IES definition: the angle between the two directions where the intensity is 50% of the maximum (FWHM). The width out to the 10% point is called the field angle. <a href="https://en.wikipedia.org/wiki/Beam_angle" rel="noopener" target="_blank">https://en.wikipedia.org/wiki/Beam_angle</a> (checked 2026-10-27)</li><li id="c22-s5">Learn Stage Lighting, “How do I Create an Awesome, Even Wash of Stage Light?” Divide the stage into zones 8–10 feet (about 2.4–3 m) wide and deep, and overlap neighboring zones by a few feet so there are no dark spots. The same beam angle, the same distance, two directions from the front (45 degrees). <a href="https://learnstagelighting.com/blog/how-do-i-create-an-awesome-even-wash-of-stage-light" rel="noopener" target="_blank">https://learnstagelighting.com/blog/how-do-i-create-an-awesome-even-wash-of-stage-light</a> (checked 2026-10-27)</li><li id="c22-s6">ProSoundWeb, “Pro Production: The Essentials of Automated Lighting Design” (page 3). The edge of a beam is the point where the brightness is 50% of the center, and when neighboring beams overlap at this edge the brightness comes out similar. <a href="https://www.prosoundweb.com/pro-production-the-essentials-of-automated-lighting-design/3/" rel="noopener" target="_blank">https://www.prosoundweb.com/pro-production-the-essentials-of-automated-lighting-design/3/</a> (checked 2026-10-27)</li><li id="c22-s7">ControlBooth forum, “Focusing fixtures for an even overhead wash.” A quotation from Steve Shelley, <em>A Practical Guide to Stage Lighting</em> (the second beam’s edge lands at the center of the first beam); one opinion to place the beam-angle cones so they just touch; one opinion to make them meet at head height (5–6 feet) rather than at the floor; and one opinion that a model with soft edges hardly needs to overlap, so hang one and decide. <a href="https://www.controlbooth.com/goto/post?id=445715" rel="noopener" target="_blank">https://www.controlbooth.com/goto/post?id=445715</a> (checked 2026-10-27)</li><li id="c22-s8">Wikipedia, “Stanley McCandless.” Two fixtures lighting one zone from opposite sides, about 45 degrees up from the plane where the actor stands, about 90 degrees from each other. <a href="https://en.wikipedia.org/wiki/Stanley_McCandless" rel="noopener" target="_blank">https://en.wikipedia.org/wiki/Stanley_McCandless</a> (checked 2026-10-27)</li><li id="c22-s9">Vectorworks 2026 Help, “Exporting MVR files” (Spotlight). Exports a lighting and stage design made in Vectorworks to a console or visualizer (File &gt; Export); the standalone previsualization program Vision, and merging a layout revised in a visualizer back into the plot; 2D objects are not included in the MVR. <a href="https://app-help.vectorworks.net/2026/eng/VW2026_Guide/Export/Exporting_MVR%20files.htm" rel="noopener" target="_blank">https://app-help.vectorworks.net/2026/eng/VW2026_Guide/Export/Exporting_MVR%20files.htm</a> (checked 2026-10-27)</li><li id="c22-s10">The author’s field experience (2026-10-27). Lighting plots are usually drawn in Vectorworks, exported to MVR, and linked to patch sheets and to other simulation programs.</li></ol></section>
+</article>
+</div>
+
+</main>
+<nav class="ltm-pager" id="ltmPager" aria-label="Chapters"></nav>
+<footer class="ltm-foot">
+<p><b>Lighting the Music</b> by Jaehyun Jung. Free to read online. English edition translated from the Korean original with AI.</p>
+<p>Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener license" target="_blank">CC BY-NC-ND 4.0</a>: you may share it with credit (title, author and a link to this page), but not for commercial use and not in modified form.</p>
+</footer>
+<script src="book.js?v=3"></script>
+<script>LTM_chapter("ch22");</script>
+</body>
+</html>

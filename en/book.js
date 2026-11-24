@@ -28,7 +28,7 @@
     { id: 'ch19', n: '19', t: 'Award Shows and Large TV Shows', s: 'A stage that changes with every segment', file: 'ch19.html', ko: KO + '/69' },
     { id: 'ch20', n: '20', t: 'Light Shows and Openings', s: 'When the light is the star', file: 'ch20.html', ko: KO + '/70' },
     { id: 'ch21', n: '21', t: 'Festivals and Guest LDs', s: 'Lighting without knowing the set list', file: 'ch21.html', ko: KO + '/71' },
-    { id: 'ch22', n: '22', t: 'Lighting Design and the Rig', s: 'From the song to the plot and patch sheet' },
+    { id: 'ch22', n: '22', t: 'Lighting Design and the Rig', s: 'From the song to the plot and patch sheet', file: 'ch22.html', ko: KO + '/72' },
     { part: 'Part 5 · Building It on the Console — grandMA3' },
     { id: 'ch23', n: '23', t: 'How the Console Works', s: 'From the values you enter to the stage' },
     { id: 'ch24', n: '24', t: 'Patch, Groups and Presets', s: 'Moving the rig into the console' },
