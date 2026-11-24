@@ -23,7 +23,7 @@
     { id: 'ch15', n: '15', t: 'Adjusting for Genre', s: 'From ballads to EDM', file: 'ch15.html', ko: KO + '/65' },
     { id: 'ch16', n: '16', t: 'Cue Sheets and the Beat Grid', s: 'Turning a song into a lighting script', file: 'ch16.html', ko: KO + '/66' },
     { part: 'Part 4 · Lighting by Show Type' },
-    { id: 'ch17', n: '17', t: 'TV Music Shows', s: 'A stage where the camera is the audience' },
+    { id: 'ch17', n: '17', t: 'TV Music Shows', s: 'A stage where the camera is the audience', file: 'ch17.html', ko: KO + '/67' },
     { id: 'ch18', n: '18', t: 'Concerts and Tours', s: 'Shaping the flow of a whole show' },
     { id: 'ch19', n: '19', t: 'Award Shows and Large TV Shows', s: 'A stage that changes with every segment' },
     { id: 'ch20', n: '20', t: 'Light Shows and Openings', s: 'When the light is the star' },
