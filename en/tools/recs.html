@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Section Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 템포 밴드 요약, 가운데 구간마다 출발값 | 내 설계 | 다른 점과 이유 표 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:74ch}
+.band{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:760px){.band{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.band div{background:var(--panel2);border-radius:9px;padding:10px 12px}
+.band b{display:block;color:var(--ink);font-size:16px;font-family:var(--f-num)}
+.band span{font-size:12.5px;color:var(--muted)}
+table.rec td{vertical-align:top;font-size:13px}
+table.rec td.sec b{color:var(--ink);white-space:nowrap}
+table.rec td.sec span{display:block;font-size:12px;color:var(--muted);font-family:var(--f-num)}
+table.rec td.st{color:var(--body);min-width:15em}
+table.rec td.my{min-width:12em}
+table.rec .diff{display:block;margin-top:4px;font-size:12px;color:var(--warn);font-weight:700}
+table.rec textarea{min-height:52px;font-size:13px;min-width:14em}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:1px 8px}
+.kv i{font-style:normal;color:var(--muted);font-size:12px;white-space:nowrap}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Section Guide</h1>
+    <p>The board for the Chapter 12 practice. From the sections, energy and BPM in the song structure table, it shows the starting values for each section (Tables 12-1, 12-2 and 12-4) and sets your own design from the look sheet and brightness plan beside them. Write a reason in every cell that differs from the starting values. <b>The starting values are based on the practice stage</b>. The default is to adjust them to your own fixtures and song.</p>
+  </div>
+  <section class="panel">
+    <div class="row" style="justify-content:space-between;margin-bottom:10px"><h2 id="bandT">Tempo band</h2><span class="note" id="bandN"></span></div>
+    <div class="band" id="band"></div>
+  </section>
+  <section class="panel" style="margin-top:16px">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>Starting values and my design for each section</h2><button type="button" id="copy">Copy table</button></div>
+    <p class="note" id="msg"></p>
+    <div class="tbl"><table class="rec" id="rec"></table></div>
+    <p class="note" style="margin:10px 0 0">A difference does not mean it is wrong. If you write down which line of the concept sheet the reason came from, you know what to protect when you fix things in rehearsal.</p>
+  </section>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('recs.html'), D = L.design(S), R = D.recs;
+  var $ = function (id) { return document.getElementById(id); };
+  function save() { L.put(S); }
+  // 표 12-1: [역할, 색, 움직임, 밝기 범위, 인 타임 종류]
+  var T = {
+    intro: ['Key or one special + back', 'One signature color', 'Still or a slow sweep', [20, 40], 'Fade from black over 4–8 beats, or a snap on the first downbeat', ['Fade', 'Snap']],
+    verse: ['Key + back · side + a light wash', 'The color opposite the chorus', 'Still, a dimmer that breathes once every 2–4 bars', [30, 60], 'Snap, or a 1-beat fade', ['Snap', '1-beat', '2-beat']],
+    verse2: ['Verse 1 + one new element', 'Same as Verse 1', 'Same as Verse 1', [30, 70], 'Snap', ['Snap', 'Fade']],
+    pre: ['Add one role per bar', 'A little of the chorus color ahead of time', 'Gradually faster, the beams gather upward', [50, 80], 'Fade up over the length of the pre-chorus', ['Fade', 'Snap']],
+    chorus: ['Nearly all', 'A second color in contrast with the verse + white accent', 'Position changes or a chase every 1–2 beats', [80, 100], 'Snap, or the main look after a 1-bar white', ['Snap', 'Hit']],
+    last: ['Chorus + one', 'Chorus color + one new color or white', 'Same as the chorus', [95, 100], 'Snap after a white flash', ['Snap', 'Hit']],
+    bridge: ['Cut down to 2–3 roles', 'A color not yet used', 'One slow cross sweep every 1–2 bars', [50, 70], 'A 1-bar dip then a hit, or a long fade', ['Fade', 'Hit']],
+    beat: ['Centered on beams, key kept low', 'Two colors', 'Big, with hits on the choreography points', [70, 90], 'Snap', ['Snap']],
+    outro: ['Return to the signature look', 'Signature color', 'Still', [0, 60], 'A long fade, or a 0-beat cut on the last note (button ending)', ['Fade', 'Cut']]
+  };
+  var EN = { 1: ['Key + one', '0'], 2: ['Three to four', '0–1 (slow)'], 3: ['Four to five', '1'], 4: ['Six or more', '1~2'], 5: ['Everything + special cue', '2 + one momentary accent'] };
+  var BANDS = [[0, 80, 'Under 80', [4, 8], [8, 16], [16, 32]], [80, 100, '80~100', [2, 4], [4, 8], [8, 16]], [100, 120, '100~120', [1, 4], [4, 8], [4, 8]],
+    [120, 135, '120~135', [1, 2], [2, 4], [4, 8]], [135, 160, '135~160', [2, 2], [4, 4], [4, 8]], [160, 999, '160 and above', [2, 4], [4, 8], [8, 8]]];
+  function band() { var b = +S.bpm || 120; for (var i = 0; i < BANDS.length; i++) if (b >= BANDS[i][0] && b < BANDS[i][1]) return BANDS[i]; return BANDS[2]; }
+  function kind(list, i) {
+    var nm = list[i].m.name, verses = 0, choruses = list.filter(function (x) { return /^Chorus/i.test(x.m.name); });
+    for (var k = 0; k <= i; k++) if (/^Verse/i.test(list[k].m.name)) verses++;
+    if (i === 0 || /intro/i.test(nm)) return 'intro';
+    if (/^Verse/i.test(nm)) return verses > 1 ? 'verse2' : 'verse';
+    if (/^Pre/i.test(nm) || /build-?up/i.test(nm)) return 'pre';
+    if (/^Chorus|^Post/i.test(nm)) return choruses.length > 1 && choruses[choruses.length - 1] === list[i] ? 'last' : 'chorus';
+    if (/bridge/i.test(nm)) return 'bridge';
+    if (/^Beat|break|drop/i.test(nm)) return 'beat';
+    if (/^End|outro/i.test(nm)) return 'outro';
+    return (S.energy[list[i].m.id] || 3) >= 4 ? 'chorus' : 'verse';
+  }
+  function sec(beats) { return (beats * L.beatLen(S)).toFixed(1) + ' s'; }
+  function renderBand() {
+    var b = band();
+    $('bandT').textContent = 'Tempo band ' + b[2] + ' BPM'; $('bandN').textContent = (S.title || '') + ' · ' + S.bpm + ' BPM · Table 12-2 starting values';
+    $('band').innerHTML = [['Dimmer effect', b[3]], ['Color effect', b[4]], ['Position effect', b[5]]].map(function (x) {
+      return '<div><span>' + x[0] + ' cycle</span><b>' + x[1][0] + (x[1][1] !== x[1][0] ? '–' + x[1][1] : '') + ' beats</b><span>' + sec(x[1][0]) + (x[1][1] !== x[1][0] ? '–' + sec(x[1][1]) : '') + '</span></div>';
+    }).join('') + '<div><span>One chase step</span><b>' + (b[2] === 'Under 80' ? '1 bar' : b[2] === '80~100' ? '1–2 beats' : b[2] === '135~160' ? '1–2 beats' : b[2] === '160 and above' ? '2 beats' : '1 beat') + '</b><span>Cycles in 1, 2, 4 or 8 beats</span></div>';
+  }
+  function render() {
+    var list = L.sections(S);
+    if (!list.length) { $('rec').innerHTML = '<tr><td class="note">There are no sections. Write the sections in the listening notes first.</td></tr>'; return; }
+    $('rec').innerHTML = '<tr><th>Section</th><th>Energy</th><th>Starting value (Tables 12-1 · 12-4)</th><th>My design (look sheet · brightness plan)</th><th>How it differs and why</th></tr>' + list.map(function (x, i) {
+      var k = kind(list, i), t = T[k], e = S.energy[x.m.id] || 3, en = EN[e], lk = D.looks[x.m.id] || {}, br = D.bright.rows[x.m.id] || {};
+      var diffs = [];
+      if (br.hero != null && br.hero !== '' && (+br.hero < t[3][0] || +br.hero > t[3][1])) diffs.push('Main brightness ' + br.hero + '% is outside the starting range (' + t[3][0] + '–' + t[3][1] + '%)');
+      if (lk.entry) { var ok = t[5].some(function (w) { return lk.entry.toLowerCase().indexOf(w.toLowerCase()) >= 0; }); if (!ok) diffs.push('In time “' + lk.entry + '” differs from the starting value'); }
+      if (k === 'bridge' && (D.pal.flow[x.m.id] || []).length) {
+        var before = {}; list.slice(0, i).forEach(function (y) { (D.pal.flow[y.m.id] || []).forEach(function (c) { before[c] = 1; }); });
+        if ((D.pal.flow[x.m.id] || []).every(function (c) { return before[c]; })) diffs.push('The bridge color was already used earlier');
+      }
+      var rs = R[x.m.id] || '';
+      return '<tr><td class="sec"><b>' + L.esc(x.m.name) + '</b><span>' + (x.end > x.start ? 'bars ' + x.start + '–' + x.end : 'bar ' + x.start) + '</span></td><td class="num">' + e + '</td>' +
+        '<td class="st"><div class="kv"><i>Roles on</i><span>' + t[0] + ' · ' + en[0] + '</span><i>Color</i><span>' + t[1] + '</span><i>Movement</i><span>' + t[2] + '</span><i>Effects at once</i><span>' + en[1] + '</span><i>Main brightness</i><span>' + t[3][0] + '–' + t[3][1] + '%</span><i>In time</i><span>' + t[4] + '</span></div></td>' +
+        '<td class="my">' + (lk.name || br.hero != null ? '<div class="kv"><i>Look</i><span>' + L.esc(lk.name || '—') + '</span><i>Main</i><span>' + L.esc(lk.hero || '—') + '</span><i>Position</i><span>' + L.esc(lk.pos || '—') + '</span><i>Effect</i><span>' + L.esc(lk.fx || '—') + '</span><i>Brightness</i><span>' + (br.hero != null ? br.hero + '%' : '—') + '</span><i>In time</i><span>' + L.esc(lk.entry || '—') + '</span></div>' : '<span class="note">Not in the look sheet yet</span>') +
+        (diffs.length ? diffs.map(function (d) { return '<span class="diff">' + d + '</span>'; }).join('') : '') + '</td>' +
+        '<td><textarea data-id="' + x.m.id + '" aria-label="' + L.esc(x.m.name) + ' reason" placeholder="' + (diffs.length ? 'Why it differs, and which line of the concept sheet it comes from' : 'Within the starting values') + '">' + L.esc(rs) + '</textarea></td></tr>';
+    }).join('');
+  }
+  $('rec').addEventListener('input', function (e) { var t = e.target; if (t.dataset.id) { R[t.dataset.id] = t.value; save(); } });
+  $('copy').addEventListener('click', function () {
+    var list = L.sections(S), lines = ['Section\tBars\tEnergy\tStart roles\tStart brightness\tStart in time\tLook\tBrightness\tIn time\tReason'];
+    list.forEach(function (x, i) { var t = T[kind(list, i)], lk = D.looks[x.m.id] || {}, br = D.bright.rows[x.m.id] || {}; lines.push([x.m.name, x.start + '–' + x.end, S.energy[x.m.id] || 3, t[0], t[3][0] + '–' + t[3][1] + '%', t[4], lk.name || '', br.hero != null ? br.hero + '%' : '', lk.entry || '', (R[x.m.id] || '').replace(/\n/g, ' ')].join('\t')); });
+    var txt = (S.title || '') + ' section guide\n' + lines.join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? 'Table copied.' : 'Copying is blocked here.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  if (S.sample && !D.recs.seeded) {
+    var by = {}; L.sections(S).forEach(function (x) { by[x.m.name] = x.m.id; });
+    var ex = { 'Intro': 'The heart is the motif of the song, so it is shown clearly from the start (concept sheet: motif)', 'Chorus 1': 'Leaves headroom until Chorus 3 (Chapter 10)', 'Bridge': 'Keeps the concept’s three palette colors but lowers brightness to 45% to make a different scene in a single lilac', 'Verse 2': 'Adds a kick pulse on the floor beams and holds the movers still (two rhythm layers)' };
+    Object.keys(ex).forEach(function (n) { if (by[n]) R[by[n]] = ex[n]; });
+    D.recs.seeded = 1;
+  }
+  save(); renderBand(); render();
+})();
+</script>
+</body>
+</html>

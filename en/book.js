@@ -17,7 +17,7 @@
     { id: 'ch10', n: '10', t: 'Contrast and Restraint', s: 'Saving intensity and using darkness', file: 'ch10.html', ko: KO + '/60' },
     { part: 'Part 3 · Directing the Song' },
     { id: 'ch11', n: '11', t: 'Principles of Placement', s: 'How fast intensity, direction and color change', file: 'ch11.html', ko: KO + '/61' },
-    { id: 'ch12', n: '12', t: 'Lighting Each Section', s: 'How the light changes from intro to chorus' },
+    { id: 'ch12', n: '12', t: 'Lighting Each Section', s: 'How the light changes from intro to chorus', file: 'ch12.html', ko: KO + '/62' },
     { id: 'ch13', n: '13', t: 'Building Layers', s: 'Splitting the light by instrument' },
     { id: 'ch14', n: '14', t: 'Transitions', s: 'Connecting one scene to the next' },
     { id: 'ch15', n: '15', t: 'Adjusting for Genre', s: 'From ballads to EDM' },
