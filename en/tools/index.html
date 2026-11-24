@@ -110,9 +110,9 @@ h2.sec{margin:34px 0 10px;font-size:16px}
     <a class="step" href="showplan.html"><span class="no">Ch. 24 · 29</span><h2>Show File Plan</h2>
       <p>From the fixture role table, set the ID number ranges and three levels of groups, then calculate the number ranges of preset pools, sequences and pages for the number of songs.</p>
       <span class="use">In the field: before patching, when building a template</span><span class="go">Open →</span></a>
-    <a class="step" href="../../phaser.html"><span class="no">Ch. 25 · 26</span><h2>Phaser Calculator</h2>
+    <a class="step" href="phaser.html"><span class="no">Ch. 25 · 26</span><h2>Phaser Calculator</h2>
       <p>Calculates one cycle and the flash rate from BPM, measure and steps, and tells you the last phase depending on MAtricks and where you enter it.</p>
-      <span class="use">In the field: before applying an effect, when the first and last fixtures light together</span><span class="go">Open (Korean) →</span></a>
+      <span class="use">In the field: before applying an effect, when the first and last fixtures light together</span><span class="go">Open →</span></a>
     <a class="step" href="../../tc.html"><span class="no">Ch. 28</span><h2>Timecode Table</h2>
       <p>Splits tracks by scene and layer from the cue sheet, converts events to timecode and compares them with what you recorded.</p>
       <span class="use">In the field: before and after recording timecode</span><span class="go">Open (Korean) →</span></a>
@@ -168,7 +168,7 @@ h2.sec{margin:34px 0 10px;font-size:16px}
 (function () {
   'use strict';
   var go = { listen: 'listen.html', pairs: 'pairs.html', sheet: 'sheet.html', rig: 'rig.html', concept: 'concept.html', palette: 'palette.html', looks: 'looks.html', bright: 'bright.html', grid: 'grid.html', recs: 'recs.html', trans: 'trans.html', cues: 'cues.html', bcast: 'bcast.html', setlist: 'setlist.html', busk: 'busk.html', rigcalc: 'rigcalc.html', scene: 'scene.html', phaser: 'phaser.html', song: 'song.html', tc: 'tc.html', showplan: 'showplan.html', rehearsal: 'rehearsal.html', gocall: 'gocall.html', safety: 'safety.html' }[(location.hash || '').slice(1).split('&')[0]];
-  if (go) { var rest = (location.hash || '').slice(1).split('&').slice(1).join('&'); location.replace((['listen.html', 'pairs.html', 'sheet.html', 'rig.html', 'concept.html', 'palette.html', 'looks.html', 'bright.html', 'scene.html', 'grid.html', 'recs.html', 'trans.html', 'cues.html', 'bcast.html', 'setlist.html', 'busk.html', 'rigcalc.html', 'showplan.html'].indexOf(go) < 0 ? '../../' : '') + go + (rest ? '#' + rest : '')); return; }
+  if (go) { var rest = (location.hash || '').slice(1).split('&').slice(1).join('&'); location.replace((['listen.html', 'pairs.html', 'sheet.html', 'rig.html', 'concept.html', 'palette.html', 'looks.html', 'bright.html', 'scene.html', 'grid.html', 'recs.html', 'trans.html', 'cues.html', 'bcast.html', 'setlist.html', 'busk.html', 'rigcalc.html', 'showplan.html', 'phaser.html'].indexOf(go) < 0 ? '../../' : '') + go + (rest ? '#' + rest : '')); return; }
   var L = window.LX; L.top('index.html');
   var $ = function (id) { return document.getElementById(id); };
   var pending = null;

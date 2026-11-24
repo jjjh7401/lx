@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Phaser Calculator</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 속도·스텝 설정과 결과 숫자, 가운데 파형과 장비 줄 재생, 아래 위상 격자와 점검 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:76ch}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+.stack{display:grid;gap:16px;margin-top:16px}
+.steps{display:grid;gap:6px;margin-top:10px}
+.step{display:grid;grid-template-columns:3.6em repeat(3,minmax(0,1fr)) auto;gap:6px;align-items:center;font-size:13px}
+.step input{width:100%}
+.step .lb{font-weight:700;color:var(--ink)}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.res .r{background:var(--panel2);border-radius:10px;padding:10px 12px}
+.res .r .k{font-size:12px;color:var(--muted)}
+.res .r .v{font-family:var(--f-num);font-size:22px;color:var(--ink);line-height:1.2}
+.res .r .s{font-size:12px;color:var(--muted)}
+svg{display:block;width:100%;height:auto}
+.fix{display:grid;gap:6px;margin-top:10px}
+.lamps{display:flex;flex-wrap:wrap;gap:6px}
+.lamp{width:34px;height:34px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--f-num);font-size:12px;color:var(--muted)}
+.ph{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
+.ph div{background:var(--panel2);border-radius:8px;padding:6px;text-align:center;font-size:12px}
+.ph div b{display:block;font-family:var(--f-num);font-size:14px;color:var(--ink)}
+.ph div.same{outline:2px solid var(--warn)}
+.say{background:var(--panel2);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--ink)}
+.say code{font-family:var(--f-num);font-size:13px;background:var(--bg);padding:1px 6px;border-radius:5px}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Phaser Calculator</h1>
+    <p>A worksheet for the exercises in Chapters 25 and 26. Enter the song’s BPM and Measure and the steps’ value, Width and Transition, and it calculates the length of one cycle and the flashes per second and draws the waveform. Choose the number of fixtures and MAtricks (Block, Group, Wings) and it shows the phase each fixture receives and the last phase to enter, depending on where you enter it.</p>
+  </div>
+  <div class="grid2">
+    <section class="panel">
+      <h2>Speed and steps</h2>
+      <div class="row" style="margin-top:10px">
+        <label class="f">Load<select id="preset"></select></label>
+        <label class="f">BPM<input type="number" id="bpm" class="n" min="20" max="300" step="0.1" style="width:6em"></label>
+        <label class="f">Measure (beats)<input type="number" id="mea" class="n" min="0" step="0.25" style="width:5.5em"></label>
+        <label class="f">Shape<select id="shape"><option value="lin">Constant (Accel·Decel 0)</option><option value="sine">Sine (Accel·Decel −100)</option></select></label>
+      </div>
+      <div class="steps" id="steps"></div>
+      <div class="row" style="margin-top:8px"><button type="button" id="addStep" class="ghost">Add a step</button><button type="button" id="delStep" class="ghost">Remove the last step</button>
+        <button type="button" id="mkSnap" class="ghost">All Transition 0 (snap)</button><button type="button" id="mkSine" class="ghost">All Transition 100 (sine)</button></div>
+      <p class="note" style="margin:8px 0 0">Values are 0–100 (% for a dimmer; the size of the relative value for a position). Width is % of one beat, and Transition is the % of that step spent changing the value. Leave Measure at 0 and the sum of the Widths becomes one cycle.</p>
+    </section>
+    <section class="panel">
+      <h2>Result</h2>
+      <div class="res" id="res" style="margin-top:10px"></div>
+      <svg id="wave" viewBox="0 0 600 170" role="img" aria-label="Waveform of one fixture, two cycles" style="margin-top:12px"></svg>
+    </section>
+  </div>
+  <div class="stack">
+    <section class="panel">
+      <h2>Fixtures and phase</h2>
+      <div class="row" style="margin-top:10px">
+        <label class="f">Number of fixtures<input type="number" id="nfx" class="n" min="1" max="64" style="width:5em"></label>
+        <label class="f">MAtricks<select id="mx"><option value="same">All the same phase</option><option value="none">None (one at a time)</option><option value="block">Block</option><option value="group">Group</option><option value="wings">Wings</option></select></label>
+        <label class="f">Value<input type="number" id="mxk" class="n" min="2" max="32" style="width:4.5em"></label>
+        <label class="f">Direction<select id="dir"><option value="f">Forward (in the order picked)</option><option value="r">Reverse</option></select></label>
+        <label class="f">Where the phase is entered<select id="path"><option value="auto">Calculator “0 thru 360” button · Edit Phase 360</option><option value="lit">MAtricks window · recipe (literal)</option></select></label>
+        <label class="f">Last phase (when literal)<input type="number" id="endv" class="n" step="0.5" style="width:6em"></label>
+      </div>
+      <div class="fix">
+        <div class="lamps" id="lamps" aria-label="Fixture row"></div>
+        <div class="row"><button type="button" id="play" class="primary">Play</button><span class="note" id="clock"></span></div>
+      </div>
+      <h3 style="margin-top:14px">Phase each fixture receives</h3>
+      <div class="ph" id="ph" style="margin-top:8px"></div>
+      <div class="say" id="say" style="margin-top:12px"></div>
+    </section>
+    <div class="grid2">
+      <section class="panel"><h2 style="margin-bottom:10px">Checks</h2><ul class="checks" id="checks"></ul></section>
+      <section class="panel"><h2 style="margin-bottom:10px">The five parameters in one line</h2><p class="say" id="line"></p>
+        <div class="row" style="margin-top:10px"><button type="button" id="copy">Copy settings</button><button type="button" id="reset" class="ghost">Reset to the example</button></div><p class="note" id="msg"></p></section>
+    </div>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('phaser.html', { noSong: true }) || {};
+  var $ = function (id) { return document.getElementById(id); };
+  var songBpm = +(L.song() && L.song().bpm) || 112;
+  function st(v, w, tr) { return { v: v, w: w, tr: tr }; }
+  var PRE = [
+    ['Ch. 25 Table 25-3 · Snap pulse', { mea: 1, shape: 'lin', steps: [st(100, 30, 0), st(0, 70, 0)], n: 8, mx: 'same', k: 2 }],
+    ['Ch. 25 Table 25-3 · Odd/even', { mea: 1, shape: 'lin', steps: [st(100, 50, 0), st(0, 50, 0)], n: 8, mx: 'group', k: 2 }],
+    ['Ch. 25 Table 25-3 · Odd/even, fast', { mea: 0.5, shape: 'lin', steps: [st(100, 50, 0), st(0, 50, 0)], n: 8, mx: 'group', k: 2 }],
+    ['Ch. 25 Table 25-3 · Running', { mea: 2, shape: 'lin', steps: [st(100, 25, 0), st(0, 75, 0)], n: 6, mx: 'none', k: 2 }],
+    ['Ch. 25 Table 25-3 · Bloom', { mea: 1, shape: 'lin', steps: [st(100, 35, 0), st(0, 65, 0)], n: 6, mx: 'wings', k: 2, dir: 'r' }],
+    ['Ch. 25 Table 25-3 · Sparkle', { mea: 0.5, shape: 'lin', steps: [st(100, 22, 0), st(0, 78, 0)], n: 6, mx: 'none', k: 2 }],
+    ['Ch. 25 Table 25-3 · Comet tail', { mea: 1, shape: 'lin', steps: [st(100, 33, 0), st(32, 33, 100), st(0, 34, 0)], n: 8, mx: 'none', k: 2 }],
+    ['Ch. 25 Table 25-4 · Back low bass, every beat', { mea: 1, shape: 'lin', steps: [st(100, 30, 0), st(0, 70, 0)], n: 6, mx: 'same', k: 2 }],
+    ['Ch. 25 Table 25-4 · Floor beam kick (first beat of the bar)', { mea: 4, shape: 'lin', steps: [st(100, 25, 0), st(0, 75, 0)], n: 8, mx: 'same', k: 2 }],
+    ['Ch. 25 Table 25-4 · Side hi-hat (left-right alternating)', { mea: 2, shape: 'lin', steps: [st(100, 50, 0), st(0, 50, 0)], n: 8, mx: 'block', k: 4 }],
+    ['Ch. 25 Table 25-4 · Upper moving pan wave', { mea: 2, shape: 'sine', steps: [st(100, 100, 100), st(0, 100, 100)], n: 8, mx: 'none', k: 2 }],
+    ['Ch. 25 Table 25-4 · Lower moving tilt wave', { mea: 8, shape: 'sine', steps: [st(100, 100, 100), st(0, 100, 100)], n: 16, mx: 'none', k: 2 }],
+    ['Ch. 26 exercise · 1-in-8 chase', { mea: 4, shape: 'lin', steps: [st(100, 12.5, 0), st(0, 87.5, 0)], n: 8, mx: 'none', k: 2 }],
+    ['Manual · Sine dimmer breathing', { mea: 4, shape: 'sine', steps: [st(0, 100, 100), st(100, 100, 100)], n: 8, mx: 'none', k: 2 }]
+  ];
+  function example() { var p = JSON.parse(JSON.stringify(PRE[0][1])); p.bpm = songBpm; p.dir = p.dir || 'f'; p.path = 'auto'; p.endv = 360; p.pi = 0; return p; }
+  var P = L.getKey('phaser') || example();
+  function save() { L.putKey('phaser', P); }
+  $('preset').innerHTML = PRE.map(function (x, i) { return '<option value="' + i + '">' + x[0] + '</option>'; }).join('');
+
+  // ── 계산 ──
+  function wsum() { return P.steps.reduce(function (a, s) { return a + (+s.w || 0); }, 0) || 100; }
+  function loopBeats() { return +P.mea > 0 ? +P.mea : wsum() / 100; }
+  function loopSec() { return loopBeats() * 60 / (+P.bpm || 120); }
+  function ease(x) { return P.shape === 'sine' ? (1 - Math.cos(Math.PI * x)) / 2 : x; }
+  function valAt(u) { // u: 0~1 한 사이클 안의 위치
+    var W = wsum(), x = ((u % 1) + 1) % 1 * W, acc = 0, n = P.steps.length;
+    for (var i = 0; i < n; i++) {
+      var s = P.steps[i], w = +s.w || 0;
+      if (x < acc + w || i === n - 1) {
+        var prev = +P.steps[(i - 1 + n) % n].v, tw = w * (+s.tr || 0) / 100, into = x - acc;
+        if (tw <= 0 || into >= tw) return +s.v;
+        return prev + (+s.v - prev) * ease(into / tw);
+      }
+      acc += w;
+    }
+    return +P.steps[0].v;
+  }
+  function flashesPerLoop() { var n = 0, prev = valAt(0.9999); for (var i = 0; i < 2000; i++) { var v = valAt(i / 2000); if (prev < 50 && v >= 50) n++; prev = v; } return n; }
+  function slots() {
+    var N = +P.n || 1, k = Math.max(2, +P.k || 2), mx = P.mx, pos = [], S2;
+    for (var i = 0; i < N; i++) {
+      if (mx === 'same') pos.push(0);
+      else if (mx === 'block') pos.push(Math.floor(i / k));
+      else if (mx === 'group') pos.push(i % k);
+      else if (mx === 'wings') { var Lw = Math.ceil(N / k), w = Math.floor(i / Lw), j = i - w * Lw; pos.push(w % 2 === 0 ? j : Lw - 1 - j); }
+      else pos.push(i);
+    }
+    S2 = mx === 'same' ? 1 : Math.max.apply(null, pos) + 1;
+    if (P.dir === 'r') pos = pos.map(function (p) { return S2 - 1 - p; });
+    return { pos: pos, n: S2 };
+  }
+  function phases() {
+    var s = slots(), E = +P.endv;
+    return s.pos.map(function (p) {
+      if (s.n <= 1) return 0;
+      return P.path === 'auto' ? p * 360 / s.n : p * (isFinite(E) ? E : 360) / (s.n - 1);
+    });
+  }
+  function r2(x) { return Math.round(x * 100) / 100; }
+
+  // ── 그리기 ──
+  function renderSteps() {
+    $('steps').innerHTML = '<div class="step note"><span></span><span>Value</span><span>Width (%)</span><span>Transition (%)</span><span></span></div>' + P.steps.map(function (s, i) {
+      return '<div class="step"><span class="lb">Step ' + (i + 1) + '</span>' +
+        ['v', 'w', 'tr'].map(function (k) { return '<input type="number" step="0.5" min="0" data-i="' + i + '" data-k="' + k + '" value="' + s[k] + '" aria-label="Step ' + (i + 1) + ' ' + k + '">'; }).join('') + '<span></span></div>';
+    }).join('');
+  }
+  function renderWave() {
+    var w = 600, h = 170, x0 = 34, x1 = 590, y0 = 16, y1 = 132, lb = loopBeats(), beats = lb * 2, d = '';
+    var g = '<rect x="0" y="0" width="' + w + '" height="' + h + '" fill="none"/>';
+    for (var b = 0; b <= Math.ceil(beats - 1e-9); b++) { var x = x0 + b / beats * (x1 - x0); if (x <= x1 + 0.5) g += '<line x1="' + x + '" y1="' + y0 + '" x2="' + x + '" y2="' + y1 + '" stroke="var(--grid4)" stroke-dasharray="3 3"/>' + (b < beats ? '<text x="' + (x + 3) + '" y="' + (y1 + 14) + '" font-size="10" fill="var(--muted)">' + 'Beat ' + (b + 1) + '</text>' : ''); }
+    g += '<line x1="' + x0 + '" y1="' + y1 + '" x2="' + x1 + '" y2="' + y1 + '" stroke="var(--line)"/><text x="' + (x0 - 6) + '" y="' + (y0 + 4) + '" font-size="10" fill="var(--muted)" text-anchor="end">100</text><text x="' + (x0 - 6) + '" y="' + (y1 + 3) + '" font-size="10" fill="var(--muted)" text-anchor="end">0</text>';
+    for (var i = 0; i <= 600; i++) { var u = i / 600 * 2, v = valAt(u % 1); d += (i ? 'L' : 'M') + (x0 + i / 600 * (x1 - x0)).toFixed(1) + ',' + (y1 - v / 100 * (y1 - y0)).toFixed(1); }
+    g += '<path d="' + d + '" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linejoin="round"/>';
+    var xm = x0 + (x1 - x0) / 2; g += '<line x1="' + xm + '" y1="' + (y0 - 6) + '" x2="' + xm + '" y2="' + (y1 + 4) + '" stroke="var(--impact)" stroke-width="1.4"/><text x="' + (xm + 4) + '" y="' + (y0 - 1) + '" font-size="10.5" fill="var(--impact)">One cycle = ' + r2(lb) + (r2(lb) === 1 ? ' beat' : ' beats') + ' · ' + r2(loopSec()) + ' s</text>';
+    g += '<text x="' + x0 + '" y="' + (h - 6) + '" font-size="10.5" fill="var(--muted)">One fixture, two cycles</text>';
+    $('wave').innerHTML = g;
+  }
+  function renderRes() {
+    var ls = loopSec(), fpl = flashesPerLoop(), per = fpl / ls, s = slots(), stage = per * s.n;
+    var R = [['One cycle', r2(loopBeats()) + (r2(loopBeats()) === 1 ? ' beat' : ' beats'), r2(ls) + ' s'], ['One fixture', r2(per) + '/s', 'Lights ' + fpl + (fpl === 1 ? ' time' : ' times') + ' per cycle'],
+      ['Whole stage', r2(stage) + '/s', 'Based on ' + s.n + (s.n === 1 ? ' phase slot' : ' phase slots') + ' (maximum)'], ['Phase interval', s.n > 1 ? r2(360 / s.n) + '°' : '—', s.n > 1 ? 'Last slot ' + r2(360 - 360 / s.n) + '°' : 'All the same']];
+    $('res').innerHTML = R.map(function (x) { return '<div class="r"><div class="k">' + x[0] + '</div><div class="v">' + x[1] + '</div><div class="s">' + x[2] + '</div></div>'; }).join('');
+  }
+  function renderPh() {
+    var ph = phases(), s = slots(), N = ph.length;
+    var lastSame = N > 1 && s.n > 1 && Math.abs(((ph[N - 1] - ph[0]) % 360 + 360) % 360) < 0.01 && s.pos[N - 1] !== s.pos[0];
+    $('ph').innerHTML = ph.map(function (p, i) { var bad = lastSame && (i === 0 || i === N - 1); return '<div class="' + (bad ? 'same' : '') + '">' + '#' + (i + 1) + '<b>' + r2(p) + '°</b></div>'; }).join('');
+    $('lamps').innerHTML = ph.map(function (p, i) { return '<div class="lamp" data-i="' + i + '">' + (i + 1) + '</div>'; }).join('');
+    var say;
+    if (s.n <= 1) say = 'Every fixture gets the same phase (0°). You do not need to enter a phase.';
+    else if (P.path === 'auto') say = 'Use the calculator’s <code>0 thru 360</code> button (or Edit Phase <code>360</code> in the Phaser Editor) and the console spreads it evenly over ' + s.n + ' splits, so the last slot is ' + r2(360 - 360 / s.n) + '°.';
+    else say = 'The MAtricks window and recipes calculate literally, so enter Phase From <code>0</code>, To <code>' + r2(360 - 360 / s.n) + '</code> (Table 26-3 in Chapter 26). The last phase entered now is <code>' + r2(+P.endv) + '</code>.';
+    $('say').innerHTML = say;
+    return lastSame;
+  }
+  function renderChecks(lastSame) {
+    var out = [], ls = loopSec(), fpl = flashesPerLoop(), per = fpl / ls, s = slots();
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: 'Check', i: 'Note', ok: 'Good' }[lv] + '</span>' + h + '</li>'); }
+    if (P.steps.length < 2) add('w', 'There is only one step. Even if the console accepts the values, the phaser does not move (Section 25.1).');
+    var vs = P.steps.map(function (x) { return +x.v; }); if (Math.max.apply(null, vs) === Math.min.apply(null, vs)) add('i', 'Every step has the same value. Unless this is the fixed preset of Chapter 27 (blocking the remaining steps), nothing will move.');
+    if (+P.mea > 0 && Math.abs(wsum() - P.mea * 100) > 0.01) add('i', 'The sum of the Widths (' + r2(wsum()) + '%) differs from Measure (' + P.mea + ' beats = ' + P.mea * 100 + '%). The result is the same, but the manual recommends matching them so it is easier to read later (Section 25.3).');
+    if (!(+P.mea > 0)) add('i', 'Measure is not entered, so the sum of the Widths (' + r2(wsum() / 100) + ' beats) becomes one cycle. In the flash-rate formula this value goes in the Measure slot.');
+    if (+P.mea > 0 && P.mea < 1) add('i', 'With a decimal Measure such as ' + P.mea + ', check once the first time that the console plays it as entered (Section 25.6).');
+    if (per > 3) add('w', 'One fixture flashes ' + r2(per) + ' times per second. Used over a wide area on a broadcast stage, this exceeds the flash limit (3 per second) (Chapters 10 and 17).');
+    else if (per * s.n > 3 && s.n > 1) add('i', 'One fixture does ' + r2(per) + '/s, but across the whole stage each phase slot bursts separately, up to ' + r2(per * s.n) + '/s. For broadcast, look at it together with the area.');
+    if (lastSame) add('w', 'The first and last fixtures get the same phase and light together. Where the console calculates literally, enter ' + r2(360 - 360 / s.n) + ' as the last phase (Section 26.3).');
+    if (P.path === 'lit' && s.n > 1 && !lastSame && Math.abs(+P.endv - (360 - 360 / s.n)) > 0.01) add('w', 'Entering ' + r2(+P.endv) + ' as the last phase where the console calculates literally makes the spacing of ' + s.n + ' splits uneven. To spread evenly, enter ' + r2(360 - 360 / s.n) + ' as the last phase.');
+    if (P.path === 'auto' && s.n > 1 && Math.abs(+P.endv - (360 - 360 / s.n)) < 0.01) add('i', 'If you enter ' + P.endv + ' on the button that spreads automatically, the console divides that range again and the spacing can become narrower. Use 360 on the button.');
+    if (P.shape === 'sine' && P.steps.some(function (x) { return +x.tr < 100; })) add('i', 'The shape is sine but some step has a Transition other than 100. For a breathing pulse, keep every step at Transition 100.');
+    if (P.mx === 'wings') add('i', 'The manual does not say whether the two wings of Wings get the phase as a mirror image. Look once in the console’s 3D view.');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; })) add('ok', 'Nothing is flagged in steps, flashing or phase.');
+    $('checks').innerHTML = out.join('');
+  }
+  function renderLine() {
+    var ph = phases(), s = slots();
+    $('line').textContent = 'Speed = speed master (' + P.bpm + ' BPM) · Measure ' + (+P.mea > 0 ? P.mea : 'none (sum of Widths)') + ' · Width ' + P.steps.map(function (x) { return x.w; }).join(' / ') +
+      ' · Transition ' + P.steps.map(function (x) { return x.tr; }).join(' / ') + (P.shape === 'sine' ? ' · Accel·Decel −100' : '') +
+      ' · Phase ' + (s.n > 1 ? '0~' + r2(Math.max.apply(null, ph)) + ' (' + s.n + ' splits' + ({ block: ', Block ', group: ', Group ', wings: ', Wings ' }[P.mx] ? ({ block: ', Block ', group: ', Group ', wings: ', Wings ' }[P.mx] + P.k) : '') + ')' : 'all 0');
+  }
+  function render() {
+    $('bpm').value = P.bpm; $('mea').value = P.mea; $('shape').value = P.shape; $('nfx').value = P.n; $('mx').value = P.mx; $('mxk').value = P.k; $('mxk').disabled = !/block|group|wings/.test(P.mx);
+    $('dir').value = P.dir || 'f'; $('path').value = P.path || 'auto'; $('endv').value = P.endv; $('endv').disabled = P.path !== 'lit'; $('preset').value = P.pi != null ? P.pi : '';
+    renderSteps(); renderWave(); renderRes(); var ls = renderPh(); renderChecks(ls); renderLine();
+  }
+
+  // ── 재생 ──
+  var raf = 0, t0 = 0;
+  function tick(now) {
+    var ls = loopSec(), ph = phases(), el = (now - t0) / 1000;
+    var lamps = $('lamps').children;
+    for (var i = 0; i < lamps.length; i++) {
+      var v = valAt(el / ls - ph[i] / 360) / 100;
+      lamps[i].style.background = 'color-mix(in srgb, var(--accent) ' + Math.round(v * 100) + '%, var(--panel2))';
+      lamps[i].style.color = v > 0.5 ? 'var(--accent-ink)' : 'var(--muted)';
+    }
+    $('clock').textContent = (el / ls).toFixed(1) + ' cycles · ' + (el * P.bpm / 60).toFixed(1) + ' beats';
+    raf = requestAnimationFrame(tick);
+  }
+  $('play').addEventListener('click', function () {
+    if (raf) { cancelAnimationFrame(raf); raf = 0; $('play').textContent = 'Play'; return; }
+    t0 = performance.now(); raf = requestAnimationFrame(tick); $('play').textContent = 'Stop';
+  });
+
+  // ── 입력 ──
+  function num(v, d) { v = +v; return isFinite(v) ? v : d; }
+  $('steps').addEventListener('change', function (e) { var t = e.target; if (t.dataset.i == null) return; P.steps[+t.dataset.i][t.dataset.k] = Math.max(0, num(t.value, 0)); P.pi = null; save(); render(); });
+  [['bpm', 'bpm'], ['mea', 'mea'], ['nfx', 'n'], ['mxk', 'k'], ['endv', 'endv']].forEach(function (x) {
+    $(x[0]).addEventListener('change', function () { var v = num($(x[0]).value, P[x[1]]); if (x[1] === 'n') v = Math.max(1, Math.min(64, Math.round(v))); if (x[1] === 'k') v = Math.max(2, Math.round(v)); if (x[1] === 'bpm') v = Math.max(20, Math.min(300, v)); if (x[1] === 'mea') v = Math.max(0, v); P[x[1]] = v; P.pi = null; save(); render(); });
+  });
+  [['shape', 'shape'], ['mx', 'mx'], ['dir', 'dir'], ['path', 'path']].forEach(function (x) { $(x[0]).addEventListener('change', function () { P[x[1]] = $(x[0]).value; if (x[1] === 'path' && P.path === 'lit' && !isFinite(+P.endv)) P.endv = 360; save(); render(); }); });
+  $('preset').addEventListener('change', function () { var i = +$('preset').value, q = JSON.parse(JSON.stringify(PRE[i][1])); q.bpm = P.bpm; q.dir = q.dir || 'f'; q.path = 'auto'; q.endv = 360; q.pi = i; P = q; save(); render(); });
+  $('addStep').addEventListener('click', function () { if (P.steps.length >= 8) return; P.steps.push(st(0, 100, 0)); save(); render(); });
+  $('delStep').addEventListener('click', function () { if (P.steps.length <= 1) return; P.steps.pop(); save(); render(); });
+  $('mkSnap').addEventListener('click', function () { P.steps.forEach(function (x) { x.tr = 0; }); P.shape = 'lin'; save(); render(); });
+  $('mkSine').addEventListener('click', function () { P.steps.forEach(function (x) { x.tr = 100; }); P.shape = 'sine'; save(); render(); });
+  L.confirmBtn($('reset'), 'Press again to reset to the example', function () { P = example(); save(); render(); $('msg').textContent = 'Reset to the example (snap pulse).'; });
+  $('copy').addEventListener('click', function () {
+    var ph = phases(), txt = 'Phaser settings\n' + $('line').textContent + '\nStep\tValue\tWidth\tTransition\n' + P.steps.map(function (x, i) { return (i + 1) + '\t' + x.v + '\t' + x.w + '\t' + x.tr; }).join('\n') +
+      '\nFixture\tPhase\n' + ph.map(function (p, i) { return (i + 1) + '\t' + r2(p); }).join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? 'Copied the settings.' : 'Copying is blocked.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  render();
+})();
+</script>
+</body>
+</html>
