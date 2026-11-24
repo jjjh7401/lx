@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chapter 6 · Fixtures and Their Roles · Lighting the Music</title>
+<meta name="description" content="Divide fixtures by role, learn the five things light can change, and turn your rig into a role table.">
+<link rel="alternate" hreflang="ko" href="https://ablitzdesign.tistory.com/56">
+<link rel="alternate" hreflang="en" href="https://jjjh7401.github.io/lx/en/ch6.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 6 · Fixtures and Their Roles · Lighting the Music">
+<meta property="og:description" content="Divide fixtures by role, learn the five things light can change, and turn your rig into a role table.">
+<meta property="og:image" content="https://jjjh7401.github.io/lx/cover-800.jpg">
+<meta property="og:url" content="https://jjjh7401.github.io/lx/en/ch6.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="en.css?v=2">
+</head>
+<body>
+<header class="ltm-bar" id="ltmBar"></header>
+<main id="article-view">
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<section class="part-page" id="part2"><div class="pn">PART 2</div><h2>Designing the Light</h2><p>Once you have listened to the whole song, you decide what lighting to show for it. You divide up which job each piece of equipment will take, then decide the mood and color, what to put in front in each scene, and where to hold back brightness. It is the rough sketch you draw before building cues.</p><ol start="6"><li><a href="ch6.html">Fixtures and Their Roles</a></li><li><a href="ch7.html">Concept</a></li><li><a href="ch8.html">Color Planning</a></li><li><a href="ch9.html">Looks and the Main Light</a></li><li><a href="ch10.html">Contrast and Restraint</a></li></ol></section><article class="chapter" id="ch6"><header class="ch-head"><div class="ch-num"><span>Chapter</span> 6</div><h1 class="ch-title">Fixtures and Their Roles</h1><p class="ch-sub">Five Things Light Can Change</p></header>
+<aside class="box goals"><div class="box-label">In this chapter</div><div class="box-body">
+<ul class="checks">
+<li>Divide your fixtures not by name but by role (key, fill, back, side, top, wash, beam, FX, pixel, audience).</li>
+<li>Tell apart the five attributes that light can change on any fixture (dimmer, color, position, beam, time).</li>
+<li>Put the fixtures you are in charge of onto one role table and find the roles that are empty.</li>
+</ul>
+</div></aside>
+<div class="open-label">Opening scene</div><p class="lead">While watching a concert video, stop on one scene. The beams cutting across the screen, the color filling the back of the stage and the beams sweeping the floor make the light look countless. Yet among all that light, only a few lights are on the singer’s face.</p>
+<p>The light on the face doesn’t stand out on screen. Still, if it goes out, the stage looks empty at once. So when you look at fixtures, look first at the job each light has, not the quantity. Before deciding in Part 2 what to show, divide the fixtures you have into roles.</p>
+<h2 id="c6-6-1-fixtures-seen-by-role">6.1 Fixtures Seen by Role</h2><p class="lead">Divide fixtures by the role they take rather than by name. The same moving light becomes a light that brightens the face (key) when it lights the face from the audience side, and a light that picks out a person’s outline (back) when it lights them from behind the stage.</p>
+<p>The reverse also happens: several fixtures of different kinds share one role.</p>
+<aside class="box terms"><div class="box-label">Terms to know — roles of lights</div><div class="box-body"><dl class="defs"><div><dt>Key</dt><dd>The main light that makes the face and body visible. Usually it shines from above and in front, on the audience side.</dd></div><div><dt>Fill</dt><dd>A weak light that softens the shadows the key makes.</dd></div><div><dt>Back</dt><dd>A light from behind that traces a person’s outline and separates them from the background.</dd></div><div><dt>Side</dt><dd>A light from the side that brings out the body’s volume and movement. It matters especially when showing dance.</dd></div><div><dt>Top</dt><dd>A light that comes straight down and marks the spot where a person stands.</dd></div><div><dt>Wash</dt><dd>A light that covers a wide area of the stage in color. The section’s palette is set here.</dd></div><div><dt>Beam</dt><dd>A narrow light that draws lines in the air. It is visible only with haze.</dd></div><div><dt>FX</dt><dd>A light that marks a brief moment, like a strobe.</dd></div><div><dt>Pixel</dt><dd>A light that turns on each cell separately, like an LED bar or matrix.</dd></div><div><dt>Audience</dt><dd>A light that shines toward the audience. Blinders and audience washes take this job.</dd></div></dl></div></aside>
+<p>The ten roles divide into three groups by what they do.</p>
+<ul class="keyed">
+<li><strong>Performer lighting</strong>Key, fill, back, side, top. They make the face, body and outline of the people on stage.</li>
+<li><strong>Background lighting</strong>Wash, pixel. They make the stage’s base color and structure.</li>
+<li><strong>Effect lighting</strong>Beam, FX, audience. They make lines in the air and short flashes, and extend the light out to the audience.</li>
+</ul>
+<p>There is one light source that sits outside the ten roles but must be looked at together with them. It is the <strong>LED wall</strong>. The big screen behind the stage is often the widest and brightest light source on the stage, and it affects both the exposure of faces and the contrast of the background. It is not lighting, so it isn’t put in the role table, but the brighter the screen, the more the key and back must be raised along with it for people to stand apart from the screen (Chapters 7 and 17).</p>
+<p>The use becomes clear when you lay it over the sound and light matching of Chapter 1 (Figure 1-2). Melody and people go to the key and beam, weight and harmony go to the wash, rhythm goes to dimmer pulses and pixels, and big impacts go to audience lighting such as blinders.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 496" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#d6d9df" height="6.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="380.0" x="30.0" y="470.0"></rect>
+<text fill="#6b7280" font-size="13" font-weight="400" opacity="1.0" text-anchor="middle" x="200.0" y="498.0">Audience</text>
+<rect fill="#eef0f3" height="56.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="500.0" x="410.0" y="420.0"></rect>
+<text fill="#6b7280" font-size="13" font-weight="400" opacity="1.0" text-anchor="middle" x="660.0" y="498.0">Stage</text>
+<circle cx="70.0" cy="452.0" fill="#d6d9df" opacity="1.0" r="7.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#d6d9df" height="11.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="14.0" x="63.0" y="459.0"></rect>
+<circle cx="112.0" cy="452.0" fill="#d6d9df" opacity="1.0" r="7.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#d6d9df" height="11.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="14.0" x="105.0" y="459.0"></rect>
+<circle cx="154.0" cy="452.0" fill="#d6d9df" opacity="1.0" r="7.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#d6d9df" height="11.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="14.0" x="147.0" y="459.0"></rect>
+<circle cx="196.0" cy="452.0" fill="#d6d9df" opacity="1.0" r="7.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#d6d9df" height="11.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="14.0" x="189.0" y="459.0"></rect>
+<circle cx="238.0" cy="452.0" fill="#d6d9df" opacity="1.0" r="7.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#d6d9df" height="11.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="14.0" x="231.0" y="459.0"></rect>
+<circle cx="280.0" cy="452.0" fill="#d6d9df" opacity="1.0" r="7.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#d6d9df" height="11.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="14.0" x="273.0" y="459.0"></rect>
+<circle cx="322.0" cy="452.0" fill="#d6d9df" opacity="1.0" r="7.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#d6d9df" height="11.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="14.0" x="315.0" y="459.0"></rect>
+<circle cx="364.0" cy="452.0" fill="#d6d9df" opacity="1.0" r="7.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#d6d9df" height="11.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="14.0" x="357.0" y="459.0"></rect>
+<rect fill="#e9ecf1" height="250.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="22.0" x="880.0" y="170.0"></rect>
+<rect fill="#3b6ea8" height="16.0" opacity="0.85" rx="2" stroke="none" stroke-width="1" width="14.0" x="884.0" y="182.0"></rect>
+<rect fill="#3b6ea8" height="16.0" opacity="0.85" rx="2" stroke="none" stroke-width="1" width="14.0" x="884.0" y="208.0"></rect>
+<rect fill="#3b6ea8" height="16.0" opacity="0.85" rx="2" stroke="none" stroke-width="1" width="14.0" x="884.0" y="234.0"></rect>
+<rect fill="#3b6ea8" height="16.0" opacity="0.85" rx="2" stroke="none" stroke-width="1" width="14.0" x="884.0" y="260.0"></rect>
+<rect fill="#3b6ea8" height="16.0" opacity="0.85" rx="2" stroke="none" stroke-width="1" width="14.0" x="884.0" y="286.0"></rect>
+<rect fill="#3b6ea8" height="16.0" opacity="0.85" rx="2" stroke="none" stroke-width="1" width="14.0" x="884.0" y="312.0"></rect>
+<rect fill="#3b6ea8" height="16.0" opacity="0.85" rx="2" stroke="none" stroke-width="1" width="14.0" x="884.0" y="338.0"></rect>
+<rect fill="#3b6ea8" height="16.0" opacity="0.85" rx="2" stroke="none" stroke-width="1" width="14.0" x="884.0" y="364.0"></rect>
+<rect fill="#3b6ea8" height="16.0" opacity="0.85" rx="2" stroke="none" stroke-width="1" width="14.0" x="884.0" y="390.0"></rect>
+<text fill="#3b6ea8" font-size="12" font-weight="700" opacity="1.0" text-anchor="end" x="872.0" y="164.0">Pixel (LED bar)</text>
+<rect fill="none" height="12.0" opacity="1.0" rx="0" stroke="#6b7280" stroke-width="1.4" width="68.0" x="266.0" y="126.0"></rect>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="0.8" x1="266.0" x2="334.0" y1="126.0" y2="138.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="0.8" x1="266.0" x2="334.0" y1="138.0" y2="126.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="300.0" y="118.0">Truss over the audience</text>
+<rect fill="none" height="12.0" opacity="1.0" rx="0" stroke="#6b7280" stroke-width="1.4" width="68.0" x="446.0" y="106.0"></rect>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="0.8" x1="446.0" x2="514.0" y1="106.0" y2="118.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="0.8" x1="446.0" x2="514.0" y1="118.0" y2="106.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="480.0" y="98.0">Front truss</text>
+<rect fill="none" height="12.0" opacity="1.0" rx="0" stroke="#6b7280" stroke-width="1.4" width="68.0" x="606.0" y="98.0"></rect>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="0.8" x1="606.0" x2="674.0" y1="98.0" y2="110.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="0.8" x1="606.0" x2="674.0" y1="110.0" y2="98.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="640.0" y="90.0">Middle truss</text>
+<rect fill="none" height="12.0" opacity="1.0" rx="0" stroke="#6b7280" stroke-width="1.4" width="68.0" x="776.0" y="112.0"></rect>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="0.8" x1="776.0" x2="844.0" y1="112.0" y2="124.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="0.8" x1="776.0" x2="844.0" y1="124.0" y2="112.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="810.0" y="104.0">Rear truss</text>
+<polygon fill="#3b6ea8" opacity="0.1" points="640.0,112.0 452.0,420.0 868.0,420.0" stroke="none"></polygon>
+<line opacity="1.0" stroke="#3b6ea8" stroke-dasharray="4 4" stroke-linecap="butt" stroke-width="1" x1="640.0" x2="452.0" y1="112.0" y2="420.0"></line>
+<line opacity="1.0" stroke="#3b6ea8" stroke-dasharray="4 4" stroke-linecap="butt" stroke-width="1" x1="640.0" x2="868.0" y1="112.0" y2="420.0"></line>
+<text fill="#3b6ea8" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="474.0" y="408.0">Wash · stage color</text>
+<circle cx="620.0" cy="338.0" fill="#1f2430" opacity="1.0" r="13.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#1f2430" height="56.0" opacity="1.0" rx="8" stroke="none" stroke-width="1" width="26.0" x="607.0" y="352.0"></rect>
+<rect fill="#1f2430" height="14.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="8.0" x="609.0" y="406.0"></rect>
+<rect fill="#1f2430" height="14.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="8.0" x="623.0" y="406.0"></rect>
+<line opacity="1.0" stroke="#4f8a5b" stroke-linecap="butt" stroke-width="3.2" x1="300.0" x2="604.0" y1="140.0" y2="334.0"></line>
+<polygon fill="#4f8a5b" opacity="1.0" points="604.0,334.0 593.1,332.7 598.2,324.6" stroke="none"></polygon>
+<text fill="#4f8a5b" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="408.0" y="214.0">Key · 45° front, above</text>
+<line opacity="1.0" stroke="#4f8a5b" stroke-linecap="butt" stroke-width="1.6" x1="352.0" x2="602.0" y1="360.0" y2="345.0"></line>
+<polygon fill="#4f8a5b" opacity="1.0" points="602.0,345.0 595.0,348.9 594.6,342.0" stroke="none"></polygon>
+<text fill="#4f8a5b" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="372.0" y="382.0">Fill · weak from the front</text>
+<circle cx="70.0" cy="236.0" fill="#4f8a5b" opacity="1.0" r="9.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#4f8a5b" height="30.0" opacity="0.6" rx="3" stroke="none" stroke-width="1" width="28.0" x="56.0" y="244.0"></rect>
+<line opacity="1.0" stroke="#4f8a5b" stroke-linecap="butt" stroke-width="1.8" x1="82.0" x2="604.0" y1="236.0" y2="340.0"></line>
+<polygon fill="#4f8a5b" opacity="1.0" points="604.0,340.0 596.3,342.0 597.6,335.2" stroke="none"></polygon>
+<text fill="#4f8a5b" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="222.0">Follow spot</text>
+<line opacity="1.0" stroke="#4f8a5b" stroke-linecap="butt" stroke-width="2.2" x1="640.0" x2="624.0" y1="112.0" y2="322.0"></line>
+<polygon fill="#4f8a5b" opacity="1.0" points="624.0,322.0 620.7,313.6 628.5,314.2" stroke="none"></polygon>
+<text fill="#4f8a5b" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="650.0" y="210.0">Top</text>
+<line opacity="1.0" stroke="#4f8a5b" stroke-linecap="butt" stroke-width="2.4" x1="810.0" x2="634.0" y1="124.0" y2="330.0"></line>
+<polygon fill="#4f8a5b" opacity="1.0" points="634.0,330.0 636.3,321.3 642.2,326.4" stroke="none"></polygon>
+<text fill="#4f8a5b" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="760.0" y="190.0">Back · outline</text>
+<circle cx="654.0" cy="372.0" fill="#ffffff" opacity="1.0" r="11.0" stroke="#4f8a5b" stroke-width="2"></circle>
+<circle cx="654.0" cy="372.0" fill="#4f8a5b" opacity="1.0" r="3.5" stroke="none" stroke-width="1"></circle>
+<text fill="#4f8a5b" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="672.0" y="368.0">Side</text>
+<text fill="#4f8a5b" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="672.0" y="385.0">From the side towers</text>
+<line opacity="0.85" stroke="#d9902a" stroke-linecap="butt" stroke-width="2.2" x1="866.0" x2="470.0" y1="416.0" y2="72.0"></line>
+<line opacity="0.85" stroke="#d9902a" stroke-linecap="butt" stroke-width="2.2" x1="866.0" x2="520.0" y1="416.0" y2="78.0"></line>
+<line opacity="0.85" stroke="#d9902a" stroke-linecap="butt" stroke-width="2.2" x1="866.0" x2="575.0" y1="416.0" y2="86.0"></line>
+<text fill="#d9902a" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="440.0" y="80.0">Beam · air lines (haze)</text>
+<rect fill="#d9902a" height="9.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="11.0" x="790.0" y="134.0"></rect>
+<rect fill="#d9902a" height="9.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="11.0" x="806.0" y="134.0"></rect>
+<rect fill="#d9902a" height="9.0" opacity="1.0" rx="1" stroke="none" stroke-width="1" width="11.0" x="822.0" y="134.0"></rect>
+<text fill="#d9902a" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="end" x="782.0" y="143.0">FX (strobe)</text>
+<rect fill="#d9902a" height="14.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="16.0" x="414.0" y="404.0"></rect>
+<polygon fill="#d9902a" opacity="0.18" points="414.0,410.0 230.0,438.0 230.0,470.0" stroke="none"></polygon>
+<text fill="#d9902a" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="250.0" y="428.0">Audience (blinder)</text>
+<rect fill="#4f8a5b" height="14.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="14.0" x="40.0" y="516.0"></rect>
+<text fill="#1f2430" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="60.0" y="528.0">Performer lighting · key fill back side top</text>
+<rect fill="#3b6ea8" height="14.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="14.0" x="340.0" y="516.0"></rect>
+<text fill="#1f2430" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="360.0" y="528.0">Background lighting · wash pixel</text>
+<rect fill="#d9902a" height="14.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="14.0" x="640.0" y="516.0"></rect>
+<text fill="#1f2430" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="660.0" y="528.0">Effect lighting · beam FX audience</text>
+</svg>
+<figcaption><b>Figure 6-1</b> Layout of lighting roles. A cross-section of the stage seen from the side. Arrows show the direction the light comes from, and colors show the three groups.</figcaption></figure>
+<p>Among the performer lights, the key is kept as a light that does not go out until the song ends, except for moments such as an intended blackout or silhouette (<span class="badge start">Starting value</span>). A stagecraft textbook explains that light coming from about 45 degrees above and in front is close to the angle of sunlight and makes faces look natural. The same textbook says that lighting from a single unit straight in front makes the face look flat, so it recommends overlapping two units from the left and right at an angle.<sup class="ref"><a href="#c6-s3">3</a></sup> This 45 degrees is a starting point. If a hat or bangs hide the eyes, lower the angle, and on a stage that goes out to the screen through a camera, check on the monitor whether light reaches the eyes. However gorgeous the background, a dark face is a failure (Chapter 1).</p>
+<p>The key is not a problem only when one person stands in one spot. On a group stage where several people move all over the stage, divide the stage into a few zones and light each zone with two or more overlapping keys, so that faces stay lit wherever anyone goes (<span class="badge start">Starting value</span>).</p>
+<aside class="box try"><div class="box-label">A short experiment</div><div class="box-body"><ol class="steps"><li>In a dark room, shine a phone flashlight on your own face in a mirror.</li><li>Shine it in turn from front and above, from the side, from behind, and from straight above.</li><li>The light from front and above makes the face visible, the light from the side makes volume, the light from behind makes the outline, and the light from straight above makes shadows under the eyes.</li></ol></div></aside>
+<h2 id="c6-6-2-five-attributes-of-light">6.2 Five Attributes of Light</h2><p class="lead">What light can change on any fixture comes down to five things: brightness (dimmer), color, direction of the beam (position), shape of the beam (beam), and the time it takes to change (time).</p>
+<p>This book uses the names you see on the console screen as they are. The first four are names under which the console groups a fixture’s functions, and time is the fade and delay time attached to a cue or an effect. Depending on the console, beam may be shown further divided into gobo, beam and focus.<sup class="ref"><a href="#c6-s5">5</a></sup></p>
+<p>Stage lighting textbooks name four properties of light that you can control: intensity, color, distribution and movement. This framework is known to have started from the summary by the 1930s American lighting designer Stanley McCandless.<sup class="ref"><a href="#c6-s1">1</a></sup><sup class="ref"><a href="#c6-s2">2</a></sup></p>
+<p>This book’s five attributes are these four divided to suit moving lights and consoles. Intensity becomes dimmer and color becomes color. Distribution is split into where the light points (position) and what shape the beam has (beam). Movement is treated as the time light takes to change (time), which includes the speed of fades and effects.</p>
+<div class="tbl"><div class="tcap"><b>Table 6-1</b> Where each attribute changes and the music unit it is matched to</div><table>
+<thead>
+<tr class="header">
+<th>Attribute</th>
+<th>What changes</th>
+<th>Where it changes on the fixture</th>
+<th>Music unit to match <span class="badge start">Starting value</span></th>
+<th>Category in the resource library effect dictionary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Dimmer</td>
+<td>How bright</td>
+<td>Dimmer channel, strobe shutter</td>
+<td>Beat</td>
+<td>Dimmer, Shutter · Strobe, Pixel · Matrix</td>
+</tr>
+<tr class="even">
+<td>Color</td>
+<td>Which color</td>
+<td>Color mixing (RGB etc.), color wheel, CTO</td>
+<td>Section (palette), 2–4 bars (color tint)</td>
+<td>Color, Pixel · Matrix</td>
+</tr>
+<tr class="odd">
+<td>Position</td>
+<td>Where it points</td>
+<td>Pan and tilt, the fixture’s place</td>
+<td>Bar</td>
+<td>Pan · Tilt, Static Looks</td>
+</tr>
+<tr class="even">
+<td>Beam</td>
+<td>What shape the beam is</td>
+<td>Zoom, iris, gobo, prism, focus, frost</td>
+<td>Section (beam width)</td>
+<td>Beam, Static Looks</td>
+</tr>
+<tr class="odd">
+<td>Time</td>
+<td>How fast it changes</td>
+<td>Fade · delay, effect speed</td>
+<td>Set in beats (Chapter 2)</td>
+<td>Spread and Layout Variants, Music Sync and Timing, Operation · Busking</td>
+</tr>
+</tbody>
+</table></div>
+<p>The "music unit to match" column is a starting value that carries the principle of Section 2.3 in Chapter 2 over to the five attributes. Match dimmer to the beat, position to the bar, the flow of movement and color to 2–4 bars, and palette and beam width to the section, and set time in beats. Chapter 11 covers this in detail.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 366" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#ffffff" height="300.0" opacity="1.0" rx="10" stroke="#d6d9df" stroke-width="1.4" width="176.0" x="36.0" y="84.0"></rect>
+<text fill="#1f2430" font-size="19" font-weight="700" opacity="1.0" text-anchor="start" x="52.0" y="114.0">Dimmer</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="52.0" y="136.0">Dimmer channel · shutter</text>
+<rect fill="#d9902a" height="18.0" opacity="0.35" rx="2" stroke="none" stroke-width="1" width="18.0" x="62.0" y="266.0"></rect>
+<rect fill="#d9902a" height="34.0" opacity="0.5" rx="2" stroke="none" stroke-width="1" width="18.0" x="88.0" y="250.0"></rect>
+<rect fill="#d9902a" height="52.0" opacity="0.6499999999999999" rx="2" stroke="none" stroke-width="1" width="18.0" x="114.0" y="232.0"></rect>
+<rect fill="#d9902a" height="72.0" opacity="0.7999999999999999" rx="2" stroke="none" stroke-width="1" width="18.0" x="140.0" y="212.0"></rect>
+<rect fill="#d9902a" height="92.0" opacity="0.95" rx="2" stroke="none" stroke-width="1" width="18.0" x="166.0" y="192.0"></rect>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="124.0" y="306.0">0 → 100%</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="50.0" x2="198.0" y1="332.0" y2="332.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="52.0" y="354.0">Music unit to match</text>
+<text fill="#d9902a" font-size="14" font-weight="700" opacity="1.0" text-anchor="start" x="52.0" y="374.0">Beat</text>
+<rect fill="#ffffff" height="300.0" opacity="1.0" rx="10" stroke="#d6d9df" stroke-width="1.4" width="176.0" x="220.0" y="84.0"></rect>
+<text fill="#1f2430" font-size="19" font-weight="700" opacity="1.0" text-anchor="start" x="236.0" y="114.0">Color</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="236.0" y="136.0">RGB · wheel · CTO</text>
+<circle cx="260.0" cy="216.0" fill="#e0352b" opacity="1.0" r="18.0" stroke="#d6d9df" stroke-width="1"></circle>
+<circle cx="308.0" cy="216.0" fill="#f4a62a" opacity="1.0" r="18.0" stroke="#d6d9df" stroke-width="1"></circle>
+<circle cx="356.0" cy="216.0" fill="#2f62d4" opacity="1.0" r="18.0" stroke="#d6d9df" stroke-width="1"></circle>
+<circle cx="260.0" cy="264.0" fill="#a58be6" opacity="1.0" r="18.0" stroke="#d6d9df" stroke-width="1"></circle>
+<circle cx="308.0" cy="264.0" fill="#ffe0b0" opacity="1.0" r="18.0" stroke="#d6d9df" stroke-width="1"></circle>
+<circle cx="356.0" cy="264.0" fill="#27b6de" opacity="1.0" r="18.0" stroke="#d6d9df" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="308.0" y="306.0">Palette</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="234.0" x2="382.0" y1="332.0" y2="332.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="236.0" y="354.0">Music unit to match</text>
+<text fill="#d9902a" font-size="14" font-weight="700" opacity="1.0" text-anchor="start" x="236.0" y="374.0">Section · 4 bars</text>
+<rect fill="#ffffff" height="300.0" opacity="1.0" rx="10" stroke="#d6d9df" stroke-width="1.4" width="176.0" x="404.0" y="84.0"></rect>
+<text fill="#1f2430" font-size="19" font-weight="700" opacity="1.0" text-anchor="start" x="420.0" y="114.0">Position</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="420.0" y="136.0">Pan · tilt</text>
+<rect fill="#1f2430" height="14.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="32.0" x="476.0" y="170.0"></rect>
+<circle cx="492.0" cy="200.0" fill="#ffffff" opacity="1.0" r="16.0" stroke="#1f2430" stroke-width="2.4"></circle>
+<path d="M446.0,264 Q492.0,294 538.0,264" fill="none" opacity="1.0" stroke="#3b6ea8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<line opacity="1.0" stroke="#3b6ea8" stroke-linecap="butt" stroke-width="2" x1="532.0" x2="540.0" y1="268.0" y2="260.0"></line>
+<polygon fill="#3b6ea8" opacity="1.0" points="540.0,260.0 537.7,266.6 533.4,262.3" stroke="none"></polygon>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="492.0" y="306.0">Pan (left-right) · tilt (up-down)</text>
+<path d="M518.0,184 Q542.0,204 518.0,226" fill="none" opacity="1.0" stroke="#3b6ea8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="418.0" x2="566.0" y1="332.0" y2="332.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="420.0" y="354.0">Music unit to match</text>
+<text fill="#d9902a" font-size="14" font-weight="700" opacity="1.0" text-anchor="start" x="420.0" y="374.0">Bar</text>
+<rect fill="#ffffff" height="300.0" opacity="1.0" rx="10" stroke="#d6d9df" stroke-width="1.4" width="176.0" x="588.0" y="84.0"></rect>
+<text fill="#1f2430" font-size="19" font-weight="700" opacity="1.0" text-anchor="start" x="604.0" y="114.0">Beam</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="604.0" y="136.0">Zoom · gobo · prism</text>
+<polygon fill="#7a5ea8" opacity="0.55" points="636.0,174.0 624.0,274.0 648.0,274.0" stroke="none"></polygon>
+<polygon fill="#7a5ea8" opacity="0.22" points="706.0,174.0 678.0,274.0 734.0,274.0" stroke="none"></polygon>
+<circle cx="698.0" cy="286.0" fill="#7a5ea8" opacity="0.6" r="5.0" stroke="none" stroke-width="1"></circle>
+<circle cx="714.0" cy="286.0" fill="#7a5ea8" opacity="0.6" r="5.0" stroke="none" stroke-width="1"></circle>
+<circle cx="706.0" cy="278.0" fill="#7a5ea8" opacity="0.6" r="5.0" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="676.0" y="306.0">Narrow · wide · pattern</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="602.0" x2="750.0" y1="332.0" y2="332.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="604.0" y="354.0">Music unit to match</text>
+<text fill="#d9902a" font-size="14" font-weight="700" opacity="1.0" text-anchor="start" x="604.0" y="374.0">4 bars · section</text>
+<rect fill="#ffffff" height="300.0" opacity="1.0" rx="10" stroke="#d6d9df" stroke-width="1.4" width="176.0" x="772.0" y="84.0"></rect>
+<text fill="#1f2430" font-size="19" font-weight="700" opacity="1.0" text-anchor="start" x="788.0" y="114.0">Time</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="788.0" y="136.0">Fade · delay · effect speed</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="3 3" stroke-linecap="butt" stroke-width="1" x1="790.0" x2="790.0" y1="184.0" y2="274.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="3 3" stroke-linecap="butt" stroke-width="1" x1="825.0" x2="825.0" y1="184.0" y2="274.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="3 3" stroke-linecap="butt" stroke-width="1" x1="860.0" x2="860.0" y1="184.0" y2="274.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="3 3" stroke-linecap="butt" stroke-width="1" x1="895.0" x2="895.0" y1="184.0" y2="274.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="3 3" stroke-linecap="butt" stroke-width="1" x1="930.0" x2="930.0" y1="184.0" y2="274.0"></line>
+<path d="M790,272 L825.0,272 L895.0,188 L930,188" fill="none" opacity="1.0" stroke="#2f8c8c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.6"></path>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="860.0" y="306.0">2-beat fade</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="786.0" x2="934.0" y1="332.0" y2="332.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="788.0" y="354.0">Music unit to match</text>
+<text fill="#d9902a" font-size="14" font-weight="700" opacity="1.0" text-anchor="start" x="788.0" y="374.0">In beats</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="416.0">Names as on the console screen. Music units are starting values.</text>
+</svg>
+<figcaption><b>Figure 6-2</b> The five attributes of one moving light. Even on one unit, the five can be changed separately, and each attribute is matched to a different music unit.</figcaption></figure>
+<p>Once you tell the five apart, you can say in words what a cue changes. As you build cues within the same section, the starting point is to change one thing at a time other than dimmer. It is the same idea as the chorus build in Chapter 3, which said to use only one means at the moment a chorus starts. If a single cue changes two or more things at once within the same section, the audience can hardly tell what changed.</p>
+<p>The boundary where a section changes is different. When passing from verse to chorus, it is natural for color, position and beam to change all at once so the whole scene is renewed. Chapter 9 treats this as a change of <strong>look</strong>.</p>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>Pick one cue inside a section from your last show and count which of the five attributes that cue changes.</li><li>If two or more besides dimmer change, consider whether it would be clearer to postpone one of them to the next cue.</li></ol></div></aside>
+<h2 id="c6-6-3-fixture-types-and-beam-shapes">6.3 Fixture Types and Beam Shapes</h2><p class="lead">What separates fixture types is beam shape and the attributes they can change. Rather than memorizing fixture names, look at what kind of beam a fixture makes and which of the five attributes it can change.</p>
+<div class="tbl"><div class="tcap"><b>Table 6-2</b> Beam shape and the roles each fixture type suits <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Beam shape</th>
+<th>Attributes it can change</th>
+<th>Roles it suits</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Profile (ERS)</td>
+<td>A circle with a sharp edge; the shape is set by hand with framing shutters</td>
+<td>Dimmer, color (LED type)</td>
+<td>Key</td>
+</tr>
+<tr class="even">
+<td>Moving profile</td>
+<td>A sharp circle, with framing shutters moved from the console</td>
+<td>Dimmer, color, position, beam (shutter · zoom · gobo)</td>
+<td>Key, beam (pattern)</td>
+</tr>
+<tr class="odd">
+<td>Fresnel · PAR</td>
+<td>Wide light with a soft edge</td>
+<td>Dimmer, color (LED type)</td>
+<td>Fill, wash, back</td>
+</tr>
+<tr class="even">
+<td>Wash moving</td>
+<td>Wide, soft light, size set by zoom</td>
+<td>Dimmer, color, position, beam (zoom)</td>
+<td>Wash, back, side, top</td>
+</tr>
+<tr class="odd">
+<td>Spot moving</td>
+<td>A sharp circle, gobo and prism</td>
+<td>Dimmer, color, position, beam (zoom · gobo · prism)</td>
+<td>Beam (pattern), key (support)</td>
+</tr>
+<tr class="even">
+<td>Beam moving</td>
+<td>A very narrow beam, building shapes in the air</td>
+<td>Dimmer, color, position, beam (prism)</td>
+<td>Beam</td>
+</tr>
+<tr class="odd">
+<td>Hybrid</td>
+<td>Spot, beam and wash in one unit, suited to stages with few fixtures</td>
+<td>Dimmer, color, position, beam (all three shapes)</td>
+<td>Beam, wash, key (support)</td>
+</tr>
+<tr class="even">
+<td>LED bar · pixel</td>
+<td>A line or surface where each cell lights separately, showing the stage structure</td>
+<td>Dimmer, color (per cell)</td>
+<td>Pixel</td>
+</tr>
+<tr class="odd">
+<td>Strobe</td>
+<td>A very bright, short flash</td>
+<td>Dimmer (LED type also color and zone)</td>
+<td>FX</td>
+</tr>
+<tr class="even">
+<td>Blinder</td>
+<td>Wide, warm light facing the audience</td>
+<td>Dimmer (LED type also color temperature)</td>
+<td>Audience</td>
+</tr>
+<tr class="odd">
+<td>Follow spot</td>
+<td>A sharp circle that follows a person (some are moved remotely)</td>
+<td>Dimmer, position, beam (as the operator follows)</td>
+<td>Key (lead)</td>
+</tr>
+</tbody>
+</table></div>
+<p>The "attributes it can change" column lists what can be changed during the show. A follow spot is changed by a person following. Time (the speed of fades and effects, the flash speed of a strobe) is set on the console, not the fixture, so I left it out of the table.</p>
+<p>On big stages today, a moving profile often takes the key from the front. This is because the shape of the light can be trimmed with shutters from the console, and it can be moved to a different person depending on the scene. In broadcast studios, wide, soft LED lights are sometimes placed in front and used as the key.</p>
+<p>The table shows representative cases. Even in the same type, zoom range and color method differ by model, and many fixtures fall outside the table, such as LED bars that can tilt, so check actual fixtures against the spec sheet. The flashing of strobes and pixels follows the safety standards in Chapters 2 and 32. Broadcast standards are judged on the output picture, so also keep in mind that even the same strobe takes up a different share of the screen depending on the size of the camera shot (Chapter 17).</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 406" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#d6d9df" height="4.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="900.0" x="30.0" y="360.0"></rect>
+<rect fill="#1f2430" height="18.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="36.0" x="52.0" y="92.0"></rect>
+<polygon fill="#d9902a" opacity="0.75" points="64.0,110.0 76.0,110.0 80.0,360.0 60.0,360.0" stroke="none"></polygon>
+<text fill="#1f2430" font-size="14" font-weight="700" opacity="1.0" text-anchor="middle" x="70.0" y="390.0">Beam moving</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="70.0" y="408.0">Line</text>
+<rect fill="#1f2430" height="18.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="36.0" x="172.0" y="92.0"></rect>
+<polygon fill="#7a5ea8" opacity="0.45" points="184.0,110.0 196.0,110.0 230.0,360.0 150.0,360.0" stroke="none"></polygon>
+<circle cx="168.0" cy="350.0" fill="#ffffff" opacity="0.9" r="5.0" stroke="none" stroke-width="1"></circle>
+<circle cx="190.0" cy="350.0" fill="#ffffff" opacity="0.9" r="5.0" stroke="none" stroke-width="1"></circle>
+<circle cx="212.0" cy="350.0" fill="#ffffff" opacity="0.9" r="5.0" stroke="none" stroke-width="1"></circle>
+<text fill="#1f2430" font-size="14" font-weight="700" opacity="1.0" text-anchor="middle" x="190.0" y="390.0">Spot moving</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="190.0" y="408.0">Sharp circle · pattern</text>
+<rect fill="#1f2430" height="18.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="36.0" x="292.0" y="92.0"></rect>
+<polygon fill="#7a5ea8" opacity="0.45" points="304.0,110.0 316.0,110.0 355.0,360.0 265.0,360.0" stroke="none"></polygon>
+<text fill="#1f2430" font-size="14" font-weight="700" opacity="1.0" text-anchor="middle" x="310.0" y="390.0">Profile</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="310.0" y="408.0">Sharp circle</text>
+<rect fill="#1f2430" height="18.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="36.0" x="432.0" y="92.0"></rect>
+<polygon fill="#3b6ea8" opacity="0.12" points="442.0,110.0 458.0,110.0 525.0,360.0 375.0,360.0" stroke="none"></polygon>
+<polygon fill="#3b6ea8" opacity="0.16" points="444.0,110.0 456.0,110.0 502.5,360.0 397.5,360.0" stroke="none"></polygon>
+<text fill="#1f2430" font-size="14" font-weight="700" opacity="1.0" text-anchor="middle" x="450.0" y="390.0">Wash moving</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="450.0" y="408.0">Wide, soft surface</text>
+<rect fill="#1f2430" height="18.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="36.0" x="582.0" y="92.0"></rect>
+<polygon fill="#3b6ea8" opacity="0.12" points="592.0,110.0 608.0,110.0 660.0,360.0 540.0,360.0" stroke="none"></polygon>
+<polygon fill="#3b6ea8" opacity="0.16" points="594.0,110.0 606.0,110.0 642.0,360.0 558.0,360.0" stroke="none"></polygon>
+<text fill="#1f2430" font-size="14" font-weight="700" opacity="1.0" text-anchor="middle" x="600.0" y="390.0">Fresnel · PAR</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="600.0" y="408.0">Soft surface</text>
+<rect fill="#e0352b" height="12.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="12.0" x="685.0" y="100.0"></rect>
+<polygon fill="#3b6ea8" opacity="0.1" points="685.0,112.0 697.0,112.0 700.0,170.0 682.0,170.0" stroke="none"></polygon>
+<rect fill="#f4a62a" height="12.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="12.0" x="700.0" y="100.0"></rect>
+<polygon fill="#3b6ea8" opacity="0.1" points="700.0,112.0 712.0,112.0 715.0,170.0 697.0,170.0" stroke="none"></polygon>
+<rect fill="#2f62d4" height="12.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="12.0" x="715.0" y="100.0"></rect>
+<polygon fill="#3b6ea8" opacity="0.1" points="715.0,112.0 727.0,112.0 730.0,170.0 712.0,170.0" stroke="none"></polygon>
+<rect fill="#2f62d4" height="12.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="12.0" x="730.0" y="100.0"></rect>
+<polygon fill="#3b6ea8" opacity="0.1" points="730.0,112.0 742.0,112.0 745.0,170.0 727.0,170.0" stroke="none"></polygon>
+<rect fill="#a58be6" height="12.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="12.0" x="745.0" y="100.0"></rect>
+<polygon fill="#3b6ea8" opacity="0.1" points="745.0,112.0 757.0,112.0 760.0,170.0 742.0,170.0" stroke="none"></polygon>
+<rect fill="#e0352b" height="12.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="12.0" x="760.0" y="100.0"></rect>
+<polygon fill="#3b6ea8" opacity="0.1" points="760.0,112.0 772.0,112.0 775.0,170.0 757.0,170.0" stroke="none"></polygon>
+<text fill="#1f2430" font-size="14" font-weight="700" opacity="1.0" text-anchor="middle" x="730.0" y="390.0">LED bar · pixel</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="730.0" y="408.0">Per cell</text>
+<rect fill="#1f2430" height="22.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="32.0" x="874.0" y="336.0"></rect>
+<polygon fill="#d9902a" opacity="0.22" points="874.0,342.0 780.0,270.0 780.0,356.0" stroke="none"></polygon>
+<text fill="#1f2430" font-size="14" font-weight="700" opacity="1.0" text-anchor="middle" x="870.0" y="390.0">Blinder</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="870.0" y="408.0">Toward the audience</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="456.0">Typical shapes. Zoom range and color method differ by model, so check the spec sheet.</text>
+</svg>
+<figcaption><b>Figure 6-3</b> Beam shapes by fixture. Beams and spots draw lines in the air, and washes and Fresnels cover surfaces.</figcaption></figure>
+<p>One thing to remember about beam shapes is air. A narrow beam is visible only if the air the light passes through has particles. On a stage without haze, a beam moving light is seen only as a dot on the floor or wall. If a section will use the beam as the main, check the haze first (the Special Effects and Other Fixtures category of the resource library effect dictionary).</p>
+<aside class="box try"><div class="box-label">A short experiment</div><div class="box-body"><ol class="steps"><li>Pause on one scene of a concert video you like and count the visible lights in three groups.</li><li>Lights on people, background lighting, and lights that draw lines in the air.</li><li>Write down which group is largest and how many lights are on people.</li></ol></div></aside>
+<h2 id="c6-6-4-twelve-categories-of-the-effect-dictionary">6.4 Twelve Categories of the Effect Dictionary</h2><p class="lead">The effect dictionary in the resource library divides 153 cards into twelve categories.<sup class="ref"><a href="#c6-s4">4</a></sup> Each category has a main attribute it changes, so if you know the five attributes of Section 6.2, you can find which category to open.</p>
+<div class="tbl"><div class="tcap"><b>Table 6-3</b> The twelve categories of the effect dictionary</div><table>
+<thead>
+<tr class="header">
+<th>Category</th>
+<th>Cards</th>
+<th>Main attribute it changes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Dimmer (Brightness)</td>
+<td>19</td>
+<td>Dimmer</td>
+</tr>
+<tr class="even">
+<td>Shutter · Strobe</td>
+<td>5</td>
+<td>Dimmer</td>
+</tr>
+<tr class="odd">
+<td>Color</td>
+<td>9</td>
+<td>Color</td>
+</tr>
+<tr class="even">
+<td>Pan · Tilt (Position)</td>
+<td>21</td>
+<td>Position</td>
+</tr>
+<tr class="odd">
+<td>Beam</td>
+<td>11</td>
+<td>Beam</td>
+</tr>
+<tr class="even">
+<td>Pixel · Matrix</td>
+<td>7</td>
+<td>Dimmer and color (per cell)</td>
+</tr>
+<tr class="odd">
+<td>Static Looks (position presets)</td>
+<td>17</td>
+<td>Position and beam (a held shape)</td>
+</tr>
+<tr class="even">
+<td>Spread and Layout Variants</td>
+<td>16</td>
+<td>Time (offset between fixtures)</td>
+</tr>
+<tr class="odd">
+<td>Music Sync and Timing</td>
+<td>10</td>
+<td>Time</td>
+</tr>
+<tr class="even">
+<td>Section Direction</td>
+<td>12</td>
+<td>Several attributes by section</td>
+</tr>
+<tr class="odd">
+<td>Special Effects and Other Fixtures</td>
+<td>5</td>
+<td>Varies by fixture</td>
+</tr>
+<tr class="even">
+<td>Operation · Busking</td>
+<td>21</td>
+<td>Time (how it is triggered by hand)</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 466" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<text fill="#d9902a" font-size="15" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="84.0">Dimmer</text>
+<rect fill="#d9902a" height="148.0" opacity="0.16" rx="6" stroke="none" stroke-width="1" width="142.0" x="36.0" y="92.0"></rect>
+<rect fill="#d9902a" height="148.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="4.0" x="36.0" y="92.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="48.0" y="112.0">Dimmer</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="48.0" y="130.0">19 cards</text>
+<rect fill="#d9902a" height="36.0" opacity="0.16" rx="6" stroke="none" stroke-width="1" width="142.0" x="36.0" y="244.0"></rect>
+<rect fill="#d9902a" height="36.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="4.0" x="36.0" y="244.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="48.0" y="264.0">Strobe</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="168.0" y="264.0">5 cards</text>
+<text fill="#c8553d" font-size="15" font-weight="700" opacity="1.0" text-anchor="start" x="190.0" y="84.0">Color</text>
+<rect fill="#c8553d" height="68.0" opacity="0.16" rx="6" stroke="none" stroke-width="1" width="142.0" x="186.0" y="92.0"></rect>
+<rect fill="#c8553d" height="68.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="4.0" x="186.0" y="92.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="198.0" y="112.0">Color</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="198.0" y="130.0">9 cards</text>
+<rect fill="#c8553d" height="52.0" opacity="0.16" rx="6" stroke="none" stroke-width="1" width="142.0" x="186.0" y="164.0"></rect>
+<rect fill="#c8553d" height="52.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="4.0" x="186.0" y="164.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="198.0" y="184.0">Pixel · Matrix</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="198.0" y="202.0">7 cards</text>
+<text fill="#3b6ea8" font-size="15" font-weight="700" opacity="1.0" text-anchor="start" x="340.0" y="84.0">Position</text>
+<rect fill="#3b6ea8" height="164.0" opacity="0.16" rx="6" stroke="none" stroke-width="1" width="142.0" x="336.0" y="92.0"></rect>
+<rect fill="#3b6ea8" height="164.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="4.0" x="336.0" y="92.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="348.0" y="112.0">Pan · Tilt</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="348.0" y="130.0">21 cards</text>
+<rect fill="#3b6ea8" height="132.0" opacity="0.16" rx="6" stroke="none" stroke-width="1" width="142.0" x="336.0" y="260.0"></rect>
+<rect fill="#3b6ea8" height="132.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="4.0" x="336.0" y="260.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="348.0" y="280.0">Static Looks</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="348.0" y="298.0">17 cards</text>
+<text fill="#7a5ea8" font-size="15" font-weight="700" opacity="1.0" text-anchor="start" x="490.0" y="84.0">Beam</text>
+<rect fill="#7a5ea8" height="84.0" opacity="0.16" rx="6" stroke="none" stroke-width="1" width="142.0" x="486.0" y="92.0"></rect>
+<rect fill="#7a5ea8" height="84.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="4.0" x="486.0" y="92.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="498.0" y="112.0">Beam</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="498.0" y="130.0">11 cards</text>
+<text fill="#2f8c8c" font-size="15" font-weight="700" opacity="1.0" text-anchor="start" x="640.0" y="84.0">Time</text>
+<rect fill="#2f8c8c" height="124.0" opacity="0.16" rx="6" stroke="none" stroke-width="1" width="142.0" x="636.0" y="92.0"></rect>
+<rect fill="#2f8c8c" height="124.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="4.0" x="636.0" y="92.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="648.0" y="112.0">Spread · Layout</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="648.0" y="130.0">16 cards</text>
+<rect fill="#2f8c8c" height="76.0" opacity="0.16" rx="6" stroke="none" stroke-width="1" width="142.0" x="636.0" y="220.0"></rect>
+<rect fill="#2f8c8c" height="76.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="4.0" x="636.0" y="220.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="648.0" y="240.0">Music Sync · Timing</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="648.0" y="258.0">10 cards</text>
+<rect fill="#2f8c8c" height="164.0" opacity="0.16" rx="6" stroke="none" stroke-width="1" width="142.0" x="636.0" y="300.0"></rect>
+<rect fill="#2f8c8c" height="164.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="4.0" x="636.0" y="300.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="648.0" y="320.0">Operation · Busking</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="648.0" y="338.0">21 cards</text>
+<text fill="#6b7280" font-size="15" font-weight="700" opacity="1.0" text-anchor="start" x="790.0" y="84.0">Several attributes</text>
+<rect fill="#6b7280" height="92.0" opacity="0.16" rx="6" stroke="none" stroke-width="1" width="142.0" x="786.0" y="92.0"></rect>
+<rect fill="#6b7280" height="92.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="4.0" x="786.0" y="92.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="798.0" y="112.0">Section Direction</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="798.0" y="130.0">12 cards</text>
+<rect fill="#6b7280" height="36.0" opacity="0.16" rx="6" stroke="none" stroke-width="1" width="142.0" x="786.0" y="188.0"></rect>
+<rect fill="#6b7280" height="36.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="4.0" x="786.0" y="188.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="798.0" y="208.0">Special FX</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="918.0" y="208.0">5 cards</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="516.0">Pixel · Matrix changes dimmer and color together, and Static Looks (position presets) changes position and beam together. Card counts are from the resource library.</text>
+</svg>
+<figcaption><b>Figure 6-4</b> Map of the effect dictionary. The twelve categories are placed by the main attribute they change. The height of each cell is the number of cards.</figcaption></figure>
+<p>The map shows the categories with the most cards are Pan · Tilt (position), Operation · Busking (time) and Dimmer (brightness). Shutter · Strobe and Special Effects have five cards each. When to use a strobe and when to hold it back is covered in Chapter 10.</p>
+<h2 id="c6-6-5-exercise-fixture-role-table">6.5 [Exercise] Fixture Role Table</h2><p class="lead">Turn one fixture list into a role table.</p>
+<p>Table 6-4 below is a fictional mid-size stage rig this book made for practice. It is not the equipment of a real venue. In Chapter 22 we revisit the look of LOVE ATTACK with this rig, and organize why it is built this way and where and how it is hung, in a lighting plot and a patch sheet.</p>
+<div class="tbl"><div class="tcap"><b>Table 6-4</b> Practice rig (a fictional mid-size stage) <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Fixture</th>
+<th>Qty</th>
+<th>Position</th>
+<th>Role</th>
+<th>Attributes it can change</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LED profile</td>
+<td>8</td>
+<td>Truss over the audience</td>
+<td>Key</td>
+<td>Dimmer, color</td>
+</tr>
+<tr class="even">
+<td>Follow spot</td>
+<td>2</td>
+<td>Behind the audience</td>
+<td>Key (lead)</td>
+<td>Dimmer, position, beam (by hand, by a person)</td>
+</tr>
+<tr class="odd">
+<td>LED Fresnel</td>
+<td>6</td>
+<td>Over the audience, low</td>
+<td>Fill</td>
+<td>Dimmer, color</td>
+</tr>
+<tr class="even">
+<td>Wash moving</td>
+<td>12</td>
+<td>Stage truss, middle and rear</td>
+<td>Wash, back</td>
+<td>Dimmer, color, position, beam</td>
+</tr>
+<tr class="odd">
+<td>Wash moving (side tower)</td>
+<td>8</td>
+<td>Towers on both sides of the stage</td>
+<td>Side</td>
+<td>Dimmer, color, position, beam</td>
+</tr>
+<tr class="even">
+<td>Spot moving</td>
+<td>8</td>
+<td>Stage truss, front</td>
+<td>Beam (pattern), key</td>
+<td>Dimmer, color, position, beam</td>
+</tr>
+<tr class="odd">
+<td>Beam moving</td>
+<td>16</td>
+<td>Floor and towers behind the stage</td>
+<td>Beam</td>
+<td>Dimmer, color, position, beam</td>
+</tr>
+<tr class="even">
+<td>LED bar</td>
+<td>24</td>
+<td>Stair structure behind the stage</td>
+<td>Pixel</td>
+<td>Dimmer, color (per cell)</td>
+</tr>
+<tr class="odd">
+<td>Strobe</td>
+<td>8</td>
+<td>Truss behind the stage</td>
+<td>FX</td>
+<td>Dimmer</td>
+</tr>
+<tr class="even">
+<td>Blinder</td>
+<td>4</td>
+<td>Floor at the front of the stage, facing the audience</td>
+<td>Audience</td>
+<td>Dimmer</td>
+</tr>
+</tbody>
+</table></div>
+<p>There are 96 units in all. Count the roles in the order below.</p>
+<p><strong>Follow along</strong></p>
+<ol type="1">
+<li>Write the fixture list as type, quantity and position.</li>
+<li>Give each row a role. If it has two roles, write the main role first.</li>
+<li>Count the quantity for each role. Find the roles that are empty among the ten, and fill key, back and side first if they are empty.</li>
+<li>Write the attributes each row can change. Find rows where the role and attributes don’t match, such as a beam that can’t change position or a wash that can’t change color.</li>
+<li>Check whether the fixture taking the key can stay on until the song ends. If it is tied up in an effect, move the key to another fixture.</li>
+<li>Divide the stage into a few zones, front-back and left-right, and see whether each zone has two or more overlapping keys. If a place where people walk has only one key, fill that spot.</li>
+</ol>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>Compare with your result for Table 6-4.</li><li>The fixtures with key as their main role are 8 profiles and 2 follow spots, 10 units in all.</li><li>The 8 spot moving lights take the key as a secondary role, but they can’t light faces while a beam effect is running on them (Follow along step 5). No fixture takes the top role (Follow along step 3). The next question is how many of the wash moving lights on the rear truss can be turned to the top.</li><li>Table 6-4 does not list zones, so check Follow along step 6 when you try it with your own stage.</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">Try it with your own stage</div><div class="box-body"><ol class="steps"><li>Fill in Table 6-4 with the fixture list of the stage you are in charge of now.</li><li>If a role is missing, write which fixture will fill it.</li></ol></div></aside>
+<aside class="web" id="web-W5-7"><div class="web-head"><span class="web-tag">Web tool 6</span><h4>Fixture Roles</h4><a class="web-open" href="https://jjjh7401.github.io/lx/rig.html" rel="noopener" target="_blank">Open in new window ↗</a></div><p class="web-desc">Enter a fixture list and it counts the quantity for each role and points out empty roles and attributes that don’t fit the role. Table 6-4 above is included as an example.</p><div class="tool-embed"><iframe allow="autoplay" loading="lazy" src="https://jjjh7401.github.io/lx/rig.html?embed=1" style="--h:1500px" title="Fixture Roles"></iframe></div><p class="tool-open"><span>The notes you write are saved in this browser only. To use it on a wide screen, press "Open in new window" above.</span></p></aside>
+<section class="summary"><h2>Key points</h2><ul>
+<li>Look at fixtures by role, not name. Performer lighting (key, fill, back, side, top), background lighting (wash, pixel) and effect lighting (beam, FX, audience).</li>
+<li>Keep the key as a light that does not go out until the song ends, except for moments such as an intended blackout or silhouette. The starting point is light overlapped from left and right at about 45 degrees from front and above; divide the stage into zones and overlap the keys in each zone.</li>
+<li>What light can change is five things: dimmer, color, position, beam and time. They are the names on the console screen exactly. Within a section, change one thing at a time other than dimmer, and at a section boundary change the whole look.</li>
+<li>What separates fixture types is beam shape and the attributes they can change. A narrow beam in the beam role is visible only with haze.</li>
+<li>Find the twelve categories of the effect dictionary by the main attribute they change.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">On the job tomorrow</div><div class="box-body"><ol class="steps"><li>Pick one group on the console that carries only a fixture name, and add the role that group takes to its name.</li><li>Check whether the group taking the key stays on all through the song.</li></ol></div></aside>
+<section class="notes"><h2>Notes</h2><ol><li id="c6-s1">ETC, Katherine Stamp, "Stage Lighting Design, Part 3: Controllable Properties of Light", 2023-09-14. The four controllable properties of light (intensity, color, distribution, movement). <a href="https://blog.etcconnect.com/stage-lighting-design-part-3" rel="noopener" target="_blank">https://blog.etcconnect.com/stage-lighting-design-part-3</a> (accessed 2026-10-25)</li><li id="c6-s2">McCandless, S. <em>A Method of Lighting the Stage</em>. Theatre Arts Books, 1932. The original source organizing the properties and functions of light.</li><li id="c6-s3">Sanders, "1.11 Lighting Design", <em>An Introduction to Technical Theatre</em>, LibreTexts. The properties of light (direction, intensity, color, movement), light from about 45 degrees above and in front (close to the angle of sunlight), lighting from two directions left and right, and the explanation that a single front unit flattens the face. <a href="https://human.libretexts.org/Bookshelves/Theater_Film_and_Storytelling/An_Introduction_to_Technical_Theatre_(Sanders)/01%3A_Chapters/1.11%3A_Lighting_Design" rel="noopener" target="_blank">https://human.libretexts.org/Bookshelves/Theater_Film_and_Storytelling/An_Introduction_to_Technical_Theatre_(Sanders)/01%3A_Chapters/1.11%3A_Lighting_Design</a> (accessed 2026-10-25)</li><li id="c6-s4">This book’s resource library, the twelve categories and 153 cards of the effect dictionary.</li><li id="c6-s5">MA Lighting, grandMA3 User Manual, "Control Moving Lights" (Quick Start Guide). Groups a fixture’s functions into feature groups such as Dimmer, Position, Gobo, Color, Beam, Focus and Control. <a href="https://help.malighting.com/grandMA3/2.5/HTML/qsg_control_moving.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/qsg_control_moving.html</a> (accessed 2026-10-25)</li></ol></section>
+</article>
+</div>
+
+</main>
+<nav class="ltm-pager" id="ltmPager" aria-label="Chapters"></nav>
+<footer class="ltm-foot">
+<p><b>Lighting the Music</b> by Jaehyun Jung. Free to read online. English edition translated from the Korean original with AI.</p>
+<p>Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener license" target="_blank">CC BY-NC-ND 4.0</a>: you may share it with credit (title, author and a link to this page), but not for commercial use and not in modified form.</p>
+</footer>
+<script src="book.js?v=3"></script>
+<script>LTM_chapter("ch6");</script>
+</body>
+</html>

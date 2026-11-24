@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chapter 7 · Concept · Lighting the Music</title>
+<meta name="description" content="Read a song’s concept in four layers, boil it down to one line and one light you won’t use, and agree on it with the team.">
+<link rel="alternate" hreflang="ko" href="https://ablitzdesign.tistory.com/57">
+<link rel="alternate" hreflang="en" href="https://jjjh7401.github.io/lx/en/ch7.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 7 · Concept · Lighting the Music">
+<meta property="og:description" content="Read a song’s concept in four layers, boil it down to one line and one light you won’t use, and agree on it with the team.">
+<meta property="og:image" content="https://jjjh7401.github.io/lx/cover-800.jpg">
+<meta property="og:url" content="https://jjjh7401.github.io/lx/en/ch7.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="en.css?v=2">
+</head>
+<body>
+<header class="ltm-bar" id="ltmBar"></header>
+<main id="article-view">
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch7"><header class="ch-head"><div class="ch-num"><span>Chapter</span> 7</div><h1 class="ch-title">Concept</h1><p class="ch-sub">Finding the mood in the song and agreeing on it with the team</p></header>
+<aside class="box goals"><div class="box-label">In this chapter</div><div class="box-body">
+<ul class="checks">
+<li>Read a song’s concept from the music. Write it down in four layers: sound, emotion, lyrics and the artist’s concept.</li>
+<li>Boil the four layers down to one line of concept and one “light you won’t use”.</li>
+<li>Take the concept sheet to the artist, director, choreography and video teams and agree on it.</li>
+</ul>
+</div></aside>
+<div class="open-label">Opening scene</div><p class="lead">The request you hear most often in a first meeting is “just make it pretty”. What counts as pretty differs with each person who says it. The director pictures a bright screen, the artist pictures their own face, and the choreography team pictures a stage where the formations read well.</p>
+<p>If you take that request as it is and sit down at the console, you will fix things again and again in rehearsal. The first job of the lighting director is to turn “pretty” into words that fit this song. Those words are the concept, and the answer is already inside the song.</p>
+<h2 id="c7-7-1-concept-layers-read-from-the-music">7.1 Concept Layers Read from the Music</h2><p class="lead">The concept comes from the music. Lighting is, in the end, the work of showing the song on stage, so you decide the concept while listening to the song.</p>
+<p>The Danish lighting designer Theis Wermuth says he first grasps the feel of the whole song rather than the lyrics, and then uses the structure of the song as his guide.<sup class="ref"><a href="#c7-s3">3</a></sup> The three listens in Chapter 1 followed the same order. You listened for the flow first, then found the places for cues, and last thought of colors that would fit.</p>
+<p>This book divides what you read from a song into four <strong>concept layers</strong>. Layer 1 is the music itself, and the higher the number, the further it sits from the song. Think of laying the music at the bottom and stacking emotion, lyrics and the artist on top of it in turn.</p>
+<div class="tbl"><div class="tcap"><b>Table 7-1</b> The four layers of a concept <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>What it asks</th>
+<th>What it decides in the lighting</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Sound</td>
+<td>Fast or slow, bright or dark sounding, rough or soft timbre, electronic or acoustic</td>
+<td>Saturation, brightness, warm or cool color, the texture of the light (Section 7.2)</td>
+</tr>
+<tr class="even">
+<td>2. Emotion</td>
+<td>What emotion the song starts from and what emotion it ends on</td>
+<td>The direction the palette moves (Chapter 8), the brightness plan (Chapter 10)</td>
+</tr>
+<tr class="odd">
+<td>3. Lyrics</td>
+<td>Who is saying what to whom (when the song has vocals)</td>
+<td>The relation between key and back, where to gather the eye (Chapters 6 and 9)</td>
+</tr>
+<tr class="even">
+<td>4. Artist concept</td>
+<td>The concept keyword of this promotion, album art, music video, costumes</td>
+<td>Main color, motif (Section 7.4), the light you won’t use (Section 7.3)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Fill the four layers from number 1. Sound and emotion exist in every song. The lyrics layer exists only for songs with vocals, and you leave it empty for an instrumental or a vocal-free EDM track. The artist concept is often something you can learn only from the agency or the director, so write down what you heard first and confirm it at the meeting (Section 7.6).</p>
+<p>Write <strong>emotion</strong> as a beginning and an end together. A single word like “excitement” leaves out where the song is going. If you write “from excitement to certainty” or “from resignation to anger”, that arrow becomes the direction in which the color and brightness of the whole song will move. Lay it beside the energy curve you drew in Chapter 4 and you can see whether the places where the emotion changes a lot overlap with the places where the energy changes a lot.</p>
+<p>For <strong>lyrics</strong>, write only what the words clearly say: who is saying what to whom. If the lyrics state a season or a place clearly, as in a musical number or a ballad with a clear story, write that too. Do not invent a place or time that the lyrics don’t state.</p>
+<p>The <strong>artist concept</strong> is usually already decided for an idol group. For each promotion the agency sets a concept such as “refreshing”, “dreamy” or “girl crush”, and matches the album art, music video and costumes to it. Even the same group changes its concept with each promotion. If the lighting says something different from this concept, the stage may suit the song but not the artist.</p>
+<aside class="box try"><div class="box-label">A short experiment</div><div class="box-body"><ol class="steps"><li>Pick one song you listened to today and write one line for each of the four layers.</li><li>Write 1 and 2 first without looking at the lyrics, then read the lyrics and write 3, and look at the album cover and write 4.</li><li>Compare whether the colors you pictured from 1 and 2 and the colors you pictured from 4 are the same.</li></ol></div></aside>
+<h2 id="c7-7-2-lighting-that-fits-the-sound">7.2 Lighting That Fits the Sound</h2><p class="lead">You carry the sound of a song into the saturation and brightness of the lights. Even people without the special sense of seeing colors in sound (synesthesia) tend to pick similar colors while listening to music.</p>
+<p>In an experiment where participants in the United States and Mexico chose the color that suited each piece, both groups chose saturated, bright, yellowish colors for fast major-key pieces and desaturated, dark, bluish colors for slow minor-key pieces. What linked music and color was emotion. The emotion a piece gave and the emotion the chosen color gave were almost the same.<sup class="ref"><a href="#c7-s1">1</a></sup></p>
+<aside class="box number"><div class="box-label">One number</div><div class="box-body">
+<p> In that experiment the correlation between the emotion a piece gave and the emotion of the color chosen for it was between 0.89 and 0.99.<sup class="ref"><a href="#c7-s1">1</a></sup> It means listeners do not turn the sound of a piece straight into a color; they choose the color that gives the same emotion as the one they felt from the piece.</p>
+</div></aside>
+<p>Which elements of sound most affect the emotion a piece gives has also been studied. One study ranked the size of their effect in this order: mode, tempo, register, dynamics, articulation and timbre.<sup class="ref"><a href="#c7-s2">2</a></sup> That means mode and tempo matter most. It is fine if you can’t tell major from minor on a score. Just write whether the piece sounds bright or dark.</p>
+<div class="tbl"><div class="tcap"><b>Table 7-2</b> Lighting starting values by sound <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Sound</th>
+<th>Lighting starting value</th>
+<th>Basis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sounds fast and bright</td>
+<td>High saturation, bright, toward yellow and orange</td>
+<td>Music and color study<sup class="ref"><a href="#c7-s1">1</a></sup></td>
+</tr>
+<tr class="even">
+<td>Sounds slow and dark</td>
+<td>Low saturation, dark, toward blue</td>
+<td>〃</td>
+</tr>
+<tr class="odd">
+<td>High register leads the song</td>
+<td>Bright colors</td>
+<td>Pitch and color brightness<sup class="ref"><a href="#c7-s1">1</a></sup></td>
+</tr>
+<tr class="even">
+<td>Loud, full arrangement</td>
+<td>Larger brightness and a larger area covered by light</td>
+<td>Loudness and brightness<sup class="ref"><a href="#c7-s1">1</a></sup></td>
+</tr>
+<tr class="odd">
+<td>Bright, sharp timbre (synth lead, distorted guitar)</td>
+<td>Vivid colors, crisp beams</td>
+<td>Timbre and saturation<sup class="ref"><a href="#c7-s1">1</a></sup></td>
+</tr>
+<tr class="even">
+<td>Dark, soft timbre (pad, acoustic)</td>
+<td>Soft wash, wide surface</td>
+<td>Dark timbre leans toward sadness and calm<sup class="ref"><a href="#c7-s2">2</a></sup></td>
+</tr>
+</tbody>
+</table></div>
+<p>The table is a starting point. The music and color study was an experiment with classical orchestral pieces, and not everyone picks the same colors. And sound is only one of the four layers. Even a fast, bright song can go to desaturated pastels if the artist concept is “dreamy”. Deciding which side to follow when layers say different things is the work of setting the concept.</p>
+<h2 id="c7-7-3-one-line-concept-and-the-light-you-won-t-use">7.3 One-Line Concept and the Light You Won’t Use</h2><p class="lead">Once the four layers are filled in, boil them down to one line. A one-line concept should be short enough to pass straight to anyone on the team.</p>
+<p>This book uses the following frame as a starting point.</p>
+<aside class="box number"><div class="box-label">Frame for a one-line concept</div><div class="box-body">
+<p> A [sound] song, from [first emotion] to [last emotion], with [lighting that carries the concept].</p>
+</div></aside>
+<p>An example: “A slowly building piano ballad, from resignation to resolve, with lighting that starts cold like dawn and brightens warm.” That one line already holds the saturation (starting low), the direction of color (from cool to warm) and the direction of brightness (starting dark and brightening). “An upbeat dance song” or “a pretty stage”, which names only a genre, decides nothing.</p>
+<p>Under the one-line concept, write <strong>one light you won’t use</strong>. If you decide only what to do, things get added here and there in rehearsal and the concept blurs. Deciding what you won’t use protects the concept. A lighting designer on one band’s tour decided not to use white or sharp-edged light, and kept a dreamlike, hazy stage for the whole show.<sup class="ref"><a href="#c7-s4">4</a></sup> One item is enough: “no white”, “no strobe” or “no red”.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 376" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#ffffff" height="290.0" opacity="1.0" rx="12" stroke="#3b6ea8" stroke-width="2" width="260.0" x="40.0" y="90.0"></rect>
+<rect fill="#3b6ea8" height="44.0" opacity="1.0" rx="12" stroke="none" stroke-width="1" width="260.0" x="40.0" y="90.0"></rect>
+<rect fill="#3b6ea8" height="16.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="260.0" x="40.0" y="118.0"></rect>
+<text fill="#ffffff" font-size="17" font-weight="700" opacity="1.0" text-anchor="start" x="56.0" y="119.0">Layers read from the song</text>
+<rect fill="#dbe6f3" height="43.0" opacity="1.0" rx="8" stroke="#d6d9df" stroke-width="1" width="216.0" x="54.0" y="296.0"></rect>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="66.0" y="314.0">1  Sound</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="66.0" y="330.0">Tempo · bright/dark · timbre</text>
+<rect fill="#e6edf6" height="43.0" opacity="1.0" rx="8" stroke="#d6d9df" stroke-width="1" width="216.0" x="54.0" y="246.0"></rect>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="66.0" y="264.0">2  Emotion</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="66.0" y="280.0">First emotion → last emotion</text>
+<rect fill="#eef2f8" height="43.0" opacity="1.0" rx="8" stroke="#d6d9df" stroke-width="1" width="216.0" x="54.0" y="196.0"></rect>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="66.0" y="214.0">3  Lyrics</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="66.0" y="230.0">Who says what to whom (if sung)</text>
+<rect fill="#f5f7fb" height="43.0" opacity="1.0" rx="8" stroke="#d6d9df" stroke-width="1" width="216.0" x="54.0" y="146.0"></rect>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="66.0" y="164.0">4  Artist concept</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="66.0" y="180.0">Keyword · album art · costume</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.5" x1="283.0" x2="283.0" y1="334.0" y2="152.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="283.0,152.0 286.0,158.3 280.0,158.3" stroke="none"></polygon>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="56.0" y="368.0">Music is at the bottom, stacking upward</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="2" x1="306.0" x2="336.0" y1="235.0" y2="235.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="336.0,235.0 327.9,238.9 327.9,231.1" stroke="none"></polygon>
+<rect fill="#ffffff" height="290.0" opacity="1.0" rx="12" stroke="#7a5ea8" stroke-width="2" width="260.0" x="342.0" y="90.0"></rect>
+<rect fill="#7a5ea8" height="44.0" opacity="1.0" rx="12" stroke="none" stroke-width="1" width="260.0" x="342.0" y="90.0"></rect>
+<rect fill="#7a5ea8" height="16.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="260.0" x="342.0" y="118.0"></rect>
+<text fill="#ffffff" font-size="17" font-weight="700" opacity="1.0" text-anchor="start" x="358.0" y="119.0">One-line concept</text>
+<rect fill="#eef0f3" height="96.0" opacity="1.0" rx="8" stroke="none" stroke-width="1" width="228.0" x="358.0" y="156.0"></rect>
+<text fill="#1f2430" font-size="13" font-weight="400" opacity="1.0" text-anchor="start" x="370.0" y="182.0">A [sound] song,</text>
+<text fill="#1f2430" font-size="13" font-weight="400" opacity="1.0" text-anchor="start" x="370.0" y="204.0">from [first emotion] to [last emotion],</text>
+<text fill="#1f2430" font-size="13" font-weight="400" opacity="1.0" text-anchor="start" x="370.0" y="226.0">[lighting that carries the concept].</text>
+<rect fill="#ffffff" height="50.0" opacity="1.0" rx="8" stroke="#c8553d" stroke-dasharray="4 3" stroke-width="1" width="228.0" x="358.0" y="266.0"></rect>
+<text fill="#c8553d" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="370.0" y="288.0">One light you won’t use</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="370.0" y="306.0">e.g. no white, no strobe</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="358.0" y="368.0">Short enough to tell anyone on the team</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="2" x1="608.0" x2="638.0" y1="235.0" y2="235.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="638.0,235.0 629.9,238.9 629.9,231.1" stroke="none"></polygon>
+<rect fill="#ffffff" height="290.0" opacity="1.0" rx="12" stroke="#d9902a" stroke-width="2" width="260.0" x="644.0" y="90.0"></rect>
+<rect fill="#d9902a" height="44.0" opacity="1.0" rx="12" stroke="none" stroke-width="1" width="260.0" x="644.0" y="90.0"></rect>
+<rect fill="#d9902a" height="16.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="260.0" x="644.0" y="118.0"></rect>
+<text fill="#ffffff" font-size="17" font-weight="700" opacity="1.0" text-anchor="start" x="660.0" y="119.0">Decisions</text>
+<circle cx="672.0" cy="167.0" fill="#d9902a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<text fill="#1f2430" font-size="14" font-weight="400" opacity="1.0" text-anchor="start" x="684.0" y="172.0">Motif</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="880.0" y="172.0">Ch. 7</text>
+<circle cx="672.0" cy="207.0" fill="#d9902a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<text fill="#1f2430" font-size="14" font-weight="400" opacity="1.0" text-anchor="start" x="684.0" y="212.0">Palette</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="880.0" y="212.0">Ch. 8</text>
+<circle cx="672.0" cy="247.0" fill="#d9902a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<text fill="#1f2430" font-size="14" font-weight="400" opacity="1.0" text-anchor="start" x="684.0" y="252.0">Look &amp; main</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="880.0" y="252.0">Ch. 9</text>
+<circle cx="672.0" cy="287.0" fill="#d9902a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<text fill="#1f2430" font-size="14" font-weight="400" opacity="1.0" text-anchor="start" x="684.0" y="292.0">Brightness &amp; dark</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="880.0" y="292.0">Ch. 10</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="660.0" y="368.0">The line unpacked scene by scene</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="426.0">When layers disagree, choosing which to follow is the concept.</text>
+</svg>
+<figcaption><b>Figure 7-1</b> The order for setting a concept. Read the four layers from the song, boil them down to one line of concept and one light you won’t use, then unpack that line into decisions about shape, color and brightness.</figcaption></figure>
+<h2 id="c7-7-4-finding-the-motif-in-a-reference">7.4 Finding the Motif in a Reference</h2><p class="lead">From a reference concert video you were given, you take the shape, not the scene itself.</p>
+<p>Clues for carrying the artist concept (layer 4) onto the stage usually come from reference videos and music videos. When someone shows you another concert video and says “do it like this”, first remember that the equipment and stage in that show are not the same as yours. You can’t make the same scene, and if you did it would be someone else’s stage.</p>
+<p>So you look for the shape that repeats in that video. This book calls it a <strong>motif</strong>.<sup class="ref"><a href="#c7-s7">7</a></sup> Some shows wrap the stage in circles and arcs, some repeat hexagonal structures, and some set up square frames like picture frames. A single motif creates the impression of a whole show.</p>
+<div class="tbl"><div class="tcap"><b>Table 7-3</b> What to take from a reference and what to leave <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Take</th>
+<th>Leave</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Repeating shapes (circle, line, fan, grid, frame)</td>
+<td>Recreating one scene exactly</td>
+</tr>
+<tr class="even">
+<td>Color relationships (contrast of two colors, ratio of base to accent)</td>
+<td>Exact color values</td>
+</tr>
+<tr class="odd">
+<td>Speed and rhythm of change (slow flow, short snaps)</td>
+<td>That show’s cue order</td>
+</tr>
+<tr class="even">
+<td>How darkness is used</td>
+<td>Special equipment only that show had</td>
+</tr>
+</tbody>
+</table></div>
+<p>Check right away whether the motif can be carried over to your own equipment. To draw a circle you need fixtures arranged in a circle or moving lights that can draw one. Open the role table from Chapter 6 and ask, “Is there a role that can take this shape?”</p>
+<h2 id="c7-7-5-music-video-scenes-and-color-chips">7.5 Music Video Scenes and Color Chips</h2><p class="lead">When you are given a new song, split the music video into scenes and pick colors from them. This is because the picture the artist and fans have of the song is usually the music video.</p>
+<p>Connecting those colors to the stage makes the artist concept clearer once more (Chapter 1). The method is simple. While watching the music video, write down which bar of the song each scene change falls on, and pick one representative color for each scene. Scene boundaries don’t line up exactly with bars, so leave an error of about one bar either way. Then write the color as a name and a number and keep it as a <strong>color chip</strong>.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 266" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="57.2" x="40.0" y="120.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="69.1" y="137.0">Intro</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="115.4" x="98.2" y="120.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="156.4" y="137.0">Verse 1</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="57.2" x="214.5" y="120.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="243.6" y="137.0">Pre 1</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="115.4" x="272.7" y="120.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="330.9" y="137.0">Chorus 1</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="115.4" x="389.1" y="120.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="447.3" y="137.0">Verse 2</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="57.2" x="505.5" y="120.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="534.5" y="137.0">Pre 2</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="115.4" x="563.6" y="120.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="621.8" y="137.0">Chorus 2</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="57.2" x="680.0" y="120.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="709.1" y="137.0">Bridge</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="6.3" x="738.2" y="120.0"></rect>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="115.4" x="745.5" y="120.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="803.6" y="137.0">Chorus 3</text>
+<rect fill="#eef0f3" height="26.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="57.2" x="861.8" y="120.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="890.9" y="137.0">Outro</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="40.0" y="110.0">Song sections (bars)</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="3 3" stroke-linecap="butt" stroke-width="1" x1="40.0" x2="40.0" y1="146.0" y2="172.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="40.0" x2="80.0" y1="172.0" y2="196.0"></line>
+<rect fill="#7fa7c9" height="56.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="80.0" x="40.0" y="196.0"></rect>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="80.0" y="270.0">Dawn sea</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="80.0" y="286.0">Bar 1 · #7FA7C9</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="3 3" stroke-linecap="butt" stroke-width="1" x1="98.2" x2="98.2" y1="146.0" y2="172.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="98.2" x2="178.0" y1="172.0" y2="196.0"></line>
+<rect fill="#e9c46a" height="56.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="80.0" x="138.0" y="196.0"></rect>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="178.0" y="270.0">Bus stop</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="178.0" y="286.0">Bar 9 · #E9C46A</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="3 3" stroke-linecap="butt" stroke-width="1" x1="214.5" x2="214.5" y1="146.0" y2="172.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="214.5" x2="276.0" y1="172.0" y2="196.0"></line>
+<rect fill="#4a6f8a" height="56.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="80.0" x="236.0" y="196.0"></rect>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="276.0" y="270.0">Rainy alley</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="276.0" y="286.0">Bar 25 · #4A6F8A</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="3 3" stroke-linecap="butt" stroke-width="1" x1="272.7" x2="272.7" y1="146.0" y2="172.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="272.7" x2="374.0" y1="172.0" y2="196.0"></line>
+<rect fill="#ff4fa3" height="56.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="80.0" x="334.0" y="196.0"></rect>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="374.0" y="270.0">Neon street</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="374.0" y="286.0">Bar 33 · #FF4FA3</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="3 3" stroke-linecap="butt" stroke-width="1" x1="389.1" x2="389.1" y1="146.0" y2="172.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="389.1" x2="472.0" y1="172.0" y2="196.0"></line>
+<rect fill="#e8f1f2" height="56.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="80.0" x="432.0" y="196.0"></rect>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="472.0" y="270.0">Corner store</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="472.0" y="286.0">Bar 49 · #E8F1F2</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="3 3" stroke-linecap="butt" stroke-width="1" x1="563.6" x2="563.6" y1="146.0" y2="172.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="563.6" x2="570.0" y1="172.0" y2="196.0"></line>
+<rect fill="#ff9f5a" height="56.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="80.0" x="530.0" y="196.0"></rect>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="570.0" y="270.0">Rooftop dawn</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="570.0" y="286.0">Bar 73 · #FF9F5A</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="3 3" stroke-linecap="butt" stroke-width="1" x1="680.0" x2="680.0" y1="146.0" y2="172.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="680.0" x2="668.0" y1="172.0" y2="196.0"></line>
+<rect fill="#c8b6a6" height="56.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="80.0" x="628.0" y="196.0"></rect>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="668.0" y="270.0">Empty classroom</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="668.0" y="286.0">Bar 89 · #C8B6A6</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="3 3" stroke-linecap="butt" stroke-width="1" x1="745.5" x2="745.5" y1="146.0" y2="172.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="745.5" x2="766.0" y1="172.0" y2="196.0"></line>
+<rect fill="#ffd23f" height="56.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="80.0" x="726.0" y="196.0"></rect>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="766.0" y="270.0">Fireworks</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="766.0" y="286.0">Bar 98 · #FFD23F</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="3 3" stroke-linecap="butt" stroke-width="1" x1="861.8" x2="861.8" y1="146.0" y2="172.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="861.8" x2="864.0" y1="172.0" y2="196.0"></line>
+<rect fill="#7fa7c9" height="56.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="80.0" x="824.0" y="196.0"></rect>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="864.0" y="270.0">Dawn sea</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="864.0" y="286.0">Bar 114 · #7FA7C9</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="316.0">Scene boundaries can be off by about a bar either way. Pick the Chapter 8 palette from these color chips.</text>
+</svg>
+<figcaption><b>Figure 7-2</b> An example of scene color chips, made from a fictional song and music video. No video frames are shown; only the scene name, bar and representative color are kept.</figcaption></figure>
+<p>This book does not print music video frames, because the scenes of a music video are someone else’s work. In the field, teams sometimes make a mood board from stills within the range of materials the agency provided, but even then the stills are used only to carry the color and mood over to your own stage, never to copy the frames. One line of color chip is enough for that.</p>
+<p>You don’t carry the colors of a music video onto the stage as they are. A music video can change color in every scene, but if the stage changes color in every scene, the song falls into pieces. The color chips are material to look at when choosing the palette, and the real palette is boiled down in Chapter 8 to one main color and one or two sub colors.</p>
+<h2 id="c7-7-6-agreeing-on-the-concept-with-the-team">7.6 Agreeing on the Concept with the Team</h2><p class="lead">The lighting director doesn’t set the concept alone but together with the team. However good the lighting is, if it clashes with the dance formations or fights the video on the LED wall, the whole stage falls apart.</p>
+<p>So you organize the concept so you can take it to a meeting and have it confirmed. To the artist, you ask what this song means. Lighting designers on one tour say they begin the design by learning the songs and reading the lyrics, then asking the artist what each song is to them.<sup class="ref"><a href="#c7-s5">5</a></sup> If the four layers you wrote from listening differ from the artist’s answer, you usually revise toward the artist’s answer.</p>
+<p>The people to ask in the meeting and the questions are in Table 7-4. At a site with a long preparation period, like a concert, you fill in the whole table. At a site where one team gets very little time, like a music show, it shrinks to asking the agency’s performance and visual staff and the director (PD) a few questions (Chapter 17).</p>
+<div class="tbl"><div class="tcap"><b>Table 7-4</b> What to ask in a concept meeting <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Who</th>
+<th>What to ask</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Artist · agency</td>
+<td>What this song is to the artist, the concept keyword of this promotion, colors to avoid</td>
+<td>It confirms layer 4, and a single color to avoid can change the palette</td>
+</tr>
+<tr class="even">
+<td>Director</td>
+<td>The moments the cameras care most about, and the movement paths on stage</td>
+<td>It decides where to put the key (including follow spots)</td>
+</tr>
+<tr class="odd">
+<td>Choreography team</td>
+<td>Bars where the formation changes a lot and the freeze poses</td>
+<td>A freeze pose is where the lighting stops too (Chapter 9)</td>
+</tr>
+<tr class="even">
+<td>Video team</td>
+<td>The main color and brightness of the LED wall, and the bars where the picture changes</td>
+<td>If the screen is brighter than the people, the people get buried. Set the key and back to suit the screen brightness</td>
+</tr>
+<tr class="odd">
+<td>Camera · technical director (broadcast)</td>
+<td>The white balance reference and the moments the shot changes a lot</td>
+<td>It matches the color temperature and brightness of the key to the camera (Chapters 8 and 17)</td>
+</tr>
+<tr class="even">
+<td>Costume · hair and makeup</td>
+<td>Color and material of costumes (white, black, sequins)</td>
+<td>Costume colors change under light and reflect differently by material (Chapter 8)</td>
+</tr>
+<tr class="odd">
+<td>Stage · special effects</td>
+<td>Timing of set changes and special effects (fireworks, CO₂, lasers)</td>
+<td>It decides which of effects and lighting is the main at that moment (Chapter 10)</td>
+</tr>
+<tr class="even">
+<td>Director · agency</td>
+<td>The final track and version (broadcast edit, version with an added intro)</td>
+<td>If the version changes, look at the song structure table again from the start</td>
+</tr>
+</tbody>
+</table></div>
+<p>Go to the meeting with one sheet of paper. It holds the concept layers, the one-line concept and the light you won’t use, the motif, the palette, the color flow and look sheet by section, the brightness plan, special cues and the things to agree on, all on one page. This book calls it the <strong>concept sheet</strong>, and you complete it in the Chapter 10 exercise.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 726" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#ffffff" height="700.0" opacity="1.0" rx="10" stroke="#d6d9df" stroke-width="1" width="880.0" x="40.0" y="76.0"></rect>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="56.0" y="108.0">Concept layers</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="56.0" y="126.0">Ch. 7</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="56.0" x2="904.0" y1="180.0" y2="180.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="110.0" y2="110.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="132.0" y2="132.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="154.0" y2="154.0"></line>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="56.0" y="204.0">One-line concept</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="56.0" y="222.0">Ch. 7</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="56.0" x2="904.0" y1="240.0" y2="240.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="206.0" y2="206.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="228.0" y2="228.0"></line>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="56.0" y="264.0">Motif · reference</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="56.0" y="282.0">Ch. 7</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="56.0" x2="904.0" y1="292.0" y2="292.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="266.0" y2="266.0"></line>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="56.0" y="316.0">Palette</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="56.0" y="334.0">Ch. 8</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="56.0" x2="904.0" y1="368.0" y2="368.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="318.0" y2="318.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="340.0" y2="340.0"></line>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="56.0" y="392.0">Color flow · look sheet</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="56.0" y="410.0">Ch. 8 · 9</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="56.0" x2="904.0" y1="530.0" y2="530.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="394.0" y2="394.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="416.0" y2="416.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="438.0" y2="438.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="460.0" y2="460.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="482.0" y2="482.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="504.0" y2="504.0"></line>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="56.0" y="554.0">Brightness plan · dark</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="56.0" y="572.0">Ch. 10</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="56.0" x2="904.0" y1="612.0" y2="612.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="556.0" y2="556.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="578.0" y2="578.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="600.0" y2="600.0"></line>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="56.0" y="636.0">Special cues</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="56.0" y="654.0">Ch. 10</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="56.0" x2="904.0" y1="694.0" y2="694.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="638.0" y2="638.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="660.0" y2="660.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="682.0" y2="682.0"></line>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="56.0" y="718.0">To agree on</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="56.0" y="736.0">Ch. 7</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="56.0" x2="904.0" y1="796.0" y2="796.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="720.0" y2="720.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="742.0" y2="742.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="764.0" y2="764.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.0" x2="900.0" y1="786.0" y2="786.0"></line>
+</svg>
+<figcaption><b>Figure 7-3</b> The concept sheet form. Read from top to bottom, it runs from the concept layers read from the song to the decisions for each section. In the meeting you write the other teams’ notes on this one sheet.</figcaption></figure>
+<aside class="box heard"><div class="box-label">Heard in the field</div><div class="box-body">
+<p> “Please match the color with the video.” Carrying the color of the screen onto the stage is itself a common and good method. The problem is brightness. If the screen is brighter than the people, the people get buried in the screen whether the colors match or differ. With a request to match color, also ask how bright the screen will be and whether a back light behind the people can trace their outline and separate them from the screen. If you get the main colors and brightness by section from the video team and write them beside the color flow on the concept sheet, you can see where things will clash before rehearsal.</p>
+</div></aside>
+<h2 id="c7-7-7-a-cue-structure-that-survives-a-concept-change">7.7 A Cue Structure That Survives a Concept Change</h2><p class="lead">It is not unusual for the concept to change completely just before rehearsal. The music video comes late, costumes and set change, or the artist wants a different image.</p>
+<p>To avoid redoing everything from scratch, split the cues into two kinds.</p>
+<ul class="keyed">
+<li><strong>Cue structure</strong>Cues attached to changes in the music: section boundaries, chorus build-ups (Chapter 3), big hits and kick-outs. They come from the song structure table in Part 1, so they stay as they are when the concept changes. But if the version of the track changes (a broadcast edit, a version with a dance break added), you have to look at the cue structure again.</li>
+<li><strong>Presets</strong>The palette, motif, and the colors and positions chosen for each scene. When the concept changes, you change only these.</li>
+</ul>
+<p>Seen through the concept layers, the split comes naturally. Sound and emotion stay as they are as long as the song doesn’t change, so the direction of brightness and the contrast between sections that came from them usually remain. What changes often are the colors and shapes that came from layer 4, the artist concept.</p>
+<p>To keep cue structure and presets apart, you need the habit of calling colors and positions up as presets rather than putting them directly in cues. When you fix a preset, the cues that use it change along with it. Chapter 24 covers how to build this structure on the console.</p>
+<h2 id="c7-7-8-exercise-love-attack-concept-layers-and-one-line-concept">7.8 [Exercise] LOVE ATTACK Concept Layers and One-Line Concept</h2><p class="lead">Open the LOVE ATTACK song structure table you made in Part 1 and the energy curve from Chapter 4, and write the four layers of this song.</p>
+<p><strong>Follow along</strong></p>
+<ol type="1">
+<li>Listen to the song once without looking at the lyrics. Write the tempo, whether it sounds bright or dark, and the timbre that leads the song. This is the sound layer.</li>
+<li>In Table 7-2, find the lighting starting value that fits this sound and write it beside it.</li>
+<li>Listen to the first and last choruses back to back and write the emotion as “from ○○ to ○○”. See whether the highest point of the Chapter 4 energy curve overlaps with where the emotion changes.</li>
+<li>Read the lyrics and write in one line who is saying what to whom.</li>
+<li>From the album cover, the music video and the agency’s introduction, find and write the concept of this promotion.</li>
+<li>Put the four layers into the frame of Section 7.3 to write a one-line concept, and decide one light you won’t use.</li>
+<li>If you have a reference video, pick one motif and find in the Chapter 6 role table the role that can take that shape. If you have a music video, pick one color chip for each bar where the scene changes.</li>
+</ol>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>Read the one-line concept to someone hearing it for the first time and ask what color and brightness come to mind.</li><li>If it is close to what you had in mind, the concept got across.</li><li>If only a genre name is left, or the listener can’t picture a single color, write it again.</li><li>If any of the four layers say different things, also check whether the one-line concept shows which side you followed.</li></ol></div></aside>
+<p>Here is one example from the author. It is something to compare against, not the right answer.</p>
+<ul class="keyed">
+<li><strong>Sound</strong>A light dance pop at 112 BPM. It opens roughly with distorted guitar and the drums burst in at the chorus (Chapter 1 listening notes and review), and the mode sounds bright. <code>[Author to confirm]</code></li>
+<li><strong>Emotion</strong>From an excitement you can’t hide to a playful confession.</li>
+<li><strong>Lyrics</strong>A story of pushing your feelings at someone you like, as if in play. <code>[Author to confirm]</code></li>
+<li><strong>Artist concept</strong>RESCENE is introduced as a group that has carried “fragrance” as the concept of each album.<sup class="ref"><a href="#c7-s6">6</a></sup> Soft colors that spread like a scent.</li>
+</ul>
+<p>Looking at the sound alone, Table 7-2 gives high-saturation yellow and orange as the starting value. But layer 4 says “a spreading scent”, so I kept the brightness and moved to pastels with lowered saturation (pearl pink, lilac). It is an example of following the artist concept when two layers say different things. The one-line concept is “A light dance pop, from excitement to a playful confession, with pastels that spread like a scent and a single heart at the end,” and the light not to use is “a dark single-color wash”. This example is completed as a concept sheet in Figure 10-4 in Chapter 10.</p>
+<aside class="box mine"><div class="box-label">Try it with your own song</div><div class="box-body"><ol class="steps"><li>Follow the same order with the song you are in charge of now.</li><li>Take the four layers and the one-line concept to the next meeting, and write the artist side’s answer to “what kind of song is this?” in the margin of the concept sheet.</li></ol></div></aside>
+<aside class="web" id="web-W6-8"><div class="web-head"><span class="web-tag">Web tool 7</span><h4>Concept Sheet</h4><a class="web-open" href="https://jjjh7401.github.io/lx/concept.html" rel="noopener" target="_blank">Open in new window ↗</a></div><p class="web-desc">For each song, write the concept layers, one-line concept, the light you won’t use, the motif, scene color chips and the meeting questions. Pick a sound and it shows the lighting starting value, and it gathers the Chapter 8–10 palette, look sheet and special cues into one page.</p><div class="tool-embed"><iframe allow="autoplay" loading="lazy" src="https://jjjh7401.github.io/lx/concept.html?embed=1" style="--h:1700px" title="Concept Sheet"></iframe></div><p class="tool-open"><span>The notes you write are saved in this browser only. To use it on a wide screen, press "Open in new window" above.</span></p></aside>
+<section class="summary"><h2>Key points</h2><ul>
+<li>A concept is turning “pretty” into words that fit this song, and you find those words in the music.</li>
+<li>Read four layers from the song: sound, emotion, lyrics (when it has vocals) and the artist concept.</li>
+<li>Carry the sound into the saturation and brightness of the lights. For a song that sounds fast and bright, the starting value is high saturation, bright and warm; for one that sounds slow and dark, low saturation, dark and cool.</li>
+<li>Write emotion as a beginning and an end together, and that arrow becomes the direction in which color and brightness move.</li>
+<li>Boil the four layers down to a one-line concept and decide one light you won’t use. When layers say different things, which one you follow is the concept.</li>
+<li>From a reference, take the motif and the color relationships; from a music video, take only the color chips.</li>
+<li>Agree on the concept with the team. Ask the artist what kind of song this is.</li>
+<li>If you keep cue structure and presets apart, only the presets change when the concept changes.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">On the job tomorrow</div><div class="box-body"><ol class="steps"><li>Pick one song you rehearse today and write only its sound in one line, without looking at the lyrics.</li><li>If the color you use now differs from the starting value in Table 7-2, see whether you can say which of the other layers (emotion, lyrics, artist concept) decided that color.</li></ol></div></aside>
+<section class="notes"><h2>Notes</h2><ol><li id="c7-s1">Palmer, S. E., Schloss, K. B., Xu, Z., &amp; Prado-León, L. R., "Music–color associations are mediated by emotion", <em>PNAS</em> 110(22), 8836–8841, 2013. Participants in both the US and Mexico chose saturated, bright, yellowish colors for fast major-key pieces and desaturated, dark, bluish colors for slow minor-key pieces. Emotional association between piece and color correlated at 0.89–0.99. The links between pitch and color brightness, timbre and saturation, and loudness and brightness come from the paper’s review of earlier studies. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3670360/" rel="noopener" target="_blank">https://pmc.ncbi.nlm.nih.gov/articles/PMC3670360/</a> (accessed 2026-10-25)</li><li id="c7-s2">Eerola, T., Friberg, A., &amp; Bresin, R., "Emotional expression in music: contribution, linearity, and additivity of primary musical cues", <em>Frontiers in Psychology</em> 4, 2013. Ranks the size of effect on emotional expression as mode, tempo, register, dynamics, articulation and timbre. Dark timbre leans toward sadness and calm. <a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2013.00487/full" rel="noopener" target="_blank">https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2013.00487/full</a> (accessed 2026-10-25)</li><li id="c7-s3">CHAUVET Professional, "The Musicality of Light", 2019-03-05. Lighting designer Theis Wermuth explains that he grasps the feel of a song before the lyrics and uses the song’s structure as a guide for cues. <a href="https://chauvetprofessional.com/news/the-musicality-of-light/" rel="noopener" target="_blank">https://chauvetprofessional.com/news/the-musicality-of-light/</a> (accessed 2026-10-25)</li><li id="c7-s4">Catherine McHugh, "Sign language", <em>Live Design</em>, 1999-11-01. On Willie Williams deciding not to use white or sharp-edged light on the R.E.M. tour. <a href="https://www.livedesignonline.com/sign-language" rel="noopener" target="_blank">https://www.livedesignonline.com/sign-language</a> (accessed 2026-10-25)</li><li id="c7-s5">Erica Campbell, "The lighting designers behind Hayley Williams' intimate set", <em>Wallpaper*</em>, 2026-10-17. Tobias Rylander and Michael Straun explain that they start by asking the artist what a song is to them. <a href="https://www.wallpaper.com/art/music/lighting-designers-tobias-rylander-and-michael-straun-interview" rel="noopener" target="_blank">https://www.wallpaper.com/art/music/lighting-designers-tobias-rylander-and-michael-straun-interview</a> (accessed 2026-10-25)</li><li id="c7-s6">Newsis, article on RESCENE’s 'LOVE ATTACK' chart resurgence, 2026-07-09 (in Korean). 'LOVE ATTACK' is the title track of the August 2024 first mini album 'SCENEDROME', and the agency introduces RESCENE as a group that has carried a "fragrance concept" through each album. <a href="https://mobile.newsis.com/view/NISX20260709_0003701750" rel="noopener" target="_blank">https://mobile.newsis.com/view/NISX20260709_0003701750</a> (accessed 2026-10-25)</li><li id="c7-s7">The author’s unpublished working notes, on how to take the shapes that repeat in a reference (motifs).</li></ol></section>
+</article>
+</div>
+
+</main>
+<nav class="ltm-pager" id="ltmPager" aria-label="Chapters"></nav>
+<footer class="ltm-foot">
+<p><b>Lighting the Music</b> by Jaehyun Jung. Free to read online. English edition translated from the Korean original with AI.</p>
+<p>Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener license" target="_blank">CC BY-NC-ND 4.0</a>: you may share it with credit (title, author and a link to this page), but not for commercial use and not in modified form.</p>
+</footer>
+<script src="book.js?v=3"></script>
+<script>LTM_chapter("ch7");</script>
+</body>
+</html>

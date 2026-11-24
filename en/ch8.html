@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chapter 8 · Color Planning · Lighting the Music</title>
+<meta name="description" content="Cut a song’s emotion down to one main color and a sub color or two, decide where white goes, and write colors as names and numbers.">
+<link rel="alternate" hreflang="ko" href="https://ablitzdesign.tistory.com/58">
+<link rel="alternate" hreflang="en" href="https://jjjh7401.github.io/lx/en/ch8.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 8 · Color Planning · Lighting the Music">
+<meta property="og:description" content="Cut a song’s emotion down to one main color and a sub color or two, decide where white goes, and write colors as names and numbers.">
+<meta property="og:image" content="https://jjjh7401.github.io/lx/cover-800.jpg">
+<meta property="og:url" content="https://jjjh7401.github.io/lx/en/ch8.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="en.css?v=2">
+</head>
+<body>
+<header class="ltm-bar" id="ltmBar"></header>
+<main id="article-view">
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch8"><header class="ch-head"><div class="ch-num"><span>Chapter</span> 8</div><h1 class="ch-title">Color Planning</h1><p class="ch-sub">Palette, white and area</p></header>
+<aside class="box goals"><div class="box-label">In this chapter</div><div class="box-body">
+<ul class="checks">
+<li>Carry a song’s emotion into a palette of one main color and one or two sub colors.</li>
+<li>Cut the colors visible in one scene down to two, and set aside the places for white and for saturated primaries.</li>
+<li>Set the key’s white by color temperature, and write other colors as a name and numbers, so that anyone at the console gets the same color.</li>
+</ul>
+</div></aside>
+<div class="open-label">Opening scene</div><p class="lead">On a stage packed with LED bars, if you run three or four mixed colors through them, what looked like a rainbow on the console monitor can look like a hazy, muddy lump from the back of the audience. Each small cell of the bar is a deep color, but from far away the neighboring lights overlap.</p>
+<p>Using many colors doesn’t make a stage gorgeous. Color becomes clear when you use less of it and give each color a place. This chapter is as much about <strong>cutting down colors</strong> as about choosing them.</p>
+<h2 id="c8-8-1-emotion-and-palette">8.1 Emotion and Palette</h2><p class="lead">A palette is a list of colors chosen in advance for one song. You pick one main color that fits the song’s emotion and add one or two sub colors to make it.</p>
+<p>In the third listen of Chapter 1 you wrote down the color that came to mind for each section. If you used all of them, one song would end up with seven or eight colors. A palette keeps only the colors that represent this song.</p>
+<div class="tbl"><div class="tcap"><b>Table 8-1</b> Makeup of a palette <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Slot</th>
+<th>Count</th>
+<th>What it does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Main color</td>
+<td>1</td>
+<td>The base of the whole song. Stays on wash and wide surfaces for a long time</td>
+<td>Sunset amber</td>
+</tr>
+<tr class="even">
+<td>Sub color</td>
+<td>1~2</td>
+<td>Changes the character of a section</td>
+<td>Night blue, purple</td>
+</tr>
+<tr class="odd">
+<td>Special color</td>
+<td>0~1</td>
+<td>A saturated primary brought out in only one scene of the song (Section 8.4)</td>
+<td>Red</td>
+</tr>
+<tr class="even">
+<td>White</td>
+<td>By rule</td>
+<td>Key, white reset, moving beams, and the white flash as a special cue (Section 8.3)</td>
+<td>Key white by color temperature</td>
+</tr>
+</tbody>
+</table></div>
+<p>Pairings of emotion and color are only a starting point. Like Moody’s pairings in Chapter 1, it is easy to picture yellow and orange for a bright, happy song and blue and lavender for a sad one. If you follow them as they are, every ballad turns blue. If the lyrics and music video (Chapter 7) say a different color, follow that. Putting blue under a ballad that sings of a spring-day confession would be a color chosen for the genre rather than the emotion.</p>
+<p>Decide the relation between main and sub color as one of two. <strong>Contrast</strong>, colors far apart on the color wheel (blue and yellow, red and cyan), is crisp and strong. <strong>Neighboring colors</strong>, colors close together (pink and lilac, sky blue and cyan), are soft and bind into one mood. If you decide once for each song which it is, you won’t waver when choosing colors for each section.</p>
+<h2 id="c8-8-2-how-many-colors-show-in-one-scene">8.2 How Many Colors Show in One Scene</h2><p class="lead">Don’t let more than two colors show at once in one scene (<span class="badge start">Starting value</span>). One is the base color spread over the whole scene and the other is the sub color that draws the eye.</p>
+<p>With three, the audience can hardly tell which color is the color of the scene, and with four the stage looks like a color swatch chart.</p>
+<p>What you count here are the colors of the surfaces the lights paint and of the beams. The key’s white isn’t counted, because the light on a person’s face is not light that paints the scene. Conversely, if the LED wall takes up a wide part of the scene, count the wall’s main color as one too. If the screen is pink, the lights can use pink and only one more color.</p>
+<p>You can keep to this rule even with a palette of three or four colors. The palette is the list of colors used across the whole song, and the colors visible at once are the ones drawn from that list for a single scene. If you draw two for each scene, such as main color and sub color 1 for the verse and sub color 2 and main color for the chorus, you use three colors in the whole song while only two show in any scene.</p>
+<div class="formula"><span class="f-label">Formula</span>
+<p><strong>Set the palette by name, and draw two for each scene.</strong></p>
+</div>
+<p>There are exceptions. Scenes that deliberately spread many colors at once, like a finale or a festive song, and concerts where the audience’s light sticks change color along with the stage, are examples. When you use an exception, do it in that one scene only, and the scenes before and after must return to two colors for that scene to look special.</p>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>Pause one chorus scene in a past performance video and count the colors you see on screen.</li><li>If there are three or more apart from the light on faces, think about whether the scene gets clearer if you turn one of them into the base color.</li></ol></div></aside>
+<h2 id="c8-8-3-where-to-use-white">8.3 Where to Use White</h2><p class="lead">Don’t leave white spread under everything; use it only in the places you decided (<span class="badge start">Starting value</span>). When white flashes once on a stage filled with color, the audience feels that something has begun.</p>
+<p>If white is already under everything from the start, that power is lost. There are four places to use white.</p>
+<ul class="keyed">
+<li><strong>Key</strong>The white that lights faces. You don’t mix it from colors but set it by color temperature (see the box below). Fix it to one color temperature for the whole song and don’t mix it with the base wash.</li>
+<li><strong>White reset</strong>When the scene changes, passing white briefly at low brightness wipes the color of the previous scene and lets the new color come in clean. Don’t blast it to full brightness; settle it into the new color within about 2 beats (<span class="badge start">Starting value</span>).</li>
+<li><strong>Moving beams</strong>When showing the path a beam draws, take out the color and keep it white. When the path is the main thing, color actually blurs the line (Chapter 9, Solo, act 1). When the beams stop and paint the scene, they return to the palette’s colors.</li>
+<li><strong>White flash</strong>Blasting the whole stage with full-brightness white on a big hit. Unlike the reset, it is a special cue used only once or twice in a song. The chorus build-up in Chapter 3 saves this for Chorus 3 (Chapter 10).</li>
+</ul>
+<p>Some songs have white itself as the concept: songs with white costumes and a white stage creating a clear impression, or a finale that covers the whole stage in white. In that case, write white as the palette’s main color and change scenes with one sub color.</p>
+<aside class="box terms"><div class="box-label">Terms to know — color temperature</div><div class="box-body"><dl class="defs"><div><dt>Color temperature (K)</dt><dd>A value in kelvin (K) showing how warm or cool a white is. The lower the number, the yellower (tungsten lighting is about 3200 K); the higher, the bluer (midday sunlight is about 5600 K).</dd></div><div><dt>CTO · CTB</dt><dd>Corrections that make white warmer (toward orange) or cooler (toward blue). Used as filters on tungsten fixtures and as a color temperature channel on LED fixtures.</dd></div><div><dt>White balance</dt><dd>The camera setting that decides which light it treats as white. In broadcast it is usually matched to the key. Then the key becomes neutral white on screen, light with a higher color temperature than the key looks bluer, and light with a lower one looks yellower.</dd></div><div><dt>Color rendering (CRI · TLCI)</dt><dd>A value showing how correctly colors appear under that light. CRI is rated against the human eye and TLCI against a broadcast camera.<sup class="ref"><a href="#c8-s4">4</a></sup></dd></div><div><dt>White mixed from RGB</dt><dd>A white made by mixing only red, green and blue has gaps in the light’s spectrum, so skin tones tend to look dull. Make the key with fixtures that have a white emitter or with a color temperature channel.</dd></div></dl></div></aside>
+<p>On a stage with cameras, this difference shows up on the picture as it is. An amber wash that looked warm on stage comes out yellower on screen, and a beam that looked cool comes out bluer. That is why you set the key’s color temperature together with the camera side (the meeting table in Chapter 7). Chapter 17 covers the detailed broadcast conditions.</p>
+<p>People’s skin and costumes also look different depending on the color of the light, because an object shows only the part of the light reaching it that it reflects. Shine green light on a red garment and the garment looks dark.<sup class="ref"><a href="#c8-s1">1</a></sup> Cyan and green lights easily make skin look pale. White clothes tend to blow out to pure white on screen under the key, black clothes get buried in the background without a back and side, and sequins flash at every angle where they catch light. That is why you ask about the color and material of costumes in the Chapter 7 meeting.</p>
+<h2 id="c8-8-4-pastels-and-primaries">8.4 Pastels and Primaries</h2><p class="lead">Use pastels over wide areas for a long time, and primaries in narrow places for a short time.</p>
+<p>Pastels, with their pale (low saturation) color, don’t tire the eye even when spread wide for a long time, and they go well with people’s faces. A deep primary stays in memory strongly when seen once, but looking at it for long tires the eye and makes the next color look weak.</p>
+<p>So when choosing a color, decide the <strong>area and time</strong> along with the color name.</p>
+<div class="tbl"><div class="tcap"><b>Table 8-2</b> Where a color goes, set by area and time <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Short (1 beat–1 bar)</th>
+<th>Long (section)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Wide (wash)</td>
+<td>White flash</td>
+<td>Main color (pastel)</td>
+</tr>
+<tr class="even">
+<td>Narrow (beams)</td>
+<td>Special color, snap</td>
+<td>Key white, accent beam</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 376" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#ffffff" height="300.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="700.0" x="180.0" y="90.0"></rect>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="530.0" x2="530.0" y1="90.0" y2="390.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="180.0" x2="880.0" y1="240.0" y2="240.0"></line>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="355.0" y="416.0">Short (1 beat–1 bar)</text>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="705.0" y="416.0">Long (per section)</text>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="end" x="164.0" y="170.0">Wide</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="164.0" y="187.0">Whole stage · wash</text>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="end" x="164.0" y="320.0">Narrow</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="164.0" y="337.0">Beams · spots · some pixels</text>
+<text fill="#1f2430" font-size="14" font-weight="700" opacity="1.0" text-anchor="start" x="200.0" y="118.0">White flash</text>
+<rect fill="#f7f7f5" height="70.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="82.0" x="200.0" y="134.0"></rect>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="200.0" y="224.0">Once or twice a song, then straight back</text>
+<text fill="#1f2430" font-size="14" font-weight="700" opacity="1.0" text-anchor="start" x="550.0" y="118.0">Main color (pastel)</text>
+<rect fill="#ffb8d9" height="70.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="132.0" x="550.0" y="134.0"></rect>
+<rect fill="#ad73ff" height="70.0" opacity="1.0" rx="6" stroke="#d6d9df" stroke-width="1" width="132.0" x="690.0" y="134.0"></rect>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="550.0" y="224.0">Easy on the eyes · suits faces</text>
+<text fill="#1f2430" font-size="14" font-weight="700" opacity="1.0" text-anchor="start" x="200.0" y="268.0">Special color · sub-color snap</text>
+<rect fill="#ff0a00" height="30.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="30.0" x="200.0" y="304.0"></rect>
+<rect fill="#00f2d9" height="30.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="30.0" x="240.0" y="304.0"></rect>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="200.0" y="374.0">Short, in a narrow place</text>
+<text fill="#1f2430" font-size="14" font-weight="700" opacity="1.0" text-anchor="start" x="550.0" y="268.0">Key white · accent beam</text>
+<rect fill="#ffd4b0" height="30.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="30.0" x="550.0" y="304.0"></rect>
+<rect fill="#ad73ff" height="30.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="30.0" x="590.0" y="304.0"></rect>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="550.0" y="374.0">One place all song · key by color temp.</text>
+</svg>
+<figcaption><b>Figure 8-1</b> Area and time of color. Table 8-2 turned into color swatches.</figcaption></figure>
+<p>Use primaries sparingly, as you would a special cue. If you decide the moment a deep red first comes out in the song, that moment becomes the one scene the song is remembered by. Saving things is covered again in Chapter 10.</p>
+<h2 id="c8-8-5-colors-that-mix-on-a-pixel-bar">8.5 Colors That Mix on a Pixel Bar</h2><p class="lead">Run only two colors at a time on a pixel bar. If you run several colors, from far away the colors mix and look hazy.</p>
+<p>Light mixing with light is called additive mixing. In additive mixing, the more colors you mix, the lower the saturation and the closer to white, and mixing two colors opposite each other on the color wheel gives white.<sup class="ref"><a href="#c8-s1">1</a></sup></p>
+<p>On stage this mixing happens more easily than you would expect. When the cells are small and tightly packed, at the back of the audience the eye or camera cannot tell the cells apart. Light spreads around a bright cell, and in haze it scatters and overlaps with the light of neighboring cells. If the chase is fast, the earlier color and the later color also look mixed. So a bar that alternates red, yellow, green and blue loses the saturation of each color from far away and clumps into a hazy color close to white.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 496" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="90.0">Two colors (blue · purple)</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="138.0" y="120.0">Cells</text>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="150.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="175.0" y="100.0"></rect>
+<rect fill="#8a3fc2" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="200.0" y="100.0"></rect>
+<rect fill="#8a3fc2" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="225.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="250.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="275.0" y="100.0"></rect>
+<rect fill="#8a3fc2" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="300.0" y="100.0"></rect>
+<rect fill="#8a3fc2" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="325.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="350.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="375.0" y="100.0"></rect>
+<rect fill="#8a3fc2" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="400.0" y="100.0"></rect>
+<rect fill="#8a3fc2" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="425.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="450.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="475.0" y="100.0"></rect>
+<rect fill="#8a3fc2" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="500.0" y="100.0"></rect>
+<rect fill="#8a3fc2" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="525.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="550.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="575.0" y="100.0"></rect>
+<rect fill="#8a3fc2" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="600.0" y="100.0"></rect>
+<rect fill="#8a3fc2" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="625.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="650.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="675.0" y="100.0"></rect>
+<rect fill="#8a3fc2" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="700.0" y="100.0"></rect>
+<rect fill="#8a3fc2" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="725.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="750.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="775.0" y="100.0"></rect>
+<rect fill="#8a3fc2" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="800.0" y="100.0"></rect>
+<rect fill="#8a3fc2" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="825.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="850.0" y="100.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="875.0" y="100.0"></rect>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="138.0" y="162.0">Up close</text>
+<rect fill="#465ed2" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="150.0" y="140.0"></rect>
+<rect fill="#5b58ce" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="175.0" y="140.0"></rect>
+<rect fill="#714fc9" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="200.0" y="140.0"></rect>
+<rect fill="#714fc9" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="225.0" y="140.0"></rect>
+<rect fill="#6156cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="250.0" y="140.0"></rect>
+<rect fill="#6156cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="275.0" y="140.0"></rect>
+<rect fill="#714fc9" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="300.0" y="140.0"></rect>
+<rect fill="#714fc9" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="325.0" y="140.0"></rect>
+<rect fill="#6156cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="350.0" y="140.0"></rect>
+<rect fill="#6156cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="375.0" y="140.0"></rect>
+<rect fill="#714fc9" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="400.0" y="140.0"></rect>
+<rect fill="#714fc9" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="425.0" y="140.0"></rect>
+<rect fill="#6156cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="450.0" y="140.0"></rect>
+<rect fill="#6156cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="475.0" y="140.0"></rect>
+<rect fill="#714fc9" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="500.0" y="140.0"></rect>
+<rect fill="#714fc9" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="525.0" y="140.0"></rect>
+<rect fill="#6156cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="550.0" y="140.0"></rect>
+<rect fill="#6156cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="575.0" y="140.0"></rect>
+<rect fill="#714fc9" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="600.0" y="140.0"></rect>
+<rect fill="#714fc9" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="625.0" y="140.0"></rect>
+<rect fill="#6156cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="650.0" y="140.0"></rect>
+<rect fill="#6156cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="675.0" y="140.0"></rect>
+<rect fill="#714fc9" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="700.0" y="140.0"></rect>
+<rect fill="#714fc9" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="725.0" y="140.0"></rect>
+<rect fill="#6156cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="750.0" y="140.0"></rect>
+<rect fill="#6156cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="775.0" y="140.0"></rect>
+<rect fill="#714fc9" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="800.0" y="140.0"></rect>
+<rect fill="#714fc9" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="825.0" y="140.0"></rect>
+<rect fill="#5b58ce" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="850.0" y="140.0"></rect>
+<rect fill="#465ed2" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="875.0" y="140.0"></rect>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="138.0" y="206.0">From the back</text>
+<rect fill="#6953cb" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="150.0" y="184.0"></rect>
+<rect fill="#6455cc" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="175.0" y="184.0"></rect>
+<rect fill="#6156cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="200.0" y="184.0"></rect>
+<rect fill="#6554cc" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="225.0" y="184.0"></rect>
+<rect fill="#6953cb" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="250.0" y="184.0"></rect>
+<rect fill="#6654cc" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="275.0" y="184.0"></rect>
+<rect fill="#6355cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="300.0" y="184.0"></rect>
+<rect fill="#6654cc" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="325.0" y="184.0"></rect>
+<rect fill="#6c52cb" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="350.0" y="184.0"></rect>
+<rect fill="#6c52cb" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="375.0" y="184.0"></rect>
+<rect fill="#6654cc" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="400.0" y="184.0"></rect>
+<rect fill="#6654cc" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="425.0" y="184.0"></rect>
+<rect fill="#6c52cb" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="450.0" y="184.0"></rect>
+<rect fill="#6c52cb" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="475.0" y="184.0"></rect>
+<rect fill="#6654cc" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="500.0" y="184.0"></rect>
+<rect fill="#6654cc" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="525.0" y="184.0"></rect>
+<rect fill="#6c52cb" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="550.0" y="184.0"></rect>
+<rect fill="#6c52cb" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="575.0" y="184.0"></rect>
+<rect fill="#6654cc" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="600.0" y="184.0"></rect>
+<rect fill="#6654cc" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="625.0" y="184.0"></rect>
+<rect fill="#6c52cb" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="650.0" y="184.0"></rect>
+<rect fill="#6c52cb" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="675.0" y="184.0"></rect>
+<rect fill="#6654cc" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="700.0" y="184.0"></rect>
+<rect fill="#6355cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="725.0" y="184.0"></rect>
+<rect fill="#6654cc" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="750.0" y="184.0"></rect>
+<rect fill="#6953cb" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="775.0" y="184.0"></rect>
+<rect fill="#6554cc" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="800.0" y="184.0"></rect>
+<rect fill="#6156cd" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="825.0" y="184.0"></rect>
+<rect fill="#6455cc" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="850.0" y="184.0"></rect>
+<rect fill="#6953cb" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="875.0" y="184.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="150.0" y="240.0">Even from far away it stays in one family between blue and purple, so the color is clear.</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="310.0">Four colors (red · yellow · green · blue)</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="138.0" y="340.0">Cells</text>
+<rect fill="#ff0a00" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="150.0" y="320.0"></rect>
+<rect fill="#ff0a00" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="175.0" y="320.0"></rect>
+<rect fill="#f2d43a" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="200.0" y="320.0"></rect>
+<rect fill="#f2d43a" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="225.0" y="320.0"></rect>
+<rect fill="#2fa84f" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="250.0" y="320.0"></rect>
+<rect fill="#2fa84f" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="275.0" y="320.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="300.0" y="320.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="325.0" y="320.0"></rect>
+<rect fill="#ff0a00" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="350.0" y="320.0"></rect>
+<rect fill="#ff0a00" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="375.0" y="320.0"></rect>
+<rect fill="#f2d43a" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="400.0" y="320.0"></rect>
+<rect fill="#f2d43a" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="425.0" y="320.0"></rect>
+<rect fill="#2fa84f" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="450.0" y="320.0"></rect>
+<rect fill="#2fa84f" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="475.0" y="320.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="500.0" y="320.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="525.0" y="320.0"></rect>
+<rect fill="#ff0a00" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="550.0" y="320.0"></rect>
+<rect fill="#ff0a00" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="575.0" y="320.0"></rect>
+<rect fill="#f2d43a" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="600.0" y="320.0"></rect>
+<rect fill="#f2d43a" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="625.0" y="320.0"></rect>
+<rect fill="#2fa84f" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="650.0" y="320.0"></rect>
+<rect fill="#2fa84f" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="675.0" y="320.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="700.0" y="320.0"></rect>
+<rect fill="#2f62d4" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="725.0" y="320.0"></rect>
+<rect fill="#ff0a00" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="750.0" y="320.0"></rect>
+<rect fill="#ff0a00" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="775.0" y="320.0"></rect>
+<rect fill="#f2d43a" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="800.0" y="320.0"></rect>
+<rect fill="#f2d43a" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="825.0" y="320.0"></rect>
+<rect fill="#2fa84f" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="850.0" y="320.0"></rect>
+<rect fill="#2fa84f" height="30.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="22.0" x="875.0" y="320.0"></rect>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="138.0" y="382.0">Up close</text>
+<rect fill="#fd5812" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="150.0" y="360.0"></rect>
+<rect fill="#fb8220" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="175.0" y="360.0"></rect>
+<rect fill="#ecb033" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="200.0" y="360.0"></rect>
+<rect fill="#d2be3e" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="225.0" y="360.0"></rect>
+<rect fill="#92b263" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="250.0" y="360.0"></rect>
+<rect fill="#5f9d89" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="275.0" y="360.0"></rect>
+<rect fill="#6379ad" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="300.0" y="360.0"></rect>
+<rect fill="#995faa" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="325.0" y="360.0"></rect>
+<rect fill="#d95b7c" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="350.0" y="360.0"></rect>
+<rect fill="#f07f4f" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="375.0" y="360.0"></rect>
+<rect fill="#ecb033" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="400.0" y="360.0"></rect>
+<rect fill="#d2be3e" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="425.0" y="360.0"></rect>
+<rect fill="#92b263" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="450.0" y="360.0"></rect>
+<rect fill="#5f9d89" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="475.0" y="360.0"></rect>
+<rect fill="#6379ad" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="500.0" y="360.0"></rect>
+<rect fill="#995faa" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="525.0" y="360.0"></rect>
+<rect fill="#d95b7c" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="550.0" y="360.0"></rect>
+<rect fill="#f07f4f" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="575.0" y="360.0"></rect>
+<rect fill="#ecb033" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="600.0" y="360.0"></rect>
+<rect fill="#d2be3e" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="625.0" y="360.0"></rect>
+<rect fill="#92b263" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="650.0" y="360.0"></rect>
+<rect fill="#5f9d89" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="675.0" y="360.0"></rect>
+<rect fill="#6379ad" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="700.0" y="360.0"></rect>
+<rect fill="#995faa" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="725.0" y="360.0"></rect>
+<rect fill="#d95b7c" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="750.0" y="360.0"></rect>
+<rect fill="#f07f4f" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="775.0" y="360.0"></rect>
+<rect fill="#ecb033" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="800.0" y="360.0"></rect>
+<rect fill="#d2be3e" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="825.0" y="360.0"></rect>
+<rect fill="#98b849" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="850.0" y="360.0"></rect>
+<rect fill="#6caf4c" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="875.0" y="360.0"></rect>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="138.0" y="426.0">From the back</text>
+<rect fill="#b9937a" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="150.0" y="404.0"></rect>
+<rect fill="#c38c74" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="175.0" y="404.0"></rect>
+<rect fill="#ca856e" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="200.0" y="404.0"></rect>
+<rect fill="#ce8f6a" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="225.0" y="404.0"></rect>
+<rect fill="#d19667" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="250.0" y="404.0"></rect>
+<rect fill="#ca9866" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="275.0" y="404.0"></rect>
+<rect fill="#c49964" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="300.0" y="404.0"></rect>
+<rect fill="#be9671" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="325.0" y="404.0"></rect>
+<rect fill="#b3987e" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="350.0" y="404.0"></rect>
+<rect fill="#b3987e" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="375.0" y="404.0"></rect>
+<rect fill="#b58e7d" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="400.0" y="404.0"></rect>
+<rect fill="#b58e7d" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="425.0" y="404.0"></rect>
+<rect fill="#be927c" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="450.0" y="404.0"></rect>
+<rect fill="#be927c" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="475.0" y="404.0"></rect>
+<rect fill="#be9671" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="500.0" y="404.0"></rect>
+<rect fill="#be9671" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="525.0" y="404.0"></rect>
+<rect fill="#b3987e" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="550.0" y="404.0"></rect>
+<rect fill="#b3987e" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="575.0" y="404.0"></rect>
+<rect fill="#b58e7d" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="600.0" y="404.0"></rect>
+<rect fill="#b58e7d" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="625.0" y="404.0"></rect>
+<rect fill="#be927c" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="650.0" y="404.0"></rect>
+<rect fill="#be927c" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="675.0" y="404.0"></rect>
+<rect fill="#be9671" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="700.0" y="404.0"></rect>
+<rect fill="#c49964" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="725.0" y="404.0"></rect>
+<rect fill="#be9e68" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="750.0" y="404.0"></rect>
+<rect fill="#b8a46c" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="775.0" y="404.0"></rect>
+<rect fill="#b19f6f" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="800.0" y="404.0"></rect>
+<rect fill="#a99873" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="825.0" y="404.0"></rect>
+<rect fill="#b09676" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="850.0" y="404.0"></rect>
+<rect fill="#b9937a" height="34.0" opacity="1.0" rx="0" stroke="none" stroke-width="0.5" width="25.0" x="875.0" y="404.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="150.0" y="460.0">From far away the four colors lose saturation and become a hazy color toward white.</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="546.0">Additive mixing: the more light you mix, the lower the saturation, toward white (ETC, 2023). The mixing range is an assumption for explanation.</text>
+</svg>
+<figcaption><b>Figure 8-2</b> A two-color pixel bar and a four-color pixel bar. The color seen in each cell, up close, and from the back of the audience. Neighboring cells’ light is averaged by amount of light. Two colors stay in one family between the two colors even from far away, but four colors become a hazy color that has lost saturation.</figcaption></figure>
+<p>There are two fixes.</p>
+<ol type="1">
+<li><strong>Use only two colors.</strong> Build the pixel bar’s color effect as two steps alternating two colors. With two colors from the palette (for example blue and purple), even if they look mixed from far away they stay as colors of the same family.</li>
+<li><strong>Remove the time colors take to mix.</strong> A slow fade between two colors creates a middle color. In a scene where you want clarity, use a snap that changes straight away without a fade (the Color category of the resource library effect dictionary).</li>
+</ol>
+<p>In scenes where the color snaps on every beat, also look at the safety standards in Chapter 2. A change to a highly saturated red is treated as a separate hazard regardless of brightness. Scenes where LED bars or beams form stripes also have their own standards in broadcast (Section 2.8 in Chapter 2, and Chapter 17).<sup class="ref"><a href="#c8-s5">5</a></sup></p>
+<aside class="box fix"><div class="box-label">Before and after the fix</div><div class="box-body">
+<p> An example to aid understanding.</p>
+<p><strong>Before</strong> A four-color chase of red, yellow, green and blue ran through the LED bars for the whole chorus. From the back of the audience the whole bar looks like a hazy lump.</p>
+<p><strong>After</strong> Only two colors from the palette remained in the same place, changed with a snap on each beat. The bar reads as a clear line following the stage structure. <code>[Author to confirm]</code></p>
+</div></aside>
+<h2 id="c8-8-6-how-to-write-colors-down">8.6 How to Write Colors Down</h2><p class="lead">Write the chosen color as a name and numbers together. If you write only “pink”, every person at the console and every fixture gives a different pink.</p>
+<p>If you can’t recreate tomorrow the color you chose in rehearsal, you can’t keep the concept either. Copy the numbers exactly as the console uses them. If the console uses RGB in percent, write the values of red, green and blue in order, and add the name the team will call it beside them. Only the key’s white is written not as RGB but as a color temperature (K).</p>
+<div class="tbl"><div class="tcap"><b>Table 8-3</b> Example color chips — names and numbers <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Red %</th>
+<th>Green %</th>
+<th>Blue %</th>
+<th>Slot</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sunset amber</td>
+<td>100</td>
+<td>55</td>
+<td>10</td>
+<td>Main color</td>
+</tr>
+<tr class="even">
+<td>Night blue</td>
+<td>10</td>
+<td>25</td>
+<td>100</td>
+<td>Sub color</td>
+</tr>
+<tr class="odd">
+<td>Key white</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>By color temp. (e.g. 4200 K, matched to camera)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Even with the same RGB values, the actual color differs a little depending on the fixture’s LED makeup (RGBW, RGBL and so on) and its color calibration.<sup class="ref"><a href="#c8-s1">1</a></sup> So after writing the values, switch the fixtures on side by side on stage and match them by eye. If there is a camera, check on the monitor too. Attach the matched result straight to the preset name (Chapter 24).</p>
+<h2 id="c8-8-7-exercise-love-attack-palette">8.7 [Exercise] LOVE ATTACK Palette</h2><p class="lead">Cut the colors in your listening notes down to a palette.</p>
+<p><strong>Follow along</strong></p>
+<ol type="1">
+<li>Lay out all the colors you wrote for each section in the third listen. Group colors of the same family into one.</li>
+<li>Read the Chapter 7 concept layers and one-line concept, and pick the one color closest to the emotion and artist concept as the main color. Also look at the sound-and-lighting starting values in Table 7-2 of Chapter 7.</li>
+<li>Decide whether to contrast with the main color or bind it with neighboring colors, and pick one or two sub colors.</li>
+<li>Write the white rule. Set the key’s white by color temperature, and decide one place to bring out the white flash.</li>
+<li>If you decide on a special color, decide only one, and write the bar of the one scene where you will bring it out.</li>
+<li>For each section of the song structure table, write the two colors that will show at once, in the order base color, sub color. Check that no section ends up with three once you leave out the light on faces.</li>
+<li>Write the chosen colors as a name and RGB values.</li>
+</ol>
+<p>One example the author made in the same order is Figure 8-3 and Table 8-4. It is something to compare against, not the right answer.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 336" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="126.0">Heard</text>
+<rect fill="#f4a62a" height="56.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="56.8" x="120.0" y="96.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="148.9" y="168.0">Intro</text>
+<rect fill="#d43a9c" height="56.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="66.5" x="177.8" y="96.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="211.6" y="168.0">Verse 1</text>
+<rect fill="#8a3fc2" height="56.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="37.6" x="245.3" y="96.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="264.6" y="168.0">Pre 1</text>
+<rect fill="#ff0a00" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="143.6" x="283.9" y="96.0"></rect>
+<rect fill="#f7f7f5" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="143.6" x="283.9" y="124.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="356.1" y="168.0">Chorus 1</text>
+<rect fill="#2a2d34" height="56.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="8.6" x="428.4" y="96.0"></rect>
+<rect fill="#d43a9c" height="56.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="76.1" x="438.1" y="96.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="476.6" y="168.0">Verse 2</text>
+<rect fill="#8a3fc2" height="56.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="37.6" x="515.2" y="96.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="534.5" y="168.0">Pre 2</text>
+<rect fill="#ff0a00" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="143.6" x="553.7" y="96.0"></rect>
+<rect fill="#f4a62a" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="143.6" x="553.7" y="124.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="626.0" y="168.0">Chorus 2</text>
+<rect fill="#2a2d34" height="56.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="8.6" x="698.3" y="96.0"></rect>
+<rect fill="#2f62d4" height="56.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="8.6" x="708.0" y="96.0"></rect>
+<rect fill="#27b6de" height="56.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="37.6" x="717.6" y="96.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="736.9" y="168.0">Beat</text>
+<rect fill="#2a2d34" height="56.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="8.6" x="756.1" y="96.0"></rect>
+<rect fill="#ff0a00" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="133.9" x="765.8" y="96.0"></rect>
+<rect fill="#f7f7f5" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="133.9" x="765.8" y="124.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="833.3" y="168.0">Chorus 3</text>
+<rect fill="#f4a62a" height="56.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="18.3" x="900.7" y="96.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="226.0">Palette</text>
+<rect fill="#ffb8d9" height="56.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="56.8" x="120.0" y="196.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="148.9" y="268.0">Intro</text>
+<rect fill="#ffb8d9" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="66.5" x="177.8" y="196.0"></rect>
+<rect fill="#ad73ff" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="66.5" x="177.8" y="224.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="211.6" y="268.0">Verse 1</text>
+<rect fill="#ffb8d9" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="37.6" x="245.3" y="196.0"></rect>
+<rect fill="#00f2d9" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="37.6" x="245.3" y="224.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="264.6" y="268.0">Pre 1</text>
+<rect fill="#00f2d9" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="143.6" x="283.9" y="196.0"></rect>
+<rect fill="#ffb8d9" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="143.6" x="283.9" y="224.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="356.1" y="268.0">Chorus 1</text>
+<rect fill="#2a2d34" height="56.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="8.6" x="428.4" y="196.0"></rect>
+<rect fill="#ffb8d9" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="76.1" x="438.1" y="196.0"></rect>
+<rect fill="#ad73ff" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="76.1" x="438.1" y="224.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="476.6" y="268.0">Verse 2</text>
+<rect fill="#ffb8d9" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="37.6" x="515.2" y="196.0"></rect>
+<rect fill="#00f2d9" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="37.6" x="515.2" y="224.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="534.5" y="268.0">Pre 2</text>
+<rect fill="#00f2d9" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="143.6" x="553.7" y="196.0"></rect>
+<rect fill="#ffb8d9" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="143.6" x="553.7" y="224.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="626.0" y="268.0">Chorus 2</text>
+<rect fill="#2a2d34" height="56.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="8.6" x="698.3" y="196.0"></rect>
+<rect fill="#ad73ff" height="56.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="8.6" x="708.0" y="196.0"></rect>
+<rect fill="#ad73ff" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="37.6" x="717.6" y="196.0"></rect>
+<rect fill="#ffb8d9" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="37.6" x="717.6" y="224.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="736.9" y="268.0">Beat</text>
+<rect fill="#2a2d34" height="56.0" opacity="1.0" rx="2" stroke="none" stroke-width="1" width="8.6" x="756.1" y="196.0"></rect>
+<rect fill="#00f2d9" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="133.9" x="765.8" y="196.0"></rect>
+<rect fill="#ad73ff" height="28.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="133.9" x="765.8" y="224.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="833.3" y="268.0">Chorus 3</text>
+<rect fill="#ad73ff" height="56.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="0.5" width="18.3" x="900.7" y="196.0"></rect>
+<rect fill="#ff0a00" height="28.0" opacity="1.0" rx="0" stroke="#1f2430" stroke-width="1" width="19.3" x="563.4" y="196.0"></rect>
+<rect fill="#ffb8d9" height="28.0" opacity="1.0" rx="0" stroke="#1f2430" stroke-width="1" width="19.3" x="563.4" y="224.0"></rect>
+<text fill="#c8553d" font-size="10.5" font-weight="700" opacity="1.0" text-anchor="start" x="565.4" y="190.0">Bars 47–48: pixels only red</text>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="300.0">Colors used</text>
+<text fill="#1f2430" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="120.0" y="300.0">Top: amber, magenta, purple, red, white, blue, cyan — seven colors</text>
+<text fill="#1f2430" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="120.0" y="320.0">Bottom: base pearl pink · accent lilac, aqua · special red (bars 47–48) — four colors</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="120.0" y="340.0">White only for key, reset, moving beams, flash · two colors or fewer per section · dark cells are kick-outs and breaks</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="386.0">RGB values in Table 8-4. One example the author cut down to fit this book’s rules and sections.</text>
+</svg>
+<figcaption><b>Figure 8-3</b> Colors from the listening notes and the palette (LOVE ATTACK example). The top shows an example of the colors that came to mind for each section in the third listen; the bottom shows the colors by section cut down to one main color, two sub colors and one special red scene.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>Table 8-4</b> LOVE ATTACK palette — the author’s example <sup class="ref"><a href="#c8-s2">2</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Red %</th>
+<th>Green %</th>
+<th>Blue %</th>
+<th>Slot</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pearl pink</td>
+<td>100</td>
+<td>72</td>
+<td>85</td>
+<td>Main color</td>
+</tr>
+<tr class="even">
+<td>Lilac</td>
+<td>68</td>
+<td>45</td>
+<td>100</td>
+<td>Sub color 1</td>
+</tr>
+<tr class="odd">
+<td>Aqua</td>
+<td>0</td>
+<td>95</td>
+<td>85</td>
+<td>Sub color 2 (from the pre-chorus)</td>
+</tr>
+<tr class="even">
+<td>Red</td>
+<td>100</td>
+<td>4</td>
+<td>0</td>
+<td>Special color (pixel heart in bars 47–48)</td>
+</tr>
+<tr class="odd">
+<td>Key white</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>Set by color temperature</td>
+</tr>
+</tbody>
+</table></div>
+<p>In bars 47–48, where the red comes out, only the pixel bars turn red, the wash keeps only pearl pink and the aqua beams rest for a moment. That way the visible colors stay at two even in those two bars.</p>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>Look at your palette by three criteria.</li><li>Whether two colors show in each scene, whether white is spread under everything, and whether the special color appears in only one scene.</li><li>Then compare with the author’s example.</li><li>The author swapped the magenta and purple that came to mind while listening for pearl pink and lilac, neighboring colors, and dropped amber and cyan to settle on one aqua.</li><li>The bridge, where blue came to mind, was moved to lilac.</li><li>Aqua first shows in the pre-chorus and becomes the base color in the chorus, and the deep red is used only in the one scene of the pixel heart inside Chorus 2.</li><li>If you chose different colors, that is fine as long as the three criteria hold.</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">Try it with your own song</div><div class="box-body"><ol class="steps"><li>Make a palette for the song you are in charge of now and write two colors for each section.</li><li>Put it beside the LED wall colors you got from the video team (Chapter 7) and find the sections that overlap.</li></ol></div></aside>
+<aside class="web" id="web-W7-9"><div class="web-head"><span class="web-tag">Web tool 8</span><h4>Palette</h4><a class="web-open" href="https://jjjh7401.github.io/lx/palette.html" rel="noopener" target="_blank">Open in new window ↗</a></div><p class="web-desc">Pick colors by name and RGB values and it draws the palette strip and the two-color flow by section, and points out sections where three or more colors show at once and sections where white is spread under everything. You can also compare how two colors and four colors look from far away on a pixel bar.</p><div class="tool-embed"><iframe allow="autoplay" loading="lazy" src="https://jjjh7401.github.io/lx/palette.html?embed=1" style="--h:1500px" title="Palette"></iframe></div><p class="tool-open"><span>The notes you write are saved in this browser only. To use it on a wide screen, press "Open in new window" above.</span></p></aside>
+<section class="summary"><h2>Key points</h2><ul>
+<li>Build a palette from one main color, one or two sub colors, one special color if needed, and a white rule.</li>
+<li>Pairings of emotion and color are a starting point. Follow the colors the lyrics and music video say over the genre.</li>
+<li>Two colors show at once in a scene. The color of a widely visible LED wall counts too. A scene that deliberately spreads many colors, like a finale, is an exception used once.</li>
+<li>White goes to the key, the white reset, moving beams, and the white flash as a special cue. If white itself is the concept, write it as the main color.</li>
+<li>Set the key’s white by color temperature, not by mixing RGB, and when there is a camera, set it together with the white balance.</li>
+<li>Use pastels wide and long, primaries narrow and short.</li>
+<li>The more light mixes, the blurrier it gets. On pixel bars, use two colors from the palette with a snap.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">On the job tomorrow</div><div class="box-body"><ol class="steps"><li>Pick one color preset you use today whose name is only a number, like “Color 3”, and attach the name the team calls it and its RGB values to the name.</li><li>Attach the color temperature value to the key preset.</li></ol></div></aside>
+<section class="notes"><h2>Notes</h2><ol><li id="c8-s1">ETC, "Stage Lighting Design, Part 6: Color", 2023-12-07. Explains that in additive mixing the more colors you mix, the lower the saturation and the closer to white; that mixing complementary colors of light gives white; an example of an object’s color looking different under colored light (a red garment); and the color-mixing makeup of LED fixtures (RGBW, RGBL and so on). <a href="https://blog.etcconnect.com/stage-lighting-design-part-6" rel="noopener" target="_blank">https://blog.etcconnect.com/stage-lighting-design-part-6</a> (accessed 2026-10-25)</li><li id="c8-s2">The author’s unpublished design notes, the LOVE ATTACK palette and color chips (RGB values for pearl pink, lilac, aqua and red).</li><li id="c8-s3">The author’s unpublished working notes, on the rule that white is used for hits and resets, not as the base.</li><li id="c8-s4">EBU, <em>Tech 3355: Method for the Assessment of the Colorimetric Properties of Luminaires</em>, 2017. TLCI, which rates a light’s color rendering against a broadcast camera. <a href="https://tech.ebu.ch/publications/tech3355" rel="noopener" target="_blank">https://tech.ebu.ch/publications/tech3355</a> (accessed 2026-10-25)</li><li id="c8-s5">Ofcom, Guidance Notes Section Two: Harm and Offence, the photosensitive epilepsy item. Cautions about transitions to highly saturated red, stripe patterns covering more than 40% of the screen, and flashing that continues for more than 5 seconds. <a href="https://www.ofcom.org.uk/siteassets/resources/documents/tv-radio-and-on-demand/broadcast-guidance/programme-guidance/broadcast-code-guidance/section-2-guidance-notes.pdf" rel="noopener" target="_blank">https://www.ofcom.org.uk/siteassets/resources/documents/tv-radio-and-on-demand/broadcast-guidance/programme-guidance/broadcast-code-guidance/section-2-guidance-notes.pdf</a> (accessed 2026-10-25)</li></ol></section>
+</article>
+</div>
+
+</main>
+<nav class="ltm-pager" id="ltmPager" aria-label="Chapters"></nav>
+<footer class="ltm-foot">
+<p><b>Lighting the Music</b> by Jaehyun Jung. Free to read online. English edition translated from the Korean original with AI.</p>
+<p>Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener license" target="_blank">CC BY-NC-ND 4.0</a>: you may share it with credit (title, author and a link to this page), but not for commercial use and not in modified form.</p>
+</footer>
+<script src="book.js?v=3"></script>
+<script>LTM_chapter("ch8");</script>
+</body>
+</html>
