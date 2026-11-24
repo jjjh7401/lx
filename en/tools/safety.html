@@ -33,7 +33,7 @@ td.hz{font-family:var(--f-num);white-space:nowrap}
 <div class="wrap">
   <div class="head">
     <h1>Safety Check</h1>
-    <p>A worksheet for the Chapter 32 exercise. Choose a unit for each flashing cue and it calculates how many times a second it flashes and compares that with the broadcast (three times) and live (four times) standards. It gathers on one sheet the length of cues aimed at the audience, the items to agree on haze and special effects, the weight and power of hung gear, and the performance filing date, and makes a checklist to send to the venue and the rigging crew. Check laws and standards again for each show with the authority in charge and the venue.</p>
+    <p>A worksheet for the Chapter 32 exercise. Choose a unit for each flashing cue and it calculates how many times a second it flashes and compares that with the broadcast (three times) and live (four times) standards. It gathers on one sheet the length of cues aimed at the audience, the items to agree on haze and special effects, the weight and power of hung gear, and makes a checklist to send to the venue and the rigging crew.</p>
   </div>
   <div class="stack">
     <section class="panel">
@@ -55,10 +55,7 @@ td.hz{font-family:var(--f-num);white-space:nowrap}
         <div class="kv" id="kv"></div>
         <div class="row"><label class="f">Gear on one truss line (kg)<input type="number" id="tkg" class="n" min="0" style="width:6em"></label><label class="f">Truss and cables (kg)<input type="number" id="tadd" class="n" min="0" style="width:6em"></label><label class="f">Number of hoists<input type="number" id="thn" class="n" min="1" style="width:5em"></label></div>
         <div class="kv" id="hoist"></div>
-        <p class="note" style="margin:0">The real safe working load follows the manufacturers’ specifications for the truss and hoists and the check of the venue’s rigging crew. Safety factors of hanging tools: drive wire rope 6 or more, fixing wire rope 4 or more, chain 6 or more, shackles and the like 4 or more (cited from KS A 6110).</p>
-        <h2 style="margin-top:16px">Performance notice</h2>
-        <div class="row" style="margin-top:8px"><label class="f">Performance place<select id="venue"><option value="hall">In a venue</option><option value="out">Outside a venue</option></select></label><label class="f">Expected audience<input type="number" id="aud" class="n" min="0" style="width:7em"></label><label class="f">Performance date<input type="date" id="day"></label></div>
-        <div id="report"></div>
+        <p class="note" style="margin:0">The real safe working load follows the manufacturers’ specifications for the truss and hoists and the check of the venue’s rigging crew. </p>
       </section>
     </div>
     <section class="panel">
@@ -76,7 +73,7 @@ td.hz{font-family:var(--f-num);white-space:nowrap}
   var UNITS = [['once', 'Once (not repeated)', 0], ['2bar', 'Every 2 bars (8)', 8], ['bar', 'Every bar (4)', 4], ['2beat', 'Every 2 beats (2)', 2], ['beat', 'Every beat (1)', 1], ['8th', 'Every half beat (0.5)', 0.5], ['16th', 'Every sixteenth (0.25)', 0.25]];
   var CHK = [
     ['Haze', [['det', 'Got the venue’s detector type and the conditions for using haze from the fire safety manager'], ['amt', 'Decided the amount of haze and the time it is used (rehearsal and show)'], ['air', 'Decided the ventilation between performances and after the end'], ['fire', 'Decided who gives notice, and how, when a fire is suspected']]],
-    ['Special effects', [['sfx', 'Marked the special-effects cues separately in the cue sheet and decided who gives the call'], ['wind', 'If outdoors, decided the wind-speed standard (hold back at 5 m/s, stop fireworks-type effects at 10 m/s) and the lighting cue for when an effect is dropped']]],
+    ['Special effects', [['sfx', 'Marked the special-effects cues separately in the cue sheet and decided who gives the call'], ['wind', 'If outdoors, agreed with the effects company the wind speed at which it holds back or stops an effect, and decided the lighting cue for when an effect is dropped']]],
     ['Laser · audience', [['laser', 'If any cue sends a laser toward the audience, received the company’s measurements and safety measures'], ['notice', 'If strobes are used, tell the audience through the booking information, at the entrance or in an announcement']]],
     ['Hung gear', [['clamp', 'Fit a safety bond (wire or chain) to every piece of hung gear'], ['list', 'Handed the equipment list (weight, position, power) to the rigging crew'], ['add', 'When gear is added during rehearsal, tell the rigging crew the weight first']]]];
   if (!D.safety) {
@@ -140,17 +137,7 @@ td.hz{font-family:var(--f-num);white-space:nowrap}
     $('hoist').innerHTML = '<span>Per hoist (split evenly)</span><b>' + per.toFixed(1) + ' kg</b>';
     return { hang: hang, hq: hq, all: all, kw: kw, per: per };
   }
-  function renderReport() {
-    $('venue').value = F.venue; $('aud').value = F.aud_n; $('day').value = F.day;
-    var need = F.venue === 'out' && +F.aud_n >= 1000, h = '';
-    if (need) {
-      var d = F.day ? new Date(F.day + 'T00:00:00') : null, f = function (n) { var x = new Date(d); x.setDate(x.getDate() - n); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
-      h = '<div class="alert">This is a performance outside a venue with 1,000 or more audience members, so a disaster response plan must be filed (Performance Act, Article 11). ' + (d ? 'File by <b>' + f(14) + '</b> (14 days before), and file any change by <b>' + f(7) + '</b> (7 days before).' : 'Enter the performance date and it calculates the filing deadline.') + ' The equipment and special-effects lists in the plan come from lighting and special effects.</div>';
-    } else h = '<div class="alert ok">' + (F.venue === 'out' ? 'Fewer than 1,000 audience members are expected. Even so, check the local government’s guidance for a performance outside a venue.' : 'A show in a venue follows the safety procedures the venue sets. Agree the schedule with the venue’s safety person.') + '</div>';
-    $('report').innerHTML = h;
-    return need;
-  }
-  function render() { renderFlash(); renderAud(); renderCl(); renderRig(); renderReport(); }
+  function render() { renderFlash(); renderAud(); renderCl(); renderRig(); }
   document.addEventListener('change', function (e) {
     var t = e.target;
     if (t.id === 'bpm') { var v = +t.value; if (v >= 40 && v <= 240) { bpmV = v; } render(); return; }
@@ -158,20 +145,16 @@ td.hz{font-family:var(--f-num);white-space:nowrap}
     if (t.dataset.c) { F.chk[t.dataset.c] = t.checked; save(); return; }
     if (t.dataset.m) { F.memo[t.dataset.m] = t.value; save(); return; }
     if (t.id === 'tkg' || t.id === 'tadd' || t.id === 'thn') { F[t.id] = +t.value || 0; save(); renderRig(); return; }
-    if (t.id === 'venue') { F.venue = t.value; save(); renderReport(); return; }
-    if (t.id === 'aud') { F.aud_n = t.value; save(); renderReport(); return; }
-    if (t.id === 'day') { F.day = t.value; save(); renderReport(); return; }
   });
   document.addEventListener('click', function (e) { var d = e.target.dataset.del; if (!d) return; F[d].splice(+e.target.dataset.i, 1); save(); d === 'flash' ? renderFlash() : renderAud(); });
   $('addF').addEventListener('click', function () { F.flash.push({ id: L.uid(), name: '', unit: 'beat', area: 30, strobe: false }); save(); renderFlash(); });
   $('addA').addEventListener('click', function () { F.aud.push({ id: L.uid(), name: '', beats: 2, laser: false }); save(); renderAud(); });
   $('copy').addEventListener('click', function () {
-    var g = renderRig(), need = renderReport(), out = [(S.title || 'Song') + ' safety check · ' + bpmV + ' BPM', '', '[Flashing cues] Flashes per second (broadcast / stage)'];
+    var g = renderRig(), out = [(S.title || 'Song') + ' safety check · ' + bpmV + ' BPM', '', '[Flashing cues] Flashes per second (broadcast / stage)'];
     F.flash.forEach(function (r) { var h = hz(r); out.push('- ' + r.name + ': ' + (h ? h.toFixed(2) + ' times' : 'once') + ' (broadcast: ' + jB(r)[1] + ' / stage: ' + jL(r)[1] + ')'); });
     out.push('', '[Cues aimed at the audience]'); F.aud.forEach(function (r) { out.push('- ' + r.name + ': ' + r.beats + ' beats' + (r.laser ? ', laser (company measurement needed)' : '')); });
     out.push('', '[Items to agree]'); CHK.forEach(function (gr) { gr[1].forEach(function (c) { out.push((F.chk[c[0]] ? '[Done] ' : '[Open] ') + c[1] + (F.memo[c[0]] ? ' — ' + F.memo[c[0]] : '')); }); });
     out.push('', '[Hung gear and power]', '- Hung gear: ' + g.hq + ' units, ' + g.hang + ' kg / total ' + g.all + ' kg / power ' + g.kw.toFixed(2) + ' kW', '- One truss line ' + ((+F.tkg || 0) + (+F.tadd || 0)) + ' kg ÷ ' + F.thn + ' hoists = ' + g.per.toFixed(1) + ' kg per hoist (needs the manufacturer’s specification and the rigging crew’s check)');
-    if (need) out.push('', '[Performance notice] Disaster response plan filing required (outside a venue, 1,000 or more audience): file 14 days before, changes 7 days before');
     var txt = out.join('\n');
     try { navigator.clipboard.writeText(txt).then(function () { $('msg').textContent = 'Copied the checklist as text. You can paste it into an email or a messenger.'; }, function () { $('msg').textContent = 'Copying is blocked.'; }); } catch (err) { $('msg').textContent = 'Copying is blocked.'; }
   });
