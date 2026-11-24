@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rig Calculator and Patch Sheet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 화면 구성: 위 요약 칩과 가져오기 → 단계 탭 4개(장비 목록 / 번호·주소 / 위치·좌표 / 패치 시트) + 빔 지름 계산 탭.
+   같은 장비 줄을 탭마다 필요한 칸만 보여 줌. 결과(유니버스 지도, 도면, 점검)는 해당 탭 안에서 바로 바뀜. */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:80ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.chip{background:var(--panel2);border-radius:9px;padding:7px 12px;font-size:12px;color:var(--muted)}
+.chip b{display:block;font-family:var(--f-num);font-size:17px;color:var(--ink)}
+.chip.w b{color:var(--warn)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 12px}
+.tabs button{border-radius:999px;padding:8px 14px}
+.tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.tabs .n{font-family:var(--f-num);opacity:.75;margin-right:4px}
+.guide{font-size:13.5px;color:var(--body);margin:0 0 10px;padding:9px 12px;border-left:3px solid var(--accent);background:var(--panel2);border-radius:0 8px 8px 0}
+table.rc td{vertical-align:middle;padding:3px 4px}
+table.rc th{white-space:nowrap}
+table.rc input[type=text]{width:100%;min-width:11em}
+table.rc input.n{width:5em} table.rc input.s{width:4.4em} table.rc input.m{width:6.2em}
+table.rc td.name{min-width:12em;font-weight:500;color:var(--ink)}
+table.rc td.name small{display:block;font-weight:400;color:var(--muted)}
+table.rc tr.tot td{font-weight:700;color:var(--ink);border-top:2px solid var(--line)}
+table.rc td.calc{font-family:var(--f-num);color:var(--muted);white-space:nowrap}
+table.rc td.bad{color:var(--warn);font-weight:700}
+.rowbtn{display:flex;gap:2px}
+.rowbtn button{padding:4px 7px;font-size:12px}
+.grid2{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px;margin-top:14px;align-items:start}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}}
+.out{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.out div{background:var(--panel2);border-radius:9px;padding:10px 12px}
+.out b{display:block;font-family:var(--f-num);font-size:20px;color:var(--ink)}
+.out span{font-size:12px;color:var(--muted)}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+.msg{font-size:13px;color:var(--ok);margin:6px 0 0}
+.msg:empty{display:none}
+.views{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+@media (max-width:900px){.views{grid-template-columns:1fr}}
+.views figure{margin:0;background:var(--panel2);border-radius:10px;padding:8px}
+.views figcaption{font-size:12px;color:var(--muted);padding:4px 4px 0}
+.views svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+table.ps td{font-family:var(--f-num);font-size:12.5px;padding:3px 8px;white-space:nowrap}
+table.ps td.t{font-family:var(--f-body)}
+table.ps tr.bad td{color:var(--warn)}
+table.ps tr.out td{color:var(--muted)}
+details.imp{margin-top:10px}
+details.imp summary{cursor:pointer;color:var(--ink);font-weight:700;font-size:14px}
+details.imp textarea{min-height:130px;font-family:var(--f-num);font-size:12.5px;margin-top:8px}
+.sub{margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Rig Calculator and Patch Sheet</h1>
+    <p>Enter the fixture list and it calculates weight, power and universes; set the numbers, addresses and positions and it builds the patch sheet, the universe map and the plan and elevation for you to check. Use it for the Chapter 22 exercise and for your own stage on site. What you write is saved in this browser.</p>
+  </div>
+
+  <section class="panel">
+    <div class="row" style="justify-content:space-between">
+      <div class="chips" id="chips" style="margin:0"></div>
+      <div class="row"><button type="button" id="ex" class="ghost">Load the example (practice stage)</button><button type="button" id="clear" class="ghost">Clear and start new</button></div>
+    </div>
+    <details class="imp" id="impBox"><summary>Import · Export — spreadsheet, Vectorworks, Fixture Roles, backup</summary>
+      <p class="note" style="margin:8px 0 0">Copy a table exported from a spreadsheet or Vectorworks, including the first row (the column names), and paste it in. It recognizes column names such as Instrument Type, Position, Purpose, Channel, Universe, DMX Address, Footprint, Weight and Wattage (also Fixture, Role, Qty, Mounting, ID, X, Y, Z). An address may be written 2.301 or 2/301, and when there is no universe column an address counted straight through, like 813, is split for you. Pasting this tool’s own backup (“Copy backup” below) restores it exactly.</p>
+      <textarea id="impText" placeholder="Paste here"></textarea>
+      <div class="row" style="margin-top:8px"><button type="button" id="imp" class="primary">Import the pasted table</button><button type="button" id="fromRig" class="ghost">From the Fixture Roles tool (Web tool 6)</button><button type="button" id="backup" class="ghost">Copy backup</button></div>
+      <p class="msg" id="impMsg"></p>
+    </details>
+  </section>
+
+  <div class="tabs" role="tablist" id="tabs">
+    <button type="button" role="tab" data-t="list"><span class="n">1</span>Fixture list</button>
+    <button type="button" role="tab" data-t="addr"><span class="n">2</span>Numbers · addresses</button>
+    <button type="button" role="tab" data-t="pos"><span class="n">3</span>Positions · coordinates</button>
+    <button type="button" role="tab" data-t="sheet"><span class="n">4</span>Patch sheet · checks</button>
+    <button type="button" role="tab" data-t="beam">Beam diameter</button>
+  </div>
+
+  <!-- 1 장비 목록 -->
+  <section class="panel" data-p="list">
+    <p class="guide">Write one row per <b>type and position</b>. Even for the same model, split the row if it hangs in a different position (back truss wash, middle truss wash). Channels is the channel count of the mode you will use; copy weight and power per unit from the manufacturer’s spec sheet.</p>
+    <div class="tbl"><table class="rc" id="tList"></table></div>
+    <div class="row" style="margin-top:10px"><button type="button" id="add" class="primary">Add a row</button><button type="button" id="copyList" class="ghost">Copy fixture list</button></div>
+    <p class="msg" id="listMsg"></p>
+    <div class="grid2">
+      <div><h3 style="margin-bottom:8px">Quantity by role</h3><div class="tbl"><table id="byRole"></table></div></div>
+      <div><h3 style="margin-bottom:8px">To check</h3><ul class="checks" id="listChecks"></ul></div>
+    </div>
+  </section>
+
+  <!-- 2 번호·주소 -->
+  <section class="panel" data-p="addr" hidden>
+    <p class="guide">For each row, enter a <b>starting ID</b> and a <b>universe</b>, then press <b>Fill addresses</b> and the start addresses are filled in. A row of the same type as the one before it in the same universe is chained on; when the type changes, it starts at the next hundred address (101, 201…). Leave the universe empty and the fixture is treated as off the console (follow spots and so on).</p>
+    <div class="row" style="margin-bottom:10px"><button type="button" id="autoId" class="ghost">Assign IDs (blocks of 100 per type)</button><button type="button" id="auto" class="primary">Fill addresses</button><label class="f">Spare universes<input type="number" id="spare" class="n" min="0" max="20" step="1"></label></div>
+    <p class="msg" id="addrMsg"></p>
+    <div class="tbl"><table class="rc" id="tAddr"></table></div>
+    <div class="sub"><h3 style="margin-bottom:6px">Universe map</h3><p class="note" style="margin:0 0 8px">One bar is one universe of 512 channels. Color is the role of the fixture that uses the channels, gray is channels left empty, and a red dotted outline is a fixture that goes past 512. Hover over a bar to see the fixture and its address.</p><div id="umap"></div></div>
+  </section>
+
+  <!-- 3 위치·좌표 -->
+  <section class="panel" data-p="pos" hidden>
+    <p class="guide">For each row, enter <b>X (left–right) · Y (front–back) · Z (height)</b> in meters. The origin is the center of the front edge of the stage, +X is stage left (the right side as seen from the audience), and +Y is upstage. The fixtures in one row are spread evenly between start and end. For a tower stacked vertically, keep X the same and enter Z as start–end.</p>
+    <div class="row" style="margin-bottom:10px"><label class="f">Stage width (m)<input type="number" id="sw" class="n" min="1" max="200" step="0.5"></label><label class="f">Stage depth (m)<input type="number" id="sd" class="n" min="1" max="200" step="0.5"></label></div>
+    <div class="tbl"><table class="rc" id="tPos"></table></div>
+    <div class="views sub"><figure><div id="plan"></div><figcaption>Plan view — seen from above, audience at the bottom</figcaption></figure><figure><div id="front"></div><figcaption>Elevation — seen from the audience</figcaption></figure></div>
+    <div class="legend" id="leg"></div>
+  </section>
+
+  <!-- 4 패치 시트 -->
+  <section class="panel" data-p="sheet" hidden>
+    <p class="guide">The patch sheet, spread out fixture by fixture. After checking the five points, copy it into a spreadsheet or send it to the rigging, electrical and systems crews.</p>
+    <ul class="checks" id="pchecks"></ul>
+    <div class="row sub" style="justify-content:space-between"><h3 id="sheetSum">Patch sheet</h3>
+      <div class="row"><label class="f">Sort<select id="sort"><option value="list">Fixture list order</option><option value="id">ID order</option><option value="addr">Universe · address order</option></select></label><button type="button" id="copySheet" class="primary">Copy patch sheet</button><button type="button" id="copyLoad" class="ghost">Copy load · power table</button></div></div>
+    <p class="msg" id="sheetMsg"></p>
+    <div class="tbl"><table class="ps" id="ps"></table></div>
+  </section>
+
+  <!-- 빔 지름 계산 -->
+  <section class="panel" data-p="beam" hidden>
+    <p class="guide">Calculates the diameter one fixture lights, and the quantity needed to cover a width evenly. Use it when deciding the quantity of key and wash. The quantity of the beam role is set by the shape you want to draw, not by the width it covers.</p>
+    <div class="row"><label class="f">Beam angle (°)<input type="number" id="ang" class="n" min="1" max="90" step="0.5"></label><label class="f">Distance (m)<input type="number" id="dist" class="n" min="1" max="60" step="0.5"></label>
+      <label class="f">Width to cover (m)<input type="number" id="wid" class="n" min="1" max="100" step="0.5"></label><label class="f">Overlap<select id="ovl"><option value="50">Edge at the neighboring beam’s center (50% overlap)</option><option value="0">Edges just touching (0% overlap)</option></select></label></div>
+    <div class="out" id="beam"></div>
+    <p class="note" style="margin:10px 0 0">Beam diameter = 2 × distance × tan(beam angle ÷ 2). Quantity = ((width − diameter) ÷ spacing, rounded up) + 1 (the fixtures at both ends sit half a diameter inside the stage edge). Use the beam angle, not the field angle on the spec sheet. The two overlap standards are in Section 22.4. A model with soft edges can overlap less, so on site hang one first and decide.</p>
+  </section>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX; L.top('rigcalc.html', { noSong: true });
+  var $ = function (id) { return document.getElementById(id); };
+  var MOUNT = ['Hang', 'Face', 'Floor'];
+  var RCOL = { 'Key': '#5f8f6a', 'Fill': '#7aa384', 'Back': '#4f7f8f', 'Side': '#3f8f6f', 'Top': '#8e9a5a', 'Wash': '#3b6ea8', 'Beam': '#c9862a', 'FX': '#c8553d', 'Pixel': '#5a5ec8', 'Audience': '#a8693b' };
+  // 실습 무대(22장 표 22-8·22-10): 이름, 역할, 설치, 위치, 수량, 채널, kg, W, ID, 유니버스, 시작 주소, X 시작, X 끝, Y, Z 시작, Z 끝
+  var EX = [
+    ['LED profile', 'Key', 'Hang', 'Audience truss', 8, 8, 15, 300, 101, 1, 1, -6, 6, -4, 8.5, 8.5],
+    ['LED Fresnel', 'Fill', 'Hang', 'Audience bar', 6, 8, 9, 250, 121, 1, 101, -5, 5, -3, 4.5, 4.5],
+    ['Moving spot', 'Beam', 'Hang', 'Front truss', 8, 36, 30, 800, 301, 2, 1, -5.25, 5.25, 1.5, 7.5, 7.5],
+    ['Moving wash', 'Wash', 'Hang', 'Middle truss', 6, 28, 22, 650, 201, 2, 301, -5, 5, 4, 7, 7],
+    ['Moving wash', 'Back', 'Hang', 'Back truss', 6, 28, 22, 650, 207, 3, 1, -5, 5, 7, 8, 8],
+    ['Strobe', 'FX', 'Hang', 'Back truss', 8, 4, 12, 800, 601, 3, 201, -5.25, 5.25, 7, 8, 8],
+    ['Moving wash', 'Side', 'Face', 'Side tower SR', 4, 28, 22, 650, 221, 4, 1, -7, -7, 3, 0.5, 4.1],
+    ['Moving wash', 'Side', 'Face', 'Side tower SL', 4, 28, 22, 650, 225, 4, 113, 7, 7, 3, 0.5, 4.1],
+    ['Blinder', 'Audience', 'Face', 'Front floor', 4, 2, 6, 400, 701, 4, 301, -4.5, 4.5, 0.3, 0, 0],
+    ['Moving beam', 'Beam', 'Floor', 'Back floor', 8, 20, 18, 450, 401, 5, 1, -5.25, 5.25, 7.5, 0, 0],
+    ['Moving beam', 'Beam', 'Face', 'Back tower SR', 4, 20, 18, 450, 409, 5, 161, -4.5, -4.5, 7.8, 1, 4],
+    ['Moving beam', 'Beam', 'Face', 'Back tower SL', 4, 20, 18, 450, 413, 5, 241, 4.5, 4.5, 7.8, 1, 4],
+    ['LED bar', 'Pixel', 'Face', 'Stairs level 1', 8, 30, 8, 150, 501, 6, 1, -3.5, 3.5, 5.5, 0.4, 0.4],
+    ['LED bar', 'Pixel', 'Face', 'Stairs level 2', 8, 30, 8, 150, 509, 6, 241, -3.5, 3.5, 6, 0.8, 0.8],
+    ['LED bar', 'Pixel', 'Face', 'Stairs level 3', 8, 30, 8, 150, 517, 7, 1, -3.5, 3.5, 6.5, 1.2, 1.2]];
+  var PK = ['pos', 'fid', 'uni', 'addr', 'x1', 'x2', 'y', 'z1', 'z2'];
+  function blankRow() { return { id: L.uid(), name: '', role: 'Wash', mount: 'Hang', pos: '', qty: 1, ch: null, kg: null, w: null, fid: null, uni: null, addr: null, x1: null, x2: null, y: null, z1: null, z2: null }; }
+  function example() {
+    return { v: 3, stage: { w: 12, d: 8 }, spare: 1, beam: { ang: 40, dist: 7, wid: 12, ovl: 50 }, tab: 'list', sort: 'list', isExample: true,
+      rows: EX.map(function (x) { return { id: L.uid(), name: x[0], role: x[1], mount: x[2], pos: x[3], qty: x[4], ch: x[5], kg: x[6], w: x[7], fid: x[8], uni: x[9], addr: x[10], x1: x[11], x2: x[12], y: x[13], z1: x[14], z2: x[15] }; }) };
+  }
+  var RC = L.getKey('rigcalc') || example();
+  // 이전 판 저장값 맞추기
+  if (!RC.v) {
+    var old = RC.rows && RC.rows.length === 9 && RC.rows[0].name === 'LED profile' && RC.rows[8].name === 'Blinder' && RC.beam && RC.beam.wid === 16;
+    if (old) RC = example();
+  }
+  RC.v = 3; RC.stage = RC.stage || { w: 12, d: 8 }; if (RC.spare == null) RC.spare = 1; RC.beam = RC.beam || { ang: 40, dist: 7, wid: 12, ovl: 50 }; RC.tab = RC.tab || 'list'; RC.sort = RC.sort || 'list';
+  if (RC.beam.ovl !== 0 && RC.beam.ovl !== 50) RC.beam.ovl = 50;
+  RC.rows.forEach(function (r) {
+    if (MOUNT.indexOf(r.mount) < 0) r.mount = 'Hang';
+    if (L.ROLES.indexOf(r.role) < 0) r.role = 'Wash';
+    PK.forEach(function (k) { if (r[k] === undefined) r[k] = k === 'pos' ? '' : null; });
+  });
+  function save() { RC.isExample = false; L.putKey('rigcalc', RC); }
+  function num(v) { return v === null || v === '' || v === undefined || isNaN(+v) ? null : +v; }
+  function fmt(n, d) { return (+n).toLocaleString('en-US', { maximumFractionDigits: d == null ? 1 : d }); }
+  function opt(list, v) { return list.map(function (x) { return '<option' + (x === v ? ' selected' : '') + '>' + x + '</option>'; }).join(''); }
+  function pad3(n) { return ('00' + n).slice(-3); }
+  function f2(v) { return v == null ? '—' : (Math.round(v * 100) / 100).toFixed(2); }
+  function label(r) { return '<td class="name">' + (L.esc(r.name) || '<span class="note">No name</span>') + '<small>' + (L.esc(r.pos) || 'Position not set') + ' · ' + L.esc(r.role) + '</small></td>'; }
+  function say(id, t) { $(id).textContent = t; clearTimeout(say[id]); say[id] = setTimeout(function () { $(id).textContent = ''; }, 6000); }
+
+  // 탭
+  function showTab(t) {
+    RC.tab = t; L.putKey('rigcalc', RC);
+    [].forEach.call(document.querySelectorAll('#tabs button'), function (b) { b.setAttribute('aria-selected', b.dataset.t === t ? 'true' : 'false'); });
+    [].forEach.call(document.querySelectorAll('[data-p]'), function (p) { p.hidden = p.dataset.p !== t; });
+    render();
+  }
+  $('tabs').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) showTab(b.dataset.t); });
+
+  // 장비별로 펼치기
+  function expand() {
+    var out = [];
+    RC.rows.forEach(function (r, ri) {
+      var q = +r.qty || 0, x1 = num(r.x1), x2 = num(r.x2), z1 = num(r.z1), z2 = num(r.z2), y = num(r.y);
+      if (x2 == null) x2 = x1; if (z2 == null) z2 = z1;
+      for (var i = 0; i < q; i++) {
+        var t = q > 1 ? i / (q - 1) : 0;
+        out.push({ ri: ri, fid: num(r.fid) == null ? null : num(r.fid) + i, name: r.name, ch: +r.ch || 0, role: r.role, mount: r.mount, pos: r.pos || '',
+          uni: num(r.uni), addr: num(r.addr) == null || num(r.uni) == null ? null : num(r.addr) + i * (+r.ch || 0),
+          x: x1 == null ? null : x1 + (x2 - x1) * t, y: y, z: z1 == null ? null : z1 + (z2 - z1) * t, kg: +r.kg || 0, w: +r.w || 0 });
+      }
+    });
+    return out;
+  }
+  function totals() {
+    var T = { qty: 0, ch: 0, kg: 0, w: 0, seq: 0 }, acc = 512;
+    RC.rows.forEach(function (r) { var q = +r.qty || 0; T.qty += q; T.ch += q * (+r.ch || 0); T.kg += q * (+r.kg || 0); T.w += q * (+r.w || 0);
+      for (var i = 0; i < q; i++) { var c = +r.ch || 0; if (!c) continue; if (acc + c > 512) { T.seq++; acc = 0; } acc += c; } });
+    return T;
+  }
+  function checks(F) {
+    var out = [], bad = {};
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: 'Check', i: 'Note', ok: 'Good' }[lv] + '</span>' + h + '</li>'); }
+    var P = F.filter(function (f) { return f.uni != null; }), outside = F.length - P.length;
+    var seen = {}, dup = [], noid = 0;
+    P.forEach(function (f) { if (f.fid == null) { noid++; return; } if (seen[f.fid]) { dup.push(f.fid); bad[f.fid] = 1; } seen[f.fid] = 1; });
+    if (dup.length) add('w', '1 Duplicate IDs: ' + dup.slice(0, 8).join(', ') + (dup.length > 8 ? ' and ' + (dup.length - 8) + ' more' : '') + '. Fix the starting ID number in step 2.');
+    else if (noid) add('w', '1 No ID on ' + noid + ' fixtures. In step 2, use "Assign IDs" to assign them.'); else if (P.length) add('ok', '1 No IDs overlap.');
+    var used = {}, over = [], clash = [], noaddr = 0;
+    P.forEach(function (f) {
+      if (f.addr == null || !f.ch) { noaddr++; return; }
+      if (f.addr < 1 || f.addr + f.ch - 1 > 512) { over.push(f.fid); bad[f.fid] = 1; return; }
+      for (var c = f.addr; c < f.addr + f.ch; c++) { var k = f.uni + '.' + c; if (used[k] && used[k] !== f.fid) { clash.push(f.fid + ' and ' + used[k]); bad[f.fid] = 1; break; } used[k] = f.fid; }
+    });
+    if (over.length) add('w', '2 Fixtures that go past 512: ' + over.slice(0, 8).join(', ') + '. One fixture cannot be split across two universes, so move that row to the next universe.');
+    if (clash.length) add('w', '2 Overlapping addresses: ' + clash.slice(0, 6).join(', ') + '.');
+    if (noaddr) add('w', '2 No start address on ' + noaddr + ' fixtures. In step 2, use "Fill addresses" to fill them in.');
+    if (!over.length && !clash.length && !noaddr && P.length) add('ok', '2 No fixture overlaps another or goes past 512.');
+    var nopos = F.filter(function (f) { return !f.pos || f.x == null || f.y == null || f.z == null; }).length;
+    var stx = (+RC.stage.w || 0) / 2 + 3, far = F.filter(function (f) { return f.x != null && Math.abs(f.x) > stx; }).length;
+    if (nopos) add('w', '3 Position or X·Y·Z is empty on ' + nopos + ' fixtures. Fill them in step 3.');
+    else if (F.length) add('ok', '3 Every fixture has a position and X·Y·Z. In the drawings of step 3, check that no fixture is floating in the air.');
+    if (far) add('i', '3 Fixtures more than 3 m outside the stage width: ' + far + ' fixtures. Check the sign of the coordinates (stage right is negative).');
+    var chs = P.reduce(function (a, f) { return a + f.ch; }, 0);
+    var t4 = '4 Fixtures to patch: ' + P.length + ', channel total ' + fmt(chs, 0) + (outside ? ', off console ' + outside + '' : '') + '.';
+    var rig = L.rig(), rq = rig && rig.rows ? rig.rows.reduce(function (a, r) { return a + (+r.qty || 0); }, 0) : 0;
+    if (rq && rq !== F.length && !RC.isExample) add('i', t4 + ' The Fixture Roles tool (Web tool 6) has ' + rq + ' fixtures. Check that none is missing or entered twice.');
+    else add(F.length ? 'ok' : 'i', t4);
+    var us = {}; P.forEach(function (f) { us[f.uni] = 1; }); var ul = Object.keys(us).map(Number).sort(function (a, b) { return a - b; });
+    var maxU = ul.length ? ul[ul.length - 1] : 0, sp = +RC.spare || 0;
+    if (!ul.length) add('i', '5 No row has a universe yet.');
+    else if (sp > 0) add('ok', '5 Universes used: ' + ul.join(', ') + '(' + ul.length + ' universes), spare ' + (sp === 1 ? (maxU + 1) : (maxU + 1) + '~' + (maxU + sp)) + '. Total needed: ' + (maxU + sp) + ' universes.');
+    else add('w', '5 No spare universe. Keep a place to move things to when fixtures are added or a DMX line fails.');
+    return { html: out.join(''), bad: bad, warn: out.filter(function (x) { return x.indexOf('class="w"') >= 0; }).length };
+  }
+
+  // 요약 칩
+  function chips(F) {
+    var T = totals(), C = checks(F), us = {}; F.forEach(function (f) { if (f.uni != null) us[f.uni] = 1; });
+    var nu = Object.keys(us).length;
+    $('chips').innerHTML = [['Fixtures', T.qty + ''], ['Channels', fmt(T.ch, 0)], ['Universes', nu ? nu + ' + spare ' + (+RC.spare || 0) : '—'], ['Weight', fmt(T.kg) + 'kg'], ['Power', fmt(T.w / 1000, 2) + 'kW'], ['Check', C.warn ? C.warn + ' to check' : 'Good', C.warn ? 'w' : '']]
+      .map(function (c) { return '<div class="chip ' + (c[2] || '') + '">' + c[0] + '<b>' + c[1] + '</b></div>'; }).join('') + (RC.isExample ? '<div class="chip w">Now<b>Example</b></div>' : '');
+  }
+
+  function rowBtns(i) { return '<td><div class="rowbtn"><button type="button" class="ghost" data-act="up" data-i="' + i + '" aria-label="Up" title="Up">↑</button><button type="button" class="ghost" data-act="down" data-i="' + i + '" aria-label="Down" title="Down">↓</button><button type="button" class="ghost" data-act="dup" data-i="' + i + '" aria-label="Duplicate" title="Duplicate">⧉</button><button type="button" class="ghost" data-act="del" data-i="' + i + '" aria-label="Delete" title="Delete">×</button></div></td>'; }
+  function inp(i, k, v, cls, step, type) { return '<td><input type="' + (type || 'number') + '"' + (cls ? ' class="' + cls + '"' : '') + (step ? ' step="' + step + '"' : '') + ' data-i="' + i + '" data-k="' + k + '" value="' + (v == null ? '' : L.esc(v)) + '" aria-label="' + k + '"></td>'; }
+
+  // 1 장비 목록
+  function renderList() {
+    var T = totals();
+    $('tList').innerHTML = '<tr><th>Fixture (model)</th><th>Position</th><th>Role</th><th>Mounting</th><th>Qty</th><th>Channels</th><th>kg/unit</th><th>W/unit</th><th>Total kg</th><th>Total kW</th><th></th></tr>' + RC.rows.map(function (r, i) {
+      var q = +r.qty || 0;
+      return '<tr>' + inp(i, 'name', r.name, '', '', 'text') + inp(i, 'pos', r.pos, '', '', 'text') +
+        '<td><select data-i="' + i + '" data-k="role" aria-label="Role">' + opt(L.ROLES, r.role) + '</select></td><td><select data-i="' + i + '" data-k="mount" aria-label="Mounting">' + opt(MOUNT, r.mount) + '</select></td>' +
+        inp(i, 'qty', r.qty, 's', '1') + inp(i, 'ch', r.ch, 's', '1') + inp(i, 'kg', r.kg, 's', '0.1') + inp(i, 'w', r.w, 'm', '1') +
+        '<td class="calc">' + fmt(q * (+r.kg || 0)) + 'kg</td><td class="calc">' + fmt(q * (+r.w || 0) / 1000, 2) + 'kW</td>' + rowBtns(i) + '</tr>';
+    }).join('') + '<tr class="tot"><td>Total</td><td></td><td></td><td></td><td class="num">' + T.qty + '</td><td class="num">' + fmt(T.ch, 0) + '</td><td></td><td></td><td class="num">' + fmt(T.kg) + 'kg</td><td class="num">' + fmt(T.w / 1000, 2) + 'kW</td><td></td></tr>';
+    var R = {}; RC.rows.forEach(function (r) { R[r.role] = (R[r.role] || 0) + (+r.qty || 0); });
+    $('byRole').innerHTML = '<tr><th>Role</th><th>Qty</th></tr>' + L.ROLES.map(function (k) { return '<tr><td><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:' + RCOL[k] + ';margin-right:6px"></i>' + k + '</td><td class="num">' + (R[k] || '<span class="note">—</span>') + '</td></tr>'; }).join('');
+    var out = [];
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: 'Check', i: 'Note', ok: 'Good' }[lv] + '</span>' + h + '</li>'); }
+    var miss = ['Key', 'Fill', 'Back', 'Wash'].filter(function (k) { return !R[k]; });
+    if (miss.length) add('i', miss.join(', ') + ' not covered by any fixture. Check with the questions of Table 22-3 in Chapter 22 whether this stage needs it. It can stay empty for a light show with no people on stage.');
+    RC.rows.forEach(function (r) {
+      var nm = L.esc(r.name || 'Unnamed row') + (r.pos ? '(' + L.esc(r.pos) + ')' : '');
+      if (!r.ch) add('w', nm + ': the channel count is empty. Copy the channel count of the mode you will use from the spec sheet or the console’s channel map.');
+      else if (r.ch > 512) add('w', nm + ': channels (' + r.ch + ') exceed one universe (512). Check the mode.');
+      if (!r.kg || !r.w) add('i', nm + ': weight or power is empty.');
+    });
+    if (T.ch) add('i', 'Channel total ' + fmt(T.ch, 0) + ' ÷ 512 = ' + (T.ch / 512).toFixed(1) + '. Chained in order, that needs ' + T.seq + ' universes. You decide how to divide them in step 2.');
+    add('i', 'Weight ' + fmt(T.kg) + 'kg, power ' + fmt(T.w / 1000, 2) + 'kW. Check truss and hoist loads and the venue’s power with the rigging and electrical crews (Section 22.7).');
+    $('listChecks').innerHTML = out.join('');
+  }
+
+  // 2 번호·주소
+  function renderAddr() {
+    $('spare').value = RC.spare;
+    $('tAddr').innerHTML = '<tr><th>Fixture · Position</th><th>Qty</th><th>Channels</th><th>ID start</th><th>ID end</th><th>Universe</th><th>Start address</th><th>End address</th></tr>' + RC.rows.map(function (r, i) {
+      var q = +r.qty || 0, f0 = num(r.fid), a0 = num(r.addr), u = num(r.uni), end = a0 != null && r.ch ? a0 + q * r.ch - 1 : null;
+      return '<tr>' + label(r) + '<td class="calc">' + q + '</td><td class="calc">' + (r.ch || '—') + '</td>' + inp(i, 'fid', r.fid, 'n', '1') + '<td class="calc">' + (f0 == null ? '—' : f0 + q - 1) + '</td>' +
+        inp(i, 'uni', r.uni, 's', '1') + inp(i, 'addr', r.addr, 's', '1') +
+        (u == null ? '<td class="calc">Off console</td>' : end == null ? '<td class="calc">—</td>' : '<td class="' + (end > 512 ? 'bad' : 'calc') + '">' + u + '.' + pad3(Math.min(end, 999)) + (end > 512 ? ' (over 512)' : '') + '</td>') + '</tr>';
+    }).join('');
+    umap(expand());
+  }
+  function umap(F) {
+    var P = F.filter(function (f) { return f.uni != null && f.addr != null && f.ch; });
+    if (!P.length) { $('umap').innerHTML = '<p class="note">Enter universes and start addresses to draw the map.</p>'; return; }
+    var maxU = 0; P.forEach(function (f) { maxU = Math.max(maxU, f.uni); }); var sp = +RC.spare || 0;
+    var W = 640, LX = 96, RW = 46, H = 22, G = 12, cw = (W - LX - RW) / 512, rows = maxU + sp, Ht = rows * (H + G) + 22;
+    var ink = getComputedStyle(document.body).getPropertyValue('--muted') || '#888';
+    var o = '<svg viewBox="0 0 ' + W + ' ' + Ht + '" role="img" aria-label="Universe map" style="display:block;width:100%;height:auto">';
+    [1, 101, 201, 301, 401, 512].forEach(function (k) { var x = LX + (k - 1) * cw; o += '<line x1="' + x + '" y1="14" x2="' + x + '" y2="' + (Ht - 4) + '" stroke="' + ink + '" stroke-opacity="0.2"/><text x="' + x + '" y="10" font-size="9" fill="' + ink + '" text-anchor="' + (k === 512 ? 'end' : 'middle') + '">' + k + '</text>'; });
+    for (var u = 1; u <= rows; u++) {
+      var y = 18 + (u - 1) * (H + G), used = 0;
+      o += '<text x="0" y="' + (y + 15) + '" font-size="11" fill="currentColor">Universe ' + u + (u > maxU ? ' (spare)' : '') + '</text>';
+      o += '<rect x="' + LX + '" y="' + y + '" width="' + (512 * cw) + '" height="' + H + '" fill="' + ink + '" fill-opacity="0.12" rx="2"/>';
+      P.filter(function (f) { return f.uni === u; }).forEach(function (f) {
+        var a = f.addr, b = f.addr + f.ch - 1, over = b > 512; used += Math.max(0, Math.min(b, 512) - a + 1);
+        o += '<rect x="' + (LX + (a - 1) * cw) + '" y="' + y + '" width="' + Math.max(1, f.ch * cw) + '" height="' + H + '" fill="' + (over ? 'none' : (RCOL[f.role] || '#888')) + '" stroke="' + (over ? '#c8553d' : '#ffffff') + '" stroke-width="' + (over ? 1.4 : 0.5) + '"' + (over ? ' stroke-dasharray="3 2"' : '') + '><title>' + (f.fid || '') + ' ' + L.esc(f.name) + ' · ' + L.esc(f.pos) + ' · ' + u + '.' + pad3(a) + '~' + pad3(b) + '</title></rect>';
+      });
+      o += '<text x="' + (W - RW + 6) + '" y="' + (y + 15) + '" font-size="10.5" fill="currentColor">' + used + 'ch</text>';
+    }
+    $('umap').innerHTML = o + '</svg>';
+  }
+
+  // 3 위치·좌표
+  function renderPos() {
+    $('sw').value = RC.stage.w; $('sd').value = RC.stage.d;
+    $('tPos').innerHTML = '<tr><th>Fixture · Position</th><th>Qty</th><th>X start</th><th>X end</th><th>Y</th><th>Z start</th><th>Z end</th></tr>' + RC.rows.map(function (r, i) {
+      return '<tr>' + label(r) + '<td class="calc">' + (+r.qty || 0) + '</td>' + inp(i, 'x1', r.x1, 's', '0.05') + inp(i, 'x2', r.x2, 's', '0.05') + inp(i, 'y', r.y, 's', '0.05') + inp(i, 'z1', r.z1, 's', '0.05') + inp(i, 'z2', r.z2, 's', '0.05') + '</tr>';
+    }).join('');
+    draw(expand());
+  }
+  function draw(F) {
+    var G = F.filter(function (f) { return f.x != null && f.y != null && f.z != null; });
+    var sw = +RC.stage.w || 12, sd = +RC.stage.d || 8;
+    var xs = G.map(function (f) { return f.x; }).concat([-sw / 2, sw / 2]), ys = G.map(function (f) { return f.y; }).concat([0, sd]), zs = G.map(function (f) { return f.z; }).concat([0]);
+    var mnx = Math.min.apply(null, xs) - 1, mxx = Math.max.apply(null, xs) + 1, mny = Math.min.apply(null, ys) - 1, mxy = Math.max.apply(null, ys) + 1, mxz = Math.max.apply(null, zs) + 1;
+    var Wv = 600, LM = 92, sc = (Wv - LM - 8) / (mxx - mnx);
+    var cs = getComputedStyle(document.body), ink = cs.getPropertyValue('--muted') || '#888', line = cs.getPropertyValue('--line') || '#555';
+    function circ(cx, cy, c, t) { return '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="5" fill="' + c + '" stroke="#00000033" stroke-width="0.8"><title>' + t + '</title></circle>'; }
+    var Hp = (mxy - mny) * sc, X = function (x) { return LM + (x - mnx) * sc; }, Y = function (y) { return (mxy - y) * sc; };
+    var s = '<svg viewBox="0 0 ' + Wv + ' ' + Hp.toFixed(0) + '" role="img" aria-label="Plan view"><rect x="' + X(-sw / 2) + '" y="' + Y(sd) + '" width="' + sw * sc + '" height="' + sd * sc + '" fill="' + line + '" opacity="0.45"/><circle cx="' + X(0) + '" cy="' + Y(0) + '" r="3.5" fill="#c8553d"/>';
+    var lines = {};
+    G.forEach(function (f) { (lines[f.pos] = lines[f.pos] || []).push(f); });
+    Object.keys(lines).forEach(function (k) { var a = lines[k], x0 = Math.min.apply(null, a.map(function (f) { return f.x; })), x1 = Math.max.apply(null, a.map(function (f) { return f.x; })), y = a[0].y;
+      s += '<line x1="' + (X(x0) - 8) + '" y1="' + Y(y) + '" x2="' + (X(x1) + 8) + '" y2="' + Y(y) + '" stroke="' + ink + '" stroke-width="1.2" opacity="0.6"/>' +
+        (x1 - x0 < 0.5 ? '<text x="' + Math.min(Wv - 4, Math.max(4, X(x0))) + '" y="' + (Y(y) - 10) + '" font-size="10" fill="' + ink + '" text-anchor="' + (X(x0) < 60 ? 'start' : X(x0) > Wv - 60 ? 'end' : 'middle') + '">' + L.esc(k) + '</text>'
+          : '<text x="' + (X(x0) - 12) + '" y="' + (Y(y) + 3.5) + '" font-size="10" fill="' + ink + '" text-anchor="end">' + L.esc(k) + '</text>'); });
+    G.forEach(function (f) { s += circ(X(f.x), Y(f.y), RCOL[f.role] || '#888', (f.fid || '') + ' ' + L.esc(f.name)); });
+    s += '<text x="' + X(0) + '" y="' + (Hp - 4) + '" font-size="10.5" fill="' + ink + '" text-anchor="middle">Audience</text></svg>';
+    $('plan').innerHTML = G.length ? s : '<p class="note">Enter coordinates to draw the plan view.</p>';
+    var Hf = (mxz + 0.5) * sc, Z = function (z) { return Hf - (z + 0.3) * sc; };
+    var t = '<svg viewBox="0 0 ' + Wv + ' ' + Hf.toFixed(0) + '" role="img" aria-label="Elevation"><line x1="' + X(-sw / 2) + '" y1="' + Z(0) + '" x2="' + X(sw / 2) + '" y2="' + Z(0) + '" stroke="' + ink + '" stroke-width="3" opacity="0.6"/>';
+    G.slice().sort(function (a, b) { return b.y - a.y; }).forEach(function (f) { t += circ(X(f.x), Z(f.z), RCOL[f.role] || '#888', (f.fid || '') + ' ' + L.esc(f.name) + ' Z ' + f2(f.z)); });
+    $('front').innerHTML = G.length ? t + '</svg>' : '';
+    var roles = {}; G.forEach(function (f) { roles[f.role] = 1; });
+    $('leg').innerHTML = L.ROLES.filter(function (k) { return roles[k]; }).map(function (k) { return '<span><i style="background:' + RCOL[k] + '"></i>' + k + '</span>'; }).join('') + (G.length ? '<span><i style="background:#c8553d;width:7px;height:7px"></i>Origin (center of the stage front edge)</span>' : '');
+  }
+
+  // 4 패치 시트
+  function sorted(F) {
+    var A = F.slice();
+    if (RC.sort === 'id') A.sort(function (a, b) { return (a.fid == null ? 1e9 : a.fid) - (b.fid == null ? 1e9 : b.fid); });
+    if (RC.sort === 'addr') A.sort(function (a, b) { var ka = a.uni == null ? 1e9 : a.uni * 1000 + (a.addr || 0), kb = b.uni == null ? 1e9 : b.uni * 1000 + (b.addr || 0); return ka - kb; });
+    return A;
+  }
+  function renderSheet() {
+    var F = expand(), C = checks(F);
+    $('pchecks').innerHTML = C.html; $('sort').value = RC.sort;
+    $('sheetSum').textContent = 'Patch sheet — ' + F.length + '';
+    $('ps').innerHTML = '<tr><th>ID</th><th>Fixture</th><th>Channels</th><th>Universe.address</th><th>Position</th><th>X</th><th>Y</th><th>Z</th><th>Mounting</th><th>Role</th></tr>' + sorted(F).map(function (f) {
+      return '<tr class="' + (C.bad[f.fid] ? 'bad' : f.uni == null ? 'out' : '') + '"><td>' + (f.fid == null ? '—' : f.fid) + '</td><td class="t">' + L.esc(f.name) + '</td><td>' + f.ch + 'ch</td><td>' + (f.uni == null ? 'Off console' : f.addr == null ? '—' : f.uni + '.' + pad3(f.addr)) + '</td><td class="t">' + L.esc(f.pos) + '</td><td>' + f2(f.x) + '</td><td>' + f2(f.y) + '</td><td>' + f2(f.z) + '</td><td class="t">' + L.esc(f.mount) + '</td><td class="t">' + L.esc(f.role) + '</td></tr>';
+    }).join('');
+  }
+
+  // 빔 계산
+  function renderBeam() {
+    var b = RC.beam; $('ang').value = b.ang; $('dist').value = b.dist; $('wid').value = b.wid; $('ovl').value = String(b.ovl);
+    var D = 2 * b.dist * Math.tan(b.ang / 2 * Math.PI / 180), sp = D * (1 - b.ovl / 100), n = sp > 0 ? (b.wid <= D ? 1 : Math.ceil((b.wid - D) / sp - 1e-9) + 1) : 0;
+    $('beam').innerHTML = '<div><span>Beam diameter</span><b>' + D.toFixed(2) + 'm</b></div><div><span>Spacing between fixtures</span><b>' + sp.toFixed(2) + 'm</b></div><div><span>Fixtures to cover ' + b.wid + 'm</span><b>' + n + ' fixtures</b></div>';
+  }
+
+  function render() {
+    var F = expand(); chips(F);
+    if (RC.tab === 'list') renderList(); else if (RC.tab === 'addr') renderAddr(); else if (RC.tab === 'pos') renderPos(); else if (RC.tab === 'sheet') renderSheet(); else renderBeam();
+  }
+
+  // 입력
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.dataset.i != null && t.dataset.k) {
+      var r = RC.rows[+t.dataset.i], k = t.dataset.k;
+      r[k] = (t.type === 'number') ? (t.value === '' ? null : +t.value) : t.value;
+      save(); render(); return;
+    }
+    if (t.id === 'spare') { RC.spare = Math.max(0, +t.value || 0); save(); render(); }
+    if (t.id === 'sw') { RC.stage.w = +t.value || 12; save(); render(); }
+    if (t.id === 'sd') { RC.stage.d = +t.value || 8; save(); render(); }
+    if (t.id === 'sort') { RC.sort = t.value; L.putKey('rigcalc', RC); render(); }
+    if (['ang', 'dist', 'wid', 'ovl'].indexOf(t.id) >= 0) { RC.beam[t.id] = +t.value || 0; L.putKey('rigcalc', RC); renderBeam(); }
+  });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-act]'); if (!b) return;
+    var i = +b.dataset.i, a = b.dataset.act, R = RC.rows;
+    if (a === 'del') { if (R[i].name && !confirmDel(R[i])) return; R.splice(i, 1); }
+    if (a === 'dup') { var c = JSON.parse(JSON.stringify(R[i])); c.id = L.uid(); c.fid = null; c.addr = null; R.splice(i + 1, 0, c); }
+    if (a === 'up' && i > 0) { R.splice(i - 1, 0, R.splice(i, 1)[0]); }
+    if (a === 'down' && i < R.length - 1) { R.splice(i + 1, 0, R.splice(i, 1)[0]); }
+    save(); render();
+  });
+  var lastDel = null;
+  function confirmDel(r) { if (lastDel === r.id) { lastDel = null; return true; } lastDel = r.id; say('listMsg', '"' + r.name + '" row: press × once more to delete it.'); return false; }
+  $('add').addEventListener('click', function () { RC.rows.push(blankRow()); save(); render(); var ins = $('tList').querySelectorAll('input[data-k=name]'); if (ins.length) ins[ins.length - 1].focus(); });
+  $('ex').addEventListener('click', function () { var t = RC.tab; RC = example(); RC.tab = t; L.putKey('rigcalc', RC); render(); say('impMsg', 'Loaded the practice stage of Chapter 22 (94 fixtures).'); });
+  var clearArmed = false;
+  $('clear').addEventListener('click', function () {
+    if (!clearArmed) { clearArmed = true; $('clear').textContent = 'Really clear it? Press once more'; setTimeout(function () { clearArmed = false; $('clear').textContent = 'Clear and start new'; }, 4000); return; }
+    clearArmed = false; $('clear').textContent = 'Clear and start new';
+    RC.rows = [blankRow()]; RC.isExample = false; RC.tab = 'list'; save(); showTab('list');
+  });
+
+  // 번호·주소 자동
+  $('autoId').addEventListener('click', function () {
+    var h = {}, next = 100, used = {};
+    RC.rows.forEach(function (r) {
+      if (num(r.uni) == null && /follow/i.test(r.name || '')) return;
+      var k = (r.name || '') + '|' + (r.ch || ''), q = +r.qty || 0;
+      if (!h[k]) { h[k] = next + 1; next += Math.max(1, Math.ceil(q / 99)) * 100; }
+      r.fid = h[k]; h[k] += q;
+    });
+    save(); render(); say('addrMsg', 'Numbered each type (name · channels) in blocks of 100. The same type continues in row order.');
+  });
+  $('auto').addEventListener('click', function () {
+    var end = {}, kind = {}, moved = [], none = 0;
+    RC.rows.forEach(function (r) {
+      var u = num(r.uni); if (u == null) { none++; return; } if (!r.ch || !(+r.qty)) return;
+      var need = (+r.qty) * r.ch, k = r.name + '|' + r.ch, a;
+      if (!end[u]) a = 1; else if (kind[u] === k) a = end[u] + 1; else a = Math.ceil(end[u] / 100) * 100 + 1;
+      if (a + need - 1 > 512) moved.push(L.esc(r.name) + (r.pos ? '(' + L.esc(r.pos) + ')' : ''));
+      r.addr = a; end[u] = a + need - 1; kind[u] = k;
+    });
+    save(); render();
+    say('addrMsg', moved.length ? 'Rows that do not fit within 512: ' + moved.join(', ') + '. Change the universe of those rows and press again.' : 'Addresses filled in.' + (none ? ' Left off the console: ' + none + ' rows with no universe.' : ''));
+  });
+
+  // 가져오기
+  var SYN = { name: ['instrument type', 'fixture type', 'type', 'name', 'fixture', 'fixtures', 'instrument', 'fixture name'], pos: ['position', 'location', 'truss'], role: ['purpose', 'role'],
+    mount: ['mount', 'mounting'], qty: ['qty', 'count', 'quantity'], ch: ['footprint', 'dmx footprint', 'channels', 'num channels', 'channel count'],
+    fid: ['id', 'fid', 'fixture id', 'number', 'channel', 'chan'], uni: ['universe', 'univ'], addr: ['address', 'dmx address', 'dmx', 'addr', 'patch'],
+    x: ['x'], y: ['y'], z: ['z'], kg: ['weight', 'kg'], w: ['power', 'wattage', 'w', 'watt'] };
+  function colOf(h) { h = h.toLowerCase().replace(/\s*\(.*\)\s*/g, '').replace(/[_]/g, ' ').trim(); for (var k in SYN) if (SYN[k].indexOf(h) >= 0) return k; if (/^x\b/.test(h)) return 'x'; if (/^y\b/.test(h)) return 'y'; if (/^z\b/.test(h)) return 'z'; return null; }
+  function splitLine(l, sep) { if (sep === '\t') return l.split('\t'); var out = [], cur = '', q = false; for (var i = 0; i < l.length; i++) { var c = l[i]; if (c === '"') { if (q && l[i + 1] === '"') { cur += '"'; i++; } else q = !q; } else if (c === sep && !q) { out.push(cur); cur = ''; } else cur += c; } out.push(cur); return out; }
+  function parseAddr(v, u) { v = String(v || '').trim(); if (!v) return [u, null]; var m = v.match(/^(\d+)\s*[.\/:\-]\s*(\d+)$/); if (m) return [+m[1], +m[2]]; var n = +v; if (isNaN(n)) return [u, null]; if (u == null && n > 512) return [Math.floor((n - 1) / 512) + 1, (n - 1) % 512 + 1]; return [u == null ? (n ? 1 : null) : u, n]; }
+  function nOr(v) { v = String(v == null ? '' : v).replace(/[^0-9.\-]/g, ''); return v === '' || isNaN(+v) ? null : +v; }
+  function guessRole(name) { var n = (name || '').toLowerCase(); if (/profile|\bers\b|leko|source four/.test(n)) return 'Key'; if (/fresnel/.test(n)) return 'Fill'; if (/strobe|jdc/.test(n)) return 'FX'; if (/blinder/.test(n)) return 'Audience'; if (/\bbar\b|pixel/.test(n)) return 'Pixel'; if (/beam|spot/.test(n)) return 'Beam'; return 'Wash'; }
+  $('imp').addEventListener('click', function () {
+    var txt = $('impText').value.trim(); if (!txt) { say('impMsg', 'Nothing was pasted.'); return; }
+    if (txt[0] === '{') { try { var o = JSON.parse(txt); if (!o.rows) throw 0; RC = o; RC.tab = 'list'; RC.isExample = false; save(); showTab('list'); say('impMsg', 'Restored the backup (' + RC.rows.length + ' rows).'); } catch (err) { say('impMsg', 'Could not read the backup.'); } return; }
+    var lines = txt.split(/\r?\n/).filter(function (l) { return l.trim(); }), sep = lines[0].indexOf('\t') >= 0 ? '\t' : (lines[0].indexOf(';') >= 0 && lines[0].indexOf(',') < 0 ? ';' : ',');
+    var head = splitLine(lines[0], sep).map(colOf), known = head.filter(Boolean);
+    if (known.indexOf('name') < 0) { say('impMsg', 'No "Fixtures" column (or Instrument Type) found in the first row. Paste from the first row, which holds the column names.'); return; }
+    var recs = lines.slice(1).map(function (l) { var c = splitLine(l, sep), o = {}; head.forEach(function (k, i) { if (k && o[k] == null) o[k] = (c[i] || '').trim(); }); return o; }).filter(function (o) { return o.name; });
+    var rows = [];
+    recs.forEach(function (o) {
+      var ua = parseAddr(o.addr, nOr(o.uni)), q = nOr(o.qty) || 1;
+      var r = { id: L.uid(), name: o.name, pos: o.pos || '', role: L.ROLES.indexOf(o.role) >= 0 ? o.role : guessRole(o.name), mount: MOUNT.indexOf(o.mount) >= 0 ? o.mount : 'Hang', qty: q, ch: nOr(o.ch), kg: nOr(o.kg), w: nOr(o.w), fid: nOr(o.fid), uni: ua[0], addr: ua[1], x1: nOr(o.x), x2: nOr(o.x), y: nOr(o.y), z1: nOr(o.z), z2: nOr(o.z) };
+      var p = rows[rows.length - 1];
+      // 같은 장비가 같은 위치에서 번호·주소가 이어지면 한 줄로 묶음
+      if (q === 1 && p && p.name === r.name && p.pos === r.pos && p.ch === r.ch && p.uni === r.uni && p.y === r.y && p.fid != null && r.fid === p.fid + p.qty && (p.addr == null ? r.addr == null : r.addr === p.addr + p.qty * (p.ch || 0))) { p.qty++; p.x2 = r.x2; p.z2 = r.z2; }
+      else rows.push(r);
+    });
+    RC.rows = rows; RC.isExample = false; save(); showTab('list');
+    var miss = rows.filter(function (r) { return !r.ch; }).length;
+    say('impMsg', recs.length + ' fixtures in ' + rows.length + ' rows (fixtures whose numbers and addresses continue in the same position are merged into one row).' + (miss ? ' Rows with no channel count: ' + miss + '. Fill them in.' : ''));
+  });
+  $('fromRig').addEventListener('click', function () {
+    var rig = L.rig(); if (!rig || !rig.rows || !rig.rows.length) { say('impMsg', 'The Fixture Roles tool has no fixtures.'); return; }
+    RC.rows = rig.rows.map(function (r) { var b = blankRow(); b.name = r.name; b.role = (r.roles && r.roles[0]) || 'Wash'; b.qty = +r.qty || 0; b.pos = r.place || ''; b.mount = /floor/i.test(r.place || '') ? 'Floor' : /tower|wall|front/i.test(r.place || '') ? 'Face' : 'Hang'; return b; });
+    RC.isExample = false; save(); showTab('list'); say('impMsg', 'Loaded fixtures from the Fixture Roles tool: ' + RC.rows.length + ' rows. Fill in channels, weight and power.');
+  });
+  function clip(txt, id, okMsg) { var done = function (ok) { say(id, ok ? okMsg : 'Copy is blocked. Check the browser’s clipboard permission.'); }; try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); } }
+  $('backup').addEventListener('click', function () { clip(JSON.stringify(RC), 'impMsg', 'Backup copied. Paste it into a note or file; pasting it into the box above restores it.'); });
+  $('copyList').addEventListener('click', function () {
+    var T = totals(), lines = ['Fixture\tPosition\tRole\tMounting\tQty\tChannels\tWeight kg/unit\tPower W/unit\tWeight total kg\tPower total kW'];
+    RC.rows.forEach(function (r) { var q = +r.qty || 0; lines.push([r.name, r.pos, r.role, r.mount, q, r.ch || '', r.kg || '', r.w || '', fmt(q * (+r.kg || 0)), fmt(q * (+r.w || 0) / 1000, 2)].join('\t')); });
+    lines.push(['Total', '', '', '', T.qty, T.ch, '', '', fmt(T.kg), fmt(T.w / 1000, 2)].join('\t'));
+    clip(lines.join('\n'), 'listMsg', 'Fixture list copied. Paste it into a spreadsheet.');
+  });
+  $('copySheet').addEventListener('click', function () {
+    var lines = ['ID\tFixture\tChannels\tUniverse\tAddress\tUniverse.address\tPosition\tX\tY\tZ\tMounting\tRole'];
+    sorted(expand()).forEach(function (f) { lines.push([f.fid == null ? '' : f.fid, f.name, f.ch, f.uni == null ? 'Off console' : f.uni, f.addr == null ? '' : f.addr, f.uni == null || f.addr == null ? '' : f.uni + '.' + pad3(f.addr), f.pos, f2(f.x), f2(f.y), f2(f.z), f.mount, f.role].join('\t')); });
+    clip(lines.join('\n'), 'sheetMsg', 'Patch sheet copied. Paste it into a spreadsheet.');
+  });
+  $('copyLoad').addEventListener('click', function () {
+    var P = {}, T = totals();
+    RC.rows.forEach(function (r) { var k = r.pos || 'Position not set', q = +r.qty || 0; P[k] = P[k] || { q: 0, kg: 0, w: 0 }; P[k].q += q; P[k].kg += q * (+r.kg || 0); P[k].w += q * (+r.w || 0); });
+    var lines = ['Position\tQty\tFixture weight kg\tPower kW'];
+    Object.keys(P).forEach(function (k) { lines.push([k, P[k].q, fmt(P[k].kg), fmt(P[k].w / 1000, 2)].join('\t')); });
+    lines.push(['Total', T.qty, fmt(T.kg), fmt(T.w / 1000, 2)].join('\t'));
+    clip(lines.join('\n') + '\n\nTruss and cable weight is added separately. The safe load follows the manufacturer’s specification and the rigging crew’s check.', 'sheetMsg', 'Copied the load and power table per position. Send it to the rigging and electrical crews.');
+  });
+
+  showTab(RC.tab);
+})();
+</script>
+</body>
+</html>
