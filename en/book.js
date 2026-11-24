@@ -32,7 +32,7 @@
     { part: 'Part 5 · Building It on the Console — grandMA3' },
     { id: 'ch23', n: '23', t: 'How the Console Works', s: 'From the values you enter to the stage', file: 'ch23.html', ko: KO + '/73' },
     { id: 'ch24', n: '24', t: 'Patch, Groups and Presets', s: 'Moving the rig into the console', file: 'ch24.html', ko: KO + '/74' },
-    { id: 'ch25', n: '25', t: 'Phaser Basics', s: 'Five settings of a moving effect' },
+    { id: 'ch25', n: '25', t: 'Phaser Basics', s: 'Five settings of a moving effect', file: 'ch25.html', ko: KO + '/75' },
     { id: 'ch26', n: '26', t: 'MAtricks and Recipes', s: 'One phaser, many shapes' },
     { id: 'ch27', n: '27', t: 'Programming a Song into Cues', s: 'Song pages and layer sequences' },
     { id: 'ch28', n: '28', t: 'Tempo and Timecode', s: 'Locking to the speed and time of the song' },
