@@ -16,7 +16,7 @@
     { id: 'ch9', n: '9', t: 'Looks and the Main Light', s: 'What makes up a scene', file: 'ch9.html', ko: KO + '/59' },
     { id: 'ch10', n: '10', t: 'Contrast and Restraint', s: 'Saving intensity and using darkness', file: 'ch10.html', ko: KO + '/60' },
     { part: 'Part 3 · Directing the Song' },
-    { id: 'ch11', n: '11', t: 'Principles of Placement', s: 'How fast intensity, direction and color change' },
+    { id: 'ch11', n: '11', t: 'Principles of Placement', s: 'How fast intensity, direction and color change', file: 'ch11.html', ko: KO + '/61' },
     { id: 'ch12', n: '12', t: 'Lighting Each Section', s: 'How the light changes from intro to chorus' },
     { id: 'ch13', n: '13', t: 'Building Layers', s: 'Splitting the light by instrument' },
     { id: 'ch14', n: '14', t: 'Transitions', s: 'Connecting one scene to the next' },

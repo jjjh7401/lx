@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Beat Grid</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 재생 막대(클릭·내 음원), 가운데 역할 × 칸 격자(가로 스크롤), 아래 칸 편집과 점검 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:74ch}
+.player{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.player .pos{font-family:var(--f-num);font-size:20px;color:var(--ink);min-width:7.5em}
+.player .fn{font-size:12.5px;color:var(--muted)}
+.gwrap{overflow-x:auto;margin-top:12px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table.grid{border-collapse:separate;border-spacing:0;min-width:100%}
+table.grid th,table.grid td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:0;vertical-align:top;font-size:12.5px}
+table.grid th.rl{position:sticky;left:0;z-index:2;background:var(--panel);min-width:104px;padding:8px 10px;text-align:left;color:var(--ink)}
+table.grid th.rl small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+table.grid thead th{padding:6px 6px;text-align:left;background:var(--panel2);font-weight:600;color:var(--muted);white-space:nowrap}
+table.grid thead th b{display:block;color:var(--ink);font-size:12.5px}
+table.grid thead th.now,table.grid td.now{box-shadow:inset 0 3px 0 var(--accent)}
+.cell{display:block;width:100%;min-width:120px;min-height:58px;padding:6px 7px;text-align:left;border:0;border-radius:0;background:transparent;color:var(--body);font-size:12.5px;line-height:1.45;cursor:pointer}
+.cell:hover{background:var(--panel2)}
+.cell.sel{outline:2px solid var(--accent);outline-offset:-2px}
+.cell .st{color:var(--warn);font-weight:700;margin-right:3px}
+.cell .ly{display:inline-block;font-family:var(--f-num);font-size:12px;border:1px solid var(--sec);color:var(--sec);border-radius:4px;padding:0 4px;margin-right:4px}
+tr.cnt td{padding:5px 7px;font-family:var(--f-num);font-size:12px;color:var(--muted)}
+tr.cnt td.w{color:var(--bad);font-weight:700}
+.bottom{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:16px;align-items:start}
+@media (max-width:860px){.bottom{grid-template-columns:1fr}}
+.ed{display:grid;gap:10px}
+.ed .tg{display:flex;gap:16px;flex-wrap:wrap;font-size:14px}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+.checks b{color:var(--ink)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Beat Grid</h1>
+    <p>The board for the Chapter 11 practice. Rows are roles, and cells are pieces of a section about four bars long. Press a cell to write what that role does there, and mark whether it rides the rhythm (♪) and whether it is that cell’s solo (★, the group that steps forward for four bars within the main group). Put no solo in a verse where the key is the main. When you play, the current cell is marked in time with the click.</p>
+  </div>
+  <section class="panel">
+    <div class="player">
+      <button type="button" class="primary" id="play" aria-pressed="false">Play</button>
+      <button type="button" id="stop">Back to start</button>
+      <span class="pos" id="pos" aria-live="off">Bar 1 beat 1</span>
+      <label class="row" style="gap:6px;align-items:center;font-size:13.5px"><input type="checkbox" id="click" checked> Click sound</label>
+      <button type="button" id="open">Open my audio</button>
+      <input type="file" id="file" accept="audio/*,.mp3,.wav,.m4a,.aac,.flac,.ogg" hidden>
+      <span class="fn" id="fname">Playing the click only, no audio file</span>
+      <label class="f" style="margin-left:auto">View<select id="range"><option value="25">First 25 bars</option><option value="all">Whole song</option></select></label>
+    </div>
+    <p class="privacy" style="margin:10px 0 0">Audio plays inside this browser only and is not saved. Only the text you write in the grid stays in the song notes.</p>
+  </section>
+  <div class="gwrap"><table class="grid" id="grid"></table></div>
+  <div class="bottom">
+    <section class="panel ed">
+      <h2 id="edT">Edit a cell</h2>
+      <p class="note" id="edHint" style="margin:0">Press one cell in the grid.</p>
+      <div id="edBox" hidden>
+        <label class="f" for="edTxt">What happens in this cell<textarea id="edTxt" placeholder="e.g. Low bass on every beat, fan wave with a 2-beat cycle"></textarea></label>
+        <div class="tg" style="margin-top:8px">
+          <label><input type="checkbox" id="edLay"> ♪ Rides the rhythm (pulse, chase or moving; count merged movers as one)</label>
+          <label><input type="checkbox" id="edStar"> ★ Solo of this cell</label>
+        </div>
+      </div>
+      <h3 style="margin-top:10px">Split into cells</h3>
+      <label class="f" for="cuts">Bars where cells start (comma-separated)<input id="cuts"></label>
+      <div class="row"><button type="button" id="cutsGo">Split again</button><button type="button" id="cutsAuto" class="ghost">Four bars per section</button><button type="button" id="copy" class="ghost">Copy grid</button></div>
+      <p class="note" id="msg"></p>
+    </section>
+    <section class="panel"><h2 style="margin-bottom:10px">Checks</h2><ul class="checks" id="checks"></ul></section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('grid.html'), D = L.design(S), G = D.grid, ROWS = L.GRID_ROWS;
+  var $ = function (id) { return document.getElementById(id); };
+  var N = L.nbars(S), sel = null;
+  function save() { L.put(S); }
+  function autoCuts() {
+    var c = [];
+    L.sections(S).forEach(function (x) { for (var b = x.start; b <= x.end; b += 4) c.push(b); });
+    if (!c.length) for (var b = 1; b <= N; b += 4) c.push(b);
+    return c;
+  }
+  if (!G.cuts || !G.cuts.length) G.cuts = autoCuts();
+  function cols() {
+    var lim = $('range').value === 'all' ? N : Math.min(N, 25);
+    var cs = G.cuts.slice().sort(function (a, b) { return a - b; }).filter(function (b) { return b >= 1 && b <= N; });
+    return cs.map(function (b, i) { var e = (i + 1 < cs.length ? cs[i + 1] - 1 : N); return { start: b, end: e }; }).filter(function (c) { return c.start <= lim; })
+      .map(function (c) { c.end = Math.min(c.end, $('range').value === 'all' ? N : Math.max(c.end, c.start)); return c; });
+  }
+  function cell(r, b) { return G.cells[r + '|' + b] || null; }
+  function layerCount(b) { var n = 0; ROWS.forEach(function (r) { var c = cell(r[0], b); if (r[2] && c && c.lay) n++; }); return n; }
+  function render() {
+    var cs = cols(), h = '<thead><tr><th class="rl">Role</th>';
+    cs.forEach(function (c) { var sec = L.sectionAt(S, c.start); h += '<th data-b="' + c.start + '"><b>' + (c.end > c.start ? 'Bars ' + c.start + '–' + c.end : 'Bar ' + c.start) + '</b>' + (sec ? L.esc(sec.m.name) : '') + '</th>'; });
+    h += '</tr></thead><tbody>';
+    ROWS.forEach(function (r) {
+      h += '<tr><th class="rl">' + r[1] + (r[2] ? '<small>rhythm layer candidate</small>' : '') + '</th>';
+      cs.forEach(function (c) {
+        var v = cell(r[0], c.start) || {}, on = sel && sel.r === r[0] && sel.b === c.start;
+        h += '<td data-b="' + c.start + '"><button type="button" class="cell' + (on ? ' sel' : '') + '" data-r="' + r[0] + '" data-b="' + c.start + '" aria-label="' + r[1] + '  bar ' + c.start + '">' +
+          (v.star ? '<span class="st">★</span>' : '') + (v.lay ? '<span class="ly">♪</span>' : '') + L.esc(v.txt || '') + '</button></td>';
+      });
+      h += '</tr>';
+    });
+    h += '<tr class="cnt"><th class="rl">Rhythm layers</th>' + cs.map(function (c) { var n = layerCount(c.start); return '<td data-b="' + c.start + '" class="' + (n >= 3 ? 'w' : '') + '">' + n + '</td>'; }).join('') + '</tr></tbody>';
+    $('grid').innerHTML = h; $('cuts').value = G.cuts.join(', ');
+    checks(); markNow(curBar);
+  }
+  function checks() {
+    var out = [], cs = G.cuts.slice().sort(function (a, b) { return a - b; }).map(function (b, i, a) { return { start: b, end: i + 1 < a.length ? a[i + 1] - 1 : N }; });
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: 'Check', i: 'Note', ok: 'Good' }[lv] + '</span>' + h + '</li>'); }
+    var three = cs.filter(function (c) { return layerCount(c.start) >= 3; });
+    if (three.length) {
+      var runs = [], prev = null;
+      three.forEach(function (c) { if (prev && prev.end + 1 === c.start) runs[runs.length - 1].end = c.end; else runs.push({ start: c.start, end: c.end }); prev = c; });
+      if (runs.length > 1) add('w', 'Three or more rhythm layers appear in ' + runs.length + ' places (bars ' + runs.map(function (r) { return r.start + '–' + r.end; }).join(', ') + '). Keep three for one peak of the song only (Chapter 11).');
+      else add('i', 'Three rhythm layers appear in one place only, <b>bars ' + runs[0].start + '–' + runs[0].end + '</b>. Check that it is the peak of the song.');
+      three.forEach(function (c) { if (layerCount(c.start) >= 4) add('w', 'The cell at <b>bar ' + c.start + '</b> has ' + layerCount(c.start) + ' rhythm layers. The audience cannot follow them.'); });
+    }
+    var run = null;
+    cs.forEach(function (c) {
+      var sec = L.sectionAt(S, c.start), stars = ROWS.filter(function (r) { var v = cell(r[0], c.start); return v && v.star; });
+      if (stars.length > 1) add('w', 'The cell at <b>bar ' + c.start + '</b> has ' + stars.length + ' ★ (' + stars.map(function (r) { return r[1]; }).join(', ') + '). Pick only one solo.');
+      var who = stars.length === 1 ? stars[0][0] : null;
+      var lk = sec ? (D.looks[sec.m.id] || {}) : {};
+      if (!stars.length && layerCount(c.start) > 0 && lk.hero !== 'Key') add('i', 'The cell at <b>bar ' + c.start + '</b> has no ★. Mark one solo to step forward within the main group.');
+      if (stars.length && lk.hero === 'Key') add('w', '<b>Bar ' + c.start + '</b> is in a section where the key is the main. A solo while the singer sings pulls the eye off the singing (Chapter 11).');
+      if (who && run && run.who === who) { run.end = c.end; } else { run = who ? { who: who, start: c.start, end: c.end } : null; }
+      if (run && run.end - run.start + 1 > 8 && !run.warned) { run.warned = 1; add('w', 'The same solo (' + ROWS.filter(function (r) { return r[0] === run.who; })[0][1] + ') runs past 8 bars from <b>bar ' + run.start + '</b>. Hand it to another group in the main group for four bars (Chapter 11).'); }
+      var u = cell('up', c.start), d = cell('down', c.start);
+      if (u && d && u.txt && d.txt && u.txt.trim() === d.txt.trim() && !/static|still|fixed|hold|off/i.test(u.txt) && !(sec && /^Pre/i.test(sec.m.name)))
+        add('w', 'At <b>bar ' + c.start + '</b> the upper and lower movers do the same movement. Unless it is a pre-chorus, hold one still or answer on a different axis (call and response).');
+      ROWS.forEach(function (r) { var v = cell(r[0], c.start); if (v && /every beat/i.test(v.txt || '') && /position/i.test(v.txt || '')) add('w', '<b>Bar ' + c.start + ' ' + r[1] + '</b>: if position changes on every beat, the movers nod in place. Change position on the first beat of the bar (Chapter 11).'); });
+    });
+    var big = cs.filter(function (c) { return c.end - c.start + 1 > 8; });
+    if (big.length) add('i', 'Some cells are longer than 8 bars (' + big.map(function (c) { return c.start + '–' + c.end; }).join(', ') + '). Split the cells further to see the four-bar rotation.');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; })) add('ok', 'Nothing caught in rhythm layers, solo rotation or upper/lower movers. Copy the grid and move it to the cue sheet (Web tool 14).');
+    $('checks').innerHTML = out.join('');
+  }
+  // 편집
+  $('grid').addEventListener('click', function (e) {
+    var b = e.target.closest('.cell'); if (!b) return;
+    sel = { r: b.dataset.r, b: +b.dataset.b }; var v = cell(sel.r, sel.b) || {}, rr = ROWS.filter(function (r) { return r[0] === sel.r; })[0];
+    $('edT').textContent = rr[1] + ' · bar ' + sel.b + ' cell'; $('edHint').hidden = true; $('edBox').hidden = false;
+    $('edTxt').value = v.txt || ''; $('edLay').checked = !!v.lay; $('edLay').disabled = !rr[2]; $('edStar').checked = !!v.star;
+    render(); $('edTxt').focus();
+  });
+  function upd() {
+    if (!sel) return; var k = sel.r + '|' + sel.b, v = G.cells[k] || (G.cells[k] = {});
+    v.txt = $('edTxt').value; v.lay = $('edLay').checked && !$('edLay').disabled;
+    if ($('edStar').checked && !v.star) ROWS.forEach(function (r) { var o = cell(r[0], sel.b); if (o) o.star = false; });
+    v.star = $('edStar').checked;
+    if (!v.txt && !v.lay && !v.star) delete G.cells[k];
+    save(); render();
+  }
+  $('edTxt').addEventListener('change', upd); $('edLay').addEventListener('change', upd); $('edStar').addEventListener('change', upd);
+  $('cutsGo').addEventListener('click', function () {
+    var c = $('cuts').value.split(/[,\s]+/).map(function (x) { return parseInt(x, 10); }).filter(function (x) { return x >= 1 && x <= N; });
+    c = c.filter(function (x, i) { return c.indexOf(x) === i; }).sort(function (a, b) { return a - b; });
+    if (c[0] !== 1) c.unshift(1);
+    G.cuts = c; save(); $('msg').textContent = 'Split into ' + c.length + ' cells. Text in cells that start on the same bar is kept.'; render();
+  });
+  $('cutsAuto').addEventListener('click', function () { G.cuts = autoCuts(); save(); $('msg').textContent = 'Split every section into four-bar cells.'; render(); });
+  $('range').addEventListener('change', render);
+  $('copy').addEventListener('click', function () {
+    var cs = cols(), lines = [['Role'].concat(cs.map(function (c) { return c.start + '–' + c.end; })).join('\t')];
+    ROWS.forEach(function (r) { lines.push([r[1]].concat(cs.map(function (c) { var v = cell(r[0], c.start) || {}; return (v.star ? '★' : '') + (v.lay ? '♪' : '') + (v.txt || ''); })).join('\t')); });
+    lines.push(['Rhythm layers'].concat(cs.map(function (c) { return layerCount(c.start); })).join('\t'));
+    var txt = (S.title || '') + ' beat grid\n' + lines.join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? 'Grid copied. Paste it into a spreadsheet and the cells will split.' : 'Copying is blocked here.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  // 재생: 클릭과 내 음원
+  var ctx = null, buf = null, src = null, playing = false, t0ctx = 0, offs = 0, raf = 0, nextBeat = 0, curBar = 0;
+  function ac() { if (!ctx) { try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { ctx = null; } } return ctx; }
+  function now() { return playing ? offs + (ctx.currentTime - t0ctx) : offs; }
+  function blip(at, down) {
+    if (!$('click').checked) return;
+    var o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.value = down ? 1560 : 1040;
+    g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(down ? 0.5 : 0.25, at + 0.002); g.gain.exponentialRampToValueAtTime(0.0001, at + 0.06);
+    o.connect(g); g.connect(ctx.destination); o.start(at); o.stop(at + 0.08);
+  }
+  function markNow(bar) {
+    var tg = null; G.cuts.slice().sort(function (a, b) { return a - b; }).forEach(function (b) { if (b <= bar) tg = b; });
+    Array.prototype.forEach.call(document.querySelectorAll('#grid .now'), function (el) { el.classList.remove('now'); });
+    if (bar >= 1 && tg) Array.prototype.forEach.call(document.querySelectorAll('#grid [data-b="' + tg + '"]'), function (el) { if (el.tagName !== 'BUTTON') el.classList.add('now'); });
+  }
+  function tick() {
+    var t = now(), bl = L.beatLen(S), lead = 0.12;
+    while (nextBeat * bl + (+S.t0 || 0) < t + lead) {
+      var bt = nextBeat * bl + (+S.t0 || 0);
+      if (bt >= t - 0.02) blip(t0ctx + (bt - offs), nextBeat % (+S.bpb || 4) === 0);
+      nextBeat++;
+    }
+    var p = L.posOf(S, t);
+    if (t < (+S.t0 || 0)) $('pos').textContent = 'Before start ' + L.fmt(t);
+    else { $('pos').textContent = 'Bar ' + p.bar + ' beat ' + p.beat; if (p.bar !== curBar) { curBar = p.bar; markNow(curBar); } }
+    if (p.bar > N + 1 && !buf) { stop(); return; }
+    raf = requestAnimationFrame(tick);
+  }
+  function start() {
+    if (!ac()) { $('fname').textContent = 'This browser does not support audio playback.'; return; }
+    if (ctx.state === 'suspended') ctx.resume();
+    playing = true; t0ctx = ctx.currentTime + 0.05;
+    nextBeat = Math.max(0, Math.ceil((offs - (+S.t0 || 0)) / L.beatLen(S)));
+    if (buf) { src = ctx.createBufferSource(); src.buffer = buf; src.connect(ctx.destination); src.start(t0ctx, Math.max(0, offs)); src.onended = function () { if (playing) stop(); }; }
+    $('play').textContent = 'Pause'; $('play').setAttribute('aria-pressed', 'true'); raf = requestAnimationFrame(tick);
+  }
+  function pause() { if (!playing) return; offs = now(); playing = false; if (src) { try { src.stop(); } catch (e) {} src = null; } cancelAnimationFrame(raf); $('play').textContent = 'Play'; $('play').setAttribute('aria-pressed', 'false'); }
+  function stop() { pause(); offs = 0; curBar = 0; $('pos').textContent = 'Bar 1 beat 1'; markNow(0); }
+  $('play').addEventListener('click', function () { playing ? pause() : start(); });
+  $('stop').addEventListener('click', stop);
+  $('open').addEventListener('click', function () { $('file').click(); });
+  $('file').addEventListener('change', function (e) {
+    var f = e.target.files[0]; e.target.value = ''; if (!f || !ac()) return;
+    $('fname').textContent = 'Opening…';
+    var rd = new FileReader();
+    rd.onload = function () { ctx.decodeAudioData(rd.result.slice(0), function (b) { stop(); buf = b; $('fname').textContent = f.name + ' · ' + L.fmt(b.duration) + ' · synced to the song note’s BPM ' + S.bpm + ' and first downbeat at ' + S.t0 + ' s'; }, function () { $('fname').textContent = 'This file cannot be opened. Try mp3, wav or m4a.'; }); };
+    rd.readAsArrayBuffer(f);
+  });
+  document.addEventListener('keydown', function (e) { if (e.code === 'Space' && !/INPUT|TEXTAREA|SELECT|BUTTON/.test(e.target.tagName)) { e.preventDefault(); playing ? pause() : start(); } });
+  if (S.sample) $('range').value = '25';
+  save(); render();
+})();
+</script>
+</body>
+</html>
