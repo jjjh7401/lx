@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Look Sheet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위에 구간별 룩 시트(표), 아래 왼쪽 메인 흐름 띠, 오른쪽 점검 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:70ch}
+.sheet td{vertical-align:top}
+.sheet td input,.sheet td select{width:100%;min-width:7em}
+.sheet td.sec b{color:var(--ink);white-space:nowrap}
+.sheet td.sec span{display:block;font-size:12px;color:var(--muted);font-family:var(--f-num)}
+.two{display:flex;gap:3px}
+.two i{width:22px;height:22px;border-radius:4px;border:1px solid var(--line);display:block}
+.two em{font-style:normal;font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start;margin-top:16px}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.heroband{display:flex;gap:2px;overflow-x:auto}
+.heroband div{min-width:56px;padding:8px 6px;border-radius:6px;font-size:12px;color:#fff;display:grid;gap:2px}
+.heroband div b{font-size:13px}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+.checks b{color:var(--ink)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Look Sheet</h1>
+    <p>A board for the Chapter 9 exercise. For each section of the Song Map, write a look name, one main role, a position (position preset), an effect and an in time. The two colors are shown exactly as you picked them in the Palette (Web tool 8).</p>
+  </div>
+  <section class="panel">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>Sheet</h2><button type="button" id="copy">Copy sheet</button></div>
+    <p class="note" id="msg"></p>
+    <div class="tbl"><table class="sheet" id="sheet"></table></div>
+  </section>
+  <div class="grid">
+    <section class="panel"><h2 style="margin-bottom:10px">Main flow</h2><div class="heroband" id="band"></div>
+      <p class="note" style="margin:10px 0 0">When the same color runs for more than three cells in a row, the whole song reads as one picture. Key is exempt from the main rule, so a section where the key is the main is one where the song is the center.</p></section>
+    <section class="panel"><h2 style="margin-bottom:10px">Checks</h2><ul class="checks" id="checks"></ul></section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('looks.html'), D = L.design(S), LK = D.looks, P = D.pal;
+  var $ = function (id) { return document.getElementById(id); };
+  var ENTRY = ['Snap on beat 1', '1-beat fade', '2-beat fade', '4-beat fade', '1-bar fade', 'Hit after the break', '2-bar fade', '3-bar fade'];
+  var HC = { 'Key': '#5f8f6a', 'Fill': '#7aa384', 'Back': '#4f7f8f', 'Side': '#3f8f6f', 'Top': '#6f9f5f', 'Wash': '#3b6ea8', 'Pixel': '#5a5ec8', 'Beam': '#c9862a', 'FX': '#c8553d', 'Audience': '#a8693b' };
+  function save() { L.put(S); }
+  function secs() { return L.sections(S); }
+  function cbyId(id) { for (var i = 0; i < P.colors.length; i++) if (P.colors[i].id === id) return P.colors[i]; }
+  function opt(list, v, empty) { return (empty ? '<option value="">' + empty + '</option>' : '') + list.map(function (x) { return '<option' + (x === v ? ' selected' : '') + '>' + x + '</option>'; }).join(''); }
+  function render() {
+    var list = secs();
+    if (!list.length) { $('sheet').innerHTML = '<tr><td class="note">No sections yet. Write the sections in Listening Notes first.</td></tr>'; $('band').innerHTML = ''; $('checks').innerHTML = ''; return; }
+    $('sheet').innerHTML = '<tr><th>Section</th><th>Energy</th><th>Look name</th><th>Main</th><th>Two colors</th><th>Position</th><th>Effect</th><th>In time</th></tr>' + list.map(function (x) {
+      var r = LK[x.m.id] || {}, cols = (P.flow[x.m.id] || []).map(cbyId).filter(Boolean), id = x.m.id;
+      return '<tr><td class="sec"><b>' + L.esc(x.m.name) + '</b><span>bars ' + x.start + '–' + x.end + '</span></td><td class="num">' + (S.energy[id] || 3) + '</td>' +
+        '<td><input data-id="' + id + '" data-k="name" value="' + L.esc(r.name || '') + '" placeholder="A name that brings a picture to mind" aria-label="' + L.esc(x.m.name) + ' Look name"></td>' +
+        '<td><select data-id="' + id + '" data-k="hero" aria-label="Main">' + opt(L.ROLES, r.hero, 'Pick') + '</select></td>' +
+        '<td><div class="two">' + (cols.length ? cols.map(function (c) { return '<i title="' + L.esc(c.name) + '" style="background:' + L.hexOf(c) + '"></i>'; }).join('') : '<em>From Palette</em>') + '</div></td>' +
+        '<td><select data-id="' + id + '" data-k="pos" aria-label="Position">' + opt(['Moving'].concat(L.STILLS), r.pos, '—') + '</select></td>' +
+        '<td><input data-id="' + id + '" data-k="fx" value="' + L.esc(r.fx || '') + '" placeholder="One effect and its speed (beats)" aria-label="Effect"></td>' +
+        '<td><select data-id="' + id + '" data-k="entry" aria-label="In time">' + opt(ENTRY, r.entry, '—') + '</select></td></tr>';
+    }).join('');
+    renderBand(); checks();
+  }
+  function renderBand() {
+    $('band').innerHTML = secs().map(function (x) { var r = LK[x.m.id] || {}; return '<div style="flex:' + x.len + ' 0 56px;background:' + (HC[r.hero] || '#555b66') + '"><b>' + (r.hero || '—') + '</b><span>' + L.esc(x.m.name) + '</span></div>'; }).join('');
+  }
+  function checks() {
+    var out = [], list = secs();
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: 'Check', i: 'Note', ok: 'Good' }[lv] + '</span>' + h + '</li>'); }
+    var names = {}, run = 1;
+    list.forEach(function (x, i) {
+      var r = LK[x.m.id] || {}, cols = P.flow[x.m.id] || [];
+      if (!r.hero) add('w', '<b>' + L.esc(x.m.name) + '</b> has no main. Pick the one role that will look biggest in this scene.');
+      if (!r.name) add('i', '<b>' + L.esc(x.m.name) + '</b> has no look name.');
+      if (r.pos === 'Silhouette') add('i', '<b>' + L.esc(x.m.name) + '</b> has a silhouette, an exception where the key is lowered on purpose. If the song carries on in this section, compare keeping the key as backlight, and confirm with the director how many bars it lasts.');
+      if (cols.length > 2) add('w', '<b>' + L.esc(x.m.name) + '</b> shows ' + cols.length + ' colors at once (fix it in the Palette).');
+      if (r.name) { var fam = r.name.split(' · ')[0]; names[fam] = (names[fam] || 0) + 1; }
+      if (i > 0) {
+        var p = LK[list[i - 1].m.id] || {};
+        if (r.hero && r.hero === p.hero) run++; else run = 1;
+        if (run === 4) add('w', 'The main <b>' + r.hero + '</b> runs for four sections in a row, starting at ' + list[i - 3].m.name + '. Try changing the main of one of them.');
+        var same = r.hero && r.hero === p.hero && r.pos === p.pos && cols.slice().sort().join() === (P.flow[list[i - 1].m.id] || []).slice().sort().join();
+        if (same) add('w', '<b>' + L.esc(list[i - 1].m.name) + '</b> and <b>' + L.esc(x.m.name) + '</b> have the same main, two colors and position. The change of section doesn’t show.');
+        if (r.pos === 'Moving' && p.pos === 'Moving' && r.hero === 'Beam') add('i', 'Beams keep moving through <b>' + L.esc(x.m.name) + '</b>. Let one section stand on a position preset to show its shape.');
+      }
+    });
+    var n = Object.keys(names).length;
+    if (n > 7) add('i', 'There are ' + n + ' looks (a name that differs only after the middle dot, like “Rooftop fan · night”, counts as a variation of the same look). One signature look plus four or five section looks is a good start. Sections of the same character may reuse the same look.');
+    var ch = list.filter(function (x) { return /^Chorus/.test(x.m.name); });
+    if (ch.length > 1) { var a = LK[ch[0].m.id] || {}, b = LK[ch[1].m.id] || {}; if (a.name && b.name && a.name !== b.name && a.hero !== b.hero && a.pos !== b.pos) add('i', 'Chorus 1 and Chorus 2 are completely different looks. If you change a chorus one step at a time from the same look, the audience recognizes it as “the chorus” (Chapter 3, chorus build-up).'); }
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; })) add('ok', 'Every section has a main, and no two neighboring sections run on the same picture. Copy the sheet into the Concept Sheet.');
+    $('checks').innerHTML = out.join('');
+  }
+  function upd(e) {
+    var t = e.target; if (!t.dataset.id) return; var r = LK[t.dataset.id] || (LK[t.dataset.id] = {});
+    r[t.dataset.k] = t.value; save(); renderBand(); checks();
+  }
+  $('sheet').addEventListener('input', upd); $('sheet').addEventListener('change', upd);
+  $('copy').addEventListener('click', function () {
+    var lines = ['Section\tBars\tEnergy\tLook name\tMain\tTwo colors\tPosition\tEffect\tIn time'];
+    secs().forEach(function (x) { var r = LK[x.m.id] || {}; lines.push([x.m.name, x.start + '~' + x.end, S.energy[x.m.id] || 3, r.name || '', r.hero || '', (P.flow[x.m.id] || []).map(function (id) { var c = cbyId(id); return c ? c.name : ''; }).join(', '), r.pos || '', r.fx || '', r.entry || ''].join('\t')); });
+    var txt = (S.title || '') + ' Look Sheet\n' + lines.join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? 'Copied the sheet. Paste it into a spreadsheet and it splits into cells.' : 'Copying is blocked.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  save(); render();
+})();
+</script>
+</body>
+</html>

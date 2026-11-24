@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Brightness Plan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위에 밝기 곡선(그림), 아래 왼쪽 구간별 밝기 표, 오른쪽 어둠과 스페셜 큐, 맨 아래 점검 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:70ch}
+canvas{width:100%;height:auto;display:block;border-radius:8px;background:var(--panel2)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:5px;border-radius:2px}
+.grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:start;margin-top:16px}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.rows td input{width:4.6em}
+.rows td b{color:var(--ink)}
+.cards{display:grid;gap:6px}
+.cards label{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;font-size:13.5px;color:var(--body);padding:6px 10px;border-radius:8px;background:var(--panel2)}
+.cards input{width:5em}
+.darks{display:grid;gap:4px;margin-bottom:14px}
+.darks label{font-size:13.5px;display:flex;gap:8px;align-items:center}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+.checks b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Brightness Plan</h1>
+    <p>A board for the Chapter 10 exercise. It loads the sections and energy from the Song Map and sets, per section, the brightness of the main role and of the base (wash). The key is one value all through the song. Also write the bar where each dark cue and special cue first comes out. The percentages are console values and don’t match how bright the eye feels. Use them to set the order between sections, and check the real difference on the stage and on the monitor.</p>
+  </div>
+  <section class="panel">
+    <canvas id="cv" width="1100" height="300" aria-label="Brightness curve by section"></canvas>
+    <div class="legend"><span><i style="background:#d9902a"></i>Main</span><span><i style="background:#3b6ea8"></i>Base</span><span><i style="background:#4f8a5b"></i>Key</span><span><i style="background:#8e939c;height:8px;opacity:.4"></i>Energy (Ch. 4)</span><span>▼ Bar where a special cue first comes out · black band is darkness</span></div>
+  </section>
+  <div class="grid">
+    <section class="panel"><h2 style="margin-bottom:8px">Brightness % by section</h2>
+      <div class="row" style="margin-bottom:8px"><label class="f">Key brightness (all through the song)<input type="number" id="key" min="0" max="100" class="n"></label></div>
+      <div class="tbl"><table class="rows" id="rows"></table></div>
+      <div class="row" style="margin-top:10px"><button type="button" id="copy">Copy</button></div><p class="note" id="copyMsg"></p></section>
+    <section class="panel"><h2 style="margin-bottom:8px">Dark cues</h2>
+      <p class="note" style="margin:0 0 8px">The kick-outs (×) and breaks (○) you wrote in Listening Notes. Pick where the lights empty out too. Two or three per song is a good start.</p>
+      <div class="darks" id="darks"></div>
+      <h2 style="margin:6px 0 8px">Special cues — first bar</h2>
+      <div class="cards" id="cards"></div>
+      <p class="note" style="margin:8px 0 0">0 or blank means it isn’t used in this song.</p></section>
+  </div>
+  <section class="panel" style="margin-top:16px"><h2 style="margin-bottom:10px">Checks</h2><ul class="checks" id="checks"></ul></section>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('bright.html'), D = L.design(S), B = D.bright;
+  var $ = function (id) { return document.getElementById(id); };
+  var CARDS = [['burst', 'Moving burst'], ['reserve', 'Special color (Ch. 8)'], ['blinder', 'Blinder (audience)'], ['flash', 'White flash'], ['strobe', 'Strobe'], ['aud', 'Audience beams'], ['all', 'All roles at once']];
+  function save() { L.put(S); }
+  function secs() { return L.sections(S); }
+  function en(x) { return S.energy[x.m.id] || 3; }
+  function row(x) { return B.rows[x.m.id] || (B.rows[x.m.id] = { hero: 60, base: 40 }); }
+  function darkMarks() { return S.marks.filter(function (m) { return m.t === 'stop' || m.t === 'drop'; }).sort(L.sortMarks); }
+  function render() {
+    var list = secs();
+    $('key').value = B.key;
+    $('rows').innerHTML = '<tr><th>Section</th><th>Bars</th><th>Energy</th><th>Main</th><th>Base</th></tr>' + (list.length ? list.map(function (x) {
+      var r = row(x); return '<tr><td><b>' + L.esc(x.m.name) + '</b></td><td class="num">' + x.start + '~' + x.end + '</td><td class="num">' + en(x) + '</td>' +
+        '<td><input type="number" min="0" max="100" data-id="' + x.m.id + '" data-k="hero" value="' + r.hero + '" aria-label="' + L.esc(x.m.name) + ' Main brightness"></td>' +
+        '<td><input type="number" min="0" max="100" data-id="' + x.m.id + '" data-k="base" value="' + r.base + '" aria-label="' + L.esc(x.m.name) + ' Base brightness"></td></tr>';
+    }).join('') : '<tr><td colspan="5" class="note">No sections yet. Write the sections in Listening Notes first.</td></tr>');
+    var dm = darkMarks();
+    $('darks').innerHTML = dm.length ? dm.map(function (m) { var d = L.markDef(m.t); return '<label><input type="checkbox" data-dark="' + m.id + '"' + (B.dark[m.id] ? ' checked' : '') + '> ' + d.sym + ' ' + 'Bar ' + m.bar + (m.beat > 1 ? ' beat ' + m.beat : '') + ' · ' + d.label + (m.memo ? ' — ' + L.esc(m.memo) : '') + '</label>'; }).join('') : '<p class="note">No kick-outs or breaks are written down.</p>';
+    $('cards').innerHTML = CARDS.map(function (c) { return '<label>' + c[1] + '<input type="number" min="0" data-card="' + c[0] + '" value="' + (B.cards[c[0]] || '') + '" aria-label="' + c[1] + ' first bar"></label>'; }).join('');
+    draw(); checks();
+  }
+  function draw() {
+    var cv = $('cv'), g = cv.getContext('2d'), W = cv.width, H = cv.height, list = secs(), N = L.nbars(S);
+    var cs = getComputedStyle(document.documentElement), ink = cs.getPropertyValue('--muted').trim() || '#888';
+    g.clearRect(0, 0, W, H);
+    var x0 = 40, x1 = W - 10, y0 = 20, y1 = H - 40;
+    function X(bar) { return x0 + (bar - 1) / N * (x1 - x0); }
+    function Y(v) { return y1 - v / 100 * (y1 - y0); }
+    g.font = '12px sans-serif'; g.fillStyle = ink; g.strokeStyle = 'rgba(128,128,128,.25)';
+    [0, 50, 100].forEach(function (v) { g.beginPath(); g.moveTo(x0, Y(v)); g.lineTo(x1, Y(v)); g.stroke(); g.fillText(v, 6, Y(v) + 4); });
+    list.forEach(function (x) { var e = en(x); g.fillStyle = 'rgba(142,147,156,.22)'; g.fillRect(X(x.start), Y(e * 20), X(x.end + 1) - X(x.start) - 1, y1 - Y(e * 20)); g.fillStyle = ink; var nm = x.m.name.replace(/\(.*\)/, ''); if (g.measureText(nm).width + 6 < X(x.end + 1) - X(x.start)) g.fillText(nm, X(x.start) + 3, H - 22); });
+    darkMarks().forEach(function (m) { if (!B.dark[m.id]) return; var a = X(m.bar), b = X((m.end || m.bar) + 1); g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(a, y0, Math.max(4, b - a), y1 - y0); });
+    function line(key, col, w) { g.strokeStyle = col; g.lineWidth = w; g.beginPath(); list.forEach(function (x, i) { var v = key === 'key' ? +B.key : row(x)[key]; var a = X(x.start), b = X(x.end + 1); if (i === 0) g.moveTo(a, Y(v)); else g.lineTo(a, Y(v)); g.lineTo(b, Y(v)); }); g.stroke(); }
+    if (list.length) { line('base', '#3b6ea8', 2.5); line('key', '#4f8a5b', 2); line('hero', '#d9902a', 3); }
+    g.lineWidth = 1; g.fillStyle = '#c8553d'; g.font = '11px sans-serif';
+    var grp = {}; CARDS.forEach(function (c) { var b = +B.cards[c[0]]; if (b) (grp[b] = grp[b] || []).push(c[1].replace(/\s*\(.*\)/, '')); });
+    Object.keys(grp).sort(function (a, b) { return a - b; }).forEach(function (b, i) { var xx = X(+b); g.beginPath(); g.moveTo(xx - 6, y0 - 4); g.lineTo(xx + 6, y0 - 4); g.lineTo(xx, y0 + 8); g.fill(); g.fillText(grp[b].join('·'), Math.min(xx + 8, W - 8 - g.measureText(grp[b].join('·')).width), y0 + 6 + (i % 2) * 14); });
+  }
+  function checks() {
+    var out = [], list = secs();
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: 'Check', i: 'Note', ok: 'Good' }[lv] + '</span>' + h + '</li>'); }
+    if (!list.length) { $('checks').innerHTML = ''; return; }
+    var maxE = Math.max.apply(0, list.map(en)), peakIdx = -1;
+    list.forEach(function (x, i) { if (en(x) === maxE) peakIdx = i; });
+    var peak = list[peakIdx];
+    list.forEach(function (x, i) {
+      var r = row(x);
+      if (i < peakIdx && +r.hero >= 100) add('w', 'Before the peak (' + L.esc(peak.m.name) + '), <b>' + L.esc(x.m.name) + '</b> already uses 100%. Bring it down to 85–90% so the peak looks bigger.');
+      if (+r.base > +r.hero) add('i', '<b>' + L.esc(x.m.name) + '</b>: the base is brighter than the main. The main can get buried.');
+      if (+r.base > +B.key) add('i', '<b>' + L.esc(x.m.name) + '</b>: the base (' + r.base + '%) is brighter than the key (' + B.key + '%). The face can look darker than the background.');
+      if (i > 0) { var p = list[i - 1]; if (en(x) > en(p) && +r.hero < +row(p).hero) add('i', '<b>' + L.esc(x.m.name) + '</b>: energy rises but the main brightness falls.'); }
+    });
+    if (+row(peak).hero < 100) add('i', 'The main of the peak (' + L.esc(peak.m.name) + ') is ' + row(peak).hero + '%. Spend the 100% you held back right here.');
+    var nd = darkMarks().filter(function (m) { return B.dark[m.id]; }).length;
+    if (nd > 3) add('w', 'There are ' + nd + ' dark moments. Past two or three per song, darkness becomes a habit too.');
+    if (!nd) add('i', 'There are no dark cues. Pick a break or kick-out before a big hit and empty out the lights too.');
+    var firstCh = list.filter(function (x) { return /^Chorus/.test(x.m.name); })[0];
+    if (firstCh) {
+      var early = CARDS.filter(function (c) { var b = +B.cards[c[0]]; return b && b <= firstCh.end; });
+      if (early.length >= 3) add('w', 'Before the first chorus ends, ' + early.length + ' special cues (' + early.map(function (c) { return c[1].replace(/\s*\(.*\)/, ''); }).join(', ') + ') come out. Push one of them later.');
+    }
+    var bars = {}; CARDS.forEach(function (c) { var b = +B.cards[c[0]]; if (b) (bars[b] = bars[b] || []).push(c[1].replace(/\s*\(.*\)/, '')); });
+    Object.keys(bars).forEach(function (b) { if (bars[b].length > 1) add('w', bars[b].length + ' special cues (' + bars[b].join(', ') + ') are crowded into bar ' + b + '. Bring out only one special cue per cue (Chapter 3, chorus build-up).'); });
+    if (+B.cards.all && (+B.cards.all < peak.start || +B.cards.all > peak.end)) add('w', 'The special cue that turns on every role at once sits outside the peak section (bars ' + peak.start + '–' + peak.end + '). It is the one moment where you break the main rule on purpose, so use it inside the peak.');
+    if (+B.cards.strobe && firstCh && +B.cards.strobe < firstCh.start) add('w', 'The strobe comes out before the first chorus. Save it for a real impact.');
+    var pal = D.pal.colors.filter(function (c) { return c.role === 'reserve'; })[0];
+    if (pal && !+B.cards.reserve) add('i', 'The palette has a special color, <b>' + L.esc(pal.name) + '</b>. Write the bar where it first comes out.');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; })) add('ok', '100% is used only at the peak, and special cues are added one at a time as the song goes on. Gather it all in the Concept Sheet (Web tool 7).');
+    $('checks').innerHTML = out.join('');
+  }
+  L.copyBar($('copy'), $('copyMsg'), function () {
+    var rows = secs().map(function (x) { var r = row(x); return [x.m.name, x.start + '~' + x.end, en(x), r.hero + '%', r.base + '%', B.key + '%']; });
+    darkMarks().forEach(function (m) { if (B.dark[m.id]) rows.push(['Dark cues', m.bar + (m.beat > 1 ? '.' + m.beat : ''), '', '0%', '0%', '0%']); });
+    CARDS.forEach(function (c) { var b = +B.cards[c[0]]; if (b) rows.push(['Special cue: ' + c[1], String(b), '', '', '', '']); });
+    return { title: 'Brightness Plan · ' + (S.title || ''), head: ['Section', 'Bars', 'Energy', 'Main', 'Base', 'Key'], rows: rows };
+  });
+  $('rows').addEventListener('input', function (e) { var t = e.target; if (!t.dataset.id) return; var x = secs().filter(function (s) { return s.m.id === t.dataset.id; })[0]; row(x)[t.dataset.k] = Math.max(0, Math.min(100, +t.value || 0)); save(); draw(); checks(); });
+  $('key').addEventListener('input', function (e) { B.key = Math.max(0, Math.min(100, +e.target.value || 0)); save(); draw(); checks(); });
+  $('darks').addEventListener('change', function (e) { var t = e.target; if (!t.dataset.dark) return; B.dark[t.dataset.dark] = t.checked; save(); draw(); checks(); });
+  $('cards').addEventListener('input', function (e) { var t = e.target; if (!t.dataset.card) return; B.cards[t.dataset.card] = Math.max(0, parseInt(t.value, 10) || 0); save(); draw(); checks(); });
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  save(); render();
+})();
+</script>
+</body>
+</html>

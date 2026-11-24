@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Palette</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위에 팔레트 편집(컬러 칩 줄), 가운데 구간별 두 색 흐름(띠), 아래 왼쪽 점검, 오른쪽 픽셀 바 혼색 비교 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:70ch}
+.pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.pc{display:grid;grid-template-columns:44px 1fr;gap:6px 10px;padding:10px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);align-items:center}
+.pc .sw{width:44px;height:44px;border-radius:8px;border:1px solid var(--line);grid-row:span 2;position:relative;overflow:hidden}
+.pc .sw input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.pc input.t{width:100%;font-weight:700}
+.pc .rgb{display:flex;gap:4px;grid-column:1/-1}
+.pc .rgb label{display:grid;font-size:12px;color:var(--muted);gap:2px}
+.pc .rgb input{width:4.2em;padding:4px 5px;font-size:13px}
+.pc .rgb input[data-k=kelvin]{width:6em}
+.pc .knote{grid-column:1/-1;margin:0;font-size:12px}
+.pc .meta{display:flex;gap:6px;align-items:center}
+.pc select{font-size:12.5px;padding:3px 5px}
+.pc .x{font-size:12px;padding:3px 7px;color:var(--muted);margin-left:auto}
+.band{display:flex;gap:2px;margin:10px 0 12px}
+.band .sec{display:grid;gap:3px;min-width:0}
+.band .sec b{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.band .sec .cols{display:grid;border-radius:4px;overflow:hidden;border:1px solid var(--line);height:46px}
+.band .sec .cols i{display:block}
+.flowT .pick{display:flex;flex-wrap:wrap;gap:4px}
+.flowT .pick button{display:flex;align-items:center;gap:5px;padding:3px 8px 3px 4px;font-size:12.5px;border-radius:999px;color:var(--muted)}
+.flowT .pick button i{width:16px;height:16px;border-radius:50%;border:1px solid var(--line);display:block}
+.flowT .pick button[aria-pressed="true"]{color:var(--ink);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 16%,var(--panel2));font-weight:700}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start;margin-top:16px}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+.checks b{color:var(--ink)}
+canvas{width:100%;height:auto;display:block;border-radius:8px;background:#0d0f13}
+.mix{display:grid;gap:8px}
+.mix .row{align-items:center}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Palette</h1>
+    <p>A board for the Chapter 8 exercise. Define colors by name and RGB values (%), give each a role (Main, Secondary, Pair, One scene, Special, White, Key white), then pick the two colors that show at the same time in each section. Sections are loaded exactly as you wrote them in Listening Notes and the Song Map.</p>
+  </div>
+
+  <section class="panel">
+    <div class="row" style="justify-content:space-between;margin-bottom:10px"><h2>Palette</h2>
+      <div class="row"><button type="button" class="primary" id="addC">Add color</button><button type="button" id="copy">Copy palette</button></div></div>
+    <p class="note" id="msg"></p>
+    <div class="pal" id="pal"></div>
+  </section>
+
+  <section class="panel" style="margin-top:16px">
+    <h2>Two colors per section</h2>
+    <p class="note" style="margin:4px 0 0">Press colors in the table to pick the colors that show at the same time in that section. The first color you pick is the base color, the next is the secondary color. The key white that lights the face isn’t counted, so don’t pick it here.</p>
+    <div class="band" id="band" aria-hidden="true"></div>
+    <div class="tbl"><table class="flowT" id="flowT"></table></div>
+  </section>
+
+  <div class="grid">
+    <section class="panel"><h2 style="margin-bottom:10px">Checks</h2><ul class="checks" id="checks"></ul></section>
+    <section class="panel mix"><h2>Pixel bar color-mixing comparison</h2>
+      <p class="note" style="margin:0">Shows what happens when the colors you picked run alternately along a pixel bar, averaging the light of neighboring cells by amount of light. Top: the cells. Middle: seen up close. Bottom: seen from the back of the audience.</p>
+      <div class="row"><label class="f">Colors to run<select id="mixSel"><option value="2">First two colors in the palette</option><option value="4">First four colors in the palette</option></select></label></div>
+      <canvas id="cv" width="640" height="200" aria-label="Pixel bar color-mixing diagram"></canvas>
+      <p class="note" id="mixNote" style="margin:0"></p>
+    </section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('palette.html'), D = L.design(S), P = D.pal;
+  var $ = function (id) { return document.getElementById(id); };
+  var ROLE_ORDER = ['base', 'acc', 'pair', 'scene', 'reserve', 'white', 'key'];
+  function save() { L.put(S); }
+  function byId(id) { for (var i = 0; i < P.colors.length; i++) if (P.colors[i].id === id) return P.colors[i]; }
+  function secs() { return L.sections(S); }
+  function energy(m) { return S.energy[m.id] || 3; }
+
+  function renderPal() {
+    $('pal').innerHTML = P.colors.map(function (c) {
+      return '<div class="pc" data-id="' + c.id + '"><div class="sw" style="background:' + L.hexOf(c) + '">' + (c.role === 'key' ? '' : '<input type="color" data-k="hex" value="' + L.hexOf(c) + '" aria-label="Pick color: ' + L.esc(c.name) + '">') + '</div>' +
+        '<input class="t" data-k="name" value="' + L.esc(c.name) + '" aria-label="Color name">' +
+        '<div class="meta"><select data-k="role" aria-label="Role">' + ROLE_ORDER.map(function (r) { return '<option value="' + r + '"' + (c.role === r ? ' selected' : '') + '>' + L.PROLE[r] + '</option>'; }).join('') + '</select>' +
+        '<button type="button" class="ghost x" data-del="1" aria-label="Delete color">Delete</button></div>' +
+        (c.role === 'key' ? '<div class="rgb"><label>Color temperature K<input type="number" min="2700" max="7000" step="100" data-k="kelvin" value="' + (c.kelvin || 4200) + '"></label></div><p class="note knote">Key white isn’t mixed in RGB; it is set by color temperature. The color shown is an on-screen approximation.</p>' :
+        '<div class="rgb">' + ['r', 'g', 'b'].map(function (k, i) { return '<label>' + ['R', 'G', 'B'][i] + ' %<input type="number" min="0" max="100" data-k="' + k + '" value="' + c[k] + '"></label>'; }).join('') + '</div>') + '</div>';
+    }).join('') || '<p class="note">No colors yet. Start with "Add color" to set the main color first.</p>';
+  }
+  function renderBand() {
+    var pick = P.colors.filter(function (c) { return c.role !== 'key'; }), list = secs();
+    if (!list.length) { $('band').innerHTML = '<p class="note">No sections yet. Write the sections in Listening Notes first.</p>'; $('flowT').innerHTML = ''; return; }
+    $('band').innerHTML = list.map(function (x) {
+      var cols = (P.flow[x.m.id] || []).map(byId).filter(Boolean);
+      return '<div class="sec" style="flex:' + x.len + ' 0 18px" title="' + L.esc(x.m.name) + '"><div class="cols" style="grid-template-rows:repeat(' + Math.max(1, cols.length) + ',1fr)">' + (cols.length ? cols.map(function (c) { return '<i style="background:' + L.hexOf(c) + '"></i>'; }).join('') : '<i style="background:var(--panel2)"></i>') + '</div>' + (x.len >= 4 ? '<b>' + L.esc(x.m.name.replace(/\(.*\)/, '')) + '</b>' : '<b>&nbsp;</b>') + '</div>';
+    }).join('');
+    $('flowT').innerHTML = '<tr><th>Section</th><th>Bars</th><th>Energy</th><th>Colors to show (press to pick)</th></tr>' + list.map(function (x) {
+      var sel = P.flow[x.m.id] || [];
+      return '<tr><td><b style="color:var(--ink)">' + L.esc(x.m.name) + '</b></td><td class="num">' + x.start + '~' + x.end + '</td><td class="num">' + energy(x.m) + '</td><td><div class="pick">' +
+        pick.map(function (c) { return '<button type="button" data-sec="' + x.m.id + '" data-c="' + c.id + '" aria-pressed="' + (sel.indexOf(c.id) >= 0) + '" aria-label="' + L.esc(c.name) + ' in ' + L.esc(x.m.name) + '"><i style="background:' + L.hexOf(c) + '"></i>' + L.esc(c.name) + '</button>'; }).join('') + '</div></td></tr>';
+    }).join('');
+  }
+  function checks() {
+    var out = [];
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: 'Check', i: 'Note', ok: 'Good' }[lv] + '</span>' + h + '</li>'); }
+    var cnt = {}; ROLE_ORDER.forEach(function (r) { cnt[r] = P.colors.filter(function (c) { return c.role === r; }).length; });
+    if (cnt.base !== 1) add('w', 'There are <b>' + cnt.base + '</b> main colors. Pick one color to be the base of the whole song.');
+    if (cnt.acc < 1 || cnt.acc > 2) add('w', 'There are <b>' + cnt.acc + '</b> secondary colors. One or two is the starting point. A color that pairs with a secondary color goes under “Pair”.');
+    var core = cnt.base + cnt.acc + cnt.pair; if (core > 5) add('w', 'Main, secondary and pair colors add up to <b>' + core + '</b>. Past five, the song’s colors blur.');
+    if (cnt.reserve > 1) add('i', 'There are ' + cnt.reserve + ' special colors. One pure primary is often enough.');
+    var list = secs(), used = {}, whiteSec = 0;
+    list.forEach(function (x, i) {
+      var sel = (P.flow[x.m.id] || []).map(byId).filter(Boolean);
+      if (sel.length > 2) add('w', '<b>' + L.esc(x.m.name) + '</b> shows ' + sel.length + ' colors at once. Cut it down to two.');
+      sel.forEach(function (c) { (used[c.id] = used[c.id] || []).push(x); if (c.role === 'white') whiteSec++; if (c.role === 'key') add('w', '<b>' + L.esc(x.m.name) + '</b> contains the key white (' + L.esc(c.name) + '). Key white is the light on the face, so don’t use it as a base or an accent.'); });
+      if (i > 0) { var a = (P.flow[list[i - 1].m.id] || []).join(), b = (P.flow[x.m.id] || []).join(); if (a && a === b && list[i - 1].m.name.split(' ')[0] !== x.m.name.split(' ')[0]) add('i', '<b>' + L.esc(list[i - 1].m.name) + '</b> and <b>' + L.esc(x.m.name) + '</b> have the same main and secondary colors. The change of section doesn’t show in color.'); }
+    });
+    P.colors.forEach(function (c) {
+      var u = used[c.id] || [];
+      if (c.role === 'scene' && u.length > 1) add('w', 'The one-scene color <b>' + L.esc(c.name) + '</b> is used in ' + u.length + ' sections.');
+      if (c.role === 'reserve') {
+        if (u.length > 1) add('w', 'The special color <b>' + L.esc(c.name) + '</b> is used in ' + u.length + ' sections. Bring it out in one scene only.');
+        if (u.length && /Chorus 1|^Chorus$/.test(u[0].m.name)) add('i', 'The special color <b>' + L.esc(c.name) + '</b> comes out in the first chorus. See whether you can hold it back for later.');
+        if (u.length) add('i', 'The special color <b>' + L.esc(c.name) + '</b> first comes out at bar ' + u[0].start + ' (' + L.esc(u[0].m.name) + '). Copy it into the Chapter 10 special cues.');
+      }
+      if ((c.role === 'base' || c.role === 'acc') && !u.length) add('i', '<b>' + L.esc(c.name) + '</b> isn’t used in any section.');
+      if (c.role === 'base' || c.role === 'acc' || c.role === 'pair') { var mx = Math.max(+c.r, +c.g, +c.b), mn = Math.min(+c.r, +c.g, +c.b); if (c.role === 'base' && mx > 0 && (mx - mn) / mx > 0.9) add('i', 'The main color <b>' + L.esc(c.name) + '</b> is very highly saturated. If it will cover a wide area for a long time, bring it down toward pastel.'); }
+    });
+    if (list.length && whiteSec > list.length / 2) add('w', 'White is in ' + whiteSec + ' sections. If white is laid down like a base, the power of a hit disappears.');
+    if (!cnt.key) add('i', 'There is no key white. Write down the color temperature (K) of the white that will light the face together with the palette. If there are cameras, set it together with the white balance.');
+    if (cnt.key > 1) add('w', 'There are <b>' + cnt.key + '</b> key whites. Keep the key at one color temperature all through the song.');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; }) && P.colors.length) add('ok', 'One main color, one or two secondary colors, and two colors or fewer per section. Copy it as a table into the Concept Sheet (Web tool 7).');
+    $('checks').innerHTML = out.join('');
+  }
+  function drawMix() {
+    var n = +$('mixSel').value, cols = P.colors.filter(function (c) { return c.role !== 'key'; }).slice(0, n);
+    var cv = $('cv'), g = cv.getContext('2d'), W = cv.width, N = 32, cw = W / N;
+    g.clearRect(0, 0, W, cv.height);
+    if (cols.length < 2) { $('mixNote').textContent = 'The palette needs at least two colors.'; return; }
+    // 빛은 양으로 더해지므로 sRGB 값을 선형(빛의 양)으로 바꿔 평균한 뒤 다시 sRGB로 돌립니다.
+    function lin(v) { v /= 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }
+    function srgb(v) { v = v <= 0.0031308 ? v * 12.92 : 1.055 * Math.pow(v, 1 / 2.4) - 0.055; return Math.max(0, Math.min(255, v * 255)); }
+    var seq = []; for (var i = 0; i < N; i++) { var c = cols[Math.floor(i / 2) % cols.length], hx = L.hexOf(c); seq.push([1, 3, 5].map(function (o) { return parseInt(hx.slice(o, o + 2), 16); })); }
+    function blur(w) { var r = Math.floor(w.length / 2); return seq.map(function (_, i) { var a = [0, 0, 0], t = 0; w.forEach(function (k, j) { var q = i + j - r; if (q >= 0 && q < N) { for (var ch = 0; ch < 3; ch++) a[ch] += lin(seq[q][ch]) * k; t += k; } }); return a.map(function (v) { return srgb(v / t); }); }); }
+    var rows = [seq, blur([1, 2, 4, 2, 1]), blur([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])], y = 6;
+    rows.forEach(function (row, ri) { row.forEach(function (c, i) { g.fillStyle = 'rgb(' + c.map(Math.round).join(',') + ')'; g.fillRect(i * cw + (ri ? 0 : 1), y, cw - (ri ? 0 : 2), 56); }); y += 64; });
+    var far = rows[2], sat = far.reduce(function (s, c) { var mx = Math.max.apply(0, c), mn = Math.min.apply(0, c); return s + (mx ? (mx - mn) / mx : 0); }, 0) / N;
+    $('mixNote').textContent = cols.map(function (c) { return c.name; }).join(' · ') + ' — average saturation seen from the back of the audience about ' + Math.round(sat * 100) + '%. The more light mixes, the more saturation drains toward white. The more colors, and the farther apart neighbors sit on the color wheel, the hazier it looks.';
+  }
+  function render() { renderPal(); renderBand(); checks(); drawMix(); }
+
+  $('pal').addEventListener('input', function (e) {
+    var t = e.target, box = t.closest('.pc'); if (!box) return; var c = byId(box.dataset.id), k = t.dataset.k;
+    if (k === 'hex') { var h = t.value; c.r = Math.round(parseInt(h.slice(1, 3), 16) / 2.55); c.g = Math.round(parseInt(h.slice(3, 5), 16) / 2.55); c.b = Math.round(parseInt(h.slice(5, 7), 16) / 2.55); }
+    else if (k === 'name') c.name = t.value;
+    else if (k === 'r' || k === 'g' || k === 'b') c[k] = Math.max(0, Math.min(100, +t.value || 0));
+    else if (k === 'kelvin') { c.kelvin = Math.max(2700, Math.min(7000, +t.value || 4200)); var q = L.kelvinPct(c.kelvin); c.r = q.r; c.g = q.g; c.b = q.b; }
+    else return;
+    save(); box.querySelector('.sw').style.background = L.hexOf(c); var ci = box.querySelector('input[type=color]'); if (k !== 'hex' && ci) ci.value = L.hexOf(c);
+    if (k !== 'name' && k !== 'kelvin') { box.querySelectorAll('.rgb input').forEach(function (inp) { inp.value = c[inp.dataset.k]; }); }
+    renderBand(); checks(); drawMix();
+  });
+  $('pal').addEventListener('change', function (e) { var t = e.target; if (t.dataset.k !== 'role') return; var cc = byId(t.closest('.pc').dataset.id); cc.role = t.value; if (cc.role === 'key' && !cc.kelvin) cc.kelvin = 4200; save(); render(); });
+  $('pal').addEventListener('click', function (e) {
+    if (!e.target.dataset.del) return; var id = e.target.closest('.pc').dataset.id;
+    P.colors = P.colors.filter(function (c) { return c.id !== id; }); Object.keys(P.flow).forEach(function (k) { P.flow[k] = P.flow[k].filter(function (x) { return x !== id; }); }); save(); render();
+  });
+  $('flowT').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b || !b.dataset.sec) return; var a = P.flow[b.dataset.sec] || (P.flow[b.dataset.sec] = []), i = a.indexOf(b.dataset.c);
+    if (i >= 0) a.splice(i, 1); else a.push(b.dataset.c); save(); renderBand(); checks();
+  });
+  $('addC').addEventListener('click', function () { P.colors.push({ id: L.uid(), name: 'New color', r: 100, g: 70, b: 80, role: P.colors.some(function (c) { return c.role === 'base'; }) ? 'acc' : 'base' }); save(); render(); });
+  $('mixSel').addEventListener('change', drawMix);
+  $('copy').addEventListener('click', function () {
+    var lines = ['Name\tRole\tR %\tG %\tB %'].concat(P.colors.map(function (c) { return c.role === 'key' ? [c.name, L.PROLE[c.role], 'Color temp ' + (c.kelvin || 4200) + 'K', '', ''].join('\t') : [c.name, L.PROLE[c.role], c.r, c.g, c.b].join('\t'); }));
+    lines.push('', 'Section\tStart bar\tTwo colors');
+    secs().forEach(function (x) { lines.push(x.m.name + '\t' + x.start + '\t' + (P.flow[x.m.id] || []).map(function (id) { var c = byId(id); return c ? c.name : ''; }).join(', ')); });
+    var txt = (S.title || '') + ' Palette\n' + lines.join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? 'Copied the palette. Paste it into a spreadsheet and it splits into cells.' : 'Copying is blocked.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  save(); render();
+})();
+</script>
+</body>
+</html>

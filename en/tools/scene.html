@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Scene Viewer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 곡 지도(범위 고르기), 가운데 왼쪽 무대 미리보기(재생), 오른쪽 장면 읽기, 아래 레벨 흐름과 큐 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:78ch}
+.pick{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-bottom:10px}
+.pick select{max-width:100%}
+.pick input.n{width:5em}
+svg{display:block;width:100%;height:auto}
+#map{cursor:crosshair;touch-action:none;user-select:none}
+.grid2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;margin-top:16px;align-items:start}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}}
+.stagebox{background:#05060a;border-radius:10px;overflow:hidden}
+.ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
+.ctl input[type=range]{flex:1 1 200px;accent-color:var(--accent)}
+.pos{font-family:var(--f-num);font-size:14px;color:var(--ink);min-width:12em}
+#read h3{font-size:13px;color:var(--muted);font-weight:700;margin:14px 0 6px;letter-spacing:.02em}
+#read h3:first-of-type{margin-top:4px}
+#read ul{margin:0;padding-left:18px}
+#read li{margin:2px 0}
+.loc{font-family:var(--f-num);color:var(--ink);font-size:15px}
+.one{background:var(--panel2);border-radius:9px;padding:10px 12px;color:var(--ink);font-size:14.5px;margin-top:10px}
+.sw{display:inline-flex;align-items:center;gap:5px;margin:2px 10px 2px 0;font-size:13.5px}
+.sw i{width:16px;height:16px;border-radius:4px;border:1px solid var(--line);display:inline-block}
+.lg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);margin-top:6px}
+.lg span::before{content:"";display:inline-block;width:18px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;background:var(--c)}
+table.cq td,table.cq th{padding:5px 8px;font-size:13.5px;vertical-align:top}
+table.cq tr.on td{background:color-mix(in srgb,var(--accent) 14%,transparent)}
+.audio{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+body.card .top,body.card .wrap{display:none}
+body.card{background:#ffffff}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Scene Viewer</h1>
+    <p>See in pictures the scenes the book describes in bars, like “bars 82–83”. Pick a section on the Song Map or drag out a range, and you can play back what happens in the music and how the stage lighting moves in that stretch. A song other than the practice song works the same way, as long as you have filled in its Song Map, Palette, Look Sheet and Brightness Plan. <b>The stage picture is based on the practice stage (Chapter 22)</b>, so it may differ from the fixture layout at your venue.</p>
+  </div>
+  <section class="panel">
+    <div class="pick">
+      <label class="f">Pick a scene<select id="preset" aria-label="Pick a scene"></select></label>
+      <label class="f">Start bar<input type="number" class="n" id="ba" min="1"></label>
+      <label class="f">End bar<input type="number" class="n" id="bb" min="1"></label>
+      <span class="note">Dragging on the Song Map also changes the range.</span>
+    </div>
+    <svg id="map" viewBox="0 0 1000 150" role="img" aria-label="Song Map"></svg>
+  </section>
+  <div class="grid2">
+    <section class="panel">
+      <div class="stagebox"><svg id="stage" viewBox="0 0 960 440" role="img" aria-label="Stage preview"></svg></div>
+      <div class="ctl">
+        <button type="button" class="primary" id="play">▶ Play</button>
+        <input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Position">
+        <span class="pos" id="pos"></span>
+      </div>
+      <div class="ctl">
+        <label style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" id="loop" checked> Loop range</label>
+        <label class="f">Speed<select id="rate"><option value="1">1×</option><option value="0.5">0.5×</option><option value="0.25">0.25×</option></select></label>
+      </div>
+      <div class="audio">
+        <label class="f">Listen along with my track<input type="file" id="aud" accept="audio/*"></label>
+        <span class="note">The track plays only inside this browser and is not saved anywhere. For the practice song, load a file of your own.</span>
+      </div>
+      <p class="note" style="margin:8px 0 0">The stage is the Chapter 6 practice rig (96 fixtures) seen from the front. Brightness, color and beam direction are a schematic drawn from this song’s Look Sheet, Brightness Plan, Beat Grid and Cue Sheet; they don’t equal the brightness of real fixtures.</p>
+    </section>
+    <section class="panel"><h2 style="margin-bottom:6px">Reading this scene</h2><div id="read"></div></section>
+  </div>
+  <section class="panel" style="margin-top:16px">
+    <h2 style="margin-bottom:6px">Level flow</h2>
+    <svg id="lv" viewBox="0 0 1000 230" role="img" aria-label="Level flow"></svg>
+    <div class="lg"><span style="--c:#f29a4e">Main role</span><span style="--c:#8fb4e8">Base (wash)</span><span style="--c:#fff1d6">Key (outside the song’s cues, run separately)</span><span style="--c:#6b7280">Dark cell = dark cue</span></div>
+  </section>
+  <section class="panel" style="margin-top:16px">
+    <h2 style="margin-bottom:6px">Cues in this range</h2>
+    <div class="tbl"><table class="cq" id="cq"></table></div>
+  </section>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX;
+  var CARD = /card/.test(location.hash);
+  if (CARD) document.body.classList.add('card');
+  L.top('scene.html');
+  var $ = function (id) { return document.getElementById(id); };
+  var S = L.song(), D = L.design(S), BPB = +S.bpb || 4, N = L.nbars(S), SECS = L.sections(S), BL = L.beatLen(S);
+  var PAL = {}; (D.pal.colors || []).forEach(function (c) { PAL[c.id] = c; });
+  var NAMES = (D.pal.colors || []).filter(function (c) { return c.role !== 'key'; }).map(function (c) { return { name: c.name, hex: L.hexOf(c) }; });
+  var WARM = '#fff1d6', WHITE = '#ffffff';
+  function P(bar, beat) { return (bar - 1) * BPB + ((beat || 1) - 1); }
+  function tOf(p) { return L.timeOf(S, 1, 1) + p * BL; }
+  function bb(p) { var b = Math.floor(p / BPB) + 1, t = Math.floor(p - (b - 1) * BPB + 1e-6) + 1; return { bar: b, beat: t }; }
+  function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
+  function esc(s) { return L.esc(s == null ? '' : String(s)); }
+
+  // ── 실습 곡의 큐 시트(16장 표 16-4). 큐 시트 도구를 열기 전에도 장면을 그릴 수 있게 같은 값을 둔다 ──
+  function sampleCues() {
+    return [['1', 'Intro · Pearl heart', 1, 1, 'Snap', 'Pearl heart, pixels, 50%, wash 30%', ''], ['1.1', 'Intro · Back pulse', 3, 1, '0 beats', 'Same', 'Back: low bass on, beat 1 of each bar'], ['1.2', 'Intro · Beam one step', 5, 1, '1 beat', 'Lower movers up one step', 'Same'],
+      ['10', 'Verse 1 · Garden sunlight', 7, 1, '2-beat fade', 'Garden sunlight (main key), 50%, downlight', 'Side hi-hat on, lower movers tilt wave'], ['10.1', 'Verse 1 · Lilac tint', 11, 1, '3-bar fade', 'Wash toward lilac', 'Lower movers stop, upper movers slow pan'],
+      ['20', 'Pre 1 · Balloon sky', 14, 1, 'Snap', 'Balloon sky, side main, 70%, wall, base from 25%', 'Side speeds up, upper and lower movers sweep together'], ['29', 'Dark cue', 17, 3, '0 beats', 'Bass only; meanwhile fan position and aqua', 'All layers off'],
+      ['30', 'Chorus 1 · Brightness hit', 18, 1, 'Snap', 'Rooftop fan, beam main, 80%, aqua base 60%', 'Back low bass on, pixel clap on'], ['30.1', 'Chorus 1 · Upper movers', 22, 1, '0 beats', 'Same', 'Pixel clap off, upper movers fan wave'],
+      ['30.2', 'Chorus 1 · Pixel', 26, 1, '0 beats', 'Same', 'Upper movers stop, pixel clap on'], ['30.3', 'Chorus 1 · Upper movers', 30, 1, '0 beats', 'Same', 'Pixel clap off, upper movers fan wave'], ['39', 'Kick-out', 33, 1, 'Freeze', 'Bass only; meanwhile downlight', 'All layers off'],
+      ['40', 'Verse 2 · Garden sunlight', 34, 1, '2-beat fade', 'Copy of 10, 60%', 'Side hi-hat, floor beams kick on beat 1 of each bar'], ['50', 'Pre 2 · Bass only', 42, 1, 'Snap', 'Copy of 20, 75%, bass only in bars 42–43', 'Side off'],
+      ['50.1', 'Pre 2 · Build', 44, 1, '0 beats', 'Raise every bar', 'Side speeds up, upper and lower movers sweep together'], ['59', 'Dark cue', 45, 4, '0 beats', 'Bass only; meanwhile aqua', 'All layers off'],
+      ['60', 'Chorus 2 · Mover burst', 46, 1, 'Snap, move 1–1.5 beats', 'Copy of 30, 90%, mover burst', 'Back low bass, pixel clap'], ['60.1', 'Chorus 2 · Red heart', 47, 1, '0 beats', 'Pixels only, red heart (special color)', 'Pixel clap pauses briefly'],
+      ['60.2', 'Chorus 2 · Main look', 49, 1, '0 beats', 'Pixels return to two colors', 'Pixel clap on'], ['60.3', 'Chorus 2 · Upper movers', 50, 1, '0 beats', 'Same', 'Pixel clap off, upper movers fan wave'],
+      ['60.4', 'Chorus 2 · Pixel', 54, 1, '0 beats', 'Same', 'Upper movers stop, pixel clap on'], ['60.5', 'Chorus 2 · Upper movers', 58, 1, '0 beats', 'Same', 'Pixel clap off, upper movers fan wave'],
+      ['69', 'Kick-out', 61, 1, 'Freeze', 'Bass only; meanwhile sky beam', 'All layers off'], ['70', 'Bridge · Lilac backlight', 62, 1, '1-bar fade', 'Lilac backlight, back main, 45%', ''],
+      ['75', 'Beat section · Cross beams', 63, 1, 'Snap', 'Cross beams, 85%', 'Back low bass, lower movers cross sweep'], ['79', 'Break', 67, 1, '0 beats', 'Bass only; meanwhile fan, aqua and lilac', 'All layers off'],
+      ['80', 'Chorus 3 · White flash', 67, 4, 'Snap', 'All lights white, once', ''], ['80.1', 'Chorus 3 · Rooftop fan · night', 68, 1, 'White sinks over 2 beats', 'Rooftop fan · night, 100%, base 75%', 'Back low bass, floor beams kick, pixel clap'],
+      ['80.2', 'Chorus 3 · All roles', 78, 1, '0 beats', 'All roles on', 'Same'], ['90', 'End · Pearl heart · night', 82, 1, '2-bar fade', 'Pearl heart · night, lilac, 40% down to 0', 'All layers off']
+    ].map(function (r) { return { no: r[0], name: r[1], bar: r[2], beat: r[3], entry: r[4], scene: r[5], layers: r[6] }; });
+  }
+  // 책에 나오는 실습 곡의 장면(장면 카드와 같은 목록)
+  var BOOK = [['1-83', 'Look flow of the whole song (Ch. 9)'], ['77-79', 'Bar 78, all roles (Ch. 10)'], ['1-13', 'Intro pearl heart → Verse 1 (Ch. 11)'], ['14-18', 'Pre 1 build → dark cue → Chorus 1 hit (Ch. 11)'],
+    ['62-68', 'Bridge → beat section → Chorus 3 entry (Ch. 12)'], ['32-35', 'Bar 33 kick-out (Ch. 12)'], ['80-83', 'End of Chorus 3 → pearl heart · night fade-out (Ch. 12)'], ['45-49', 'Chorus 2 · mover burst and red heart (Ch. 13)'],
+    ['42-46', 'Pre 2 · bass only → build → dark cue (Ch. 14)'], ['66-69', 'Break and white flash (Ch. 14)'], ['18-34', 'Chorus 1 cues 30–39 (Ch. 16)'], ['1-6', 'Intro cues 1, 1.1, 1.2 (Ch. 23)'], ['16-19', 'Dark cue 29 → Chorus 1 hit (Ch. 27)']];
+
+  var CUES = (D.cueSheet && D.cueSheet.rows && D.cueSheet.rows.length ? D.cueSheet.rows : (S.sample ? sampleCues() : []))
+    .filter(function (r) { return +r.bar >= 1 && +r.bar <= N; }).map(function (r) { var o = {}; for (var k in r) o[k] = r[k]; o.p = P(+r.bar, +r.beat || 1); return o; })
+    .sort(function (a, b) { return a.p - b.p; });
+
+  // ── 이벤트: 다크 큐, 화이트 플래시, 무빙 버스트, 스페셜 컬러, 모든 역할 ──
+  var DARK = [], FLASH = [], CARDS = D.bright.cards || {};
+  if (CUES.length) {
+    CUES.forEach(function (r, i) {
+      if (/dark cue|kick-out|break|bass only/i.test(r.name) || /^bass only/i.test(r.scene || '')) {
+        var nx = null; for (var j = i + 1; j < CUES.length; j++) if (CUES[j].p > r.p) { nx = CUES[j]; break; }
+        DARK.push({ a: r.p, b: nx ? nx.p : r.p + BPB, label: r.name });
+      }
+      if (/white flash/i.test(r.name + r.scene)) FLASH.push(r.p);
+    });
+  } else {
+    S.marks.forEach(function (m) {
+      if ((m.t === 'stop' || m.t === 'drop') && D.bright.dark && D.bright.dark[m.id]) DARK.push({ a: P(m.bar, m.beat), b: m.end ? P(m.end + 1, 1) : P(m.bar + 1, 1), label: L.markDef(m.t).label });
+    });
+    if (CARDS.flash) FLASH.push(P(+CARDS.flash, 4));
+  }
+  var BURST = CARDS.burst ? P(+CARDS.burst, 1) : -1;
+  var RES = CARDS.reserve ? { a: P(+CARDS.reserve, 1), b: P(+CARDS.reserve + 2, 1) } : null;
+  var ALLON = CARDS.all ? P(+CARDS.all, 1) : -1;
+  var RESHEX = (function () { var c = (D.pal.colors || []).filter(function (x) { return x.role === 'reserve'; })[0]; return c ? L.hexOf(c) : '#ff1a10'; })();
+  var KEYHEX = (function () { var c = (D.pal.colors || []).filter(function (x) { return x.role === 'key'; })[0]; return c ? L.hexOf(c) : WARM; })();
+
+  function secAt(p) { var bar = Math.floor(p / BPB) + 1, cur = SECS[0]; SECS.forEach(function (x) { if (x.start <= bar) cur = x; }); return cur; }
+  function secIdx(x) { return SECS.indexOf(x); }
+  function look(x) { return (D.looks || {})[x.m.id] || {}; }
+  function bright(x) { var r = (D.bright.rows || {})[x.m.id] || {}; return { h: (r.hero != null ? +r.hero : 60) / 100, b: (r.base != null ? +r.base : 35) / 100 }; }
+  function cols(x) {
+    var f = ((D.pal.flow || {})[x.m.id] || []).map(function (id) { return PAL[id] ? { hex: L.hexOf(PAL[id]), name: PAL[id].name } : null; }).filter(Boolean);
+    if (!f.length) f = ((S.colors || {})[x.m.id] || []).map(function (n) { var h = L.colorHex(n); return h ? { hex: h, name: n } : null; }).filter(Boolean);
+    if (!f.length) f = [{ hex: '#8e939c', name: 'No color' }];
+    return f;
+  }
+  function energy(x) { return +((S.energy || {})[x.m.id]) || 3; }
+  function fadeBeats(e) { var m; e = e || ''; if ((m = /(\d+(?:\.\d+)?)[\s-]*beats?[\s-]*fade/i.exec(e)) || (m = /fade\s*(?:over\s*)?(\d+(?:\.\d+)?)\s*beats?/i.exec(e)) || (m = /(?:over|in)\s*(\d+(?:\.\d+)?)\s*beats?/i.exec(e))) return +m[1]; if ((m = /(\d+)[\s-]*bars?[\s-]*fade/i.exec(e)) || (m = /fade\s*(?:over\s*)?(\d+)\s*bars?/i.exec(e))) return +m[1] * BPB; return 0; }
+  var KEYSTART = (function () { for (var i = 0; i < SECS.length; i++) if (look(SECS[i]).hero === 'Key') return P(SECS[i].start, 1); return SECS[1] ? P(SECS[1].start, 1) : 0; })();
+  var KEYLV = (D.bright.key != null ? +D.bright.key : 80) / 100;
+
+  // ── 비트 그리드 칸 ──
+  var G = D.grid || { cells: {} }, CUTS = (G.cuts && G.cuts.length ? G.cuts.slice() : SECS.map(function (x) { return x.start; })).sort(function (a, b) { return a - b; });
+  function cellAt(row, bar) {
+    var cs = CUTS.filter(function (c) { return c <= bar; });
+    for (var i = cs.length - 1; i >= 0; i--) {
+      var c = G.cells && G.cells[row + '|' + cs[i]];
+      if (row === 'scene') { if (c && c.txt && !/^same$/i.test(c.txt)) return c; continue; }
+      if (i === cs.length - 1) { if (!c || !c.txt) return null; if (/^same$/i.test(c.txt)) continue; return c; }
+      if (c && c.txt && !/^same$/i.test(c.txt)) return c;
+    }
+    return null;
+  }
+  var HASGRID = G.cells && Object.keys(G.cells).length > 0;
+  function colorIn(t, fallback) { if (!t) return fallback; for (var i = 0; i < NAMES.length; i++) if (t.indexOf(NAMES[i].name) >= 0) return NAMES[i].hex; return fallback; }
+  function posIn(t) {
+    t = t || '';
+    if (/sky/i.test(t)) return 'sky'; if (/cross/i.test(t)) return 'cross'; if (/fan/i.test(t) && !/fan wave/i.test(t)) return 'fan'; if (/wall/i.test(t)) return 'wall';
+    if (/downlight/i.test(t)) return 'down'; if (/narrow|one step/i.test(t)) return 'low'; return '';
+  }
+  var HEROG = { 'Key': ['key'], 'Back': ['back'], 'Wash': ['back'], 'Side': ['side'], 'Beam': ['down', 'up'], 'Pixel': ['pix'], 'FX': ['fx'], 'Audience': ['aud'] };
+
+  // ── 한 순간의 무대 상태 ──
+  function state(p) {
+    var x = secAt(p), i = secIdx(x), lk = look(x), br = bright(x), cl = cols(x), ps = P(x.start, 1), bar = Math.floor(p / BPB) + 1, inBar = p - (bar - 1) * BPB;
+    var H = br.h, B = br.b, last = i === SECS.length - 1, fb = fadeBeats(lk.entry), fadeOut = false;
+    if (last && fb) { var len = x.len * BPB, k = clamp((p - ps) / len, 0, 1); H *= 1 - k; B *= 1 - k; fadeOut = true; }
+    else if (fb && p - ps < fb && i > 0) { var pv = bright(SECS[i - 1]), k2 = (p - ps) / fb; H = pv.h + (H - pv.h) * k2; B = pv.b + (B - pv.b) * k2; }
+    if (/layer per bar|every bar/i.test(lk.fx || '') || /rais(?:e|ed) every bar/i.test(((cellAt('scene', bar) || {}).txt) || '')) { var bi = Math.floor((p - ps) / BPB), f = 0.35 + 0.65 * Math.min(1, bi / Math.max(1, x.len - 1)); H *= f; B = Math.min(B, 0.25 + (B - 0.25) * f); }
+    var st = { p: p, sec: x, look: lk, cols: cl, H: H, B: B, fadeOut: fadeOut, g: {}, dark: null, flash: 0, key: p >= KEYSTART ? KEYLV : 0, heart: 0, heartHex: cl[0].hex, pixMode: 'solid', burst: -1, notes: [] };
+    var base = cl[0].hex, acc = (cl[1] || cl[0]).hex;
+    function on(gr, lv, hex, extra) { var o = st.g[gr] || (st.g[gr] = { lv: 0, hex: hex || (gr === 'down' || gr === 'side' ? acc : base), pos: '', wave: 0, period: 8, pulse: '' }); o.lv = Math.max(o.lv, lv); if (hex) o.hex = hex; if (extra) for (var k in extra) o[k] = extra[k]; return o; }
+    on('back', B, base);
+    (HEROG[lk.hero] || []).forEach(function (gr) { on(gr, H, gr === 'down' ? acc : base, { hero: true }); });
+    var defPos = posIn(lk.pos);
+    if (HASGRID) {
+      [['back', 'back'], ['side', 'side'], ['pix', 'pix'], ['up', 'up'], ['down', 'down']].forEach(function (rr) {
+        var c = cellAt(rr[0], bar); if (!c) return;
+        if (/turns? (?:it )?off|\bclose/i.test(c.txt) && !/turns? on|lights again/i.test(c.txt)) { if (st.g[rr[1]] && !st.g[rr[1]].hero) st.g[rr[1]].lv = 0; return; }
+        var gr = on(rr[1], Math.max(B, H * 0.85), colorIn(c.txt, rr[1] === 'down' || rr[1] === 'side' ? acc : base));
+        gr.txt = c.txt; gr.lay = c.lay;
+        var pp = posIn(c.txt); if (pp) gr.pos = pp;
+        var m = /(\d+)-(bar|beat) cycle/i.exec(c.txt); if (m) gr.period = +m[1] * (/bar/i.test(m[2]) ? BPB : 1);
+        if (c.lay && /wave|sweep/i.test(c.txt)) gr.wave = 1;
+        if (/sweep/i.test(c.txt) && /→/.test(c.txt)) { var bi2 = bar - CUTS.filter(function (q) { return q <= bar; }).slice(-1)[0]; gr.period = Math.max(0.5, 4 / Math.pow(2, bi2)); }
+        if (rr[0] === 'back' && c.lay) gr.pulse = /every beat/i.test(c.txt) ? 'beat' : 'bar';
+        if (rr[0] === 'down' && c.lay && /kick/i.test(c.txt)) gr.pulse = /every beat/i.test(c.txt) ? 'beat' : 'bar';
+        if (rr[0] === 'side' && c.lay) gr.pulse = 'chase';
+        if (rr[0] === 'pix') { if (/two-color snap/i.test(c.txt)) st.pixMode = 'snap'; else if (/two colors|two-color/i.test(c.txt)) st.pixMode = 'split'; else if (/sparkle/i.test(c.txt)) st.pixMode = 'sparkle'; if (/heart (?:blooms|lights)/i.test(c.txt)) st.heart = 1; }
+      });
+    } else {
+      if (/wave|sweep/i.test(lk.fx || '')) (HEROG[lk.hero] || []).forEach(function (gr) { st.g[gr].wave = 1; });
+      if (/two-color snap/i.test(lk.fx || '')) st.pixMode = 'snap';
+    }
+    ['up', 'down'].forEach(function (gr) { if (st.g[gr] && !st.g[gr].pos) st.g[gr].pos = defPos || (gr === 'up' ? 'down' : 'sky'); });
+    if (/heart/i.test(lk.name || '') && (lk.hero === 'Pixel' || st.g.pix)) { st.heart = 1; on('pix', Math.max(H, B), base); if (st.pixMode === 'solid') st.pixMode = 'heart'; }
+    if (st.heart && i === 0) st.heartGrow = clamp((p - ps) / (BPB * 2), 0.15, 1);
+    if (ALLON >= 0 && p >= ALLON && x.start <= ALLON / BPB + 1 && x.end >= Math.floor(ALLON / BPB) + 1) { ['back', 'side', 'up', 'down', 'pix'].forEach(function (gr) { on(gr, H, null); }); st.notes.push('All roles'); }
+    if (BURST >= 0 && p >= BURST && p < BURST + BPB * 2) { st.burst = p - BURST; ['up', 'down'].forEach(function (gr) { on(gr, H, null).pos = 'fan'; }); }
+    if (RES && p >= RES.a && p < RES.b) { st.heart = 1; st.heartHex = RESHEX; st.pixMode = 'heart'; on('pix', H, RESHEX); st.notes.push('Special color'); }
+    DARK.forEach(function (d) { if (p >= d.a && p < d.b) st.dark = d; });
+    if (st.dark) { Object.keys(st.g).forEach(function (k) { if (k !== 'back') st.g[k].lv = 0; }); if (st.g.back) st.g.back.lv = Math.min(st.g.back.lv, Math.max(0.12, B * 0.7)); st.heart = 0; }
+    FLASH.forEach(function (f) { if (p >= f && p < f + 2) st.flash = 1 - (p - f) / 2; });
+    if (st.flash > 0) { ['back', 'side', 'up', 'down', 'pix'].forEach(function (gr) { var o = on(gr, 0, null); o.lv = Math.max(o.lv, st.flash); }); }
+    return st;
+  }
+  // 범위의 대표 값(장면 읽기용)
+  function heroLevel(st) { var m = 0; Object.keys(st.g).forEach(function (k) { if (st.g[k].hero) m = Math.max(m, st.g[k].lv); }); return st.dark ? 0 : Math.max(m, st.flash); }
+
+  // ── 무대 그리기(앞에서 본 6장 실습 장비) ──
+  function mix(hex, w) { if (!w) return hex; var r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16); r = Math.round(r + (255 - r) * w); g = Math.round(g + (255 - g) * w); b = Math.round(b + (255 - b) * w); return '#' + [r, g, b].map(function (v) { return (v < 16 ? '0' : '') + v.toString(16); }).join(''); }
+  function cone(x, y, ang, spread, len, hex, op) {
+    if (op <= 0.005) return '';
+    var a = ang * Math.PI / 180, s = spread * Math.PI / 360, x1 = x + Math.sin(a - s) * len, y1 = y - Math.cos(a - s) * len, x2 = x + Math.sin(a + s) * len, y2 = y - Math.cos(a + s) * len;
+    return '<polygon points="' + x.toFixed(1) + ',' + y.toFixed(1) + ' ' + x1.toFixed(1) + ',' + y1.toFixed(1) + ' ' + x2.toFixed(1) + ',' + y2.toFixed(1) + '" fill="' + hex + '" fill-opacity="' + op.toFixed(3) + '"/>';
+  }
+  function angles(pos, i, n, side) {
+    var c = (i - (n - 1) / 2) / ((n - 1) / 2 || 1);
+    if (pos === 'fan') return c * 48; if (pos === 'cross') return (i % 2 ? 1 : -1) * 32; if (pos === 'wall' || pos === 'sky') return c * 4; if (pos === 'low') return c * 6;
+    if (pos === 'down') return 180 + c * 6; return c * 10;
+  }
+  function pulseMul(gr, p) { var beatF = p - Math.floor(p), inBar = p % BPB; if (gr.pulse === 'beat') return 0.35 + 0.65 * Math.pow(1 - beatF, 2); if (gr.pulse === 'bar') return inBar < 1 ? 0.35 + 0.65 * Math.pow(1 - beatF, 2) : 0.35; return 1; }
+  function heartMask(cx, cy, cols, rows) {
+    var m = []; for (var r = 0; r < rows; r++) { m[r] = []; for (var c = 0; c < cols; c++) { var x = (c - cx) / (cols * 0.3), y = (cy - r) / (rows * 0.36); var v = Math.pow(x * x + y * y - 1, 3) - x * x * y * y * y; m[r][c] = v <= 0; } } return m;
+  }
+  var HM = heartMask(11.5, 4.6, 24, 10);
+  function drawStage(st, sc) {
+    var h = [], p = st.p, fl = st.flash;
+    h.push('<rect width="960" height="440" fill="#05060a"/>');
+    var bk = st.g.back; if (bk && bk.lv > 0) h.push('<ellipse cx="480" cy="170" rx="460" ry="170" fill="' + mix(bk.hex, fl) + '" fill-opacity="' + (bk.lv * 0.32).toFixed(3) + '"/>');
+    h.push('<g style="mix-blend-mode:screen" filter="url(#soft' + sc + ')">');
+    if (bk) for (var i = 0; i < 12; i++) h.push(cone(150 + i * 60, 40, 180 + (i - 5.5) * 1.5, 22, 340, mix(bk.hex, fl), bk.lv * 0.16 * pulseMul(bk, p)));
+    var sd = st.g.side; if (sd) for (var j = 0; j < 4; j++) { var chase = sd.pulse === 'chase' ? (Math.floor(p) % 2 === 0 ? 1 : 0.25) : 1, chase2 = sd.pulse === 'chase' ? (Math.floor(p) % 2 === 1 ? 1 : 0.25) : 1;
+      h.push(cone(40, 170 + j * 50, 98, 14, 430, mix(sd.hex, fl), sd.lv * 0.22 * chase)); h.push(cone(920, 170 + j * 50, -98, 14, 430, mix(sd.hex, fl), sd.lv * 0.22 * chase2)); }
+    var up = st.g.up; if (up) for (var u = 0; u < 8; u++) { var wa = up.wave ? Math.sin(2 * Math.PI * p / up.period + u * 0.5) * 16 : 0; h.push(cone(200 + u * 80, 22, angles(up.pos, u, 8) + wa + (up.pos === 'fan' || up.pos === 'sky' || up.pos === 'wall' || up.pos === 'cross' ? 180 : 0), 5, 380, mix(up.hex, fl), up.lv * 0.5)); }
+    var dn = st.g.down; if (dn) for (var d = 0; d < 16; d++) {
+      var spreadK = st.burst >= 0 ? Math.min(1, st.burst / 1.25) : 1, a = angles(dn.pos, d, 16) * (st.burst >= 0 ? (0.15 + 0.85 * spreadK) * (st.burst < 1.25 ? 1 : 1) : 1);
+      var w = dn.wave ? Math.sin(2 * Math.PI * p / dn.period + d * 0.4) * 14 : 0;
+      h.push(cone(150 + d * 44, 378, a + w, dn.pos === 'low' ? 3 : 4, dn.pos === 'low' ? 160 : 400, mix(dn.hex, fl), dn.lv * 0.55 * pulseMul(dn, p)));
+    }
+    h.push('</g>');
+    // 픽셀 벽(LED 바 24줄 × 10칸)
+    var px = st.g.pix, pc = st.cols, beatIn = p % BPB;
+    for (var cI = 0; cI < 24; cI++) for (var rI = 0; rI < 10; rI++) {
+      var x0 = 300 + cI * 15, y0 = 130 + rI * 17, f = 0, hx = '#1b1e24';
+      if (px && px.lv > 0) {
+        hx = px.hex || pc[0].hex; f = px.lv;
+        if (st.pixMode === 'snap') { hx = (Math.floor((beatIn + 1) / 2) % 2 ? (pc[1] || pc[0]).hex : pc[0].hex); }
+        else if (st.pixMode === 'split') { hx = cI < 12 ? pc[0].hex : (pc[1] || pc[0]).hex; }
+        if (st.heart && (st.pixMode === 'heart' || st.heart)) {
+          var g2 = st.heartGrow || 1, inH = HMs(cI, rI, g2);
+          if (st.pixMode === 'heart' || /heart/i.test((px.txt || '') + (st.look.name || ''))) { hx = st.heartHex; f = inH ? Math.max(px.lv, 0.15 * (px.lv > 0.02)) : 0; }
+        }
+        if (st.pixMode === 'sparkle' && ((cI * 7 + rI * 13 + Math.floor(p * 2)) % 11 === 0)) f = Math.min(1, f + 0.6);
+        if (fl) { hx = mix(hx, fl); f = Math.max(f, fl); }
+      }
+      h.push('<rect x="' + x0 + '" y="' + y0 + '" width="12" height="14" rx="2" fill="' + (f > 0.01 ? hx : '#15181d') + '" fill-opacity="' + (f > 0.01 ? (0.25 + 0.75 * f).toFixed(3) : 1) + '"/>');
+    }
+    // 바닥, 트러스, 타워
+    h.push('<rect x="0" y="384" width="960" height="56" fill="#101217"/><rect x="0" y="382" width="960" height="3" fill="#22262d"/>');
+    h.push('<rect x="120" y="34" width="720" height="5" fill="#2a2f36"/><rect x="170" y="16" width="620" height="4" fill="#2a2f36"/><rect x="30" y="150" width="8" height="234" fill="#2a2f36"/><rect x="922" y="150" width="8" height="234" fill="#2a2f36"/>');
+    for (var q = 0; q < 12; q++) h.push('<circle cx="' + (150 + q * 60) + '" cy="42" r="5" fill="' + (bk && bk.lv > 0.02 ? mix(bk.hex, fl) : '#3a3f47') + '"/>');
+    for (var q2 = 0; q2 < 16; q2++) h.push('<rect x="' + (145 + q2 * 44) + '" y="374" width="10" height="8" rx="2" fill="' + (dn && dn.lv > 0.02 ? mix(dn.hex, fl) : '#3a3f47') + '"/>');
+    // 사람(키를 받는 얼굴)
+    var kl = st.key, face = kl > 0 ? mix('#9a8a78', 0.25 + 0.6 * kl) : '#2b2f36', bodyc = kl > 0 ? '#5d6470' : '#22262d';
+    h.push('<circle cx="480" cy="300" r="15" fill="' + face + '"/><path d="M455 384 L460 330 Q480 316 500 330 L505 384 Z" fill="' + bodyc + '"/>');
+    if (kl > 0) h.push('<polygon points="480,300 300,440 660,440" fill="' + KEYHEX + '" fill-opacity="' + (kl * 0.05).toFixed(3) + '"/>');
+    if (st.dark) h.push('<text x="480" y="70" fill="#8e939c" font-size="18" text-anchor="middle">Dark cue · bass only, key held separately</text>');
+    if (fl > 0.6) h.push('<text x="480" y="70" fill="#ffffff" font-size="18" text-anchor="middle" font-weight="700">White flash</text>');
+    return '<defs><filter id="soft' + sc + '" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter></defs>' + h.join('');
+  }
+  function HMs(c, r, g) { if (g >= 0.999) return HM[r][c]; var cx = 11.5, cy = 4.6, cc = Math.round(cx + (c - cx) / g), rr = Math.round(cy + (r - cy) / g); return rr >= 0 && rr < 10 && cc >= 0 && cc < 24 ? HM[rr][cc] : false; }
+
+  // ── 범위와 재생 ──
+  var A = 1, Bb = Math.min(N, 6), cur = 0, playing = false, last = 0, audio = null;
+  function rangeP() { return { a: P(A, 1), b: P(Bb + 1, 1) }; }
+  function parseHash() {
+    var m = /bars=(\d+)(?:-(\d+))?/.exec(location.hash); if (m) { A = clamp(+m[1], 1, N); Bb = clamp(+(m[2] || m[1]), A, N); return true; } return false;
+  }
+  // 곡 지도
+  function drawMap() {
+    var x0 = 30, x1 = 990, W = x1 - x0, h = [];
+    function X(bar) { return x0 + (bar - 1) / N * W; }
+    SECS.forEach(function (x) {
+      var cl = cols(x), e = energy(x), y = 104 - e * 14, w = X(x.end + 1) - X(x.start);
+      h.push('<rect x="' + X(x.start).toFixed(1) + '" y="' + y + '" width="' + (w - 1).toFixed(1) + '" height="' + (104 - y) + '" fill="' + cl[0].hex + '" fill-opacity="0.85" rx="2"/>');
+      if (cl[1]) h.push('<rect x="' + X(x.start).toFixed(1) + '" y="' + y + '" width="' + (w - 1).toFixed(1) + '" height="5" fill="' + cl[1].hex + '"/>');
+      if (w > 34) h.push('<text x="' + (X(x.start) + 3).toFixed(1) + '" y="' + (y - 5) + '" font-size="11" fill="currentColor">' + esc(x.m.name.replace(/\(.*\)/, '').replace('Pre-chorus', 'Pre').replace('Beat section', 'Beat')) + '</text>');
+    });
+    S.marks.filter(function (m) { return m.t !== 'sec'; }).forEach(function (m) { var d = L.markDef(m.t); h.push('<text x="' + (X(m.bar) + (m.beat - 1) / BPB * W / N).toFixed(1) + '" y="122" font-size="11" text-anchor="middle" fill="' + ({ impact: '#ff6f5e', point: '#69adff', trans: '#b994ff' }[d.k] || '#8e939c') + '">' + d.sym + '</text>'); });
+    for (var b = 1; b <= N; b++) if (b === 1 || b % 8 === 1) h.push('<line x1="' + X(b) + '" x2="' + X(b) + '" y1="104" y2="108" stroke="#8e939c"/><text x="' + X(b) + '" y="140" font-size="10.5" fill="#8e939c" text-anchor="middle">' + b + '</text>');
+    h.push('<text x="' + x0 + '" y="14" font-size="11" fill="#8e939c">height = energy · color = section palette · ▼ big hit ◆ anticipation × kick-out ○ break ↗ build-up</text>');
+    h.push('<rect x="' + X(1) + '" y="18" width="' + (X(A) - X(1)) + '" height="112" fill="#000" fill-opacity="0.45"/><rect x="' + X(Bb + 1) + '" y="18" width="' + (X(N + 1) - X(Bb + 1)) + '" height="112" fill="#000" fill-opacity="0.45"/>');
+    h.push('<rect x="' + X(A) + '" y="18" width="' + (X(Bb + 1) - X(A)) + '" height="112" fill="none" stroke="#f29a4e" stroke-width="2.5" rx="3"/>');
+    var ph = X(1) + cur / (N * BPB) * W; h.push('<line id="mph" x1="' + ph + '" x2="' + ph + '" y1="18" y2="130" stroke="#ffffff" stroke-width="1.5"/>');
+    return h.join('');
+  }
+  // 레벨 흐름
+  function drawLevels(a, b, w, hgt, compact) {
+    var FS = compact ? 1.25 : 1;
+    var x0 = compact ? 46 : 40, x1 = w - 10, y0 = 18, y1 = hgt - 46, h = [], n = Math.max(8, Math.round((b - a) * 8));
+    function X(p) { return x0 + (p - a) / (b - a) * (x1 - x0); } function Y(v) { return y1 - v * (y1 - y0); }
+    DARK.forEach(function (d) { if (d.b > a && d.a < b) h.push('<rect x="' + X(Math.max(a, d.a)) + '" y="' + y0 + '" width="' + (X(Math.min(b, d.b)) - X(Math.max(a, d.a))) + '" height="' + (y1 - y0) + '" fill="#6b7280" fill-opacity="0.28"/>'); });
+    for (var v = 0; v <= 1.001; v += 0.25) h.push('<line x1="' + x0 + '" x2="' + x1 + '" y1="' + Y(v) + '" y2="' + Y(v) + '" stroke="#8e939c" stroke-opacity="0.25"/><text x="' + (x0 - 6) + '" y="' + (Y(v) + 4) + '" font-size="' + (10 * FS) + '" text-anchor="end" fill="#8e939c">' + Math.round(v * 100) + '</text>');
+    var nb = (b - a) / BPB, step = nb > 40 ? 8 : nb > 16 ? 2 : 1;
+    for (var bar = Math.floor(a / BPB) + 1; bar <= Math.ceil(b / BPB); bar++) { var px = P(bar, 1); if (px < a || px > b) continue; if ((bar - 1) % step) { h.push('<line x1="' + X(px) + '" x2="' + X(px) + '" y1="' + y0 + '" y2="' + y1 + '" stroke="#8e939c" stroke-opacity="0.15"/>'); continue; } h.push('<line x1="' + X(px) + '" x2="' + X(px) + '" y1="' + y0 + '" y2="' + (y1 + 4) + '" stroke="#8e939c" stroke-opacity="0.45"/><text x="' + X(px) + '" y="' + (y1 + 17) + '" font-size="' + (10.5 * FS) + '" text-anchor="middle" fill="#8e939c">Bar ' + bar + '</text>'); if (!compact || (b - a) / BPB <= 8) h.push('<text x="' + X(px) + '" y="' + (y1 + 31) + '" font-size="' + (9.5 * FS) + '" text-anchor="middle" fill="#8e939c">' + L.fmt(tOf(px)) + '</text>'); }
+    var hp = [], bp = [], kp = [];
+    for (var i = 0; i <= n; i++) { var p = a + (b - a) * i / n, st = state(Math.min(p, b - 1e-3)); hp.push(X(p).toFixed(1) + ',' + Y(heroLevel(st)).toFixed(1)); bp.push(X(p).toFixed(1) + ',' + Y(st.g.back ? st.g.back.lv : 0).toFixed(1)); kp.push(X(p).toFixed(1) + ',' + Y(st.key).toFixed(1)); }
+    h.push('<polyline points="' + bp.join(' ') + '" fill="none" stroke="#8fb4e8" stroke-width="2"/><polyline points="' + kp.join(' ') + '" fill="none" stroke="#e8d9b8" stroke-width="2" stroke-dasharray="5 4"/><polyline points="' + hp.join(' ') + '" fill="none" stroke="#f29a4e" stroke-width="2.6"/>');
+    if (!compact || (b - a) / BPB <= 20) CUES.forEach(function (r) { if (r.p >= a && r.p < b) h.push('<line x1="' + X(r.p) + '" x2="' + X(r.p) + '" y1="' + (y0 - 4) + '" y2="' + y1 + '" stroke="#f29a4e" stroke-opacity="0.6" stroke-dasharray="2 3"/><text x="' + (X(r.p) + 4) + '" y="' + (y0 + 10) + '" font-size="' + (10 * FS) + '" fill="#f29a4e">Cue ' + esc(r.no) + '</text>'); });
+    S.marks.filter(function (m) { return m.t !== 'sec'; }).forEach(function (m) { var mp = P(m.bar, m.beat); if (mp >= a && mp < b) { var d = L.markDef(m.t); h.push('<text x="' + X(mp) + '" y="' + (y1 - 4) + '" font-size="' + (12 * FS) + '" text-anchor="middle" fill="' + ({ impact: '#ff6f5e', point: '#69adff', trans: '#b994ff' }[d.k] || '#8e939c') + '">' + d.sym + '</text>'); } });
+    if (!compact) h.push('<line id="lph" x1="' + X(cur) + '" x2="' + X(cur) + '" y1="' + y0 + '" y2="' + y1 + '" stroke="currentColor" stroke-width="1.4"/>');
+    return h.join('');
+  }
+  function colorList(st) { return st.cols.map(function (c) { return '<span class="sw"><i style="background:' + c.hex + '"></i>' + esc(c.name) + '</span>'; }).join(''); }
+  function readHTML() {
+    var r = rangeP(), a = r.a, b = r.b, ta = tOf(a), tb = tOf(b), secs = SECS.filter(function (x) { return x.end >= A && x.start <= Bb; });
+    var h = '<div class="loc">' + (Bb > A ? 'Bars ' + A + '–' + Bb : 'Bar ' + A) + ' · ' + L.fmt(ta) + ' ~ ' + L.fmt(tb) + ' · ' + (tb - ta).toFixed(1) + ' s (' + (b - a) + ' beats)</div>';
+    h += '<h3>Music</h3><ul>' + secs.map(function (x) { return '<li><b>' + esc(x.m.name) + '</b> bars ' + x.start + '–' + x.end + ' · energy ' + energy(x) + '</li>'; }).join('');
+    S.marks.filter(function (m) { return m.t !== 'sec' && P(m.bar, m.beat) >= a && P(m.bar, m.beat) < b; }).sort(L.sortMarks).forEach(function (m) { var d = L.markDef(m.t); h += '<li>Bar ' + m.bar + ' beat ' + m.beat + ' <span class="tag k-' + d.k + '">' + d.sym + ' ' + d.label + '</span> ' + esc(m.memo || '') + '</li>'; });
+    h += '</ul><h3>Lighting</h3>';
+    secs.forEach(function (x) {
+      var lk = look(x), br = bright(x), st = state(Math.max(a, P(x.start, 1)) + 0.01), last = secIdx(x) === SECS.length - 1;
+      h += '<div style="margin:4px 0 8px"><b style="color:var(--ink)">' + esc(lk.name || x.m.name) + '</b> <span class="muted">(' + esc(x.m.name) + ')</span><br>' + colorList(st) +
+        '<br><span class="muted">Main</span> ' + esc(lk.hero || '—') + ' ' + Math.round(br.h * 100) + '% · <span class="muted">Base</span> ' + Math.round(br.b * 100) + '% · <span class="muted">Position</span> ' + esc(lk.pos || '—') +
+        (lk.fx ? '<br><span class="muted">Effect</span> ' + esc(lk.fx) : '') + '<br><span class="muted">How it comes in</span> ' + esc(lk.entry || '—') + (last && fadeBeats(lk.entry) ? ' — fades out to 0 by the end of the section' : '') + '</div>';
+    });
+    var dk = DARK.filter(function (d) { return d.b > a && d.a < b; });
+    if (dk.length) h += '<div class="muted">Dark cue: ' + dk.map(function (d) { var s1 = bb(d.a); return 'bar ' + s1.bar + ' beat ' + s1.beat + ' for ' + (d.b - d.a) + ' beats'; }).join(', ') + '</div>';
+    var fx = FLASH.filter(function (f) { return f >= a && f < b; }); if (fx.length) h += '<div class="muted">White flash: ' + fx.map(function (f) { var q = bb(f); return 'bar ' + q.bar + ' beat ' + q.beat; }).join(', ') + '</div>';
+    h += '<h3>Key</h3>' + (KEYSTART >= b ? 'Off (on from bar ' + bb(KEYSTART).bar + ')' : Math.round(KEYLV * 100) + '% fixed · a fixed fader outside the song’s cues (from bar ' + bb(KEYSTART).bar + ')');
+    h += '<div class="one">' + oneLine(a, b, secs) + '</div>';
+    return h;
+  }
+  function oneLine(a, b, secs) {
+    var mk = S.marks.filter(function (m) { return m.t !== 'sec' && P(m.bar, m.beat) >= a && P(m.bar, m.beat) < b; }).sort(L.sortMarks);
+    var mus = mk.length ? mk.map(function (m) { return 'bar ' + m.bar + ' ' + (m.beat > 1 ? 'beat ' + m.beat + ' ' : '') + (m.memo || L.markDef(m.t).label); }).join(', ') : secs.map(function (x) { return x.m.name; }).join(' → ') + ' run in sequence';
+    var li = secs.map(function (x) { var lk = look(x), st = state(Math.max(a, P(x.start, 1)) + 0.01), last = secIdx(x) === SECS.length - 1; return (lk.name || x.m.name) + '(' + st.cols.map(function (c) { return c.name; }).join('·') + ', ' + (lk.hero || '') + ' ' + Math.round(bright(x).h * 100) + '%' + (last && fadeBeats(lk.entry) ? ', fades to 0 over ' + (x.len) + ' bars' : '') + ')'; }).join(' → ');
+    return '<b>Music</b> ' + esc(mus) + '.<br><b>Lighting</b> ' + esc(li) + '.';
+  }
+  function cueTable() {
+    var r = rangeP(), act = null; CUES.forEach(function (c) { if (c.p <= r.a) act = c; });
+    var rows = CUES.filter(function (c) { return c === act || (c.p >= r.a && c.p < r.b); });
+    if (!rows.length) return '<tr><td class="note">No cue sheet yet. Fill in Web tool 14 (Cue Sheet) and it appears here.</td></tr>';
+    return '<tr><th>Cue</th><th>Name</th><th>Position</th><th>Time</th><th>Entry</th><th>Scene</th><th>Layers</th></tr>' + rows.map(function (c) { return '<tr data-p="' + c.p + '"><td class="num">' + esc(c.no) + '</td><td>' + esc(c.name) + '</td><td>bar ' + c.bar + ' beat ' + c.beat + '</td><td class="num">' + L.fmt(tOf(c.p)) + '</td><td>' + esc(c.entry) + '</td><td>' + esc(c.scene) + '</td><td>' + esc(c.layers) + '</td></tr>'; }).join('');
+  }
+  function renderAll() {
+    $('ba').value = A; $('bb').value = Bb; $('ba').max = N; $('bb').max = N;
+    $('map').innerHTML = drawMap(); $('read').innerHTML = readHTML(); $('cq').innerHTML = cueTable();
+    var r = rangeP(); if (cur < r.a || cur >= r.b) cur = r.a;
+    $('lv').innerHTML = drawLevels(r.a, r.b, 1000, 230, false);
+    frame();
+  }
+  function frame() {
+    var r = rangeP(), st = state(cur), q = bb(cur);
+    $('stage').innerHTML = drawStage(st, 'm');
+    $('scrub').value = Math.round((cur - r.a) / (r.b - r.a) * 1000);
+    $('pos').textContent = 'Bar ' + q.bar + ' beat ' + q.beat + ' · ' + L.fmt(tOf(cur)) + (st.dark ? ' · Dark cue' : '') + (st.notes.length ? ' · ' + st.notes.join(', ') : '');
+    var X = function (p) { return 40 + (p - r.a) / (r.b - r.a) * 950; }, lph = document.getElementById('lph'); if (lph) { lph.setAttribute('x1', X(cur)); lph.setAttribute('x2', X(cur)); }
+    var mph = document.getElementById('mph'); if (mph) { var mx = 30 + cur / (N * BPB) * 960; mph.setAttribute('x1', mx); mph.setAttribute('x2', mx); }
+    Array.prototype.forEach.call(document.querySelectorAll('#cq tr[data-p]'), function (tr, i, all) { var p0 = +tr.dataset.p, nx = all[i + 1] ? +all[i + 1].dataset.p : 1e9; tr.classList.toggle('on', cur >= p0 && cur < nx); });
+  }
+  function tick(now) {
+    if (!playing) return;
+    var r = rangeP();
+    if (audio && !audio.paused) cur = (audio.currentTime - tOf(0)) / BL;
+    else cur += (now - last) / 1000 / BL * (+$('rate').value || 1);
+    last = now;
+    if (cur >= r.b) { if ($('loop').checked) { cur = r.a; if (audio && !audio.paused) audio.currentTime = tOf(cur); } else { cur = r.b - 0.01; stop(); } }
+    frame(); requestAnimationFrame(tick);
+  }
+  function play() { playing = true; last = performance.now(); $('play').textContent = '❚❚ Pause'; if (audio) { audio.playbackRate = +$('rate').value || 1; audio.currentTime = tOf(cur); audio.play().catch(function () {}); } requestAnimationFrame(tick); }
+  function stop() { playing = false; $('play').textContent = '▶ Play'; if (audio) audio.pause(); }
+
+  // ── 장면 카드(책의 그림용 정적 SVG) ──
+  function plain(s) { return String(s).replace(/<[^>]+>/g, ''); }
+  function musicText(a, b, secs) {
+    if (Bb - A > 20) return secs.map(function (x) { return x.m.name.replace(/\(.*\)/, '').replace('Pre-chorus', 'Pre').replace('Beat section', 'Beat') + ' ' + x.start + '~' + x.end; }).join(' → ');
+    var mk = S.marks.filter(function (m) { return m.t !== 'sec' && P(m.bar, m.beat) >= a && P(m.bar, m.beat) < b; }).sort(L.sortMarks);
+    var s = secs.map(function (x) { return x.m.name.replace(/\(.*\)/, '') + ' · bars ' + x.start + '–' + x.end + ' (energy ' + energy(x) + ')'; }).join(' → ');
+    if (mk.length) s += ' · ' + mk.map(function (m) { var d = L.markDef(m.t); return d.sym + ' bar ' + m.bar + (m.beat > 1 ? ' beat ' + m.beat : '') + ' ' + (m.memo || d.label); }).join(' · ');
+    return s;
+  }
+  function lightText(a, b, secs) {
+    if (Bb - A > 20) return secs.map(function (x) { var lk = look(x); return (lk.name || x.m.name) + ' ' + Math.round(bright(x).h * 100) + '%'; }).join(' → ') + ' · key ' + Math.round(KEYLV * 100) + '% separate (from bar ' + bb(KEYSTART).bar + ')';
+    var s = secs.map(function (x) { var lk = look(x), st = state(Math.max(a, P(x.start, 1)) + 0.01), last = secIdx(x) === SECS.length - 1;
+      return (lk.name || x.m.name) + '(' + st.cols.map(function (c) { return c.name; }).join('·') + ') ' + (lk.hero || '') + ' ' + Math.round(bright(x).h * 100) + '%' + (last && fadeBeats(lk.entry) ? ' → to 0 over ' + x.len + ' bars' : ''); }).join(' → ');
+    var dk = DARK.filter(function (d) { return d.b > a && d.a < b; }); if (dk.length) s += ' · dark cue ' + dk.map(function (d) { var q = bb(d.a); return 'bar ' + q.bar + (q.beat > 1 ? ' beat ' + q.beat : '') + ' (' + (d.b - d.a) + ' beats)'; }).join(', ');
+    var fx = FLASH.filter(function (f) { return f >= a && f < b; }); if (fx.length) s += ' · white flash ' + fx.map(function (f) { var q = bb(f); return 'bar ' + q.bar + ' beat ' + q.beat; }).join(', ');
+    if (BURST >= a && BURST < b) s += ' · moving burst, bar ' + bb(BURST).bar;
+    if (RES && RES.a >= a && RES.a < b) s += ' · special color, bars ' + bb(RES.a).bar + '–' + (bb(RES.b).bar - 1);
+    if (ALLON >= a && ALLON < b) s += ' · all roles, bar ' + bb(ALLON).bar;
+    s += ' · key ' + (KEYSTART >= b ? 'off' : Math.round(KEYLV * 100) + '% separate');
+    return s;
+  }
+  function wrapText(x, y, s, size, fill, maxw, lh) {
+    var out = [], line = '', width = 0, cw = size * 0.93;
+    s.split(' ').forEach(function (w) { var ww = (w.length + 1) * cw * (/^[\x00-\x7f]+$/.test(w) ? 0.55 : 1); if (width + ww > maxw && line) { out.push(line); line = w; width = ww; } else { line = line ? line + ' ' + w : w; width += ww; } });
+    if (line) out.push(line);
+    return { svg: out.map(function (l, i) { return '<text x="' + x + '" y="' + (y + i * lh) + '" font-size="' + size + '" fill="' + fill + '">' + esc(l) + '</text>'; }).join(''), n: out.length };
+  }
+  function cardSVG() {
+    var r = rangeP(), a = r.a, b = r.b, ta = tOf(a), tb = tOf(b), secs = SECS.filter(function (x) { return x.end >= A && x.start <= Bb; });
+    var title = (decodeURIComponent((/title=([^&]+)/.exec(location.hash) || [])[1] || '') || secs.map(function (x) { return x.m.name; }).join(' → '));
+    var fr = (/frames=([^&]+)/.exec(location.hash) || [])[1];
+    var frames = fr ? fr.split(',').map(function (s) { var t = s.split('.'); return P(+t[0], +(t[1] || 1)) + (t[2] ? +t[2] / 10 : 0.05); }) : [a + 0.05, a + (b - a) / 2, b - 0.5];
+    var h = [], Y = 0;
+    h.push('<text x="24.0" y="34.0" font-size="19" font-weight="700" fill="#1c1d21">Scene · ' + (Bb > A ? 'bars ' + A + '–' + Bb : 'bar ' + A) + ' · ' + esc(title) + '</text>');
+    h.push('<text x="24.0" y="56.0" font-size="13" fill="#6b6e76">' + L.fmt(ta) + '~' + L.fmt(tb) + ' · ' + (tb - ta).toFixed(1) + ' s</text>');
+    // 곡 전체 띠
+    var x0 = 24, x1 = 936, W = x1 - x0; function X(bar) { return x0 + (bar - 1) / N * W; }
+    h.push('<text x="24" y="84" font-size="13" fill="#6b6e76">' + esc(S.title || '') + ' — whole song, ' + N + ' bars · height = energy · color = section palette · red outline = this scene</text>');
+    SECS.forEach(function (x) { var cl = cols(x), e = energy(x), y = 132 - e * 7, inR = x.end >= A && x.start <= Bb, w = X(x.end + 1) - X(x.start) - 1;
+      h.push('<rect x="' + X(x.start).toFixed(1) + '" y="' + y + '" width="' + w.toFixed(1) + '" height="' + (132 - y) + '" fill="' + cl[0].hex + '" fill-opacity="' + (inR ? 0.95 : 0.4) + '" stroke="#c9c5bb" stroke-width="0.6"/>');
+      if (w > 30) h.push('<text x="' + (X(x.start) + 3).toFixed(1) + '" y="128" font-size="11" fill="#34353b">' + esc(x.m.name.replace(/\(.*\)/, '').replace('Pre-chorus', 'Pre').replace('Beat section', 'Beat')) + '</text>'); });
+    h.push('<rect x="' + X(A) + '" y="92" width="' + Math.max(4, X(Bb + 1) - X(A)) + '" height="44" fill="none" stroke="#c8392b" stroke-width="2.5" rx="2"/>');
+    [1, 17, 33, 49, 65, 81].forEach(function (q) { if (q <= N) h.push('<text x="' + X(q) + '" y="148" font-size="11.5" fill="#6b6e76" text-anchor="middle">' + q + '</text>'); });
+    // 음악과 조명 한 줄씩
+    h.push('<rect x="24" y="156" width="50" height="21" rx="4" fill="#2a6fd0"/><text x="49" y="171" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">Music</text>');
+    var mt = wrapText(84, 171, musicText(a, b, secs), 14.5, '#1c1d21', 860, 20); h.push(mt.svg);
+    var ly = 171 + mt.n * 20 + 8;
+    h.push('<rect x="24" y="' + (ly - 15) + '" width="50" height="21" rx="4" fill="#b8562b"/><text x="49" y="' + ly + '" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">Light</text>');
+    var lt = wrapText(84, ly, lightText(a, b, secs), 14.5, '#1c1d21', 860, 20); h.push(lt.svg);
+    Y = ly + lt.n * 20 + 6;
+    // 무대 컷
+    var n = frames.length, fw = (912 - (n - 1) * 12) / n, fh = 440 * fw / 960;
+    frames.forEach(function (p, i) {
+      var st = state(p), q = bb(p), gx = 24 + i * (fw + 12);
+      h.push('<g transform="translate(' + gx.toFixed(1) + ',' + Y + ') scale(' + (fw / 960).toFixed(5) + ')">' + drawStage(st, 'k' + A + '_' + Bb + '_' + i).replace(/<text[^>]*>[^<]*<\/text>/g, '') + '</g>');
+      h.push('<rect x="' + gx.toFixed(1) + '" y="' + Y + '" width="' + fw.toFixed(1) + '" height="' + fh.toFixed(1) + '" fill="none" stroke="#dedbd2"/>');
+      h.push('<text x="' + gx.toFixed(1) + '" y="' + (Y + fh + 19).toFixed(1) + '" font-size="14.5" font-weight="700" fill="#1c1d21">Bar ' + q.bar + ' beat ' + q.beat + ' · ' + L.fmt(tOf(p)) + '</text>');
+      var sub = st.dark ? 'Dark cue (bass only, key held)' : st.flash > 0.5 ? 'White flash' : (st.notes.length ? st.notes.join(', ') + ' · ' : '') + (st.look.name || st.sec.m.name) + ' ' + Math.round(heroLevel(st) * 100) + '%';
+      h.push('<text x="' + gx.toFixed(1) + '" y="' + (Y + fh + 38).toFixed(1) + '" font-size="13.5" fill="#6b6e76">' + esc(sub) + '</text>');
+    });
+    Y += fh + 54;
+    h.push('<g transform="translate(0,' + Y + ')" color="#1c1d21">' + drawLevels(a, b, 960, 170, true).replace(/#8e939c/g, '#8a8d94') + '</g>');
+    Y += 180;
+    h.push('<text x="24" y="' + Y + '" font-size="13" fill="#6b6e76">Levels: orange = main · blue = base (wash) · dashed = key · gray = dark cue · dotted line = cue number</text>');
+    Y += 12;
+    return '<svg xmlns="http://www.w3.org/2000/svg" id="card" viewBox="0 0 960 ' + Y + '" width="960" height="' + Y + '" font-family="\'Pretendard\',\'Apple SD Gothic Neo\',\'Noto Sans KR\',\'Noto Sans CJK KR\',sans-serif"><rect width="960" height="' + Y + '" fill="#ffffff"/>' + h.join('') + '</svg>';
+  }
+
+  // ── 시작 ──
+  var hashSet = parseHash();
+  if (!hashSet && S.sample) { A = 82; Bb = 83; }
+  if (CARD) { document.body.innerHTML = cardSVG(); return; }
+  var opts = '<option value="">Pick a section or a scene</option><optgroup label="Sections">' + SECS.map(function (x) { return '<option value="' + x.start + '-' + x.end + '">' + esc(x.m.name) + ' (' + x.start + '~' + x.end + ')</option>'; }).join('') + '</optgroup>';
+  if (S.sample) opts += '<optgroup label="Scenes in the book">' + BOOK.map(function (s) { return '<option value="' + s[0] + '">' + 'bars ' + s[0].replace('-', '–') + ' · ' + esc(s[1]) + '</option>'; }).join('') + '</optgroup>';
+  $('preset').innerHTML = opts;
+  $('preset').addEventListener('change', function (e) { var v = e.target.value; if (!v) return; var t = v.split('-'); A = +t[0]; Bb = +t[1]; cur = P(A, 1); stop(); renderAll(); history.replaceState(null, '', '#bars=' + A + '-' + Bb); });
+  function setRange(a, b) { A = clamp(Math.min(a, b), 1, N); Bb = clamp(Math.max(a, b), 1, N); cur = P(A, 1); renderAll(); history.replaceState(null, '', '#bars=' + A + '-' + Bb); }
+  $('ba').addEventListener('change', function () { setRange(+$('ba').value || 1, Math.max(+$('ba').value, Bb)); });
+  $('bb').addEventListener('change', function () { setRange(A, +$('bb').value || A); });
+  var drag = null;
+  function barAt(e) { var r = $('map').getBoundingClientRect(), x = (e.clientX - r.left) / r.width * 1000; return clamp(Math.floor((x - 30) / 960 * N) + 1, 1, N); }
+  $('map').addEventListener('pointerdown', function (e) { drag = barAt(e); $('map').setPointerCapture(e.pointerId); });
+  $('map').addEventListener('pointermove', function (e) { if (drag == null) return; var b = barAt(e); A = Math.min(drag, b); Bb = Math.max(drag, b); $('map').innerHTML = drawMap(); });
+  $('map').addEventListener('pointerup', function (e) { if (drag == null) return; var b = barAt(e), d0 = drag; drag = null; if (d0 === b) { var x = secAt(P(b, 1)); setRange(x.start, x.end); } else setRange(d0, b); });
+  $('play').addEventListener('click', function () { if (playing) stop(); else { var r = rangeP(); if (cur >= r.b - 0.02) cur = r.a; play(); } });
+  $('scrub').addEventListener('input', function () { var r = rangeP(); cur = r.a + (+$('scrub').value / 1000) * (r.b - r.a - 0.01); if (audio && playing) audio.currentTime = tOf(cur); frame(); });
+  $('rate').addEventListener('change', function () { if (audio) audio.playbackRate = +$('rate').value || 1; });
+  $('aud').addEventListener('change', function (e) { var f = e.target.files[0]; if (!f) return; if (audio) { audio.pause(); URL.revokeObjectURL(audio.src); } audio = new Audio(URL.createObjectURL(f)); });
+  document.addEventListener('keydown', function (e) { if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return; if (e.code === 'Space') { e.preventDefault(); $('play').click(); } });
+  cur = P(A, 1);
+  renderAll();
+})();
+</script>
+</body>
+</html>

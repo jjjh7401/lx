@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fixture Roles</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위에 장비 목록 편집표, 아래 왼쪽에 역할별 수량(세 묶음), 오른쪽에 점검 */
+:root{--g1:#5fbf7a;--g2:#69adff;--g3:#f2a446}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--g1:#2f8a4a;--g2:#2f62d4;--g3:#b86e10}}
+:root[data-theme="light"]{--g1:#2f8a4a;--g2:#2f62d4;--g3:#b86e10}
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:68ch}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:end;margin-bottom:12px}
+.bar label.f{flex:1 1 220px}
+.bar input{width:100%}
+.rig th:nth-child(2),.rig td:nth-child(2){width:4.8em}
+.rig td input.t{width:100%;min-width:8em}
+.roles{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.chip{font-size:12.5px;padding:3px 8px;border-radius:999px;border:1px solid var(--gc);color:var(--ink);background:color-mix(in srgb,var(--gc) 14%,transparent);line-height:1.3}
+.chip.main{font-weight:700;background:color-mix(in srgb,var(--gc) 30%,transparent)}
+.chip small{font-size:12px;color:var(--muted);margin-left:3px}
+.roles select{font-size:12.5px;padding:3px 4px;width:auto}
+.attrs{display:flex;gap:3px}
+.attrs button{font-size:12px;padding:4px 7px;border-radius:6px;color:var(--muted)}
+.attrs button[aria-pressed="true"]{color:var(--ink);background:color-mix(in srgb,var(--accent) 22%,var(--panel2));border-color:var(--accent)}
+.del{font-size:12px;padding:4px 8px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:start;margin-top:16px}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.grp{margin-bottom:12px}
+.grp h3{font-size:13px;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.grp h3::before{content:"";width:4px;height:14px;border-radius:2px;background:var(--gc)}
+.grp h3 span{font-weight:400;color:var(--muted);font-size:12.5px}
+.rc{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+.r{padding:10px 12px;border-radius:10px;background:var(--panel2);border-left:4px solid var(--gc);display:grid;gap:2px}
+.r b{color:var(--ink);font-size:14px}
+.r .n{font-family:var(--f-num);font-size:22px;color:var(--ink);line-height:1.1}
+.r .s{font-size:12px;color:var(--muted)}
+.r.empty{border-left-style:dashed;background:transparent;border:1px dashed var(--line);border-left:4px dashed var(--gc)}
+.r.empty .n{color:var(--muted)}
+.r.need.empty{border-color:var(--warn)}
+.total{font-size:14px;margin:0 0 12px}
+.total b{color:var(--ink)}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)}
+.checks li.ok{border-left-color:var(--ok)}
+.checks li b{color:var(--ink)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+#msg:empty{display:none}
+.confirm{display:inline-flex;gap:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Fixture Roles</h1>
+    <p>A board for filling in Table 6-4 from Chapter 6. Give each fixture row its roles and the attributes it can change, and it counts the quantity for each role and points out empty roles and attributes that don’t fit the role. If a fixture has two roles, the one listed first is its main role.</p>
+  </div>
+
+  <div class="panel">
+    <div class="bar">
+      <label class="f" for="rname">Stage name<input id="rname" placeholder="e.g. Autumn tour, mid-size stage"></label>
+      <button type="button" class="primary" id="add">Add fixture row</button>
+      <button type="button" id="copy">Copy role table</button>
+      <span id="exWrap"><button type="button" class="ghost" id="ex">Replace with the Table 6-4 example</button></span>
+      <span id="clrWrap"><button type="button" class="ghost" id="clr">Clear all</button></span>
+    </div>
+    <p class="note" id="msg"></p>
+    <div class="tbl"><table class="rig" id="rig"></table></div>
+    <p class="note" style="margin:10px 0 0">Of the attributes, dimmer, color, position and beam are the four a fixture changes itself. Time (fade and delay) is set by the console, so every fixture has it. Press a role chip to remove it; press a second chip to move it to the front (main role).</p>
+  </div>
+
+  <div class="grid">
+    <section class="panel" aria-labelledby="h-count">
+      <h2 id="h-count" style="margin-bottom:10px">Quantity by role</h2>
+      <p class="total" id="total"></p>
+      <div id="groups"></div>
+    </section>
+    <section class="panel" aria-labelledby="h-check">
+      <h2 id="h-check" style="margin-bottom:10px">Checks</h2>
+      <ul class="checks" id="checks"></ul>
+    </section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX; L.top('rig.html', { noSong: true });
+  var $ = function (id) { return document.getElementById(id); };
+  var GROUPS = [
+    { name: 'Performer lighting', c: 'var(--g1)', roles: ['Key', 'Fill', 'Back', 'Side', 'Top'] },
+    { name: 'Background lighting', c: 'var(--g2)', roles: ['Wash', 'Pixel'] },
+    { name: 'Effect lighting', c: 'var(--g3)', roles: ['Beam', 'FX', 'Audience'] }
+  ];
+  var ROLES = [], GC = {};
+  GROUPS.forEach(function (g) { g.roles.forEach(function (r) { ROLES.push(r); GC[r] = g.c; }); });
+  var NEED = ['Key', 'Back', 'Side'];
+  var ATTRS = ['Brightness', 'Color', 'Position', 'Beam'];
+  // 저장 키는 예전 그대로 두고, 화면에는 콘솔 속성 이름으로 보여 줌
+  var AL = { 'Brightness': 'Dimmer', 'Color': 'Color', 'Position': 'Position', 'Beam': 'Beam' };
+
+  function row(name, qty, place, roles, attrs, memo) {
+    var a = {}; ATTRS.forEach(function (k) { a[k] = attrs.indexOf(k) >= 0; });
+    return { id: L.uid(), name: name, qty: qty, place: place, roles: roles, attrs: a, memo: memo || '' };
+  }
+  function example() {
+    return { name: 'Practice rig (a fictional mid-size stage)', example: true, rows: [
+      row('LED profile', 8, 'Truss over the audience', ['Key'], ['Brightness', 'Color']),
+      row('Follow spot', 2, 'Behind the audience', ['Key'], ['Brightness', 'Position', 'Beam'], 'Lead · a person follows by hand'),
+      row('LED Fresnel', 6, 'Over the audience, low', ['Fill'], ['Brightness', 'Color']),
+      row('Wash moving', 12, 'Stage truss, middle and rear', ['Wash', 'Back'], ['Brightness', 'Color', 'Position', 'Beam']),
+      row('Wash moving (side tower)', 8, 'Towers on both sides of the stage', ['Side'], ['Brightness', 'Color', 'Position', 'Beam']),
+      row('Spot moving', 8, 'Stage truss, front', ['Beam', 'Key'], ['Brightness', 'Color', 'Position', 'Beam'], 'Pattern (gobo)'),
+      row('Beam moving', 16, 'Floor and towers behind the stage', ['Beam'], ['Brightness', 'Color', 'Position', 'Beam']),
+      row('LED bar', 24, 'Stair structure behind the stage', ['Pixel'], ['Brightness', 'Color'], 'Per cell'),
+      row('Strobe', 8, 'Truss behind the stage', ['FX'], ['Brightness']),
+      row('Blinder', 4, 'Floor at the front of the stage, facing the audience', ['Audience'], ['Brightness'])
+    ] };
+  }
+  var R = L.rig() || example();
+  var ask = null;
+  function save() { L.putRig(R); }
+
+  function renderTable() {
+    $('rname').value = R.name || '';
+    var h = '<tr><th>Fixture</th><th>Qty</th><th>Position</th><th>Roles</th><th>Attributes</th><th>Notes</th><th></th></tr>';
+    h += R.rows.map(function (r) {
+      var chips = r.roles.map(function (x, i) {
+        return '<button type="button" class="chip' + (i === 0 ? ' main' : '') + '" style="--gc:' + GC[x] + '" data-role="' + x + '" data-i="' + i + '" data-row="' + r.id + '" aria-label="' + x + (i === 0 ? ' main role' : ' secondary role') + '">' + x + (i === 0 && r.roles.length > 1 ? '<small>main</small>' : '') + '</button>';
+      }).join('');
+      var left = ROLES.filter(function (x) { return r.roles.indexOf(x) < 0; });
+      var sel = left.length ? '<select data-add="' + r.id + '" aria-label="Add role"><option value="">+ Role</option>' + left.map(function (x) { return '<option>' + x + '</option>'; }).join('') + '</select>' : '';
+      var at = ATTRS.map(function (k) { return '<button type="button" data-attr="' + k + '" data-row="' + r.id + '" aria-pressed="' + (!!r.attrs[k]) + '">' + AL[k] + '</button>'; }).join('');
+      return '<tr><td><input class="t" data-f="name" data-row="' + r.id + '" value="' + L.esc(r.name) + '" aria-label="Fixture"></td>' +
+        '<td><input class="n" type="number" min="0" data-f="qty" data-row="' + r.id + '" value="' + (r.qty || 0) + '" aria-label="Qty"></td>' +
+        '<td><input class="t" data-f="place" data-row="' + r.id + '" value="' + L.esc(r.place) + '" aria-label="Position"></td>' +
+        '<td><div class="roles">' + chips + sel + '</div></td><td><div class="attrs">' + at + '</div></td>' +
+        '<td><input class="t" data-f="memo" data-row="' + r.id + '" value="' + L.esc(r.memo) + '" aria-label="Notes"></td>' +
+        '<td><button type="button" class="ghost del" data-del="' + r.id + '" aria-label="Delete row">Delete</button></td></tr>';
+    }).join('');
+    if (!R.rows.length) h += '<tr><td colspan="7" class="note">No fixture rows yet. Start with “Add fixture row”.</td></tr>';
+    $('rig').innerHTML = h;
+    renderConfirm();
+  }
+  function renderConfirm() {
+    $('exWrap').innerHTML = ask === 'ex' ? '<span class="confirm"><button type="button" id="exGo" style="color:var(--bad)">Replace the table with the example now</button><button type="button" class="ghost" id="no">Cancel</button></span>' : '<button type="button" class="ghost" id="ex">Replace with the Table 6-4 example</button>';
+    $('clrWrap').innerHTML = ask === 'clr' ? '<span class="confirm"><button type="button" id="clrGo" style="color:var(--bad)">Really clear</button><button type="button" class="ghost" id="no2">Cancel</button></span>' : '<button type="button" class="ghost" id="clr">Clear all</button>';
+  }
+
+  function counts() {
+    var main = {}, sub = {}, all = 0;
+    ROLES.forEach(function (x) { main[x] = 0; sub[x] = 0; });
+    R.rows.forEach(function (r) { var q = +r.qty || 0; all += q; r.roles.forEach(function (x, i) { if (i === 0) main[x] += q; else sub[x] += q; }); });
+    return { main: main, sub: sub, all: all };
+  }
+  function renderSummary() {
+    var c = counts();
+    var noRole = R.rows.filter(function (r) { return !r.roles.length; }).reduce(function (a, r) { return a + (+r.qty || 0); }, 0);
+    $('total').innerHTML = '<b class="num">' + c.all + '</b> units in all · <b class="num">' + c.main['Key'] + '</b> with key as the main role' + (c.all ? ' (' + Math.round(c.main['Key'] / c.all * 100) + '%)' : '') + (noRole ? ' · <b class="num">' + noRole + '</b> with no role' : '');
+    $('groups').innerHTML = GROUPS.map(function (g) {
+      var sum = g.roles.reduce(function (a, x) { return a + c.main[x]; }, 0);
+      return '<div class="grp" style="--gc:' + g.c + '"><h3>' + g.name + ' <span class="num">' + sum + ' units</span></h3><div class="rc">' + g.roles.map(function (x) {
+        var e = !c.main[x] && !c.sub[x];
+        return '<div class="r' + (e ? ' empty' : '') + (NEED.indexOf(x) >= 0 ? ' need' : '') + '"><b>' + x + '</b><span class="n">' + c.main[x] + '</span><span class="s">' + (c.sub[x] ? 'Secondary: ' + c.sub[x] + ' more' : e ? 'No fixtures' : 'As main role') + '</span></div>';
+      }).join('') + '</div></div>';
+    }).join('');
+    renderChecks(c);
+  }
+
+  function renderChecks(c) {
+    var out = [];
+    function add(lv, html) { out.push('<li class="' + lv + '"><span class="lv">' + { w: 'Check', i: 'Note', ok: 'Good' }[lv] + '</span>' + html + '</li>'); }
+    var miss = NEED.filter(function (x) { return !c.main[x] && !c.sub[x]; });
+    miss.forEach(function (x) { add('w', '<b>' + x + '</b> has no fixture assigned. ' + { 'Key': 'If the face is dark, the stage has failed. Pick fixtures to light it from about 45° in front and above.', 'Back': 'People get lost in the background. See whether the wash moving lights on the rear truss can take the back role too.', 'Side': 'Dance loses its depth and looks flat. Look for fixtures to put on the side towers or the floor.' }[x]); });
+    var other = ROLES.filter(function (x) { return NEED.indexOf(x) < 0 && !c.main[x] && !c.sub[x]; });
+    if (other.length) add('i', 'Roles with no fixture: <b>' + other.join(', ') + '</b>. Just check whether this stage needs them.');
+    if (!c.main['Key'] && c.sub['Key']) add('w', '<b>Key</b> exists only as a secondary role. The face goes unlit while those fixtures do their main job. Pick a fixture to take the key as its main role.');
+    R.rows.forEach(function (r) {
+      var nm0 = r.name || 'Unnamed fixture', nm = '<b>' + L.esc(nm0) + '</b>', a = r.attrs, has = function (x) { return r.roles.indexOf(x) >= 0; };
+      if (!r.roles.length) { add('i', '<b>' + L.esc(nm0) + '</b> has no role. If it isn’t used, say so in the notes.'); return; }
+      if (!a['Brightness']) add('w', nm + ' has no dimmer. Check the spec sheet whether even switching it on and off is impossible from the console.');
+      if (has('Beam') && !a['Position']) add('w', nm + ' is a beam but can’t change position. To change the shape in the air it needs pan and tilt.');
+      if (has('Wash') && !a['Color']) add('w', nm + ' is a wash but can’t change color. It can’t take the section palette.');
+      if (has('Pixel') && !a['Color']) add('i', nm + ' is a pixel fixture but its color is fixed. Only the dimmer changes per cell.');
+      if (has('Key') && !a['Color'] && !/follow/i.test(r.name)) add('i', nm + ' is a key but can’t change color. On a stage with cameras, check whether its color temperature (CTO) can be matched.');
+      if (has('Key') && (has('Beam') || has('FX'))) add('w', nm + ' takes both key and ' + (has('Beam') ? 'beam' : 'FX') + '. While a ' + (has('Beam') ? 'beam' : 'FX') + ' effect runs on it, it can’t take the key, so keep other fixtures to light the face meanwhile.');
+    });
+    if (c.main['FX'] || c.sub['FX'] || c.main['Pixel']) add('i', 'Strobe and pixel flashing follow the Chapter 2 safety standards. In broadcast, don’t exceed 3 per second over more than 25% of the screen; in a venue, 4 per second.');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; }) && R.rows.length) add('ok', 'Key, back and side are all covered and no row has a role that doesn’t match its attributes. Next, check in the cues that the key can stay on until the song ends.');
+    $('checks').innerHTML = out.join('');
+  }
+  function render() { renderTable(); renderSummary(); }
+
+  function find(id) { for (var i = 0; i < R.rows.length; i++) if (R.rows[i].id === id) return R.rows[i]; }
+  $('rig').addEventListener('input', function (e) {
+    var t = e.target, r = t.dataset.row && find(t.dataset.row); if (!r || !t.dataset.f) return;
+    r[t.dataset.f] = t.dataset.f === 'qty' ? Math.max(0, parseInt(t.value, 10) || 0) : t.value; R.example = false; save(); renderSummary();
+  });
+  $('rig').addEventListener('change', function (e) {
+    var t = e.target; if (!t.dataset.add || !t.value) return; var r = find(t.dataset.add); r.roles.push(t.value); R.example = false; save(); render();
+  });
+  $('rig').addEventListener('click', function (e) {
+    var t = e.target.closest('button'); if (!t) return; var r = t.dataset.row && find(t.dataset.row);
+    if (t.dataset.role && r) { var i = +t.dataset.i; if (i > 0) { r.roles.splice(i, 1); r.roles.unshift(t.dataset.role); } else r.roles.splice(0, 1); }
+    else if (t.dataset.attr && r) r.attrs[t.dataset.attr] = !r.attrs[t.dataset.attr];
+    else if (t.dataset.del) R.rows = R.rows.filter(function (x) { return x.id !== t.dataset.del; });
+    else return;
+    R.example = false; save(); render();
+  });
+  $('rname').addEventListener('input', function (e) { R.name = e.target.value; save(); });
+  $('add').addEventListener('click', function () { R.rows.push(row('', 1, '', [], ['Brightness'])); save(); render(); var ins = $('rig').querySelectorAll('input[data-f="name"]'); if (ins.length) ins[ins.length - 1].focus(); });
+  document.querySelector('.bar').addEventListener('click', function (e) {
+    var id = e.target.id;
+    if (id === 'ex') ask = 'ex'; else if (id === 'clr') ask = 'clr'; else if (id === 'no' || id === 'no2') ask = null;
+    else if (id === 'exGo') { R = example(); ask = null; save(); render(); $('msg').textContent = 'Replaced with the Table 6-4 example.'; return; }
+    else if (id === 'clrGo') { R = { name: '', rows: [] }; ask = null; save(); render(); $('msg').textContent = 'Table cleared.'; return; }
+    else return;
+    renderConfirm();
+  });
+  $('copy').addEventListener('click', function () {
+    var c = counts(), lines = ['Fixture\tQty\tPosition\tRoles\tAttributes\tNotes'];
+    R.rows.forEach(function (r) { lines.push([r.name, r.qty, r.place, r.roles.join(', '), ATTRS.filter(function (k) { return r.attrs[k]; }).map(function (k) { return AL[k]; }).join(', '), r.memo].join('\t')); });
+    lines.push('', 'Role\tMain qty\tSecondary qty');
+    ROLES.forEach(function (x) { lines.push(x + '\t' + c.main[x] + '\t' + c.sub[x]); });
+    lines.push('', 'All\t' + c.all);
+    var txt = (R.name ? R.name + '\n' : '') + lines.join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? 'Role table copied. Paste it into a spreadsheet and it splits into cells.' : 'Copy is blocked. In this browser, select the table and copy it by hand.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  if (!L.rig()) save();
+  render();
+})();
+</script>
+</body>
+</html>

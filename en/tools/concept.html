@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Concept Sheet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위에 적는 칸(컨셉 레이어, 모티브, 장면 컬러 칩, 합의), 아래에 모아 보는 한 장. 인쇄하면 한 장만 나온다 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:70ch}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:700}
+.layers{display:grid;gap:10px}
+.layers .f small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.f input,.f textarea{width:100%}
+.helper{margin-top:14px;padding:12px 14px;border-radius:10px;background:var(--panel2);display:grid;gap:10px}
+.helper .sel{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.helper ul{margin:0;padding-left:18px;font-size:13.5px}
+.helper ul li{margin:2px 0}
+.chips td input{width:100%}
+.chips td input.n{width:4.4em}
+.chips td input[type=color]{width:44px;height:30px;padding:2px}
+.chipband{position:relative;height:46px;margin-top:10px;border-radius:8px;background:var(--panel2);overflow:hidden}
+.chipband i{position:absolute;top:8px;bottom:8px;border-radius:4px;border:1px solid var(--line)}
+.meet td{vertical-align:top}
+.meet td textarea{min-height:46px}
+.checks{display:grid;gap:8px;margin:12px 0 0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+/* 한 장 */
+.one{background:#fff;color:#1c1d21;border-radius:12px;padding:22px 24px;margin-top:16px;border:1px solid var(--line)}
+.one h2{color:#1c1d21;font-size:20px}
+.one .sub{color:#6b6e76;font-size:13px;margin:2px 0 12px}
+.one dl{display:grid;grid-template-columns:150px 1fr;gap:0;margin:0}
+.one dt{font-weight:700;font-size:13.5px;padding:10px 0;border-top:1px solid #e3e0d6;color:#1c1d21}
+.one dt small{display:block;font-weight:400;color:#8a8d94;font-size:12px}
+.one dd{margin:0;padding:10px 0;border-top:1px solid #e3e0d6;font-size:14px;color:#2f3036}
+.one .emp{color:#a8692b;font-size:13px}
+.one .pchips{display:flex;flex-wrap:wrap;gap:10px}
+.one .pchips span{display:flex;align-items:center;gap:6px;font-size:13px}
+.one .pchips i{width:22px;height:22px;border-radius:4px;border:1px solid #ccc;display:inline-block}
+.one .flow{display:flex;gap:4px;flex-wrap:wrap}
+.one .flow div{min-width:86px;font-size:12px}
+.one .flow div b{display:block;font-size:12.5px}
+.one .flow .c2{display:flex;height:22px;border-radius:4px;overflow:hidden;border:1px solid #ddd;margin:3px 0}
+.one .flow .c2 i{flex:1}
+@media (max-width:640px){.one dl{grid-template-columns:1fr}.one dd{border-top:0;padding-top:0}}
+@media print{body{background:#fff}.top,.edit,.head,.tabs{display:none!important}.one{border:0;margin:0;padding:0}}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Concept Sheet</h1>
+    <p>A board for the exercises in Chapters 7 and 10. Write down the concept layers you read from the song (sound, emotion, lyrics, artist concept), the one-line concept and the lighting you won’t use, the motif, the color chips of the music video scenes and what to ask in meetings, then gather them on one sheet together with what you set in the Palette, Look Sheet and Brightness Plan (Web tools 8–10).</p>
+  </div>
+  <div class="edit">
+    <div class="tabs" role="tablist" id="tabs"><button type="button" role="tab" data-t="id" aria-selected="true">Concept layers</button><button type="button" role="tab" data-t="form">Motif</button><button type="button" role="tab" data-t="chip">Scene color chips</button><button type="button" role="tab" data-t="meet">Agreement</button></div>
+    <section class="panel" data-p="id">
+      <div class="layers" id="layers"></div>
+      <div class="helper">
+        <b style="color:var(--ink)">Sound → starting lighting values (Chapter 7, Table 7-2)</b>
+        <div class="sel" id="hsel"></div>
+        <ul id="hout"></ul>
+        <p class="note" style="margin:0">These are tendencies from research on music and color. If the artist concept says something different, you may follow that.</p>
+      </div>
+      <label class="f" style="margin-top:12px">One-line concept — a [sound] song, from [first emotion] to [last emotion], lit with [lighting that carries the concept].<input id="line"></label>
+      <label class="f" style="margin-top:10px">One lighting you won’t use<input id="avoid" placeholder="e.g. no white, no strobe, dark single-color wash"></label>
+      <ul class="checks" id="checks"></ul>
+    </section>
+    <section class="panel" data-p="form" hidden>
+      <label class="f">Motif (a shape that keeps coming back)<input id="forms" placeholder="e.g. circles and arcs, pans, picture frames"></label>
+      <label class="f" style="margin-top:10px">What to take from the reference and what to leave behind<textarea id="refs" placeholder="Video title — one line each for what to take (shape, color relationships, speed, darkness)"></textarea></label>
+      <p class="note" style="margin:8px 0 0">For the motif, check in the Chapter 6 fixture role table whether there is a role to carry that shape.</p>
+    </section>
+    <section class="panel" data-p="chip" hidden>
+      <div class="row" style="justify-content:space-between"><p class="note" style="margin:0">Write only the bars where the music video scene changes and its main color. Don’t add screen captures.</p><button type="button" id="addChip">Add scene</button></div>
+      <div class="tbl"><table class="chips" id="chips"></table></div>
+      <div class="chipband" id="chipband" aria-hidden="true"></div>
+    </section>
+    <section class="panel" data-p="meet" hidden>
+      <div class="tbl"><table class="meet" id="meet"></table></div>
+    </section>
+  </div>
+
+  <div class="row" style="margin-top:16px;justify-content:space-between"><h2>The sheet, gathered</h2><div class="row"><button type="button" id="copy">Copy as text</button><button type="button" class="primary" id="print">Print</button></div></div>
+  <p class="note" id="msg"></p>
+  <article class="one" id="one"></article>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('concept.html'), D = L.design(S), C = D.concept;
+  var $ = function (id) { return document.getElementById(id); };
+  var LY = [['sound', '1 Sound', 'Tempo, whether it sounds bright or dark, the tone that leads the song (rough/soft, electronic/acoustic)', 'e.g. 120 BPM, sounds bright, sharp synth lead'],
+    ['emotion', '2 Emotion', 'From the first feeling to the last feeling', 'e.g. from resignation to resolve'],
+    ['voice', '3 Lyrics', 'Who says what to whom (only if the song has words, and only what the lyrics say)', 'e.g. a song telling the one who left that it’s all right'],
+    ['artist', '4 Artist concept', 'Concept keywords for this release, album art, music video, costumes', 'e.g. fresh, dreamy, girl crush']];
+  var HS = [['tempo', 'Tempo', [['', '—'], ['fast', 'Fast'], ['mid', 'Medium'], ['slow', 'Slow']]], ['mode', 'Bright/dark', [['', '—'], ['bright', 'Sounds bright'], ['dark', 'Sounds dark']]],
+    ['reg', 'Register that leads the song', [['', '—'], ['high', 'High'], ['low', 'Low']]], ['loud', 'Sound and arrangement', [['', '—'], ['full', 'Loud and full'], ['thin', 'Quiet and sparse']]],
+    ['timbre', 'Timbre', [['', '—'], ['sharp', 'Bright and sharp'], ['soft', 'Dark and soft']]]];
+  C.layers = C.layers || { sound: '', emotion: '', voice: '', artist: '' }; C.hs = C.hs || {};
+  var M = [['artist', 'Artist · label', 'The image you must protect, colors to avoid'], ['director', 'Director', 'The moments the camera works on, movement paths'], ['choreo', 'Choreography team', 'Bars where the formation changes a lot, held poses'], ['video', 'Video team', 'Main color of the LED screen, brightness ratio of screen to lights, bars where it changes'],
+    ['camera', 'Camera · technical director (broadcast)', 'White balance reference, key color temperature, shots the camera works on'], ['costume', 'Costume · hair and makeup', 'Color and material of the costumes (white, black, sequins)'], ['stage', 'Stage · special effects', 'Set changes, timing of fire, CO₂ and lasers, the main look at those moments'], ['audio', 'Director · label (track)', 'Final track version, whether the length changes']];
+  C.meetA = C.meetA || {};
+  function save() { L.put(S); }
+  function build() {
+    $('layers').innerHTML = LY.map(function (q) { return '<label class="f">' + q[1] + '<small>' + q[2] + '</small><input data-ly="' + q[0] + '" value="' + L.esc(C.layers[q[0]] || '') + '" placeholder="' + q[3] + '"></label>'; }).join('');
+    $('hsel').innerHTML = HS.map(function (h) { return '<label class="f">' + h[1] + '<select data-hs="' + h[0] + '">' + h[2].map(function (o) { return '<option value="' + o[0] + '"' + (C.hs[h[0]] === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></label>'; }).join('');
+    helper();
+    $('line').value = C.line || ''; $('avoid').value = C.avoid || ''; $('forms').value = C.forms || ''; $('refs').value = C.refs || '';
+    $('meet').innerHTML = '<tr><th>Whom to ask</th><th>What to ask</th><th>Answer received</th></tr>' + M.map(function (m) { return '<tr><td><b style="color:var(--ink)">' + m[1] + '</b></td><td><textarea data-m="' + m[0] + '" placeholder="' + m[2] + '">' + L.esc(C.meet[m[0]] || '') + '</textarea></td><td><textarea data-a="' + m[0] + '">' + L.esc(C.meetA[m[0]] || '') + '</textarea></td></tr>'; }).join('');
+    chips();
+  }
+  function chips() {
+    $('chips').innerHTML = '<tr><th>Bar</th><th>Scene name</th><th>Main color</th><th></th></tr>' + C.chips.map(function (c) { return '<tr><td><input class="n" type="number" min="1" data-c="' + c.id + '" data-k="bar" value="' + c.bar + '"></td><td><input data-c="' + c.id + '" data-k="name" value="' + L.esc(c.name) + '"></td><td><input type="color" data-c="' + c.id + '" data-k="hex" value="' + c.hex + '"></td><td><button type="button" class="ghost" data-del="' + c.id + '">Delete</button></td></tr>'; }).join('');
+    var N = L.nbars(S), list = C.chips.slice().sort(function (a, b) { return a.bar - b.bar; });
+    $('chipband').innerHTML = list.map(function (c, i) { var a = (c.bar - 1) / N * 100, b = ((list[i + 1] ? list[i + 1].bar : N + 1) - 1) / N * 100; return '<i style="left:' + a + '%;width:calc(' + (b - a) + '% - 2px);background:' + c.hex + '" title="' + L.esc(c.name) + '"></i>'; }).join('');
+  }
+  function helper() {
+    var h = C.hs, o = [];
+    if (h.tempo === 'fast' && h.mode === 'bright') o.push('High saturation, bright, toward yellow and orange');
+    else if (h.tempo === 'slow' && h.mode === 'dark') o.push('Low saturation, dark, toward blue');
+    else {
+      if (h.mode === 'bright') o.push('Sounds bright → bright and warm');
+      if (h.mode === 'dark') o.push('Sounds dark → dark and cool, low saturation');
+      if (h.tempo === 'fast') o.push('Fast → raise the saturation');
+      if (h.tempo === 'slow') o.push('Slow → lower the saturation');
+      if (h.tempo === 'mid' && !h.mode) o.push('Medium tempo → whether it sounds bright or dark sets the color');
+    }
+    if (h.reg === 'high') o.push('High register → bright colors');
+    if (h.reg === 'low') o.push('Low register → dark colors');
+    if (h.loud === 'full') o.push('Loud, full sound → larger brightness and area of light');
+    if (h.loud === 'thin') o.push('Quiet, sparse sound → smaller brightness and area, leave darkness');
+    if (h.timbre === 'sharp') o.push('Bright, sharp timbre → vivid color, crisp beams');
+    if (h.timbre === 'soft') o.push('Dark, soft timbre → soft wash, wide surfaces');
+    $('hout').innerHTML = o.length ? o.map(function (x) { return '<li>' + x + '</li>'; }).join('') : '<li style="list-style:none;margin-left:-18px;color:var(--muted)">Pick a sound above and it shows the starting lighting values.</li>';
+  }
+  function checks() {
+    var out = [];
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: 'Check', i: 'Note', ok: 'Good' }[lv] + '</span>' + h + '</li>'); }
+    var Y = C.layers, filled = ['sound', 'emotion', 'voice', 'artist'].filter(function (k) { return (Y[k] || '').trim(); }).length;
+    if (!(Y.sound || '').trim()) add('w', '<b>Sound</b> is empty. A concept starts from the music. Write down how it felt on a first listen, without looking at the lyrics.');
+    if (!(Y.emotion || '').trim()) add('w', '<b>Emotion</b> is empty. Write the first feeling and the last feeling.');
+    else if (!/\bto\b|→|->/i.test(Y.emotion)) add('i', 'The emotion has no ending feeling. Writing the start and the end together, as in “from ○○ to ○○”, gives the color and brightness a direction to move.');
+    if (!(Y.voice || '').trim()) add('i', 'The lyrics layer is empty. For an instrumental, leave it empty.');
+    if (!(Y.artist || '').trim()) add('i', 'The artist concept is empty. Ask for this release’s concept keywords in the meeting and fill it in (Table 7-4).');
+    var vague = (C.line || '').toLowerCase().match(/pretty|beautiful|gorgeous|flashy|fancy|cool|exciting|fun\b/g);
+    if (vague) add('w', 'The one-line concept contains words like <b>' + vague.filter(function (v, i, a) { return a.indexOf(v) === i; }).join(', ') + '</b>. Words like these decide nothing. Replace them with words that bring saturation, color direction or brightness to mind.');
+    if (!(C.line || '').trim()) add('i', 'The one-line concept is empty. Put the four layers into this frame: a [sound] song, from [first emotion] to [last emotion], lit with [lighting that carries the concept].');
+    else if (C.line.length > 140) add('i', 'The one-line concept is ' + C.line.length + ' characters. Trim it to a length you can get across to anyone on the team in one go.');
+    if (!(C.avoid || '').trim()) add('i', 'The lighting you won’t use is empty. Settling on one keeps the concept from blurring in rehearsal.');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; }) && filled >= 3 && C.line) add('ok', 'The concept layers and the one-line concept are written. Read it to someone hearing the song for the first time and ask what color and brightness come to mind.');
+    $('checks').innerHTML = out.join('');
+  }
+  function one() {
+    var P = D.pal, LK = D.looks, B = D.bright, list = L.sections(S);
+    function cb(id) { for (var i = 0; i < P.colors.length; i++) if (P.colors[i].id === id) return P.colors[i]; }
+    function emp(t) { return '<span class="emp">' + t + '</span>'; }
+    var lys = LY.filter(function (x) { return (C.layers[x[0]] || '').trim(); }).map(function (x) { return '<b>' + x[1].replace(/^\d /, '') + '</b> ' + L.esc(C.layers[x[0]]); }).join('<br>');
+    var pal = P.colors.length ? '<div class="pchips">' + P.colors.map(function (c) { return '<span><i style="background:' + L.hexOf(c) + '"></i><b>' + L.esc(c.name) + '</b> ' + L.PROLE[c.role] + ' <small style="color:#8a8d94">' + (c.role === 'key' ? (c.kelvin || 4200) + 'K' : c.r + '·' + c.g + '·' + c.b) + '</small></span>'; }).join('') + '</div>' : emp('Set it in the Palette (Web tool 8)');
+    var flow = list.length ? '<div class="flow">' + list.map(function (x) { var cols = (P.flow[x.m.id] || []).map(cb).filter(Boolean), r = LK[x.m.id] || {}; return '<div><b>' + L.esc(x.m.name.replace(/\(.*\)/, '')) + '</b><div class="c2">' + (cols.length ? cols.map(function (c) { return '<i style="background:' + L.hexOf(c) + '"></i>'; }).join('') : '<i style="background:#eee"></i>') + '</div>' + L.esc(r.name || '—') + '<br><span style="color:#8a8d94">Main ' + (r.hero || '—') + '</span></div>'; }).join('') + '</div>' : emp('No sections yet (see Listening Notes)');
+    var bright = list.length ? list.map(function (x) { var r = B.rows[x.m.id]; return L.esc(x.m.name.replace(/\(.*\)/, '')) + ' ' + (r ? r.hero : '—'); }).join(' · ') + '<br>Key ' + B.key + '% all through the song' : emp('Set it in the Brightness Plan (Web tool 10)');
+    var darks = S.marks.filter(function (m) { return B.dark[m.id]; }).sort(L.sortMarks).map(function (m) { return 'Bar ' + m.bar + (m.beat > 1 ? ' beat ' + m.beat : '') + ' ' + L.markDef(m.t).label; }).join(' · ');
+    var CN = { burst: 'Moving burst', reserve: 'Special color', blinder: 'Blinder', flash: 'White flash', strobe: 'Strobe', aud: 'Audience beams', all: 'All roles at once' }, byBar = {};
+    Object.keys(CN).forEach(function (k) { var b = +B.cards[k]; if (b) (byBar[b] = byBar[b] || []).push(CN[k]); });
+    var cards = Object.keys(byBar).sort(function (a, b) { return a - b; }).map(function (b) { return 'Bar ' + b + ' ' + byBar[b].join(', '); }).join('<br>');
+    var meet = M.filter(function (m) { return C.meet[m[0]] || C.meetA[m[0]]; }).map(function (m) { return '<b>' + m[1] + '</b> ' + L.esc(C.meet[m[0]] || '') + (C.meetA[m[0]] ? ' → ' + L.esc(C.meetA[m[0]]) : ''); }).join('<br>');
+    $('one').innerHTML = '<h2>' + L.esc(S.title || 'Untitled') + ' — Concept Sheet</h2><p class="sub">' + L.esc(S.artist || '') + (S.bpm ? ' · ' + S.bpm + ' BPM' : '') + ' · ' + L.nbars(S) + ' bars</p><dl>' +
+      '<dt>Concept layers<small>Ch. 7</small></dt><dd>' + (lys || emp('Write the four layers')) + '</dd>' +
+      '<dt>One-line concept<small>Ch. 7</small></dt><dd><b>' + (L.esc(C.line) || emp('Empty')) + '</b>' + (C.avoid ? '<br><span style="color:#b4432f">Lighting we won’t use: ' + L.esc(C.avoid) + '</span>' : '') + '</dd>' +
+      '<dt>Motif<small>Ch. 7</small></dt><dd>' + (L.esc(C.forms) || emp('Empty')) + (C.refs ? '<br><span style="color:#6b6e76">' + L.esc(C.refs).replace(/\n/g, '<br>') + '</span>' : '') + '</dd>' +
+      '<dt>Palette<small>Ch. 8</small></dt><dd>' + pal + '</dd>' +
+      '<dt>Color flow · Look sheet<small>Ch. 8–9</small></dt><dd>' + flow + '</dd>' +
+      '<dt>Brightness · Darkness<small>Ch. 10</small></dt><dd>Main ' + bright + '<br>Dark: ' + (darks || 'None') + '</dd>' +
+      '<dt>Special cues<small>Ch. 10</small></dt><dd>' + (cards || emp('Write the first bars in the Brightness Plan')) + '</dd>' +
+      '<dt>To agree on<small>Ch. 7</small></dt><dd>' + (meet || emp('Write it in the Agreement tab')) + '</dd></dl>';
+    return { layers: C.layers, pal: P, list: list, cards: byBar, darks: darks };
+  }
+  function render() { checks(); one(); }
+  document.querySelector('.edit').addEventListener('input', function (e) {
+    var t = e.target;
+    if (t.dataset.ly) C.layers[t.dataset.ly] = t.value;
+    else if (t.dataset.hs) { C.hs[t.dataset.hs] = t.value; helper(); }
+    else if (t.id === 'line' || t.id === 'avoid' || t.id === 'forms' || t.id === 'refs') C[t.id] = t.value;
+    else if (t.dataset.m) C.meet[t.dataset.m] = t.value;
+    else if (t.dataset.a) C.meetA[t.dataset.a] = t.value;
+    else if (t.dataset.c) { var c = C.chips.filter(function (x) { return x.id === t.dataset.c; })[0]; c[t.dataset.k] = t.dataset.k === 'bar' ? Math.max(1, +t.value || 1) : t.value; save(); var bandOnly = true; var N = L.nbars(S); chipsBand(); render(); return; }
+    else return;
+    save(); render();
+  });
+  function chipsBand() { var keep = document.activeElement; var N = L.nbars(S), list = C.chips.slice().sort(function (a, b) { return a.bar - b.bar; }); $('chipband').innerHTML = list.map(function (c, i) { var a = (c.bar - 1) / N * 100, b = ((list[i + 1] ? list[i + 1].bar : N + 1) - 1) / N * 100; return '<i style="left:' + a + '%;width:calc(' + (b - a) + '% - 2px);background:' + c.hex + '"></i>'; }).join(''); }
+  $('chips').addEventListener('click', function (e) { var id = e.target.dataset.del; if (!id) return; C.chips = C.chips.filter(function (c) { return c.id !== id; }); save(); chips(); });
+  $('addChip').addEventListener('click', function () { var last = C.chips.reduce(function (m, c) { return Math.max(m, c.bar); }, 0); C.chips.push({ id: L.uid(), bar: last + 4, name: 'New scene', hex: '#888888' }); save(); chips(); });
+  $('tabs').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; [].forEach.call($('tabs').children, function (x) { x.setAttribute('aria-selected', String(x === b)); }); document.querySelectorAll('[data-p]').forEach(function (p) { p.hidden = p.dataset.p !== b.dataset.t; }); });
+  $('print').addEventListener('click', function () { window.print(); });
+  $('copy').addEventListener('click', function () {
+    var txt = $('one').innerText;
+    var done = function (ok) { $('msg').textContent = ok ? 'Copied the sheet as text. Paste it into a messenger or a document.' : 'Copying is blocked.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  save(); build(); render();
+})();
+</script>
+</body>
+</html>
