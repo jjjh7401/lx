@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Safety Check</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 깜박이는 큐(방송·공연 판정), 가운데 관객을 향하는 큐, 아래 왼쪽 협의 항목, 오른쪽 매다는 장비와 신고 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:76ch}
+.stack{display:grid;gap:16px}
+table.fl input[type=text]{min-width:12em;width:100%}
+table.fl input.n{width:5em}
+.v{font-size:12.5px;font-weight:700;white-space:nowrap}
+.v.ok{color:var(--ok)} .v.w{color:var(--warn)} .v.bad{color:var(--bad)}
+td.hz{font-family:var(--f-num);white-space:nowrap}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}}
+.cl{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.cl li{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start;padding:8px 10px;border-radius:9px;background:var(--panel2);font-size:13.5px}
+.cl input[type=text]{grid-column:2;width:100%;font-size:13px;padding:4px 7px}
+.cl .grp{grid-template-columns:1fr;background:none;padding:6px 2px 0;font-size:12px;font-weight:700;color:var(--accent)}
+.kv{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:14px;margin:8px 0}
+.kv b{font-family:var(--f-num);color:var(--ink);text-align:right}
+.alert{padding:9px 12px;border-radius:9px;background:var(--panel2);border-left:4px solid var(--warn);font-size:13.5px;margin-top:8px}
+.alert.ok{border-left-color:var(--ok)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Safety Check</h1>
+    <p>A worksheet for the Chapter 32 exercise. Choose a unit for each flashing cue and it calculates how many times a second it flashes and compares that with the broadcast (three times) and live (four times) standards. It gathers on one sheet the length of cues aimed at the audience, the items to agree on haze and special effects, the weight and power of hung gear, and the performance filing date, and makes a checklist to send to the venue and the rigging crew. Check laws and standards again for each show with the authority in charge and the venue.</p>
+  </div>
+  <div class="stack">
+    <section class="panel">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 id="flT">Flashing cues</h2>
+        <div class="row"><label class="f">BPM<input type="number" id="bpm" class="n" min="40" max="240" step="0.1" title="A BPM changed here is used only for this check. The song’s BPM stays as it is."></label><button type="button" id="bpmBack" class="ghost" hidden>Back to song BPM</button><button type="button" id="addF">Add cue</button></div></div>
+      <div class="tbl"><table class="fl" id="fl"></table></div>
+      <p class="note" style="margin:8px 0 0">Flashes per second = BPM ÷ 60 ÷ Measure (per fixture). Broadcast: an area larger than a quarter of the screen must not flash more than three times a second (ITU-R BT.1702, Ofcom). Stage: strobes must not flash more than four times a second (the UK HSE’s recommendation for clubs). A phased chase bursts more often across the whole stage, so for cues that cover the audience widely, also check the count for the whole stage.</p>
+    </section>
+    <section class="panel">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>Cues aimed at the audience</h2><button type="button" id="addA">Add cue</button></div>
+      <div class="tbl"><table class="fl" id="au"></table></div>
+      <p class="note" style="margin:8px 0 0">Use blinders and audience positions briefly. Cues that stay for more than a bar are flagged. For a cue where a laser points toward the audience, write the company’s measurements and safety measures too (Section 32.3).</p>
+    </section>
+    <div class="grid2">
+      <section class="panel"><h2 style="margin-bottom:8px">To agree with the venue and companies</h2><ul class="cl" id="cl"></ul></section>
+      <section class="panel">
+        <h2>Hung gear and power</h2>
+        <p class="note" id="rigSrc" style="margin:4px 0 0"></p>
+        <div class="kv" id="kv"></div>
+        <div class="row"><label class="f">Gear on one truss line (kg)<input type="number" id="tkg" class="n" min="0" style="width:6em"></label><label class="f">Truss and cables (kg)<input type="number" id="tadd" class="n" min="0" style="width:6em"></label><label class="f">Number of hoists<input type="number" id="thn" class="n" min="1" style="width:5em"></label></div>
+        <div class="kv" id="hoist"></div>
+        <p class="note" style="margin:0">The real safe working load follows the manufacturers’ specifications for the truss and hoists and the check of the venue’s rigging crew. Safety factors of hanging tools: drive wire rope 6 or more, fixing wire rope 4 or more, chain 6 or more, shackles and the like 4 or more (cited from KS A 6110).</p>
+        <h2 style="margin-top:16px">Performance notice</h2>
+        <div class="row" style="margin-top:8px"><label class="f">Performance place<select id="venue"><option value="hall">In a venue</option><option value="out">Outside a venue</option></select></label><label class="f">Expected audience<input type="number" id="aud" class="n" min="0" style="width:7em"></label><label class="f">Performance date<input type="date" id="day"></label></div>
+        <div id="report"></div>
+      </section>
+    </div>
+    <section class="panel">
+      <div class="row" style="justify-content:space-between"><h2>Checklist to send</h2><button type="button" id="copy" class="primary">Copy as text</button></div>
+      <p class="note" id="msg"></p>
+    </section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('safety.html'), D = L.design(S);
+  var $ = function (id) { return document.getElementById(id); };
+  var UNITS = [['once', 'Once (not repeated)', 0], ['2bar', 'Every 2 bars (8)', 8], ['bar', 'Every bar (4)', 4], ['2beat', 'Every 2 beats (2)', 2], ['beat', 'Every beat (1)', 1], ['8th', 'Every half beat (0.5)', 0.5], ['16th', 'Every sixteenth (0.25)', 0.25]];
+  var CHK = [
+    ['Haze', [['det', 'Got the venue’s detector type and the conditions for using haze from the fire safety manager'], ['amt', 'Decided the amount of haze and the time it is used (rehearsal and show)'], ['air', 'Decided the ventilation between performances and after the end'], ['fire', 'Decided who gives notice, and how, when a fire is suspected']]],
+    ['Special effects', [['sfx', 'Marked the special-effects cues separately in the cue sheet and decided who gives the call'], ['wind', 'If outdoors, decided the wind-speed standard (hold back at 5 m/s, stop fireworks-type effects at 10 m/s) and the lighting cue for when an effect is dropped']]],
+    ['Laser · audience', [['laser', 'If any cue sends a laser toward the audience, received the company’s measurements and safety measures'], ['notice', 'If strobes are used, tell the audience through the booking information, at the entrance or in an announcement']]],
+    ['Hung gear', [['clamp', 'Fit a safety bond (wire or chain) to every piece of hung gear'], ['list', 'Handed the equipment list (weight, position, power) to the rigging crew'], ['add', 'When gear is added during rehearsal, tell the rigging crew the weight first']]]];
+  if (!D.safety) {
+    D.safety = { flash: [], aud: [], chk: {}, memo: {}, tkg: 228, tadd: 0, thn: 4, tv: 2, venue: 'hall', aud_n: '', day: '' };
+    if (S.sample) {
+      D.safety.flash = [['Snap pulse · low bass every beat (Tables 25-3, 25-4)', 'beat', 30, false], ['Odd/even, fast (Measure 0.5)', '8th', 30, false], ['Sparkle (Measure 0.5)', '8th', 20, false], ['Side hi-hat left-right alternating', '2beat', 20, false],
+        ['Pixel claps, two-color snap', 'bar', 15, false], ['White flash (cue 80)', 'once', 100, false], ['Brightness hit (cue 30)', 'once', 100, false]]
+        .map(function (x) { return { id: L.uid(), name: x[0], unit: x[1], area: x[2], strobe: x[3] }; });
+      D.safety.aud = [['Cue 30 Rooftop fan · does the beam pass over the audience?', 2, false], ['Cue 75 Cross beams · does the beam pass over the audience?', 2, false]]
+        .map(function (x) { return { id: L.uid(), name: x[0], beats: x[1], laser: x[2] }; });
+    }
+  }
+  var F = D.safety;
+  if (!F.tv) { if (+F.tkg === 264) F.tkg = 228; F.tv = 2; } // 22장 v0.3: 예시 트러스를 뒤 트러스(워시 6 + 스트로브 8 = 228kg)로
+  function save() { L.put(S); }
+  function unit(k) { for (var i = 0; i < UNITS.length; i++) if (UNITS[i][0] === k) return UNITS[i]; return UNITS[0]; }
+  var bpmV = +S.bpm || 120; // 점검용 BPM. 곡 BPM(S.bpm)은 바꾸지 않음
+  function hz(r) { var m = unit(r.unit)[2]; return m ? bpmV / 60 / m : 0; }
+  function jB(r) { var h = hz(r), a = +r.area || 0; if (!h) return ['ok', 'Once']; if (a <= 25) return h > 3 ? ['w', 'Small area, check the wide shot'] : ['ok', 'Within standard']; if (h > 3.0001) return ['bad', 'Over']; if (h >= 2.95) return ['w', 'At the line']; return ['ok', 'Within standard']; }
+  function jL(r) { var h = hz(r); if (!h) return ['ok', 'Once']; if (h > 4.0001) return ['bad', 'Over']; if (h >= 3.95) return ['w', 'At the line']; return ['ok', 'Within standard']; }
+  function renderFlash() {
+    $('bpm').value = bpmV; $('bpmBack').hidden = bpmV === (+S.bpm || 120); $('bpmBack').textContent = 'Back to song BPM (' + (+S.bpm || 120) + ')'; $('flT').textContent = (S.title ? S.title + ' · ' : '') + 'Flashing cues';
+    $('fl').innerHTML = '<tr><th>Cue</th><th>Unit (Measure)</th><th>Per second</th><th>Screen area %</th><th>Broadcast</th><th>Stage</th><th></th></tr>' + F.flash.map(function (r, i) {
+      var b = jB(r), l = jL(r), h = hz(r);
+      return '<tr><td><input type="text" data-t="flash" data-i="' + i + '" data-k="name" value="' + L.esc(r.name) + '" aria-label="Cue"></td>' +
+        '<td><select data-t="flash" data-i="' + i + '" data-k="unit" aria-label="Unit">' + UNITS.map(function (u) { return '<option value="' + u[0] + '"' + (u[0] === r.unit ? ' selected' : '') + '>' + u[1] + '</option>'; }).join('') + '</select></td>' +
+        '<td class="hz">' + (h ? h.toFixed(2) + ' times' : '—') + '</td>' +
+        '<td><input type="number" class="n" min="0" max="100" data-t="flash" data-i="' + i + '" data-k="area" value="' + L.esc(r.area) + '" aria-label="Area"></td>' +
+        '<td><span class="v ' + b[0] + '">' + b[1] + '</span></td><td><span class="v ' + l[0] + '">' + l[1] + '</span></td>' +
+        '<td><button type="button" class="ghost" data-del="flash" data-i="' + i + '" aria-label="Delete">×</button></td></tr>';
+    }).join('');
+  }
+  function renderAud() {
+    var bl = L.beatLen(S), bpb = +S.bpb || 4;
+    $('au').innerHTML = '<tr><th>Cue</th><th>Beats held</th><th>Seconds</th><th>Laser</th><th>Verdict</th><th></th></tr>' + F.aud.map(function (r, i) {
+      var b = +r.beats || 0, j = b > bpb ? ['w', 'Over one bar, shorten'] : ['ok', 'Short'];
+      if (r.laser) j = ['w', 'Check the company’s measurements and safety measures'];
+      return '<tr><td><input type="text" data-t="aud" data-i="' + i + '" data-k="name" value="' + L.esc(r.name) + '" aria-label="Cue"></td>' +
+        '<td><input type="number" class="n" min="0" step="0.5" data-t="aud" data-i="' + i + '" data-k="beats" value="' + L.esc(r.beats) + '" aria-label="Beats held"></td>' +
+        '<td class="hz">' + (b * bl).toFixed(1) + '</td><td><input type="checkbox" data-t="aud" data-i="' + i + '" data-k="laser"' + (r.laser ? ' checked' : '') + ' aria-label="Laser"></td>' +
+        '<td><span class="v ' + j[0] + '">' + j[1] + '</span></td><td><button type="button" class="ghost" data-del="aud" data-i="' + i + '" aria-label="Delete">×</button></td></tr>';
+    }).join('') || '<tr><td colspan="6" class="note">No cues aimed at the audience.</td></tr>';
+  }
+  function renderCl() {
+    $('cl').innerHTML = CHK.map(function (g) {
+      return '<li class="grp">' + g[0] + '</li>' + g[1].map(function (c) {
+        return '<li><input type="checkbox" data-c="' + c[0] + '"' + (F.chk[c[0]] ? ' checked' : '') + ' aria-label="' + L.esc(c[1]) + '"><span>' + L.esc(c[1]) + '</span><input type="text" data-m="' + c[0] + '" value="' + L.esc(F.memo[c[0]] || '') + '" placeholder="Note (person in charge, conditions)" aria-label="Note"></li>';
+      }).join('');
+    }).join('');
+  }
+  function rig() { var rc = L.getKey('rigcalc'); return rc && rc.rows && rc.rows.length ? { rows: rc.rows, src: 'Equipment loaded from the Rig Calculator and Patch Sheet (Web tool 18).' } : null; }
+  function renderRig() {
+    var R = rig(), rows = R ? R.rows : [['LED profile', 8, 15, 300, 'Hang'], ['LED Fresnel', 6, 9, 250, 'Hang'], ['Wash mover', 12, 22, 650, 'Hang'], ['Wash mover (side tower)', 8, 22, 650, 'Face'], ['Spot mover', 8, 30, 800, 'Hang'], ['Beam mover', 16, 18, 450, 'Floor'], ['LED bar', 24, 8, 150, 'Face'], ['Strobe', 8, 12, 800, 'Hang'], ['Blinder', 4, 6, 400, 'Floor']]
+      .map(function (x) { return { name: x[0], qty: x[1], kg: x[2], w: x[3], mount: x[4] }; });
+    $('rigSrc').textContent = R ? R.src : 'The Rig Calculator and Patch Sheet is empty, so this uses the practice rig of Chapter 6 (94 fixtures).';
+    var hang = 0, all = 0, kw = 0, hq = 0;
+    rows.forEach(function (r) { var q = +r.qty || 0, kg = q * (+r.kg || 0); all += kg; kw += q * (+r.w || 0) / 1000; if (r.mount === 'Hang') { hang += kg; hq += q; } });
+    $('kv').innerHTML = '<span>Hung gear</span><b>' + hq + ' units · ' + hang.toLocaleString('en-US') + ' kg</b><span>Total gear weight</span><b>' + all.toLocaleString('en-US') + ' kg</b><span>Total power</span><b>' + kw.toFixed(2) + 'kW</b>';
+    $('tkg').value = F.tkg; $('tadd').value = F.tadd; $('thn').value = F.thn;
+    var per = ((+F.tkg || 0) + (+F.tadd || 0)) / Math.max(1, +F.thn || 1);
+    $('hoist').innerHTML = '<span>Per hoist (split evenly)</span><b>' + per.toFixed(1) + ' kg</b>';
+    return { hang: hang, hq: hq, all: all, kw: kw, per: per };
+  }
+  function renderReport() {
+    $('venue').value = F.venue; $('aud').value = F.aud_n; $('day').value = F.day;
+    var need = F.venue === 'out' && +F.aud_n >= 1000, h = '';
+    if (need) {
+      var d = F.day ? new Date(F.day + 'T00:00:00') : null, f = function (n) { var x = new Date(d); x.setDate(x.getDate() - n); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
+      h = '<div class="alert">This is a performance outside a venue with 1,000 or more audience members, so a disaster response plan must be filed (Performance Act, Article 11). ' + (d ? 'File by <b>' + f(14) + '</b> (14 days before), and file any change by <b>' + f(7) + '</b> (7 days before).' : 'Enter the performance date and it calculates the filing deadline.') + ' The equipment and special-effects lists in the plan come from lighting and special effects.</div>';
+    } else h = '<div class="alert ok">' + (F.venue === 'out' ? 'Fewer than 1,000 audience members are expected. Even so, check the local government’s guidance for a performance outside a venue.' : 'A show in a venue follows the safety procedures the venue sets. Agree the schedule with the venue’s safety person.') + '</div>';
+    $('report').innerHTML = h;
+    return need;
+  }
+  function render() { renderFlash(); renderAud(); renderCl(); renderRig(); renderReport(); }
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.id === 'bpm') { var v = +t.value; if (v >= 40 && v <= 240) { bpmV = v; } render(); return; }
+    if (t.dataset.t) { var r = F[t.dataset.t][+t.dataset.i], k = t.dataset.k; r[k] = t.type === 'checkbox' ? t.checked : t.value; save(); t.dataset.t === 'flash' ? renderFlash() : renderAud(); return; }
+    if (t.dataset.c) { F.chk[t.dataset.c] = t.checked; save(); return; }
+    if (t.dataset.m) { F.memo[t.dataset.m] = t.value; save(); return; }
+    if (t.id === 'tkg' || t.id === 'tadd' || t.id === 'thn') { F[t.id] = +t.value || 0; save(); renderRig(); return; }
+    if (t.id === 'venue') { F.venue = t.value; save(); renderReport(); return; }
+    if (t.id === 'aud') { F.aud_n = t.value; save(); renderReport(); return; }
+    if (t.id === 'day') { F.day = t.value; save(); renderReport(); return; }
+  });
+  document.addEventListener('click', function (e) { var d = e.target.dataset.del; if (!d) return; F[d].splice(+e.target.dataset.i, 1); save(); d === 'flash' ? renderFlash() : renderAud(); });
+  $('addF').addEventListener('click', function () { F.flash.push({ id: L.uid(), name: '', unit: 'beat', area: 30, strobe: false }); save(); renderFlash(); });
+  $('addA').addEventListener('click', function () { F.aud.push({ id: L.uid(), name: '', beats: 2, laser: false }); save(); renderAud(); });
+  $('copy').addEventListener('click', function () {
+    var g = renderRig(), need = renderReport(), out = [(S.title || 'Song') + ' safety check · ' + bpmV + ' BPM', '', '[Flashing cues] Flashes per second (broadcast / stage)'];
+    F.flash.forEach(function (r) { var h = hz(r); out.push('- ' + r.name + ': ' + (h ? h.toFixed(2) + ' times' : 'once') + ' (broadcast: ' + jB(r)[1] + ' / stage: ' + jL(r)[1] + ')'); });
+    out.push('', '[Cues aimed at the audience]'); F.aud.forEach(function (r) { out.push('- ' + r.name + ': ' + r.beats + ' beats' + (r.laser ? ', laser (company measurement needed)' : '')); });
+    out.push('', '[Items to agree]'); CHK.forEach(function (gr) { gr[1].forEach(function (c) { out.push((F.chk[c[0]] ? '[Done] ' : '[Open] ') + c[1] + (F.memo[c[0]] ? ' — ' + F.memo[c[0]] : '')); }); });
+    out.push('', '[Hung gear and power]', '- Hung gear: ' + g.hq + ' units, ' + g.hang + ' kg / total ' + g.all + ' kg / power ' + g.kw.toFixed(2) + ' kW', '- One truss line ' + ((+F.tkg || 0) + (+F.tadd || 0)) + ' kg ÷ ' + F.thn + ' hoists = ' + g.per.toFixed(1) + ' kg per hoist (needs the manufacturer’s specification and the rigging crew’s check)');
+    if (need) out.push('', '[Performance notice] Disaster response plan filing required (outside a venue, 1,000 or more audience): file 14 days before, changes 7 days before');
+    var txt = out.join('\n');
+    try { navigator.clipboard.writeText(txt).then(function () { $('msg').textContent = 'Copied the checklist as text. You can paste it into an email or a messenger.'; }, function () { $('msg').textContent = 'Copying is blocked.'; }); } catch (err) { $('msg').textContent = 'Copying is blocked.'; }
+  });
+  $('bpmBack').addEventListener('click', function () { bpmV = +S.bpm || 120; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
