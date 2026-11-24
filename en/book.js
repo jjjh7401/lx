@@ -19,7 +19,7 @@
     { id: 'ch11', n: '11', t: 'Principles of Placement', s: 'How fast intensity, direction and color change', file: 'ch11.html', ko: KO + '/61' },
     { id: 'ch12', n: '12', t: 'Lighting Each Section', s: 'How the light changes from intro to chorus', file: 'ch12.html', ko: KO + '/62' },
     { id: 'ch13', n: '13', t: 'Building Layers', s: 'Splitting the light by instrument', file: 'ch13.html', ko: KO + '/63' },
-    { id: 'ch14', n: '14', t: 'Transitions', s: 'Connecting one scene to the next' },
+    { id: 'ch14', n: '14', t: 'Transitions', s: 'Connecting one scene to the next', file: 'ch14.html', ko: KO + '/64' },
     { id: 'ch15', n: '15', t: 'Adjusting for Genre', s: 'From ballads to EDM' },
     { id: 'ch16', n: '16', t: 'Cue Sheets and the Beat Grid', s: 'Turning a song into a lighting script' },
     { part: 'Part 4 · Lighting by Show Type' },

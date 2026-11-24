@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Transition Curve Comparison</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 두 전환 고르기, 가운데 곡선 그래프와 무대 모형 두 개, 아래 곡의 경계표 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:74ch}
+.pick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.pick{grid-template-columns:1fr}}
+.pick .panel{display:grid;gap:8px}
+.pick h2 i{font-style:normal;display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.viz{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:14px;margin-top:14px;align-items:stretch}
+@media (max-width:760px){.viz{grid-template-columns:1fr}}
+svg.cv{width:100%;height:auto;display:block}
+.lamps{display:grid;gap:10px}
+.lamp{border-radius:12px;border:1px solid var(--line);background:#0b0d10;display:grid;place-items:center;min-height:110px;position:relative;overflow:hidden}
+.lamp .glow{position:absolute;inset:14px;border-radius:50%;filter:blur(6px)}
+.lamp span{position:relative;font-size:12px;color:#fff;font-weight:700;text-shadow:0 1px 2px #000}
+table.bd td{font-size:13.5px}
+table.bd td.w{color:var(--warn);font-weight:700}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Transition Curve Comparison</h1>
+    <p>The board for the Chapter 14 practice. Pick two transition tools and draw their brightness curves side by side over beats and seconds. When you play it, the brightness of the two stage models changes along the curves in time with a click. The table below uses the in times from the look sheet to work out how many seconds each boundary of the song comes to.</p>
+  </div>
+  <div class="pick">
+    <section class="panel"><h2><i style="background:#69adff"></i>Transition A</h2>
+      <div class="row"><label class="f">Transition tool<select id="ka"></select></label><label class="f">Length (beats)<input type="number" id="na" min="0" max="32" step="1" class="n"></label></div><p class="note" id="da" style="margin:0"></p></section>
+    <section class="panel"><h2><i style="background:#ff6f5e"></i>Transition B</h2>
+      <div class="row"><label class="f">Transition tool<select id="kb"></select></label><label class="f">Length (beats)<input type="number" id="nb" min="0" max="32" step="1" class="n"></label></div><p class="note" id="db" style="margin:0"></p></section>
+  </div>
+  <div class="viz">
+    <section class="panel"><div class="row" style="justify-content:space-between;margin-bottom:6px"><h2 id="cvT">Brightness curve</h2>
+      <div class="row"><button type="button" class="primary" id="play" aria-pressed="false">Play</button><label class="row" style="gap:6px;align-items:center;font-size:13.5px"><input type="checkbox" id="click" checked> Click</label></div></div>
+      <svg class="cv" id="cv" viewBox="0 0 720 300" role="img" aria-label="Brightness curves of the two transitions"></svg></section>
+    <section class="lamps"><div class="lamp" id="la"><div class="glow"></div><span>A</span></div><div class="lamp" id="lb"><div class="glow"></div><span>B</span></div></section>
+  </div>
+  <section class="panel" style="margin-top:16px">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>Song boundaries and in times</h2><button type="button" id="copy">Copy table</button></div>
+    <p class="note" id="msg"></p>
+    <div class="tbl"><table class="bd" id="bd"></table></div>
+  </section>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('trans.html'), D = L.design(S), TR = D.trans;
+  var $ = function (id) { return document.getElementById(id); };
+  var K = [
+    ['Snap', 0, 'Changes all at once on the downbeat. Chorus entry, beat section entry, button ending.'],
+    ['Fade', 2, 'Changes evenly. Verse entry, bridge.'],
+    ['Dip then hit', 2, 'Drops for the length, then hits on the downbeat. Big chorus entry, drop.'],
+    ['White reset', 4, 'Everything goes white on the downbeat, then settles into the new color over the length. Between songs.'],
+    ['Bump', 1, 'Rises briefly, then returns to where it was. End of a vocal line, a crash.'],
+    ['Swell', 8, 'Swells slowly up to the downbeat. Pre-chorus, build-up.'],
+    ['Freeze', 0, 'Stops the effect and leaves it as it is. Kick-out bar.'],
+    ['Crossfade', 16, 'The color spreads and changes over a long time. Ballad, long intro.']
+  ];
+  var W = 8, DB = 8; // 다운비트 앞 8박, 뒤 8박
+  ['ka', 'kb'].forEach(function (id) { $(id).innerHTML = K.map(function (k, i) { return '<option value="' + i + '">' + k[0] + '</option>'; }).join(''); });
+  $('ka').value = TR.a != null ? TR.a : 1; $('kb').value = TR.b != null ? TR.b : 2;
+  $('na').value = TR.na != null ? TR.na : K[$('ka').value][1]; $('nb').value = TR.nb != null ? TR.nb : K[$('kb').value][1];
+  function save() { TR.a = +$('ka').value; TR.b = +$('kb').value; TR.na = +$('na').value; TR.nb = +$('nb').value; L.put(S); }
+  // u: 다운비트 기준 박(-8..8). 반환 [밝기 0..1, 색 섞임 0..1(새 색 비율), 화이트 0..1]
+  function val(k, n, u) {
+    var nm = K[k][0], lo = .45, hi = .85;
+    if (nm === 'Snap') return u < 0 ? [lo, 0, 0] : [hi, 1, 0];
+    if (nm === 'Fade') { if (n <= 0) return u < 0 ? [lo, 0, 0] : [hi, 1, 0]; var p = Math.max(0, Math.min(1, (u + n) / n)); return [lo + (hi - lo) * p, p, 0]; }
+    if (nm === 'Dip then hit') return u < -n ? [.55, 0, 0] : u < 0 ? [.06, 0, 0] : [Math.max(.85, 1 - u * .02), 1, 0];
+    if (nm === 'White reset') { if (u < 0) return [.55, 0, 0]; var q = n > 0 ? Math.min(1, u / n) : 1; return [.7 + .3 * Math.exp(-q * 3), 1, Math.max(0, 1 - q * 1.2)]; }
+    if (nm === 'Bump') return u >= 0 && u < Math.max(.5, n) ? [.95, 0, .3] : [.5, 0, 0];
+    if (nm === 'Swell') { var s = n > 0 ? Math.max(0, Math.min(1, (u + n) / n)) : (u < 0 ? 0 : 1); return [.25 + .65 * Math.pow(s, 1.8), 0, 0]; }
+    if (nm === 'Freeze') return u < 0 ? [.55 + .2 * Math.sin(u * Math.PI), 0, 0] : [.55, 0, 0];
+    if (nm === 'Crossfade') { var c = n > 0 ? Math.max(0, Math.min(1, (u + n / 2) / n)) : (u < 0 ? 0 : 1); return [.6, c, 0]; }
+    return [.5, 0, 0];
+  }
+  function sec(b) { return (b * L.beatLen(S)).toFixed(2) + ' s'; }
+  function draw() {
+    var x0 = 50, x1 = 700, y0 = 30, y1 = 250, h = '';
+    function X(u) { return x0 + (u + W) / (W + DB) * (x1 - x0); }
+    function Y(v) { return y1 - v * (y1 - y0); }
+    for (var b = -W; b <= DB; b++) {
+      h += '<line x1="' + X(b) + '" y1="' + y0 + '" x2="' + X(b) + '" y2="' + y1 + '" stroke="' + (b === 0 ? 'currentColor' : 'var(--grid' + (b % 4 ? '' : '4') + ')') + '" stroke-width="' + (b === 0 ? 2 : 1) + '"/>';
+      if (b % 2 === 0) h += '<text x="' + X(b) + '" y="' + (y1 + 18) + '" font-size="11" text-anchor="middle" fill="var(--muted)">' + (b === 0 ? 'Downbeat' : (b > 0 ? '+' : '') + b) + '</text>';
+      if (b % 4 === 0 && b !== 0) h += '<text x="' + X(b) + '" y="' + (y1 + 34) + '" font-size="10.5" text-anchor="middle" fill="var(--muted)" font-family="IBM Plex Mono,monospace">' + (b * L.beatLen(S)).toFixed(1) + 's</text>';
+    }
+    [['ka', 'na', '#69adff'], ['kb', 'nb', '#ff6f5e']].forEach(function (z) {
+      var k = +$(z[0]).value, n = +$(z[1]).value || 0, d = '';
+      for (var i = 0; i <= 320; i++) { var u = -W + i / 320 * (W + DB), v = val(k, n, u); d += (i ? 'L' : 'M') + X(u).toFixed(1) + ',' + Y(v[0]).toFixed(1); }
+      h += '<path d="' + d + '" fill="none" stroke="' + z[2] + '" stroke-width="3" stroke-linejoin="round"/>';
+    });
+    h += '<line id="ph" x1="0" y1="' + y0 + '" x2="0" y2="' + y1 + '" stroke="var(--accent)" stroke-width="2" opacity="0"/>';
+    h += '<text x="' + x0 + '" y="18" font-size="11" fill="var(--muted)">Brightness</text>'; h += '<text x="' + x1 + '" y="18" font-size="11" text-anchor="end" fill="var(--muted)">Beats from the downbeat</text>';
+    $('cv').innerHTML = h; $('cv').style.color = 'var(--ink)';
+    $('cvT').textContent = 'Brightness curve · ' + S.bpm + ' BPM, 1 beat = ' + L.beatLen(S).toFixed(2) + ' s';
+    $('da').textContent = K[$('ka').value][2] + ' Length: ' + $('na').value + ' beats = ' + sec(+$('na').value);
+    $('db').textContent = K[$('kb').value][2] + ' Length: ' + $('nb').value + ' beats = ' + sec(+$('nb').value);
+    lamp('la', +$('ka').value, +$('na').value, -W); lamp('lb', +$('kb').value, +$('nb').value, -W);
+  }
+  var OLD = [255, 184, 217], NEW = [0, 242, 217];
+  function lamp(id, k, n, u) {
+    var v = val(k, n, u), c = [0, 1, 2].map(function (i) { var m = OLD[i] * (1 - v[1]) + NEW[i] * v[1]; return Math.round(m * (1 - v[2]) + 255 * v[2]); });
+    var g = $(id).querySelector('.glow'); g.style.background = 'rgb(' + c.join(',') + ')'; g.style.opacity = v[0].toFixed(3);
+  }
+  ['ka', 'kb'].forEach(function (id, i) { $(id).addEventListener('change', function () { $(i ? 'nb' : 'na').value = K[$(id).value][1]; save(); draw(); }); });
+  ['na', 'nb'].forEach(function (id) { $(id).addEventListener('input', function () { save(); draw(); }); });
+  // 재생: 16박을 반복
+  var ctx = null, playing = false, t0 = 0, raf = 0, nextB = 0;
+  function blip(at, down) { if (!$('click').checked) return; var o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.value = down ? 1560 : 1040; g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(down ? .5 : .25, at + .002); g.gain.exponentialRampToValueAtTime(.0001, at + .06); o.connect(g); g.connect(ctx.destination); o.start(at); o.stop(at + .08); }
+  function tick() {
+    var bl = L.beatLen(S), t = ctx.currentTime - t0, tot = (W + DB) * bl;
+    while (nextB * bl < t + .12) { var at = t0 + nextB * bl, bi = nextB % (W + DB); blip(at, bi === W || bi === 0); nextB++; }
+    var u = -W + (t % tot) / bl;
+    lamp('la', +$('ka').value, +$('na').value, u); lamp('lb', +$('kb').value, +$('nb').value, u);
+    var ph = document.getElementById('ph'); if (ph) { var x = 50 + (u + W) / (W + DB) * 650; ph.setAttribute('x1', x); ph.setAttribute('x2', x); ph.setAttribute('opacity', 1); }
+    raf = requestAnimationFrame(tick);
+  }
+  $('play').addEventListener('click', function () {
+    if (playing) { playing = false; cancelAnimationFrame(raf); $('play').textContent = 'Play'; $('play').setAttribute('aria-pressed', 'false'); draw(); return; }
+    try { ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return; }
+    if (ctx.state === 'suspended') ctx.resume();
+    playing = true; t0 = ctx.currentTime + .05; nextB = 0; $('play').textContent = 'Stop'; $('play').setAttribute('aria-pressed', 'true'); raf = requestAnimationFrame(tick);
+  });
+  // 곡의 경계
+  function beatsOf(entry) {
+    if (!entry) return null; var m;
+    if (/snap|cut|hit/i.test(entry) && !/fade/i.test(entry)) return 0;
+    if ((m = entry.match(/(\d+)[\s-]*beats?/i))) return +m[1];
+    if ((m = entry.match(/(\d+)[\s-]*bars?/i))) return +m[1] * (+S.bpb || 4);
+    return null;
+  }
+  function renderBd() {
+    var list = L.sections(S), rows = [];
+    if (!list.length) { $('bd').innerHTML = '<tr><td class="note">No sections.</td></tr>'; return; }
+    $('bd').innerHTML = '<tr><th>Boundary</th><th>Bar</th><th>Energy</th><th>In time (look sheet)</th><th>Beats</th><th>Sec</th><th>Check</th></tr>' + list.map(function (x, i) {
+      var lk = D.looks[x.m.id] || {}, e = S.energy[x.m.id] || 3, pe = i ? (S.energy[list[i - 1].m.id] || 3) : 0, nb = beatsOf(lk.entry), dir = e > pe ? 'Rises' : e < pe ? 'Falls' : 'Same', w = '';
+      if (nb != null) { var s = nb * L.beatLen(S); if (dir === 'Rises' && s > 4) w = 'A rising transition is long (Chapter 14: short when rising)'; if (dir === 'Falls' && nb === 0 && !/end|outro/i.test(x.m.name)) w = 'A falling transition is a snap (long when falling)'; }
+      else if (lk.entry) w = 'Could not read the length. Write it like “2-beat fade”';
+      else w = 'The look sheet has no in time';
+      rows.push([(i ? list[i - 1].m.name : 'Start') + ' → ' + x.m.name, x.start, dir, lk.entry || '', nb == null ? '' : nb, nb == null ? '' : (nb * L.beatLen(S)).toFixed(1), w]);
+      return '<tr><td>' + L.esc(rows[i][0]) + '</td><td class="num">' + x.start + '</td><td>' + e + ' · ' + dir + '</td><td>' + L.esc(lk.entry || '—') + '</td><td class="num">' + (nb == null ? '—' : nb) + '</td><td class="num">' + (nb == null ? '—' : (nb * L.beatLen(S)).toFixed(2)) + '</td><td class="' + (w ? 'w' : '') + '">' + (w || '—') + '</td></tr>';
+    }).join('');
+    renderBd.rows = rows;
+  }
+  $('copy').addEventListener('click', function () {
+    var txt = (S.title || '') + ' Transition table\nBoundary\tBar\tEnergy\tIn time\tBeats\tSeconds\tCheck\n' + (renderBd.rows || []).map(function (r) { return r.join('\t'); }).join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? 'Table copied. Add the attributes that change greatly and what you change in the dark beside it, as in Table 14-3 of Chapter 14.' : 'Copying is blocked.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  save(); draw(); renderBd();
+})();
+</script>
+</body>
+</html>
