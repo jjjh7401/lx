@@ -39,7 +39,7 @@
     { id: 'ch29', n: '29', t: 'Show File Templates', s: 'Build once, use again', file: 'ch29.html', ko: KO + '/79' },
     { part: 'Part 6 · Rehearsal and Show' },
     { id: 'ch30', n: '30', t: 'Rehearsal', s: 'Checklists and notes', file: 'ch30.html', ko: KO + '/80' },
-    { id: 'ch31', n: '31', t: 'Running the Show', s: 'The person who presses GO' },
+    { id: 'ch31', n: '31', t: 'Running the Show', s: 'The person who presses GO', file: 'ch31.html', ko: KO + '/81' },
     { id: 'ch32', n: '32', t: 'Safety and Regulations', s: 'Flashing, rigging and special effects' },
     { part: 'Part 7 · Case Studies' },
     { id: 'ch33', n: '33', t: 'LOVE ATTACK', s: 'A TV music show song from start to finish' },

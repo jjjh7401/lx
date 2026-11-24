@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chapter 31 · Running the Show · Lighting the Music</title>
+<meta name="description" content="The standby-and-GO call, pressing GO on the downbeat, Blind and Preview, running a timecode show (what to check, what to do when the signal is lost), missed cues, accidents, and the lighting team’s roles.">
+<link rel="alternate" hreflang="ko" href="https://ablitzdesign.tistory.com/81">
+<link rel="alternate" hreflang="en" href="https://jjjh7401.github.io/lx/en/ch31.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 31 · Running the Show · Lighting the Music">
+<meta property="og:description" content="The standby-and-GO call, pressing GO on the downbeat, Blind and Preview, running a timecode show (what to check, what to do when the signal is lost), missed cues, accidents, and the lighting team’s roles.">
+<meta property="og:image" content="https://jjjh7401.github.io/lx/cover-800.jpg">
+<meta property="og:url" content="https://jjjh7401.github.io/lx/en/ch31.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="en.css?v=2">
+</head>
+<body>
+<header class="ltm-bar" id="ltmBar"></header>
+<main id="article-view">
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch31"><header class="ch-head"><div class="ch-num"><span>Chapter</span> 31</div><h1 class="ch-title">Running the Show</h1><p class="ch-sub">The person who presses GO</p></header>
+<aside class="box goals"><div class="box-label">In this chapter</div><div class="box-body">
+<ul class="checks">
+<li>Learn the order of calls that runs from standby to GO, and the timing of pressing GO on the downbeat while counting the beats.</li>
+<li>Build the next look without sending it to the stage, using Blind and Preview, then send it out on the beat you want.</li>
+<li>For a show run on timecode, decide what to check before the show and what the operator does during it (checking the timecode status, running by hand the cues not put on timecode, and switching to manual when timecode is lost).</li>
+<li>Decide before the show how to handle a missed cue or an accident (the cue to go back to, the cue to re-enter at, safety, and stopping the show).</li>
+</ul>
+</div></aside>
+<div class="open-label">Opening scene</div><p class="lead">If you have ever jumped into a long jump rope, you know this. If you start at the moment the rope hits the ground, you are already late. The body has to move first, as the rope starts to come down, so that your feet are there the moment the rope touches the ground. Just before going in, you watch the rope turn two or three times and count the beats.</p>
+<p>GO in the show is the same. The cue sheet says “bar 18 beat 1,” but if you press the button after you hear the sound of that beat, the light shows up late. It takes time between hearing the sound and the hand moving. So the operator starts counting beats a few bars ahead to get ready, and presses GO just as the downbeat (the first beat of the bar) arrives.</p>
+<p>In a show where the backing track plays too, instead of a person, timecode, a time signal that flows together with the audio, sometimes presses GO (Chapter 28). The cues go out automatically at the times the audio flows, so instead of pressing GO the operator checks that the timecode is coming in properly, and switches to manual if there is a problem.</p>
+<p>If you fixed everything to fix in rehearsal (Chapter 30), what remains is running the cues in the show on the same beats as in rehearsal. This chapter covers, in order, what the operator does before and during the show, both in a show where GO is pressed by hand and in a show run on timecode.</p>
+<h2 id="c31-31-1-the-call-standby-and-go">31.1 The Call: Standby and GO</h2><p class="lead">In the show, a cue is <strong>readied with a standby and executed with GO</strong>. Passing cues back and forth in words like this is called a call, and lighting cues follow the way it has long been used in theatre and musicals.<sup class="ref"><a href="#c31-s1">1</a></sup></p>
+<ul class="keyed">
+<li><strong>Warning</strong>: Given about a minute before the cue. It lets the person in charge get into position and get ready.</li>
+<li><strong>Standby</strong>: Given a few seconds before the cue. It means everything is ready and only GO remains. The person who receives the call answers “standing by” to show they heard.</li>
+<li><strong>GO</strong> Given at the moment the cue is to be executed. You execute the instant you hear the word “go.”</li>
+</ul>
+<p>In a call, <strong>use the word “go” only to execute.</strong> If “go” gets mixed into the words that give the standby, the person listening may react to that word and press early. So on the intercom (the headset system staff use to talk), people sometimes put another word in place of “go” when it is not the time to execute.<sup class="ref"><a href="#c31-s1">1</a></sup> Where the intercom cannot be heard, a cue light (a small signal lamp put in front of the person in charge) is sometimes used. A red light is standby and a green light is GO.<sup class="ref"><a href="#c31-s1">1</a></sup></p>
+<p>In a music show, the cues inside a song are often run without calls. The lighting operator or lighting director listens to the music and presses GO or busks directly, and depending on the song it is run on timecode (Section 31.4).<sup class="ref"><a href="#c31-s6">6</a></sup> <sup class="ref"><a href="#c31-s7">7</a></sup> This is because you cannot call out cues that come in every beat one by one on the intercom. For cues where several teams move together, such as video, a stage change or a performer’s entrance, the stage manager sometimes gives the call.<code>[Author to confirm]</code> The words and order of calls differ a little from site to site, so agree them with the stage manager on the first day of rehearsal.</p>
+<h2 id="c31-31-2-go-timing">31.2 GO Timing</h2><p class="lead">GO for a snap cue (a cue that changes all at once with no fade) is pressed <strong>on the downbeat, having prepared by counting the beats.</strong> This is the timing set as the starting value in Chapter 14.</p>
+<p>If you press after you hear the sound, you are late by your reaction time, but if you prepare by counting beats ahead, people actually tend to press slightly (0.02–0.1 s) ahead of the beat.<sup class="ref"><a href="#c31-s10">10</a></sup> The time the console takes to send a signal to the fixtures is short too: sending one universe of DMX in full once takes about 0.023 s.<sup class="ref"><a href="#c31-s11">11</a></sup> So if you press on the downbeat, the light lands almost on the downbeat too.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 336" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="230.0" x2="230.0" y1="92.0" y2="340.0"></line>
+<text fill="#1f2430" font-size="12" font-weight="400" opacity="1.0" text-anchor="middle" x="230.0" y="86.0">Bar 17 beat 3</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="461.0" x2="461.0" y1="92.0" y2="340.0"></line>
+<text fill="#1f2430" font-size="12" font-weight="400" opacity="1.0" text-anchor="middle" x="461.0" y="86.0">Beat 4 (four)</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="692.1" x2="692.1" y1="92.0" y2="340.0"></line>
+<text fill="#1f2430" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="692.1" y="86.0">Bar 18 beat 1</text>
+<text fill="#c8553d" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="210.0" y="152.0">Press after hearing it</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="end" x="210.0" y="169.0">Late by the reaction time</text>
+<circle cx="772.9" cy="150.0" fill="#c8553d" opacity="1.0" r="7.0" stroke="none" stroke-width="1"></circle>
+<text fill="#c8553d" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="772.9" y="137.0">Press</text>
+<path d="M772.9310344827586,150 L791.4137931034483,150" fill="none" opacity="1.0" stroke="#c8553d" stroke-dasharray="4 3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<rect fill="#c8553d" height="24.0" opacity="0.25" rx="4" stroke="none" stroke-width="1" width="97.0" x="791.4" y="138.0"></rect>
+<text fill="#c8553d" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="start" x="797.4" y="155.0">Light</text>
+<text fill="#c8553d" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="684.1" y="182.0">Light looks later than the downbeat</text>
+<text fill="#4f8a5b" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="210.0" y="242.0">Count, then press</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="end" x="210.0" y="259.0">Usually slightly ahead of the beat</text>
+<circle cx="675.9" cy="240.0" fill="#4f8a5b" opacity="1.0" r="7.0" stroke="none" stroke-width="1"></circle>
+<text fill="#4f8a5b" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="675.9" y="227.0">Press</text>
+<path d="M675.8965517241379,240 L694.3793103448276,240" fill="none" opacity="1.0" stroke="#4f8a5b" stroke-dasharray="4 3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<rect fill="#4f8a5b" height="24.0" opacity="0.25" rx="4" stroke="none" stroke-width="1" width="194.1" x="694.4" y="228.0"></rect>
+<text fill="#4f8a5b" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="start" x="700.4" y="245.0">Light</text>
+<text fill="#4f8a5b" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="726.1" y="272.0">Light lands almost on the downbeat</text>
+<rect fill="#d9902a" height="22.0" opacity="0.18" rx="4" stroke="none" stroke-width="1" width="80.0" x="421.0" y="300.0"></rect>
+<text fill="#d9902a" font-size="11" font-weight="700" opacity="1.0" text-anchor="middle" x="461.0" y="315.0">“Four”: hand over the key</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="480.0" y="392.0">The difference in press time and the length of the delay are examples for the picture. If it looks late on some fixtures, move it a little earlier in rehearsal.</text>
+</svg>
+<figcaption><b>Figure 31-1</b> GO timing. Drawn at 112 BPM from bar 17 beat 3 to bar 18 beat 1. If you press after hearing the sound of the downbeat, the light looks late; if you count and press on the downbeat, the light lands almost on the downbeat.</figcaption></figure>
+<p>Count “one, two, three, four,” and at “four” put your finger over the key, then press on the next “one.” How late or early the hand is is measured in seconds, but converted to beats its size differs with the speed of the song.</p>
+<div class="tbl"><div class="tcap"><b>Table 31-1</b> BPM, the length of one beat, and the size of 0.1 s <span class="badge calc">Calculation</span></div><table>
+<thead>
+<tr class="header">
+<th>BPM</th>
+<th>1 beat</th>
+<th>0.1 s is how many beats?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>90</td>
+<td>0.67 s</td>
+<td>0.15 beat</td>
+</tr>
+<tr class="even">
+<td>112(LOVE ATTACK)</td>
+<td>0.54 s</td>
+<td>0.19 beat</td>
+</tr>
+<tr class="odd">
+<td>128</td>
+<td>0.47 s</td>
+<td>0.21 beat</td>
+</tr>
+<tr class="even">
+<td>140</td>
+<td>0.43 s</td>
+<td>0.23 beat</td>
+</tr>
+</tbody>
+</table></div>
+<p>Pressing on the downbeat is only a starting value. The time it takes the light to change differs by fixture. Fixtures that use incandescent lamps take time to brighten, and moving lights take time to move to a position. So pick one cue that has a hit (LOVE ATTACK’s cue 30, bar 18 beat 1), press it a few times in rehearsal, and if the light looks later than the downbeat, press a little earlier. In a song run on timecode, if the light looks late, move that event’s time a little earlier for the same reason (Chapter 28).<code>[Author to confirm]</code></p>
+<p>For fade cues, decide the reference cue by cue. Some cues need the fade to <strong>start</strong> on the downbeat at a section boundary (the transition table of Chapter 14 is mostly like this), and some need the fade to have <strong>finished</strong> by the first beat of the chorus. If a cue that brightens over a 2-beat fade must be fully bright on the first beat of the chorus, press GO 2 beats ahead of it. If you write down, from the time you put the time on the cue sheet, whether that time is “the time you press GO” or “the time the fade ends,” you will not get confused.</p>
+<aside class="box try"><div class="box-label">A short experiment</div><div class="box-body"><ol class="steps"><li>Set your phone’s metronome to 112 BPM.</li><li>First, without counting the beats and with your eyes closed, clap each time you hear the metronome click.</li><li>Next, count “one, two, three, four” silently and clap on “one.”</li><li>The first time your claps are heard separately behind the metronome; the second time they are heard almost on top of it.</li><li>Just by preparing while counting the beats, being late by the reaction time almost disappears.</li></ol></div></aside>
+<h2 id="c31-31-3-building-ahead-with-blind-and-preview">31.3 Building Ahead with Blind and Preview</h2><p class="lead">To build the next look without sending it to the stage, use <strong>Blind</strong> or <strong>Preview</strong>. When you busk (Chapter 21) or a request comes in that is not on the cue sheet, you can prepare a new look while the show goes on and send it out on the beat you want.</p>
+<ul class="keyed">
+<li><strong>Blind</strong> Stops the programmer’s values from going out to the stage. Build values with Blind on, and when you turn Blind off the values you built meanwhile are added to the stage. The programmer’s time (Program Time) is not used then, so the values change at once.<sup class="ref"><a href="#c31-s2">2</a></sup> <sup class="ref"><a href="#c31-s3">3</a></sup> If you turn Blind off on the downbeat, it amounts to a snap change on that beat.</li>
+<li><strong>Preview</strong> Builds values in a <strong>separate programmer</strong> that does not go to the stage. During Preview the title bar and border of the window turn red. In a session shared by several people there is only one preview programmer, so note that others can edit the same values too.<sup class="ref"><a href="#c31-s2">2</a></sup> <sup class="ref"><a href="#c31-s4">4</a></sup></li>
+</ul>
+<p>Choose between the two by <strong>whether you will send the values you built to the stage soon</strong>. A busking look you will use soon is built in Blind and Blind is turned off just before the downbeat. To fix or preview the next song’s cues regardless of the stage, use Preview.</p>
+<p>There is also something to watch for with Blind. If you turn Blind on while the programmer is empty, the output does not change, but if you turn Blind on with values left in the programmer, those values drop out of the output and the stage changes.<sup class="ref"><a href="#c31-s2">2</a></sup> Program Time is not used either, so it changes at once with no fade. So empty the programmer before turning Blind on. The habit of Chapter 23 (always clear it after storing) is used here too.</p>
+<h2 id="c31-31-4-a-show-run-on-timecode">31.4 A Show Run on Timecode</h2><p class="lead">In a show where the audio is fixed, <strong>timecode</strong> sometimes executes the cues in place of a person. How to record cues on timecode was covered in Chapter 28; here we look at running that show in the performance.</p>
+<p>Stages with a backing track, light shows, openings matched to video, and concerts where the band plays to a click and a backing track are this kind of show. The playback engineer, who plays the audio, sends out timecode together with the backing track and click, and the lighting and video run to that timecode.<sup class="ref"><a href="#c31-s14">14</a></sup></p>
+<p>Running on timecode greatly reduces the operator’s pressing of GO, but it does not leave nothing to do. <strong>Check that the timecode is coming in properly, run by hand the cues not put on timecode, and switch to manual if the timecode is lost.</strong></p>
+<div class="tbl"><div class="tcap"><b>Table 31-2</b> What the operator does in manual running and in timecode running</div><table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Manual running</th>
+<th>Timecode running</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>What executes the cues</td>
+<td>The operator’s GO</td>
+<td>Timecode that comes in with the audio</td>
+</tr>
+<tr class="even">
+<td>What the operator watches</td>
+<td>The beat, the GO cue list, the stage</td>
+<td>The console’s timecode display (time and color), the stage</td>
+</tr>
+<tr class="odd">
+<td>What is done by hand</td>
+<td>Every cue in the song</td>
+<td>Key and accents, parts changed that day (busking, encore), safety</td>
+</tr>
+<tr class="even">
+<td>Accidents that often happen</td>
+<td>A missed cue</td>
+<td>Timecode lost, audio different from rehearsal</td>
+</tr>
+<tr class="odd">
+<td>Handling</td>
+<td>The cue to re-enter at (Section 31.5)</td>
+<td>Switch to manual (below)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>What to check before the show</strong></p>
+<ol type="1">
+<li><strong>Where the timecode is received.</strong> See that the timecode show’s TC Slot is set to the slot that receives the playback engineer’s signal. If it is left at Internal, it runs on the console’s internal timecode regardless of the audio.<sup class="ref"><a href="#c31-s12">12</a></sup></li>
+<li><strong>Whether it starts and stops automatically.</strong> With Auto Start on, the show starts by itself when a time within the show’s range comes in, and with Auto Stop on, the show stops when the signal stops. If you set Duration to the real length of the show, it will not start by itself at times outside the range.<sup class="ref"><a href="#c31-s12">12</a></sup></li>
+<li><strong>The start time and frame rate for each song.</strong> Agree with the playback engineer at what hour and minute the timecode of each song starts and how many frames per second it has (Chapter 28, Web tool 21). If the received time and the show’s time differ, match them with Offset TC Slot.<sup class="ref"><a href="#c31-s12">12</a></sup></li>
+<li><strong>Whether it is the same audio as at rehearsal.</strong> If the arrangement or length of the audio changed, the cues fall on different beats. If it changed, record that song again or run it by hand (Chapter 28).</li>
+<li><strong>That no sequence is left on by hand.</strong> Switch them all off before the show. If any remain, what timecode switched on and what was switched on by hand get mixed (Chapter 28).</li>
+<li><strong>Whether the timecode follows when the playback device is switched.</strong> A big show sets up two of the same playback system and hands over to the other when one stops.<sup class="ref"><a href="#c31-s14">14</a></sup> In rehearsal check with the playback engineer that the timecode comes across too when handing over, and that the time does not jump.<code>[Author to confirm]</code></li>
+<li><strong>From which cue to go manual if it is lost.</strong> Fill in the “cue to re-enter at” column of the GO cue list (Section 31.8) for songs run on timecode too.</li>
+</ol>
+<p><strong>What to watch during the show</strong></p>
+<p>Watch the color of the console’s timecode display. You can set separate colors for while it is receiving an external signal, while the signal is lost and the console carries timecode on internally (After Roll), and when no signal is coming in.<sup class="ref"><a href="#c31-s13">13</a></sup> Even if the signal is lost, the console carries timecode on for the time set as After Roll, so cues keep going out.<sup class="ref"><a href="#c31-s13">13</a></sup> A short drop that comes back does not show on the stage, but if the display color has changed, tell the playback engineer at once.</p>
+<p>Put cues to be run by hand, such as key and accents, in a <strong>sequence that timecode does not run</strong> (Table 28-2 in Chapter 28). If you press by hand during the show a scene sequence that timecode is running, the order of the cues after it may drift from the timecode.<code>[Author to confirm]</code></p>
+<p><strong>When the timecode is lost</strong></p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 406" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#ffffff" height="56.0" opacity="1.0" rx="9" stroke="#2f8c8c" stroke-width="1.6" width="210.0" x="40.0" y="74.0"></rect>
+<text fill="#2f8c8c" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="52.0" y="97.0">Playback engineer</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="52.0" y="117.0">Backing track · click · timecode</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.6" x1="252.0" x2="276.0" y1="102.0" y2="102.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="276.0,102.0 269.7,105.0 269.7,99.0" stroke="none"></polygon>
+<rect fill="#ffffff" height="56.0" opacity="1.0" rx="9" stroke="#3b6ea8" stroke-width="1.6" width="210.0" x="280.0" y="74.0"></rect>
+<text fill="#3b6ea8" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="292.0" y="97.0">Console timecode show</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="292.0" y="117.0">Receives timecode at the TC Slot</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.6" x1="492.0" x2="516.0" y1="102.0" y2="102.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="516.0,102.0 509.7,105.0 509.7,99.0" stroke="none"></polygon>
+<rect fill="#ffffff" height="56.0" opacity="1.0" rx="9" stroke="#1f2430" stroke-width="1.6" width="210.0" x="520.0" y="74.0"></rect>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="532.0" y="97.0">Scene sequence · layers</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="532.0" y="117.0">Cues go out automatically</text>
+<rect fill="#d9902a" height="56.0" opacity="0.12" rx="9" stroke="#d9902a" stroke-width="1.4" width="170.0" x="760.0" y="74.0"></rect>
+<text fill="#d9902a" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="772.0" y="97.0">Operator</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="772.0" y="117.0">Check timecode · switch to manual</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="140.0" x2="140.0" y1="176.0" y2="420.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="140.0" y="170.0">Bar 41</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="251.4" x2="251.4" y1="176.0" y2="420.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="251.4" y="170.0">Bar 42</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="362.9" x2="362.9" y1="176.0" y2="420.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="362.9" y="170.0">Bar 43</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="474.3" x2="474.3" y1="176.0" y2="420.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="474.3" y="170.0">Bar 44</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="585.7" x2="585.7" y1="176.0" y2="420.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="585.7" y="170.0">Bar 45</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="697.1" x2="697.1" y1="176.0" y2="420.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="697.1" y="170.0">Bar 46</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="808.6" x2="808.6" y1="176.0" y2="420.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="808.6" y="170.0">Bar 47</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="920.0" x2="920.0" y1="176.0" y2="420.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="920.0" y="170.0">Bar 48</text>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="125.0" y="219.0">Timecode</text>
+<rect fill="#4f8a5b" height="24.0" opacity="0.85" rx="4" stroke="none" stroke-width="1" width="222.9" x="140.0" y="202.0"></rect>
+<text fill="#ffffff" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="start" x="148.0" y="219.0">External signal</text>
+<rect fill="#d9902a" height="24.0" opacity="0.85" rx="4" stroke="none" stroke-width="1" width="208.0" x="362.9" y="202.0"></rect>
+<text fill="#ffffff" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="start" x="370.9" y="219.0">After Roll</text>
+<rect fill="#ffffff" height="24.0" opacity="1.0" rx="4" stroke="#c8553d" stroke-dasharray="5 4" stroke-width="1.4" width="349.1" x="570.9" y="202.0"></rect>
+<text fill="#c8553d" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="start" x="578.9" y="219.0">Stopped: no more cues go out</text>
+<line opacity="1.0" stroke="#c8553d" stroke-linecap="butt" stroke-width="2" x1="362.9" x2="362.9" y1="192.0" y2="232.0"></line>
+<text fill="#c8553d" font-size="11" font-weight="700" opacity="1.0" text-anchor="middle" x="362.9" y="186.0">Signal lost</text>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="125.0" y="305.0">Scene cues</text>
+<circle cx="251.4" cy="300.0" fill="#4f8a5b" opacity="1.0" r="11.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="10.5" font-weight="700" opacity="1.0" text-anchor="middle" x="251.4" y="304.0">50</text>
+<text fill="#4f8a5b" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="start" x="265.4" y="330.0">Run automatically by timecode</text>
+<circle cx="669.3" cy="300.0" fill="#ffffff" opacity="1.0" r="11.0" stroke="#6b7280" stroke-width="1.6"></circle>
+<text fill="#6b7280" font-size="10.5" font-weight="700" opacity="1.0" text-anchor="middle" x="669.3" y="304.0">59</text>
+<text fill="#6b7280" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="end" x="655.3" y="346.0">Not sent (missed)</text>
+<circle cx="697.1" cy="300.0" fill="#3b6ea8" opacity="1.0" r="11.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="10.5" font-weight="700" opacity="1.0" text-anchor="middle" x="697.1" y="304.0">60</text>
+<text fill="#3b6ea8" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="start" x="711.1" y="330.0">Manual GO</text>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="125.0" y="387.0">Operator</text>
+<rect fill="#d9902a" height="28.0" opacity="0.14" rx="5" stroke="none" stroke-width="1" width="328.3" x="362.9" y="368.0"></rect>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="370.9" y="387.0">Hold the stage → tell the playback engineer → wait for cue 60</text>
+<line opacity="1.0" stroke="#3b6ea8" stroke-linecap="butt" stroke-width="1.6" x1="693.1" x2="697.1" y1="382.0" y2="314.0"></line>
+<polygon fill="#3b6ea8" opacity="1.0" points="697.1,314.0 699.8,320.5 693.7,320.1" stroke="none"></polygon>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="480.0" y="452.0">The After Roll of 4 seconds is an example for the picture. The real length is set in the console’s timecode slot settings.</text>
+</svg>
+<figcaption><b>Figure 31-2</b> When the timecode is lost. An example where the signal is lost at bar 43 of LOVE ATTACK. During After Roll the console carries timecode on, but after that no cues go out. The operator does not chase the missed dark cue (59) and runs by hand from the first cue (60) of the next section. The length of After Roll is an example for the picture.</figcaption></figure>
+<ol type="1">
+<li><strong>Leave the stage as it is.</strong> During After Roll the console keeps the cues going out.</li>
+<li><strong>Tell the playback engineer on the intercom.</strong></li>
+<li><strong>If the signal does not come back, switch to manual.</strong> Do not try to catch up the missed cue; press GO at the first cue of the next section, as in Section 31.5. Because you must be able to run the song by hand to the end, finish the song page in manual running first, before recording on timecode (Chapter 28).</li>
+<li><strong>When the song ends, decide how to go to the next song.</strong> If the signal has come back, run the next song on timecode; if not, run it by hand. The person who decides is the lighting director.</li>
+</ol>
+<p>When you turn off a timecode show, you can also decide whether to turn off the sequences that show switched on (Playbacks Off) or leave them on (Keep Playbacks).<sup class="ref"><a href="#c31-s12">12</a></sup> If you plan to turn the show off during the performance and switch to manual, turn it off once in rehearsal and check what happens to the stage.</p>
+<h2 id="c31-31-5-when-you-miss-a-cue">31.5 When You Miss a Cue</h2><p class="lead">If you miss a cue or the order gets tangled during the show, do not search for the cue that has passed; <strong>hold the stage with the cue to go back to, then re-enter at the first cue of the next section.</strong> While you search for the cue that passed, the song keeps flowing, and it is easy to miss the next cue too.</p>
+<p><strong>The cue to go back to</strong> is the one decided in advance in Chapter 16 and put in the safety slot of Chapter 27 (slot 10). It is a base cue you can call at once when you miss a cue, and a cue that stops the movement in one go (freeze, all key). While you hold the stage with this cue, you listen to the song and wait for the next section.</p>
+<p><strong>The cue to re-enter at</strong> is the first cue of the next section. Under the numbering rule of Chapter 16, the start of a section is a number in tens like 10, 20, 30, so it is easy to find. If you missed in the middle of chorus 1 (around 30.2), do not look for 30.2; match up again at the kick-out 39 or at 40 of verse 2. If you put a “cue to re-enter at” column in the GO cue list (Section 31.8), your hand gets quicker.</p>
+<p>On the command line use <code>Goto</code>. <code>Goto Cue 40 Executor 201</code> means “go to cue 40 on executor 201 (slot 1 of the song page, the scene sequence).” You can also use the sequence number instead of the executor number, as in <code>Goto Sequence 11 Cue 40</code> (go to cue 40 of sequence 11).<sup class="ref"><a href="#c31-s5">5</a></sup> Add <code>Fade 0.5</code> at the end and it goes with a 0.5 s fade instead of that cue’s own time. 0.5 s is the author’s starting value. It is shorter than one beat at 112 BPM (0.54 s), so it jumps less than a snap while still not running past the next beat.<code>[Author to confirm]</code></p>
+<p><strong>Safety</strong> is an emergency measure one step bigger than that. The safety sequence you put in the same slot of every page in Chapters 27 and 29 (slot 10) has a safety look, a dark cue and a blackout. When the whole song page is tangled or there is a problem on the fixture side, hold the stage with the safety look and return to the song page in the next section.</p>
+<p><strong>Stopping the show</strong> (show stop) is for when the show must stop. It is when someone is hurt in the audience or on the stage, when there is a risk of a fixture falling, or when the stage manager has said to stop the show. What lighting does then is <strong>make people visible.</strong> A venue’s emergency evacuation procedure includes turning on the house lights (the audience lighting) and the stage work lights.<sup class="ref"><a href="#c31-s8">8</a></sup> In the dark, neither an injured person nor the way out can be seen, so you do not go to black. Bring up the safety look or turn on the house lights and work lights, and follow the stage manager’s instructions. Who turns on the house lights and work lights, and from where, differs from venue to venue, so confirm it before rehearsal.</p>
+<div class="tbl"><div class="tcap"><b>Table 31-3</b> Three levels when a problem occurs <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Level</th>
+<th>Situation</th>
+<th>Action</th>
+<th>Where it is done</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cue to go back to → cue to re-enter at</td>
+<td>A cue was missed or the order got tangled</td>
+<td>Hold with the base cue, then go to the first cue of the next section (<code>Goto</code>)</td>
+<td>The song page’s scene sequence</td>
+</tr>
+<tr class="even">
+<td>Safety</td>
+<td>The whole song page is tangled, or a fixture problem</td>
+<td>Hold with the safety look, then return in the next section</td>
+<td>Slot 10 of every page (Auto Fix)</td>
+</tr>
+<tr class="odd">
+<td>Show stop</td>
+<td>The show must stop</td>
+<td>No black; the safety look, or the house lights and work lights</td>
+<td>As the stage manager instructs</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="c31-31-6-when-an-accident-happens">31.6 When an Accident Happens</h2><p class="lead">If a problem occurs with a fixture or a signal during the show, <strong>hold the stage while the song is going and fix it after the song ends.</strong> If you try to fix something on the console while the song flows, you miss another cue in the meantime and have one more accident.</p>
+<div class="tbl"><div class="tcap"><b>Table 31-4</b> What often happens during a show and how to handle it — an example based on field experience <span class="badge start">Starting value</span> <code>[Author to confirm]</code></div><table>
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>While the song is going</th>
+<th>After the song ends</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A fixture goes out or shows a wrong color</td>
+<td>Do not touch it; carry the song to the end</td>
+<td>Turn that fixture off or tell the fixture crew, and write it in the next rehearsal note (Chapter 30)</td>
+</tr>
+<tr class="even">
+<td>The timecode is lost</td>
+<td>Hold the stage during After Roll, and if it does not return, switch to manual from the first cue of the next section (Section 31.4)</td>
+<td>Check the timecode connection and the playback device with the playback engineer</td>
+</tr>
+<tr class="odd">
+<td>The band’s tempo differs from rehearsal</td>
+<td>Re-set the speed master with tap (Learn) (Chapter 28)</td>
+<td>Fix the BPM in the cue sheet</td>
+</tr>
+<tr class="even">
+<td>The fixtures of one universe or one area do not respond at all together</td>
+<td>Hold with the safety look</td>
+<td>The fixture crew checks the DMX cable, the node and the power</td>
+</tr>
+<tr class="odd">
+<td>The console freezes</td>
+<td>If there is a backup console, switch to it; if not, tell the stage manager</td>
+<td>Check the show file and the backup state. Test in advance in rehearsal how another station in the same session takes over as master<sup class="ref"><a href="#c31-s9">9</a></sup></td>
+</tr>
+</tbody>
+</table></div>
+<p>If you make this kind of judgment for the first time during the show, it is too late. As in Table 31-4, read “situation → while the song is going → after the song ends” once with the team before the show, and if there is a backup console, do the switchover order yourself once at rehearsal.</p>
+<h2 id="c31-31-7-the-lighting-team-s-roles">31.7 The Lighting Team’s Roles</h2><p class="lead">On show day the console position usually has a <strong>lighting director, a programmer and an operator</strong>. At a big show three people take these separately, and at a small show the lighting director alone sometimes handles everything from lighting design to running the console.<sup class="ref"><a href="#c31-s7">7</a></sup></p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 376" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#1f2430" height="56.0" opacity="1.0" rx="8" stroke="none" stroke-width="1" width="840.0" x="60.0" y="80.0"></rect>
+<text fill="#ffffff" font-size="15" font-weight="700" opacity="1.0" text-anchor="middle" x="480.0" y="114.0">Stage</text>
+<rect fill="#eef0f3" height="110.0" opacity="1.0" rx="8" stroke="none" stroke-width="1" width="840.0" x="60.0" y="150.0"></rect>
+<text fill="#6b7280" font-size="14" font-weight="400" opacity="1.0" text-anchor="middle" x="110.0" y="210.0">Audience</text>
+<rect fill="#ffffff" height="110.0" opacity="1.0" rx="10" stroke="#1f2430" stroke-width="1.4" width="440.0" x="260.0" y="280.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="#6b7280" stroke-width="1" width="300.0" x="330.0" y="290.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="380.0" y="313.0">3D · camera</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="480.0" y="313.0">Screens</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="580.0" y="313.0">Broadcast PGM</text>
+<rect fill="#3b6ea8" height="40.0" opacity="0.15" rx="6" stroke="#3b6ea8" stroke-width="1" width="260.0" x="350.0" y="334.0"></rect>
+<text fill="#3b6ea8" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="480.0" y="359.0">Console</text>
+<circle cx="480.0" cy="412.0" fill="#3b6ea8" opacity="1.0" r="14.0" stroke="none" stroke-width="1"></circle>
+<text fill="#3b6ea8" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="502.0" y="417.0">Operator: GO and busking</text>
+<circle cx="780.0" cy="330.0" fill="#d9902a" opacity="1.0" r="16.0" stroke="none" stroke-width="1"></circle>
+<text fill="#d9902a" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="780.0" y="364.0">Lighting director</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="780.0" y="380.0">Whole stage, calls</text>
+<circle cx="180.0" cy="330.0" fill="#7a5ea8" opacity="1.0" r="16.0" stroke="none" stroke-width="1"></circle>
+<text fill="#7a5ea8" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="180.0" y="364.0">Programmer</text>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="180.0" y="380.0">Fixing notes</text>
+<rect fill="#ffffff" height="26.0" opacity="1.0" rx="5" stroke="#4f8a5b" stroke-width="1" width="120.0" x="720.0" y="396.0"></rect>
+<text fill="#4f8a5b" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="780.0" y="414.0">Cue sheet · GO cue list</text>
+<text fill="#ffffff" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="110.0" y="112.0">Follow spot</text>
+<text fill="#ffffff" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="850.0" y="112.0">Crew (left, right)</text>
+<path d="M780,312 C780,180 850,150 850,124" fill="none" opacity="1.0" stroke="#4f8a5b" stroke-dasharray="4 4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3"></path>
+<path d="M780,312 C700,200 120,170 110,124" fill="none" opacity="1.0" stroke="#4f8a5b" stroke-dasharray="4 4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3"></path>
+<text fill="#4f8a5b" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="start" x="640.0" y="176.0">Intercom</text>
+</svg>
+<figcaption><b>Figure 31-3</b> The console position layout. Place things so that, from the operator’s seat, the stage, the broadcast monitor and the cue sheet are all in view at a glance. The lighting director beside them watches the whole stage and talks over the intercom with the stage manager and the follow spots.</figcaption></figure>
+<ul class="keyed">
+<li><strong>Lighting director</strong> Analyzes the song and designs the lighting (Parts 1–4), decides what to fix in rehearsal (Chapter 30), and during the show watches the whole stage and gives calls to the operator and the follow spots, or runs the console directly.<sup class="ref"><a href="#c31-s7">7</a></sup></li>
+<li><strong>Programmer</strong> Enters the designed looks and cues into the console (Part 5). The person who takes the notes from rehearsal and fixes the cues is usually the programmer too.</li>
+<li><strong>Operator</strong> Presses GO and busks in the show. In a show run on timecode, checks that the timecode is coming in properly and switches to manual if it is lost (Section 31.4). The person who knows the cue sheet and the song best takes this.<code>[Author to confirm]</code></li>
+<li><strong>Follow spot operator</strong> Takes calls on the intercom and follows the performers. Write the moments the follow spot comes in and goes out, such as entrance, exit and solo, in a separate column of the cue sheet.</li>
+<li><strong>Fixture crew</strong> Checks fixtures from the sides of the stage and on the truss, and responds if a fixture problem arises during the show.</li>
+<li><strong>Playback engineer</strong>: Not part of the lighting team, but the person who plays the backing track, click and timecode together.<sup class="ref"><a href="#c31-s14">14</a></sup> In a show run on timecode, this is the person who sends out the timecode lighting receives, so make sure you can talk to them directly on the intercom.</li>
+</ul>
+<p>The more the roles are divided, the more important it is that <strong>everyone looks at the same cue sheet.</strong> If the notes fixed in rehearsal (Chapter 30) are reflected only on the programmer’s console and not in the operator’s cue sheet, the cue numbers will not match in the show. After each rehearsal, bring the cue sheet to one latest version.</p>
+<h2 id="c31-31-8-exercise-the-love-attack-go-cue-list-and-go-practice">31.8 [Exercise] The LOVE ATTACK GO Cue List and GO Practice</h2><p class="lead">From the LOVE ATTACK cue sheet (Table 16-4 in Chapter 16), pick only the cues that must be pressed by hand, make a list, and press them yourself to a click.</p>
+<div class="tbl"><div class="tcap"><b>Table 31-5</b> The LOVE ATTACK GO cue list — the author’s example <span class="badge start">Starting value</span> <code>[Author to confirm]</code></div><table>
+<thead>
+<tr class="header">
+<th>Cue</th>
+<th>Name</th>
+<th>Bar · beat</th>
+<th>Time</th>
+<th>Type</th>
+<th>Standby</th>
+<th>GO reference</th>
+<th>Cue to re-enter at</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Intro · Pearl heart</td>
+<td>1 · 1</td>
+<td>0:01.5</td>
+<td>Snap</td>
+<td>Before the music starts</td>
+<td>First downbeat after the count-in (or timecode)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Verse 1</td>
+<td>7 · 1</td>
+<td>0:14.4</td>
+<td>Fade 2 beats</td>
+<td>Bar 5</td>
+<td>Fade starts on the downbeat</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>20</td>
+<td>Pre 1</td>
+<td>14 · 1</td>
+<td>0:29.4</td>
+<td>Fade 1 beat (Section 16.5)</td>
+<td>Bar 12</td>
+<td>Fade starts on the downbeat</td>
+<td>20</td>
+</tr>
+<tr class="even">
+<td>29</td>
+<td>Dark cue</td>
+<td>17 · 3</td>
+<td>0:36.9</td>
+<td>Snap</td>
+<td>Bar 16</td>
+<td>Beat 3</td>
+<td>30</td>
+</tr>
+<tr class="odd">
+<td>30</td>
+<td>Chorus 1 · Brightness hit</td>
+<td>18 · 1</td>
+<td>0:37.9</td>
+<td>Snap</td>
+<td>Right after cue 29</td>
+<td>Downbeat</td>
+<td>30</td>
+</tr>
+<tr class="even">
+<td>39</td>
+<td>Kick-out</td>
+<td>33 · 1</td>
+<td>1:10.1</td>
+<td>Freeze</td>
+<td>Bar 31</td>
+<td>Downbeat</td>
+<td>40</td>
+</tr>
+<tr class="odd">
+<td>40</td>
+<td>Verse 2</td>
+<td>34 · 1</td>
+<td>1:12.2</td>
+<td>Fade 2 beats</td>
+<td>Right after cue 39</td>
+<td>Fade starts on the downbeat</td>
+<td>40</td>
+</tr>
+<tr class="even">
+<td>50</td>
+<td>Pre 2 · Base only</td>
+<td>42 · 1</td>
+<td>1:29.4</td>
+<td>Fade 1 beat (Section 16.5)</td>
+<td>Bar 40</td>
+<td>Fade starts on the downbeat</td>
+<td>50</td>
+</tr>
+<tr class="odd">
+<td>59</td>
+<td>Dark cue</td>
+<td>45 · 4</td>
+<td>1:37.4</td>
+<td>Snap</td>
+<td>Bar 44</td>
+<td>Beat 4</td>
+<td>60</td>
+</tr>
+<tr class="even">
+<td>60</td>
+<td>Chorus 2 · Mover burst</td>
+<td>46 · 1</td>
+<td>1:37.9</td>
+<td>Snap</td>
+<td>Right after cue 59</td>
+<td>Downbeat</td>
+<td>60</td>
+</tr>
+<tr class="odd">
+<td>69</td>
+<td>Kick-out</td>
+<td>61 · 1</td>
+<td>2:10.1</td>
+<td>Freeze</td>
+<td>Bar 59</td>
+<td>Downbeat</td>
+<td>70</td>
+</tr>
+<tr class="even">
+<td>70</td>
+<td>Bridge</td>
+<td>62 · 1</td>
+<td>2:12.2</td>
+<td>Fade 1 bar</td>
+<td>Right after cue 69</td>
+<td>Fade starts on the downbeat</td>
+<td>70</td>
+</tr>
+<tr class="odd">
+<td>75</td>
+<td>Beat section · Cross beams</td>
+<td>63 · 1</td>
+<td>2:14.4</td>
+<td>Snap</td>
+<td>Right after cue 70</td>
+<td>Downbeat</td>
+<td>75</td>
+</tr>
+<tr class="even">
+<td>79</td>
+<td>Break</td>
+<td>67 · 1</td>
+<td>2:22.9</td>
+<td>Snap</td>
+<td>Bar 65</td>
+<td>Downbeat</td>
+<td>80</td>
+</tr>
+<tr class="odd">
+<td>80</td>
+<td>Chorus 3 · White flash</td>
+<td>67 · 4</td>
+<td>2:24.5</td>
+<td>Snap</td>
+<td>Right after cue 79</td>
+<td>Beat 4 (anticipation)</td>
+<td>80</td>
+</tr>
+<tr class="even">
+<td>80.1</td>
+<td>Chorus 3 · Rooftop fan · night</td>
+<td>68 · 1</td>
+<td>2:25.1</td>
+<td>Time (auto)</td>
+<td>—</td>
+<td>Runs automatically 0.54 s after cue 80 (Chapter 27)</td>
+<td>80</td>
+</tr>
+<tr class="odd">
+<td>90</td>
+<td>End · Pearl heart · night</td>
+<td>82 · 1</td>
+<td>2:55.1</td>
+<td>Fade 2 bars</td>
+<td>Bar 80</td>
+<td>Fade starts on the downbeat</td>
+<td>90</td>
+</tr>
+</tbody>
+</table></div>
+<p>Standby for a snap cue about two bars ahead. If the previous cue is right up against it (29 → 30, 59 → 60, 79 → 80), standby the next cue as soon as you press the previous one. Cues that follow a beat or two apart can also be set to run automatically after the previous cue (Time trigger, Chapter 27), but in this exercise they are left as manual GO so that you practice pressing by hand. For fade cues, this exercise simply writes “the time you press GO.” To have the fade finished on the downbeat, move it earlier by the length of the fade, as in Section 31.2.</p>
+<p>The “cue to re-enter at” column is the cue to press GO on again when you get lost near that cue. The first cue of a section is itself, and if you missed in the middle of a section, go to the first cue of the next section (Section 31.5).</p>
+<p><strong>Follow along</strong></p>
+<ol type="1">
+<li>Load Table 31-5 into Web tool 24 or write it by hand. Leave out the decimal-numbered cues inside sections (1.1, 1.2, 30.1–30.3, 60.1–60.5 and so on) for this practice, and keep only the cues at section boundaries (keep only 80.1, which goes out automatically after cue 80).</li>
+<li>In Web tool 24 turn on the click (112 BPM), and when standby appears on the screen, count the beats. At “four” put your finger over the key and press on the cue’s beat (usually the next downbeat).</li>
+<li>After running the song through once, look at how far before or after the cue’s beat you pressed each cue.</li>
+<li>If many were late, practice keeping your hand over the key from “four”; if they were uneven, count the beats aloud and do it again.</li>
+<li>Do the same practice with the audio each of you has prepared. Instead of a click you will press by listening to the kick and snare.</li>
+<li>Imagine a song run on timecode and practice the <strong>switch to manual</strong>. Decide that the timecode is lost at bar 43, listen without pressing until then, and press by hand from 60 (bar 46 beat 1), the “cue to re-enter at” in Table 31-5 (Figure 31-2).</li>
+</ol>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>In the result of Web tool 24 it is good if the time you pressed each cue falls within 0.08 s either side of the cue’s beat (<span class="badge start">Starting value</span> <code>[Author to confirm]</code>). For reference, when people tap with a finger to a metronome they usually tap about 0.02–0.1 s ahead of the beat.<sup class="ref"><a href="#c31-s10">10</a></sup></li><li>If more than half of the cues were pressed later than the beat, the light on the stage looks later still, so look at the same cues again in rehearsal.</li><li>For cues that are right up against each other, like cues 29 and 30, if you missed 30, also practice re-entering right at 30, as in the “cue to re-enter at” of Table 31-5.</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">Try it with your own song</div><div class="box-body"><ol class="steps"><li>From the cue sheet of the song you are in charge of now, pick only the cues you will press by hand and make a GO cue list in the form of Table 31-5.</li><li>Be sure to fill in the “cue to re-enter at” column, and stick that list up beside the console.</li></ol></div></aside>
+<aside class="web" id="web-W23-31"><div class="web-head"><span class="web-tag">Web tool 24</span><h4>GO Practice</h4><a class="web-open" href="https://jjjh7401.github.io/lx/en/tools/gocall.html" rel="noopener" target="_blank">Open in new window ↗</a></div><p class="web-desc">Load the cues of the cue sheet (Web tool 14) and choose the cues you will press GO on, and it plays a click at the song’s BPM and counts the bars and beats for you. When a cue approaches it shows standby, and when you press the GO button on the screen or the space bar, it records how many seconds before or after the cue’s beat you pressed. You can also practice to audio each of you loads, and the audio is not saved.</p><div class="tool-embed"><iframe allow="autoplay" loading="lazy" src="https://jjjh7401.github.io/lx/en/tools/gocall.html?embed=1" style="--h:1350px" title="GO Practice"></iframe></div><p class="tool-open"><span>The notes you write are saved in this browser only. To use it on a wide screen, press "Open in new window" above.</span></p></aside>
+<section class="summary"><h2>Key points</h2><ul>
+<li>A cue is readied with a standby and executed with GO. The word “go” is used only to execute.</li>
+<li>A snap cue is prepared by counting the beats and pressed on the downbeat (the starting value of Chapter 14). If it looks late on some fixtures, move it a little earlier in rehearsal; for fade cues, decide cue by cue whether the start or the end is matched to the beat.</li>
+<li>In a show run on timecode the cues are executed automatically by timecode, and the operator checks the timecode status and runs key and accents by hand. If the timecode is lost, hold the stage during After Roll, and if it does not return, switch to manual from the first cue of the next section.</li>
+<li>Build a look you will use soon in Blind and turn Blind off on the beat you want; do work unrelated to the stage in Preview.</li>
+<li>If you miss a cue, hold the stage with the cue to go back to and re-enter at the first cue of the next section; if it is tangled more, go to safety, and if the show must stop, go to show stop. In a show stop, do not use black.</li>
+<li>If an accident happens, hold the stage while the song is going and fix it after the song ends.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">On the job tomorrow</div><div class="box-body"><ol class="steps"><li>Before the show, write the “cue to re-enter at” list, the cue to go back to and the position of the safety buttons on one sheet and stick it beside the console.</li><li>When there is one place to look for when a cue is missed or the timecode is lost, the hand moves first.</li></ol></div></aside>
+<section class="notes"><h2>Notes</h2><ol><li id="c31-s1">Wikipedia, “Cue (theatrical).” The calls warning (about a minute ahead), standby (a few seconds ahead) and GO (the moment of execution); on the intercom “go” is replaced by another word unless executing; execute the instant you hear “go”; the answering words (“Standing by”); red and green of the cue light. <a href="https://en.wikipedia.org/wiki/Cue_(theatrical)" rel="noopener" target="_blank">https://en.wikipedia.org/wiki/Cue_(theatrical)</a> (checked 2026-10-26)</li><li id="c31-s2">MA Lighting, grandMA3 User Manual 2.5, “Programmer.” Blind hides the programmer values from the output; turning Blind on with values in the programmer changes the output, and with an empty programmer it does not; turning Blind off adds the values to the output; Program Time is not used when turning Blind on and off; Preview is a separate programmer, one per session. <a href="https://help.malighting.com/grandMA3/2.5/HTML/operate_programmer.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/operate_programmer.html</a> (checked 2026-10-26)</li><li id="c31-s3">MA Lighting, grandMA3 User Manual 2.5, “Blind Keyword.” Syntax (<code>Blind (On/Off)</code>); turning Blind off activates the changes made meanwhile. <a href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_blind.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/keyword_blind.html</a> (checked 2026-10-26)</li><li id="c31-s4">MA Lighting, grandMA3 User Manual 2.5, “Preview Keyword.” The title bar and window border turn red during Preview. <a href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_preview.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/keyword_preview.html</a> (checked 2026-10-26)</li><li id="c31-s5">MA Lighting, grandMA3 User Manual 2.5, “Goto Keyword.” Syntax, examples (<code>Goto Cue 105 Executor 104</code>, <code>Goto Cue 10 Executor 201 Fade 2</code>); Fade replaces the cue’s own time. <a href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_goto.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/keyword_goto.html</a> (checked 2026-10-26)</li><li id="c31-s6">Brad Schiller, “The Genre Series: Concerts,” PLSN, February 16, 2018. A console page for each song, moving to the next page when the song ends; with timecode the cues run automatically; songs not built ahead are run on a busking page. <a href="https://plsn.com/archives/february-2018/the-genre-series-concerts" rel="noopener" target="_blank">https://plsn.com/archives/february-2018/the-genre-series-concerts</a> (checked 2026-10-27)</li><li id="c31-s7">James L. Moody, “Pro Production: Approaches To Cueing The Music With Concert Lighting,” ProSoundWeb. At concerts the lighting designer usually runs the console directly, and on big tours another crew member who knows the cues well runs it. In long-running shows the operator watches the lyric sheet, gives calls to the follow spots and runs the console cues. <a href="https://www.prosoundweb.com/pro-production-approaches-to-cueing-the-music-with-concert-lighting/2/" rel="noopener" target="_blank">https://www.prosoundweb.com/pro-production-approaches-to-cueing-the-music-with-concert-lighting/2/</a> (checked 2026-10-27)</li><li id="c31-s8">Kennedy Theatre (University of Hawaiʻi at Mānoa), “Emergency Procedures (Governing Coordination Between House &amp; Stage).” In an evacuation for a fire or bomb threat, turn on the house lights and the stage work lights. <a href="https://manoa.hawaii.edu/liveonstage/ktemergencyprocedures/" rel="noopener" target="_blank">https://manoa.hawaii.edu/liveonstage/ktemergencyprocedures/</a> (checked 2026-10-27)</li><li id="c31-s9">MA Lighting, grandMA3 User Manual 2.5, “Session.” When a session’s master station drops out, a new master is chosen from the remaining stations by priority, and the DMX output comes from the master. <a href="https://help.malighting.com/grandMA3/2.5/HTML/network_session.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/network_session.html</a> (checked 2026-10-27)</li><li id="c31-s10">“Stop signals delay synchrony more for finger tapping than vocalization: a dual modality study of rhythmic synchronization in the stop signal task,” PeerJ e5242. Finger tapping to a metronome usually leads the beat by 20–100 ms. <a href="https://peerj.com/articles/5242" rel="noopener" target="_blank">https://peerj.com/articles/5242</a> (checked 2026-10-27)</li><li id="c31-s11">Wikipedia, “DMX512.” Sending one universe (512 channels) in full once takes about 23 ms, up to about 44 times per second. <a href="https://en.wikipedia.org/wiki/DMX512" rel="noopener" target="_blank">https://en.wikipedia.org/wiki/DMX512</a> (checked 2026-10-27)</li><li id="c31-s12">MA Lighting, grandMA3 User Manual 2.5, “Timecode Show Settings.” TC Slot (Internal is not tied to a timecode slot and uses internal time), Offset TC Slot, Duration (stops it from starting and stopping automatically outside the received time range), Auto Start (starts automatically when a time signal within the show’s range comes in), Auto Stop (stops automatically when the time signal stops), Switch Off (Playbacks Off: turns off all playbacks the timecode show switched on; Keep Playbacks: does not turn them off). <a href="https://help.malighting.com/grandMA3/2.5/HTML/timecode_settings.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/timecode_settings.html</a> (checked 2026-10-27)</li><li id="c31-s13">MA Lighting, grandMA3 User Manual 2.5, “Timecode Slots.” When the external time signal stops it keeps running internally for After Roll, After Roll Color (the color that shows the external signal has been lost and After Roll is running), Off Color (the color when there is no signal), Pre Roll (how long to receive the external signal before using it). <a href="https://help.malighting.com/grandMA3/2.5/HTML/timecode_slots.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/timecode_slots.html</a> (checked 2026-10-27)</li><li id="c31-s14">Ableton, “The Big Playback: Meet The Specialists Behind Your Favorite Live Shows.” Playback engineers handle backing tracks, cues, click and timecode; most playback sessions send out LTC to match lighting and video; big shows have a second, synchronized playback system and a switcher. <a href="https://www.ableton.com/en/blog/playback-specialists-behind-your-favorite-live-shows/" rel="noopener" target="_blank">https://www.ableton.com/en/blog/playback-specialists-behind-your-favorite-live-shows/</a> (checked 2026-10-27)</li></ol></section>
+</article>
+</div>
+
+</main>
+<nav class="ltm-pager" id="ltmPager" aria-label="Chapters"></nav>
+<footer class="ltm-foot">
+<p><b>Lighting the Music</b> by Jaehyun Jung. Free to read online. English edition translated from the Korean original with AI.</p>
+<p>Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener license" target="_blank">CC BY-NC-ND 4.0</a>: you may share it with credit (title, author and a link to this page), but not for commercial use and not in modified form.</p>
+</footer>
+<script src="book.js?v=3"></script>
+<script>LTM_chapter("ch31");</script>
+</body>
+</html>

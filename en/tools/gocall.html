@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>GO Practice</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 재생판(마디·박, 스탠바이, GO 버튼), 아래 왼쪽 누를 큐 고르기, 오른쪽 결과 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:76ch}
+.stage{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:stretch}
+@media (max-width:860px){.stage{grid-template-columns:1fr}}
+.counter{display:grid;gap:4px;align-content:center;justify-items:center;padding:18px;border-radius:12px;background:var(--panel2);min-height:190px}
+.counter .bb{font-family:var(--f-num);font-size:clamp(40px,7vw,64px);color:var(--ink);font-weight:600;line-height:1}
+.counter .and{font-family:var(--f-num);font-size:14px;color:var(--muted);height:20px}
+.counter .sb{font-size:16px;font-weight:700;color:var(--muted);text-align:center;min-height:48px}
+.counter .sb.on{color:var(--warn)}
+.counter .sb small{display:block;font-size:12.5px;font-weight:400;color:var(--muted)}
+.beats{display:flex;gap:8px}
+.beats i{width:16px;height:16px;border-radius:50%;background:var(--line)}
+.beats i.on{background:var(--accent)}
+.gobtn{width:100%;min-height:150px;font-size:40px;font-weight:700;letter-spacing:.06em;border-radius:14px;background:#2c7a43;border-color:#2c7a43;color:#fff}
+.gobtn:active{transform:translateY(1px)}
+.gobtn.flash{outline:4px solid var(--ok)}
+.last{font-family:var(--f-num);font-size:14px;text-align:center;min-height:22px;margin-top:8px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px;margin-top:16px;align-items:start}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+.cues{display:grid;gap:4px;max-height:420px;overflow:auto}
+.cues label{display:grid;grid-template-columns:auto 4em 1fr auto;gap:8px;align-items:center;font-size:13.5px;padding:5px 8px;border-radius:7px;background:var(--panel2)}
+.cues .no{font-family:var(--f-num);color:var(--accent)} .cues .bb2{font-family:var(--f-num);font-size:12px;color:var(--muted)}
+td.t{font-family:var(--f-num);white-space:nowrap}
+.v{font-size:12.5px;font-weight:700} .v.ok{color:var(--ok)} .v.w{color:var(--warn)} .v.bad{color:var(--bad)}
+.sum{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;margin-bottom:8px}
+.sum b{font-family:var(--f-num);color:var(--ink)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>GO Practice</h1>
+    <p>A worksheet for the Chapter 31 exercise. It plays a click at the song’s BPM, counts the bars and beats, and shows standby when a cue to press approaches. When you press the GO button or the space bar, it records how many seconds before or after the cue’s beat (usually the downbeat) you pressed. You can also practice to audio you load yourself; the audio plays only inside this browser and is not saved.</p>
+  </div>
+  <section class="panel">
+    <div class="row" style="margin-bottom:12px">
+      <span class="muted" id="songInfo"></span>
+      <label class="f">Start bar<input type="number" id="from" class="n" min="1" style="width:5em"></label>
+      <label class="f">Standby (bars ahead)<input type="number" id="sbBars" class="n" min="1" max="8" style="width:5em"></label>
+      <label class="f">Press relative to<select id="ref"><option value="down">The cue’s beat (starting value)</option><option value="and">Half a beat early (the “and” of four)</option></select></label>
+      <label class="f">Sound<select id="src"><option value="click">Click</option><option value="file">My audio</option></select></label>
+      <input type="file" id="file" accept="audio/*" hidden>
+      <button type="button" id="play" class="primary">Start</button><button type="button" id="stop" class="ghost">Stop</button>
+    </div>
+    <div class="stage">
+      <div class="counter" aria-live="polite">
+        <div class="beats" id="beats"><i></i><i></i><i></i><i></i></div>
+        <div class="bb" id="bb">— · —</div>
+        <div class="and" id="and"></div>
+        <div class="sb" id="sb">Press Start and it counts one bar before you go in.</div>
+      </div>
+      <div>
+        <button type="button" class="gobtn" id="go">GO</button>
+        <div class="last" id="last"></div>
+        <p class="note" style="margin:6px 0 0;text-align:center">You can also press with the space bar (<span class="kbd">Space</span>).</p>
+      </div>
+    </div>
+    <p class="note" id="msg" style="margin:10px 0 0"></p>
+  </section>
+  <div class="grid2">
+    <section class="panel">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>Cues to press</h2><div class="row"><button type="button" id="selDef" class="ghost">Defaults</button><button type="button" id="selNone" class="ghost">Clear all</button></div></div>
+      <div class="cues" id="cues"></div>
+      <p class="note" style="margin:8px 0 0">Loads the cues of the Cue Sheet (Web tool 14). For this practice it keeps only the cues at section boundaries and leaves out the short cues between bars and the cues that go on by Time or Follow (the GO cue list of Table 31-5).</p>
+    </section>
+    <section class="panel">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>Results</h2><div class="row"><button type="button" id="clearRes" class="ghost">Clear results</button><button type="button" id="copy" class="ghost">Copy table</button></div></div>
+      <div class="sum" id="sum"></div>
+      <div class="tbl"><table id="res"></table></div>
+      <p class="note" style="margin:8px 0 0">A negative number means you pressed before the reference. The reference is the cue’s beat (usually the downbeat), the starting value of Chapter 14, and it is good if you land within 0.08 s either side (starting value). When people count the beats and tap, they usually tap about 0.02–0.1 s ahead. If the light looks late on your equipment, move it a little earlier in rehearsal (Section 31.2).</p>
+    </section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('gocall.html'), D = L.design(S);
+  var $ = function (id) { return document.getElementById(id); };
+  function sampleCues() {
+    return [['1', 1, 1, 'Intro · Pearl heart'], ['1.1', 3, 1, 'Intro · Back pulse'], ['1.2', 5, 1, 'Intro · One beam step'], ['10', 7, 1, 'Verse 1'], ['10.1', 11, 1, 'Verse 1 · Lilac tint'], ['20', 14, 1, 'Pre 1'],
+      ['29', 17, 3, 'Dark cue'], ['30', 18, 1, 'Chorus 1 · Brightness hit'], ['30.1', 22, 1, 'Chorus 1 · Upper movers'], ['30.2', 26, 1, 'Chorus 1 · Pixels'], ['30.3', 30, 1, 'Chorus 1 · Upper movers'], ['39', 33, 1, 'Kick-out'],
+      ['40', 34, 1, 'Verse 2'], ['50', 42, 1, 'Pre 2'], ['59', 45, 4, 'Dark cue'], ['60', 46, 1, 'Chorus 2 · Mover burst'], ['69', 61, 1, 'Kick-out'], ['70', 62, 1, 'Bridge'], ['75', 63, 1, 'Beat section'],
+      ['79', 67, 1, 'Break'], ['80', 67, 4, 'Chorus 3 · White flash'], ['80.1', 68, 1, 'Chorus 3 · Rooftop fan · night (Time)'], ['90', 82, 1, 'End · Pearl heart · night']]
+      .map(function (r) { return { no: r[0], bar: r[1], beat: r[2], name: r[3], entry: r[0] === '80.1' ? 'Time' : '' }; });
+  }
+  var fromSheet = !!(D.cueSheet && D.cueSheet.rows && D.cueSheet.rows.length);
+  var CUES = (fromSheet ? D.cueSheet.rows : (S.sample ? sampleCues() : [])).filter(function (r) { return +r.bar >= 1; })
+    .map(function (r) { return { no: String(r.no), bar: +r.bar, beat: +r.beat || 1, name: r.name || '', entry: r.entry || '' }; })
+    .sort(function (a, b) { return (a.bar - b.bar) || (a.beat - b.beat); });
+  CUES.forEach(function (c) { c.t = L.timeOf(S, c.bar, c.beat); });
+  function defSel(c) { return /^\d+$/.test(c.no) && !/time|follow/i.test(c.entry) && c.no !== '99'; }
+  var G = D.gocall || (D.gocall = { sel: {}, from: 1, sb: 2, res: [], ref: 'down', refV: 2 });
+  if (!G.ref || G.refV !== 2) { G.ref = 'down'; G.refV = 2; }
+  if (!G.res) G.res = [];
+  if (!Object.keys(G.sel).length) CUES.forEach(function (c) { G.sel[c.no] = defSel(c); });
+  function save() { L.put(S); }
+  var bl = L.beatLen(S), bpb = +S.bpb || 4;
+  // ---- 재생 ----
+  var ctx = null, ctx0 = 0, song0 = 0, playing = false, timer = null, raf = 0, nextBeat = 0, audio = null, url = null, done = {}, lastIdx = -1;
+  function songTime() {
+    if (!playing) return null;
+    if ($('src').value === 'file' && audio) return audio.currentTime;
+    return ctx.currentTime - ctx0 + song0;
+  }
+  function click(at, accent) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.value = accent ? 1660 : 1100; g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(accent ? 0.5 : 0.28, at + 0.002); g.gain.exponentialRampToValueAtTime(0.0001, at + 0.05);
+    o.connect(g); g.connect(ctx.destination); o.start(at); o.stop(at + 0.06);
+  }
+  function schedule() {
+    if (!playing || $('src').value !== 'click') return;
+    var t0 = +S.t0 || 0;
+    while (true) {
+      var st = t0 + nextBeat * bl, at = st - song0 + ctx0;
+      if (at > ctx.currentTime + 0.12) break;
+      if (at >= ctx.currentTime - 0.01) click(at, ((nextBeat % bpb) + bpb) % bpb === 0);
+      nextBeat++;
+    }
+  }
+  function sel() { return CUES.filter(function (c) { return G.sel[c.no]; }); }
+  function tick() {
+    if (!playing) return;
+    var t = songTime(), rel = (t - (+S.t0 || 0)) / bl, beatIdx = Math.floor(rel), bar = Math.floor(beatIdx / bpb) + 1, beat = ((beatIdx % bpb) + bpb) % bpb + 1, frac = rel - beatIdx;
+    $('bb').textContent = (bar >= 1 ? bar : '—') + ' · ' + (bar >= 1 ? beat : '—');
+    $('and').textContent = frac >= 0.5 ? 'and' : '';
+    Array.prototype.forEach.call($('beats').children, function (el, i) { el.className = i === beat - 1 && frac < 0.5 ? 'on' : ''; });
+    var up = sel().filter(function (c) { return c.t > t - bl * 0.5 && !done[c.no]; })[0];
+    if (up) {
+      var left = up.t - t, sbOn = left <= (+G.sb || 2) * bl * bpb;
+      $('sb').className = 'sb' + (sbOn ? ' on' : '');
+      $('sb').innerHTML = (sbOn ? 'Standby cue ' : 'Next cue ') + L.esc(up.no) + ' · ' + L.esc(up.name) + '<small>Bar ' + up.bar + ' beat ' + up.beat + ' · ' + (left > 0 ? 'in ' + left.toFixed(1) + ' s' : 'now') + '</small>';
+    } else { $('sb').className = 'sb'; $('sb').innerHTML = 'No more cues to press.'; }
+    // 놓친 큐
+    sel().forEach(function (c) { if (!done[c.no] && t > c.t + bl) { done[c.no] = true; G.res.push({ no: c.no, name: c.name, bar: c.bar, beat: c.beat, off: null }); save(); renderRes(); } });
+    if ($('src').value === 'file' && audio && audio.ended) stop();
+    raf = requestAnimationFrame(tick);
+  }
+  function start() {
+    stop(true);
+    done = {}; var from = Math.max(1, +$('from').value || 1); G.from = from; G.sb = +$('sbBars').value || 2; save();
+    CUES.forEach(function (c) { if (c.bar < from) done[c.no] = true; });
+    if ($('src').value === 'file') {
+      if (!audio) { $('msg').textContent = 'Choose your audio first.'; $('file').click(); return; }
+      audio.currentTime = Math.max(0, L.timeOf(S, from, 1) - L.barLen(S)); audio.play();
+      ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+      playing = true; $('msg').textContent = '';
+    } else {
+      ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); if (ctx.state === 'suspended') ctx.resume();
+      song0 = L.timeOf(S, from, 1) - L.barLen(S); ctx0 = ctx.currentTime + 0.1;
+      nextBeat = Math.ceil((song0 - (+S.t0 || 0)) / bl - 1e-6); playing = true;
+      timer = setInterval(schedule, 25); schedule();
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  function stop(silent) {
+    playing = false; clearInterval(timer); cancelAnimationFrame(raf);
+    if (audio) audio.pause();
+    if (!silent) { $('sb').className = 'sb'; $('sb').textContent = 'Stopped.'; }
+  }
+  function press() {
+    var b = $('go'); b.classList.add('flash'); setTimeout(function () { b.classList.remove('flash'); }, 120);
+    if (!playing) { $('last').textContent = 'Press Start first.'; return; }
+    var t = songTime(), best = null;
+    sel().forEach(function (c) { if (done[c.no]) return; var d = t - c.t; if (Math.abs(d) <= bl && (!best || Math.abs(d) < Math.abs(best.d))) best = { c: c, d: d }; });
+    if (!best) { $('last').textContent = 'No cue to press nearby (empty GO).'; return; }
+    done[best.c.no] = true;
+    G.res.push({ no: best.c.no, name: best.c.name, bar: best.c.bar, beat: best.c.beat, off: +best.d.toFixed(3) }); save();
+    var rr = rel(best.d);
+    $('last').textContent = 'Cue ' + best.c.no + ': ' + fmtS(rr) + ' vs ' + refName() + ' (' + fmtS(best.d) + ' vs the cue’s beat)';
+    renderRes();
+  }
+  function lead() { return G.ref === 'and' ? bl / 2 : 0; }
+  function rel(o) { return o == null ? null : o + lead(); }
+  function refName() { return G.ref === 'and' ? 'half a beat early' : 'the cue’s beat'; }
+  function fmtS(x) { return x < 0 ? (-x).toFixed(2) + ' s early' : x.toFixed(2) + ' s late'; }
+  function judge(o) {
+    var r = rel(o);
+    if (r == null) return ['bad', 'Missed'];
+    if (Math.abs(r) <= 0.08) return ['ok', 'Good'];
+    if (r < -0.08 && r >= -0.25) return ['w', 'Slightly early'];
+    if (r < -0.25) return ['bad', 'Early'];
+    return r <= 0.2 ? ['w', 'Slightly late'] : ['bad', 'Late'];
+  }
+  function renderRes() {
+    var R = G.res, ok = 0, late = 0, miss = 0, sum = 0, n = 0;
+    R.forEach(function (r) { var j = judge(r.off), x = rel(r.off); if (j[1] === 'Good') ok++; if (r.off == null) miss++; else { n++; sum += x; if (x > 0.08) late++; } });
+    $('sum').innerHTML = R.length ? '<span>Cues pressed <b>' + n + '</b></span><span>Good <b>' + ok + '</b></span><span>Late <b>' + late + '</b></span><span>Missed <b>' + miss + '</b></span><span>Average vs ' + refName() + ' <b>' + (n ? (sum / n >= 0 ? '+' : '') + (sum / n).toFixed(2) + ' s' : '—') + '</b></span>' : '<span class="note">No results yet.</span>';
+    $('res').innerHTML = '<tr><th>Cue</th><th>Name</th><th>Bar · beat</th><th>vs ' + refName() + '</th><th>In beats</th><th>Verdict</th></tr>' + R.slice().reverse().map(function (r) {
+      var j = judge(r.off), x = rel(r.off);
+      return '<tr><td>' + L.esc(r.no) + '</td><td>' + L.esc(r.name) + '</td><td class="t">' + r.bar + ' · ' + r.beat + '</td><td class="t">' + (r.off == null ? '—' : (x >= 0 ? '+' : '') + x.toFixed(2) + ' s') + '</td><td class="t">' + (r.off == null ? '—' : (r.off >= 0 ? '+' : '') + (r.off / bl).toFixed(2) + ' beat') + '</td><td><span class="v ' + j[0] + '">' + j[1] + '</span></td></tr>';
+    }).join('');
+    if (late > n / 2 && n >= 3) $('msg').textContent = 'More than half the cues were pressed later than ' + refName() + '. The light looks later still, so practice putting your hand over the key at “four.”';
+  }
+  function renderCues() {
+    $('cues').innerHTML = CUES.map(function (c) {
+      return '<label><input type="checkbox" data-no="' + L.esc(c.no) + '"' + (G.sel[c.no] ? ' checked' : '') + '><span class="no">' + L.esc(c.no) + '</span><span>' + L.esc(c.name) + (c.entry ? ' <span class="note">(' + L.esc(c.entry) + ')</span>' : '') + '</span><span class="bb2">' + c.bar + ' · ' + c.beat + '</span></label>';
+    }).join('') || '<p class="note">The cue sheet is empty. Fill in the Cue Sheet (Web tool 14) first.</p>';
+  }
+  $('songInfo').textContent = (S.title || 'Song') + ' · ' + S.bpm + ' BPM · ' + (fromSheet ? 'Cues from the Cue Sheet tool: ' : (S.sample ? 'Cues of the practice song, Table 16-4: ' : 'Cues: ')) + CUES.length;
+  $('from').value = G.from || 1; $('sbBars').value = G.sb || 2; $('ref').value = G.ref;
+  $('ref').addEventListener('change', function () { G.ref = $('ref').value; save(); renderRes(); });
+  $('cues').addEventListener('change', function (e) { var no = e.target.dataset.no; if (no == null) return; G.sel[no] = e.target.checked; save(); });
+  $('selDef').addEventListener('click', function () { CUES.forEach(function (c) { G.sel[c.no] = defSel(c); }); save(); renderCues(); });
+  $('selNone').addEventListener('click', function () { CUES.forEach(function (c) { G.sel[c.no] = false; }); save(); renderCues(); });
+  $('play').addEventListener('click', start);
+  $('stop').addEventListener('click', function () { stop(); });
+  $('go').addEventListener('click', press);
+  document.addEventListener('keydown', function (e) { if (e.code !== 'Space' || /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; e.preventDefault(); if (!e.repeat) press(); });
+  $('src').addEventListener('change', function () { if ($('src').value === 'file' && !audio) $('file').click(); });
+  $('file').addEventListener('change', function () {
+    var f = $('file').files[0]; if (!f) return;
+    if (url) URL.revokeObjectURL(url); url = URL.createObjectURL(f); audio = new Audio(url);
+    $('msg').textContent = 'Opened “' + f.name + '”. The audio is not saved. The first downbeat in the song notes (the song map) must match the audio for the bars to line up.';
+  });
+  $('clearRes').addEventListener('click', function () { G.res = []; save(); renderRes(); $('msg').textContent = ''; });
+  $('copy').addEventListener('click', function () {
+    var txt = ['Cue\tName\tBar\tBeat\tvs ' + refName() + ' (s)\tvs the cue’s beat (s)\tVerdict'].concat(G.res.map(function (r) { return [r.no, r.name, r.bar, r.beat, r.off == null ? '' : rel(r.off).toFixed(2), r.off == null ? '' : r.off.toFixed(2), judge(r.off)[1]].join('\t'); })).join('\n');
+    try { navigator.clipboard.writeText(txt).then(function () { $('msg').textContent = 'Copied the results.'; }, function () { $('msg').textContent = 'Copying is blocked.'; }); } catch (err) { $('msg').textContent = 'Copying is blocked.'; }
+  });
+  renderCues(); renderRes();
+})();
+</script>
+</body>
+</html>
