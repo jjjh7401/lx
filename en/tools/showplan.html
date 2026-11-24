@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Show File Plan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 패치 표(장비 역할표에서), 가운데 그룹 3단계와 번호 범위표, 아래 점검과 복사 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:76ch}
+.stack{display:grid;gap:16px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+td.id{font-family:var(--f-num);white-space:nowrap}
+td input.s{width:5.5em}
+.band{display:grid;gap:6px}
+.band .b{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:8px;align-items:start;font-size:13.5px;padding:8px 10px;border-radius:8px;background:var(--panel2)}
+.band .b b{color:var(--ink)}
+.band .b code{font-family:var(--f-num);font-size:12.5px;background:var(--bg);padding:1px 6px;border-radius:5px;margin:0 2px 2px 0;display:inline-block}
+.gl{display:grid;gap:4px;font-size:13px}
+.gl div{display:grid;grid-template-columns:3.2em minmax(0,1fr) auto;gap:8px;padding:5px 8px;border-radius:7px;background:var(--panel2)}
+.gl .n{font-family:var(--f-num);color:var(--ink)}
+.gl .lv{font-size:12px;color:var(--muted)}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Show File Plan</h1>
+    <p>A worksheet for the exercises in Chapters 24 and 29. Load the fixtures of the Fixture Roles table (Web tool 6), give each type a range of ID numbers, number the three levels of groups (all, sub, effect), and calculate the number ranges of the preset pools, sequences and pages for the number of songs. It flags where numbers overlap or run past their range.</p>
+  </div>
+  <div class="stack">
+    <section class="panel">
+      <div class="row" style="justify-content:space-between"><h2>Patch (ID number ranges)</h2><div class="row"><button type="button" id="renum" class="ghost">Renumber in blocks of 100</button><button type="button" id="reload" class="ghost">Reload from Fixture Roles</button><button type="button" id="fromSheet" class="ghost">Load from the patch sheet (Web tool 18)</button></div></div>
+      <p class="note" id="rigInfo" style="margin:6px 0 0"></p>
+      <div class="tbl" style="margin-top:8px"><table><thead><tr><th>Fixture</th><th>Qty</th><th>Role</th><th>Console</th><th>Start ID</th><th>ID range</th><th>DMX start (universe.address)</th></tr></thead><tbody id="patch"></tbody></table></div>
+    </section>
+    <div class="grid2">
+      <section class="panel"><h2 style="margin-bottom:10px">Three levels of groups</h2><div class="gl" id="groups"></div>
+        <p class="note" style="margin:8px 0 0">Effect groups are groups of the same fixtures picked in a different order (Section 24.3). Odd/even and outside → in can also be made with MAtricks (Group 2, Wings 2) (Chapter 26).</p></section>
+      <section class="panel">
+        <h2>Number ranges</h2>
+        <div class="row" style="margin-top:10px"><label class="f">Number of songs<input type="number" id="songs" class="n" min="1" max="40" style="width:5em"></label>
+          <label class="f">Color slots per song<input type="number" id="ncol" class="n" min="5" max="99" style="width:5em"></label>
+          <label class="f">Position slots per song<input type="number" id="npos" class="n" min="5" max="99" style="width:5em"></label>
+          <label class="f">Phaser slots per song<input type="number" id="nfx" class="n" min="5" max="99" style="width:5em"></label></div>
+        <div class="band" id="band" style="margin-top:10px"></div>
+        <p class="note" style="margin:8px 0 0">A song’s number range starts at song n × 100 + 1 (Table 29-2 in Chapter 29). Change the First Index of a preset pool to the song’s starting number and the presets you store next go into that range.</p>
+      </section>
+    </div>
+    <section class="panel"><h2 style="margin-bottom:10px">Checks</h2><ul class="checks" id="checks"></ul>
+      <div class="row" style="margin-top:12px"><button type="button" id="cpPatch">Copy patch list</button><button type="button" id="cpGroup">Copy group list</button><button type="button" id="cpBand">Copy number-range table</button><button type="button" id="reset" class="ghost">Reset to the example</button></div>
+      <p class="note" id="msg"></p></section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX; L.top('showplan.html', { noSong: true });
+  var $ = function (id) { return document.getElementById(id); };
+  // 장비 역할표의 예시(표 6-4)와 24장 표 24-1의 번호
+  var EXR = [['LED profile', 8, ['Key'], 101], ['Follow spot', 2, ['Key'], 0], ['LED Fresnel', 6, ['Fill'], 121], ['Moving wash', 12, ['Wash', 'Back'], 201], ['Moving wash (side tower)', 8, ['Side'], 221],
+    ['Moving spot', 8, ['Beam', 'Key'], 301], ['Moving beam', 16, ['Beam'], 401], ['LED bar', 24, ['Pixel'], 501], ['Strobe', 8, ['FX'], 601], ['Blinder', 4, ['Audience'], 701]];
+  var CH = { 'LED profile': 8, 'LED Fresnel': 8, 'Moving wash': 28, 'Moving wash (side tower)': 28, 'Moving spot': 36, 'Moving beam': 20, 'LED bar': 30, 'Strobe': 4, 'Blinder': 2 };
+  function fromRig(r) {
+    var ex = !r || r.example;
+    var rows = ex ? EXR.map(function (x) { return { name: x[0], qty: x[1], roles: x[2], start: x[3], off: !x[3], ch: CH[x[0]] || 16 }; }) :
+      r.rows.map(function (x) { return { name: x.name || 'Unnamed fixture', qty: +x.qty || 0, roles: x.roles || [], start: 0, off: /follow/i.test(x.name || ''), ch: 16 }; });
+    return { rows: rows, songs: 4, ncol: 20, npos: 10, nfx: 20, fromExample: ex };
+  }
+  var P = L.getKey('showplan') || (function () { var q = fromRig(L.rig()); return q.fromExample ? q : renumber(q); })();
+  function save() { L.putKey('showplan', P); }
+  function renumber(p) {
+    var h = 1; p.rows.forEach(function (r) { if (r.off) { r.start = 0; return; } r.start = h * 100 + 1; h += Math.max(1, Math.ceil((+r.qty || 1) / 99)); }); return p;
+  }
+  function rng(r) { return r.off || !r.start ? null : [r.start, r.start + (+r.qty || 1) - 1]; }
+  function dmx() { // 패치 시트에서 불러온 줄은 그 주소를, 나머지는 같은 유니버스 안에서 이어 붙이고 넘치면 다음 유니버스
+    var u = 1, a = 1, out = [];
+    P.rows.forEach(function (r) {
+      if (r.off) { out.push(null); return; }
+      if (r.da) { out.push(r.da); return; }
+      var need = (+r.ch || 16) * (+r.qty || 0);
+      if (a + Math.min(need, 512) - 1 > 512) { u++; a = 1; }
+      out.push(u + '.' + a); a += need; while (a > 512) { u++; a -= 512; }
+    });
+    return out;
+  }
+  function groups() {
+    var g = [], n = 1, on = P.rows.filter(function (r) { return !r.off; });
+    on.forEach(function (r) { g.push({ no: n++, lv: 'All', name: r.name + (r.roles.length ? '(' + r.roles[0] + ')' : '') }); });
+    n = 11;
+    on.forEach(function (r) {
+      if (r.roles.length > 1) r.roles.forEach(function (x) { g.push({ no: n++, lv: 'Sub', name: r.name + ' · ' + x }); });
+      if (/side|tower/i.test(r.name)) { g.push({ no: n++, lv: 'Sub', name: r.name + ' · stage right' }); g.push({ no: n++, lv: 'Sub', name: r.name + ' · stage left' }); }
+      else if (/floor.*tower|tower.*floor/i.test(r.name) || (r.qty >= 12 && /beam/i.test(r.name))) { g.push({ no: n++, lv: 'Sub', name: r.name + ' · floor' }); g.push({ no: n++, lv: 'Sub', name: r.name + ' · tower' }); }
+      if (/\bbar\b|pixel/i.test(r.name) || r.roles.indexOf('Pixel') >= 0) g.push({ no: n++, lv: 'Sub', name: r.name + ' · all sub-fixtures (Down)' });
+    });
+    n = 31;
+    on.forEach(function (r) {
+      if ((+r.qty || 0) < 4) return;
+      var k = r.name; ['left → right', 'right → left', 'outside → in'].forEach(function (x) { g.push({ no: n++, lv: 'Effect', name: k + ' ' + x }); });
+      if (r.qty % 2 === 0) g.push({ no: n++, lv: 'Effect', name: k + ' odd/even' });
+    });
+    return g;
+  }
+  function bands() {
+    var S = +P.songs || 1, b = [];
+    function songs(len) { var a = []; for (var i = 1; i <= S; i++) a.push('Song ' + i + ': ' + (i * 100 + 1) + '~' + (i * 100 + len)); return a; }
+    b.push(['Groups', ['1~10 all', '11~30 sub-groups', '31~60 effect'], ['Show-wide (not made per song)']]);
+    b.push(['Dimmer pool', ['1~10 brightness steps (0, 25, 50, 75, 100)'], ['Show-wide (a brightness used by one song only goes into the cue as a hard value)']]);
+    b.push(['Color pool', ['1~20 white, CTO, basic colors'], songs(+P.ncol || 20)]);
+    b.push(['Position pool', ['1~30 common positions'], songs(+P.npos || 10)]);
+    b.push(['All pool (phasers)', ['1~30 dimmer phaser set', '31~60 moving phasers'], songs(+P.nfx || 20)]);
+    var sq = []; for (var i = 1; i <= S; i++) sq.push('Song ' + i + ': ' + (i * 10 + 1) + '~' + (i * 10 + 8));
+    b.push(['Sequences', ['1~10 key, safety, house light (Auto Fix on every page)'], sq]);
+    var pg = []; for (var j = 1; j <= S; j++) pg.push('Song ' + j + ': page ' + (j + 1));
+    b.push(['Executor pages', ['Page 1 safety and busking'], pg]);
+    return b;
+  }
+  function render() {
+    var d = dmx();
+    $('rigInfo').textContent = P.fromExample ? 'The Fixture Roles table is empty, so this starts with the practice fixtures of Table 6-4 and the numbers of Table 24-1 in Chapter 24. Channel counts differ by model, so set them to the mode of your own fixtures.' : 'These are the fixtures loaded from the Fixture Roles table. Set the channel count (DMX footprint) to the mode of each model.';
+    $('patch').innerHTML = P.rows.map(function (r, i) {
+      var g = rng(r);
+      return '<tr><td>' + L.esc(r.name) + '</td><td class="id">' + r.qty + '</td><td>' + L.esc(r.roles.join(', ')) + '</td>' +
+        '<td><label><input type="checkbox" data-i="' + i + '" data-k="off"' + (r.off ? '' : ' checked') + '> Patch</label></td>' +
+        '<td><input class="s n" type="number" min="1" data-i="' + i + '" data-k="start" value="' + (r.start || '') + '"' + (r.off ? ' disabled' : '') + ' aria-label="Start ID"></td>' +
+        '<td class="id">' + (g ? g[0] + '~' + g[1] : 'Off console') + '</td>' +
+        '<td class="id">' + (d[i] || '—') + ' <span class="note">· ' + '<input class="n" type="number" min="1" max="512" data-i="' + i + '" data-k="ch" value="' + r.ch + '" style="width:4em" aria-label="Channels per fixture"' + (r.off ? ' disabled' : '') + '> ch</span></td></tr>';
+    }).join('');
+    $('groups').innerHTML = groups().map(function (x) { return '<div><span class="n">' + x.no + '</span><span>' + L.esc(x.name) + '</span><span class="lv">' + x.lv + '</span></div>'; }).join('');
+    $('songs').value = P.songs; $('ncol').value = P.ncol; $('npos').value = P.npos; $('nfx').value = P.nfx;
+    $('band').innerHTML = bands().map(function (b) { return '<div class="b"><b>' + b[0] + '</b><div>' + b[1].map(function (x) { return '<code>' + L.esc(x) + '</code>'; }).join('') + '<br>' + b[2].map(function (x) { return '<code>' + L.esc(x) + '</code>'; }).join('') + '</div></div>'; }).join('');
+    checks();
+  }
+  function checks() {
+    var out = [];
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: 'Check', i: 'Note', ok: 'Good' }[lv] + '</span>' + h + '</li>'); }
+    var R = P.rows.map(function (r) { return { r: r, g: rng(r) }; }).filter(function (x) { return x.g; });
+    R.forEach(function (a, i) { R.slice(i + 1).forEach(function (b) { if (a.g[0] <= b.g[1] && b.g[0] <= a.g[1]) add('w', 'The IDs of <b>' + L.esc(a.r.name) + '</b> (' + a.g.join('~') + ') and <b>' + L.esc(b.r.name) + '</b> (' + b.g.join('~') + ') overlap.'); }); });
+    R.forEach(function (a) { if (Math.floor(a.g[0] / 100) !== Math.floor(a.g[1] / 100)) add('i', '<b>' + L.esc(a.r.name) + '</b> runs past its block of one hundred (' + a.g.join('~') + '). Leave the next block empty so the type can still be told from the number alone.'); });
+    var hund = {}; R.forEach(function (a) { var h = Math.floor(a.g[0] / 100); (hund[h] = hund[h] || []).push(a.r.name); });
+    Object.keys(hund).forEach(function (h) { if (hund[h].length > 1) add('i', hund[h].map(L.esc).join(', ') + ' share the ' + h + '00s. That is fine if they are the same family (say, Key and Fill); if not, split the number range.'); });
+    var d = dmx(), maxU = 0; d.forEach(function (x) { if (x) maxU = Math.max(maxU, +x.split('.')[0]); });
+    var lastRow = P.rows.filter(function (r) { return !r.off; }).length ? Math.ceil(P.rows.reduce(function (a, r) { return a + (r.off ? 0 : (+r.ch || 0) * (+r.qty || 0)); }, 0) / 512) : 0;
+    add('i', 'The patch needs roughly ' + Math.max(maxU, lastRow) + ' universe(s). Rows loaded from the patch sheet keep their own addresses; the rest are chained row by row and move to the next universe when one overflows.');
+    if (+P.songs > 9) add('i', 'With ' + P.songs + ' songs the song sequence numbers run up to ' + (+P.songs * 10 + 10) + '. They do not overlap the show-wide sequences (1~10).');
+    if (+P.ncol > 99 || +P.npos > 99 || +P.nfx > 99) add('w', 'More than 99 slots per song overlaps the next song’s number range.');
+    var hasPix = P.rows.some(function (r) { return !r.off && (r.roles.indexOf('Pixel') >= 0); });
+    if (hasPix) add('i', 'For fixtures with sub-fixtures, make a main-fixture group and a sub-fixture group separately. Make the sub-fixture group by selecting the fixtures, pressing Down to spread them out, then storing (Section 24.4).');
+    add('i', 'Change the preset mode of every preset pool to Selective (Section 24.6). Write this number-range table on the first page of the show file (Section 29.2).');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; })) add('ok', 'No IDs or number ranges overlap.');
+    $('checks').innerHTML = out.join('');
+  }
+  $('patch').addEventListener('change', function (e) {
+    var t = e.target; if (t.dataset.i == null) return; var r = P.rows[+t.dataset.i];
+    if (t.dataset.k === 'off') { r.off = !t.checked; if (!r.off && !r.start) { var mx = 0; P.rows.forEach(function (x) { var g = rng(x); if (g) mx = Math.max(mx, Math.floor(g[1] / 100)); }); r.start = (mx + 1) * 100 + 1; } }
+    else r[t.dataset.k] = Math.max(1, parseInt(t.value, 10) || 1);
+    save(); render();
+  });
+  ['songs', 'ncol', 'npos', 'nfx'].forEach(function (k) { $(k).addEventListener('change', function () { P[k] = Math.max(1, Math.min(k === 'songs' ? 40 : 99, parseInt($(k).value, 10) || 1)); save(); render(); }); });
+  L.confirmBtn($('renum'), 'Press again to renumber', function () { renumber(P); save(); render(); $('msg').textContent = 'Gave each fixture a fresh block of one hundred.'; });
+  L.confirmBtn($('reload'), 'Press again to replace the patch', function () { var keep = { songs: P.songs, ncol: P.ncol, npos: P.npos, nfx: P.nfx }; P = fromRig(L.rig()); if (!P.fromExample) renumber(P); Object.keys(keep).forEach(function (k) { P[k] = keep[k]; }); save(); render(); $('msg').textContent = 'Reloaded from the Fixture Roles table.'; });
+  L.confirmBtn($('fromSheet'), 'Press again to replace the patch', function () {
+    var rc = L.getKey('rigcalc'); if (!rc || !rc.rows || !rc.rows.length) { $('msg').textContent = 'No fixtures are entered in Web tool 18.'; return; }
+    var keep = { songs: P.songs, ncol: P.ncol, npos: P.npos, nfx: P.nfx };
+    P = { rows: rc.rows.map(function (x) { var u = x.uni == null || x.uni === '' ? null : +x.uni, a = x.addr == null || x.addr === '' ? null : +x.addr;
+      return { name: (x.name || 'Unnamed fixture') + (x.pos ? ' · ' + x.pos : ''), qty: +x.qty || 0, roles: x.role ? [x.role] : [], start: +x.fid || 0, off: u == null, ch: +x.ch || 16, da: u != null && a != null ? u + '.' + a : null }; }) };
+    Object.keys(keep).forEach(function (k) { P[k] = keep[k]; }); save(); render();
+    $('msg').textContent = 'Loaded the IDs and addresses of the Chapter 22 patch sheet (Web tool 18) as they are. Rows with an empty universe are treated as off the console.';
+  });
+  L.confirmBtn($('reset'), 'Press again to reset to the example', function () { P = fromRig(null); save(); render(); $('msg').textContent = 'Reset to the example (Table 24-1).'; });
+  function copy(txt, what) { var done = function (ok) { $('msg').textContent = ok ? 'Copied the ' + what + '. You can paste it into a spreadsheet.' : 'Copying is blocked.'; }; try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); } }
+  $('cpPatch').addEventListener('click', function () { var d = dmx(); copy(['Fixture\tQty\tRole\tID start\tID end\tDMX start\tChannels per fixture'].concat(P.rows.map(function (r, i) { var g = rng(r); return [r.name, r.qty, r.roles.join(', '), g ? g[0] : 'Off console', g ? g[1] : '', d[i] || '', r.ch].join('\t'); })).join('\n'), 'patch list'); });
+  $('cpGroup').addEventListener('click', function () { copy(['No.\tLevel\tGroup'].concat(groups().map(function (x) { return [x.no, x.lv, x.name].join('\t'); })).join('\n'), 'group list'); });
+  $('cpBand').addEventListener('click', function () { copy(['Pool\tShow-wide\tPer song'].concat(bands().map(function (b) { return [b[0], b[1].join(' / '), b[2].join(' / ')].join('\t'); })).join('\n'), 'number-range table'); });
+  render();
+})();
+</script>
+</body>
+</html>
