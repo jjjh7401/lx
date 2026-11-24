@@ -209,8 +209,8 @@
   // 상단 메뉴와 곡 고르기
   var PAGES = [['index.html', 'All tools'], ['listen.html', 'Listening Notes'], ['pairs.html', 'Sound and Light Matching'], ['calc.html', 'Beat Calculator'], ['map.html', 'Music Map Practice'], ['sheet.html', 'Song Map'], ['rig.html', 'Fixture Roles'], ['concept.html', 'Concept Sheet'], ['palette.html', 'Palette'], ['looks.html', 'Look Sheet'], ['bright.html', 'Brightness Plan'], ['grid.html', 'Beat Grid'], ['recs.html', 'Section Guide'], ['trans.html', 'Transition Curves'], ['cues.html', 'Cue Sheet'], ['bcast.html', 'Broadcast Check'], ['setlist.html', 'Setlist Arc'], ['busk.html', 'Busking Page'], ['rigcalc.html', 'Rig Calculator and Patch Sheet'], ['scene.html', 'Scene Viewer'], ['showplan.html', 'Show File Plan'], ['phaser.html', 'Phaser Calculator'], ['tc.html', 'Timecode Table'], ['rehearsal.html', 'Rehearsal Notes'], ['gocall.html', 'GO Practice'], ['safety.html', 'Safety Check'], ['song.html', 'One-Song Workbench']];
   /* English edition: tools that exist in English live next to this file; the rest open the Korean original */
-  var EN_TOOLS = ["index.html","listen.html","pairs.html","calc.html","map.html","sheet.html","rig.html","concept.html","palette.html","looks.html","bright.html","scene.html","grid.html","recs.html","trans.html","cues.html","bcast.html","setlist.html"];
-  var EN_CH = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+  var EN_TOOLS = ["index.html","listen.html","pairs.html","calc.html","map.html","sheet.html","rig.html","concept.html","palette.html","looks.html","bright.html","scene.html","grid.html","recs.html","trans.html","cues.html","bcast.html","setlist.html","busk.html"];
+  var EN_CH = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
   function top(active, opt) {
     opt = opt || {};
     var l = lib(), cur = l.songs[l.current];
@@ -227,7 +227,7 @@
       '<button type="button" id="lx-new" class="ghost">New song</button></div>') + '</div>';
     document.body.insertBefore(h, document.body.firstChild);
     (function () {
-      var TOOL_CH = { 'listen.html': [1], 'pairs.html': [1], 'calc.html': [2], 'map.html': [3, 4], 'sheet.html': [5], 'rig.html': [6], 'concept.html': [7, 10], 'palette.html': [8], 'looks.html': [9], 'scene.html': [9], 'bright.html': [10], 'grid.html': [11, 13], 'recs.html': [12], 'trans.html': [14], 'cues.html': [16], 'bcast.html': [17], 'setlist.html': [18, 19, 20], 'busk.html': [21], 'rigcalc.html': [22], 'showplan.html': [24, 29], 'phaser.html': [25, 26], 'tc.html': [28], 'rehearsal.html': [28, 30], 'gocall.html': [31], 'safety.html': [32], 'song.html': [33] };
+      var TOOL_CH = { 'listen.html': [1], 'pairs.html': [1], 'calc.html': [2], 'map.html': [3, 4], 'sheet.html': [5], 'rig.html': [6], 'concept.html': [7, 10], 'palette.html': [8], 'looks.html': [9], 'scene.html': [9], 'bright.html': [10], 'grid.html': [11, 13], 'recs.html': [12], 'trans.html': [14], 'cues.html': [16], 'bcast.html': [17], 'setlist.html': [18, 19, 20, 21], 'busk.html': [21], 'rigcalc.html': [22], 'showplan.html': [24, 29], 'phaser.html': [25, 26], 'tc.html': [28], 'rehearsal.html': [28, 30], 'gocall.html': [31], 'safety.html': [32], 'song.html': [33] };
       if (embedded) return;
       var chs = TOOL_CH[active] || [];
       var a = document.createElement('a'); a.className = 'book-link'; a.rel = 'noopener';
