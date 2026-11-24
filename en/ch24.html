@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chapter 24 · Patch, Groups and Presets · Lighting the Music</title>
+<meta name="description" content="Moving the rig into the console: patch IDs and addresses, direction and coordinates, groups as selection order, main and sub-fixtures, preset pools, Selective vs Universal, and the 3D view.">
+<link rel="alternate" hreflang="ko" href="https://ablitzdesign.tistory.com/74">
+<link rel="alternate" hreflang="en" href="https://jjjh7401.github.io/lx/en/ch24.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 24 · Patch, Groups and Presets · Lighting the Music">
+<meta property="og:description" content="Moving the rig into the console: patch IDs and addresses, direction and coordinates, groups as selection order, main and sub-fixtures, preset pools, Selective vs Universal, and the 3D view.">
+<meta property="og:image" content="https://jjjh7401.github.io/lx/cover-800.jpg">
+<meta property="og:url" content="https://jjjh7401.github.io/lx/en/ch24.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="en.css?v=2">
+</head>
+<body>
+<header class="ltm-bar" id="ltmBar"></header>
+<main id="article-view">
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch24"><header class="ch-head"><div class="ch-num"><span>Chapter</span> 24</div><h1 class="ch-title">Patch, Groups and Presets</h1><p class="ch-sub">Moving the rig into the console</p></header>
+<aside class="box goals"><div class="box-label">In this chapter</div><div class="box-body">
+<ul class="checks">
+<li>Move the Chapter 22 patch sheet (ID, address, coordinates) and its three levels of groups into the patch and the group pool as they are.</li>
+<li>Learn that a group stores not values but the selection and order of fixtures, and that this order becomes the direction of an effect.</li>
+<li>Store presets as Selective, and prevent the accidents where only a few fixtures change or the phase disappears.</li>
+</ul>
+</div></aside>
+<div class="open-label">Opening scene</div><p class="lead">In your phone’s gallery, pick ten of twenty photos and put a black-and-white filter on them all at once. Looking later, only the ten you picked are black and white and the rest are unchanged. Of course. You applied the filter only to the photos you picked.</p>
+<p>Presets on a lighting console are the same. If you picked only a few fixtures when you stored a color preset, then when you call that preset later only those few change. The complaint heard on site, “I called the preset and only a few fixtures changed color,” is exactly this case. The preset is not broken; what you picked at the time of storing has simply stayed with it.</p>
+<p>This chapter covers the three steps of moving the rig into the console: patch, groups and presets. In all three, “what you picked” and “in what order you picked it” decide the result.</p>
+<h2 id="c24-24-1-patch-fixture-numbers-and-addresses">24.1 Patch: Fixture Numbers and Addresses</h2><p class="lead">Patching is giving each fixture a <strong>number (fixture ID) and a DMX address</strong>. You can carry the numbers, addresses and coordinates of the Chapter 22 patch sheet over from the top as they are.</p>
+<p>On grandMA3 the basic number for calling a fixture is the FID (Fixture ID), and on the command line you write it like <code>Fixture 201</code>. You must have this number to select and control a fixture.<sup class="ref"><a href="#c24-s1">1</a></sup> You enter the address in the form <code>universe.address</code>. Universe 2, channel 1 is <code>2.1</code>.</p>
+<p>Numbering the Chapter 6 practice rig (96 fixtures) by the Chapter 22 rules gives Table 24-1. The addresses follow the universe plan of Table 22-10 in Chapter 22. Each type gets a block of numbers in the hundreds, and within the same type the numbers run from the left as seen from the audience (stage right) to the right (stage left).</p>
+<div class="tbl"><div class="tcap"><b>Table 24-1</b> ID number ranges of the practice rig <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Fixture</th>
+<th>Qty</th>
+<th>Role</th>
+<th>ID</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LED profile</td>
+<td>8</td>
+<td>Key</td>
+<td>101–108</td>
+</tr>
+<tr class="even">
+<td>LED Fresnel</td>
+<td>6</td>
+<td>Fill</td>
+<td>121–126</td>
+</tr>
+<tr class="odd">
+<td>Moving wash</td>
+<td>12</td>
+<td>6 wash, 6 back</td>
+<td>201–206 (wash), 207–212 (back)</td>
+</tr>
+<tr class="even">
+<td>Moving wash (side tower)</td>
+<td>8</td>
+<td>Side</td>
+<td>221–224 (stage right), 225–228 (stage left)</td>
+</tr>
+<tr class="odd">
+<td>Moving spot</td>
+<td>8</td>
+<td>Beam (patterns), key</td>
+<td>301–308</td>
+</tr>
+<tr class="even">
+<td>Moving beam</td>
+<td>16</td>
+<td>Beam</td>
+<td>401–408 (floor), 409–416 (tower)</td>
+</tr>
+<tr class="odd">
+<td>LED bar</td>
+<td>24</td>
+<td>Pixel</td>
+<td>501–524 (sub-fixtures go after a dot, like 501.1)</td>
+</tr>
+<tr class="even">
+<td>Strobe</td>
+<td>8</td>
+<td>FX</td>
+<td>601–608</td>
+</tr>
+<tr class="odd">
+<td>Blinder</td>
+<td>4</td>
+<td>Audience</td>
+<td>701–704</td>
+</tr>
+<tr class="even">
+<td>Follow spot</td>
+<td>2</td>
+<td>Key (lead)</td>
+<td>Off the console (run by a person)</td>
+</tr>
+</tbody>
+</table></div>
+<p>From 2.5 the window for adding fixtures (Insert New Fixture) and the window for importing fixture types (Fixture Type Import) have a <strong>channel map</strong>. It shows in what order the channels of each mode of a fixture type are laid out, so even two modes with the same channel count can be told apart by their structure. There are two views, Channels (default) and Structure.<sup class="ref"><a href="#c24-s12">12</a></sup> Before patching, check here that the channel count and mode settled in Chapter 22 are right.</p>
+<p>The manual sets no rule for ID number ranges.<sup class="ref"><a href="#c24-s1">1</a></sup> So a person decides them show by show, and the rule you settled goes into a show file template (Chapter 29) to use again next show.</p>
+<h2 id="c24-24-2-direction-and-coordinates">24.2 Direction and Coordinates</h2><p class="lead">If a fixture really moves the wrong way, <strong>do not patch it up with a preset; flip the direction in the patch (invert)</strong>. If you patch it up with a preset, every move you make afterwards gets tangled together with it.<sup class="ref"><a href="#c24-s2">2</a></sup></p>
+<p>grandMA3’s patch has three kinds of pan and tilt invert fields, and they do different things.<sup class="ref"><a href="#c24-s1">1</a></sup></p>
+<div class="tbl"><div class="tcap"><b>Table 24-2</b> The three inverts in the patch <sup class="ref"><a href="#c24-s1">1</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>What changes</th>
+<th>When to use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>DMX Invert Pan/Tilt</td>
+<td>The DMX value sent to the fixture</td>
+<td>When the 3D view and external visualizers are right but the real fixture moves the opposite way</td>
+</tr>
+<tr class="even">
+<td>Invert 3D Pan/Tilt</td>
+<td>The 3D view only (DMX stays the same)</td>
+<td>When the real fixture is right but only the 3D view is reversed</td>
+</tr>
+<tr class="odd">
+<td>Enc Invert Pan/Tilt</td>
+<td>Only the direction the encoder turns</td>
+<td>When you want one encoder to move two facing rows (hung fixtures and upright fixtures) the same way</td>
+</tr>
+</tbody>
+</table></div>
+<p>You enter a fixture’s place as 3D coordinates. The units are meters and degrees, and a newly added fixture sits at the origin (0, 0, 0).<sup class="ref"><a href="#c24-s3">3</a></sup> The axes are as follows.</p>
+<ul class="keyed">
+<li><strong>X</strong>Left and right of the stage. <strong>+X is stage left</strong> (the right as seen from the audience). If you set the center of the stage to 0, stage right is negative.<sup class="ref"><a href="#c24-s4">4</a></sup></li>
+<li><strong>Y</strong>Front to back. +Y is upstage.</li>
+<li><strong>Z</strong>Height. A fixture’s reference point is usually its hanging point, so if a fixture appears under the floor, raise Z to the hanging height.<sup class="ref"><a href="#c24-s4">4</a></sup></li>
+</ul>
+<p>The coordinates you enter in the patch become the fixture’s place in the simulation as they are. Fixture layouts made in a drawing program or simulation program are exchanged as MVR files.<sup class="ref"><a href="#c24-s13">13</a></sup> That way the layouts of the drawing, the console and the simulation can be matched without re-entering coordinates one by one.</p>
+<p>There is a trap when you enter negative numbers. On the command line, if there is a space after <code>-</code>, it becomes a <strong>relative value</strong>. <code>Attribute "Pan" At - 10</code> means reduce the pan by 10, not set the pan to −10.<sup class="ref"><a href="#c24-s5">5</a></sup> The console puts a space between <code>-</code> and the number automatically, so to enter an absolute negative value, delete the space or use the <code>+/-</code> key of the calculator.<code>[Author to confirm]</code></p>
+<aside class="box terms"><div class="box-label">Words to Know</div><div class="box-body"><dl class="defs"><div><dt>Stage left</dt><dd>The left as seen by a performer on stage looking at the audience, and the right as seen from the audience. The pictures in this book are seen from the audience, so the right of a picture is grandMA3’s +X.</dd></div><div><dt>Left and right in group names</dt><dd>When you write “left” or “right,” also write which side it is measured from. Writing “stage right,” as for the sides in Table 24-1, avoids confusion.</dd></div></dl></div></aside>
+<h2 id="c24-24-3-groups-and-selection-order">24.3 Groups and Selection Order</h2><p class="lead">A group holds no values. A group stores only <strong>which fixtures you picked, in what order, and in what grid</strong>.<sup class="ref"><a href="#c24-s6">6</a></sup> This order and grid are used when you enter range values or build a phaser (Chapter 25).</p>
+<p>When you store a group, the order in which you picked the fixtures becomes the order of the <strong>Selection Grid</strong> as it is, because a newly picked fixture is attached to the next empty cell along the grid’s X axis. The setting that decides this behavior is Grid Merge Mode, and its default, Append X, means “attach at the next cell on the X axis.”<sup class="ref"><a href="#c24-s6">6</a></sup> So a group stored after picking the 8 moving spots from 301 to 308 and a group stored after picking them from 308 to 301 are different groups, even though they are the same 8 fixtures. Apply the same wave effect and one runs from left to right and the other from right to left. The author saw with his own eyes on onPC 2.4.2 that reversing the selection order made the wave run backwards too.<sup class="ref"><a href="#c24-s7">7</a></sup></p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 356" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<text fill="#3b6ea8" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="92.0">Spots left → right: picked 301 through 308 in order</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="60.0" x2="900.0" y1="144.0" y2="144.0"></line>
+<circle cx="110.0" cy="120.0" fill="#3b6ea8" opacity="1.0" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="110.0" y="125.0">1</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="110.0" y="162.0">301</text>
+<circle cx="215.0" cy="120.0" fill="#3b6ea8" opacity="0.8928571428571429" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="215.0" y="125.0">2</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="215.0" y="162.0">302</text>
+<circle cx="320.0" cy="120.0" fill="#3b6ea8" opacity="0.7857142857142857" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="320.0" y="125.0">3</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="320.0" y="162.0">303</text>
+<circle cx="425.0" cy="120.0" fill="#3b6ea8" opacity="0.6785714285714286" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="425.0" y="125.0">4</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="425.0" y="162.0">304</text>
+<circle cx="530.0" cy="120.0" fill="#3b6ea8" opacity="0.5714285714285714" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="530.0" y="125.0">5</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="530.0" y="162.0">305</text>
+<circle cx="635.0" cy="120.0" fill="#3b6ea8" opacity="0.4642857142857143" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="635.0" y="125.0">6</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="635.0" y="162.0">306</text>
+<circle cx="740.0" cy="120.0" fill="#3b6ea8" opacity="0.3571428571428572" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="740.0" y="125.0">7</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="740.0" y="162.0">307</text>
+<circle cx="845.0" cy="120.0" fill="#3b6ea8" opacity="0.25" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="845.0" y="125.0">8</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="845.0" y="162.0">308</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="900.0" y="92.0">The wave starts from the left</text>
+<text fill="#d9902a" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="202.0">Spots right → left: picked 308 back to 301</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="60.0" x2="900.0" y1="254.0" y2="254.0"></line>
+<circle cx="110.0" cy="230.0" fill="#d9902a" opacity="0.25" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="110.0" y="235.0">8</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="110.0" y="272.0">301</text>
+<circle cx="215.0" cy="230.0" fill="#d9902a" opacity="0.3571428571428572" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="215.0" y="235.0">7</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="215.0" y="272.0">302</text>
+<circle cx="320.0" cy="230.0" fill="#d9902a" opacity="0.4642857142857143" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="320.0" y="235.0">6</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="320.0" y="272.0">303</text>
+<circle cx="425.0" cy="230.0" fill="#d9902a" opacity="0.5714285714285714" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="425.0" y="235.0">5</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="425.0" y="272.0">304</text>
+<circle cx="530.0" cy="230.0" fill="#d9902a" opacity="0.6785714285714286" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="530.0" y="235.0">4</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="530.0" y="272.0">305</text>
+<circle cx="635.0" cy="230.0" fill="#d9902a" opacity="0.7857142857142857" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="635.0" y="235.0">3</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="635.0" y="272.0">306</text>
+<circle cx="740.0" cy="230.0" fill="#d9902a" opacity="0.8928571428571429" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="740.0" y="235.0">2</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="740.0" y="272.0">307</text>
+<circle cx="845.0" cy="230.0" fill="#d9902a" opacity="1.0" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="845.0" y="235.0">1</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="845.0" y="272.0">308</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="900.0" y="202.0">The same phaser starts from the right</text>
+<text fill="#7a5ea8" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="312.0">Spots outside → in: picked 301, 308, 302, 307 …</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="60.0" x2="900.0" y1="364.0" y2="364.0"></line>
+<circle cx="110.0" cy="340.0" fill="#7a5ea8" opacity="1.0" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="110.0" y="345.0">1</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="110.0" y="382.0">301</text>
+<circle cx="215.0" cy="340.0" fill="#7a5ea8" opacity="0.7857142857142857" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="215.0" y="345.0">3</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="215.0" y="382.0">302</text>
+<circle cx="320.0" cy="340.0" fill="#7a5ea8" opacity="0.5714285714285714" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="320.0" y="345.0">5</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="320.0" y="382.0">303</text>
+<circle cx="425.0" cy="340.0" fill="#7a5ea8" opacity="0.3571428571428572" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="425.0" y="345.0">7</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="425.0" y="382.0">304</text>
+<circle cx="530.0" cy="340.0" fill="#7a5ea8" opacity="0.25" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="530.0" y="345.0">8</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="530.0" y="382.0">305</text>
+<circle cx="635.0" cy="340.0" fill="#7a5ea8" opacity="0.4642857142857143" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="635.0" y="345.0">6</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="635.0" y="382.0">306</text>
+<circle cx="740.0" cy="340.0" fill="#7a5ea8" opacity="0.6785714285714286" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="740.0" y="345.0">4</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="740.0" y="382.0">307</text>
+<circle cx="845.0" cy="340.0" fill="#7a5ea8" opacity="0.8928571428571429" r="20.0" stroke="none" stroke-width="1"></circle>
+<text fill="#ffffff" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="845.0" y="345.0">2</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="845.0" y="382.0">308</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="900.0" y="312.0">Gathers from the outside in</text>
+</svg>
+<figcaption><b>Figure 24-1</b> Selection order and the Selection Grid. If you pick the same 8 moving spots from the left, the wave starts from the left; if you pick alternately from the outside in, it gathers from the outside in. A group stores this order. The Selection Grid is the order among fixtures, not their real places on the stage.</figcaption></figure>
+<p>The three levels of groups from Chapter 22 are used here. All groups and sub-groups are groups that pick places, and <strong>effect groups are groups that pick an order</strong>. “Spots left → right,” “Spots right → left,” “Beams outside → in” and “Beams odd/even” are groups with the same fixtures but a different order.</p>
+<div class="tbl"><div class="tcap"><b>Table 24-3</b> Group pool numbers <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>No.</th>
+<th>Level</th>
+<th>Groups</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1–10</td>
+<td>All groups</td>
+<td>1 Key, 2 Fill, 3 Wash, 4 Back, 5 Side, 6 Spot, 7 Beam, 8 Pixel (LED bar main fixtures), 9 Strobe, 10 Blinder</td>
+</tr>
+<tr class="even">
+<td>11–30</td>
+<td>Sub-groups</td>
+<td>Side stage right · left, Beam floor · tower, Beam stage right · left, all Pixel sub-fixtures</td>
+</tr>
+<tr class="odd">
+<td>31–60</td>
+<td>Effect groups</td>
+<td>Spot left → right · right → left · outside → in, Beam odd/even · outside → in · left → right, Side cross left/right, Pixel sub-fixtures left → right · center → out</td>
+</tr>
+</tbody>
+</table></div>
+<p>After storing a group, check the order with your eyes. Turn on Highlight and step through with Next, and the fixtures light one at a time in the group’s order.<sup class="ref"><a href="#c24-s8">8</a></sup> If you skip this check, you get the case where an effect “was stored fine but the shape is strange.”</p>
+<h2 id="c24-24-4-keep-main-fixtures-and-sub-fixtures-in-different-groups">24.4 Keep Main Fixtures and Sub-fixtures in Different Groups</h2><p class="lead">For fixtures with several sub-fixtures, like an LED bar, make <strong>a main fixture group and a sub-fixture group separately</strong>. If you mix them in one group, a phaser counts the fixtures in the wrong unit.</p>
+<p>If you select fixtures with several sub-fixtures and press the <strong>Down</strong> key, the sub-fixtures spread out onto the grid in the order of their layout inside the fixture (Up goes back to the previous selection).<sup class="ref"><a href="#c24-s8">8</a></sup> If you apply a phaser without spreading them, the console sees one fixture with several sub-fixtures as one fixture. If you want a chase that moves differently for each sub-fixture, you must apply it to a sub-fixture group spread out with Down.<code>[Author to confirm]</code></p>
+<p>Also divide the attributes that main fixtures and sub-fixtures take. Main fixtures take attributes that apply to the whole fixture, like tilt, strobe and zoom, and sub-fixtures take brightness and color. And if you leave the main fixture’s dimmer at 100% and let the sub-fixtures take the brightness, the pixel effect is not hidden by the main fixture’s dimmer.<code>[Author to confirm]</code></p>
+<p>Some fixtures have two dimmers. The author once had a fixture that shines only when both the dimmer and the second dimmer (Dimmer2) are 100, and a dimmer preset stored mixed with another group left out the second dimmer, so no light came out.<sup class="ref"><a href="#c24-s7">7</a></sup> When you get a new fixture type, first look at how many dimmer channels it has.</p>
+<h2 id="c24-24-5-preset-pools">24.5 Preset Pools</h2><p class="lead">Presets are divided into <strong>a separate pool for each type (Feature Group)</strong>, and those that mix several types go in the <strong>All pools</strong>.</p>
+<p>A new show has 9 preset pools named for the basic types (Dimmer, Position, Color and so on) and 5 All pools with no input filter (All 1 to All 5). A pool for one type accepts only the attributes of that type.<sup class="ref"><a href="#c24-s9">9</a></sup> The manual has no table of pool numbers, but in the author’s show the Dimmer pool was number 1, the Position pool 2, the Color pool 4 and the All 1 pool 21.<sup class="ref"><a href="#c24-s7">7</a></sup> Pool numbers may differ from show to show, so look at the pool list once before you store.</p>
+<div class="tbl"><div class="tcap"><b>Table 24-4</b> LOVE ATTACK’s basic presets <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Pool</th>
+<th>Presets</th>
+<th>Earlier chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Dimmer</td>
+<td>0 (black), 25 (base), 50, 75, 100 (full)</td>
+<td>The Chapter 16 cue sheet</td>
+</tr>
+<tr class="even">
+<td>Color</td>
+<td>Pearl Pink, Lilac, Aqua, Red (special), White</td>
+<td>The Chapter 8 palette</td>
+</tr>
+<tr class="odd">
+<td>Position</td>
+<td>Intro (narrow toward the floor), Downlight, Wall, Rooftop Fan narrow (Chorus 1 · 2), Rooftop Fan wide (Chorus 3), Cross Beam, Sky Beam</td>
+<td>The Chapter 9 look sheet, Sections 16.4 · 16.5</td>
+</tr>
+<tr class="even">
+<td>Beam</td>
+<td>Narrow (beam), wide (wash), prism</td>
+<td>The Chapter 6 attributes</td>
+</tr>
+<tr class="odd">
+<td>All</td>
+<td>Phasers that mix two or more attributes (e.g., a pixel clap where color and dimmer run together)</td>
+<td>Chapter 25</td>
+</tr>
+</tbody>
+</table></div>
+<p>For dimmers, make only the <strong>reference brightness steps</strong> among the levels of the cue sheet. In LOVE ATTACK’s cue sheet (Table 16-4 in Chapter 16), 0 appears in the main role of blocking and dark cues, 25 in the base of Pre-chorus 1, 50 in the intro and Verse 1, 75 in the base of Pre-chorus 2 and Chorus 3, and 100 in Chorus 3. If you keep these steps as presets, then when someone says at rehearsal “the base is too bright,” you fix just the base 25 preset and every cue that uses it follows (Chapter 23). Conversely, a brightness used in only one cue (45% in the bridge, 85% in the beat section and so on) may go into the cue as a hard value. For fixtures with two dimmer channels (Section 24.4), put the second dimmer in the dimmer preset as well.</p>
+<p>If you try storing a value holding both color and dimmer in the Color pool, it is not refused, but it is hard to tell on screen whether any attribute was filtered out.<sup class="ref"><a href="#c24-s7">7</a></sup> So when two or more types are mixed, put it in an All pool. In this book phasers are gathered in the All pools even if they use the attributes of only one type, so that the phasers to put into layer sequences can be found in one place (Chapter 25, Table 29-2 in Chapter 29).</p>
+<h2 id="c24-24-6-set-the-preset-mode-to-selective">24.6 Set the Preset Mode to Selective</h2><p class="lead">There are three ways to store a preset (the preset mode), and <strong>in this book’s exercises everything is stored as Selective</strong>. Both the “only a few change” of the opening scene and the “phase disappears” we will meet in Chapter 25 arise from the preset mode.</p>
+<div class="tbl"><div class="tcap"><b>Table 24-5</b> The three preset modes <sup class="ref"><a href="#c24-s10">10</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>Mode</th>
+<th>Fixtures it applies to</th>
+<th>Where the value comes from</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Selective(S)</td>
+<td>Each fixture that had a value when stored</td>
+<td>Each fixture’s own value</td>
+</tr>
+<tr class="even">
+<td>Global(G)</td>
+<td>All fixtures of the same fixture type</td>
+<td>One per fixture type. If values differ within the same type, the fixture with the lowest ID gives the representative value and the rest are added as Selective</td>
+</tr>
+<tr class="odd">
+<td>Universal(U)</td>
+<td>All fixtures that have the attribute</td>
+<td>The first active fixture at the time of storing</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 316" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<text fill="#3b6ea8" font-size="14" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="96.0">Selective(S)</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="40.0" y="116.0">Each fixture remembers its own phase → a wave</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="40.0" y="146.0"></rect>
+<rect fill="#3b6ea8" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="40.0" y="146.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="57.0" y="326.0">0°</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="90.0" y="146.0"></rect>
+<rect fill="#3b6ea8" height="136.6" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="90.0" y="169.4"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="107.0" y="326.0">45°</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="140.0" y="146.0"></rect>
+<rect fill="#3b6ea8" height="80.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="140.0" y="226.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="157.0" y="326.0">90°</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="190.0" y="146.0"></rect>
+<rect fill="#3b6ea8" height="23.4" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="190.0" y="282.6"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="207.0" y="326.0">135°</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="240.0" y="146.0"></rect>
+<rect fill="#3b6ea8" height="0.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="240.0" y="306.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="257.0" y="326.0">180°</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="290.0" y="146.0"></rect>
+<rect fill="#3b6ea8" height="23.4" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="290.0" y="282.6"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="307.0" y="326.0">225°</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="340.0" y="146.0"></rect>
+<rect fill="#3b6ea8" height="80.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="340.0" y="226.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="357.0" y="326.0">270°</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="390.0" y="146.0"></rect>
+<rect fill="#3b6ea8" height="136.6" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="390.0" y="169.4"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="407.0" y="326.0">315°</text>
+<text fill="#c8553d" font-size="14" font-weight="700" opacity="1.0" text-anchor="start" x="520.0" y="96.0">Universal(U)</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="520.0" y="116.0">The value of the first active fixture goes to everyone → they blink all at once</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="520.0" y="146.0"></rect>
+<rect fill="#c8553d" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="520.0" y="146.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="537.0" y="326.0">0°</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="570.0" y="146.0"></rect>
+<rect fill="#c8553d" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="570.0" y="146.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="587.0" y="326.0">0°</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="620.0" y="146.0"></rect>
+<rect fill="#c8553d" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="620.0" y="146.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="637.0" y="326.0">0°</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="670.0" y="146.0"></rect>
+<rect fill="#c8553d" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="670.0" y="146.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="687.0" y="326.0">0°</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="720.0" y="146.0"></rect>
+<rect fill="#c8553d" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="720.0" y="146.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="737.0" y="326.0">0°</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="770.0" y="146.0"></rect>
+<rect fill="#c8553d" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="770.0" y="146.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="787.0" y="326.0">0°</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="820.0" y="146.0"></rect>
+<rect fill="#c8553d" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="820.0" y="146.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="837.0" y="326.0">0°</text>
+<rect fill="#eef0f3" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="870.0" y="146.0"></rect>
+<rect fill="#c8553d" height="160.0" opacity="1.0" rx="4" stroke="none" stroke-width="1" width="34.0" x="870.0" y="146.0"></rect>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="middle" x="887.0" y="326.0">0°</text>
+</svg>
+<figcaption><b>Figure 24-2</b> Selective and Universal. When you apply a dimmer phaser with different phases to 8 fixtures and store it, Selective remembers each fixture’s own phase, and Universal gives everyone the value of the first fixture. So a wave stored as Universal makes all eight blink at once.</figcaption></figure>
+<p>Selective applies <strong>only to the fixtures that had a value when stored</strong>.<sup class="ref"><a href="#c24-s10">10</a></sup> So, as in the opening scene, if you pick only a few fixtures and store, only those few change. The fix is simple. Before storing a preset, check that you have picked the whole group the preset will apply to.</p>
+<p>Universal takes its value from <strong>the first active fixture</strong> at the time of storing.<sup class="ref"><a href="#c24-s10">10</a></sup> If you store a phaser whose phase differs from fixture to fixture as Universal, that difference disappears. The author stored LOVE ATTACK’s dimmer wave as Universal and saw fixtures of the same type blink all at once. In another show, a color preset whose preset mode had not been set was stored as Universal, and most of the show’s colors came out different from the design.<sup class="ref"><a href="#c24-s7">7</a></sup> Since then he always stores presets with <code>/Selective</code>.</p>
+<p>Each pool has a default preset mode, shown by a letter at the top right of the pool’s title. Either change Preset Mode to Selective in the pool settings, or pick it in Store Options, which appears when you hold Store down while storing. On the command line you attach the option, as in <code>Store Preset 4.1 "Pearl Pink" /Selective</code>.<sup class="ref"><a href="#c24-s10">10</a></sup> <code>[Author to confirm]</code> Reading from the front: Store is the command to store, Preset 4.1 is cell 1 of preset pool 4 (Color), “Pearl Pink” is the name to attach, and <code>/Selective</code> is the option that sets the preset mode to Selective. Check the pool number show by show, as in Section 24.5 above.</p>
+<aside class="box terms"><div class="box-label">Words to Know</div><div class="box-body"><dl class="defs"><div><dt>Phase</dt><dd>How far apart you offset the starting point of each fixture within the same phaser. You give it in degrees (0–360°). Chapters 25 and 26 cover it in detail.</dd></div></dl></div></aside>
+<h2 id="c24-24-7-the-3d-view-and-simulation-programs">24.7 The 3D View and Simulation Programs</h2><p class="lead">When you work without a real stage, you see the result on a simulation screen. The exercises in this book use the 3D view built into grandMA3 onPC. If a beam does not show, look first not at the fixture but at <strong>the 3D view’s settings or selection</strong>.</p>
+<div class="tbl"><div class="tcap"><b>Table 24-6</b> What to look at when a beam does not show in the 3D view <sup class="ref"><a href="#c24-s11">11</a></sup> <sup class="ref"><a href="#c24-s7">7</a></sup> <sup class="ref"><a href="#c24-s12">12</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>What to look at</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>The graphics of the PC running onPC</td>
+<td>From 2.5 the 3D view draws with Vulkan instead of OpenGL. If the 3D window is blank or very slow, look first at the graphics driver and the system requirements of 2.5 <sup class="ref"><a href="#c24-s12">12</a></sup></td>
+</tr>
+<tr class="even">
+<td>Whether Stage in the 3D window settings is “All stages”</td>
+<td>If the patch has several stages, the 3D window can show only one. If imported structures and lights are split across different stages, the lights do not show</td>
+</tr>
+<tr class="odd">
+<td>Beam fader, Haze</td>
+<td>The 3D window adjusts separately how visible the beam is and the beam shafts in the air</td>
+</tr>
+<tr class="even">
+<td>Fixtures with two dimmers</td>
+<td>If the second dimmer is 0, no light comes out</td>
+</tr>
+<tr class="odd">
+<td>Fixtures with sub-fixtures</td>
+<td>In the author’s case, the beam showed in 3D only when the main fixture and sub-fixtures were selected together (a dot at the end of the number) and tilt was given too</td>
+</tr>
+<tr class="even">
+<td>The fixture’s brightness</td>
+<td>A fixture type with low light output is drawn much darker in 3D even at 100%</td>
+</tr>
+</tbody>
+</table></div>
+<p>On site, besides the console’s 3D view, external simulation programs are also used. An external program receives the console’s signal and draws the fixtures, and shows the stage and even the LED wall more realistically. You can also turn cues into video to show the director or the artist.<sup class="ref"><a href="#c24-s14">14</a></sup> <sup class="ref"><a href="#c24-s15">15</a></sup></p>
+<div class="tbl"><div class="tcap"><b>Table 24-7</b> The console’s 3D view and external simulation programs <sup class="ref"><a href="#c24-s11">11</a></sup> <sup class="ref"><a href="#c24-s14">14</a></sup> <sup class="ref"><a href="#c24-s15">15</a></sup></div><table>
+<thead>
+<tr class="header">
+<th></th>
+<th>The console’s 3D view (grandMA3)</th>
+<th>External simulation programs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Examples</td>
+<td>The 3D view built into onPC and the console</td>
+<td>Capture, Depence, WYSIWYG and others</td>
+</tr>
+<tr class="even">
+<td>Fixture layout</td>
+<td>The coordinates in the patch are the layout as they are</td>
+<td>Imported from a drawing or MVR file and matched to the console patch</td>
+</tr>
+<tr class="odd">
+<td>Connection</td>
+<td>None needed</td>
+<td>Receives the console’s signal over the network</td>
+</tr>
+<tr class="even">
+<td>Good at</td>
+<td>Checking right away while programming, no extra cost</td>
+<td>Realistic beams and stage, LED wall video, making video to show</td>
+</tr>
+<tr class="odd">
+<td>Limits</td>
+<td>Light and color are a picture for practice</td>
+<td>Still differs from the brightness, color and movement of the real fixtures</td>
+</tr>
+</tbody>
+</table></div>
+<p>Either way, a simulation’s beams are not the real stage. Values settled in the simulation are checked by running the whole song (Section 28.5), and only the places that change on the real stage are looked at again at rehearsal (Chapter 30).</p>
+<h2 id="c24-24-8-exercise-patch-the-practice-rig-and-make-love-attack-s-">24.8 [Exercise] Patch the Practice Rig and Make LOVE ATTACK’s Basic Presets</h2><p class="lead">Patch the Chapter 6 practice rig in onPC, and build the three levels of groups and LOVE ATTACK’s basic presets. You will keep using this show file through Chapter 27.</p>
+<p><strong>Follow along</strong></p>
+<ol type="1">
+<li>Following the patch sheet from Chapter 22 (Table 22-10, Web tool 18), patch the 94 fixtures with numbers and addresses (the 2 follow spots are run by a person, off the console, so they are not patched). You may choose similar fixture types; for the mode, pick by the channel map the one closest to the channel counts of Table 22-11 in Chapter 22.</li>
+<li>Place the fixtures according to the Chapter 22 lighting plot (Figures 22-3 and 22-4, Table 22-8) and the coordinates of the patch sheet. The origin is the center of the front edge of the stage, and fixtures on stage right have negative X.</li>
+<li>Make the all-groups and sub-groups with the numbers of Table 24-3, and pick the effect groups while thinking about the order. For the LED bars, spread the sub-fixtures with Down and make the sub-fixture groups separately.</li>
+<li>Change the Preset Mode of the Dimmer, Color and Position pools to Selective.</li>
+<li>Make the presets of Table 24-4. For dimmers, select all the fixtures and store each step; for fixtures with two dimmers, enter the same value in the second dimmer too. For colors, use the RGB values of Chapter 8, and before storing, check that you picked the whole group that will use the color.</li>
+<li>For positions, match the pictures of the Chapter 9 look sheet in the 3D view, then store.</li>
+</ol>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>Look at three things.</li><li>First, for each effect group, step through the order with Highlight and Next and see that it moves like Figure 24-1.</li><li>Second, in the preset pools, see that the preset mode letter of every preset is S.</li><li>Third, select all fixtures and call Pearl Pink, and see that every one of the 94 fixtures that has color changes.</li><li>If some are left over, first check whether those fixtures were picked at the time of storing.</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">Try it with your own stage</div><div class="box-body"><ol class="steps"><li>Fill in Tables 24-1 and 24-3 with the fixtures of the show you are working on now.</li><li>If you load the Fixture Roles tool or the Chapter 22 patch sheet (Web tool 18) into Web tool 22, Show File Plan, it makes the ID number ranges, group numbers and preset pool plan on one sheet.</li></ol></div></aside>
+<aside class="web" id="web-W19-24"><div class="web-head"><span class="web-tag">Web tool 22</span><h4>Show File Plan</h4><a class="web-open" href="https://jjjh7401.github.io/lx/showplan.html" rel="noopener" target="_blank">Open in new window ↗</a></div><p class="web-desc">Load the fixtures of the Fixture Roles tool (Web tool 6), give each type an ID number range, and sum up on one sheet the three levels of groups, the number ranges of the preset pools and the executor layout of the song page. If you load the patch sheet (Web tool 18), it uses those IDs and addresses as they are. It points out where numbers overlap or are missing, and you can copy the patch list and group list into a spreadsheet.</p><div class="tool-embed"><iframe allow="autoplay" loading="lazy" src="https://jjjh7401.github.io/lx/showplan.html?embed=1" style="--h:1500px" title="Show File Plan"></iframe></div><p class="tool-open"><span>The notes you write are saved in this browser only. To use it on a wide screen, press "Open in new window" above.</span></p></aside>
+<section class="summary"><h2>Key points</h2><ul>
+<li>Patching is giving each fixture an ID and an address, and IDs are given by type in number blocks of hundreds. The manual has no fixed rule, so settle one show by show and keep it as a template.</li>
+<li>If the direction is wrong, invert it in the patch, not in a preset. There are three inverts: DMX, 3D and encoder.</li>
+<li>+X is stage left and stage right is negative. On the command line, <code>- 10</code> (with a space) is a relative value.</li>
+<li>A group stores the selection, order and grid. The order you picked in is the direction of the effect.</li>
+<li>For fixtures with sub-fixtures, make the main fixtures and sub-fixtures different groups.</li>
+<li>Store presets as Selective. At the time of storing, check that you picked the whole group they will apply to.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">On the job tomorrow</div><div class="box-body"><ol class="steps"><li>Before storing a preset, check only two things: that you have picked the whole group that will use it, and that the pool’s preset mode letter is S.</li></ol></div></aside>
+<section class="notes"><h2>Notes</h2><ol><li id="c24-s1">MA Lighting, grandMA3 User Manual 2.5, “Add Fixtures to the Show.” FID and CID; entering <code>universe.address</code>; the three invert fields DMX, 3D and Enc and when to use them. No rule for ID number ranges. <a href="https://help.malighting.com/grandMA3/2.5/HTML/patch_add_fixtures.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/patch_add_fixtures.html</a> (checked 2026-10-26)</li><li id="c24-s2">The author’s unpublished working notes. Patching direction up with a preset makes every later move complicated.</li><li id="c24-s3">MA Lighting, grandMA3 User Manual 2.5, “Position Fixtures.” Units are meters and degrees; the directions of the axes and rotation. <a href="https://help.malighting.com/grandMA3/2.5/HTML/patch_position_fixtures.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/patch_position_fixtures.html</a> (checked 2026-10-26)</li><li id="c24-s4">MA Lighting, grandMA3 Quick Start Guide 2.5, “3D Setup.” With the center at 0, stage right is negative; the reference point is the hanging point. <a href="https://help.malighting.com/grandMA3/2.5/HTML/qsg_3d_setup.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/qsg_3d_setup.html</a> (checked 2026-10-26)</li><li id="c24-s5">MA Lighting, grandMA3 User Manual 2.5, “Minus Keyword.” With a space it is a relative value. <a href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_minus.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/keyword_minus.html</a> (checked 2026-10-26)</li><li id="c24-s6">MA Lighting, grandMA3 User Manual 2.5, “Create Groups.” A group stores selection, order and grid; Grid Merge Mode defaults to Append X. <a href="https://help.malighting.com/grandMA3/2.5/HTML/group_create.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/group_create.html</a> (checked 2026-10-26)</li><li id="c24-s7">The author’s onPC 2.4.2 working notes (unpublished). Reversing the selection order makes the wave run backwards; the accident of the missing second dimmer; preset pool numbers (Dimmer 1, Position 2, Color 4, All 1 = 21); loss of phase in a phaser stored as Universal; missing color presets (most of the show’s colors differing from the design); the 3D beam of fixtures with sub-fixtures.</li><li id="c24-s8">MA Lighting, grandMA3 User Manual 2.5, “Selection.” The Selection Grid; spreading sub-fixtures with Down. <a href="https://help.malighting.com/grandMA3/2.5/HTML/operate_selection.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/operate_selection.html</a> (checked 2026-10-26)</li><li id="c24-s9">MA Lighting, grandMA3 User Manual 2.5, “Preset Pools.” 9 default type pools and 5 All pools. <a href="https://help.malighting.com/grandMA3/2.5/HTML/presets_pools.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/presets_pools.html</a> (checked 2026-10-26)</li><li id="c24-s10">MA Lighting, grandMA3 User Manual 2.5, “Presets” and “Create Presets.” Definitions of Selective, Global and Universal; Preset Mode in Store Options; the <code>/Selective</code> option. <a href="https://help.malighting.com/grandMA3/2.5/HTML/presets.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/presets.html</a> · <a href="https://help.malighting.com/grandMA3/2.5/HTML/presets_create.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/presets_create.html</a> (checked 2026-10-26)</li><li id="c24-s11">MA Lighting, grandMA3 User Manual 2.5, “3D Viewer.” The Stage setting (one or all stages), the Beam fader, Haze, and how low-output fixture types are displayed. <a href="https://help.malighting.com/grandMA3/2.5/HTML/patch_3d_viewer.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/patch_3d_viewer.html</a> (checked 2026-10-26)</li><li id="c24-s12">MA Lighting, grandMA3 Release Notes 2.5, “New Features.” The channel map (Channels · Structure) in the Insert New Fixture and Fixture Type Import windows; Vulkan as the graphics platform (replacing OpenGL). <a href="https://help.malighting.com/grandMA3/2.5/HTML/rn_features-2-5.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/rn_features-2-5.html</a> (checked 2026-10-26)</li><li id="c24-s13">MA Lighting, grandMA3 User Manual 2.5, “MVR.” MVR (My Virtual Rig) is a file format for exchanging stage setup information between consoles, simulation programs and drawing programs, and it complements GDTF; exported to MVR from the Patch menu. <a href="https://help.malighting.com/grandMA3/2.5/HTML/patch_mvr.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/patch_mvr.html</a> (checked 2026-10-27)</li><li id="c24-s14">Syncronorm, “Stage Visualization” (Depence). Program a show in the simulation before the stage lights are on, and make video presentations. <a href="https://syncronorm.com/industries/stage-visualization" rel="noopener" target="_blank">https://syncronorm.com/industries/stage-visualization</a> (checked 2026-10-27)</li><li id="c24-s15">ControlBooth, “Lighting Visualization Software.” Simulation programs such as WYSIWYG, Capture and ESP Vision connect to a real console or an offline program to draw the fixtures, and can turn cues into video. <a href="https://www.controlbooth.com/wiki/Collaborative-Articles:Lighting-Visualization-Software" rel="noopener" target="_blank">https://www.controlbooth.com/wiki/Collaborative-Articles:Lighting-Visualization-Software</a> (checked 2026-10-27)</li></ol></section>
+</article>
+</div>
+
+</main>
+<nav class="ltm-pager" id="ltmPager" aria-label="Chapters"></nav>
+<footer class="ltm-foot">
+<p><b>Lighting the Music</b> by Jaehyun Jung. Free to read online. English edition translated from the Korean original with AI.</p>
+<p>Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener license" target="_blank">CC BY-NC-ND 4.0</a>: you may share it with credit (title, author and a link to this page), but not for commercial use and not in modified form.</p>
+</footer>
+<script src="book.js?v=3"></script>
+<script>LTM_chapter("ch24");</script>
+</body>
+</html>
