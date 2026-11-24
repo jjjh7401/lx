@@ -1,0 +1,328 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Beat Calculator A1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap">
+<style>
+/* 레이아웃: 왼쪽은 입력과 요약(콘솔의 프로그래머 창처럼), 오른쪽은 눈금자와 표. 좁은 화면에서는 한 줄로 쌓는다. */
+:root {
+  --bg: #f4f5f2;
+  --panel: #ffffff;
+  --ink: #1b1f24;
+  --muted: #5f6670;
+  --line: #d9ddd6;
+  --accent: #d2782a;      /* 텅스텐 앰버: 다운비트·강조 */
+  --beat: #2f6f8f;        /* 박 눈금 */
+  --ok: #3d7a4f;
+  --warn: #b7791f;
+  --bad: #b8432f;
+  --chip-ok: #e3f0e6;
+  --chip-warn: #f8ecd6;
+  --chip-bad: #f6e0dc;
+  --font-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --font-num: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14171b; --panel: #1d2127; --ink: #e8eaed; --muted: #9aa2ad; --line: #2e343c;
+    --accent: #f0a050; --beat: #6fb3d2; --ok: #7cc48f; --warn: #e5b45a; --bad: #ef8a76;
+    --chip-ok: #1f3326; --chip-warn: #3a2f1a; --chip-bad: #3e2420; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14171b; --panel: #1d2127; --ink: #e8eaed; --muted: #9aa2ad; --line: #2e343c;
+  --accent: #f0a050; --beat: #6fb3d2; --ok: #7cc48f; --warn: #e5b45a; --bad: #ef8a76;
+  --chip-ok: #1f3326; --chip-warn: #3a2f1a; --chip-bad: #3e2420; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 24px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; margin-bottom: 20px; }
+h1 { font-size: 1.6rem; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.tag { font-family: var(--font-num); font-size: 0.78rem; letter-spacing: 0.08em; color: var(--accent); border: 1px solid var(--accent); padding: 1px 8px; border-radius: 3px; }
+.lead { color: var(--muted); margin: 0; flex-basis: 100%; max-width: 62ch; }
+.grid { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 860px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 18px; min-width: 0; }
+.stack { display: grid; gap: 20px; min-width: 0; }
+h2 { font-size: 1rem; margin: 0 0 12px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+h2 small { font-weight: 400; color: var(--muted); font-size: 0.8rem; }
+label { display: block; font-size: 0.82rem; color: var(--muted); margin-bottom: 4px; letter-spacing: 0.02em; }
+.field { margin-bottom: 14px; }
+input[type=number], select {
+  width: 100%; font-family: var(--font-num); font-size: 1.25rem; padding: 8px 10px; border: 1px solid var(--line);
+  border-radius: 4px; background: var(--bg); color: var(--ink); }
+input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+button { font-family: var(--font-body); font-size: 0.85rem; border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+  padding: 6px 10px; border-radius: 4px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button.primary { background: var(--accent); border-color: var(--accent); color: #1b1f24; font-weight: 700; }
+.sum { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 6px; }
+.sum div { border-top: 2px solid var(--line); padding-top: 6px; }
+.sum b { display: block; font-family: var(--font-num); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+.sum span { font-size: 0.78rem; color: var(--muted); }
+.note { font-size: 0.82rem; color: var(--muted); margin: 10px 0 0; }
+.ruler-box { overflow-x: auto; }
+svg text { font-family: var(--font-num); }
+.ctrl { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; font-size: 0.85rem; color: var(--muted); }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); font-size: 0.9rem; }
+th { color: var(--muted); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.03em; }
+td.n { font-family: var(--font-num); }
+.tbl { overflow-x: auto; }
+.chip { display: inline-block; font-size: 0.75rem; padding: 1px 7px; border-radius: 10px; font-weight: 600; }
+.chip.ok { background: var(--chip-ok); color: var(--ok); }
+.chip.warn { background: var(--chip-warn); color: var(--warn); }
+.chip.bad { background: var(--chip-bad); color: var(--bad); }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 640px) { .two { grid-template-columns: minmax(0, 1fr); } }
+.conv { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; align-items: end; }
+.out { font-family: var(--font-num); font-size: 1.1rem; padding: 8px 0; }
+.bars-step { display: flex; gap: 6px; }
+.bars-step button[aria-pressed=true] { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+footer { margin-top: 24px; font-size: 0.8rem; color: var(--muted); max-width: 80ch; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <p style="margin:0 0 12px;font-size:13px"><a href="index.html" style="color:var(--accent)">← LX Lighting Direction Tools</a> · <a id="bk-ch" href="../ch2.html" target="_blank" rel="noopener" style="color:var(--accent)">Read chapter 2 ↗</a></p><script>if(window.top!==window){var bl=document.getElementById('bk-ch');if(bl&&bl.parentNode)bl.parentNode.style.display='none';}</script>
+  <header>
+    <h1>Beat Calculator</h1><span class="tag">Web tool 3 · Chapter 2</span>
+    <p class="lead">Enter the BPM and the time of the first downbeat and it calculates bar times, fade lengths and flash rates in one go. It starts with the values of the book’s practice song, LOVE ATTACK (112 BPM, first downbeat at 1.50 s).</p>
+  </header>
+
+  <div class="grid">
+    <section class="panel" aria-label="Input">
+      <h2>Song numbers <small>Input</small></h2>
+      <div class="field">
+        <label for="bpm">BPM</label>
+        <input id="bpm" type="number" min="30" max="300" step="0.01" value="112">
+        <div class="presets">
+          <button data-p="112,1.5,4,83">LOVE ATTACK example</button>
+          <button data-p="120,0,4,64">120 as a base</button>
+          <button data-p="128,0,4,96">128</button>
+          <button data-p="140,0,4,96">140</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="t0">First downbeat (s)</label>
+        <input id="t0" type="number" min="0" step="0.01" value="1.5">
+      </div>
+      <div class="field">
+        <label for="meter">Beats per bar</label>
+        <select id="meter">
+          <option value="4" selected>4 beats (4/4)</option>
+          <option value="3">3 beats (3/4)</option>
+          <option value="2">2 big beats (6/8)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="nbars">Bars in the song</label>
+        <input id="nbars" type="number" min="1" max="999" step="1" value="83">
+      </div>
+      <div class="sum" id="sum"></div>
+      <p class="note" id="octave"></p>
+    </section>
+
+    <div class="stack">
+      <section class="panel" aria-label="Ruler">
+        <h2>Bar ruler <small id="rulerCap"></small></h2>
+        <div class="ruler-box"><svg id="ruler" width="760" height="150" role="img" aria-label="Beat and bar ruler"></svg></div>
+        <div class="ctrl">
+          <button class="primary" id="play">Turn metronome on</button>
+          <span>Turn the sound on and play the song along with it. If the metronome and the song stay together, the BPM is right (the short experiment in section 2.5).</span>
+        </div>
+      </section>
+
+      <div class="two">
+        <section class="panel" aria-label="Convert">
+          <h2>Convert between units</h2>
+          <div class="conv">
+            <div><label for="qbar">Bar</label><input id="qbar" type="number" min="1" step="1" value="68"></div>
+            <div><label for="qbeat">Beat</label><input id="qbeat" type="number" min="1" step="1" value="1"></div>
+          </div>
+          <div class="out" id="qout"></div>
+          <div class="conv">
+            <div><label for="qsec">Song time (s)</label><input id="qsec" type="number" min="0" step="0.01" value="144.57"></div>
+            <div class="out" id="qsecout"></div>
+          </div>
+          <div class="conv">
+            <div><label for="qfade">Fade (s)</label><input id="qfade" type="number" min="0" step="0.1" value="3"></div>
+            <div class="out" id="qfadeout"></div>
+          </div>
+        </section>
+
+        <section class="panel" aria-label="Fade table">
+          <h2>Fade and delay table <small>Decide in beats, write in seconds</small></h2>
+          <div class="tbl"><table id="fade"></table></div>
+        </section>
+      </div>
+
+      <section class="panel" aria-label="Flash rate">
+        <h2>Flash rate <small>Broadcast 3 Hz · venue 4 Hz</small></h2>
+        <div class="tbl"><table id="hz"></table></div>
+        <p class="note">Broadcast 3 Hz is the standard for when more than 25% of the screen area flashes (Ofcom, ITU-R BT.1702). Venue 4 Hz is the upper limit recommended by the UK HSE. One flash = one pair of getting bright and getting dark.</p>
+      </section>
+
+      <section class="panel" aria-label="Bar time table">
+        <h2>Bar time table
+          <span class="bars-step" role="group" aria-label="Interval">
+            <button data-step="1" aria-pressed="false">1 bar</button>
+            <button data-step="4" aria-pressed="true">4 bars</button>
+            <button data-step="8" aria-pressed="false">8 bars</button>
+          </span>
+        </h2>
+        <div class="tbl"><table id="bars"></table></div>
+      </section>
+    </div>
+  </div>
+
+  <footer>
+    Formulas: 1 beat = 60 ÷ BPM · 1 bar = beats × 1 beat · start of bar n = first downbeat + (n − 1) × 1 bar · Hz = BPM ÷ 60 × flashes per beat.
+    If you choose 6/8, the big beat (dotted quarter) counts as the beat, and you enter the BPM in big beats too.
+    Web tool 3 of Chapter 2 in this book.
+  </footer>
+</div>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  let step = 4;
+  const fmt = (s) => {
+    if (!isFinite(s)) return '–';
+    const sign = s < 0 ? '−' : '';
+    s = Math.abs(s);
+    const m = Math.floor(s / 60);
+    const r = s - m * 60;
+    return sign + m + ':' + (r < 10 ? '0' : '') + r.toFixed(2);
+  };
+  const f2 = (x) => (Math.round(x * 100) / 100).toFixed(2);
+  function read() {
+    const bpm = parseFloat($('bpm').value);
+    const t0 = parseFloat($('t0').value) || 0;
+    const per = parseInt($('meter').value, 10);
+    const nb = Math.max(1, parseInt($('nbars').value, 10) || 1);
+    return { bpm: bpm > 0 ? bpm : NaN, t0, per, nb };
+  }
+  function render() {
+    const { bpm, t0, per, nb } = read();
+    const beat = 60 / bpm, bar = beat * per;
+    $('sum').innerHTML = [
+      ['1 beat', f2(beat) + ' s'], ['1 bar', f2(bar) + ' s'], ['4 bars', (bar * 4).toFixed(1) + ' s'], ['8 bars', (bar * 8).toFixed(1) + ' s'],
+      ['Song end (after ' + nb + ' bars)', fmt(t0 + nb * bar)], ['Beats / s', (bpm / 60).toFixed(2)]
+    ].map(([k, v]) => `<div><b>${v}</b><span>${k}</span></div>`).join('');
+    $('octave').textContent = isFinite(bpm)
+      ? `Numbers it could be if it is off by half or double: ${f2(bpm / 2)} · ${f2(bpm * 2)} BPM. Check by ear that the snare lands on beats 2 and 4.`
+      : 'Enter a BPM.';
+    drawRuler(bpm, t0, per);
+    // 변환
+    const qb = Math.max(1, parseInt($('qbar').value, 10) || 1), qk = Math.max(1, parseInt($('qbeat').value, 10) || 1);
+    $('qout').textContent = `Bar ${qb} beat ${qk} = ${fmt(t0 + (qb - 1) * bar + (qk - 1) * beat)}`;
+    const qs = parseFloat($('qsec').value);
+    const idx = (qs - t0) / beat;
+    const bn = Math.floor(idx / per) + 1, bk = Math.floor(idx - (bn - 1) * per) + 1, frac = idx - Math.floor(idx);
+    $('qsecout').textContent = isFinite(idx) ? `Bar ${bn} beat ${bk}` + (frac > 0.15 && frac < 0.85 ? ' (between beats)' : '') : '–';
+    const qf = parseFloat($('qfade').value);
+    $('qfadeout').textContent = isFinite(qf) ? `${f2(qf / beat)} beats = ${f2(qf / bar)} bars` : '–';
+    // 페이드 표
+    const rows = [['Half a beat', 0.5], ['1 beat', 1], ['2 beats', 2], ['1 bar', per], ['2 bars', per * 2], ['4 bars', per * 4], ['8 bars', per * 8]];
+    $('fade').innerHTML = '<tr><th>Length you want</th><th>Beats</th><th>Seconds</th></tr>' +
+      rows.map(([k, b]) => `<tr><td>${k}</td><td class="n">${b}</td><td class="n">${f2(b * beat)}</td></tr>`).join('');
+    // Hz 표
+    const notes = [['Every beat (quarter note)', 1], ['Every half beat (eighth note)', 2], ['Eighth-note triplet', 3], ['Sixteenth note', 4]];
+    const chip = (hz) => hz > 4 ? '<span class="chip bad">Over venue 4 Hz</span>' : hz > 3 ? '<span class="chip warn">Over broadcast 3 Hz</span>' : '<span class="chip ok">3 Hz or less</span>';
+    $('hz').innerHTML = '<tr><th>Flashing</th><th>Hz</th><th>Verdict</th></tr>' +
+      notes.map(([k, m]) => { const hz = bpm / 60 * m; return `<tr><td>${k}</td><td class="n">${hz.toFixed(2)}</td><td>${chip(hz)}</td></tr>`; }).join('');
+    // 마디 표
+    let html = '<tr><th>Bar</th><th>Start</th><th>Seconds</th></tr>';
+    for (let n = 1; n <= nb; n += step) {
+      const t = t0 + (n - 1) * bar;
+      html += `<tr><td class="n">${n}</td><td class="n">${fmt(t)}</td><td class="n">${f2(t)}</td></tr>`;
+    }
+    $('bars').innerHTML = html;
+  }
+  let playStart = null, playTimer = null, audio = null, nextBeatTime = 0, beatCount = 0;
+  function drawRuler(bpm, t0, per) {
+    const svg = $('ruler');
+    const W = 760, H = 150, x0 = 30, x1 = 726, bars = 8;
+    const beat = 60 / bpm, bar = beat * per;
+    const bw = (x1 - x0) / bars;
+    let s = '';
+    const cs = getComputedStyle(document.documentElement);
+    const ink = cs.getPropertyValue('--ink'), mut = cs.getPropertyValue('--muted'), acc = cs.getPropertyValue('--accent'), bt = cs.getPropertyValue('--beat'), ln = cs.getPropertyValue('--line');
+    s += `<line x1="${x0}" y1="90" x2="${x1}" y2="90" stroke="${ink}" stroke-width="2"/>`;
+    for (let b = 0; b <= bars; b++) {
+      const x = x0 + b * bw;
+      const tall = b % 4 === 0 ? 60 : 40;
+      s += `<line x1="${x}" y1="90" x2="${x}" y2="${90 - tall}" stroke="${ink}" stroke-width="${b % 4 === 0 ? 2.2 : 1.4}"/>`;
+      if (b < bars) {
+        s += `<text x="${x + 4}" y="${90 - tall + 12}" font-size="11" fill="${mut}">${b + 1}</text>`;
+        for (let k = 0; k < per; k++) {
+          const xx = x + k * bw / per;
+          if (k) s += `<line x1="${xx}" y1="90" x2="${xx}" y2="74" stroke="${bt}" stroke-width="1.2"/>`;
+          s += `<circle class="dot" data-i="${b * per + k}" cx="${xx}" cy="104" r="${k ? 3 : 4.5}" fill="${k ? bt : acc}"/>`;
+        }
+      }
+      s += `<text x="${x}" y="134" font-size="10.5" text-anchor="middle" fill="${mut}">${isFinite(bar) ? (t0 + b * bar).toFixed(2) : ''}</text>`;
+    }
+    s += `<text x="${x0}" y="20" font-size="11" fill="${mut}">Bar number · the numbers below are song time (s)</text>`;
+    s += `<line id="ph" x1="${x0}" y1="28" x2="${x0}" y2="112" stroke="${acc}" stroke-width="2" opacity="0"/>`;
+    svg.innerHTML = s;
+    $('rulerCap').textContent = `First 8 bars · 1 bar = ${isFinite(bar) ? bar.toFixed(3) : '–'} s`;
+  }
+  function tick() {
+    if (!audio) return;
+    const { bpm, per } = read();
+    const beat = 60 / bpm;
+    while (nextBeatTime < audio.currentTime + 0.12) {
+      const o = audio.createOscillator(), g = audio.createGain();
+      const down = beatCount % per === 0;
+      o.frequency.value = down ? 1760 : 1100;
+      g.gain.setValueAtTime(0.0001, nextBeatTime);
+      g.gain.exponentialRampToValueAtTime(down ? 0.5 : 0.25, nextBeatTime + 0.002);
+      g.gain.exponentialRampToValueAtTime(0.0001, nextBeatTime + 0.06);
+      o.connect(g).connect(audio.destination);
+      o.start(nextBeatTime); o.stop(nextBeatTime + 0.07);
+      const i = beatCount % (8 * per), when = nextBeatTime;
+      setTimeout(() => {
+        document.querySelectorAll('#ruler .dot').forEach((d) => d.setAttribute('opacity', d.dataset.i == i ? '1' : '0.45'));
+        const dot = document.querySelector(`#ruler .dot[data-i="${i}"]`);
+        const ph = $('ph');
+        if (dot && ph) { ph.setAttribute('x1', dot.getAttribute('cx')); ph.setAttribute('x2', dot.getAttribute('cx')); ph.setAttribute('opacity', '0.9'); }
+      }, Math.max(0, (when - audio.currentTime) * 1000));
+      nextBeatTime += beat; beatCount++;
+    }
+  }
+  $('play').addEventListener('click', async () => {
+    if (playTimer) {
+      clearInterval(playTimer); playTimer = null; $('play').textContent = 'Turn metronome on';
+      document.querySelectorAll('#ruler .dot').forEach((d) => d.setAttribute('opacity', '1'));
+      const ph = $('ph'); if (ph) ph.setAttribute('opacity', '0');
+      return;
+    }
+    try {
+      audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+      await audio.resume();
+    } catch (e) { $('play').textContent = 'This screen cannot play sound'; return; }
+    nextBeatTime = audio.currentTime + 0.1; beatCount = 0;
+    playTimer = setInterval(tick, 25); $('play').textContent = 'Turn metronome off';
+  });
+  document.querySelectorAll('.presets button').forEach((b) => b.addEventListener('click', () => {
+    const [bpm, t0, per, nb] = b.dataset.p.split(',');
+    $('bpm').value = bpm; $('t0').value = t0; $('meter').value = per; $('nbars').value = nb; render();
+  }));
+  document.querySelectorAll('.bars-step button').forEach((b) => b.addEventListener('click', () => {
+    step = parseInt(b.dataset.step, 10);
+    document.querySelectorAll('.bars-step button').forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+    render();
+  }));
+  ['bpm', 't0', 'meter', 'nbars', 'qbar', 'qbeat', 'qsec', 'qfade'].forEach((id) => $(id).addEventListener('input', render));
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', render);
+  render();
+})();
+</script>
+
+<script>(function(){if(window.parent===window)return;var last=0;function post(){var h=Math.ceil(document.body.getBoundingClientRect().height);if(Math.abs(h-last)>2){last=h;parent.postMessage({lxh:h},'*')}}if(window.ResizeObserver)new ResizeObserver(post).observe(document.body);window.addEventListener('load',post);setTimeout(post,300);setTimeout(post,1500)})();</script>
+</body></html>

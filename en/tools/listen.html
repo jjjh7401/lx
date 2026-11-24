@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Listening Notes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위에 곡 정보와 재생기, 가운데 마디 눈금 위의 파형 지도, 아래에 회차별 탭 */
+.head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding-block:22px 6px}
+.head p{flex-basis:100%;margin:0;color:var(--muted);max-width:62ch}
+.info{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:end;margin:14px 0}
+.info input.t{width:13em}.info input.a{width:10em}.info input.n{width:6.2em}
+.tapbox{display:flex;gap:6px;align-items:end}
+.player{display:grid;gap:12px}
+.load{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;border:1px dashed var(--line);border-radius:10px;padding:12px 14px}
+.load.drag{border-color:var(--accent);background:var(--panel2)}
+.load .fname{font-size:13.5px;color:var(--ink)}
+.transport{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.transport .play{min-width:92px;font-weight:700}
+.pos{margin-left:auto;display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
+.pos .bar{font-family:var(--f-num);font-size:30px;color:var(--ink);font-weight:600;letter-spacing:-.02em}
+.pos .bar small{font-size:15px;color:var(--muted);font-weight:400;margin-left:2px}
+.pos .sec{font-size:14px;color:var(--accent);font-weight:700}
+.pos .time{font-family:var(--f-num);font-size:13px;color:var(--muted)}
+.mapbox{position:relative;overflow-x:auto}
+canvas#map{display:block;width:100%;min-width:640px;height:190px;cursor:crosshair;border-radius:8px;background:var(--panel2)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--muted)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:22px 0 0;border-bottom:1px solid var(--line)}
+.tabs button{border:0;border-bottom:3px solid transparent;border-radius:0;background:transparent;padding:10px 12px;color:var(--muted);font-weight:500}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent);font-weight:700}
+.tabs button .n{font-family:var(--f-num);font-size:12px;margin-right:6px;color:var(--accent)}
+.pane{padding-top:16px;display:grid;gap:14px}
+.guide{font-size:14px;color:var(--body);max-width:72ch;margin:0}
+.markbtns{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+#copyMsg:empty{display:none}
+.markbtns button{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;text-align:left;padding:10px 12px;font-size:14px}
+.markbtns button .s{font-size:18px;width:1.1em;text-align:center}
+.markbtns .sec .s{color:var(--sec)} .markbtns .point .s{color:var(--point)} .markbtns .impact .s{color:var(--impact)} .markbtns .trans .s{color:var(--trans)}
+.markbtns .grp{grid-column:1/-1;font-size:12px;color:var(--muted);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chips button{padding:5px 10px;font-size:13px;border-radius:999px}
+td .sym{font-size:17px}
+tr.now td{background:var(--panel2)}
+.secrow{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:10px 16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.secrow.now{background:linear-gradient(90deg,var(--panel2),transparent)}
+.secname{display:grid;gap:2px}
+.secname b{color:var(--ink)}
+.secname span{font-size:12.5px;color:var(--muted);font-family:var(--f-num)}
+.pal{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.sw{width:30px;height:30px;border-radius:50%;border:2px solid transparent;padding:0;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
+.sw[aria-pressed="true"]{border-color:var(--ink);transform:scale(1.08)}
+.picked{display:flex;gap:6px;align-items:center;min-width:120px;font-size:13px}
+.picked i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:4px}
+.mood{width:9em;font-size:13px}
+.out table td:first-child{width:9em;color:var(--muted);font-size:13px}
+.out table td{white-space:normal}
+.moody{font-size:13px;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px;margin:0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:760px){.two{grid-template-columns:1fr}.secrow{grid-template-columns:1fr}.pos{margin-left:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Listening Notes</h1><span id="sampleFlag" class="sample-flag" hidden>Sample song: the LOVE ATTACK notes are filled in</span>
+    <p>This tool follows the three listens from Chapter 1. Open a music file and play it. On the second pass, write the changes down by bar. On the third pass, pick a color for each section.</p>
+  </div>
+
+  <div class="info">
+    <label class="f" for="title">Song<input id="title" class="t" type="text"></label>
+    <label class="f" for="artist">Artist<input id="artist" class="a" type="text"></label>
+    <label class="f" for="bpm">BPM<input id="bpm" class="n" type="number" step="0.01" min="30" max="300"></label>
+    <div class="tapbox">
+      <button type="button" id="half" title="Halve the BPM">½</button>
+      <button type="button" id="dbl" title="Double the BPM">×2</button>
+      <button type="button" id="tap" title="Tap several times on the beat (T)">Tap <span class="kbd">T</span></button>
+      <span id="tapRead" class="note num"></span>
+    </div>
+    <label class="f" for="t0">First downbeat (s)<input id="t0" class="n" type="number" step="0.01" min="0"></label>
+    <button type="button" id="setT0" title="Move the playhead to the first downbeat">Use current position as beat 1</button>
+    <label class="f" for="bpb">Beats/bar<select id="bpb"><option value="4">4</option><option value="3">3</option><option value="6">6</option></select></label>
+  </div>
+
+  <section class="panel player" aria-label="Play">
+    <div class="load" id="drop">
+      <button type="button" class="primary" id="open">Open my music file</button>
+      <input type="file" id="file" accept="audio/*,.mp3,.wav,.m4a,.aac,.flac,.ogg" hidden>
+      <span class="fname" id="fname">You can also drop a file here</span>
+      <p class="privacy" style="margin:0">The music file plays only inside this browser. It is never uploaded or stored. Only the notes you write are saved.</p>
+    </div>
+    <div class="transport">
+      <button type="button" id="home" title="Back to start">⏮</button>
+      <button type="button" id="back" title="Back one bar (←)">− 1 bar</button>
+      <button type="button" class="primary play" id="play" disabled>▶ Play</button>
+      <button type="button" id="fwd" title="Forward one bar (→)">+ 1 bar</button>
+      <label class="f" style="flex-direction:row;display:flex;gap:6px;align-items:center" for="click"><input type="checkbox" id="click"> Beat click</label>
+      <div class="pos" aria-live="off">
+        <span class="sec" id="posSec"></span>
+        <span class="bar" id="posBar">1<small>bar</small> 1<small>beat</small></span>
+        <span class="time" id="posTime">0:00.0</span>
+      </div>
+    </div>
+    <div class="mapbox"><canvas id="map" aria-label="Waveform over the bar grid, with the changes you marked. Click to jump to that spot"></canvas></div>
+    <div class="legend"><span class="k-sec">┃ Section start</span><span class="k-point">▲ ◆ Point</span><span class="k-impact">▼ Impact</span><span class="k-trans">↗ ≋ ○ × Transition</span><span>Color bands are the colors from pass 3</span><span>Click the map to jump to that bar</span></div>
+  </section>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab1" aria-selected="false" data-p="p1"><span class="n">1</span>Listen for fun</button>
+    <button role="tab" id="tab2" aria-selected="true" data-p="p2"><span class="n">2</span>Mark the changes</button>
+    <button role="tab" id="tab3" aria-selected="false" data-p="p3"><span class="n">3</span>Pick colors</button>
+    <button role="tab" id="tab4" aria-selected="false" data-p="p4"><span class="n">✓</span>View notes</button>
+  </div>
+
+  <section class="pane" id="p1" role="tabpanel" hidden>
+    <p class="guide">Listen from start to finish without writing anything and without stopping. All you need is for the flow of the song to settle in your body. When it ends, write one line about how it felt.</p>
+    <div class="row"><span class="note">Share listened to the end</span><span class="num" id="heard" style="color:var(--ink)">0%</span></div>
+    <label class="f" for="impression">Pass 1: one line<textarea id="impression" placeholder="e.g. Opens rough with guitar, the drums burst in at the chorus."></textarea></label>
+  </section>
+
+  <section class="pane" id="p2" role="tabpanel">
+    <p class="guide">While it plays, press a button or key at each spot where something changes. The spot snaps to the nearest beat and is written as a bar number. You can also stop, click the map to move, and then press.</p>
+    <div class="markbtns" id="markBtns"></div>
+    <div class="row">
+      <label class="f" for="snap">Snap to<select id="snap"><option value="beat">Nearest beat</option><option value="bar">Nearest bar start</option></select></label>
+      <label class="f" for="lag">Reaction-delay correction<select id="lag"><option value="0">None</option><option value="0.1" selected>0.1 s</option><option value="0.2">0.2 s</option></select></label>
+      <span class="note">Name sections right away</span>
+      <div class="chips" id="nameChips"></div>
+    </div>
+    <div class="tbl"><table id="marks"></table></div>
+  </section>
+
+  <section class="pane" id="p3" role="tabpanel" hidden>
+    <p class="guide">Listen with your eyes closed and pick one or two colors that come to mind for each section. The section that is playing lights up. Sections are split by the “Section start” marks you wrote in pass 2.</p>
+    <p class="moody">Mood starting points: bright, happy songs in yellow and orange; sad songs in blue and lavender; hot songs in red; calm songs in green and teal. These are starting points, not answers (Chapters 1 and 8).</p>
+    <div id="secColors"></div>
+  </section>
+
+  <section class="pane out" id="p4" role="tabpanel" hidden>
+    <div class="two">
+      <label class="f" for="mvBeat">Music video: the beat the choreography follows<input id="mvBeat" type="text" placeholder="e.g. verses every half beat, chorus on every beat"></label>
+      <label class="f" for="mvMove">Music video: bars with key choreography<input id="mvMove" type="text" placeholder="e.g. 18, 46"></label>
+    </div>
+    <div>
+      <div class="row" style="justify-content:space-between"><h3>Open questions</h3><button type="button" id="addQ">Add item</button></div>
+      <div class="tbl"><table id="qs"></table></div>
+    </div>
+    <div class="row" style="justify-content:space-between;margin-top:6px"><h2>Listening notes (Table 1-2 format)</h2>
+      <div class="row"><button type="button" id="copy" class="primary">Copy notes</button><a class="btn" href="sheet.html" id="toSheet">Continue to the song map →</a></div></div>
+    <p class="note" id="copyMsg"></p>
+    <div class="tbl"><table id="note"></table></div>
+  </section>
+</div>
+
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, embedded = /^about:/.test(location.href);
+  var S = L.top('listen.html');
+  var $ = function (id) { return document.getElementById(id); };
+  if (embedded) { var ts = $('toSheet'); if (ts) ts.hidden = true; }
+  function save() { S.sample = S.sample && S.title === 'LOVE ATTACK'; L.put(S); drawStatic(); }
+
+  // ---------- 곡 정보 ----------
+  function fillInfo() {
+    $('title').value = S.title; $('artist').value = S.artist || ''; $('bpm').value = S.bpm; $('t0').value = (+S.t0).toFixed(2); $('bpb').value = String(S.bpb || 4);
+    $('impression').value = S.impression || ''; $('mvBeat').value = (S.mv && S.mv.beat) || ''; $('mvMove').value = (S.mv && S.mv.move) || '';
+    $('sampleFlag').hidden = !S.sample;
+  }
+  fillInfo();
+  $('title').addEventListener('input', function (e) { S.title = e.target.value; save(); renderNote(); var o = document.querySelector('#lx-song option:checked'); if (o) o.textContent = S.title || 'Untitled'; });
+  $('artist').addEventListener('input', function (e) { S.artist = e.target.value; save(); renderNote(); });
+  $('bpm').addEventListener('input', function (e) { var v = +e.target.value; if (v >= 30 && v <= 300) { S.bpm = v; save(); refreshAll(); } });
+  $('t0').addEventListener('input', function (e) { var v = +e.target.value; if (v >= 0) { S.t0 = v; save(); refreshAll(); } });
+  $('bpb').addEventListener('change', function (e) { S.bpb = +e.target.value; save(); refreshAll(); });
+  $('half').addEventListener('click', function () { S.bpm = Math.round(S.bpm / 2 * 100) / 100; fillInfo(); save(); refreshAll(); });
+  $('dbl').addEventListener('click', function () { S.bpm = Math.round(S.bpm * 2 * 100) / 100; fillInfo(); save(); refreshAll(); });
+  $('impression').addEventListener('input', function (e) { S.impression = e.target.value; save(); renderNote(); });
+  $('mvBeat').addEventListener('input', function (e) { S.mv = S.mv || {}; S.mv.beat = e.target.value; save(); renderNote(); });
+  $('mvMove').addEventListener('input', function (e) { S.mv = S.mv || {}; S.mv.move = e.target.value; save(); renderNote(); });
+
+  // 탭 템포
+  var taps = [];
+  function tap() {
+    var now = performance.now();
+    if (taps.length && now - taps[taps.length - 1] > 2000) taps = [];
+    taps.push(now); if (taps.length > 9) taps.shift();
+    if (taps.length >= 3) {
+      var d = (taps[taps.length - 1] - taps[0]) / (taps.length - 1), b = 60000 / d;
+      $('tapRead').innerHTML = b.toFixed(1) + ' BPM <button type="button" id="tapUse">Apply</button>';
+      $('tapUse').onclick = function () { S.bpm = Math.round(b * 10) / 10; fillInfo(); save(); refreshAll(); };
+    } else $('tapRead').textContent = 'Keep tapping…';
+  }
+  $('tap').addEventListener('click', tap);
+
+  // ---------- 오디오 ----------
+  var ctx = null, buf = null, src = null, playing = false, off = 0, startCtx = 0, cursor = 0, peaks = null, heardMax = 0;
+  function now() { return playing ? off + (ctx.currentTime - startCtx) : cursor; }
+  function totalT() { return buf ? buf.duration : L.total(S); }
+  function loadFile(f) {
+    if (!f) return;
+    $('fname').textContent = f.name + ' opening…';
+    var rd = new FileReader();
+    rd.onload = function () {
+      try { ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { $('fname').textContent = 'This browser cannot play audio.'; return; }
+      ctx.decodeAudioData(rd.result.slice(0), function (b) {
+        stop(); buf = b; cursor = 0; heardMax = 0;
+        if (S.sample) { S = L.blank(f.name.replace(/\.[^.]+$/, '')); L.put(S); L.refreshPicker(); fillInfo(); }
+        S.duration = Math.round(b.duration * 100) / 100; S.fileName = f.name;
+        if (S.title === 'New song' || !S.title) { S.title = f.name.replace(/\.[^.]+$/, ''); fillInfo(); }
+        S.musicEnd = Math.round(findEnd(b) * 10) / 10;
+        if (!S.nbars || S.sample === false) S.nbars = 0;
+        peaks = makePeaks(b, 1800);
+        $('fname').textContent = f.name + ' · ' + L.fmt(b.duration) + (S.musicEnd && b.duration - S.musicEnd > 2 ? ' · music ends at about ' + L.fmt(S.musicEnd) : '');
+        $('play').disabled = false; save(); refreshAll();
+      }, function () { $('fname').textContent = 'This file can’t be opened. Try again with an mp3, wav or m4a file.'; });
+    };
+    rd.readAsArrayBuffer(f);
+  }
+  function makePeaks(b, n) {
+    var ch = b.numberOfChannels, len = b.length, step = Math.max(1, Math.floor(len / n)), out = new Float32Array(n), data = [];
+    for (var c = 0; c < ch; c++) data.push(b.getChannelData(c));
+    for (var i = 0; i < n; i++) { var mx = 0, s0 = i * step, s1 = Math.min(len, s0 + step); for (var j = s0; j < s1; j += 16) { for (var c2 = 0; c2 < ch; c2++) { var v = Math.abs(data[c2][j]); if (v > mx) mx = v; } } out[i] = mx; }
+    var top = 0; for (var k = 0; k < n; k++) if (out[k] > top) top = out[k]; if (top > 0) for (var q = 0; q < n; q++) out[q] /= top;
+    return out;
+  }
+  function findEnd(b) {
+    var d = b.getChannelData(0), sr = b.sampleRate, win = Math.floor(sr * 0.05);
+    for (var i = d.length - win; i > 0; i -= win) { var s = 0; for (var j = i; j < i + win; j += 4) s += d[j] * d[j]; if (Math.sqrt(s / (win / 4)) > 0.01) return (i + win) / sr; }
+    return b.duration;
+  }
+  function play() {
+    if (!buf) return; if (ctx.state === 'suspended') ctx.resume();
+    if (off >= buf.duration - 0.05) off = 0;
+    src = ctx.createBufferSource(); src.buffer = buf; src.connect(ctx.destination);
+    src.onended = function () { if (playing && now() >= buf.duration - 0.05) { stop(); cursor = 0; off = 0; frame(); } };
+    startCtx = ctx.currentTime + 0.03; src.start(startCtx, off); playing = true; nextBeat = null;
+    $('play').textContent = '⏸ Pause'; loop();
+  }
+  function stop() { if (src) { try { src.onended = null; src.stop(); } catch (e) {} src = null; } if (playing) { cursor = Math.max(0, off + (ctx.currentTime - startCtx)); } playing = false; $('play').textContent = '▶ Play'; }
+  function toggle() { if (!buf) return; if (playing) { stop(); off = cursor; } else { off = cursor; play(); } frame(); }
+  function seek(t) { t = Math.max(0, Math.min(totalT(), t)); var was = playing; if (playing) stop(); cursor = t; off = t; if (was) play(); frame(); }
+  $('play').addEventListener('click', toggle);
+  $('home').addEventListener('click', function () { seek(0); });
+  $('back').addEventListener('click', function () { seek(now() - L.barLen(S)); });
+  $('fwd').addEventListener('click', function () { seek(now() + L.barLen(S)); });
+  $('open').addEventListener('click', function () { $('file').click(); });
+  $('file').addEventListener('change', function (e) { loadFile(e.target.files[0]); e.target.value = ''; });
+  var drop = $('drop');
+  ['dragenter', 'dragover'].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.add('drag'); }); });
+  ['dragleave', 'drop'].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.remove('drag'); }); });
+  drop.addEventListener('drop', function (e) { var f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) loadFile(f); });
+  $('setT0').addEventListener('click', function () { S.t0 = Math.round(now() * 100) / 100; fillInfo(); save(); refreshAll(); });
+
+  // 박 클릭(메트로놈): 오디오 시계에 맞춰 미리 예약
+  var nextBeat = null;
+  function scheduleClicks() {
+    if (!playing || !$('click').checked) { nextBeat = null; return; }
+    var bl = L.beatLen(S), t0 = +S.t0, bpb = +S.bpb || 4, t = now();
+    if (nextBeat === null) nextBeat = Math.ceil((t - t0) / bl);
+    while (true) {
+      var bt = t0 + nextBeat * bl; if (bt > t + 0.15) break;
+      var at = startCtx + (bt - off); if (at >= ctx.currentTime - 0.01 && bt >= 0) {
+        var o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.value = (((nextBeat % bpb) + bpb) % bpb === 0) ? 1650 : 1050;
+        g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(0.35, at + 0.002); g.gain.exponentialRampToValueAtTime(0.0001, at + 0.05);
+        o.connect(g); g.connect(ctx.destination); o.start(at); o.stop(at + 0.06);
+      }
+      nextBeat++;
+    }
+  }
+  $('click').addEventListener('change', function () { nextBeat = null; });
+
+  // ---------- 지도 ----------
+  var cv = $('map'), g2 = cv.getContext('2d'), layer = document.createElement('canvas'), W = 0, H = 190, PAD = 14;
+  function css(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  function X(t) { return PAD + (t / totalT()) * (W - 2 * PAD); }
+  function T(x) { return (x - PAD) / (W - 2 * PAD) * totalT(); }
+  function drawStatic() {
+    var dpr = window.devicePixelRatio || 1; W = cv.clientWidth || 900;
+    cv.width = W * dpr; cv.height = H * dpr; layer.width = W * dpr; layer.height = H * dpr;
+    var c = layer.getContext('2d'); c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, W, H);
+    var N = L.nbars(S), bl = L.barLen(S), muted = css('--muted');
+    // 마디 눈금
+    var every = 1; while ((W - 2 * PAD) / N * every < 30) every *= 2;
+    for (var b = 1; b <= N + 1; b++) {
+      var x = X(L.timeOf(S, b, 1)); if (x > W - PAD + 1) break;
+      c.strokeStyle = (b - 1) % 4 === 0 ? css('--grid4') : css('--grid'); c.lineWidth = 1;
+      c.beginPath(); c.moveTo(x + .5, 16); c.lineTo(x + .5, 124); c.stroke();
+      if ((b - 1) % every === 0 && b <= N) { c.fillStyle = muted; c.font = '10px ' + css('--f-num'); c.fillText(String(b), x + 2, 11); }
+    }
+    // 파형
+    var mid = 60, amp = 40;
+    if (peaks) {
+      c.fillStyle = css('--wave-hi');
+      var n = peaks.length, bw = (W - 2 * PAD) / n;
+      for (var i = 0; i < n; i++) { var h = Math.max(1, peaks[i] * amp); c.fillRect(PAD + i * bw, mid - h, Math.max(1, bw), h * 2); }
+    } else {
+      c.fillStyle = muted; c.font = '13px ' + css('--f-body'); c.textAlign = 'center';
+      c.fillText('Open a music file and the waveform is drawn here. For now only the bar grid is shown.', W / 2, mid + 4); c.textAlign = 'left';
+    }
+    // 구간 띠
+    L.sections(S).forEach(function (sc) {
+      var x0 = X(L.timeOf(S, sc.start, 1)), x1 = X(L.timeOf(S, sc.end + 1, 1)), cols = (S.colors[sc.m.id] || []).map(L.colorHex).filter(Boolean);
+      if (!cols.length) { c.fillStyle = css('--grid4'); c.fillRect(x0, 104, Math.max(1, x1 - x0 - 1), 20); }
+      else { var hh = 20 / cols.length; cols.forEach(function (col, k) { c.fillStyle = col; c.fillRect(x0, 104 + k * hh, Math.max(1, x1 - x0 - 1), hh); }); }
+      c.strokeStyle = css('--sec'); c.lineWidth = 2; c.beginPath(); c.moveTo(x0 + 1, 16); c.lineTo(x0 + 1, 124); c.stroke();
+      var name = sc.m.name || 'Section'; c.font = '11px ' + css('--f-body');
+      if (c.measureText(name).width < x1 - x0 - 6) { c.fillStyle = cols.length ? '#111' : css('--ink'); c.fillText(name, x0 + 4, 118); }
+    });
+    // 변화 표시
+    var used = [];
+    S.marks.filter(function (m) { return m.t !== 'sec'; }).sort(L.sortMarks).forEach(function (m) {
+      var d = L.markDef(m.t), x = X(L.timeOf(S, m.bar, m.beat)), row = 0;
+      while (used.some(function (u) { return u[1] === row && Math.abs(u[0] - x) < 12; })) row++;
+      used.push([x, row]);
+      if (m.end && m.end >= m.bar) { var xe = X(L.timeOf(S, m.end + 1, 1)); c.fillStyle = css('--trans'); c.globalAlpha = .28; c.fillRect(x, 130 + row * 17, xe - x, 13); c.globalAlpha = 1; }
+      c.fillStyle = css('--' + d.k); c.font = '15px ' + css('--f-body'); c.textAlign = 'center'; c.fillText(d.sym, x, 142 + row * 17); c.textAlign = 'left';
+    });
+  }
+  function frame() {
+    var dpr = window.devicePixelRatio || 1;
+    g2.setTransform(1, 0, 0, 1, 0, 0); g2.clearRect(0, 0, cv.width, cv.height); g2.drawImage(layer, 0, 0);
+    g2.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var t = now(), x = X(t);
+    g2.strokeStyle = css('--accent'); g2.lineWidth = 2; g2.beginPath(); g2.moveTo(x, 0); g2.lineTo(x, H); g2.stroke();
+    g2.fillStyle = css('--accent'); g2.beginPath(); g2.moveTo(x - 5, 0); g2.lineTo(x + 5, 0); g2.lineTo(x, 7); g2.fill();
+    var p = L.posOf(S, t), sc = L.sectionAt(S, p.bar);
+    $('posBar').innerHTML = (p.bar < 1 ? 'Pickup' : '<small>bar</small> ' + p.bar + ' <small>beat</small> ' + p.beat);
+    $('posSec').textContent = sc && p.bar >= 1 ? sc.m.name : '';
+    $('posTime').textContent = L.fmt(t) + ' / ' + L.fmt(totalT());
+    if (playing) { heardMax = Math.max(heardMax, t); $('heard').textContent = Math.round(heardMax / totalT() * 100) + '%'; }
+    highlightNow(p.bar);
+  }
+  var lastHi = null;
+  function highlightNow(bar) {
+    var sc = L.sectionAt(S, bar), id = sc ? sc.m.id : null; if (id === lastHi) return; lastHi = id;
+    document.querySelectorAll('.secrow').forEach(function (r) { r.classList.toggle('now', r.dataset.id === id); });
+  }
+  function loop() { if (!playing) return; scheduleClicks(); frame(); requestAnimationFrame(loop); }
+  cv.addEventListener('click', function (e) { var r = cv.getBoundingClientRect(); seek(T(e.clientX - r.left)); });
+  window.addEventListener('resize', function () { drawStatic(); frame(); });
+
+  // ---------- 2회차: 변화 적기 ----------
+  var lastSecId = null;
+  var mb = $('markBtns'), groups = [['sec', 'Section'], ['point', 'Point · enters on a single beat'], ['impact', 'Impact · the biggest hit'], ['trans', 'Transition · a stretch that carries over several bars']];
+  groups.forEach(function (gp) {
+    var hdr = document.createElement('div'); hdr.className = 'grp'; hdr.textContent = gp[1]; mb.appendChild(hdr);
+    L.MARKS.filter(function (m) { return m.k === gp[0]; }).forEach(function (m) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = m.k; b.id = 'mk-' + m.id;
+      b.innerHTML = '<span class="s">' + m.sym + '</span><span>' + m.label + '</span><span class="kbd">' + m.key + '</span>';
+      b.addEventListener('click', function () { addMark(m.id); }); mb.appendChild(b);
+    });
+  });
+  L.SEC_NAMES.forEach(function (n) {
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = n;
+    b.addEventListener('click', function () {
+      var m = S.marks.find(function (x) { return x.id === lastSecId; });
+      if (!m) { addMark('sec'); m = S.marks.find(function (x) { return x.id === lastSecId; }); }
+      m.name = L.nextSecName(Object.assign({}, S, { marks: S.marks.filter(function (x) { return x.id !== m.id; }) }), n); save(); renderMarks(); renderSecColors(); renderNote(); frame();
+    });
+    $('nameChips').appendChild(b);
+  });
+  function addMark(t) {
+    var lag = playing ? +$('lag').value : 0, tt = Math.max(0, now() - lag), p;
+    if ($('snap').value === 'bar' || t === 'sec') { var q = L.posOf(S, tt + L.barLen(S) / 2); p = { bar: Math.max(1, q.bar), beat: 1 }; }
+    else { p = L.posOf(S, tt, true); if (p.bar < 1) p = { bar: 1, beat: 1 }; }
+    var m = { id: L.uid(), t: t, bar: p.bar, beat: p.beat, end: null, name: '', memo: '', conf: '◐' };
+    if (t === 'sec') { m.name = 'Section ' + (S.marks.filter(function (x) { return x.t === 'sec'; }).length + 1); lastSecId = m.id; }
+    S.marks.push(m); save(); renderMarks(); renderSecColors(); renderNote(); frame();
+    var row = document.querySelector('tr[data-id="' + m.id + '"]'); if (row) { row.classList.add('now'); setTimeout(function () { row.classList.remove('now'); }, 900); }
+  }
+  function renderMarks() {
+    var list = S.marks.slice().sort(L.sortMarks);
+    var h = '<tr><th>Bar</th><th>Beat</th><th>Time</th><th>Type</th><th>Symbol</th><th>Name · memo</th><th>End bar</th><th>Confidence</th><th></th><th></th></tr>';
+    list.forEach(function (m) {
+      var d = L.markDef(m.t);
+      h += '<tr data-id="' + m.id + '"><td><input class="n" type="number" min="1" data-f="bar" value="' + m.bar + '" aria-label="Bar"></td>' +
+        '<td><input class="n" type="number" min="1" max="' + (S.bpb || 4) + '" data-f="beat" value="' + m.beat + '" aria-label="Beat"></td>' +
+        '<td class="num muted">' + L.fmt(L.timeOf(S, m.bar, m.beat)) + '</td>' +
+        '<td><span class="tag k-' + d.k + '">' + L.KIND[d.k] + '</span></td>' +
+        '<td><select data-f="t" aria-label="Symbol">' + L.MARKS.map(function (x) { return '<option value="' + x.id + '"' + (x.id === m.t ? ' selected' : '') + '>' + x.sym + ' ' + x.label + '</option>'; }).join('') + '</select></td>' +
+        '<td><input type="text" data-f="' + (m.t === 'sec' ? 'name' : 'memo') + '" value="' + L.esc(m.t === 'sec' ? m.name : m.memo) + '" aria-label="Name or memo"></td>' +
+        '<td>' + (d.k === 'trans' ? '<input class="n" type="number" min="1" data-f="end" value="' + (m.end || '') + '" aria-label="End bar">' : '') + '</td>' +
+        '<td><select data-f="conf" aria-label="Confidence">' + ['●', '◐', '○'].map(function (c) { return '<option' + (c === m.conf ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select></td>' +
+        '<td><button type="button" data-go="' + m.id + '" title="Jump to this spot">▶</button></td>' +
+        '<td><button type="button" data-del="' + m.id + '" title="Delete" aria-label="Delete">✕</button></td></tr>';
+    });
+    if (!list.length) h += '<tr><td colspan="10" class="note">No changes noted yet. Play the song and press the buttons above.</td></tr>';
+    $('marks').innerHTML = h;
+  }
+  $('marks').addEventListener('change', onMarkEdit); $('marks').addEventListener('input', function (e) { if (e.target.type === 'text') onMarkEdit(e); });
+  function onMarkEdit(e) {
+    var tr = e.target.closest('tr'), m = tr && S.marks.find(function (x) { return x.id === tr.dataset.id; }); if (!m) return;
+    var f = e.target.dataset.f, v = e.target.value;
+    if (f === 'bar' || f === 'beat' || f === 'end') m[f] = v === '' ? null : Math.max(1, Math.round(+v)); else m[f] = v;
+    if (f === 't' && v === 'sec' && !m.name) m.name = 'Section';
+    save(); if (e.type === 'change') { renderMarks(); renderSecColors(); } renderNote(); frame();
+  }
+  $('marks').addEventListener('click', function (e) {
+    var go = e.target.dataset.go, del = e.target.dataset.del;
+    if (go) { var m = S.marks.find(function (x) { return x.id === go; }); seek(L.timeOf(S, m.bar, m.beat) - 0.01); }
+    if (del) { S.marks = S.marks.filter(function (x) { return x.id !== del; }); delete S.colors[del]; save(); renderMarks(); renderSecColors(); renderNote(); frame(); }
+  });
+
+  // ---------- 3회차: 색 ----------
+  function renderSecColors() {
+    var box = $('secColors'), list = L.sections(S);
+    if (!list.length) { box.innerHTML = '<p class="note">In pass 2, add “Section start” first and the sections appear here.</p>'; return; }
+    box.innerHTML = list.map(function (sc) {
+      var sel = S.colors[sc.m.id] || [];
+      return '<div class="secrow" data-id="' + sc.m.id + '"><div class="secname"><b>' + L.esc(sc.m.name) + '</b><span>' + 'bars ' + sc.start + (sc.end > sc.start ? '–' + sc.end : '') + ' · ' + sc.len + (sc.len === 1 ? ' bar' : ' bars') + '</span>' +
+        '<span class="picked">' + (sel.length ? sel.map(function (n) { return '<span><i style="background:' + L.colorHex(n) + '"></i>' + n + '</span>'; }).join(' ') : '<span class="muted">No color</span>') + '</span></div>' +
+        '<div class="pal">' + L.PALETTE.map(function (p) { return '<button type="button" class="sw" title="' + p[0] + '" aria-label="' + p[0] + '" aria-pressed="' + (sel.indexOf(p[0]) >= 0) + '" data-c="' + p[0] + '" style="background:' + p[1] + '"></button>'; }).join('') +
+        '<input class="mood" type="text" data-mood="1" placeholder="One word for the feel" value="' + L.esc((S.mood || {})[sc.m.id] || '') + '" aria-label="One word for the feel"></div></div>';
+    }).join('');
+    lastHi = null; highlightNow(L.posOf(S, now()).bar);
+  }
+  $('secColors').addEventListener('click', function (e) {
+    var c = e.target.dataset.c; if (!c) return; var id = e.target.closest('.secrow').dataset.id, sel = (S.colors[id] || []).slice(), i = sel.indexOf(c);
+    if (i >= 0) sel.splice(i, 1); else { sel.push(c); if (sel.length > 2) sel.shift(); }
+    S.colors[id] = sel; save(); renderSecColors(); renderNote(); frame();
+  });
+  $('secColors').addEventListener('input', function (e) { if (!e.target.dataset.mood) return; S.mood = S.mood || {}; S.mood[e.target.closest('.secrow').dataset.id] = e.target.value; save(); renderNote(); });
+
+  // ---------- 노트 ----------
+  function renderQs() {
+    var h = '<tr><th>Content</th><th>Confidence</th><th></th></tr>';
+    (S.questions || []).forEach(function (q, i) {
+      h += '<tr><td><input type="text" style="width:100%" data-q="' + i + '" data-f="text" value="' + L.esc(q.text) + '" aria-label="Open question"></td><td><select data-q="' + i + '" data-f="conf" aria-label="Confidence">' + ['○', '◐'].map(function (c) { return '<option' + (c === q.conf ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select></td><td><button type="button" data-qdel="' + i + '" aria-label="Delete">✕</button></td></tr>';
+    });
+    $('qs').innerHTML = h;
+  }
+  $('addQ').addEventListener('click', function () { S.questions = S.questions || []; S.questions.push({ text: '', conf: '○' }); save(); renderQs(); renderNote(); });
+  $('qs').addEventListener('input', function (e) { var i = e.target.dataset.q; if (i == null) return; S.questions[+i][e.target.dataset.f] = e.target.value; save(); renderNote(); });
+  $('qs').addEventListener('click', function (e) { var i = e.target.dataset.qdel; if (i == null) return; S.questions.splice(+i, 1); save(); renderQs(); renderNote(); });
+
+  function noteRows() {
+    var list = S.marks.slice().sort(L.sortMarks), secs = L.sections(S);
+    var ev = list.map(function (m) { var d = L.markDef(m.t); return (m.beat > 1 ? 'bar ' + m.bar + ' beat ' + m.beat : 'bar ' + m.bar) + (m.end && m.end > m.bar ? '–' + m.end : '') + ' ' + (m.t === 'sec' ? m.name : d.sym + ' ' + (m.memo || d.label)); }).join(' / ');
+    var cols = secs.map(function (sc) { var c = (S.colors[sc.m.id] || []).join('·'); var md = (S.mood || {})[sc.m.id]; return sc.m.name + ' ' + (c || '—') + (md ? '(' + md + ')' : ''); }).join(' / ');
+    var unsure = [];
+    if (S.t0Conf !== '●') unsure.push('First downbeat ' + (+S.t0).toFixed(2) + ' s ◐');
+    S.marks.forEach(function (m) { if (m.conf !== '●') unsure.push((m.t === 'sec' ? m.name : L.markDef(m.t).sym + ' ' + (m.memo || L.markDef(m.t).label)) + ' bar ' + m.bar + ' ' + m.conf); });
+    (S.questions || []).forEach(function (q) { if (q.text) unsure.push(q.text + ' ' + q.conf); });
+    return [
+      ['Song', [S.title, S.artist, S.duration ? 'File ' + L.fmt(S.duration) : '', S.musicEnd ? 'music ends about ' + L.fmt(S.musicEnd) : ''].filter(Boolean).join(', ')],
+      ['BPM · beat 1', S.bpm + ' BPM, first downbeat ' + (+S.t0).toFixed(2) + ' s, ' + (S.bpb || 4) + '/4 time, 1 bar = ' + L.barLen(S).toFixed(3) + ' s, ' + L.nbars(S) + ' bars'],
+      ['Pass 1: one line', S.impression || '—'],
+      ['Pass 2: changes', ev || '—'],
+      ['Pass 3: colors', cols || '—'],
+      ['Music video', [(S.mv || {}).beat ? 'choreography follows: ' + S.mv.beat : '', (S.mv || {}).move ? 'key choreography: ' + S.mv.move : ''].filter(Boolean).join(' · ') || '—'],
+      ['Confidence', unsure.length ? unsure.join(' / ') : 'All ●']
+    ];
+  }
+  function renderNote() { $('note').innerHTML = noteRows().map(function (r) { return '<tr><td>' + r[0] + '</td><td>' + L.esc(r[1]) + '</td></tr>'; }).join(''); }
+  L.copyBar($('copy'), $('copyMsg'), function () { return { title: 'Listening notes · ' + (S.title || ''), head: ['Item', 'Content'], rows: noteRows() }; });
+
+
+  // ---------- 탭과 키 ----------
+  document.querySelectorAll('.tabs button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.tabs button').forEach(function (x) { x.setAttribute('aria-selected', String(x === b)); $(x.dataset.p).hidden = x !== b; });
+      if (b.dataset.p === 'p3') renderSecColors();
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    var tg = e.target.tagName; if (tg === 'INPUT' || tg === 'TEXTAREA' || tg === 'SELECT' || e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key;
+    if (k === ' ') { e.preventDefault(); toggle(); return; }
+    if (k === 'ArrowLeft' || k === 'ArrowRight') { e.preventDefault(); var d = e.shiftKey ? L.beatLen(S) : L.barLen(S); seek(now() + (k === 'ArrowLeft' ? -d : d)); return; }
+    if (k === 't' || k === 'T') { tap(); return; }
+    var m = L.MARKS.find(function (x) { return x.key.toLowerCase() === k.toLowerCase(); }); if (m) { e.preventDefault(); addMark(m.id); }
+  });
+
+  function refreshAll() { drawStatic(); renderMarks(); renderSecColors(); renderQs(); renderNote(); frame(); }
+  if (S.fileName) $('fname').textContent = 'Last file: ' + S.fileName + ' · reopen it to keep writing notes';
+  refreshAll();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { drawStatic(); frame(); });
+})();
+</script>
+</body>
+</html>

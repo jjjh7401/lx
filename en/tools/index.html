@@ -1,0 +1,203 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Lighting Design Tools</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 맨 위 한 줄 소개, 곡 하나를 다루는 세 단계(순서가 있는 흐름), 보조 도구, 내 곡 목록과 백업 */
+.hero{padding-block:30px 8px;display:grid;gap:8px}
+.hero p{margin:0;max-width:64ch;color:var(--muted)}
+.flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px;counter-reset:st}
+@media (max-width:860px){.flow{grid-template-columns:1fr}}
+.step{display:grid;gap:8px;align-content:start;padding:18px;border-radius:12px;background:var(--panel);border:1px solid var(--line);text-decoration:none;color:var(--body);position:relative}
+.step:hover{border-color:var(--accent)}
+.step .no{font-family:var(--f-num);font-size:12px;color:var(--accent);letter-spacing:.08em}
+.step h2{font-size:19px}
+.step p{margin:0;font-size:14px}
+.step .use{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+.step .go{font-weight:700;color:var(--accent);font-size:14px}
+.arrow{display:none}
+.flow4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1000px){.flow4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.flow4{grid-template-columns:1fr}}
+.sub{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
+@media (max-width:860px){.sub{grid-template-columns:1fr}}
+.subt{display:flex;gap:12px;align-items:center;padding:12px 16px;border-radius:10px;border:1px solid var(--line);text-decoration:none;color:var(--body);background:var(--panel)}
+.subt b{color:var(--ink)}
+.subt span{font-size:13px;color:var(--muted)}
+.subt .ch{margin-left:auto;font-family:var(--f-num);font-size:12px;color:var(--muted);white-space:nowrap}
+h2.sec{margin:34px 0 10px;font-size:16px}
+.songs td{font-size:14px}
+.songs td.num{font-family:var(--f-num)}
+.songs tr.cur td{background:var(--panel2)}
+.bk{display:grid;gap:10px}
+#copyMsg:empty,#impMsg:empty{display:none}
+.later{display:flex;flex-wrap:wrap;gap:6px}
+.later span{font-size:13px;padding:4px 10px;border-radius:999px;border:1px dashed var(--line);color:var(--muted)}
+</style>
+<div class="wrap">
+  <section class="hero">
+    <h1>Lighting Design Tools</h1>
+    <p>The hands-on tools of the book, ready to use in the field. The three tools of Part 1 let you listen to a song and gather it into a song map. The four tools of Part 2 design its concept, colors, looks and brightness. The four tools of Part 3 place those on beats and bars and carry them into a cue sheet. The four tools of Part 4 fit the result to the show type (broadcast, concert, festival) and the rig. The three tools of Part 5 work out the numbers, phasers and timecode of a grandMA3 show file, and the three tools of Part 6 check the rehearsal, practice GO and confirm the safety limits. All tools share the same song notes, so what you write in one carries straight into the next.</p>
+    <p>The 153-effect dictionary, working templates and reference tables are collected in the <a href="../../ref/">Resource library ↗</a> (Korean for now).</p>
+    <p class="privacy">You open your own music files. A file plays inside this browser only and is never uploaded anywhere. All that is saved is your short notes, and they stay in this browser only.</p>
+  </section>
+
+  <h2 class="sec" style="margin-top:22px">Part 1 · Reading the Song</h2>
+  <div class="flow">
+    <a class="step" href="listen.html"><span class="no">Step 1 · Ch. 1</span><h2>Listening Notes</h2>
+      <p>Open a music file, play it, and mark each change on its bar with a single key. On the third pass, pick a color for each section.</p>
+      <span class="use">In the field: the day you get a new song, before you switch on the console</span><span class="go">Open →</span></a>
+    <a class="step" href="pairs.html"><span class="no">Step 2 · Ch. 1</span><h2>Sound and Light Matching</h2>
+      <p>For each section, choose which of the sounds you hear the light should follow. If it follows too many, the tool flags stage clutter.</p>
+      <span class="use">In the field: when you are out of cue ideas, when the chorus looks noisy</span><span class="go">Open →</span></a>
+    <a class="step" href="sheet.html"><span class="no">Step 3 · Ch. 5</span><h2>Song Map</h2>
+      <p>Gathers your notes into a basic and a detailed song map, and points out the end time of the music, how many sections are at energy 5, and what to listen for before rehearsal.</p>
+      <span class="use">In the field: when sharing with the team, a last check before rehearsal</span><span class="go">Open →</span></a>
+  </div>
+
+  <h2 class="sec">Part 2 · Designing the Light</h2>
+  <div class="flow flow4">
+    <a class="step" href="../../concept.html"><span class="no">Ch. 7 · 10</span><h2>Concept Sheet</h2>
+      <p>Write the concept layers you read from the song, a one-line concept, the lights you will not use, motifs, scene color chips and questions for the meeting, and gather them with palette, looks and brightness on one sheet.</p>
+      <span class="use">In the field: the day before the concept meeting</span><span class="go">Open (Korean) →</span></a>
+    <a class="step" href="../../palette.html"><span class="no">Ch. 8</span><h2>Palette</h2>
+      <p>Define colors by name and RGB value and choose two colors per section. It also compares pixel-bar color mixes.</p>
+      <span class="use">In the field: before you record color presets</span><span class="go">Open (Korean) →</span></a>
+    <a class="step" href="../../looks.html"><span class="no">Ch. 9</span><h2>Look Sheet</h2>
+      <p>For each section, write a look name, one main, positions, effects and the in time.</p>
+      <span class="use">In the field: before building cues, for rehearsal notes</span><span class="go">Open (Korean) →</span></a>
+    <a class="step" href="../../bright.html"><span class="no">Ch. 10</span><h2>Brightness Plan</h2>
+      <p>Set the brightness of each section and draw the curve, then write the bar where the first dark cue and special cue appear.</p>
+      <span class="use">In the field: when every cue looks like 100%</span><span class="go">Open (Korean) →</span></a>
+  </div>
+
+  <h2 class="sec">Part 3 · Directing the Song</h2>
+  <div class="flow flow4">
+    <a class="step" href="../../grid.html"><span class="no">Ch. 11 · 13</span><h2>Beat Grid</h2>
+      <p>Write what each role does in lines and four-bar cells, and mark the rhythm layer (♪) and the main (★). Follow the current cell by clicking along or with your own audio.</p>
+      <span class="use">In the field: before you record cues, when the stage looks busy</span><span class="go">Open (Korean) →</span></a>
+    <a class="step" href="../../recs.html"><span class="no">Ch. 12</span><h2>Section Guide</h2>
+      <p>Shows a starting value from the section, energy and BPM, and asks you to write a reason in any cell where your design differs.</p>
+      <span class="use">In the field: with a song you just received, when checking a design</span><span class="go">Open (Korean) →</span></a>
+    <a class="step" href="../../trans.html"><span class="no">Ch. 14</span><h2>Transition Curves</h2>
+      <p>Compares the brightness curves of the two transition tools in beats and seconds, and calculates the in time at each boundary of the song.</p>
+      <span class="use">In the field: when deciding in times</span><span class="go">Open (Korean) →</span></a>
+    <a class="step" href="../../cues.html"><span class="no">Ch. 16</span><h2>Cue Sheet</h2>
+      <p>Builds a first cue sheet draft from your notes and runs fourteen self-checks to help you choose keep, fix or change.</p>
+      <span class="use">In the field: the day before rehearsal, when handing over to the operator</span><span class="go">Open (Korean) →</span></a>
+  </div>
+
+  <h2 class="sec">Part 4 · Lighting by Show Type</h2>
+  <div class="flow flow4">
+    <a class="step" href="../../bcast.html"><span class="no">Ch. 17</span><h2>Broadcast Check</h2>
+      <p>For each flashing cue, enter the beat unit, area, length and red. It calculates Hz, compares it with the broadcast flash limit and goes through the camera checklist with you.</p>
+      <span class="use">In the field: before the camera rehearsal</span><span class="go">Open (Korean) →</span></a>
+    <a class="step" href="../../setlist.html"><span class="no">Ch. 18 · 19</span><h2>Setlist Arc</h2>
+      <p>For each song, write the energy, main color, how it is run and the specials, then draw the arc and color band of the whole show. You can also build a run sheet for an awards show.</p>
+      <span class="use">In the field: day one of designing a concert or awards show</span><span class="go">Open (Korean) →</span></a>
+    <a class="step" href="../../busk.html"><span class="no">Ch. 21</span><h2>Busking Page</h2>
+      <p>Build a busking page from color, position, effect, accent and safety rows, and read the cycle in seconds with tap tempo.</p>
+      <span class="use">In the field: on a stage where you do not know the setlist</span><span class="go">Open (Korean) →</span></a>
+    <a class="step" href="../../rigcalc.html"><span class="no">Ch. 22</span><h2>Rig Calculator and Patch Sheet</h2>
+      <p>Four steps: fixture list → numbers and addresses → positions and coordinates → patch sheet. It shows a universe map, a plot and checks, and lets you paste a spreadsheet or Vectorworks table or copy out the patch sheet.</p>
+      <span class="use">In the field: when designing your own stage, when checking the patch of a stage you were given</span><span class="go">Open (Korean) →</span></a>
+  </div>
+
+  <h2 class="sec">Part 5 · Building It on the Console — grandMA3</h2>
+  <div class="flow">
+    <a class="step" href="../../showplan.html"><span class="no">Ch. 24 · 29</span><h2>Show File Plan</h2>
+      <p>From the fixture role table, set the ID number ranges and three levels of groups, then calculate the number ranges of preset pools, sequences and pages for the number of songs.</p>
+      <span class="use">In the field: before patching, when building a template</span><span class="go">Open (Korean) →</span></a>
+    <a class="step" href="../../phaser.html"><span class="no">Ch. 25 · 26</span><h2>Phaser Calculator</h2>
+      <p>Calculates one cycle and the flash rate from BPM, measure and steps, and tells you the last phase depending on MAtricks and where you enter it.</p>
+      <span class="use">In the field: before applying an effect, when the first and last fixtures light together</span><span class="go">Open (Korean) →</span></a>
+    <a class="step" href="../../tc.html"><span class="no">Ch. 28</span><h2>Timecode Table</h2>
+      <p>Splits tracks by scene and layer from the cue sheet, converts events to timecode and compares them with what you recorded.</p>
+      <span class="use">In the field: before and after recording timecode</span><span class="go">Open (Korean) →</span></a>
+  </div>
+
+  <h2 class="sec">Part 6 · Rehearsal and Show</h2>
+  <div class="flow">
+    <a class="step" href="../../rehearsal.html"><span class="no">Ch. 28 · 30</span><h2>Rehearsal Notes</h2>
+      <p>Tick through the nine previs checks and ten rehearsal checks, write the problems you find with cue, bar and verdict, and get a to-do list in the order patch → preset → cue → timecode.</p>
+      <span class="use">In the field: the day before rehearsal, during rehearsal, between rehearsals</span><span class="go">Open (Korean) →</span></a>
+    <a class="step" href="../../gocall.html"><span class="no">Ch. 31</span><h2>GO Practice</h2>
+      <p>Plays a click at the song’s BPM, brings up the standby, and records how far ahead of or behind the cue’s beat you pressed GO.</p>
+      <span class="use">In the field: before the show, after making the GO cue list</span><span class="go">Open (Korean) →</span></a>
+    <a class="step" href="../../safety.html"><span class="no">Ch. 32</span><h2>Safety Check</h2>
+      <p>Compares flashing with broadcast and venue limits and gathers audience beams, haze and special-effects agreements, the weight and power of hung gear, and the show-notice deadline on one sheet.</p>
+      <span class="use">In the field: before handing over the cue sheet, when talking with the venue</span><span class="go">Open (Korean) →</span></a>
+  </div>
+
+  <h2 class="sec">Part 7 · Case Studies</h2>
+  <div class="flow">
+    <a class="step" href="../../song.html"><span class="no">Ch. 33</span><h2>One-Song Workbench</h2>
+      <p>Shows how far the work on the song you picked has come across the six steps, filled or empty per tool, and draws sections, brightness, color, changes and cues as one bar strip.</p>
+      <span class="use">In the field: when you are given a song, when reporting progress to the team</span><span class="go">Open (Korean) →</span></a>
+  </div>
+
+  <h2 class="sec">Shared tools</h2>
+  <div class="sub">
+    <a class="subt" href="../../scene.html"><div><b>Scene Viewer</b><br><span>Play the scenes the book describes in bars as a stage picture and a level flow. Works with the practice songs and your own.</span></div><span class="ch">All · KO</span></a>
+    <a class="subt" href="calc.html"><div><b>Beat Calculator</b><br><span>Bar time table, fade table and flash-rate Hz table from the BPM and first downbeat</span></div><span class="ch">Ch. 2</span></a>
+    <a class="subt" href="map.html"><div><b>Music Map Practice</b><br><span>Draw a music map by writing sections and changes in bars</span></div><span class="ch">Ch. 3 · 4</span></a>
+    <a class="subt" href="../../rig.html"><div><b>Fixture Roles</b><br><span>Split a fixture list into roles and find empty roles and mismatched attributes</span></div><span class="ch">Ch. 6 · KO</span></a>
+  </div>
+
+  <h2 class="sec">My songs</h2>
+  <div class="panel">
+    <div class="tbl"><table class="songs" id="songs"></table></div>
+    <p class="note" style="margin:10px 0 0">Choose a song and every tool opens with it. The sample song, LOVE ATTACK, has notes only and no music file.</p>
+  </div>
+
+  <h2 class="sec">Notes backup and transfer</h2>
+  <div class="panel bk">
+    <p class="note" style="margin:0">Notes are saved in this browser only. To move them to another computer or tablet, copy the backup, paste it into a messenger or note app, and paste it on the other device.</p>
+    <div class="row"><button type="button" class="primary" id="exp">Copy notes backup</button><span class="note" id="copyMsg"></span></div>
+    <label class="f" for="imp">Paste backup<textarea id="imp" placeholder="Paste the backup text you copied here"></textarea></label>
+    <div class="row"><button type="button" id="impGo">Load</button><span class="note" id="impMsg"></span></div>
+  </div>
+
+  <h2 class="sec">Coming later</h2>
+  <div class="later"><span>Flash safety check · Ch. 2</span><span>Tap tempo · Ch. 2</span></div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var go = { listen: 'listen.html', pairs: 'pairs.html', sheet: 'sheet.html', rig: 'rig.html', concept: 'concept.html', palette: 'palette.html', looks: 'looks.html', bright: 'bright.html', grid: 'grid.html', recs: 'recs.html', trans: 'trans.html', cues: 'cues.html', bcast: 'bcast.html', setlist: 'setlist.html', busk: 'busk.html', rigcalc: 'rigcalc.html', scene: 'scene.html', phaser: 'phaser.html', song: 'song.html', tc: 'tc.html', showplan: 'showplan.html', rehearsal: 'rehearsal.html', gocall: 'gocall.html', safety: 'safety.html' }[(location.hash || '').slice(1).split('&')[0]];
+  if (go) { var rest = (location.hash || '').slice(1).split('&').slice(1).join('&'); location.replace((['listen.html', 'pairs.html', 'sheet.html'].indexOf(go) < 0 ? '../../' : '') + go + (rest ? '#' + rest : '')); return; }
+  var L = window.LX; L.top('index.html');
+  var $ = function (id) { return document.getElementById(id); };
+  var pending = null;
+  function render() {
+    var l = L.lib(), ids = Object.keys(l.songs).sort(function (a, b) { return (l.songs[b].updated || 0) - (l.songs[a].updated || 0); });
+    $('songs').innerHTML = '<tr><th>Song</th><th>BPM</th><th>Sections</th><th>Changes</th><th>Last edited</th><th></th></tr>' + ids.map(function (id) {
+      var s = l.songs[id], secs = s.marks.filter(function (m) { return m.t === 'sec'; }).length, ev = s.marks.length - secs, d = new Date(s.updated || 0);
+      return '<tr class="' + (id === l.current ? 'cur' : '') + '"><td><b style="color:var(--ink)">' + L.esc(s.title || 'Untitled') + '</b>' + (s.sample ? ' <span class="sample-flag">Sample</span>' : '') + (s.artist ? '<br><span class="note">' + L.esc(s.artist) + '</span>' : '') + '</td>' +
+        '<td class="num">' + s.bpm + '</td><td class="num">' + secs + '</td><td class="num">' + ev + '</td><td class="note">' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()] + ' ' + d.getDate() + ' ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0') + '</td>' +
+        '<td><div class="row" style="flex-wrap:nowrap;gap:6px"><button type="button" data-open="' + id + '">Open</button>' +
+        (pending === id ? '<button type="button" data-del="' + id + '" style="color:var(--bad)">Yes, delete</button><button type="button" data-cancel="1" class="ghost">Cancel</button>' : '<button type="button" data-ask="' + id + '" class="ghost" aria-label="Delete">Delete</button>') + '</div></td></tr>';
+    }).join('');
+  }
+  $('songs').addEventListener('click', function (e) {
+    var t = e.target, l = L.lib();
+    if (t.dataset.open) { l.current = t.dataset.open; L.put(l.songs[t.dataset.open]); location.href = 'listen.html'; }
+    if (t.dataset.ask) { pending = t.dataset.ask; render(); }
+    if (t.dataset.cancel) { pending = null; render(); }
+    if (t.dataset.del) { L.remove(t.dataset.del); pending = null; L.refreshPicker(); render(); }
+  });
+  $('exp').addEventListener('click', function () {
+    var txt = L.exportLib(), done = function (ok) { $('copyMsg').textContent = ok ? 'Copied. It holds the notes for ' + Object.keys(L.lib().songs).length + ' song(s) and show data (' + (Object.keys(L.lib()).filter(function (k) { return ['songs', 'current'].indexOf(k) < 0; }).length) + ' kinds: rig, setlist, busking, patch and more).' : 'Copying is blocked here. The backup text is in the box below; copy it yourself.'; if (!ok) { $('imp').value = txt; $('imp').select(); } };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  $('impGo').addEventListener('click', function () {
+    try { var o = JSON.parse($('imp').value); if (!o.songs) throw 0; L.importLib(o); $('impMsg').textContent = 'Loaded ' + Object.keys(o.songs).length + ' song(s) and the show data.'; $('imp').value = ''; L.refreshPicker(); render(); }
+    catch (err) { $('impMsg').textContent = 'That is not a backup. Paste the whole text made by “Copy notes backup”.'; }
+  });
+  render();
+})();
+</script>
+
+</body></html>

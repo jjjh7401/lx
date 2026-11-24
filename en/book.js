@@ -96,6 +96,8 @@
     LTM_drawer(id);
     /* Note under each embedded tool: the tool UI is still Korean */
     Array.prototype.forEach.call(document.querySelectorAll('#article-view .web-desc'), function (p) {
+      var box = p.closest('.web'), fr = box && box.querySelector('iframe');
+      if (fr && /\/en\/tools\//.test(fr.getAttribute('src') || '')) return;
       p.insertAdjacentHTML('afterend', '<p class="ltm-ko-note">The tool’s screens are in Korean for now. An English version is in progress.</p>');
     });
   };
