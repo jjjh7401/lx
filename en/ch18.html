@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chapter 18 · Concerts and Tours · Lighting the Music</title>
+<meta name="description" content="The energy arc of a whole set list, when to reveal each show special, avoiding repetition between songs, running by hand, timecode or hybrid, and trimming the rig for club, mid-size and arena tours.">
+<link rel="alternate" hreflang="ko" href="https://ablitzdesign.tistory.com/68">
+<link rel="alternate" hreflang="en" href="https://jjjh7401.github.io/lx/en/ch18.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 18 · Concerts and Tours · Lighting the Music">
+<meta property="og:description" content="The energy arc of a whole set list, when to reveal each show special, avoiding repetition between songs, running by hand, timecode or hybrid, and trimming the rig for club, mid-size and arena tours.">
+<meta property="og:image" content="https://jjjh7401.github.io/lx/cover-800.jpg">
+<meta property="og:url" content="https://jjjh7401.github.io/lx/en/ch18.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="en.css?v=2">
+</head>
+<body>
+<header class="ltm-bar" id="ltmBar"></header>
+<main id="article-view">
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch18"><header class="ch-head"><div class="ch-num"><span>Chapter</span> 18</div><h1 class="ch-title">Concerts and Tours</h1><p class="ch-sub">Shaping the flow of a whole show</p></header>
+<aside class="box goals"><div class="box-label">In this chapter</div><div class="box-body">
+<ul class="checks">
+<li>Place the staging of one song inside the flow of the whole set list (the energy arc).</li>
+<li>Decide when to reveal each show special (show it for the first time), and avoid repetition between songs.</li>
+<li>Choose how to run the show (by hand, timecode or hybrid) and how to trim the rig to the size of each tour venue.</li>
+</ul>
+</div></aside>
+<div class="open-label">Opening scene</div><p class="lead">Think of the first song of a concert. The curtain rises, every beam shoots into the sky at once, lasers cut across the audience, strobes burst. The crowd answers with a roar. But about ten songs later, strangely, it all feels flat. The beams and lasers are things you have already seen. And there are still more than ten songs to go.</p>
+<p>The first song did nothing wrong. Taken alone, it is excellent staging. The problem is that it forgot it was <strong>the first song of the whole show</strong>. Through Part 3 we left headroom inside one song; at a concert you do the same thing across the whole set list.</p>
+<h2 id="c18-18-1-the-energy-flow-of-the-whole-set-list">18.1 The Energy Flow of the Whole Set List</h2><p class="lead">Concert lighting starts not from one song but from the energy flow of the whole set list. On site this flow is called the arc.</p>
+<p>As in Chapter 4, where you gave each section of a song an energy level, at a concert you give each song an energy level and draw a line across the set list. This line is the large structure of the show.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 336" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="80.0" x2="920.0" y1="280.0" y2="280.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="70.0" y="284.0">1</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="80.0" x2="920.0" y1="235.0" y2="235.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="70.0" y="239.0">2</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="80.0" x2="920.0" y1="190.0" y2="190.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="70.0" y="194.0">3</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="80.0" x2="920.0" y1="145.0" y2="145.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="70.0" y="149.0">4</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="80.0" x2="920.0" y1="100.0" y2="100.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="70.0" y="104.0">5</text>
+<rect fill="#d6d9df" height="12.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="176.0" x="82.0" y="84.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="170.0" y="80.0">Block 1</text>
+<rect fill="#d6d9df" height="12.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="176.0" x="262.0" y="84.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="350.0" y="80.0">Block 2</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="4 3" stroke-linecap="butt" stroke-width="1" x1="260.0" x2="260.0" y1="84.0" y2="330.0"></line>
+<rect fill="#d6d9df" height="12.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="176.0" x="442.0" y="84.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="530.0" y="80.0">Block 3 (breather)</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="4 3" stroke-linecap="butt" stroke-width="1" x1="440.0" x2="440.0" y1="84.0" y2="330.0"></line>
+<rect fill="#d6d9df" height="12.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="176.0" x="622.0" y="84.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="710.0" y="80.0">Block 4</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="4 3" stroke-linecap="butt" stroke-width="1" x1="620.0" x2="620.0" y1="84.0" y2="330.0"></line>
+<rect fill="#d6d9df" height="12.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="116.0" x="802.0" y="84.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="860.0" y="80.0">Encore</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="4 3" stroke-linecap="butt" stroke-width="1" x1="800.0" x2="800.0" y1="84.0" y2="330.0"></line>
+<path d="M110.0,145.0 L170.0,145.0 L230.0,190.0 L290.0,235.0 L350.0,190.0 L410.0,145.0 L470.0,235.0 L530.0,235.0 L590.0,190.0 L650.0,145.0 L710.0,145.0 L770.0,100.0 L830.0,190.0 L890.0,100.0" fill="none" opacity="1.0" stroke="#1f2430" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"></path>
+<circle cx="110.0" cy="145.0" fill="#1f2430" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#e0352b" height="22.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="48.0" x="86.0" y="296.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="110.0" y="340.0">Song 1</text>
+<circle cx="170.0" cy="145.0" fill="#1f2430" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#f07a1f" height="22.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="48.0" x="146.0" y="296.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="170.0" y="340.0">Song 2</text>
+<circle cx="230.0" cy="190.0" fill="#1f2430" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#f2d43a" height="22.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="48.0" x="206.0" y="296.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="230.0" y="340.0">Song 3</text>
+<circle cx="290.0" cy="235.0" fill="#1f2430" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#2fa84f" height="22.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="48.0" x="266.0" y="296.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="290.0" y="340.0">Song 4</text>
+<circle cx="350.0" cy="190.0" fill="#1f2430" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#1fa79a" height="22.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="48.0" x="326.0" y="296.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="350.0" y="340.0">Song 5</text>
+<circle cx="410.0" cy="145.0" fill="#1f2430" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#2f62d4" height="22.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="48.0" x="386.0" y="296.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="410.0" y="340.0">Song 6</text>
+<circle cx="470.0" cy="235.0" fill="#1f2430" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#a58be6" height="22.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="48.0" x="446.0" y="296.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="470.0" y="340.0">Song 7</text>
+<circle cx="530.0" cy="235.0" fill="#1f2430" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#8a3fc2" height="22.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="48.0" x="506.0" y="296.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="530.0" y="340.0">Song 8</text>
+<circle cx="590.0" cy="190.0" fill="#1f2430" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#d43a9c" height="22.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="48.0" x="566.0" y="296.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="590.0" y="340.0">Song 9</text>
+<circle cx="650.0" cy="145.0" fill="#1f2430" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#e0352b" height="22.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="48.0" x="626.0" y="296.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="650.0" y="340.0">Song 10</text>
+<circle cx="710.0" cy="145.0" fill="#1f2430" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#f4a62a" height="22.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="48.0" x="686.0" y="296.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="710.0" y="340.0">Song 11</text>
+<circle cx="770.0" cy="100.0" fill="#c8553d" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#f3f5fb" height="22.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="48.0" x="746.0" y="296.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="770.0" y="340.0">Song 12</text>
+<circle cx="830.0" cy="190.0" fill="#1f2430" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#27b6de" height="22.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="48.0" x="806.0" y="296.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="830.0" y="340.0">Song 13</text>
+<circle cx="890.0" cy="100.0" fill="#c8553d" opacity="1.0" r="6.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#ffe0b0" height="22.0" opacity="1.0" rx="4" stroke="#d6d9df" stroke-width="1" width="48.0" x="866.0" y="296.0"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="890.0" y="340.0">Song 14</text>
+<text fill="#c8553d" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="end" x="758.0" y="104.0">Peak of the main show</text>
+<text fill="#c8553d" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="end" x="878.0" y="104.0">Encore peak</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="40.0" y="312.0">Color</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="386.0">A made-up set list. Start the first song high but save the peak, and put the peak after the breather block.</text>
+</svg>
+<figcaption><b>Figure 18-1</b> The set list energy arc. An example of a fourteen-song show. Start the first song high but save the peak, put a breather block in the middle, and place the peaks in the last block and the encore.</figcaption></figure>
+<p>Drawing the arc shows you three things.</p>
+<ul class="keyed">
+<li><strong>Blocks</strong>A set list is usually divided into blocks of three or four songs. The points where costumes change or the stage position moves, and where a video (VCR) plays, are the block boundaries. If you fix a color and a signature fixture for each block, the blocks separate clearly from one another.</li>
+<li><strong>Breather songs</strong>There must be low-energy songs in the middle so that the big song of the next block looks big. The dark cue inside one song (Chapter 10) becomes a breather song inside a show.</li>
+<li><strong>The peak</strong>A show has one peak. It is usually the last song of the main show or one song of the encore. Saving things for that song is the show special of Section 18.2.</li>
+</ul>
+<p>The brightness plan of one song (Chapter 10) and the arc of a show are read the same way. As you saved 100% for Chorus 3 inside a song, inside a show you save the whole rig for the peak song.</p>
+<h2 id="c18-18-2-the-song-where-the-show-special-first-comes-out">18.2 The Song Where the Show Special First Comes Out</h2><p class="lead">A show special that you save, such as lasers or a hidden rig, has the song where it is first shown decided in advance. Showing something for the first time is called a reveal on site.</p>
+<p>Lasers, kinetics (moving trusses or lights), a hidden line of fixtures, and a scene that lights the whole audience are show specials. It is the special cue of Chapter 10 widened to the whole show.</p>
+<div class="tbl"><div class="tcap"><b>Table 18-1</b> The order for bringing out show specials <span class="badge start">Starting value</span> <sup class="ref"><a href="#c18-s1">1</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>Place in the show</th>
+<th>What comes out</th>
+<th>What is saved</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>First song</td>
+<td>The basic rig (wash, beam, key). One signature look that becomes the first impression of the show</td>
+<td>Lasers, kinetics, the whole audience, heavy strobe use</td>
+</tr>
+<tr class="even">
+<td>End of the first block</td>
+<td>Reveal one special</td>
+<td>The remaining specials</td>
+</tr>
+<tr class="odd">
+<td>Middle blocks</td>
+<td>One new special per block, or a new use of one already revealed</td>
+<td>The combination for the peak</td>
+</tr>
+<tr class="even">
+<td>Last song of the main show</td>
+<td>All the specials so far, together</td>
+<td>One for the encore (if there is one)</td>
+</tr>
+<tr class="odd">
+<td>Encore</td>
+<td>The one you saved, or a scene shared with the audience</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>The point is to <strong>decide one song to reveal each special</strong>. If you don’t, “let’s use it in this song too” comes up again and again at rehearsal, and in the end every piece of equipment is shown in the first block.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 296" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="254.6" y="96.0">1</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="303.9" y="96.0">2</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="353.2" y="96.0">3</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="402.5" y="96.0">4</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="451.8" y="96.0">5</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="501.1" y="96.0">6</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="550.4" y="96.0">7</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="599.6" y="96.0">8</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="648.9" y="96.0">9</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="698.2" y="96.0">10</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="747.5" y="96.0">11</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="796.8" y="96.0">12</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="846.1" y="96.0">13</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="895.4" y="96.0">14</text>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="125.0">Lasers</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="230.0" x2="920.0" y1="120.0" y2="120.0"></line>
+<circle cx="353.2" cy="120.0" fill="#c8553d" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="501.1" cy="120.0" fill="#ffffff" opacity="1.0" r="7.0" stroke="#c8553d" stroke-width="2"></circle>
+<circle cx="796.8" cy="120.0" fill="#ffffff" opacity="1.0" r="7.0" stroke="#c8553d" stroke-width="2"></circle>
+<circle cx="895.4" cy="120.0" fill="#ffffff" opacity="1.0" r="7.0" stroke="#c8553d" stroke-width="2"></circle>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="157.0">Kinetic truss</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="230.0" x2="920.0" y1="152.0" y2="152.0"></line>
+<circle cx="501.1" cy="152.0" fill="#c8553d" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="698.2" cy="152.0" fill="#ffffff" opacity="1.0" r="7.0" stroke="#c8553d" stroke-width="2"></circle>
+<circle cx="796.8" cy="152.0" fill="#ffffff" opacity="1.0" r="7.0" stroke="#c8553d" stroke-width="2"></circle>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="189.0">Hidden line of beams</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="230.0" x2="920.0" y1="184.0" y2="184.0"></line>
+<circle cx="648.9" cy="184.0" fill="#c8553d" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="796.8" cy="184.0" fill="#ffffff" opacity="1.0" r="7.0" stroke="#c8553d" stroke-width="2"></circle>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="221.0">Heavy strobes</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="230.0" x2="920.0" y1="216.0" y2="216.0"></line>
+<circle cx="698.2" cy="216.0" fill="#c8553d" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="796.8" cy="216.0" fill="#ffffff" opacity="1.0" r="7.0" stroke="#c8553d" stroke-width="2"></circle>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="253.0">Whole audience</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="230.0" x2="920.0" y1="248.0" y2="248.0"></line>
+<circle cx="796.8" cy="248.0" fill="#c8553d" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="895.4" cy="248.0" fill="#ffffff" opacity="1.0" r="7.0" stroke="#c8553d" stroke-width="2"></circle>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="285.0">With the audience (encore)</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="230.0" x2="920.0" y1="280.0" y2="280.0"></line>
+<circle cx="895.4" cy="280.0" fill="#c8553d" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="4 3" stroke-linecap="butt" stroke-width="1" x1="377.9" x2="377.9" y1="84.0" y2="310.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="303.9" y="312.0">First block: just one special</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="346.0">Decide one song to reveal each special. If you don’t, they all pile into the first block at rehearsal.</text>
+</svg>
+<figcaption><b>Figure 18-2</b> Reveal spots for show specials. On the set list of Figure 18-1, each special’s reveal song (●) and the songs where it is used again (○) are marked.</figcaption></figure>
+<h2 id="c18-18-3-repetition-between-songs">18.3 Repetition Between Songs</h2><p class="lead">The same lighting coming back inside one song is a strength, but similar lighting in neighboring songs is a weakness (Chapter 14). If the signature looks of the previous and next songs have the same color and the same position, the audience remembers the two songs as one.</p>
+<p>So when building a set list for a concert, write each song’s <strong>signature look</strong> (Chapter 9) and <strong>main color</strong> (Chapter 8) on one line. If two neighboring songs have the same main color, change one, or change the main role even if the color stays (beams in one song, wash in the next). If you continue the color inside a block and change it between blocks, the blocks separate by color.</p>
+<aside class="box try"><div class="box-label">A short experiment</div><div class="box-body"><ol class="steps"><li>Find the set list of a concert by an artist you like, and write one word for the color you remember from each song.</li><li>If there is a run of songs you can’t remember, those songs were probably similar pictures on stage.</li></ol></div></aside>
+<h2 id="c18-18-4-how-to-run-the-show-by-hand-timecode-hybrid">18.4 How to Run the Show — By Hand, Timecode, Hybrid</h2><p class="lead">At a concert you keep one cue list per song, and depending on the character of the song you decide whether to press GO by hand or to hand over automatically to timecode (Chapter 16). There are three ways.</p>
+<div class="tbl"><div class="tcap"><b>Table 18-2</b> How a concert is run <span class="badge start">Starting value</span> <sup class="ref"><a href="#c18-s1">1</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Songs it suits</th>
+<th>What to watch for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>By hand (GO button)</td>
+<td>Songs a live band plays, songs whose tempo differs a little each time, talk</td>
+<td>A hit that lands one beat after a dark cue is easy for the hand to miss</td>
+</tr>
+<tr class="even">
+<td>Timecode</td>
+<td>Songs on a backing track (MR), songs that must match the video exactly, songs with dense cues</td>
+<td>If the MR version changes, every cue slips. Check the audio version last (concept meeting, Chapter 7)</td>
+</tr>
+<tr class="odd">
+<td>Hybrid</td>
+<td>Most concerts</td>
+<td>Section changes and video sync on timecode; accents such as strobes and blinders by hand</td>
+</tr>
+</tbody>
+</table></div>
+<p>When a band plays live, the BPM of a song differs a little from show to show. In that case, tie the effect cycle (Chapter 12) to the console’s speed master (Chapter 2) and set that day’s speed with tap tempo. Then you press the cues by hand and only the speed of the effects follows that day’s tempo. The console side is covered in Part 5.</p>
+<h2 id="c18-18-5-tours-trimming-to-the-size-of-the-venue">18.5 Tours — Trimming to the Size of the Venue</h2><p class="lead">If you travel to venues of different sizes with the same show, build trimmed versions of the rig in advance. Dividing into three sizes — club, mid-size venue and arena — is the starting point.<sup class="ref"><a href="#c18-s2">2</a></sup></p>
+<p>The principle in trimming is <strong>keep the role, cut the quantity</strong>. It is fine for a role that had 32 beams in a big venue to have 8 in a small one, but if the role of beam itself disappears, you must change every cue that depended on that role.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 356" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#eef0f3" height="12.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="400.0" x="40.0" y="340.0"></rect>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="240.0" y="376.0">Arena</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="240.0" y="394.0">192 fixtures</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="3" x1="40.0" x2="440.0" y1="110.0" y2="110.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="3" x1="50.0" x2="430.0" y1="150.0" y2="150.0"></line>
+<circle cx="48.3" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="65.0" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="81.7" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="98.3" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="115.0" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="131.7" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="148.3" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="165.0" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="181.7" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="198.3" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="215.0" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="231.7" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="248.3" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="265.0" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="281.7" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="298.3" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="315.0" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="331.7" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="348.3" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="365.0" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="381.7" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="398.3" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="415.0" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="431.7" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="52.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="77.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="102.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="127.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="152.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="177.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="202.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="227.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="252.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="277.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="302.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="327.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="352.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="377.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="402.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="427.5" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="44.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="52.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="60.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="69.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="77.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="85.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="94.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="102.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="110.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="119.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="127.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="135.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="144.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="152.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="160.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="169.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="177.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="185.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="194.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="202.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="210.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="219.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="227.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="235.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="244.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="252.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="260.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="269.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="277.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="285.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="294.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="302.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="310.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="319.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="327.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="335.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="344.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="352.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="360.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="369.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="377.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="385.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="394.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="402.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="410.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="419.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="427.5" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="435.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="34.0" cy="180.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="446.0" cy="180.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="34.0" cy="197.5" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="446.0" cy="197.5" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="34.0" cy="215.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="446.0" cy="215.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="34.0" cy="232.5" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="446.0" cy="232.5" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="34.0" cy="250.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="446.0" cy="250.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="34.0" cy="267.5" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="446.0" cy="267.5" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="34.0" cy="285.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="446.0" cy="285.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="34.0" cy="302.5" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="446.0" cy="302.5" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="46.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="58.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="71.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="83.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="96.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="108.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="121.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="133.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="146.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="158.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="171.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="183.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="196.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="208.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="221.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="233.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="246.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="258.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="271.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="283.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="296.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="308.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="321.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="333.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="346.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="358.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="371.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="383.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="396.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="408.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="421.2" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="433.8" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="52.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="77.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="102.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="127.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="152.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="177.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="202.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="227.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="252.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="277.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="302.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="327.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="352.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="377.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="402.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="427.5" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#eef0f3" height="12.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="260.0" x="500.0" y="340.0"></rect>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="630.0" y="376.0">Mid-size (practice rig)</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="630.0" y="394.0">96 fixtures</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="3" x1="500.0" x2="760.0" y1="110.0" y2="110.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="3" x1="510.0" x2="750.0" y1="150.0" y2="150.0"></line>
+<circle cx="510.8" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="532.5" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="554.2" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="575.8" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="597.5" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="619.2" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="640.8" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="662.5" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="684.2" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="705.8" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="727.5" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="749.2" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="516.2" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="548.8" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="581.2" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="613.8" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="646.2" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="678.8" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="711.2" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="743.8" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="505.4" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="516.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="527.1" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="537.9" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="548.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="559.6" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="570.4" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="581.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="592.1" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="602.9" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="613.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="624.6" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="635.4" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="646.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="657.1" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="667.9" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="678.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="689.6" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="700.4" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="711.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="722.1" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="732.9" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="743.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="754.6" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="494.0" cy="180.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="766.0" cy="180.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="494.0" cy="215.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="766.0" cy="215.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="494.0" cy="250.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="766.0" cy="250.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="494.0" cy="285.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="766.0" cy="285.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="508.1" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="524.4" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="540.6" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="556.9" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="573.1" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="589.4" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="605.6" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="621.9" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="638.1" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="654.4" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="670.6" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="686.9" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="703.1" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="719.4" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="735.6" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="751.9" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="516.2" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="548.8" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="581.2" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="613.8" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="646.2" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="678.8" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="711.2" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="743.8" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<rect fill="#eef0f3" height="12.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="130.0" x="800.0" y="340.0"></rect>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="865.0" y="376.0">Club</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="865.0" y="394.0">48 fixtures</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="3" x1="800.0" x2="930.0" y1="110.0" y2="110.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="3" x1="810.0" x2="920.0" y1="150.0" y2="150.0"></line>
+<circle cx="810.8" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="832.5" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="854.2" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="875.8" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="897.5" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="919.2" cy="110.0" fill="#4f7f8f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="816.2" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="848.8" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="881.2" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="913.8" cy="150.0" fill="#8a6fb0" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="805.4" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="816.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="827.1" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="837.9" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="848.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="859.6" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="870.4" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="881.2" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="892.1" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="902.9" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="913.8" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="924.6" cy="130.0" fill="#5a5ec8" opacity="1.0" r="2.5" stroke="none" stroke-width="1"></circle>
+<circle cx="794.0" cy="180.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="936.0" cy="180.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="794.0" cy="250.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="936.0" cy="250.0" fill="#3f8f6f" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="808.1" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="824.4" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="840.6" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="856.9" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="873.1" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="889.4" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="905.6" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="921.9" cy="332.0" fill="#c9862a" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="816.2" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="848.8" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="881.2" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="913.8" cy="320.0" fill="#c8553d" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="406.0">If groups are built by role, the “beam group” points to 32 fixtures in an arena and 8 in a club, and the cues are used as they are.</text>
+</svg>
+<figcaption><b>Figure 18-3</b> The rig trimmed to three tour sizes. The same role layout reduced to arena, mid-size and club. The places of the roles stay the same; only the quantities change.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>Table 18-3</b> Fixtures by venue size — an example based on the Chapter 6 practice rig (96 fixtures) <span class="badge start">Starting value</span> <code>[Author to confirm]</code></div><table>
+<thead>
+<tr class="header">
+<th>Role</th>
+<th>Arena</th>
+<th>Mid-size (practice rig)</th>
+<th>Club</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Key</td>
+<td>Profile 16, follow spot 4</td>
+<td>Profile 8, follow spot 2</td>
+<td>Profile 4, follow spot 1</td>
+</tr>
+<tr class="even">
+<td>Fill</td>
+<td>Fresnel 12</td>
+<td>6</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Back/wash</td>
+<td>Moving wash 24</td>
+<td>12</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>Spot (gobo, key assist)</td>
+<td>Moving spot 16</td>
+<td>8</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>Side</td>
+<td>Moving wash 16</td>
+<td>8</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>Beam</td>
+<td>Moving beam 32</td>
+<td>16</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>Pixel</td>
+<td>LED bars 48</td>
+<td>24</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>FX</td>
+<td>Strobes 16</td>
+<td>8</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>Audience</td>
+<td>Blinders 8</td>
+<td>4</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>Total</td>
+<td>192</td>
+<td>96</td>
+<td>48</td>
+</tr>
+</tbody>
+</table></div>
+<p>Even on the trimmed version you keep using the same cue structure. For that, the console’s groups (Section 22.6, Chapter 24) must be divided by role, not by fixture number. If the “beam group” points to 32 fixtures in an arena and 8 in a club, then the “beam group fan position” in a cue can be used as it is in both places. But truss height and stage width differ from venue to venue, so position presets and pixel maps are readjusted for each venue. We look at this again in Chapter 22 when building the rig.</p>
+<h2 id="c18-18-6-between-songs-and-the-encore">18.6 Between Songs and the Encore</h2><p class="lead">The few seconds from the end of one song to the start of the next set the flow of the show.</p>
+<p>The transition cues of Chapter 14 (clearing, leaving light, preparing the next song) are used here every time. At a concert there are two more things to think about.</p>
+<ul class="keyed">
+<li><strong>Time for applause</strong>While the artist bows or talks after a song, light the stage with the key and a weak base. If the talk runs long, you can raise the house lights (the lights over the audience) a little so that the audience’s faces can also be seen.</li>
+<li><strong>Waiting for the encore</strong>After the main show ends, the time spent waiting for the encore is when the audience fills the stage. While light sticks and phone lights fill the seats, keep the stage lighting to a minimum and prepare the first look of the first encore song as an MIB (Chapter 14).</li>
+</ul>
+<h2 id="c18-18-7-exercise-the-whole-set-list-on-one-table">18.7 [Exercise] The Whole Set List on One Table</h2><p class="lead">Write energy, main color and signature fixtures on one line for each song, and look at the whole set list on one sheet. When it is all written down, the energy flow shows as a line, and you can see where neighboring songs overlap and which special came out too early.</p>
+<p><strong>Follow along</strong></p>
+<ol type="1">
+<li>Write the songs of the set list in order, and write the BPM and energy (1–5) for each song. Take a song’s energy from the energy of its biggest section.</li>
+<li>Draw block boundaries where costume changes, VCRs and talk come in.</li>
+<li>Write the main color, signature look and main role for each song.</li>
+<li>Decide one song to reveal each show special (laser, kinetics and so on).</li>
+<li>Write the way of running each song (by hand, timecode, hybrid).</li>
+</ol>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>On the energy line, see whether there is a single peak, and whether the first block has already reached it.</li><li>Mark the places where two neighboring songs have the same main color and the same main role, and the places where two or more specials are revealed in the first block, and write the reason.</li></ol></div></aside>
+<p>Put LOVE ATTACK in as one song of a set list and you can read it like this. 112 BPM, energy 5, main color pearl pink, main role beam (chorus). It is a pastel song, so placed between strong primary-color songs it becomes a breather color, and placed next to another pastel song the two look like one. Where to place it is decided by what role the “scent” of the concept sheet (Chapter 7) plays inside the block.<code>[Author to confirm]</code></p>
+<aside class="box mine"><div class="box-label">Try it with your own song</div><div class="box-body"><ol class="steps"><li>Make the same table with the set list of the show you are working on now.</li><li>If a reveal spot changed during rehearsal, write it next to the first plan and, after the show, compare which one was better.</li></ol></div></aside>
+<aside class="web" id="web-W15-19"><div class="web-head"><span class="web-tag">Web tool 16</span><h4>Setlist Arc</h4><a class="web-open" href="https://jjjh7401.github.io/lx/en/tools/setlist.html" rel="noopener" target="_blank">Open in new window ↗</a></div><p class="web-desc">Write BPM, energy, main color, main role and the way of running for each song, mark the block boundaries and show specials, and it draws the energy arc and the color band. It points out places with two or more peaks or a pile-up in the first block, places where a neighboring song has the same color and main, and specials revealed too early. Songs that are in your song notes can be loaded from the list.</p><div class="tool-embed"><iframe allow="autoplay" loading="lazy" src="https://jjjh7401.github.io/lx/en/tools/setlist.html?embed=1" style="--h:1600px" title="Setlist Arc"></iframe></div><p class="tool-open"><span>The notes you write are saved in this browser only. To use it on a wide screen, press "Open in new window" above.</span></p></aside>
+<section class="summary"><h2>Key points</h2><ul>
+<li>Concert staging starts from the energy arc of the whole set list. Decide the blocks, the breather songs and a single peak.</li>
+<li>For show specials, decide one song to reveal each. Do not show everything in the first song.</li>
+<li>Repetition inside a song is a strength; repetition between songs is a weakness. For neighboring songs, change either the main color or the main role.</li>
+<li>Choose how to run each song from by hand, timecode and hybrid. With a live band, tie the effect cycle to the speed master.</li>
+<li>On a tour, keep the role and cut the quantity. If groups are built by role, the cue structure stays as it is, and position presets and pixel maps are readjusted for each venue.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">On the job tomorrow</div><div class="box-body"><ol class="steps"><li>Open the set list of this show and circle the song where each show special is revealed.</li><li>If there are two or more circles in the first block, try moving one later.</li></ol></div></aside>
+<section class="notes"><h2>Notes</h2><ol><li id="c18-s1">The author’s unpublished working notes. The order for saving specials inside a set list, repetition inside a song versus between songs, and starting values for running by hand, timecode and hybrid.</li><li id="c18-s2">The author’s research notes (lighting design research v2). The working practice of drawing the plot in advance in three reduced sizes — club, mid-size and arena — for a tour (transcribed from an equipment supplier’s blog).</li></ol></section>
+</article>
+</div>
+
+</main>
+<nav class="ltm-pager" id="ltmPager" aria-label="Chapters"></nav>
+<footer class="ltm-foot">
+<p><b>Lighting the Music</b> by Jaehyun Jung. Free to read online. English edition translated from the Korean original with AI.</p>
+<p>Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener license" target="_blank">CC BY-NC-ND 4.0</a>: you may share it with credit (title, author and a link to this page), but not for commercial use and not in modified form.</p>
+</footer>
+<script src="book.js?v=3"></script>
+<script>LTM_chapter("ch18");</script>
+</body>
+</html>

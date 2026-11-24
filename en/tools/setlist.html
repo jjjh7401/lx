@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Setlist Arc</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* Layout: arc graph and color band on top, item table (editable) in the middle, checks below */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:74ch}
+svg.arc{width:100%;height:auto;display:block}
+table.sl td{vertical-align:middle;padding:4px}
+table.sl input[type=text]{min-width:12em;width:100%}
+table.sl input.n{width:4.6em}
+table.sl input.len{width:4.2em}
+table.sl input.ty{width:5.5em}
+table.sl select{max-width:9em}
+table.sl tr.blk td{border-top:2px solid var(--accent)}
+.sw{display:inline-block;width:18px;height:18px;border-radius:4px;border:1px solid var(--line);vertical-align:middle}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+.checks b{color:var(--ink)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Setlist Arc</h1>
+    <p>The board for seeing the flow of one whole concert (Chapter 18). List the songs in order and, for each song, enter energy, main color, main role, how it is run and the special it reveals, and it draws the energy arc and color band of the whole show. It points out where peaks are crowded, where neighboring songs share a color and main, and specials that come out too early. Write VCRs and talk between songs in the type column too so they join the order, and mark where a block (a costume change and so on) starts. An awards show run sheet (Chapter 19) is built the same way. A stage where each act does only one or two songs, like a music show, suits the per-song tool (the Song Workbench) instead.</p>
+  </div>
+  <section class="panel"><h2 id="arcT" style="margin-bottom:8px">Arc</h2><svg class="arc" id="arc" viewBox="0 0 960 260" role="img" aria-label="Set list energy arc"></svg></section>
+  <section class="panel" style="margin-top:16px">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>Items</h2>
+      <div class="row"><button type="button" id="add">Add item</button><select id="fromSong" aria-label="Load from song notes"></select></div></div>
+    <div class="row" style="margin-bottom:8px"><label class="f">Show start time<input type="time" id="start" aria-label="Show start time"></label><span class="note" id="total"></span></div>
+    <p class="note" id="msg"></p>
+    <div class="tbl"><table class="sl" id="sl"></table></div>
+    <p class="note" style="margin:6px 0 0">The type column is free text. Leave it empty or start it with “song” or “performance” and the item counts as a song and gets a dot on the arc. If it contains “award” it is drawn as a white cell, if it contains “MC” or “host” as a blue cell, and anything else as a dark cell in the band.</p>
+    <datalist id="slTypes"><option value="Song"><option value="VCR"><option value="MC"><option value="Talk"><option value="Award"><option value="Transition"></datalist>
+    <div class="row" style="margin-top:10px"><button type="button" id="copy">Copy</button><button type="button" id="example" class="ghost">Restore the example</button><button type="button" id="clear" class="ghost">Clear and start new</button></div>
+    <p class="note" id="copyMsg"></p>
+  </section>
+  <section class="panel" style="margin-top:16px"><h2 style="margin-bottom:10px">Checks</h2><ul class="checks" id="checks"></ul></section>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX; L.top('setlist.html', { noSong: true });
+  var $ = function (id) { return document.getElementById(id); };
+  var OPS = ['By hand', 'Timecode', 'Hybrid'];
+  var SL = L.getKey('setlist');
+  function example() {
+    var EX = [[4, 'Red', 'Beam', 'b'], [4, 'Orange', 'Wash'], [3, 'Yellow', 'Pixel', '', 'Lasers'], [2, 'Green', 'Key', 'b'], [3, 'Teal', 'Side'], [4, 'Blue', 'Beam', '', 'Kinetic truss'], [2, 'Lavender', 'Back', 'b'],
+      [2, 'Purple', 'Key'], [3, 'Magenta', 'Pixel', '', 'Hidden line of beams'], [4, 'Red', 'Beam', 'b', 'Heavy strobes'], [4, 'Amber', 'Wash'], [5, 'White', 'Beam', '', 'Whole audience'], [3, 'Cyan', 'Pixel', 'b'], [5, 'Warm white', 'Audience', '', 'With the audience']];
+    return { start: '', items: EX.map(function (x, i) { return { id: L.uid(), type: 'Song', title: 'Song ' + (i + 1), bpm: 120, len: 210, energy: x[0], color: L.colorHex(x[1]) || '#888888', cname: x[1], role: x[2], op: 'Hybrid', block: x[3] === 'b', special: x[4] || '' }; }) };
+  }
+  if (!SL) { SL = example(); L.putKey('setlist', SL); }
+  // Length: accepts "3:30", "210" (seconds) and "3m 30s"
+  function parseLen(v) { v = String(v || '').trim(); if (!v) return 0; var m = v.match(/^(\d+)\s*[:m]\s*(\d{1,2})?\s*s?$/i); if (m) return (+m[1]) * 60 + (+(m[2] || 0)); var n = parseFloat(v); return isNaN(n) ? 0 : Math.round(n); }
+  function mmss(sec) { sec = Math.round(sec || 0); var h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s2 = sec % 60; return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(s2).padStart(2, '0'); }
+  function clock(off) { if (!SL.start) return mmss(off); var p = SL.start.split(':'), t = (+p[0]) * 60 + (+p[1]) + Math.floor(off / 60); return String(Math.floor(t / 60) % 24).padStart(2, '0') + ':' + String(t % 60).padStart(2, '0'); }
+  function starts() { var acc = 0; return SL.items.map(function (x) { var a = acc; acc += +x.len || 0; return a; }); }
+  function totalLen() { return SL.items.reduce(function (a, x) { return a + (+x.len || 0); }, 0); }
+  var lastDel = null;
+  function save() { L.putKey('setlist', SL); }
+  // The type is free text. Empty, or starting with 'song' / 'performance' / 'number', counts as a song
+  function isSong(x) { var t = String(x.type || '').trim(); return !t || /^(song|performance|number)/i.test(t); }
+  function songs() { return SL.items.filter(isSong); }
+  function blocks() { var b = [], cur = null; SL.items.forEach(function (x, i) { if (x.block || !cur) { cur = { start: i, items: [] }; b.push(cur); } cur.items.push(i); }); return b; }
+  function drawArc() {
+    var it = SL.items, n = it.length, x0 = 60, x1 = 940, y0 = 30, y1 = 170;
+    if (!n) { $('arc').innerHTML = ''; return; }
+    function X(i) { return x0 + (i + 0.5) / n * (x1 - x0); } function Y(e) { return y1 - (e - 1) / 4 * (y1 - y0); }
+    var h = '';
+    for (var e = 1; e <= 5; e++) h += '<line x1="' + x0 + '" x2="' + x1 + '" y1="' + Y(e) + '" y2="' + Y(e) + '" stroke="var(--grid)"/><text x="' + (x0 - 10) + '" y="' + (Y(e) + 4) + '" font-size="11" text-anchor="end" fill="var(--muted)">' + e + '</text>';
+    it.forEach(function (x, i) { if (x.block && i) { var bx = x0 + i / n * (x1 - x0); h += '<line x1="' + bx + '" x2="' + bx + '" y1="' + (y0 - 14) + '" y2="' + (y1 + 60) + '" stroke="var(--accent)" stroke-dasharray="4 3"/>'; } });
+    var pts = []; it.forEach(function (x, i) { if (isSong(x)) pts.push([X(i), Y(+x.energy || 3), x]); });
+    if (pts.length) h += '<path d="M' + pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' L') + '" fill="none" stroke="currentColor" stroke-width="2.4"/>';
+    pts.forEach(function (p) { h += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="6" fill="' + (+p[2].energy === 5 ? 'var(--bad)' : 'currentColor') + '"/>'; if (p[2].special) h += '<text x="' + p[0] + '" y="' + (p[1] - 12) + '" font-size="10.5" text-anchor="middle" fill="var(--bad)">★</text>'; });
+    it.forEach(function (x, i) {
+      var ty = String(x.type || ''), c = isSong(x) ? x.color : /award/i.test(ty) ? '#f3f5fb' : /MC|host|emcee/i.test(ty) ? '#3b6ea8' : '#2a2f36';
+      h += '<rect x="' + (X(i) - (x1 - x0) / n / 2 + 2) + '" y="' + (y1 + 18) + '" width="' + ((x1 - x0) / n - 4) + '" height="26" rx="4" fill="' + c + '" stroke="var(--line)"/>';
+      h += '<text x="' + X(i) + '" y="' + (y1 + 62) + '" font-size="10.5" text-anchor="middle" fill="var(--muted)">' + L.esc((x.title || '').slice(0, 8)) + '</text>';
+    });
+    $('arc').innerHTML = h; $('arc').style.color = 'var(--ink)';
+    $('arcT').textContent = 'Arc · ' + n + ' items · ' + songs().length + ' songs';
+  }
+  function opt(list, v) { return list.map(function (x) { return '<option' + (x === v ? ' selected' : '') + '>' + x + '</option>'; }).join(''); }
+  var busy = false;
+  function render() { if (busy) return; busy = true; try { draw(); } finally { busy = false; } }
+  function draw() {
+    $('sl').innerHTML = '<tr><th>Block</th><th>#</th><th>Start</th><th>Type</th><th>Name</th><th>Length</th><th>BPM</th><th>Energy</th><th>Main color</th><th>Main role</th><th>Run</th><th>Reveals special</th><th></th></tr>' + (function () { var st = starts(); return SL.items.map(function (x, i) {
+      return '<tr class="' + (x.block && i ? 'blk' : '') + '"><td><input type="checkbox" data-i="' + i + '" data-k="block"' + (x.block ? ' checked' : '') + ' aria-label="Block starts here"></td><td class="num">' + (i + 1) + '</td><td class="num">' + clock(st[i]) + '</td>' +
+        '<td><input type="text" class="ty" list="slTypes" data-i="' + i + '" data-k="type" value="' + L.esc(x.type || '') + '" placeholder="Song" aria-label="Type"></td>' +
+        '<td><input type="text" data-i="' + i + '" data-k="title" value="' + L.esc(x.title) + '" aria-label="Name"></td>' +
+        '<td><input type="text" inputmode="numeric" class="len" data-i="' + i + '" data-k="len" value="' + (x.len ? mmss(x.len) : '') + '" placeholder="3:30" aria-label="Length (min:sec)"></td>' +
+        '<td><input type="number" class="n" data-i="' + i + '" data-k="bpm" value="' + (x.bpm || '') + '" aria-label="BPM"></td>' +
+        '<td><select data-i="' + i + '" data-k="energy">' + opt(['1', '2', '3', '4', '5'], String(x.energy)) + '</select></td>' +
+        '<td><span class="sw" style="background:' + x.color + '"></span> <select data-i="' + i + '" data-k="cname">' + L.PALETTE.map(function (p) { return '<option' + (p[0] === x.cname ? ' selected' : '') + '>' + p[0] + '</option>'; }).join('') + (L.PALETTE.some(function (p) { return p[0] === x.cname; }) ? '' : '<option selected>' + L.esc(x.cname || 'Custom') + '</option>') + '</select></td>' +
+        '<td><select data-i="' + i + '" data-k="role">' + opt(L.ROLES, x.role) + '</select></td>' +
+        '<td><select data-i="' + i + '" data-k="op">' + opt(OPS, x.op) + '</select></td>' +
+        '<td><input type="text" data-i="' + i + '" data-k="special" value="' + L.esc(x.special || '') + '" placeholder="blank if none" aria-label="Special"></td>' +
+        '<td><button type="button" class="ghost" data-up="' + i + '" aria-label="Move up">↑</button><button type="button" class="ghost" data-del="' + i + '">' + (lastDel === x.id ? 'Press again' : 'Delete') + '</button></td></tr>';
+    }).join(''); })();
+    $('start').value = SL.start || '';
+    var tl = totalLen(); $('total').textContent = tl ? 'Total ' + mmss(tl) + (SL.start ? ' · ends ' + clock(tl) : '') + (SL.items.some(function (x) { return !x.len; }) ? ' · items with no length count as 0' : '') : 'Enter lengths (min:sec) and each item’s start time is calculated.';
+    drawArc(); checks();
+  }
+  function checks() {
+    var out = [], it = SL.items, sg = songs();
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: 'Check', i: 'Note', ok: 'Good' }[lv] + '</span>' + h + '</li>'); }
+    if (!sg.length) { $('checks').innerHTML = '<li class="i"><span class="lv">Note</span>There are no songs.</li>'; return; }
+    var max = Math.max.apply(null, sg.map(function (x) { return +x.energy; })), tops = sg.filter(function (x) { return +x.energy === max; });
+    if (tops.length > 2) add('w', tops.length + ' songs are at the highest energy (' + max + '): ' + tops.map(function (x) { return L.esc(x.title); }).join(', ') + '. Cut the peaks down to one in the main show and one in the encore.');
+    var bl = blocks();
+    if (bl.length > 1) {
+      var first = bl[0].items.map(function (i) { return it[i]; }).filter(isSong);
+      if (first.some(function (x) { return +x.energy === max; })) add('w', 'The first block already reaches the highest energy (' + max + '). Start the first song high but save the peak (Chapter 18).');
+      var fsp = first.filter(function (x) { return x.special; });
+      if (fsp.length > 1) add('w', fsp.length + ' specials are revealed in the first block (' + fsp.map(function (x) { return L.esc(x.special); }).join(', ') + '). Keep one and move the rest later.');
+    } else add('i', 'There are no block boundaries. Mark a block start where costumes change and where VCRs and talk come in.');
+    var lowRun = 0, lowFound = false; sg.forEach(function (x) { if (+x.energy <= 2) { lowRun++; lowFound = true; } });
+    if (!lowFound) add('w', 'There is no breather song at energy 2 or below. You need one so that the big song of the next block looks big.');
+    for (var i = 1; i < it.length; i++) {
+      var a = it[i - 1], b = it[i];
+      if (isSong(a) && isSong(b) && a.cname === b.cname && a.role === b.role) add('w', '<b>' + L.esc(a.title) + '</b> and <b>' + L.esc(b.title) + '</b> have the same main color (' + L.esc(a.cname) + ') and main role (' + a.role + '). That is repetition between songs (Chapter 14).');
+    }
+    var sp = {}; it.forEach(function (x, i) { if (x.special) { (sp[x.special] = sp[x.special] || []).push(i + 1); } });
+    Object.keys(sp).forEach(function (k) { if (sp[k].length > 1) add('i', 'The special “' + L.esc(k) + '” is revealed in more than one place (items ' + sp[k].join(', ') + '). Write the reveal in one place only and leave the places where it is reused blank.'); });
+    var award = it.filter(function (x) { return /award/i.test(x.type || ''); });
+    if (award.length) add('i', 'There are ' + award.length + ' award parts. At rehearsal, check that the award key and white are the same in every award part (Chapter 19).');
+    if (!out.some(function (x) { return x.indexOf('class="w"') >= 0; })) add('ok', 'Nothing flagged in the peaks, the blocks, the breather songs or the repetition between songs.');
+    $('checks').innerHTML = out.join('');
+  }
+  $('sl').addEventListener('change', function (e) {
+    var t = e.target; if (t.dataset.i == null) return; var x = SL.items[+t.dataset.i], k = t.dataset.k;
+    if (k === 'block') x.block = t.checked; else if (k === 'bpm') x.bpm = +t.value; else if (k === 'len') x.len = parseLen(t.value); else if (k === 'energy') x.energy = +t.value;
+    else if (k === 'cname') { x.cname = t.value; x.color = L.colorHex(t.value) || x.color; } else x[k] = t.value;
+    save(); render();
+  });
+  $('sl').addEventListener('click', function (e) {
+    var d = e.target.dataset;
+    if (d.del != null) { var x = SL.items[+d.del]; if (lastDel !== x.id && (x.title || x.special)) { lastDel = x.id; render(); $('msg').textContent = 'Press again to delete “' + (x.title || 'empty item') + '”.'; return; } lastDel = null; SL.items.splice(+d.del, 1); save(); render(); $('msg').textContent = ''; }
+    if (d.up != null && +d.up > 0) { var i = +d.up, t = SL.items[i]; SL.items[i] = SL.items[i - 1]; SL.items[i - 1] = t; save(); render(); }
+  });
+  $('add').addEventListener('click', function () { SL.items.push({ id: L.uid(), type: 'Song', title: '', bpm: 120, energy: 3, color: '#2f62d4', cname: 'Blue', role: 'Beam', op: 'Hybrid', block: false, special: '' }); save(); render(); });
+  var lib = L.lib();
+  $('fromSong').innerHTML = '<option value="">Load from song notes</option>' + Object.keys(lib.songs).map(function (id) { return '<option value="' + id + '">' + L.esc(lib.songs[id].title) + '</option>'; }).join('');
+  $('fromSong').addEventListener('change', function (e) {
+    var s = lib.songs[e.target.value]; if (!s) return;
+    var en = 3; Object.keys(s.energy || {}).forEach(function (k) { en = Math.max(en, +s.energy[k] || 0); });
+    var d = s.design && s.design.pal ? s.design.pal.colors.filter(function (c) { return c.role === 'base'; })[0] : null;
+    SL.items.push({ id: L.uid(), type: 'Song', title: s.title, bpm: s.bpm, len: Math.round(s.musicEnd || s.duration || 0), energy: Math.min(5, en), color: d ? L.hexOf(d) : '#888888', cname: d ? d.name : 'Custom', role: 'Beam', op: 'Hybrid', block: false, special: '' });
+    e.target.value = ''; save(); render(); $('msg').textContent = '“' + s.title + '” was added at the end. Use ↑ to move it.';
+  });
+  L.copyBar($('copy'), $('copyMsg'), function () {
+    var st = starts();
+    return { title: 'Set list' + (SL.start ? ' · starts ' + SL.start : '') + (totalLen() ? ' · total ' + mmss(totalLen()) : ''), head: ['#', 'Start', 'Block', 'Type', 'Name', 'Length', 'BPM', 'Energy', 'Main color', 'Main role', 'Run', 'Special'],
+      rows: SL.items.map(function (x, i) { return [i + 1, clock(st[i]), x.block ? 'Block start' : '', x.type, x.title, x.len ? mmss(x.len) : '', x.bpm, x.energy, x.cname, x.role, x.op, x.special]; }),
+      msgRow: function (r) { var x = SL.items[r[0] - 1]; return (r[2] && r[0] > 1 ? '──────\n' : '') + r[0] + '. ' + r[1] + '  ' + (r[4] || r[3]) + (r[5] ? ' (' + r[5] + ')' : '') + (isSong(x) ? '\n   ' + [x.bpm ? x.bpm + ' BPM' : '', 'Energy ' + x.energy, x.cname, x.role, x.op, x.special ? 'Special: ' + x.special : ''].filter(Boolean).join(' · ') : ' · ' + x.type); } };
+  });
+  $('start').addEventListener('change', function (e) { SL.start = e.target.value; save(); render(); });
+  L.confirmBtn($('example'), 'Press again to replace the current list with the example', function () { SL = example(); save(); render(); $('msg').textContent = 'Restored the example set list.'; });
+  L.confirmBtn($('clear'), 'Press again to clear every item', function () { SL = { start: '', items: [] }; save(); render(); $('msg').textContent = 'The set list is empty. Fill it with Add item or Load from song notes.'; });
+
+  render();
+})();
+</script>
+</body>
+</html>
