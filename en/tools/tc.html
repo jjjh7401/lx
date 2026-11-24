@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Timecode Table</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 설정(프레임, 시작 TC, 앞당김), 가운데 트랙 타임라인, 아래 트랙 요약(기록과 견주기)과 이벤트 표 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:76ch}
+.stack{display:grid;gap:16px}
+svg{display:block;width:100%;height:auto}
+.tracks{display:grid;gap:6px;margin-top:10px}
+.trk{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr) 5em 6.5em minmax(0,1.6fr);gap:8px;align-items:center;font-size:13.5px;padding:6px 8px;border-radius:8px;background:var(--panel2)}
+.trk input{width:100%}
+.trk .c{font-family:var(--f-num);color:var(--ink);text-align:right}
+.trk .st{font-size:12.5px}
+.trk .st.w{color:var(--warn)} .trk .st.ok{color:var(--ok)}
+.trk.hd{background:none;color:var(--muted);font-size:12px}
+@media (max-width:760px){.trk{grid-template-columns:1fr 1fr}.trk.hd{display:none}}
+td.tc,td.t{font-family:var(--f-num);white-space:nowrap}
+td .on{color:var(--ok);font-weight:700} td .off{color:var(--muted)} td .go{color:var(--accent);font-weight:700}
+#msg:empty{display:none}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks li{padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--muted)}
+.checks li.w{border-left-color:var(--warn)} .checks li.ok{border-left-color:var(--ok)}
+.checks .lv{font-size:12px;font-weight:700;margin-right:6px}
+.checks li.w .lv{color:var(--warn)} .checks li.ok .lv{color:var(--ok)} .checks li.i .lv{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Timecode Table</h1>
+    <p>A worksheet for the exercise in Chapter 28. It loads the cue sheet (Web tool 14), splits it into a track for the scene sequence and one for each rhythm layer, and converts each event’s bar and beat to a time and a timecode (hours:minutes:seconds:frames). When a layer turns on or off is read from the words in the cue sheet’s “Layers” column (on, off, held still, paused, All layers off). Enter the number of events you recorded on the console and it compares them track by track.</p>
+  </div>
+  <div class="stack">
+    <section class="panel">
+      <div class="row">
+        <span class="muted" id="songInfo"></span>
+        <label class="f">Frame rate (fps)<select id="fps"><option value="23.976">23.976</option><option value="24">24</option><option value="25">25</option><option value="29.97df">29.97 DF (drop frame)</option><option value="29.97">29.97 NDF</option><option value="30">30</option><option value="50">50</option><option value="59.94">59.94</option><option value="60">60</option></select></label>
+        <label class="f">Song second 0 = timecode<input id="start" value="00:00:00:00" style="width:9em;font-family:var(--f-num)"></label>
+        <label class="f">Lead events by (seconds)<input type="number" id="lead" class="n" step="0.01" min="0" max="1" style="width:6em"></label>
+      </div>
+      <p class="note" style="margin:8px 0 0">Leading places each event slightly ahead of the downbeat to cover the time between the console receiving a command and the light coming out. Start at 0 and adjust it in rehearsal.</p>
+      <svg id="tl" viewBox="0 0 960 330" role="img" aria-label="Timeline with the events of each track" style="margin-top:12px"></svg>
+    </section>
+    <section class="panel">
+      <h2>Track</h2>
+      <div class="tracks" id="tracks"></div>
+      <div class="row" style="margin-top:8px"><button type="button" id="addTrk" class="ghost">Add a layer track</button><button type="button" id="reset" class="ghost">Reset to the example tracks</button></div>
+      <p class="note" style="margin:8px 0 0">In Keywords, enter, separated by commas, the words in the cue sheet’s Layers column that point to this track (e.g. back low bass, floor beam). Recorded is the number of events you counted in the console’s Timecode window.</p>
+    </section>
+    <section class="panel"><h2 style="margin-bottom:10px">Checks</h2><ul class="checks" id="checks"></ul></section>
+    <section class="panel">
+      <div class="row" style="justify-content:space-between"><h2>Event table</h2><div class="row"><button type="button" id="copy">Copy table</button></div></div>
+      <p class="note" id="msg"></p>
+      <div class="tbl" style="margin-top:8px"><table><thead><tr><th>Track</th><th>Cue</th><th>Bar · beat</th><th>Time</th><th>Timecode</th><th>Event</th><th>Cue sheet text</th></tr></thead><tbody id="tb"></tbody></table></div>
+    </section>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('tc.html'), D = L.design(S);
+  var $ = function (id) { return document.getElementById(id); };
+  var COL = ['#4f7f8f', '#c9862a', '#3f8f6f', '#5a5ec8', '#8a6fb0', '#b07a3a', '#c8553d', '#2f8c8c'];
+  function defTracks() {
+    return [{ name: 'Back low bass', keys: 'back low bass' }, { name: 'Floor beam kick', keys: 'floor beam' }, { name: 'Side hi-hat', keys: 'side' },
+      { name: 'Pixel claps', keys: 'pixel claps' }, { name: 'Upper moving', keys: 'upper mov' }, { name: 'Lower moving', keys: 'lower mov' }];
+  }
+  var T = L.getKey('tc') || { fps: 30, start: '00:00:00:00', lead: 0, tracks: defTracks(), rec: {} };
+  if (!T.rec) T.rec = {};
+  function save() { L.putKey('tc', T); }
+  // 큐 시트: 큐 시트 도구에 저장한 것을 먼저, 없으면 실습 곡의 표 16-4
+  function sampleCues() {
+    var R = [['1', 1, 1, ''], ['1.1', 3, 1, 'Back low bass on, first beat of the bar'], ['1.2', 5, 1, 'Unchanged'], ['10', 7, 1, 'Side hi-hat on, lower movers tilt wave'], ['10.1', 11, 1, 'Lower movers held still, upper movers slow pan'],
+      ['20', 14, 1, 'Side speeds up, upper and lower movers sweep the same way'], ['29', 17, 3, 'All layers off'], ['30', 18, 1, 'Back low bass on, pixel claps on'], ['30.1', 22, 1, 'Pixel claps off, upper movers pan wave'],
+      ['30.2', 26, 1, 'Upper movers held still, pixel claps on'], ['30.3', 30, 1, 'Pixel claps off, upper movers pan wave'], ['39', 33, 1, 'All layers off'], ['40', 34, 1, 'Side hi-hat, floor beam kick on the first beat of the bar'],
+      ['50', 42, 1, 'Side off'], ['50.1', 44, 1, 'Side speeds up, upper and lower movers sweep the same way'], ['59', 45, 4, 'All layers off'], ['60', 46, 1, 'Back low bass, pixel claps'], ['60.1', 47, 1, 'Pixel claps paused'],
+      ['60.2', 49, 1, 'Pixel claps on'], ['60.3', 50, 1, 'Pixel claps off, upper movers pan wave'], ['60.4', 54, 1, 'Upper movers held still, pixel claps on'], ['60.5', 58, 1, 'Pixel claps off, upper movers pan wave'],
+      ['69', 61, 1, 'All layers off'], ['70', 62, 1, ''], ['75', 63, 1, 'Back low bass, lower movers cross sweep'], ['79', 67, 1, 'All layers off'], ['80', 67, 4, ''], ['80.1', 68, 1, 'Back low bass, floor beam kick, pixel claps'],
+      ['80.2', 78, 1, 'Unchanged'], ['90', 82, 1, 'All layers off']];
+    return R.map(function (r) { return { no: r[0], bar: r[1], beat: r[2], layers: r[3] }; });
+  }
+  var fromSheet = !!(D.cueSheet && D.cueSheet.rows && D.cueSheet.rows.length);
+  var CUES = (fromSheet ? D.cueSheet.rows : (S.sample ? sampleCues() : [])).filter(function (r) { return +r.bar >= 1; })
+    .map(function (r) { return { no: String(r.no), bar: +r.bar, beat: +r.beat || 1, layers: r.layers || '' }; })
+    .sort(function (a, b) { return (a.bar - b.bar) || (a.beat - b.beat); });
+
+  // 프레임 수(rate)와 표기 기준(nominal), 드롭 프레임(29.97 DF)
+  function FR() { var k = String(T.fps), df = /df$/.test(k), v = parseFloat(k) || 30, nom = Math.round(v), rate = (Math.abs(v - nom) > 0.001) ? nom * 1000 / 1001 : v; return { rate: rate, nom: nom, df: df }; }
+  function parseTC(s) {
+    var m = String(s).match(/^(\d+):(\d+):(\d+)[:;.](\d+)$/); if (!m) return 0; var F = FR();
+    var mins = +m[1] * 60 + +m[2], fr = ((+m[1] * 3600 + +m[2] * 60 + +m[3]) * F.nom) + +m[4];
+    if (F.df) fr -= 2 * (mins - Math.floor(mins / 10));
+    return fr / F.rate;
+  }
+  function toTC(t) {
+    var F = FR(), tot = Math.max(0, Math.round(t * F.rate)), f = F.nom;
+    if (F.df) { var d = 2, per10 = 17982, per1 = 1798, q = Math.floor(tot / per10), r = tot % per10; tot += 18 * q + (r > d ? d * Math.floor((r - d) / per1) : 0); }
+    var ff = tot % f, sAll = Math.floor(tot / f), hh = Math.floor(sAll / 3600), mm = Math.floor(sAll / 60) % 60, ss = sAll % 60;
+    function p(n) { return (n < 10 ? '0' : '') + n; } return p(hh) + ':' + p(mm) + ':' + p(ss) + (F.df ? ';' : ':') + p(ff);
+  }
+  function keysOf(tr) { return String(tr.keys || tr.name).split(/[,，]/).map(function (x) { return x.trim(); }).filter(Boolean); }
+  function events() {
+    var ev = [], on = T.tracks.map(function () { return false; });
+    CUES.forEach(function (c) {
+      var t = L.timeOf(S, c.bar, c.beat);
+      ev.push({ tr: -1, no: c.no, bar: c.bar, beat: c.beat, t: t, kind: 'go', src: '' });
+      var txt = c.layers.replace(/upper\s*(?:and|[·,/&])\s*lower\s+mov/gi, 'upper movers, lower mov');
+      if (/all\s+layers?\s+(off|stop(ped)?|paused?)/i.test(txt)) {
+        on.forEach(function (v, i) { if (v) { ev.push({ tr: i, no: c.no, bar: c.bar, beat: c.beat, t: t, kind: 'off', src: c.layers }); on[i] = false; } });
+        return;
+      }
+      txt.split(/[,，]/).forEach(function (cl) {
+        cl = cl.trim(); if (!cl || /^(unchanged|as is)/i.test(cl)) return;
+        var off = /\b(off|stop(s|ped)?|held still|paus(e|es|ed)|drops? out|fades? out|out)\b/i.test(cl);
+        T.tracks.forEach(function (tr, i) {
+          if (!keysOf(tr).some(function (k) { return cl.toLowerCase().indexOf(k.toLowerCase()) >= 0; })) return;
+          if (off && on[i]) { ev.push({ tr: i, no: c.no, bar: c.bar, beat: c.beat, t: t, kind: 'off', src: cl }); on[i] = false; }
+          else if (!off && !on[i]) { ev.push({ tr: i, no: c.no, bar: c.bar, beat: c.beat, t: t, kind: 'on', src: cl }); on[i] = true; }
+        });
+      });
+    });
+    var endT = L.timeOf(S, (L.nbars(S) || 1) + 1, 1);
+    on.forEach(function (v, i) { if (v) ev.push({ tr: i, no: '—', bar: (L.nbars(S) || 1) + 1, beat: 1, t: endT, kind: 'open', src: 'Stays on to the end of the song' }); });
+    return ev;
+  }
+  function trName(i) { return i < 0 ? 'Scene' : T.tracks[i].name; }
+  function render() {
+    $('fps').value = String(T.fps); $('start').value = T.start; $('lead').value = T.lead;
+    $('songInfo').textContent = (S.title || 'Song') + ' · ' + S.bpm + ' BPM · ' + (fromSheet ? 'Cue Sheet tool · ' : (S.sample ? 'Exercise song, Table 16-4 · ' : '')) + CUES.length + (CUES.length === 1 ? ' cue' : ' cues');
+    var ev = events(), st = parseTC(T.start), lead = +T.lead || 0;
+    // 타임라인
+    var W = 960, x0 = 130, x1 = 940, top = 42, rh = 34, N = T.tracks.length, endT = L.timeOf(S, (L.nbars(S) || 1) + 1, 1) || 180;
+    function X(t) { return x0 + t / endT * (x1 - x0); }
+    var H = top + (N + 1) * rh + 40, g = '';
+    $('tl').setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    var lastEnd = -1e9, lastRow = 1; L.sections(S).forEach(function (sc) { var x = X(L.timeOf(S, sc.m.bar, 1)), lw = String(sc.m.name).length * 6.2 + 8, row = x < lastEnd ? 1 - lastRow : 0; g += '<line x1="' + x + '" y1="' + (top - 10) + '" x2="' + x + '" y2="' + (H - 34) + '" stroke="var(--grid4)" stroke-dasharray="2 4"/><text x="' + (x + 3) + '" y="' + (top - 14 - row * 12) + '" font-size="10.5" fill="var(--muted)">' + L.esc(sc.m.name) + '</text>'; lastRow = row; lastEnd = x + lw; });
+    [-1].concat(T.tracks.map(function (_, i) { return i; })).forEach(function (i, r) {
+      var y = top + r * rh + 14, c = i < 0 ? 'var(--accent)' : COL[i % COL.length];
+      g += '<text x="' + (x0 - 10) + '" y="' + (y + 4) + '" font-size="12" text-anchor="end" fill="' + c + '" font-weight="700">' + L.esc(trName(i)) + '</text><line x1="' + x0 + '" y1="' + y + '" x2="' + x1 + '" y2="' + y + '" stroke="var(--line)"/>';
+      if (i < 0) ev.filter(function (e) { return e.tr < 0; }).forEach(function (e) { g += '<circle cx="' + X(e.t) + '" cy="' + y + '" r="4.5" fill="' + c + '"><title>Cue ' + L.esc(e.no) + '</title></circle>'; });
+      else { var open = null; ev.filter(function (e) { return e.tr === i; }).forEach(function (e) { if (e.kind === 'on') open = e.t; else if (open != null) { g += '<rect x="' + X(open) + '" y="' + (y - 9) + '" width="' + Math.max(2, X(e.t) - X(open)) + '" height="18" rx="3" fill="' + c + '" opacity=".85"/>'; open = null; } }); }
+    });
+    for (var t = 0; t <= endT; t += 30) { var x = X(t); g += '<line x1="' + x + '" y1="' + (H - 34) + '" x2="' + x + '" y2="' + (H - 28) + '" stroke="var(--muted)"/><text x="' + x + '" y="' + (H - 14) + '" font-size="10.5" text-anchor="middle" fill="var(--muted)">' + L.fmt(t).replace(/\.\d$/, '') + '</text>'; }
+    $('tl').innerHTML = g;
+    // 트랙 요약
+    var cnt = {}; ev.forEach(function (e) { if (e.kind !== 'open') cnt[e.tr] = (cnt[e.tr] || 0) + 1; });
+    var h = '<div class="trk hd"><span>Track</span><span>Keywords</span><span>Events</span><span>Recorded</span><span>Match</span></div>';
+    [-1].concat(T.tracks.map(function (_, i) { return i; })).forEach(function (i) {
+      var n = cnt[i] || 0, rec = T.rec[i < 0 ? 'scene' : T.tracks[i].name], cmp = rec === '' || rec == null ? '<span class="st">—</span>' : (+rec === n ? '<span class="st ok">Match</span>' : '<span class="st w">Off by ' + (+rec > n ? '+' : '') + (+rec - n) + '</span>');
+      h += '<div class="trk">' + (i < 0 ? '<b>Scene (Go)</b><span class="note">One Go per cue</span>' :
+        '<input data-i="' + i + '" data-k="name" value="' + L.esc(T.tracks[i].name) + '" aria-label="Track name"><input data-i="' + i + '" data-k="keys" value="' + L.esc(T.tracks[i].keys) + '" aria-label="Keywords">') +
+        '<span class="c">' + n + '</span><input type="number" min="0" data-rec="' + (i < 0 ? 'scene' : L.esc(T.tracks[i].name)) + '" value="' + (rec == null ? '' : rec) + '" aria-label="Recorded event count">' + cmp + '</div>';
+    });
+    $('tracks').innerHTML = h;
+    // 표
+    var rows = ev.slice().sort(function (a, b) { return (a.t - b.t) || (a.tr - b.tr); });
+    $('tb').innerHTML = rows.map(function (e) {
+      var tt = Math.max(0, e.t - (e.kind === 'open' ? 0 : lead));
+      return '<tr><td>' + L.esc(trName(e.tr)) + '</td><td>' + L.esc(e.no) + '</td><td>Bar ' + e.bar + ', beat ' + e.beat + '</td><td class="t">' + L.fmt(tt) + '</td><td class="tc">' + toTC(st + tt) + '</td><td>' +
+        ({ go: '<span class="go">Go cue ' + L.esc(e.no) + '</span>', on: '<span class="on">On</span>', off: '<span class="off">Off</span>', open: '<span class="off">No off cue</span>' }[e.kind]) + '</td><td class="note">' + L.esc(e.src) + '</td></tr>';
+    }).join('') || '<tr><td colspan="7" class="note">The cue sheet is empty. Fill in the Cue Sheet (Web tool 14) first.</td></tr>';
+    checks(ev, cnt);
+  }
+  function checks(ev, cnt) {
+    var out = [];
+    function add(lv, h) { out.push('<li class="' + lv + '"><span class="lv">' + { w: 'Check', i: 'Note', ok: 'Good' }[lv] + '</span>' + h + '</li>'); }
+    if (!CUES.length) add('w', 'The cue sheet is empty.');
+    T.tracks.forEach(function (tr, i) { if (!cnt[i]) add('i', '<b>' + L.esc(tr.name) + '</b> track has no events. Check that the Layers column of the cue sheet names this track and that its keywords are right.'); });
+    ev.filter(function (e) { return e.kind === 'open'; }).forEach(function (e) { add('w', '<b>' + L.esc(trName(e.tr)) + '</b> has no cue that turns it off, so it stays on to the end of the song. Write "All layers off" in the last cue.'); });
+    var close = []; ev.filter(function (e) { return e.tr < 0; }).forEach(function (e, i, a) { if (i && e.t - a[i - 1].t < 0.3) close.push('Cue ' + a[i - 1].no + ' → ' + e.no + ' (' + (e.t - a[i - 1].t).toFixed(2) + ' s)'); });
+    if (close.length) add('i', 'Some Go cues follow within 0.3 s: ' + close.join(', ') + '. They are easy to miss when recorded by hand, so fix the times after recording.');
+    var recN = Object.keys(T.rec).filter(function (k) { return T.rec[k] !== '' && T.rec[k] != null; }).length;
+    if (recN) {
+      var bad = 0; [-1].concat(T.tracks.map(function (_, i) { return i; })).forEach(function (i) { var r = T.rec[i < 0 ? 'scene' : T.tracks[i].name]; if (r !== '' && r != null && +r !== (cnt[i] || 0)) bad++; });
+      if (bad) add('w', 'The recorded event count differs on ' + bad + (bad === 1 ? ' track' : ' tracks') + '. Look in the Timecode window for a missed cue or a cue pressed twice (Section 28.5).');
+      else add('ok', 'The recorded event count is the same on every track. Now look at the times of the events that have a hit.');
+    }
+    add('i', 'Before a check playback, switch off every sequence that was on. If layers you switched on by hand are still there, you cannot tell whether the timecode is right (Section 28.3).');
+    $('checks').innerHTML = out.join('');
+  }
+  $('fps').addEventListener('change', function () { T.fps = $('fps').value; save(); render(); });
+  $('start').addEventListener('change', function () { var v = $('start').value.trim(); if (/^\d+:\d+:\d+[:;.]\d+$/.test(v)) { T.start = v; save(); } render(); });
+  $('lead').addEventListener('change', function () { var v = +$('lead').value; T.lead = isFinite(v) ? Math.max(0, Math.min(1, v)) : 0; save(); render(); });
+  $('tracks').addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.dataset.rec != null) { T.rec[t.dataset.rec] = t.value === '' ? '' : Math.max(0, parseInt(t.value, 10) || 0); save(); render(); return; }
+    if (t.dataset.i == null) return; var tr = T.tracks[+t.dataset.i];
+    if (t.dataset.k === 'name') { var old = tr.name; tr.name = t.value || old; if (T.rec[old] != null) { T.rec[tr.name] = T.rec[old]; delete T.rec[old]; } } else tr.keys = t.value;
+    save(); render();
+  });
+  $('addTrk').addEventListener('click', function () { T.tracks.push({ name: 'New layer ' + (T.tracks.length + 1), keys: '' }); save(); render(); });
+  L.confirmBtn($('reset'), 'Press again to reset to the example', function () { T.tracks = defTracks(); T.rec = {}; save(); render(); $('msg').textContent = 'Restored the example tracks (the Chapter 13 sequence list).'; });
+  $('copy').addEventListener('click', function () {
+    var st = parseTC(T.start), lead = +T.lead || 0, ev = events().sort(function (a, b) { return (a.t - b.t) || (a.tr - b.tr); });
+    var txt = ['Track\tCue\tBar\tBeat\tTime (s)\tTimecode (' + String(T.fps).replace('df', ' DF') + ' fps)\tEvent'].concat(ev.map(function (e) { var tt = Math.max(0, e.t - (e.kind === 'open' ? 0 : lead)); return [trName(e.tr), e.no, e.bar, e.beat, tt.toFixed(2), toTC(st + tt), { go: 'Go', on: 'On', off: 'Off', open: 'No off cue' }[e.kind]].join('\t'); })).join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? 'Table copied. You can paste it into a spreadsheet.' : 'Copying is blocked.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  render();
+})();
+</script>
+</body>
+</html>

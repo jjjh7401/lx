@@ -35,7 +35,7 @@
     { id: 'ch25', n: '25', t: 'Phaser Basics', s: 'Five settings of a moving effect', file: 'ch25.html', ko: KO + '/75' },
     { id: 'ch26', n: '26', t: 'MAtricks and Recipes', s: 'One phaser, many shapes', file: 'ch26.html', ko: KO + '/76' },
     { id: 'ch27', n: '27', t: 'Programming a Song into Cues', s: 'Song pages and layer sequences', file: 'ch27.html', ko: KO + '/77' },
-    { id: 'ch28', n: '28', t: 'Tempo and Timecode', s: 'Locking to the speed and time of the song' },
+    { id: 'ch28', n: '28', t: 'Tempo and Timecode', s: 'Locking to the speed and time of the song', file: 'ch28.html', ko: KO + '/78' },
     { id: 'ch29', n: '29', t: 'Show File Templates', s: 'Build once, use again' },
     { part: 'Part 6 · Rehearsal and Show' },
     { id: 'ch30', n: '30', t: 'Rehearsal', s: 'Checklists and notes' },

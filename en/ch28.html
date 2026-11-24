@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chapter 28 · Tempo and Timecode · Lighting the Music</title>
+<meta name="description" content="Putting the song’s BPM on one speed master, Measure per effect, HalfSpeed, Learn (tap) for speed and starting point, one timecode track per layer, timecode vs busking, and a full-song previz check.">
+<link rel="alternate" hreflang="ko" href="https://ablitzdesign.tistory.com/78">
+<link rel="alternate" hreflang="en" href="https://jjjh7401.github.io/lx/en/ch28.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 28 · Tempo and Timecode · Lighting the Music">
+<meta property="og:description" content="Putting the song’s BPM on one speed master, Measure per effect, HalfSpeed, Learn (tap) for speed and starting point, one timecode track per layer, timecode vs busking, and a full-song previz check.">
+<meta property="og:image" content="https://jjjh7401.github.io/lx/cover-800.jpg">
+<meta property="og:url" content="https://jjjh7401.github.io/lx/en/ch28.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="en.css?v=2">
+</head>
+<body>
+<header class="ltm-bar" id="ltmBar"></header>
+<main id="article-view">
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch28"><header class="ch-head"><div class="ch-num"><span>Chapter</span> 28</div><h1 class="ch-title">Tempo and Timecode</h1><p class="ch-sub">Matching the song’s speed and time</p></header>
+<aside class="box goals"><div class="box-label">In this chapter</div><div class="box-body">
+<ul class="checks">
+<li>Put the song’s BPM on one speed master, and give each effect only a different Measure.</li>
+<li>Learn that tap (Learn) sets the speed and the starting point together, and correct an effect that is half a beat off.</li>
+<li>Record the actions on the song page onto a timecode track for each layer, and check them against the cue sheet.</li>
+</ul>
+</div></aside>
+<div class="open-label">Opening scene</div><p class="lead">Say you are clapping along to a friend’s song at karaoke. For the first few claps you wobble a little as you find the tempo, and soon you lock onto the beat. But sometimes the tempo is right and yet your claps keep landing half a beat late. You are clapping at the same speed as the song, but your clap lands not on “one” but on “one-and.” In that case the fix is not to clap faster; it is to stop clapping once and come back in on “one.”</p>
+<p>A lighting effect is the same. Even when you have set the effect’s speed to the song’s BPM, the pulse can land half a beat behind the kick. Speed and the <strong>starting point</strong> are different problems.</p>
+<p>In this chapter we tie the effects’ speed to one value and line up the starting point. Then we cover how to record the actions you have lined up on timecode and repeat them exactly every time.</p>
+<h2 id="c28-28-1-the-song-s-bpm-and-the-effect-s-measure">28.1 The Song’s BPM and the Effect’s Measure</h2><p class="lead">Put the song’s BPM on <strong>one speed master</strong> and have every phaser follow that master. The only thing that differs from effect to effect is <strong>Measure</strong> (the number of beats in one cycle).</p>
+<p>In Chapter 25 we said Measure is “how many beats make one cycle.” If Speed is the speed of the beats, you only need to tie Speed to the song’s one BPM and give each effect a different Measure. The author sets speed master 15 to the song’s BPM (<code>Master 3.15 At BPM 112</code>) and gives every phaser <code>At SpeedMaster 15</code> (connect the selected phasers’ speed to master 15). The reason for using 15 is that 16 is the special master that follows the sound input (Section 28.2), so the number just before it is kept for the song’s BPM alone. He confirmed on onPC that when the master’s BPM is changed, every effect follows on the spot.<sup class="ref"><a href="#c28-s1">1</a></sup> The <code>3</code> in the command means the speed master among the master types.<sup class="ref"><a href="#c28-s2">2</a></sup></p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 376" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="90.0" x2="900.0" y1="380.0" y2="380.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="82.0" y="384.0">0 s</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="90.0" x2="900.0" y1="338.6" y2="338.6"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="82.0" y="342.6">1 s</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="90.0" x2="900.0" y1="297.1" y2="297.1"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="82.0" y="301.1">2 s</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="90.0" x2="900.0" y1="255.7" y2="255.7"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="82.0" y="259.7">3 s</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="90.0" x2="900.0" y1="214.3" y2="214.3"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="82.0" y="218.3">4 s</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="90.0" x2="900.0" y1="172.9" y2="172.9"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="82.0" y="176.9">5 s</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="90.0" x2="900.0" y1="131.4" y2="131.4"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="82.0" y="135.4">6 s</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="90.0" x2="900.0" y1="90.0" y2="90.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="82.0" y="94.0">7 s</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="90.0" y="400.0">70</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="180.0" y="400.0">80</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="270.0" y="400.0">90</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="360.0" y="400.0">100</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="450.0" y="400.0">110</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="540.0" y="400.0">120</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="630.0" y="400.0">130</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="720.0" y="400.0">140</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="810.0" y="400.0">150</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="900.0" y="400.0">160</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="middle" x="495.0" y="422.0">BPM</text>
+<path d="M90.0,344.5 L108.0,345.5 L126.0,346.4 L144.0,347.3 L162.0,348.1 L180.0,348.9 L198.0,349.7 L216.0,350.4 L234.0,351.1 L252.0,351.8 L270.0,352.4 L288.0,353.0 L306.0,353.6 L324.0,354.1 L342.0,354.6 L360.0,355.1 L378.0,355.6 L396.0,356.1 L414.0,356.5 L432.0,357.0 L450.0,357.4 L468.0,357.8 L486.0,358.2 L504.0,358.6 L522.0,358.9 L540.0,359.3 L558.0,359.6 L576.0,360.0 L594.0,360.3 L612.0,360.6 L630.0,360.9 L648.0,361.2 L666.0,361.4 L684.0,361.7 L702.0,362.0 L720.0,362.2 L738.0,362.5 L756.0,362.7 L774.0,363.0 L792.0,363.2 L810.0,363.4 L828.0,363.6 L846.0,363.9 L864.0,364.1 L882.0,364.3 L900.0,364.5 " fill="none" opacity="1.0" stroke="#3b6ea8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"></path>
+<text fill="#3b6ea8" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="148.0" y="339.3">Measure 1</text>
+<path d="M90.0,309.0 L108.0,311.0 L126.0,312.8 L144.0,314.6 L162.0,316.3 L180.0,317.9 L198.0,319.4 L216.0,320.8 L234.0,322.2 L252.0,323.5 L270.0,324.8 L288.0,326.0 L306.0,327.1 L324.0,328.2 L342.0,329.3 L360.0,330.3 L378.0,331.3 L396.0,332.2 L414.0,333.1 L432.0,334.0 L450.0,334.8 L468.0,335.6 L486.0,336.4 L504.0,337.1 L522.0,337.9 L540.0,338.6 L558.0,339.3 L576.0,339.9 L594.0,340.5 L612.0,341.2 L630.0,341.8 L648.0,342.3 L666.0,342.9 L684.0,343.4 L702.0,344.0 L720.0,344.5 L738.0,345.0 L756.0,345.5 L774.0,345.9 L792.0,346.4 L810.0,346.9 L828.0,347.3 L846.0,347.7 L864.0,348.1 L882.0,348.5 L900.0,348.9 " fill="none" opacity="1.0" stroke="#4f8a5b" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"></path>
+<text fill="#4f8a5b" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="274.0" y="316.8">Measure 2</text>
+<path d="M90.0,238.0 L108.0,241.9 L126.0,245.6 L144.0,249.2 L162.0,252.5 L180.0,255.7 L198.0,258.7 L216.0,261.6 L234.0,264.4 L252.0,267.0 L270.0,269.5 L288.0,271.9 L306.0,274.2 L324.0,276.4 L342.0,278.5 L360.0,280.6 L378.0,282.5 L396.0,284.4 L414.0,286.2 L432.0,287.9 L450.0,289.6 L468.0,291.2 L486.0,292.8 L504.0,294.3 L522.0,295.7 L540.0,297.1 L558.0,298.5 L576.0,299.8 L594.0,301.1 L612.0,302.3 L630.0,303.5 L648.0,304.7 L666.0,305.8 L684.0,306.9 L702.0,308.0 L720.0,309.0 L738.0,310.0 L756.0,311.0 L774.0,311.9 L792.0,312.8 L810.0,313.7 L828.0,314.6 L846.0,315.4 L864.0,316.3 L882.0,317.1 L900.0,317.9 " fill="none" opacity="1.0" stroke="#d9902a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"></path>
+<text fill="#d9902a" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="652.0" y="296.7">Measure 4</text>
+<path d="M90.0,95.9 L108.0,103.8 L126.0,111.3 L144.0,118.3 L162.0,125.1 L180.0,131.4 L198.0,137.5 L216.0,143.3 L234.0,148.8 L252.0,154.0 L270.0,159.0 L288.0,163.9 L306.0,168.4 L324.0,172.9 L342.0,177.1 L360.0,181.1 L378.0,185.0 L396.0,188.8 L414.0,192.4 L432.0,195.9 L450.0,199.2 L468.0,202.4 L486.0,205.6 L504.0,208.6 L522.0,211.5 L540.0,214.3 L558.0,217.0 L576.0,219.6 L594.0,222.2 L612.0,224.6 L630.0,227.0 L648.0,229.4 L666.0,231.6 L684.0,233.8 L702.0,235.9 L720.0,238.0 L738.0,240.0 L756.0,241.9 L774.0,243.8 L792.0,245.6 L810.0,247.4 L828.0,249.2 L846.0,250.9 L864.0,252.5 L882.0,254.1 L900.0,255.7 " fill="none" opacity="1.0" stroke="#c8553d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"></path>
+<text fill="#c8553d" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="724.0" y="230.0">Measure 8</text>
+<line opacity="1.0" stroke="#1f2430" stroke-dasharray="5 4" stroke-linecap="butt" stroke-width="1" x1="468.0" x2="468.0" y1="90.0" y2="380.0"></line>
+<circle cx="468.0" cy="357.8" fill="#1f2430" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="460.0" y="351.8">0.54</text>
+<circle cx="468.0" cy="335.6" fill="#1f2430" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="460.0" y="329.6">1.07</text>
+<circle cx="468.0" cy="291.2" fill="#1f2430" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="460.0" y="285.2">2.14</text>
+<circle cx="468.0" cy="202.4" fill="#1f2430" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="end" x="460.0" y="196.4">4.29</text>
+</svg>
+<figcaption><b>Figure 28-1</b> BPM and the length of one effect cycle. Across is the song’s BPM; up is the seconds of one cycle. Follow the line of the same Measure and you see that even when the BPM changes, “once per bar” is always once per bar.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>Table 28-1</b> Length of one cycle (seconds) by BPM and Measure <span class="badge calc">Calculation</span></div><table>
+<thead>
+<tr class="header">
+<th>BPM</th>
+<th>Measure 1</th>
+<th>Measure 2</th>
+<th>Measure 4 (1 bar)</th>
+<th>Measure 8 (2 bars)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>80</td>
+<td>0.75</td>
+<td>1.50</td>
+<td>3.00</td>
+<td>6.00</td>
+</tr>
+<tr class="even">
+<td>100</td>
+<td>0.60</td>
+<td>1.20</td>
+<td>2.40</td>
+<td>4.80</td>
+</tr>
+<tr class="odd">
+<td>112(LOVE ATTACK)</td>
+<td>0.54</td>
+<td>1.07</td>
+<td>2.14</td>
+<td>4.29</td>
+</tr>
+<tr class="even">
+<td>128</td>
+<td>0.47</td>
+<td>0.94</td>
+<td>1.88</td>
+<td>3.75</td>
+</tr>
+<tr class="odd">
+<td>140</td>
+<td>0.43</td>
+<td>0.86</td>
+<td>1.71</td>
+<td>3.43</td>
+</tr>
+</tbody>
+</table></div>
+<p>Tie them together like this and when the song changes you fix only the master’s one BPM. Conversely, if you had typed Speed into each effect directly, you would have to fix the effects one by one whenever the song’s BPM changed. Also avoid giving one attribute both <code>At Speed</code> and <code>At SpeedMaster</code>. The author has not measured what happens when the two are mixed, and there is no reason to mix them.<sup class="ref"><a href="#c28-s1">1</a></sup></p>
+<p>When you have to read the song’s beat as half (half-time), do not change the master; use <strong>HalfSpeed</strong>. It halves the speed of a speed master or sequence, as in <code>HalfSpeed Master 3.15</code>.<sup class="ref"><a href="#c28-s3">3</a></sup> Reading songs over 160 BPM as half-time in Table 12-2 of Chapter 12 is this command.</p>
+<h2 id="c28-28-2-speed-masters-and-tap">28.2 Speed Masters and Tap</h2><p class="lead">There are 16 speed masters, with values of 0–225 BPM. Master 16 is <strong>the master that automatically follows the sound input’s BPM</strong>.<sup class="ref"><a href="#c28-s4">4</a></sup></p>
+<p>A speed master can be connected to a sequence, cue, cue part, attribute, preset or phaser.<sup class="ref"><a href="#c28-s4">4</a></sup> Choose a master in the Speed Master field of the sequence settings and the phasers inside that sequence follow it together.<sup class="ref"><a href="#c28-s5">5</a></sup> Make the connection in <strong>only one place</strong>, either on the phaser (attribute) or on the sequence. If the same master is connected to both the sequence and the attribute, the attribute’s connection is erased when you update or store.<sup class="ref"><a href="#c28-s4">4</a></sup> In 2.5, the field that connects a master in a preset was renamed Phaser Speedmaster and the scale field was renamed Phaser Scale. What the 2.4 sources call a preset’s Speed Master and Speed Scale are these two fields.<sup class="ref"><a href="#c28-s14">14</a></sup></p>
+<p>2.5 has a new <strong>Masters window</strong> that shows the masters in one window (Add Window &gt; More &gt; Playback &gt; Masters). There is a tab for each master type, and on the Speed tab each master has double (DS), half (HS) and Learn buttons. There are also buttons that return all speed masters to 60 BPM, or double or halve them all at once. A master with a scale applied gets an asterisk (*), and with Non-Default Only on, only masters that are not at their defaults show.<sup class="ref"><a href="#c28-s14">14</a></sup> When a song read as half-time ends, check in this window that no asterisk is left.</p>
+<p>Master 16 looks convenient, but on site the detected BPM often jumps. Move this master’s fader and it settles only to the nearest multiple of the detected BPM.<sup class="ref"><a href="#c28-s4">4</a></sup> So for a song you know in advance, enter the BPM as a number, and for a song you hear for the first time (Chapter 21), match it with tap.</p>
+<p><strong>Tap</strong> is <strong>Learn</strong> on grandMA3. Hold the Learn | Rate1 key (the key on the console where Learn and Rate1 are printed together) and press an executor key several times at the speed you want, and it learns that speed.<sup class="ref"><a href="#c28-s6">6</a></sup> The <code>Learn</code> command combines LearnSpeed, which learns the speed, and ReSync, which realigns the starting point, so it sets the phaser’s <strong>speed and starting point together</strong>.<sup class="ref"><a href="#c28-s7">7</a></sup> This is the “stop clapping and come back in on one” of the opening scene. If the speed is right but it is half a beat late, do not tap faster; tap again to the kick’s “one.”</p>
+<p>In Chapter 21 we said to tap to the kick, not the hi-hat. The manual does not say how many taps are needed, so start from Chapter 21’s starting value (four or more), try four and then eight on your own console, and get the number that settles into your hands.<code>[Author to confirm]</code> In 2.5 the speed master’s Learn Mode chooses how tap treats the scale (Speed Scale). The default is Learn Ignores Speed Scale, which ignores the scale; there are also Learn Respects Speed Scale, which follows the scale, and Auto Increase Speed Scale, which raises the scale automatically.<sup class="ref"><a href="#c28-s4">4</a></sup> When you tap on a master set to half-time the result depends on this setting, so look at your console’s Learn Mode once.<code>[Author to confirm]</code></p>
+<p>If you use master 16 or a sound trigger on onPC, look at one more thing. From 2.5 the audio input and output on onPC default to None, so you must choose an input device yourself to receive sound.<sup class="ref"><a href="#c28-s14">14</a></sup></p>
+<aside class="box terms"><div class="box-label">Words to Know</div><div class="box-body"><dl class="defs"><div><dt>Song Speed</dt><dd>Some show file templates name one speed master “Song Speed” and keep the song’s BPM there. It is not a grandMA3 feature name but a name that template gave. With default features, this chapter’s method (put the song’s BPM on one speed master and connect the phasers to that master) does the same job.</dd></div></dl></div></aside>
+<aside class="box try"><div class="box-label">A short experiment</div><div class="box-body"><ol class="steps"><li>Turn on your phone’s stopwatch, clap along to a favorite song, and count to 16.</li><li>Stop the stopwatch at the 16th clap and calculate the BPM from the time since the first clap (BPM = 15 ÷ elapsed seconds × 60, <span class="badge calc">Calculation</span>: the span of 15 intervals). Measure the same song once to the kick and once to the hi-hat, and compare the two values.</li></ol></div></aside>
+<h2 id="c28-28-3-a-timecode-track-per-layer">28.3 A Timecode Track per Layer</h2><p class="lead">Timecode is <strong>a way to record what you did by hand on the song page together with the song’s time, and repeat it exactly at every show</strong>. Use it on stages that play the same audio from the start every time, like the MR songs of Chapter 17 or the light show of Chapter 20.</p>
+<p>grandMA3’s timecode is layered as <strong>timecode show → track group (a unit that bundles several tracks) → track</strong>, and one track takes care of one target (a sequence, preset, master and so on).<sup class="ref"><a href="#c28-s8">8</a></sup> <sup class="ref"><a href="#c28-s9">9</a></sup> The author gives each sequence on the song page its own track. One scene and six rhythm layers make seven tracks, and the cues go in as Go+ events.<sup class="ref"><a href="#c28-s10">10</a></sup></p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 376" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<text fill="#3b6ea8" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="138.0" y="114.0">Scene</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="150.0" x2="920.0" y1="110.0" y2="110.0"></line>
+<circle cx="156.3" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="174.5" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="192.6" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="210.7" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="247.0" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="274.2" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="305.9" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="310.5" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="346.7" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="383.0" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="419.3" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="446.5" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="455.5" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="528.0" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="546.2" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="562.0" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="564.3" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="573.4" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="591.5" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="600.6" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="636.8" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="673.1" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="700.3" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="709.4" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="718.4" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="754.7" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="761.5" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="763.8" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="854.4" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<circle cx="890.7" cy="110.0" fill="#3b6ea8" opacity="1.0" r="4.5" stroke="none" stroke-width="1"></circle>
+<text fill="#4f7f8f" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="138.0" y="156.0">Back low bass</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="150.0" x2="920.0" y1="152.0" y2="152.0"></line>
+<rect fill="#4f7f8f" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="36.3" x="174.5" y="142.0"></rect>
+<rect fill="#4f7f8f" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="136.0" x="310.5" y="142.0"></rect>
+<rect fill="#4f7f8f" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="136.0" x="564.3" y="142.0"></rect>
+<rect fill="#4f7f8f" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="36.3" x="718.4" y="142.0"></rect>
+<rect fill="#4f7f8f" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="126.9" x="763.8" y="142.0"></rect>
+<text fill="#c9862a" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="138.0" y="196.0">Floor beam kick</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="150.0" x2="920.0" y1="192.0" y2="192.0"></line>
+<rect fill="#c9862a" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="72.5" x="455.5" y="182.0"></rect>
+<rect fill="#c9862a" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="126.9" x="763.8" y="182.0"></rect>
+<text fill="#3f8f6f" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="138.0" y="236.0">Side hi-hat</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="150.0" x2="920.0" y1="232.0" y2="232.0"></line>
+<rect fill="#3f8f6f" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="99.7" x="210.7" y="222.0"></rect>
+<rect fill="#3f8f6f" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="72.5" x="455.5" y="222.0"></rect>
+<rect fill="#3f8f6f" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="18.1" x="546.2" y="222.0"></rect>
+<text fill="#5a5ec8" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="138.0" y="276.0">Pixel claps</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="150.0" x2="920.0" y1="272.0" y2="272.0"></line>
+<rect fill="#5a5ec8" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="36.3" x="310.5" y="262.0"></rect>
+<rect fill="#5a5ec8" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="36.3" x="383.0" y="262.0"></rect>
+<rect fill="#5a5ec8" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="9.1" x="564.3" y="262.0"></rect>
+<rect fill="#5a5ec8" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="9.1" x="591.5" y="262.0"></rect>
+<rect fill="#5a5ec8" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="36.3" x="636.8" y="262.0"></rect>
+<rect fill="#5a5ec8" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="126.9" x="763.8" y="262.0"></rect>
+<text fill="#8a6fb0" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="138.0" y="316.0">Upper moving</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="150.0" x2="920.0" y1="312.0" y2="312.0"></line>
+<rect fill="#8a6fb0" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="27.2" x="247.0" y="302.0"></rect>
+<rect fill="#8a6fb0" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="36.3" x="274.2" y="302.0"></rect>
+<rect fill="#8a6fb0" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="36.3" x="346.7" y="302.0"></rect>
+<rect fill="#8a6fb0" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="27.2" x="419.3" y="302.0"></rect>
+<rect fill="#8a6fb0" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="18.1" x="546.2" y="302.0"></rect>
+<rect fill="#8a6fb0" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="36.3" x="600.6" y="302.0"></rect>
+<rect fill="#8a6fb0" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="27.2" x="673.1" y="302.0"></rect>
+<text fill="#b07a3a" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="138.0" y="356.0">Lower moving</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="150.0" x2="920.0" y1="352.0" y2="352.0"></line>
+<rect fill="#b07a3a" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="36.3" x="210.7" y="342.0"></rect>
+<rect fill="#b07a3a" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="36.3" x="274.2" y="342.0"></rect>
+<rect fill="#b07a3a" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="18.1" x="546.2" y="342.0"></rect>
+<rect fill="#b07a3a" height="20.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="36.3" x="718.4" y="342.0"></rect>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="150.0" x2="150.0" y1="384.0" y2="390.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="150.0" y="406.0">0:00</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="276.9" x2="276.9" y1="384.0" y2="390.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="276.9" y="406.0">0:30</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="403.8" x2="403.8" y1="384.0" y2="390.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="403.8" y="406.0">1:00</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="530.8" x2="530.8" y1="384.0" y2="390.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="530.8" y="406.0">1:30</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="657.7" x2="657.7" y1="384.0" y2="390.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="657.7" y="406.0">2:00</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="784.6" x2="784.6" y1="384.0" y2="390.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="784.6" y="406.0">2:30</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="911.5" x2="911.5" y1="384.0" y2="390.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="911.5" y="406.0">3:00</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="156.3" x2="156.3" y1="86.0" y2="384.0"></line>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="159.3" y="426.0">Intro</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="210.7" x2="210.7" y1="86.0" y2="384.0"></line>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="213.7" y="426.0">Verse 1</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="274.2" x2="274.2" y1="86.0" y2="384.0"></line>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="277.2" y="426.0">Pre 1</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="310.5" x2="310.5" y1="86.0" y2="384.0"></line>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="313.5" y="426.0">Chorus 1</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="455.5" x2="455.5" y1="86.0" y2="384.0"></line>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="458.5" y="426.0">Verse 2</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="564.3" x2="564.3" y1="86.0" y2="384.0"></line>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="567.3" y="426.0">Chorus 2</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="709.4" x2="709.4" y1="86.0" y2="384.0"></line>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="712.4" y="426.0">Bridge</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="2 4" stroke-linecap="butt" stroke-width="1" x1="763.8" x2="763.8" y1="86.0" y2="384.0"></line>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="start" x="766.8" y="426.0">Chorus 3</text>
+</svg>
+<figcaption><b>Figure 28-2</b> LOVE ATTACK’s timecode tracks. The scene sequence’s Go events and the on/off of the six rhythm layers drawn over time, track by track. The bars on the layer tracks are the same as the “bars where it comes on” in the Chapter 13 sequence list.</figcaption></figure>
+<p>Recording is done like playing. Turn on Setup in the Timecode window and a Record button appears on the toolbar below. Press Record and play the song, and what you do on the executors (Go, switching on and off, even fader movement) goes into the related tracks automatically. The sequence you want to record must be assigned to an executor.<sup class="ref"><a href="#c28-s8">8</a></sup> You can fix the times of recorded events later.</p>
+<p>Where does the time come from? Each timecode show has a place that receives time (TC Slot), and a new show starts out as Internal (the clock inside the console). An Internal timecode show can be run with the Go command.<sup class="ref"><a href="#c28-s8">8</a></sup> If you receive external timecode (timecode coming from the audio player), the audio and the lights run on the same clock. You can also give an Offset between the received time and the show’s time.<sup class="ref"><a href="#c28-s11">11</a></sup> In 2.5.0 there were problems in a session (a network joining several consoles) where timecode events were recorded overlapping, or remote events that were set not to record were recorded anyway. These were fixed in 2.5.1.0 and 2.5.1.1.<sup class="ref"><a href="#c28-s15">15</a></sup> If you build the show with timecode, use the bug-fix release and, after recording, count the events on each track (Section 28.5).</p>
+<p>There is something to know when you rewind to check. The Timecode window’s toolbar has buttons for go to start, previous marker, stop, pause, play and record, and <strong>no separate rewind button.</strong> To get to where you want, press and hold the cursor and drag it, or move it with an encoder.<sup class="ref"><a href="#c28-s11">11</a></sup> If you put a marker at each section of the song, “previous marker” does the job of rewinding. And before a check playback, switch off every sequence that was on. If layers you switched on by hand are still there, you cannot tell whether the timecode is right or wrong.<sup class="ref"><a href="#c28-s12">12</a></sup></p>
+<h2 id="c28-28-4-choosing-between-timecode-and-busking">28.4 Choosing Between Timecode and Busking</h2><p class="lead"><strong>If the lighting must hit the same moment of the audio every time, use timecode; if not, use busking by hand.</strong> A real show usually mixes the two.</p>
+<div class="tbl"><div class="tcap"><b>Table 28-2</b> Timecode and busking <sup class="ref"><a href="#c28-s13">13</a></sup></div><table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Timecode</th>
+<th>By hand (Go and busking on the song page)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Stages it suits</td>
+<td>MR songs, light shows, openings matched to video, tour shows that are the same every day</td>
+<td>Live bands, DJs, festivals where you do not know the setlist</td>
+</tr>
+<tr class="even">
+<td>Strengths</td>
+<td>The same cue on the same frame every time; the operator can watch other things</td>
+<td>Follows even if the tempo wobbles; fits that day’s audience</td>
+</tr>
+<tr class="odd">
+<td>Be careful</td>
+<td>Record again if the audio changes; cannot follow a live tempo</td>
+<td>Misses cues that are too dense for hands to follow</td>
+</tr>
+<tr class="even">
+<td>How to mix</td>
+<td>Scene cues and rhythm layers on timecode, accents and key by hand</td>
+<td>Scene cues by hand, rhythm layers tied to BPM and automatic</td>
+</tr>
+</tbody>
+</table></div>
+<p>In the music-show of Chapter 17 we said an MR song can be reproduced with timecode while a live band is followed by hand. Even the same song changes method when the stage changes. So the order is always the same. First <strong>finish the song page by hand</strong>, then record it on timecode. If you program with timecode a song you have never taken through by hand, then when something needs fixing it is hard to know where to fix it.</p>
+<h2 id="c28-28-5-running-the-whole-song-in-a-simulation">28.5 Running the Whole Song in a Simulation</h2><p class="lead">Before rehearsal, <strong>play the music on the simulation screen, run the song from start to finish, and then check the values with the previz checklist.</strong></p>
+<p>When you make cues one at a time, you see only that cue. Only by running the whole song in a row do you see problems such as values carried over from the previous cue, effects that do not stop, and brightness that does not rise even when the chorus returns.</p>
+<aside class="box terms"><div class="box-label">Words to Know</div><div class="box-body"><dl class="defs"><div><dt>Previz</dt><dd>(Previz, Previsualization): Programming and checking the lighting by previewing it on a simulation screen before hanging the fixtures on the real stage.</dd></div></dl></div></aside>
+<p>How to run it is simple. If you recorded with timecode, play the timecode from the start; if you have not recorded yet, press GO by the cue sheet along with the audio. Record the whole simulation screen while you do this.</p>
+<p><strong>Look at the content, not the count.</strong> The console does not refuse to store a cue when a value is empty or wrong. So even when the number of cues, presets and timecode events matches the cue sheet, whether the values inside the cues are right must be checked separately.<sup class="ref"><a href="#c28-s16">16</a></sup> Open the Track Sheet (Chapter 23) and check, group by group, that the dimmer, color and position values are the same as the cue sheet says.<sup class="ref"><a href="#c28-s17">17</a></sup></p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 406" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="30.0" y="112.0">Count only</text>
+<rect fill="#e8f1ea" height="32.0" opacity="1.0" rx="6" stroke="#4f8a5b" stroke-width="1" width="88.0" x="150.0" y="92.0"></rect>
+<text fill="#4f8a5b" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="194.0" y="113.0">Cue 20 ✓</text>
+<rect fill="#e8f1ea" height="32.0" opacity="1.0" rx="6" stroke="#4f8a5b" stroke-width="1" width="88.0" x="248.0" y="92.0"></rect>
+<text fill="#4f8a5b" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="292.0" y="113.0">Cue 29 ✓</text>
+<rect fill="#e8f1ea" height="32.0" opacity="1.0" rx="6" stroke="#4f8a5b" stroke-width="1" width="88.0" x="346.0" y="92.0"></rect>
+<text fill="#4f8a5b" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="390.0" y="113.0">Cue 30 ✓</text>
+<rect fill="#e8f1ea" height="32.0" opacity="1.0" rx="6" stroke="#4f8a5b" stroke-width="1" width="88.0" x="444.0" y="92.0"></rect>
+<text fill="#4f8a5b" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="488.0" y="113.0">Cue 30.1 ✓</text>
+<rect fill="#e8f1ea" height="32.0" opacity="1.0" rx="6" stroke="#4f8a5b" stroke-width="1" width="88.0" x="542.0" y="92.0"></rect>
+<text fill="#4f8a5b" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="586.0" y="113.0">Cue 30.2 ✓</text>
+<rect fill="#e8f1ea" height="32.0" opacity="1.0" rx="6" stroke="#4f8a5b" stroke-width="1" width="88.0" x="640.0" y="92.0"></rect>
+<text fill="#4f8a5b" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="684.0" y="113.0">Cue 30.3 ✓</text>
+<rect fill="#e8f1ea" height="32.0" opacity="1.0" rx="6" stroke="#4f8a5b" stroke-width="1" width="88.0" x="738.0" y="92.0"></rect>
+<text fill="#4f8a5b" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="782.0" y="113.0">Cue 39 ✓</text>
+<rect fill="#e8f1ea" height="32.0" opacity="1.0" rx="6" stroke="#4f8a5b" stroke-width="1" width="88.0" x="836.0" y="92.0"></rect>
+<text fill="#4f8a5b" font-size="12" font-weight="700" opacity="1.0" text-anchor="middle" x="880.0" y="113.0">Cue 40 ✓</text>
+<text fill="#4f8a5b" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="940.0" y="145.0">8 / 8 cues stored</text>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="30.0" y="182.0">By group</text>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="140.0" y="221.0">Wash</text>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="150.0" y="196.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="248.0" y="196.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="346.0" y="196.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="444.0" y="196.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="542.0" y="196.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="640.0" y="196.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="738.0" y="196.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="836.0" y="196.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="140.0" y="265.0">Back</text>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="150.0" y="240.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="248.0" y="240.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="346.0" y="240.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="444.0" y="240.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="542.0" y="240.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="640.0" y="240.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="738.0" y="240.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="836.0" y="240.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="140.0" y="309.0">Beam moving</text>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="150.0" y="284.0"></rect>
+<rect fill="#ffffff" height="36.0" opacity="1.0" rx="6" stroke="#7a5ea8" stroke-width="2" width="88.0" x="248.0" y="284.0"></rect>
+<text fill="#7a5ea8" font-size="11" font-weight="700" opacity="1.0" text-anchor="middle" x="292.0" y="307.0">Floor position</text>
+<rect fill="#ffffff" height="36.0" opacity="1.0" rx="6" stroke="#c8553d" stroke-width="2" width="88.0" x="346.0" y="284.0"></rect>
+<text fill="#c8553d" font-size="11" font-weight="700" opacity="1.0" text-anchor="middle" x="390.0" y="307.0">Color missing</text>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="444.0" y="284.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="542.0" y="284.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="640.0" y="284.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="738.0" y="284.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="836.0" y="284.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="140.0" y="353.0">Spot</text>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="150.0" y="328.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="248.0" y="328.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="346.0" y="328.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="444.0" y="328.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="542.0" y="328.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="640.0" y="328.0"></rect>
+<rect fill="#ffffff" height="36.0" opacity="1.0" rx="6" stroke="#d9902a" stroke-width="2" width="88.0" x="738.0" y="328.0"></rect>
+<text fill="#d9902a" font-size="11" font-weight="700" opacity="1.0" text-anchor="middle" x="782.0" y="351.0">Effect left over</text>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="836.0" y="328.0"></rect>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="140.0" y="397.0">Pixel</text>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="150.0" y="372.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="248.0" y="372.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="346.0" y="372.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="444.0" y="372.0"></rect>
+<rect fill="#ffffff" height="36.0" opacity="1.0" rx="6" stroke="#c8553d" stroke-width="2" width="88.0" x="542.0" y="372.0"></rect>
+<text fill="#c8553d" font-size="11" font-weight="700" opacity="1.0" text-anchor="middle" x="586.0" y="395.0">Only 12 of 24</text>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="640.0" y="372.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="738.0" y="372.0"></rect>
+<rect fill="#eef0f3" height="36.0" opacity="1.0" rx="6" stroke="none" stroke-width="1" width="88.0" x="836.0" y="372.0"></rect>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="150.0" y="440.0">Gray = same as the cue sheet · outlined cell = stored but the value is wrong</text>
+</svg>
+<figcaption><b>Figure 28-3</b> The count of cues and the content of cues. The top looks only at the number of cues; the bottom splits the values of the same cues by group. Even when every cue is stored, looking by group reveals cells with color missing, cells with an effect left over, and cells where the position stayed at its default.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>Table 28-3</b> Previz checklist <sup class="ref"><a href="#c28-s16">16</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>No.</th>
+<th>What to check</th>
+<th>How to check</th>
+<th>Related chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Does every group that is on have a position?</td>
+<td>In the Track Sheet, whether cells that have a dimmer value also have a position value</td>
+<td>9·24</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Does every group that is on have a color?</td>
+<td>Check the color values the same way</td>
+<td>8·24</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Is there a group whose position never changes through the song?</td>
+<td>If so, compare with the cue sheet to see whether it was intended</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Is any group left at the default position (the floor right under the fixture)?</td>
+<td>In the simulation screen, look for fixtures lighting the floor</td>
+<td>9·24</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Does the preset hold all the fixtures of that group?</td>
+<td>Whether the number of fixtures in the preset edit window equals the group’s quantity</td>
+<td>24</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Is every preset mode Selective?</td>
+<td>Whether the preset pools show the mode mark S</td>
+<td>24</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Played in order from the start, does it match the cue sheet?</td>
+<td>Whether values from the previous cue are left over and mixed in</td>
+<td>16·23</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Does the effect really stop in the cues where it should stop?</td>
+<td>Check the movers and dimmer at kick-outs, breaks and the end cue</td>
+<td>27</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Do the timecode tracks, event counts and times match the cue sheet?</td>
+<td>Count the events on each track and check the hit times</td>
+<td>28</td>
+</tr>
+</tbody>
+</table></div>
+<p>Items 1–4 are problems that arise when moving the cue sheet to the console, items 5–6 when storing presets, items 7–8 when playing back, and item 9 when recording timecode. Fix what is caught in the same order as rehearsal (patch → preset → cue → timecode) (Section 30.4).</p>
+<p><strong>Watch the recorded video together.</strong> Show the video to the director, the artist and the camera director, and you can get opinions right away on scenes that are hard to explain in the words of a cue sheet. Write the opinions you receive in the same format as the rehearsal notes (Chapter 30) and fix them before rehearsal. If you need more realistic video, use an external simulation program (Section 24.7).<sup class="ref"><a href="#c28-s18">18</a></sup> <code>[Author to confirm]</code></p>
+<p>But being right in the simulation does not mean being right on the real stage. Where the fixtures are hung, the real brightness and color, the haze, the cameras and the band’s tempo are looked at in rehearsal (Chapter 30).</p>
+<h2 id="c28-28-6-exercise-tie-love-attack-to-112-bpm-and-record-it-on-ti">28.6 [Exercise] Tie LOVE ATTACK to 112 BPM and Record It on Timecode</h2><p class="lead">Tie the effects of the song page you built in Chapter 27 to one speed master, and record the scene and rhythm layers onto seven timecode tracks. Use the audio file each of you has prepared.</p>
+<p><strong>Follow along</strong></p>
+<ol type="1">
+<li>Set speed master 15 to 112 BPM (<code>Master 3.15 At BPM 112</code>).</li>
+<li>Check that all the phaser presets made in Chapter 25 follow master 15. Change the master from 112 to 100, and it is right if every layer slows down together. Leave the sequence settings’ Speed Master empty. If the same master is connected in both places, phaser and sequence, the phaser’s connection is erased when you store (Section 28.2).</li>
+<li>Load the Chapter 16 cue sheet into the Web tool 21 timecode table and pull out each track’s event times and count.</li>
+<li>Make a new timecode show and press Record in Setup. This exercise records with the console’s internal clock (Internal), so at the moment you press Record you also start the audio from the beginning. Because you are starting it by hand, it can be slightly off, and you fix that difference after recording with Offset or the event times. Press the scene GO and the layer on/off at the times on the cue sheet, as if playing.</li>
+<li>Stop recording and put a marker at each section (Intro, Verse 1, Pre-chorus 1, Chorus 1 …).</li>
+<li>Switch off every sequence that was on and play from the start.</li>
+<li>While it plays, record the whole 3D screen, and check the whole song with the previz checklist of Table 28-3. Mark the items that get caught in the previz checklist of Web tool 23.</li>
+</ol>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>Compare three things.</li><li>First, see whether the event count on each track equals the count you pulled in step 3.</li><li>Second, see how much the event times differ from the cue sheet’s times.</li><li>A hand-pressed recording is always a little late, so for events with a hit, like cue 30 (bar 18 beat 1, 0:37.9), fix the times to the cue sheet’s after recording.</li><li>Third, deliberately put the BPM off with tap and realign to the kick’s “one” with Learn, and see whether the pulse that was half a beat late is corrected.</li><li>Fourth, see whether all nine items of the step 7 previz checklist pass.</li><li>If any are caught, fix them before rehearsal.</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">Try it with your own song</div><div class="box-body"><ol class="steps"><li>Take your own song’s page through by hand to the end, then record it the same way.</li><li>First mark the cues that were hard to press by hand (dense cues, cues that come in a beat early), record only those cues, and then fix the times.</li></ol></div></aside>
+<aside class="web" id="web-W21-28"><div class="web-head"><span class="web-tag">Web tool 21</span><h4>Timecode Table</h4><a class="web-open" href="https://jjjh7401.github.io/lx/en/tools/tc.html" rel="noopener" target="_blank">Open in new window ↗</a></div><p class="web-desc">Load the cue sheet (Web tool 14), split it into tracks by layer, and convert each event’s bar and beat to timecode (hours:minutes:seconds:frames). You can choose the frame rate (24, 25, 30) and the lead-in time before the song, and each track’s event count is counted so you can compare it with what you recorded. The table can be copied to a spreadsheet.</p><div class="tool-embed"><iframe allow="autoplay" loading="lazy" src="https://jjjh7401.github.io/lx/en/tools/tc.html?embed=1" style="--h:1500px" title="Timecode Table"></iframe></div><p class="tool-open"><span>The notes you write are saved in this browser only. To use it on a wide screen, press "Open in new window" above.</span></p></aside>
+<section class="summary"><h2>Key points</h2><ul>
+<li>Put the song’s BPM on one speed master; the only difference between effects is Measure. Read half-time with HalfSpeed.</li>
+<li>There are 16 speed masters, 0–225 BPM, and master 16 follows the sound input. Detection can jump, so match a known song by number and a new song by tap. In 2.5 the Masters window shows all the masters at a glance.</li>
+<li>Learn sets the speed and the starting point together. If it is half a beat late, tap again to the kick’s “one.”</li>
+<li>Timecode is timecode show → track group → track, with one track per sequence. Record as if playing, and use markers instead of rewinding.</li>
+<li>Finish the song page by hand, then record it on timecode.</li>
+<li>Before rehearsal, run the whole song in the simulation, check the nine previz checklist items, and get the director’s and artist’s opinions from the recorded video. Look at the values inside the cues, not the number of cues.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">On the job tomorrow</div><div class="box-body"><ol class="steps"><li>Before starting rehearsal, write that day’s song BPMs on the speed masters and see that when the song changes you change only one number.</li><li>If you are fixing the speed effect by effect, the tying is not done yet.</li></ol></div></aside>
+<section class="notes"><h2>Notes</h2><ol><li id="c28-s1">The author’s onPC 2.4.2 working notes (unpublished). <code>Master 3.15 At BPM &lt;song BPM&gt;</code> and <code>At SpeedMaster 15</code>; change the master and the effects follow (by eye); <code>At Speed</code> and <code>At SpeedMaster</code> are not mixed.</li><li id="c28-s2">MA Lighting, grandMA3 User Manual 2.5, “Master Keyword,” “SpeedMaster Keyword.” <a href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_master.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/keyword_master.html</a> · <a href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_speedmaster.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/keyword_speedmaster.html</a> (checked 2026-10-26)</li><li id="c28-s3">MA Lighting, grandMA3 User Manual 2.5, “HalfSpeed Keyword.” <a href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_halfspeed.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/keyword_halfspeed.html</a> (checked 2026-10-26)</li><li id="c28-s4">MA Lighting, grandMA3 User Manual 2.5, “Speed Masters.” 16 masters, 0–225 BPM, master 16 is the sound input’s BPM, what they can connect to, connecting the same master to both sequence and attribute erases the attribute’s, Learn Mode (2.5). <a href="https://help.malighting.com/grandMA3/2.5/HTML/masters_speed.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/masters_speed.html</a> (compared with 2.4; checked 2026-10-26)</li><li id="c28-s5">MA Lighting, grandMA3 User Manual 2.5, “Sequence Settings.” The Speed Master field. <a href="https://help.malighting.com/grandMA3/2.5/HTML/cue_sequence_settings.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/cue_sequence_settings.html</a> (checked 2026-10-26)</li><li id="c28-s6">MA Lighting, grandMA3 User Manual 2.5, “LearnSpeed Keyword.” <a href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_learnspeed.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/keyword_learnspeed.html</a> (checked 2026-10-26)</li><li id="c28-s7">MA Lighting, grandMA3 User Manual 2.5, “Learn Keyword.” Combines LearnSpeed and ReSync; starting point and speed. <a href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_learn.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/keyword_learn.html</a> (checked 2026-10-26)</li><li id="c28-s8">MA Lighting, grandMA3 User Manual 2.5, “Create a Timecode Show.” Record in Setup; executor actions are recorded on the tracks; a track takes one target; TC Slot and Internal. <a href="https://help.malighting.com/grandMA3/2.5/HTML/timecode_create.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/timecode_create.html</a> (checked 2026-10-26)</li><li id="c28-s9">MA Lighting, grandMA3 User Manual 2.5, “Track Groups.” <a href="https://help.malighting.com/grandMA3/2.5/HTML/timecode_track_groups.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/timecode_track_groups.html</a> (checked 2026-10-26)</li><li id="c28-s10">The author’s unpublished show-programming notes. One timecode track per sequence, cues as Go+ events, the event count must equal the cue total.</li><li id="c28-s11">MA Lighting, grandMA3 User Manual 2.5, “Timecode Viewer.” The toolbar (go to start, previous marker, stop, pause, play, record), Offset. <a href="https://help.malighting.com/grandMA3/2.5/HTML/timecode_viewer.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/timecode_viewer.html</a> (checked 2026-10-26)</li><li id="c28-s12">MBLightArts show-file video (via the author’s notes). Switch off every sequence that was on before a check playback.</li><li id="c28-s13">The author’s unpublished judgment guide. Video sync, precise choreography and the same reproduction every day use timecode; bands and DJs without a click use busking; reality is a mix.</li><li id="c28-s14">MA Lighting, grandMA3 Release Notes 2.5, “New Features,” “Changes.” The Masters window (tabs, Non-Default Only, the Speed tab’s buttons, the asterisk), preset attribute Speed Master → Phaser Speedmaster and Speed Scale → Phaser Scale, LearnMode “Default” → “Learn Ignores Speed Scale,” onPC audio input and output default to None. <a href="https://help.malighting.com/grandMA3/2.5/HTML/rn_features-2-5.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/rn_features-2-5.html</a> · <a href="https://help.malighting.com/grandMA3/2.5/HTML/rn_changes-2-5.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/rn_changes-2-5.html</a> (checked 2026-10-26)</li><li id="c28-s15">MA Lighting, grandMA3 Release Notes, “Bug Fix Version 2.5.1.0,” “Bug Fix Version 2.5.1.1.” Remote events being recorded even with Record Remote Events off; timecode events overlapping in a session. <a href="https://help.malighting.com/grandMA3/2.5/HTML/rn_bug_fix_version-2-5-1-0.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/rn_bug_fix_version-2-5-1-0.html</a> · <a href="https://help.malighting.com/grandMA3/2.5/HTML/rn_bug_fix_version-2-5-1-1.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/rn_bug_fix_version-2-5-1-1.html</a> (checked 2026-10-26)</li><li id="c28-s16">The author’s unpublished show-check notes. The check step of comparing the values stored in the cue sheet and in the console by group and attribute; the causes of a cue stored with wrong values (a fixture missing from a preset, the preset mode, leftover steps, an unset position, a check that only counted).</li><li id="c28-s17">MA Lighting, grandMA3 User Manual 2.5, “Tracking.” In the Track Sheet, see each cue’s stored values and carried-over values by color. <a href="https://help.malighting.com/grandMA3/2.5/HTML/cue_tracking.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/cue_tracking.html</a> (checked 2026-10-26)</li><li id="c28-s18">Syncronorm, “Stage Visualization” (Depence). Program the show in a simulation before the stage lights are on, and make video presentations. <a href="https://syncronorm.com/industries/stage-visualization" rel="noopener" target="_blank">https://syncronorm.com/industries/stage-visualization</a> (checked 2026-10-27)</li></ol></section>
+</article>
+</div>
+
+</main>
+<nav class="ltm-pager" id="ltmPager" aria-label="Chapters"></nav>
+<footer class="ltm-foot">
+<p><b>Lighting the Music</b> by Jaehyun Jung. Free to read online. English edition translated from the Korean original with AI.</p>
+<p>Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener license" target="_blank">CC BY-NC-ND 4.0</a>: you may share it with credit (title, author and a link to this page), but not for commercial use and not in modified form.</p>
+</footer>
+<script src="book.js?v=3"></script>
+<script>LTM_chapter("ch28");</script>
+</body>
+</html>
