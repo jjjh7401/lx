@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rehearsal Notes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 왼쪽 프리비즈·리허설 점검표, 오른쪽 위 노트 표, 아래 고칠 순서(할 일 목록) */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:76ch}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.9fr);gap:16px;align-items:start}
+@media (max-width:980px){.grid2{grid-template-columns:1fr}}
+.cl{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.cl label{display:grid;grid-template-columns:auto 1.6em 1fr;gap:8px;align-items:start;padding:8px 10px;border-radius:9px;background:var(--panel2);font-size:13.5px;cursor:pointer}
+.cl .no{font-family:var(--f-num);color:var(--accent);font-weight:700}
+.cl .ch{font-size:12px;color:var(--muted);display:block}
+.cl .stage{font-size:12px;color:var(--muted);margin:10px 2px 2px;font-weight:700;letter-spacing:.02em}
+.cl input{margin-top:3px}
+.cl label.on{opacity:.62}
+.bar{height:8px;border-radius:5px;background:var(--panel2);overflow:hidden;margin:6px 0 12px}
+.bar i{display:block;height:100%;background:var(--ok)}
+table.nt td{vertical-align:top}
+table.nt input[type=text]{width:100%;min-width:12em}
+table.nt select{max-width:9em} table.nt select[data-k="cue"]{max-width:6.5em}
+td.bb{font-family:var(--f-num);white-space:nowrap;font-size:13px}
+tr.done td{opacity:.55}
+.todo{display:grid;gap:10px}
+.todo h3{font-size:13.5px;margin:0 0 4px;color:var(--accent)}
+.todo ul{margin:0;padding-left:18px;font-size:14px}
+.todo .empty{color:var(--muted);font-size:13px}
+.v-Keep{color:var(--ok)} .v-Fix{color:var(--warn)} .v-Change{color:var(--bad)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Rehearsal Notes</h1>
+    <p>A worksheet for the exercise in Chapter 30. Tick through the nine previz checks (Section 28.5) on the left and the ten rehearsal checks (Chapter 30), and on the right write the problems you found in rehearsal with the cue number, bar, check item and verdict. Below, it gathers the notes that are not done in the order patch → preset → cue → timecode and makes the to-do list for the next rehearsal.</p>
+  </div>
+  <div class="grid2">
+    <section class="panel">
+      <div class="row" style="justify-content:space-between"><h2>Checklists</h2><button type="button" id="clr" class="ghost">Clear ticks</button></div>
+      <div class="bar" aria-hidden="true"><i id="pbar" style="width:0"></i></div>
+      <p class="note" id="pnote" style="margin:-6px 0 8px"></p>
+      <ul class="cl" id="cl"></ul>
+    </section>
+    <div style="display:grid;gap:16px">
+      <section class="panel">
+        <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 id="ntT">Notes</h2>
+          <div class="row"><button type="button" id="add" class="primary">Add note</button><button type="button" id="copy" class="ghost">Copy table</button></div></div>
+        <p class="note" id="msg"></p>
+        <div class="tbl"><table class="nt" id="nt"></table></div>
+        <p class="note" style="margin:8px 0 0">When you choose a cue, the bar · beat is filled in from the cue sheet (Web tool 14). The verdicts are the same as in Section 16.5: Keep means it was intended, so only write the reason; Fix changes a single value; and Change goes back to the design to fix it.</p>
+      </section>
+      <section class="panel">
+        <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2>To fix before the next rehearsal</h2><button type="button" id="copyTodo" class="ghost">Copy list</button></div>
+        <div class="todo" id="todo"></div>
+      </section>
+    </div>
+  </div>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('rehearsal.html'), D = L.design(S);
+  var $ = function (id) { return document.getElementById(id); };
+  // 프리비즈 점검표(28.5절) 9개 · 리허설 점검표(30장) 10개. [확인할 것, 확인 방법, 관련 장, 단계 머리말]
+  var PV = [
+    ['Does every group that is on have a position?', 'In the Track Sheet, whether cells that have a dimmer value also have a position value', 'Ch. 9 · 24', 'When moving the cue sheet over'],
+    ['Does every group that is on have a color?', 'Check the color values the same way', 'Ch. 8 · 24', ''],
+    ['Is there a group whose position never changes through the song?', 'Compare with the cue sheet to see whether it was intended', 'Ch. 9', ''],
+    ['Is any group left at the default position (the floor right under the fixture)?', 'In the simulation screen, look for fixtures lighting the floor', 'Ch. 9 · 24', ''],
+    ['Does the preset hold all the fixtures of that group?', 'Whether the number of fixtures in the preset edit window equals the group’s quantity', 'Ch. 24', 'When storing presets'],
+    ['Is every preset mode Selective?', 'Whether the preset pools show the mode mark S', 'Ch. 24', ''],
+    ['Played in order from the start, does it match the cue sheet?', 'Whether values from the previous cue are left over and mixed in', 'Ch. 16 · 23', 'When playing back'],
+    ['Does the effect really stop in the cues where it should stop?', 'The movers and dimmer at kick-outs, breaks and the end cue', 'Ch. 27', ''],
+    ['Do the timecode tracks, event counts and times match the cue sheet?', 'Count the events on each track and check the hit times', 'Ch. 28', 'When recording timecode']];
+  var ITEMS = [
+    ['Do all fixtures switch on and respond at the patched numbers?', 'Switch on group by group and check the address', 'Ch. 22 · 24', 'First light-up'],
+    ['Do the fixed fixtures (LED bars, strobes and so on) face the audience side as drawn?', 'Switch the fixtures on and look at the direction', 'Ch. 24', ''],
+    ['Are the movers’ pan and tilt directions right?', 'Send a group to the same position and find the fixture that goes the opposite way alone; invert it in the patch', 'Ch. 24', ''],
+    ['Do the position presets light where intended (focusing)?', 'The singer’s spot, light spilling to the audience, overlap with the LED wall', 'Ch. 9 · 24', 'First run-through'],
+    ['Is there any fixture that stands out from the rest on the same preset?', 'Color, zoom and focus group by group', 'Ch. 8 · 24', ''],
+    ['Does the stage look the brightness of the cue sheet?', 'Start with the Grand Master and the executor faders', 'Ch. 10 · 27', ''],
+    ['Do the beams look as planned in haze?', 'Look at the cues where beams are the star with the haze on', 'Ch. 6 · 32', ''],
+    ['Do the movers finish their shape within the beat?', 'Mover bursts and waves at real speed', 'Ch. 25 · 26 · 28', ''],
+    ['Do the face and color look right on the camera picture?', 'The key light and faces on the broadcast monitor (PGM)', 'Ch. 17', 'Camera and band rehearsal'],
+    ['Do the cues hit the beat at the band’s tempo?', 'Match the tempo with tap and check the GO timing', 'Ch. 28 · 31', '']];
+  var FIX = ['Patch', 'Preset', 'Cue', 'Timecode', 'Other'];
+  var VERD = ['Keep', 'Fix', 'Change'];
+  function sampleCues() {
+    return [['0.5', 0, 1, 'Blocking'], ['1', 1, 1, 'Intro · Pearl heart'], ['1.1', 3, 1, 'Intro · Back pulse'], ['1.2', 5, 1, 'Intro · One beam step'], ['10', 7, 1, 'Verse 1 · Garden sunlight'], ['10.1', 11, 1, 'Verse 1 · Lilac tint'],
+      ['20', 14, 1, 'Pre 1 · Balloon sky'], ['29', 17, 3, 'Dark cue'], ['30', 18, 1, 'Chorus 1 · Brightness hit'], ['30.1', 22, 1, 'Chorus 1 · Upper movers'], ['30.2', 26, 1, 'Chorus 1 · Pixels'], ['30.3', 30, 1, 'Chorus 1 · Upper movers'],
+      ['39', 33, 1, 'Kick-out'], ['40', 34, 1, 'Verse 2 · Garden sunlight'], ['50', 42, 1, 'Pre 2 · Base only'], ['50.1', 44, 1, 'Pre 2 · Build-up'], ['59', 45, 4, 'Dark cue'], ['60', 46, 1, 'Chorus 2 · Mover burst'],
+      ['60.1', 47, 1, 'Chorus 2 · Red heart'], ['60.2', 49, 1, 'Chorus 2 · Main look'], ['69', 61, 1, 'Kick-out'], ['70', 62, 1, 'Bridge · Lilac backlight'], ['75', 63, 1, 'Beat section · Cross beams'], ['79', 67, 1, 'Break'],
+      ['80', 67, 4, 'Chorus 3 · White flash'], ['80.1', 68, 1, 'Chorus 3 · Rooftop fan · night'], ['80.2', 78, 1, 'Chorus 3 · All roles'], ['90', 82, 1, 'End · Pearl heart · night'], ['99', 84, 1, 'Finish']]
+      .map(function (r) { return { no: r[0], bar: r[1], beat: r[2], name: r[3] }; });
+  }
+  var fromSheet = !!(D.cueSheet && D.cueSheet.rows && D.cueSheet.rows.length);
+  var CUES = (fromSheet ? D.cueSheet.rows : (S.sample ? sampleCues() : [])).map(function (r) { return { no: String(r.no), bar: +r.bar || 0, beat: +r.beat || 1, name: r.name || '' }; });
+  function cueOf(no) { for (var i = 0; i < CUES.length; i++) if (CUES[i].no === String(no)) return CUES[i]; return null; }
+  if (!D.reh || D.reh.v !== 2) {
+    var keep = D.reh && !S.sample ? D.reh.rows : [];
+    D.reh = { v: 2, chk: {}, pv: {}, rows: keep || [] };
+    if (S.sample) D.reh.rows = [['30', 'The haze is thin, so the pan shape of the beam movers is hardly visible', 7, 'Fix', 'Cue', 'Raise the beams’ dimmer level and agree the amount with the haze person'], ['60', 'The mover burst does not spread out fully within 1.5 beats', 8, 'Fix', 'Cue', 'Shorten cue 60’s position fade time'],
+      ['75', 'The cross beams overlap the LED wall behind the stage and the beams get buried', 4, 'Change', 'Preset', 'Re-aim the cross-beam position, and look again as far as the Chapter 9 look sheet']]
+      .map(function (x) { var c = cueOf(x[0]); return { id: L.uid(), cue: x[0], bar: c ? c.bar : '', beat: c ? c.beat : '', seen: x[1], item: x[2], verdict: x[3], fix: x[4], what: x[5], done: false }; });
+  }
+  var R = D.reh;
+  function save() { L.put(S); }
+  function opts(list, v, blank) { return (blank ? '<option value="">' + blank + '</option>' : '') + list.map(function (x) { var val = Array.isArray(x) ? x[0] : x, lab = Array.isArray(x) ? x[1] : x; return '<option value="' + L.esc(val) + '"' + (String(val) === String(v) ? ' selected' : '') + '>' + L.esc(lab) + '</option>'; }).join(''); }
+  function list(arr, store, key, pre) {
+    var n = 0, h = '';
+    arr.forEach(function (it, i) {
+      var on = !!store[i]; if (on) n++;
+      if (it[3]) h += '<li class="stage">' + it[3] + '</li>';
+      h += '<li><label class="' + (on ? 'on' : '') + '"><input type="checkbox" data-' + key + '="' + i + '"' + (on ? ' checked' : '') + '><span class="no">' + pre + (i + 1) + '</span><span>' + L.esc(it[0]) + '<span class="ch">' + L.esc(it[1]) + ' · ' + it[2] + '</span></span></label></li>';
+    });
+    return { n: n, h: h };
+  }
+  function renderCl() {
+    R.pv = R.pv || {};
+    var a = list(PV, R.pv, 'p', 'P'), b = list(ITEMS, R.chk, 'c', '');
+    $('cl').innerHTML = '<li class="stage" style="color:var(--accent)">Previz checklist · before rehearsal, in the simulation (Section 28.5)</li>' + a.h + '<li class="stage" style="color:var(--accent);margin-top:16px">Rehearsal checklist · on the real stage (Chapter 30)</li>' + b.h;
+    var n = a.n + b.n, all = PV.length + ITEMS.length;
+    $('pbar').style.width = (n / all * 100) + '%';
+    $('pnote').textContent = 'Previz ' + a.n + ' / ' + PV.length + ' · Rehearsal ' + b.n + ' / ' + ITEMS.length + ' checked. Finish the previz check before rehearsal; in rehearsal look in the order first light-up → first run-through → camera and band rehearsal.';
+  }
+  function renderNt() {
+    $('ntT').textContent = (S.title || 'Song') + ' notes';
+    var cueOpts = CUES.map(function (c) { return [c.no, c.no + (c.name ? ' ' + c.name : '')]; });
+    $('nt').innerHTML = '<tr><th>Cue</th><th>Bar · beat</th><th>Problem</th><th>Check item</th><th>Verdict</th><th>Fix stage</th><th>Fix details</th><th>Done</th><th></th></tr>' + R.rows.map(function (r, i) {
+      var cueSel = cueOpts.length ? '<select data-i="' + i + '" data-k="cue" aria-label="Cue">' + opts(cueOpts, r.cue, '—') + '</select>' : '<input type="text" class="n" data-i="' + i + '" data-k="cue" value="' + L.esc(r.cue) + '" aria-label="Cue" style="min-width:4em;width:4.5em">';
+      return '<tr class="' + (r.done ? 'done' : '') + '"><td>' + cueSel + '</td>' +
+        '<td class="bb"><input type="number" class="n" min="0" data-i="' + i + '" data-k="bar" value="' + L.esc(r.bar) + '" aria-label="Bar" style="width:3.8em"> · <input type="number" class="n" min="1" max="12" data-i="' + i + '" data-k="beat" value="' + L.esc(r.beat) + '" aria-label="Beat" style="width:3em"></td>' +
+        '<td><input type="text" data-i="' + i + '" data-k="seen" value="' + L.esc(r.seen) + '" aria-label="Problem"></td>' +
+        '<td><select data-i="' + i + '" data-k="item" aria-label="Check item">' + opts(ITEMS.map(function (it, j) { return [j + 1, (j + 1) + '. ' + it[0].slice(0, 14) + '…']; }).concat(PV.map(function (it, j) { return ['P' + (j + 1), 'P' + (j + 1) + '. ' + it[0].slice(0, 14) + '…']; })), r.item, '—') + '</select></td>' +
+        '<td><select class="v-' + L.esc(r.verdict) + '" data-i="' + i + '" data-k="verdict" aria-label="Verdict">' + opts(VERD, r.verdict) + '</select></td>' +
+        '<td><select data-i="' + i + '" data-k="fix" aria-label="Fix stage">' + opts(FIX, r.fix) + '</select></td>' +
+        '<td><input type="text" data-i="' + i + '" data-k="what" value="' + L.esc(r.what) + '" aria-label="Fix details" style="min-width:9em"></td>' +
+        '<td><input type="checkbox" data-i="' + i + '" data-k="done"' + (r.done ? ' checked' : '') + ' aria-label="Done"></td>' +
+        '<td><button type="button" class="ghost" data-del="' + i + '" aria-label="Delete">×</button></td></tr>';
+    }).join('');
+    if (!R.rows.length) $('nt').innerHTML += '<tr><td colspan="9" class="note">No notes yet. Write the problems you find in rehearsal with “Add note”.</td></tr>';
+    if (!CUES.length) $('msg').textContent = 'The cue sheet (Web tool 14) is empty, so type the cue number yourself.';
+  }
+  function todoList() {
+    var open = R.rows.filter(function (r) { return !r.done && r.verdict !== 'Keep'; });
+    return FIX.map(function (f) {
+      var list = open.filter(function (r) { return (r.fix || 'Other') === f; }).sort(function (a, b) { return ((+a.bar || 0) - (+b.bar || 0)) || ((+a.beat || 0) - (+b.beat || 0)); });
+      return { fix: f, list: list };
+    });
+  }
+  function line(r) { return 'Cue ' + (r.cue || '—') + (r.bar ? ' (bar ' + r.bar + ' beat ' + (r.beat || 1) + ')' : '') + ': ' + (r.what || r.seen || '') + (r.item ? ' [check item ' + r.item + ']' : '') + (r.verdict === 'Change' ? ' — fixed at the design level' : ''); }
+  function renderTodo() {
+    var T = todoList(), any = false, h = T.map(function (g, k) {
+      if (!g.list.length) return '';
+      any = true;
+      return '<div><h3>' + (k + 1) + ' ' + g.fix + '</h3><ul>' + g.list.map(function (r) { return '<li>' + L.esc(line(r)) + '</li>'; }).join('') + '</ul></div>';
+    }).join('');
+    var keep = R.rows.filter(function (r) { return r.verdict === 'Keep'; });
+    if (keep.length) h += '<div><h3>Keep (write the reason only)</h3><ul>' + keep.map(function (r) { return '<li>' + L.esc(line(r)) + '</li>'; }).join('') + '</ul></div>';
+    $('todo').innerHTML = any || keep.length ? h + '<p class="note" style="margin:0">Fix in order from the patch. After fixing a preset, look again at every cue that uses it, and run the fixed section again with one cue before and after it (Section 30.5).</p>' : '<p class="empty">Nothing to fix. Notes you marked done stay in the table.</p>';
+  }
+  function render() { renderCl(); renderNt(); renderTodo(); }
+  $('cl').addEventListener('change', function (e) { var c = e.target.dataset.c, p = e.target.dataset.p; if (c != null) R.chk[c] = e.target.checked; else if (p != null) { R.pv = R.pv || {}; R.pv[p] = e.target.checked; } else return; save(); renderCl(); });
+  $('clr').addEventListener('click', function () { R.chk = {}; R.pv = {}; save(); renderCl(); });
+  $('nt').addEventListener('change', function (e) {
+    var t = e.target, i = t.dataset.i, k = t.dataset.k; if (i == null) return;
+    var r = R.rows[+i];
+    if (k === 'done') r.done = t.checked;
+    else if (k === 'item') r.item = t.value === '' ? 0 : (/^P/.test(t.value) ? t.value : +t.value);
+    else r[k] = t.value;
+    if (k === 'cue') { var c = cueOf(t.value); if (c) { r.bar = c.bar; r.beat = c.beat; } }
+    save(); setTimeout(function () { renderNt(); renderTodo(); }, 0);
+  });
+  $('nt').addEventListener('click', function (e) { var d = e.target.dataset.del; if (d == null) return; R.rows.splice(+d, 1); save(); renderNt(); renderTodo(); });
+  $('add').addEventListener('click', function () { R.rows.push({ id: L.uid(), cue: '', bar: '', beat: '', seen: '', item: 0, verdict: 'Fix', fix: 'Preset', what: '', done: false }); save(); renderNt(); renderTodo(); });
+  function copyText(txt, ok) { try { navigator.clipboard.writeText(txt).then(function () { $('msg').textContent = ok; }, function () { $('msg').textContent = 'Copying is blocked.'; }); } catch (err) { $('msg').textContent = 'Copying is blocked.'; } }
+  $('copy').addEventListener('click', function () {
+    var txt = ['Cue\tBar\tBeat\tProblem\tCheck item\tVerdict\tFix stage\tFix details\tDone'].concat(R.rows.map(function (r) { return [r.cue, r.bar, r.beat, r.seen, r.item || '', r.verdict, r.fix, r.what, r.done ? 'Yes' : ''].join('\t'); })).join('\n');
+    copyText(txt, 'Notes table copied. You can paste it into a spreadsheet.');
+  });
+  $('copyTodo').addEventListener('click', function () {
+    var T = todoList(), txt = [(S.title || 'Song') + ' · to fix before the next rehearsal'];
+    T.forEach(function (g, k) { if (g.list.length) { txt.push((k + 1) + ' ' + g.fix); g.list.forEach(function (r) { txt.push('- ' + line(r)); }); } });
+    copyText(txt.join('\n'), 'To-do list copied.');
+  });
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chapter 30 · Rehearsal · Lighting the Music</title>
+<meta name="description" content="Where the simulation and the real stage differ, the order of checking in rehearsal, the ten-item rehearsal checklist, recording and notes, and fixing in the order patch, preset, cue, timecode.">
+<link rel="alternate" hreflang="ko" href="https://ablitzdesign.tistory.com/80">
+<link rel="alternate" hreflang="en" href="https://jjjh7401.github.io/lx/en/ch30.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 30 · Rehearsal · Lighting the Music">
+<meta property="og:description" content="Where the simulation and the real stage differ, the order of checking in rehearsal, the ten-item rehearsal checklist, recording and notes, and fixing in the order patch, preset, cue, timecode.">
+<meta property="og:image" content="https://jjjh7401.github.io/lx/cover-800.jpg">
+<meta property="og:url" content="https://jjjh7401.github.io/lx/en/ch30.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="en.css?v=2">
+</head>
+<body>
+<header class="ltm-bar" id="ltmBar"></header>
+<main id="article-view">
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<section class="part-page" id="part6"><div class="pn">PART 6</div><h2>Rehearsal and the Show</h2><p>Once the cues are made, it is time to check them on the stage. In rehearsal you find and fix the places where the simulation and the real stage look different. In the show you press GO on the beat, and decide in advance where to come back in when you miss a cue. The last chapter sets out the standards for protecting the audience, the performers and the viewers who watch the broadcast.</p><ol start="30"><li><a href="ch30.html">Rehearsal</a></li><li><span class="soon">Running the Show</span></li><li><span class="soon">Safety and Regulations</span></li></ol></section><article class="chapter" id="ch30"><header class="ch-head"><div class="ch-num"><span>Chapter</span> 30</div><h1 class="ch-title">Rehearsal</h1><p class="ch-sub">Checklists and notes</p></header>
+<aside class="box goals"><div class="box-label">In this chapter</div><div class="box-body">
+<ul class="checks">
+<li>Know where cues that were right in the simulation look different on the real stage.</li>
+<li>Check the ten items of the rehearsal checklist at the first light-up, the first run-through, and the camera and band rehearsals.</li>
+<li>Record the rehearsal and write the problems in a note, then fix them in the order patch → preset → cue → timecode.</li>
+</ul>
+</div></aside>
+<div class="open-label">Opening scene</div><p class="lead">When you pick clothes at an online shop, you look closely at the photos and the description. You check the color and compare the size chart. Then when it arrives and you try it on, the color is a little darker than in the photo, or the fit feels different at the same size. You had checked everything the screen could show, but something the screen cannot show was left.</p>
+<p>Lighting is the same. You made the cues watching a simulation screen, and before rehearsal you ran the whole song and checked it (Section 28.5). Even so, it is different when you switch on the real fixtures. Fixtures hang a little off from the drawing, beams come out dimmer or in a different color than in the simulation, and the camera sees it differently again.</p>
+<p>Rehearsal is the time to check what the screen could not show. This chapter covers what to check on the real stage and in what order, how to record it, and where to start fixing.</p>
+<h2 id="c30-30-1-the-order-of-checking-in-rehearsal">30.1 The Order of Checking in Rehearsal</h2><p class="lead">In rehearsal, first run the song from start to finish without stopping (a run-through), then check four things on the real stage in turn: <strong>the beat at section boundaries, the face, the flashing, and the repeated sections.</strong> Rehearsal time is always tight, so do not look at every cue equally; start with the places where mistakes are frequent.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 356" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#ffffff" height="110.0" opacity="1.0" rx="9" stroke="#1f2430" stroke-width="1.6" width="170.0" x="30.0" y="96.0"></rect>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="42.0" y="118.0">1 Run-through</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="42.0" y="138.0">No stopping, from start</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="42.0" y="153.0">to end. Record on</text>
+<rect fill="#ffffff" height="110.0" opacity="1.0" rx="9" stroke="#3b6ea8" stroke-width="1.6" width="145.0" x="250.0" y="96.0"></rect>
+<text fill="#3b6ea8" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="262.0" y="118.0">2-1 Boundary beat</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="262.0" y="138.0">Cues on the downbeat?</text>
+<rect fill="#ffffff" height="110.0" opacity="1.0" rx="9" stroke="#d9902a" stroke-width="1.6" width="145.0" x="410.0" y="96.0"></rect>
+<text fill="#d9902a" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="422.0" y="118.0">2-2 Face</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="422.0" y="138.0">Is the singer’s face</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="422.0" y="153.0">seen all song?</text>
+<rect fill="#ffffff" height="110.0" opacity="1.0" rx="9" stroke="#c8553d" stroke-width="1.6" width="145.0" x="570.0" y="96.0"></rect>
+<text fill="#c8553d" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="582.0" y="118.0">2-3 Flashing</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="582.0" y="138.0">How many per second,</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="582.0" y="153.0">within the limit?</text>
+<rect fill="#ffffff" height="110.0" opacity="1.0" rx="9" stroke="#7a5ea8" stroke-width="1.6" width="145.0" x="730.0" y="96.0"></rect>
+<text fill="#7a5ea8" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="742.0" y="118.0">2-4 Repeats</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="742.0" y="138.0">Do choruses 1, 2 and 3</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="742.0" y="153.0">step up?</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.6" x1="397.0" x2="407.0" y1="151.0" y2="151.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="407.0,151.0 400.7,154.0 400.7,148.0" stroke="none"></polygon>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.6" x1="557.0" x2="567.0" y1="151.0" y2="151.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="567.0,151.0 560.7,154.0 560.7,148.0" stroke="none"></polygon>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.6" x1="717.0" x2="727.0" y1="151.0" y2="151.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="727.0,151.0 720.7,154.0 720.7,148.0" stroke="none"></polygon>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.6" x1="202.0" x2="246.0" y1="151.0" y2="151.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="246.0,151.0 239.7,154.0 239.7,148.0" stroke="none"></polygon>
+<rect fill="#ffffff" height="110.0" opacity="1.0" rx="9" stroke="#4f8a5b" stroke-width="1.6" width="280.0" x="250.0" y="262.0"></rect>
+<text fill="#4f8a5b" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="262.0" y="284.0">3 Notes</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="262.0" y="304.0">Cue no., bar · beat, problem, check item,</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="262.0" y="319.0">verdict (Keep · Fix · Change), fix stage</text>
+<rect fill="#ffffff" height="110.0" opacity="1.0" rx="9" stroke="#2f8c8c" stroke-width="1.6" width="210.0" x="570.0" y="262.0"></rect>
+<text fill="#2f8c8c" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="582.0" y="284.0">4 Fix from the patch</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="582.0" y="304.0">Patch → Preset → Cue →</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="582.0" y="319.0">Timecode</text>
+<rect fill="#ffffff" height="110.0" opacity="1.0" rx="9" stroke="#1f2430" stroke-width="1.6" width="120.0" x="820.0" y="262.0"></rect>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="832.0" y="284.0">5 Run again</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="832.0" y="304.0">Only the fixed part,</text>
+<text fill="#1f2430" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="832.0" y="319.0">plus cues around it</text>
+<path d="M802,208 C802,240 390,232 390,258" fill="none" opacity="1.0" stroke="#6b7280" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4"></path>
+<polygon fill="#6b7280" opacity="1.0" points="390.0,260.0 385.0,251.0 395.0,251.0" stroke="none"></polygon>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.6" x1="532.0" x2="566.0" y1="317.0" y2="317.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="566.0,317.0 559.7,320.0 559.7,314.0" stroke="none"></polygon>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.6" x1="782.0" x2="816.0" y1="317.0" y2="317.0"></line>
+<polygon fill="#6b7280" opacity="1.0" points="816.0,317.0 809.7,320.0 809.7,314.0" stroke="none"></polygon>
+<path d="M880,374 C880,404 115,404 115,210" fill="none" opacity="1.0" stroke="#6b7280" stroke-dasharray="4 4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"></path>
+<polygon fill="#6b7280" opacity="1.0" points="115.0,208.0 110.0,217.0 120.0,217.0" stroke="none"></polygon>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="480.0" y="400.0">Before the next rehearsal, keep only the lines in the notes that are not “done”</text>
+</svg>
+<figcaption><b>Figure 30-1</b> The order of checking in rehearsal. Run the song through once while recording, check the four things in turn, then write them in the notes. After fixing, run that section again including the cues before and after it.</figcaption></figure>
+<ol type="1">
+<li><strong>The beat at section boundaries</strong>: At the places where the song moves from intro to verse and from pre-chorus to chorus, see whether the cue hits the downbeat. These are the places where the cues numbered in tens, such as 10, 20 and 30 in the Chapter 16 cue sheet, sit. If a cue comes in late, check the GO timing (Chapter 31) or the timecode time (Chapter 28).</li>
+<li><strong>The face</strong>: See whether the singer’s face is visible all through the song. Check that the key light is kept separate from the song sequences (Chapters 13 and 27), and that an accent cue or dark cue does not switch off the key light too. On a stage with cameras, look not at the stage but at the monitor (Chapter 17).</li>
+<li><strong>The flashing</strong>: See how many times per second the strobes, dimmer effects and white flashes flash. Check that the value calculated with the formula of Chapter 25 (BPM ÷ 60 ÷ Measure) equals the count you made on the stage, and that it does not exceed the broadcast and performance standards (Chapters 17 and 32).</li>
+<li><strong>The repeated sections</strong>: See whether choruses 1, 2 and 3 rise one step at a time as planned. Check that the build-up per repeat of Chapter 14 and the headroom of Chapter 10 show on the stage too, and that you have not already spent everything in chorus 2 and left nothing for chorus 3.</li>
+</ol>
+<p>You have already looked at these four once when writing the cue sheet (Section 16.3) and in the previz check (Section 28.5). In rehearsal you look at the same items <strong>again with the real fixtures, the haze and the cameras</strong>, and fix only the places that look different from the simulation.</p>
+<aside class="box terms"><div class="box-label">Words to Know</div><div class="box-body"><dl class="defs"><div><dt>Run-through</dt><dd>Running a song or a show from start to finish once without stopping. In the first run-through you only watch and do not fix. If you start stopping to fix in the middle, there is not enough time to look at the later part of the song.</dd></div></dl></div></aside>
+<h2 id="c30-30-2-how-the-simulation-and-the-real-stage-differ">30.2 How the Simulation and the Real Stage Differ</h2><p class="lead">Even cues that were right in the simulation look different on the real stage in six ways: <strong>the fixture’s position, brightness, color, beams, movement and timing</strong>. A simulation is a picture drawn from fixed values, but the real stage is made together by the fixtures, the space and the people.<sup class="ref"><a href="#c30-s1">1</a></sup></p>
+<div class="tbl"><div class="tcap"><b>Table 30-1</b> Where the simulation and the real stage differ <span class="badge start">Starting value</span> <code>[Author to confirm]</code></div><table>
+<thead>
+<tr class="header">
+<th>What</th>
+<th>In the simulation</th>
+<th>On the real stage</th>
+<th>When to check</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fixture position</td>
+<td>Exactly the drawing’s coordinates</td>
+<td>Truss height, hanging position and tilt differ slightly</td>
+<td>First light-up</td>
+</tr>
+<tr class="even">
+<td>Brightness</td>
+<td>Drawn from the fixture data’s light output</td>
+<td>Looks different depending on the fixture’s condition, the distance, and the brightness of the audience and the LED wall</td>
+<td>First run-through</td>
+</tr>
+<tr class="odd">
+<td>Color</td>
+<td>Drawn in the screen’s colors</td>
+<td>Even at the same value the color differs a little between fixture types, and changes with the camera’s white balance</td>
+<td>First run-through, camera rehearsal</td>
+</tr>
+<tr class="even">
+<td>Beams</td>
+<td>The 3D window’s Haze setting</td>
+<td>How visible the beams are depends on the amount of haze and the airflow</td>
+<td>Run-through with haze on</td>
+</tr>
+<tr class="odd">
+<td>Movement</td>
+<td>Moves in the set time</td>
+<td>Depending on the movers’ real travel speed, the shape may finish late</td>
+<td>First run-through</td>
+</tr>
+<tr class="even">
+<td>Timing</td>
+<td>Matched to the recorded audio</td>
+<td>The band’s tempo and the GO timing differ a little each time</td>
+<td>Band rehearsal</td>
+</tr>
+</tbody>
+</table></div>
+<p>These six cannot be found by looking at the screen in front of the console. That is why the rehearsal checklist is made of items you judge by looking at the stage. Conversely, problems that can be found in the simulation, such as missing fixtures, leftover effects and fixtures lighting the floor, are finished before rehearsal with the previz checklist of Section 28.5. If such problems come up in rehearsal, the previz check was skipped.</p>
+<h2 id="c30-30-3-the-rehearsal-checklist">30.3 The Rehearsal Checklist</h2><p class="lead">There are 10 items to check in rehearsal, looked at in the order <strong>first light-up → first run-through → camera and band rehearsal</strong>. First see that the fixtures switch on properly and point the right way, then see whether it looks as intended.</p>
+<div class="tbl"><div class="tcap"><b>Table 30-2</b> Rehearsal checklist <sup class="ref"><a href="#c30-s1">1</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>No.</th>
+<th>What to check</th>
+<th>How to check</th>
+<th>Related chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Do all fixtures switch on and respond at the patched numbers?</td>
+<td>Switch on group by group; if one does not respond or a different fixture comes on, check the address</td>
+<td>22·24</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Do the fixed fixtures (LED bars, strobes and so on) point the way the drawing says?</td>
+<td>Switch the fixtures on and look at the direction</td>
+<td>24</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Are the movers’ pan and tilt directions right?</td>
+<td>Send a group to the same position and find the fixture that goes the opposite way alone. If it is reversed, invert it in the patch</td>
+<td>24</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Do the position presets light where intended (focusing)?</td>
+<td>Look at where the singer stands, light spilling toward the audience, and overlap with the LED wall</td>
+<td>9·24</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Is there any fixture that stands out from the rest on the same preset?</td>
+<td>Look at color, zoom and focus group by group</td>
+<td>8·24</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Does the stage look the brightness of the cue sheet?</td>
+<td>If it is dark, look first at the Grand Master (the whole console’s brightness) and the executor faders (the sequence’s brightness)</td>
+<td>10·27</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Do the beams look as planned in haze?</td>
+<td>Look at the cues where beams are the star (chorus, cross beams) with the haze on</td>
+<td>6·32</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Do the movers finish their shape within the beat?</td>
+<td>Look at mover bursts and waves at real speed. If they are late, look again at the phase, Measure and travel time</td>
+<td>25·26·28</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Do the face and color look right on the camera picture?</td>
+<td>Look at the key light and the faces in front of the LED wall on the broadcast monitor (PGM)</td>
+<td>17</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Do the cues hit the beat at the band’s tempo?</td>
+<td>Match the tempo with tap and look at the GO timing</td>
+<td>28·31</td>
+</tr>
+</tbody>
+</table></div>
+<p>Items 1–3 are looked at when the fixtures are installed and first lit, items 4–8 in the first run-through, and items 9–10 in the rehearsal with cameras and band together. Where to fix a problem differs by item. Items 1–3 are fixed in the patch, items 4–5 in the presets, items 6–8 in the cues and phasers, and item 10 in the tempo and timecode. For item 9, fix it in the preset if the color is wrong and in the cue if the brightness is wrong.</p>
+<p><strong>The order of looking and the order of fixing are different.</strong> When several items are caught, fix them in the order of Section 30.4 (patch → preset → cue → timecode). If the patch is wrong, no matter how much you fix the presets and cues above it, they will be wrong again.</p>
+<h2 id="c30-30-4-recording-notes-and-the-order-of-fixing">30.4 Recording, Notes and the Order of Fixing</h2><p class="lead">During rehearsal, <strong>record, write the problems in a note, and then fix them in order from the patch.</strong> If you rely on memory alone, it is easy to miss what to fix after rehearsal ends.</p>
+<p><strong>Recording</strong> can be done with a phone. Film from around the middle of the audience so the whole stage is in the frame, and the music is recorded too, which makes it easy to find the bars later. On a stage with cameras, also record the picture that is actually broadcast (PGM).<code>[Author to confirm]</code> Watching it next to the simulation video recorded in Section 28.5 makes it easy to find what changed.</p>
+<p><strong>Notes</strong> are written in the same expressions as the cue sheet. Not “it felt off in the chorus” but “cue 75, bar 63 beat 1, cross beams overlap the LED wall”: attach the cue number and bar.</p>
+<div class="tbl"><div class="tcap"><b>Table 30-3</b> Rehearsal note form — an example <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Cue</th>
+<th>Bar · beat</th>
+<th>Problem</th>
+<th>Check item</th>
+<th>Verdict</th>
+<th>Fix stage</th>
+<th>Fix details</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>30</td>
+<td>18 · 1</td>
+<td>The haze is thin, so the pan shape of the beam movers is hardly visible</td>
+<td>7</td>
+<td>Fix</td>
+<td>Cue</td>
+<td>Raise the beams’ dimmer level and agree the amount with the haze person</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>60</td>
+<td>46 · 1</td>
+<td>The mover burst does not spread out fully within 1.5 beats</td>
+<td>8</td>
+<td>Fix</td>
+<td>Cue</td>
+<td>Shorten cue 60’s position fade time</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>75</td>
+<td>63 · 1</td>
+<td>The cross beams overlap the LED wall behind the stage and the beams get buried</td>
+<td>4</td>
+<td>Change</td>
+<td>Preset</td>
+<td>Re-aim the cross-beam position, and look again as far as the Chapter 9 look sheet</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>The three rows of the table are examples made for this exercise. The three verdicts are the same as in Section 16.5. <strong>Keep</strong> means it was intended, so only write down the reason; <strong>Fix</strong> changes a single value; and <strong>Change</strong> goes back to the design to fix it.</p>
+<p><strong>The order of fixing</strong> is patch → preset → cue → timecode. This is because, in the show file structure of Figure 29-1 in Chapter 29, when you fix the patch on the lower level the presets and cues above change with it, and when you fix a preset every cue that uses that preset follows (Section 23.2).</p>
+<ol type="1">
+<li><strong>Patch</strong>: addresses, direction, and the position where fixtures actually hang (checklist items 1–3). If a fixture hangs in a different place from the drawing, fix the patch coordinates to the real position so that it matches the simulation.</li>
+<li><strong>Preset</strong>: focusing, differences between fixtures, and colors that are wrong on camera (items 4–5 and 9)</li>
+<li><strong>Cue</strong>: brightness, beams in haze, and the time of movement (items 6–8)</li>
+<li><strong>Timecode</strong>: the band’s tempo and times (item 10)</li>
+</ol>
+<p>So after fixing a preset, check again every cue that uses it. Run the fixed section again with one cue before and after it, because you have to look at the values that arrive by tracking from the previous cue too.</p>
+<p>Before the next rehearsal, keep only the lines in the notes that are not “done.” If there are several rehearsals, this one sheet of notes becomes the to-do list between them.</p>
+<h2 id="c30-30-5-exercise-love-attack-rehearsal-notes">30.5 [Exercise] LOVE ATTACK Rehearsal Notes</h2><p class="lead">You can practice without a real stage. Deliberately create on onPC some of the differences that could arise on a stage, and follow the order of writing the note and fixing. Use the LOVE ATTACK show file for which you finished the previz check in Chapter 28. Use the audio file each of you has prepared.</p>
+<p><strong>Follow along</strong></p>
+<ol type="1">
+<li>Turn off the 3D window’s Haze and run the song through once. Imagine it is a day with thin haze, and write in the note what cannot be seen in the cues where beams are the star (30, 60, 75, 80.1) (item 7).</li>
+<li>Lower the height (Z) in the patch coordinates of one beam mover by 0.5 m. Imagine it is a day the fixture hangs lower than the drawing, and look at where that fixture lights in cue 75’s cross beams (item 4).</li>
+<li>Lower the Grand Master to 70% and look at cue 30. Write the cause of the darker stage in the note, then put it back (item 6).</li>
+<li>Write the problems you found in the form of Table 30-3, and fix them in the order patch → preset → cue. For step 2, on a real stage you would fix the patch coordinates to the real height to match the simulation, and re-aim the cross-beam position preset.</li>
+<li>Run only the fixed section again, including the cues before and after it.</li>
+</ol>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>Look at two things.</li><li>First, see at which items of the checklist the three differences were caught, and whether what you fixed was in the patch, the presets or the cues.</li><li>Second, see whether all three were problems that could not be found with the previz checklist (Section 28.5) and had to be found by looking at the stage.</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">Try it with your own song</div><div class="box-body"><ol class="steps"><li>Finish the previz check of Section 28.5 by the day before rehearsal of the song you are in charge of now.</li><li>On the day of rehearsal, take only Table 30-2 with you and look at items 1–3 at the first light-up, items 4–8 at the first run-through, and items 9–10 at the camera and band rehearsal.</li><li>Then in the tight rehearsal time you only have to look at the stage.</li></ol></div></aside>
+<aside class="web" id="web-W22-30"><div class="web-head"><span class="web-tag">Web tool 23</span><h4>Rehearsal Notes</h4><a class="web-open" href="https://jjjh7401.github.io/lx/en/tools/rehearsal.html" rel="noopener" target="_blank">Open in new window ↗</a></div><p class="web-desc">Tick through the nine previz checks (Section 28.5) and the ten rehearsal checks one by one, and write the problems you find together with the cue, bar · beat, check item, verdict and fix stage. Load the cues of the cue sheet (Web tool 14) and choose a cue number and the bar fills in with it; it sorts what needs fixing in the order patch → preset → cue → timecode to make the to-do list for the next rehearsal. You can copy it to a spreadsheet.</p><div class="tool-embed"><iframe allow="autoplay" loading="lazy" src="https://jjjh7401.github.io/lx/en/tools/rehearsal.html?embed=1" style="--h:1550px" title="Rehearsal Notes"></iframe></div><p class="tool-open"><span>The notes you write are saved in this browser only. To use it on a wide screen, press "Open in new window" above.</span></p></aside>
+<section class="summary"><h2>Key points</h2><ul>
+<li>Rehearsal is the time to check what the simulation could not show. Problems that can be found on the screen, such as missing fixtures and leftover effects, are finished before rehearsal with the previz check (Section 28.5).</li>
+<li>The simulation and the real stage differ in the fixture’s position, brightness, color, beams, movement and timing.</li>
+<li>In rehearsal, run the song through once, then check the beat at section boundaries, the face, the flashing and the repeated sections in turn.</li>
+<li>The ten items of the rehearsal checklist are looked at in the order first light-up (items 1–3), first run-through (items 4–8), and camera and band rehearsal (items 9–10).</li>
+<li>Record, write the notes with the cue number and bar, and fix in the order patch → preset → cue → timecode.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">On the job tomorrow</div><div class="box-body"><ol class="steps"><li>Finish the previz check the day before rehearsal, and on the day of rehearsal take only the ten checklist items.</li><li>If you look first at the fixtures’ addresses and directions (items 1–3) at the first light-up, you will not fix in vain the presets and cues piled on top of them.</li></ol></div></aside>
+<section class="notes"><h2>Notes</h2><ol><li id="c30-s1">The author’s unpublished show-check notes. What a simulation check cannot see (focusing, speed and phase, output brightness, differences between fixtures) and the order of checking in rehearsal.</li></ol></section>
+</article>
+</div>
+
+</main>
+<nav class="ltm-pager" id="ltmPager" aria-label="Chapters"></nav>
+<footer class="ltm-foot">
+<p><b>Lighting the Music</b> by Jaehyun Jung. Free to read online. English edition translated from the Korean original with AI.</p>
+<p>Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener license" target="_blank">CC BY-NC-ND 4.0</a>: you may share it with credit (title, author and a link to this page), but not for commercial use and not in modified form.</p>
+</footer>
+<script src="book.js?v=3"></script>
+<script>LTM_chapter("ch30");</script>
+</body>
+</html>
