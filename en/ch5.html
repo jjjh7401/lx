@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chapter 5 · The Song Map · Lighting the Music</title>
+<meta name="description" content="">
+<link rel="alternate" hreflang="ko" href="https://ablitzdesign.tistory.com/55">
+<link rel="alternate" hreflang="en" href="https://jjjh7401.github.io/lx/en/ch5.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 5 · The Song Map · Lighting the Music">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://jjjh7401.github.io/lx/cover-800.jpg">
+<meta property="og:url" content="https://jjjh7401.github.io/lx/en/ch5.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="en.css?v=2">
+</head>
+<body>
+<header class="ltm-bar" id="ltmBar"></header>
+<main id="article-view">
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch5"><header class="ch-head"><div class="ch-num"><span>Chapter</span> 5</div><h1 class="ch-title">The Song Map</h1><p class="ch-sub">Everything You Heard on One Sheet</p></header>
+<aside class="box goals"><div class="box-label">In this chapter</div><div class="box-body">
+<ul class="checks">
+<li>Gather what you heard in Chapters 1–4 onto one song map.</li>
+<li>Choose between the basic and the detailed version to fit your prep time.</li>
+<li>Mark how certain each thing you wrote is.</li>
+</ul>
+</div></aside>
+<div class="open-label">Opening scene</div><p class="lead">Listen to the same song ten times and you hear something new ten times. At first you hear only the chorus, then the spot where the bass drops out, and then even the hi-hat that hits half a beat early. There is no end to what you could write down.</p>
+<p>So decide first where to stop. There are two criteria: the time you have left, and the job the lights have to do in that song. Gather what you heard onto one sheet, and choose how detailed to be to fit the time.</p>
+<h2 id="c5-5-1-what-the-song-map-does">5.1 What the Song Map Does</h2><p class="lead">The song map gathers what you heard in Chapters 1–4 (beats, sections, energy, changes) onto one sheet. Once you have made it, from then on you work from the sheet instead of listening to the song again.</p>
+<p>A song map is used in three main ways.</p>
+<ul class="keyed">
+<li><strong>When building cues</strong>As you make the cue sheet (Chapter 16), you decide where the cues go from the song map alone, without listening to the song again from the start.</li>
+<li><strong>When working together</strong>With the director, the console programmer and the audio engineer, you can point at the same spot by bar number, as in "the bar 18 chorus hit."</li>
+<li><strong>When taking it up again</strong>Even if you take the same song months later or receive a remix version, you carry on from the song map instead of listening from scratch.</li>
+</ul>
+<p>In all three cases, anyone should be able to find the same spot whenever they look. That is why the song map uses bar numbers, not seconds (Chapter 1), and marks what you checked yourself separately from what you guessed (Section 5.4).</p>
+<h2 id="c5-5-2-the-one-hour-basic-version">5.2 The One-Hour Basic Version</h2><p class="lead">When prep time is short, write only enough to decide where to put the cues. These are the six cells on the left of Figure 5-1.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 456" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#ffffff" height="400.0" opacity="1.0" rx="10" stroke="#3b6ea8" stroke-width="1.8" width="420.0" x="40.0" y="80.0"></rect>
+<rect fill="#3b6ea8" height="52.0" opacity="0.14" rx="10" stroke="none" stroke-width="1" width="420.0" x="40.0" y="80.0"></rect>
+<text fill="#3b6ea8" font-size="16" font-weight="700" opacity="1.0" text-anchor="start" x="60.0" y="106.0">Basic version</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="60.0" y="124.0">30 min–1 hour · enough to set up the cue skeleton</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="64.0" y="158.0">Song info</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="210.0" y="158.0">Title, length, time the music ends</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="64.0" y="190.0">BPM · first beat</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="210.0" y="190.0">BPM checked by ear, first downbeat</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="64.0" y="222.0">Section map</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="210.0" y="222.0">Start bars, names, pass numbers</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="64.0" y="254.0">Key changes</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="210.0" y="254.0">Only ▼ ◆ ×</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="64.0" y="286.0">Energy 5</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="210.0" y="286.0">No more than three biggest spots</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="64.0" y="318.0">Certainty</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="210.0" y="318.0">Measured / guessed / undecided</text>
+<rect fill="#ffffff" height="400.0" opacity="1.0" rx="10" stroke="#7a5ea8" stroke-width="1.8" width="420.0" x="500.0" y="80.0"></rect>
+<rect fill="#7a5ea8" height="52.0" opacity="0.14" rx="10" stroke="none" stroke-width="1" width="420.0" x="500.0" y="80.0"></rect>
+<text fill="#7a5ea8" font-size="16" font-weight="700" opacity="1.0" text-anchor="start" x="520.0" y="106.0">Detailed version</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="520.0" y="124.0">Half a day to a day · down to layers and flow</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="524.0" y="158.0">Song info</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="670.0" y="158.0">Title, length, time the music ends</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="524.0" y="190.0">BPM · first beat</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="670.0" y="190.0">BPM checked by ear, first downbeat</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="524.0" y="222.0">Section map</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="670.0" y="222.0">Start bars, names, pass numbers</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="524.0" y="254.0">Key changes</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="670.0" y="254.0">Only ▼ ◆ ×</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="524.0" y="286.0">Energy 5</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="670.0" y="286.0">No more than three biggest spots</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="524.0" y="318.0">Certainty</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="670.0" y="318.0">Measured / guessed / undecided</text>
+<rect fill="#d9902a" height="28.0" opacity="0.1" rx="4" stroke="none" stroke-width="1" width="396.0" x="512.0" y="332.0"></rect>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="524.0" y="350.0">All energy</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="670.0" y="350.0">1–5 for each section</text>
+<rect fill="#d9902a" height="28.0" opacity="0.1" rx="4" stroke="none" stroke-width="1" width="396.0" x="512.0" y="364.0"></rect>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="524.0" y="382.0">All changes</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="670.0" y="382.0">Down to ↗ ≋ ○ ▲</text>
+<rect fill="#d9902a" height="28.0" opacity="0.1" rx="4" stroke="none" stroke-width="1" width="396.0" x="512.0" y="396.0"></rect>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="524.0" y="414.0">Rhythm layers</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="670.0" y="414.0">Kick, snare, hi-hat, bass</text>
+<rect fill="#d9902a" height="28.0" opacity="0.1" rx="4" stroke="none" stroke-width="1" width="396.0" x="512.0" y="428.0"></rect>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="524.0" y="446.0">Color notes</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="670.0" y="446.0">Colors from the third listen</text>
+<text fill="#d9902a" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="start" x="520.0" y="474.0">Orange cells = cells added in the detailed version</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="506.0">Starting value · The cells and times are this book’s suggestions.</text>
+</svg>
+<figcaption><b>Figure 5-1</b> Basic version and detailed version. The detailed version adds four cells to the basic version.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>Table 5-1</b> Order and time of the basic version — for a 3-minute song <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Order</th>
+<th>Task</th>
+<th>Chapter</th>
+<th>Time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Listen three times (mainly passes 1 and 2)</td>
+<td>Chapter 1</td>
+<td>15 min</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Check the BPM by ear and find the first downbeat</td>
+<td>Chapter 2</td>
+<td>10 min</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Write section start bars, names and pass numbers</td>
+<td>Chapter 3</td>
+<td>15 min</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Write impacts (▼ ◆), kick-outs (×) and the energy 5 spots</td>
+<td>Chapter 4</td>
+<td>10 min</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Check the grid on bars late in the song and mark certainty</td>
+<td>Chapter 2 · Section 5.4</td>
+<td>10 min</td>
+</tr>
+</tbody>
+</table></div>
+<p>It adds up to one hour. If you have only 30 minutes, cut the third listen and the energy verdicts, but don’t cut the BPM and first downbeat (step 2) or the section map (step 3). If the BPM, first downbeat or section map is wrong, every cue laid on top of them goes out of line.</p>
+<p>What is often left out of the basic version is <strong>the time the music really ends</strong>.</p>
+<p>The length of the audio file and the length of the music can differ. The LOVE ATTACK audio file is 197 seconds, but the music ends at about 179 seconds and the last 18 seconds are almost silent.<sup class="ref"><a href="#c5-s1">1</a></sup> If you place the last cue by the file length alone, the stage waits for 18 seconds with no sound.</p>
+<h2 id="c5-5-3-the-detailed-version-when-you-have-time">5.3 The Detailed Version When You Have Time</h2><p class="lead">If you have plenty of prep time, add four cells to the basic version (the right side of Figure 5-1).</p>
+<ul class="keyed">
+<li><strong>All energy</strong>Write 1–5 for every section, not just the big spots (Figure 4-2 in Chapter 4).</li>
+<li><strong>All changes</strong>Write not only the impacts but also points such as the ▲ entry and transitions such as the ↗ build-up, ≋ snare roll and ○ break.</li>
+<li><strong>Rhythm layers</strong>Divide one chorus bar into 16 cells and write where the kick, snare, hi-hat and bass land (Section 4.5).</li>
+<li><strong>Color notes</strong>Write the colors that came to mind in the third listen for each section (Section 1.2).</li>
+</ul>
+<p>The detailed version is needed when you use many cues on one song, when you put the same song on stage many times, and when you link several songs in one flow. The rhythm layers and color notes are used as they are in Chapter 13 (Layering) and Chapter 8 (Color Planning).</p>
+<h2 id="c5-5-4-what-is-certain-and-what-is-a-guess">5.4 What Is Certain and What Is a Guess</h2><p class="lead">Not everything written in the song map is equally trustworthy. So mark how certain each thing you wrote is.</p>
+<div class="tbl"><div class="tcap"><b>Table 5-2</b> Three certainty marks</div><table>
+<thead>
+<tr class="header">
+<th>Mark</th>
+<th>Meaning</th>
+<th>LOVE ATTACK example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>● Measured</td>
+<td>Measured, or checked by ear several times</td>
+<td>112 BPM (112 beats between two hits = 60 s, grid fits through bar 82), the times of the chorus entries and kick-out spots</td>
+</tr>
+<tr class="even">
+<td>◐ Guessed</td>
+<td>There is evidence but it is not settled</td>
+<td>First downbeat 1.50 s (three pieces of evidence agree but final confirmation by ear is needed, so bar numbers like 18 and 46 follow this judgment too), the name "pre-chorus" for bars 14–17</td>
+</tr>
+<tr class="odd">
+<td>○ Undecided</td>
+<td>Two or more answers remain</td>
+<td>Whether the "beat drop" critics talk about falls at bars 63–66 or at bars 18 and 46</td>
+</tr>
+</tbody>
+</table></div>
+<p><sup class="ref"><a href="#c5-s1">1</a></sup></p>
+<p>With these marks, you know what to check first at rehearsal. Listen to the ○ first, then the ◐. You don’t need to recheck the ●.</p>
+<p>Results from an automatic analysis program are all treated as ◐ at first. Figure 5-2 puts side by side how an automatic analysis program the author tried divided LOVE ATTACK, and the result checked by listening and counting bars by hand.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 336" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="120.0" x2="120.0" y1="300.0" y2="306.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="120.0" y="322.0">0 s</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="174.0" x2="174.0" y1="300.0" y2="306.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="228.0" x2="228.0" y1="300.0" y2="306.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="228.0" y="322.0">10 s</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="282.0" x2="282.0" y1="300.0" y2="306.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="336.0" x2="336.0" y1="300.0" y2="306.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="336.0" y="322.0">20 s</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="390.0" x2="390.0" y1="300.0" y2="306.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="444.0" x2="444.0" y1="300.0" y2="306.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="444.0" y="322.0">30 s</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="498.0" x2="498.0" y1="300.0" y2="306.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="552.0" x2="552.0" y1="300.0" y2="306.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="552.0" y="322.0">40 s</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="606.0" x2="606.0" y1="300.0" y2="306.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="660.0" x2="660.0" y1="300.0" y2="306.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="660.0" y="322.0">50 s</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="714.0" x2="714.0" y1="300.0" y2="306.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="768.0" x2="768.0" y1="300.0" y2="306.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="768.0" y="322.0">60 s</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="822.0" x2="822.0" y1="300.0" y2="306.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="876.0" x2="876.0" y1="300.0" y2="306.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="876.0" y="322.0">70 s</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="930.0" x2="930.0" y1="300.0" y2="306.0"></line>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="128.0">Auto analysis</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="146.0">First 5 of 10</text>
+<rect fill="#5b6b8c" height="40.0" opacity="0.8" rx="3" stroke="none" stroke-width="1" width="147.0" x="121.0" y="112.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="194.5" y="137.0">Intro</text>
+<rect fill="#3b6ea8" height="40.0" opacity="0.8" rx="3" stroke="none" stroke-width="1" width="159.1" x="270.0" y="112.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="349.6" y="137.0">Verse 1</text>
+<rect fill="#3b6ea8" height="40.0" opacity="0.8" rx="3" stroke="none" stroke-width="1" width="92.7" x="431.2" y="112.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="477.5" y="137.0">Verse 2</text>
+<rect fill="#c8553d" height="40.0" opacity="0.8" rx="3" stroke="none" stroke-width="1" width="344.1" x="525.9" y="112.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="698.0" y="137.0">Chorus 1</text>
+<rect fill="#3b6ea8" height="40.0" opacity="0.8" rx="3" stroke="none" stroke-width="1" width="57.0" x="872.0" y="112.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="900.5" y="137.0">Verse 3</text>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="228.0">Checked</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="246.0">By bar’s first beat</text>
+<rect fill="#5b6b8c" height="40.0" opacity="0.8" rx="3" stroke="none" stroke-width="1" width="136.9" x="137.2" y="212.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="205.6" y="237.0">Intro</text>
+<rect fill="#3b6ea8" height="40.0" opacity="0.8" rx="3" stroke="none" stroke-width="1" width="160.0" x="276.1" y="212.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="356.1" y="237.0">Verse 1</text>
+<rect fill="#7a5ea8" height="40.0" opacity="0.8" rx="3" stroke="none" stroke-width="1" width="90.6" x="438.1" y="212.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="483.4" y="237.0">Pre-chorus 1</text>
+<rect fill="#c8553d" height="40.0" opacity="0.8" rx="3" stroke="none" stroke-width="1" width="345.1" x="530.6" y="212.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="703.2" y="237.0">Chorus 1</text>
+<rect fill="#9aa3b2" height="40.0" opacity="0.8" rx="3" stroke="none" stroke-width="1" width="21.1" x="877.8" y="212.0"></rect>
+<rect fill="#3b6ea8" height="40.0" opacity="0.8" rx="3" stroke="none" stroke-width="1" width="28.1" x="900.9" y="212.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="914.9" y="237.0">Verse 2</text>
+<line opacity="1.0" stroke="#c8553d" stroke-dasharray="3,3" stroke-linecap="butt" stroke-width="1.4" x1="269.0" x2="275.1" y1="152.0" y2="212.0"></line>
+<line opacity="1.0" stroke="#c8553d" stroke-dasharray="3,3" stroke-linecap="butt" stroke-width="1.4" x1="430.2" x2="437.1" y1="152.0" y2="212.0"></line>
+<line opacity="1.0" stroke="#c8553d" stroke-dasharray="3,3" stroke-linecap="butt" stroke-width="1.4" x1="524.9" x2="529.6" y1="152.0" y2="212.0"></line>
+<text fill="#c8553d" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="433.2" y="186.0">Boundary placed about a beat (0.4–0.8 s) early</text>
+<text fill="#7a5ea8" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="middle" x="454.8" y="274.0">Calls the build-up a "verse"</text>
+<text fill="#1f2430" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="middle" x="876.8" y="274.0">Misses the kick-out</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="386.0">Source · Author’s measurement (2026-10-06). The automatic analysis is the result of one analysis program tried while writing this book. Other tools may differ.</text>
+</svg>
+<figcaption><b>Figure 5-2</b> Sections from an automatic analysis and checked sections. It got the position of the choruses right, but the boundaries and names had to be corrected.</figcaption></figure>
+<p>The program got the positions of the three choruses and the big flow right. But all 8 boundaries that can be compared with bars were placed about a beat early (0.41–0.82 s) compared with the real downbeats. The boundary of the verse-2 pre-chorus was three whole bars earlier than the real one.</p>
+<p>It called both the build-up and the bridge "verse," and it did not catch the kick-out bars or Chorus 3 coming in a beat early. It gave the 18 seconds of silence at the end of the song a section of its own.<sup class="ref"><a href="#c5-s1">1</a></sup> A tool gets you a starting point quickly, but to raise a mark to ● you have to check it by ear.</p>
+<h2 id="c5-5-5-exercise-love-attack-song-map">5.5 [Exercise] LOVE ATTACK Song Map</h2><p class="lead">Filling the basic version for LOVE ATTACK gives Table 5-3.</p>
+<div class="tbl"><div class="tcap"><b>Table 5-3</b> LOVE ATTACK song map (basic version) · times are <span class="badge calc">Calculation</span> · the rest are from <sup class="ref"><a href="#c5-s1">1</a></sup> and the verdicts in Chapter 4</div><table>
+<thead>
+<tr class="header">
+<th>Cell</th>
+<th>Content</th>
+<th>Certainty</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Song info</td>
+<td>LOVE ATTACK (RESCENE), file 197 s, music ends at about 2:59</td>
+<td>●</td>
+</tr>
+<tr class="even">
+<td>BPM · first beat</td>
+<td>112 BPM, first downbeat 1.50 s (pickup 0.96 s before it), 1 bar 2.143 s, 83 bars (measured through bar 82, the last bar calculated)</td>
+<td>● / ◐</td>
+</tr>
+<tr class="odd">
+<td>Section map</td>
+<td>1 Intro · 7 Verse 1 · 14 Pre-chorus 1 · 18 Chorus 1 · 33 Kick-out · 34 Verse 2 · 42 Pre-chorus 2 · 46 Chorus 2 · 61 Kick-out · 62 Bridge · 63 Beat section (drop candidate) · 67 Break · 68 Chorus 3 · 82 End</td>
+<td>● / ◐ (names)</td>
+</tr>
+<tr class="even">
+<td>Key changes</td>
+<td>Big hits ▼ 18 (0:37.9) · ▼ 46 (1:37.9), anticipation (striking early) ◆ bar 67 beat 4 (2:24.5), kick-outs × 33 · × 61 · × 82</td>
+<td>●</td>
+</tr>
+<tr class="odd">
+<td>Energy 5</td>
+<td>Bars 18, 46, and 67 beat 4–68</td>
+<td>◐ (verdict)</td>
+</tr>
+<tr class="even">
+<td>Certainty</td>
+<td>○ Position of the beat drop (63–66 or 18·46)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>Figure 5-3 shows the music map with the detailed version filled in. Sections, energy, bass measurements, changes and certainty are overlaid on one sheet.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 536" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<text fill="#6b7280" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="92.0">Time</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="249.8" x2="249.8" y1="98.0" y2="104.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="249.8" y="92.0">0:30</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="386.4" x2="386.4" y1="98.0" y2="104.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="386.4" y="92.0">1:00</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="523.0" x2="523.0" y1="98.0" y2="104.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="523.0" y="92.0">1:30</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="659.7" x2="659.7" y1="98.0" y2="104.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="659.7" y="92.0">2:00</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="796.3" x2="796.3" y1="98.0" y2="104.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="796.3" y="92.0">2:30</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="120.0" x2="930.0" y1="104.0" y2="104.0"></line>
+<text fill="#6b7280" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="130.0">Section</text>
+<rect fill="#5b6b8c" height="24.0" opacity="0.85" rx="0" stroke="none" stroke-width="1" width="57.6" x="120.5" y="116.0"></rect>
+<text fill="#ffffff" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="middle" x="149.3" y="131.0">Intro</text>
+<rect fill="#3b6ea8" height="24.0" opacity="0.85" rx="0" stroke="none" stroke-width="1" width="67.3" x="179.1" y="116.0"></rect>
+<text fill="#ffffff" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="middle" x="212.7" y="131.0">Verse 1</text>
+<rect fill="#7a5ea8" height="24.0" opacity="0.85" rx="0" stroke="none" stroke-width="1" width="38.0" x="247.4" y="116.0"></rect>
+<text fill="#ffffff" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="middle" x="266.4" y="131.0">Pre 1</text>
+<rect fill="#c8553d" height="24.0" opacity="0.85" rx="0" stroke="none" stroke-width="1" width="145.4" x="286.4" y="116.0"></rect>
+<text fill="#ffffff" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="middle" x="359.1" y="131.0">Chorus 1</text>
+<rect fill="#9aa3b2" height="24.0" opacity="0.85" rx="0" stroke="none" stroke-width="1" width="8.8" x="432.8" y="116.0"></rect>
+<rect fill="#3b6ea8" height="24.0" opacity="0.85" rx="0" stroke="none" stroke-width="1" width="77.1" x="442.5" y="116.0"></rect>
+<text fill="#ffffff" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="middle" x="481.1" y="131.0">Verse 2</text>
+<rect fill="#7a5ea8" height="24.0" opacity="0.85" rx="0" stroke="none" stroke-width="1" width="38.0" x="520.6" y="116.0"></rect>
+<text fill="#ffffff" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="middle" x="539.6" y="131.0">Pre 2</text>
+<rect fill="#c8553d" height="24.0" opacity="0.85" rx="0" stroke="none" stroke-width="1" width="145.4" x="559.7" y="116.0"></rect>
+<text fill="#ffffff" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="middle" x="632.3" y="131.0">Chorus 2</text>
+<rect fill="#9aa3b2" height="24.0" opacity="0.85" rx="0" stroke="none" stroke-width="1" width="8.8" x="706.0" y="116.0"></rect>
+<rect fill="#2f8c8c" height="24.0" opacity="0.85" rx="0" stroke="none" stroke-width="1" width="8.8" x="715.8" y="116.0"></rect>
+<rect fill="#2f8c8c" height="24.0" opacity="0.85" rx="0" stroke="none" stroke-width="1" width="38.0" x="725.6" y="116.0"></rect>
+<text fill="#ffffff" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="middle" x="744.6" y="131.0">Beat</text>
+<rect fill="#d8c7a6" height="24.0" opacity="0.85" rx="0" stroke="none" stroke-width="1" width="8.8" x="764.6" y="116.0"></rect>
+<rect fill="#d9902a" height="24.0" opacity="0.85" rx="0" stroke="none" stroke-width="1" width="135.6" x="774.4" y="116.0"></rect>
+<text fill="#ffffff" font-size="11.5" font-weight="700" opacity="1.0" text-anchor="middle" x="842.2" y="131.0">Chorus 3</text>
+<rect fill="#5b6b8c" height="24.0" opacity="0.85" rx="0" stroke="none" stroke-width="1" width="18.5" x="911.0" y="116.0"></rect>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="124.9" y="156.0">1</text>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="183.4" y="156.0">7</text>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="251.7" y="156.0">14</text>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="290.8" y="156.0">18</text>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="437.2" y="156.0">33</text>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="525.0" y="156.0">42</text>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="564.0" y="156.0">46</text>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="710.4" y="156.0">61</text>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="769.0" y="156.0">67</text>
+<text fill="#6b7280" font-size="10" font-weight="400" opacity="1.0" text-anchor="middle" x="915.4" y="156.0">82</text>
+<text fill="#6b7280" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="156.0">Bar</text>
+<text fill="#6b7280" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="230.0">Energy</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="246.0">(verdict)</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="120.0" x2="930.0" y1="252.0" y2="252.0"></line>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="end" x="112.0" y="256.0">1</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="120.0" x2="930.0" y1="234.0" y2="234.0"></line>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="end" x="112.0" y="238.0">2</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="120.0" x2="930.0" y1="216.0" y2="216.0"></line>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="end" x="112.0" y="220.0">3</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="120.0" x2="930.0" y1="198.0" y2="198.0"></line>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="end" x="112.0" y="202.0">4</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="120.0" x2="930.0" y1="180.0" y2="180.0"></line>
+<text fill="#6b7280" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="end" x="112.0" y="184.0">5</text>
+<path d="M120,270 L120.0,252.0 L129.8,252.0 L129.8,252.0 L139.5,252.0 L139.5,234.0 L149.3,234.0 L149.3,234.0 L159.0,234.0 L159.0,234.0 L168.8,234.0 L168.8,234.0 L178.6,234.0 L178.6,234.0 L188.3,234.0 L188.3,234.0 L198.1,234.0 L198.1,234.0 L207.8,234.0 L207.8,234.0 L217.6,234.0 L217.6,234.0 L227.3,234.0 L227.3,234.0 L237.1,234.0 L237.1,234.0 L246.9,234.0 L246.9,216.0 L256.6,216.0 L256.6,216.0 L266.4,216.0 L266.4,198.0 L276.1,198.0 L276.1,198.0 L285.9,198.0 L285.9,180.0 L295.7,180.0 L295.7,198.0 L305.4,198.0 L305.4,198.0 L315.2,198.0 L315.2,198.0 L324.9,198.0 L324.9,198.0 L334.7,198.0 L334.7,198.0 L344.5,198.0 L344.5,198.0 L354.2,198.0 L354.2,198.0 L364.0,198.0 L364.0,198.0 L373.7,198.0 L373.7,198.0 L383.5,198.0 L383.5,198.0 L393.3,198.0 L393.3,198.0 L403.0,198.0 L403.0,198.0 L412.8,198.0 L412.8,198.0 L422.5,198.0 L422.5,198.0 L432.3,198.0 L432.3,234.0 L442.0,234.0 L442.0,216.0 L451.8,216.0 L451.8,216.0 L461.6,216.0 L461.6,216.0 L471.3,216.0 L471.3,216.0 L481.1,216.0 L481.1,216.0 L490.8,216.0 L490.8,216.0 L500.6,216.0 L500.6,216.0 L510.4,216.0 L510.4,216.0 L520.1,216.0 L520.1,234.0 L529.9,234.0 L529.9,234.0 L539.6,234.0 L539.6,198.0 L549.4,198.0 L549.4,198.0 L559.2,198.0 L559.2,180.0 L568.9,180.0 L568.9,198.0 L578.7,198.0 L578.7,198.0 L588.4,198.0 L588.4,198.0 L598.2,198.0 L598.2,198.0 L608.0,198.0 L608.0,198.0 L617.7,198.0 L617.7,198.0 L627.5,198.0 L627.5,198.0 L637.2,198.0 L637.2,198.0 L647.0,198.0 L647.0,198.0 L656.7,198.0 L656.7,198.0 L666.5,198.0 L666.5,198.0 L676.3,198.0 L676.3,198.0 L686.0,198.0 L686.0,198.0 L695.8,198.0 L695.8,198.0 L705.5,198.0 L705.5,234.0 L715.3,234.0 L715.3,234.0 L725.1,234.0 L725.1,198.0 L734.8,198.0 L734.8,198.0 L744.6,198.0 L744.6,198.0 L754.3,198.0 L754.3,198.0 L764.1,198.0 L764.1,252.0 L773.9,252.0 L773.9,180.0 L783.6,180.0 L783.6,198.0 L793.4,198.0 L793.4,198.0 L803.1,198.0 L803.1,198.0 L812.9,198.0 L812.9,198.0 L822.7,198.0 L822.7,198.0 L832.4,198.0 L832.4,198.0 L842.2,198.0 L842.2,198.0 L851.9,198.0 L851.9,198.0 L861.7,198.0 L861.7,198.0 L871.4,198.0 L871.4,198.0 L881.2,198.0 L881.2,198.0 L891.0,198.0 L891.0,198.0 L900.7,198.0 L900.7,198.0 L910.5,198.0 L910.5,234.0 L920.2,234.0 L920.2,234.0 L930.0,234.0 L930,270 Z" fill="#d9902a" opacity="0.22" stroke="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+<path d="M120.0,252.0 L129.8,252.0 L129.8,252.0 L139.5,252.0 L139.5,234.0 L149.3,234.0 L149.3,234.0 L159.0,234.0 L159.0,234.0 L168.8,234.0 L168.8,234.0 L178.6,234.0 L178.6,234.0 L188.3,234.0 L188.3,234.0 L198.1,234.0 L198.1,234.0 L207.8,234.0 L207.8,234.0 L217.6,234.0 L217.6,234.0 L227.3,234.0 L227.3,234.0 L237.1,234.0 L237.1,234.0 L246.9,234.0 L246.9,216.0 L256.6,216.0 L256.6,216.0 L266.4,216.0 L266.4,198.0 L276.1,198.0 L276.1,198.0 L285.9,198.0 L285.9,180.0 L295.7,180.0 L295.7,198.0 L305.4,198.0 L305.4,198.0 L315.2,198.0 L315.2,198.0 L324.9,198.0 L324.9,198.0 L334.7,198.0 L334.7,198.0 L344.5,198.0 L344.5,198.0 L354.2,198.0 L354.2,198.0 L364.0,198.0 L364.0,198.0 L373.7,198.0 L373.7,198.0 L383.5,198.0 L383.5,198.0 L393.3,198.0 L393.3,198.0 L403.0,198.0 L403.0,198.0 L412.8,198.0 L412.8,198.0 L422.5,198.0 L422.5,198.0 L432.3,198.0 L432.3,234.0 L442.0,234.0 L442.0,216.0 L451.8,216.0 L451.8,216.0 L461.6,216.0 L461.6,216.0 L471.3,216.0 L471.3,216.0 L481.1,216.0 L481.1,216.0 L490.8,216.0 L490.8,216.0 L500.6,216.0 L500.6,216.0 L510.4,216.0 L510.4,216.0 L520.1,216.0 L520.1,234.0 L529.9,234.0 L529.9,234.0 L539.6,234.0 L539.6,198.0 L549.4,198.0 L549.4,198.0 L559.2,198.0 L559.2,180.0 L568.9,180.0 L568.9,198.0 L578.7,198.0 L578.7,198.0 L588.4,198.0 L588.4,198.0 L598.2,198.0 L598.2,198.0 L608.0,198.0 L608.0,198.0 L617.7,198.0 L617.7,198.0 L627.5,198.0 L627.5,198.0 L637.2,198.0 L637.2,198.0 L647.0,198.0 L647.0,198.0 L656.7,198.0 L656.7,198.0 L666.5,198.0 L666.5,198.0 L676.3,198.0 L676.3,198.0 L686.0,198.0 L686.0,198.0 L695.8,198.0 L695.8,198.0 L705.5,198.0 L705.5,234.0 L715.3,234.0 L715.3,234.0 L725.1,234.0 L725.1,198.0 L734.8,198.0 L734.8,198.0 L744.6,198.0 L744.6,198.0 L754.3,198.0 L754.3,198.0 L764.1,198.0 L764.1,252.0 L773.9,252.0 L773.9,180.0 L783.6,180.0 L783.6,198.0 L793.4,198.0 L793.4,198.0 L803.1,198.0 L803.1,198.0 L812.9,198.0 L812.9,198.0 L822.7,198.0 L822.7,198.0 L832.4,198.0 L832.4,198.0 L842.2,198.0 L842.2,198.0 L851.9,198.0 L851.9,198.0 L861.7,198.0 L861.7,198.0 L871.4,198.0 L871.4,198.0 L881.2,198.0 L881.2,198.0 L891.0,198.0 L891.0,198.0 L900.7,198.0 L900.7,198.0 L910.5,198.0 L910.5,234.0 L920.2,234.0 L920.2,234.0 L930.0,234.0" fill="none" opacity="1.0" stroke="#d9902a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
+<text fill="#6b7280" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="340.0">Bass</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="356.0">(measured)</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="120.0" x2="930.0" y1="380.0" y2="380.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-dasharray="3,4" stroke-linecap="butt" stroke-width="1" x1="120.0" x2="930.0" y1="362.6" y2="362.6"></line>
+<path d="M124.9,371.7 L134.6,372.3 L144.4,367.8 L154.2,362.8 L163.9,368.3 L173.7,368.9 L183.4,366.6 L193.2,363.5 L203.0,364.3 L212.7,361.0 L222.5,360.2 L232.2,368.3 L242.0,367.8 L251.7,366.3 L261.5,368.5 L271.3,364.0 L281.0,352.9 L290.8,303.1 L300.5,357.4 L310.3,362.6 L320.1,367.3 L329.8,359.3 L339.6,361.9 L349.3,359.3 L359.1,366.6 L368.9,363.8 L378.6,362.1 L388.4,361.0 L398.1,365.6 L407.9,358.6 L417.7,356.2 L427.4,366.4 L437.2,375.7 L446.9,366.6 L456.7,359.5 L466.4,355.1 L476.2,364.0 L486.0,347.0 L495.7,364.0 L505.5,351.7 L515.2,365.0 L525.0,373.2 L534.8,373.0 L544.5,358.8 L554.3,354.8 L564.0,303.0 L573.8,357.9 L583.6,359.8 L593.3,366.3 L603.1,361.6 L612.8,363.3 L622.6,362.4 L632.3,367.0 L642.1,362.8 L651.9,361.9 L661.6,358.1 L671.4,365.0 L681.1,360.3 L690.9,357.6 L700.7,366.3 L710.4,375.8 L720.2,367.7 L729.9,354.4 L739.7,345.4 L749.5,355.1 L759.2,348.9 L769.0,356.3 L778.7,336.5 L788.5,367.1 L798.3,369.2 L808.0,362.6 L817.8,360.7 L827.5,362.1 L837.3,369.2 L847.0,363.8 L856.8,358.1 L866.6,358.3 L876.3,364.5 L886.1,360.3 L895.8,357.7 L905.6,365.0 L915.4,376.0" fill="none" opacity="1.0" stroke="#c8553d" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+<text fill="#6b7280" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="436.0">Change</text>
+<text fill="#c8553d" font-size="17" font-weight="700" opacity="1.0" text-anchor="middle" x="183.4" y="438.0">▲</text>
+<text fill="#7a5ea8" font-size="17" font-weight="700" opacity="1.0" text-anchor="middle" x="251.7" y="438.0">↗</text>
+<text fill="#c8553d" font-size="17" font-weight="700" opacity="1.0" text-anchor="middle" x="290.8" y="438.0">▼</text>
+<text fill="#7b8494" font-size="17" font-weight="700" opacity="1.0" text-anchor="middle" x="437.2" y="438.0">×</text>
+<text fill="#6b7280" font-size="17" font-weight="700" opacity="1.0" text-anchor="middle" x="525.0" y="438.0">○</text>
+<text fill="#7a5ea8" font-size="17" font-weight="700" opacity="1.0" text-anchor="middle" x="547.4" y="438.0">↗</text>
+<text fill="#c8553d" font-size="17" font-weight="700" opacity="1.0" text-anchor="middle" x="564.0" y="438.0">▼</text>
+<text fill="#7b8494" font-size="17" font-weight="700" opacity="1.0" text-anchor="middle" x="710.4" y="438.0">×</text>
+<text fill="#6b7280" font-size="17" font-weight="700" opacity="1.0" text-anchor="middle" x="764.1" y="438.0">○</text>
+<text fill="#d9902a" font-size="17" font-weight="700" opacity="1.0" text-anchor="middle" x="777.8" y="438.0">◆</text>
+<text fill="#7a5ea8" font-size="17" font-weight="700" opacity="1.0" text-anchor="middle" x="794.3" y="438.0">↗</text>
+<text fill="#7b8494" font-size="17" font-weight="700" opacity="1.0" text-anchor="middle" x="915.4" y="438.0">×</text>
+<text fill="#6b7280" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="482.0">Certainty</text>
+<text fill="#3b6ea8" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="120.0" y="482.0">● BPM 112</text>
+<text fill="#7a5ea8" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="246.9" y="482.0">◐ First beat 1.50 s</text>
+<text fill="#7a5ea8" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="442.0" y="482.0">◐ Section names</text>
+<text fill="#c8553d" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="715.3" y="482.0">○ Beat drop position</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="24.0" x2="936.0" y1="506.0" y2="506.0"></line>
+<text fill="#1f2430" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="528.0">● Measured   ◐ Guessed (with evidence)   ○ Undecided</text>
+<text fill="#1f2430" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="548.0">▲ Entry  ↗ Build-up/rise  ▼ Big hit  ○ Break  ◆ Anticipation  × Kick-out</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="586.0">Source · Author’s measurement (2026-10-06). Times calculated from 112 BPM and 1.50 s. Energy is this book’s verdict (Figure 4-2) and bass is the per-bar measurement.</text>
+</svg>
+<figcaption><b>Figure 5-3</b> LOVE ATTACK music map. This map is the basis for the directing that continues from Chapter 6.</figcaption></figure>
+<p>The map shows the job of this song’s lights. There are two big hits, at bars 18 and 46, each with a 4-bar build-up before it. A bar of kick drops out at the end of each chorus, and Chorus 3 comes in a beat early and runs to the end of the song. Bar 67, right before it, is the spot that sounds the emptiest when you listen. In Chapter 33, we lay the real cues on top of this map.</p>
+<aside class="box mine"><div class="box-label">Try it with your own song</div><div class="box-body"><ol class="steps"><li>Fill in the basic version for one song you are working on.</li><li>Time yourself, and if it takes more than an hour, write down which cell took the longest.</li><li>On the next song, cut down from that cell first.</li></ol></div></aside>
+<aside class="web" id="web-W4-6"><div class="web-head"><span class="web-tag">Web tool 5</span><h4>Song Map</h4><a class="web-open" href="https://jjjh7401.github.io/lx/en/tools/sheet.html" rel="noopener" target="_blank">Open in new window ↗</a></div><p class="web-desc">Gathers what you wrote in the listening notes into the basic and detailed versions and points out what is missing.</p><div class="tool-embed"><iframe allow="autoplay" loading="lazy" src="https://jjjh7401.github.io/lx/en/tools/sheet.html?embed=1" style="--h:1750px" title="Song Map"></iframe></div><p class="tool-open"><span>The notes you write are saved in this browser only. To use it on a wide screen, press "Open in new window" above.</span></p></aside>
+<section class="summary"><h2>Key points</h2><ul>
+<li>The song map is what you gather onto one sheet before moving what you heard into cues. Write it in bars so that the people you work with can point at the same spot.</li>
+<li>If time is short, use the basic version (song info, BPM · first beat, section map, key changes, energy 5, certainty); if you have plenty, use the detailed version (all energy and changes, rhythm layers, color notes).</li>
+<li>Even when you are short of time, don’t cut the BPM · first downbeat and the section map.</li>
+<li>The length of the audio file and the time the music ends can differ.</li>
+<li>Mark each thing you wrote as ● measured, ◐ guessed or ○ undecided. The result of an automatic analysis is ◐ until you check it by ear.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">On the job tomorrow</div><div class="box-body"><ol class="steps"><li>Pick one cell still marked ○ in the song map of the song you have today, and listen again to just that spot before rehearsal.</li></ol></div></aside>
+<section class="part-end"><div class="pe-label">End of Part 1</div><p class="lead">Part 1 covered how to read a song. You listened three times (Chapter 1), counted beats and bars (Chapter 2), divided it into sections and gave them names and numbers (Chapter 3), wrote down energy and change (Chapter 4), and gathered all of it onto one song map (Chapter 5).</p>
+<p>Now you hold one song map. In Part 2, "Designing the Light," you use this sheet to decide what to show: with which equipment, with what concept and color, and who to put in front as the main.</p>
+</section><section class="notes"><h2>Notes</h2><ol><li id="c5-s1">Author’s measurement, LOVE ATTACK audio analysis (2026-10-06; the measurement method is given in the appendix). The end time of the music and the silent stretch, three pieces of evidence for the downbeat phase, key estimate (correlation of the chroma average with major and minor profiles, first place D♯ minor 0.458), the difference between the automatic analysis program’s section boundaries and the first beat of the bar (8 comparable, 0.41–0.82 s early). The key and BPM also match the figures on the track-information site Tunebat (integer 112 BPM, D♯ minor).</li></ol></section>
+</article>
+</div>
+
+</main>
+<nav class="ltm-pager" id="ltmPager" aria-label="Chapters"></nav>
+<footer class="ltm-foot">
+<p><b>Lighting the Music</b> by Jaehyun Jung. Free to read online. English edition translated from the Korean original with AI.</p>
+<p>Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener license" target="_blank">CC BY-NC-ND 4.0</a>: you may share it with credit (title, author and a link to this page), but not for commercial use and not in modified form.</p>
+</footer>
+<script src="book.js?v=3"></script>
+<script>LTM_chapter("ch5");</script>
+</body>
+</html>

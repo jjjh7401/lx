@@ -1,0 +1,1185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chapter 2 · Beats and Bars · Lighting the Music</title>
+<meta name="description" content="Work out the length of a beat, bar and phrase from one BPM, catch half- and double-tempo errors, and set fades and flash rates in beats.">
+<link rel="alternate" hreflang="ko" href="https://ablitzdesign.tistory.com/52">
+<link rel="alternate" hreflang="en" href="https://jjjh7401.github.io/lx/en/ch2.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 2 · Beats and Bars · Lighting the Music">
+<meta property="og:description" content="Work out the length of a beat, bar and phrase from one BPM, catch half- and double-tempo errors, and set fades and flash rates in beats.">
+<meta property="og:image" content="https://jjjh7401.github.io/lx/cover-800.jpg">
+<meta property="og:url" content="https://jjjh7401.github.io/lx/en/ch2.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="en.css?v=2">
+</head>
+<body>
+<header class="ltm-bar" id="ltmBar"></header>
+<main id="article-view">
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch2"><header class="ch-head"><div class="ch-num"><span>Chapter</span> 2</div><h1 class="ch-title">Beats and Bars</h1><p class="ch-sub">How to Count a Song’s Time</p></header>
+<aside class="box goals"><div class="box-label">In this chapter</div><div class="box-body">
+<ul class="checks">
+<li>Work out the length of a beat, a bar and a phrase straight from one BPM figure.</li>
+<li>Tell by ear whether a machine-measured BPM is off by half or by double.</li>
+<li>Set fades and strobe rates in "beats" instead of "seconds."</li>
+</ul>
+</div></aside>
+<div class="open-label">Opening scene</div><p class="lead">Watching a show, you sometimes feel the stage is slightly out of step with the music. The lights are busy but move twice as fast as the music, or the moment a color changes slips a little off the beat. The audience can’t say why, but they feel the awkwardness right away.</p>
+<p>Sometimes this mismatch starts with a single number. Effect speed, fade time and where to put a cue all come from the song’s BPM. If that number is written at half or double, every effect runs at half speed or twice as busy. The cues land in the right place, yet the stage dances apart from the song.</p>
+<p>So before writing cues, count the song’s beats and bars. Every cue from here on is placed on the beats and bars you counted this way.</p>
+<h2 id="c2-2-1-basic-terms">2.1 Basic Terms</h2><p class="lead">Beat, bar and phrase are the units that measure a song’s time. This section also gathers the terms we touched on briefly in Chapter 1.</p>
+<aside class="box terms"><div class="box-label">Terms to know</div><div class="box-body"><dl class="defs"><div><dt>Beat</dt><dd>The single pulse you tap your foot or nod your head to while listening to music.</dd></div><div><dt>BPM</dt><dd>(beats per minute): how many beats come in one minute. At 120 BPM there are 120 beats a minute, 2 beats a second.</dd></div><div><dt>Bar</dt><dd>A group of beats. Most popular music is in 4/4, with four beats to a bar.</dd></div><div><dt>Downbeat</dt><dd>The first beat of a bar, the "one" in "one, two, three, four." Cues are usually placed here.</dd></div><div><dt>Phrase</dt><dd>One sentence of music made of four or eight bars. Four bars is a short phrase and eight bars is a long phrase.</dd></div><div><dt>Hit</dt><dd>A single moment where the music strikes hard, or the short lighting change you put on that moment.</dd></div><div><dt>Cue</dt><dd>One lighting state, plus how to get there (time, order), stored together on the console. A list of cues in order is a cue sheet.</dd></div></dl></div></aside>
+<p>Figure 2-1 draws the relationship between beat, bar and phrase on a ruler. The small ticks are beats, the medium ticks are bars, and the large ticks are four bars.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 356" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="60.0" x2="920.0" y1="252.0" y2="252.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2.2" x1="60.0" x2="60.0" y1="252.0" y2="182.0"></line>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="113.8" y="200.0">Bar 1</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="86.9" x2="86.9" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="113.8" x2="113.8" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="140.6" x2="140.6" y1="252.0" y2="234.0"></line>
+<circle cx="60.0" cy="268.0" fill="#c8553d" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="86.9" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="113.8" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="140.6" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="60.0" y="294.0">0 s</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="1.6" x1="167.5" x2="167.5" y1="252.0" y2="208.0"></line>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="221.2" y="200.0">Bar 2</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="194.4" x2="194.4" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="221.2" x2="221.2" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="248.1" x2="248.1" y1="252.0" y2="234.0"></line>
+<circle cx="167.5" cy="268.0" fill="#c8553d" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="194.4" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="221.2" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="248.1" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="167.5" y="294.0">2 s</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="1.6" x1="275.0" x2="275.0" y1="252.0" y2="208.0"></line>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="328.8" y="200.0">Bar 3</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="301.9" x2="301.9" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="328.8" x2="328.8" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="355.6" x2="355.6" y1="252.0" y2="234.0"></line>
+<circle cx="275.0" cy="268.0" fill="#c8553d" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="301.9" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="328.8" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="355.6" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="275.0" y="294.0">4 s</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="1.6" x1="382.5" x2="382.5" y1="252.0" y2="208.0"></line>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="436.2" y="200.0">Bar 4</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="409.4" x2="409.4" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="436.2" x2="436.2" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="463.1" x2="463.1" y1="252.0" y2="234.0"></line>
+<circle cx="382.5" cy="268.0" fill="#c8553d" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="409.4" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="436.2" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="463.1" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="382.5" y="294.0">6 s</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2.2" x1="490.0" x2="490.0" y1="252.0" y2="182.0"></line>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="543.8" y="200.0">Bar 5</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="516.9" x2="516.9" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="543.8" x2="543.8" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="570.6" x2="570.6" y1="252.0" y2="234.0"></line>
+<circle cx="490.0" cy="268.0" fill="#c8553d" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="516.9" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="543.8" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="570.6" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="490.0" y="294.0">8 s</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="1.6" x1="597.5" x2="597.5" y1="252.0" y2="208.0"></line>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="651.2" y="200.0">Bar 6</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="624.4" x2="624.4" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="651.2" x2="651.2" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="678.1" x2="678.1" y1="252.0" y2="234.0"></line>
+<circle cx="597.5" cy="268.0" fill="#c8553d" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="624.4" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="651.2" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="678.1" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="597.5" y="294.0">10 s</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="1.6" x1="705.0" x2="705.0" y1="252.0" y2="208.0"></line>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="758.8" y="200.0">Bar 7</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="731.9" x2="731.9" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="758.8" x2="758.8" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="785.6" x2="785.6" y1="252.0" y2="234.0"></line>
+<circle cx="705.0" cy="268.0" fill="#c8553d" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="731.9" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="758.8" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="785.6" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="705.0" y="294.0">12 s</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="1.6" x1="812.5" x2="812.5" y1="252.0" y2="208.0"></line>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="866.2" y="200.0">Bar 8</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="839.4" x2="839.4" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="866.2" x2="866.2" y1="252.0" y2="234.0"></line>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1.1" x1="893.1" x2="893.1" y1="252.0" y2="234.0"></line>
+<circle cx="812.5" cy="268.0" fill="#c8553d" opacity="1.0" r="4.2" stroke="none" stroke-width="1"></circle>
+<circle cx="839.4" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="866.2" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<circle cx="893.1" cy="268.0" fill="#6b7280" opacity="1.0" r="3.0" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="812.5" y="294.0">14 s</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2.2" x1="920.0" x2="920.0" y1="252.0" y2="182.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="920.0" y="294.0">16 s</text>
+<circle cx="65.0" cy="322.0" fill="#c8553d" opacity="1.0" r="5.0" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="76.0" y="326.0">First beat of the bar (downbeat)</text>
+<circle cx="260.0" cy="322.0" fill="#6b7280" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="270.0" y="326.0">Other beats</text>
+<path d="M62,176 L62,168 L84.875,168 L84.875,176" fill="none" opacity="1.0" stroke="#c8553d" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+<text fill="#c8553d" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="73.4" y="162.0">1 beat = 0.5 s</text>
+<path d="M169.5,176 L169.5,168 L273.0,168 L273.0,176" fill="none" opacity="1.0" stroke="#3b6ea8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+<text fill="#3b6ea8" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="221.2" y="162.0">1 bar = 4 beats = 2 s</text>
+<path d="M62,148 L62,140 L488.0,140 L488.0,148" fill="none" opacity="1.0" stroke="#4f8a5b" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+<text fill="#4f8a5b" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="275.0" y="134.0">4 bars = short phrase, 8 s</text>
+<path d="M62,120 L62,112 L918.0,112 L918.0,120" fill="none" opacity="1.0" stroke="#7a5ea8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+<text fill="#7a5ea8" font-size="13" font-weight="700" opacity="1.0" text-anchor="middle" x="490.0" y="106.0">8 bars = long phrase, 16 s</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="406.0">Calculation · 1 beat = 60 ÷ 120 = 0.5 s, 1 bar = 240 ÷ 120 = 2 s.</text>
+</svg>
+<figcaption><b>Figure 2-1</b> Ruler of beats, bars and phrases. The first 8 bars of a 120 BPM song. Beats gather into bars, and bars gather into phrases.</figcaption></figure>
+<h2 id="c2-2-2-length-of-one-beat-and-one-bar">2.2 Length of One Beat and One Bar</h2><p class="lead">If you know the BPM, you can work out at once how many seconds a beat and a bar last. There is just one formula.</p>
+<div class="formula"><span class="f-label">Formula</span>
+<p><strong>1 beat (s) = 60 ÷ BPM</strong></p>
+</div>
+<p>In a 4/4 song a bar is 4 beats, so 1 bar = 240 ÷ BPM seconds.</p>
+<div class="tbl"><div class="tcap"><b>Table 2-1</b> Length of beats and bars by BPM <span class="badge calc">Calculation</span></div><table>
+<thead>
+<tr class="header">
+<th>BPM</th>
+<th>1 beat</th>
+<th>1 bar</th>
+<th>4 bars</th>
+<th>8 bars</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>80</td>
+<td>0.75 s</td>
+<td>3.00 s</td>
+<td>12.0 s</td>
+<td>24.0 s</td>
+</tr>
+<tr class="even">
+<td>100</td>
+<td>0.60 s</td>
+<td>2.40 s</td>
+<td>9.6 s</td>
+<td>19.2 s</td>
+</tr>
+<tr class="odd">
+<td><strong>112</strong></td>
+<td><strong>0.54 s</strong></td>
+<td><strong>2.14 s</strong></td>
+<td><strong>8.6 s</strong></td>
+<td><strong>17.1 s</strong></td>
+</tr>
+<tr class="even">
+<td>120</td>
+<td>0.50 s</td>
+<td>2.00 s</td>
+<td>8.0 s</td>
+<td>16.0 s</td>
+</tr>
+<tr class="odd">
+<td>128</td>
+<td>0.47 s</td>
+<td>1.88 s</td>
+<td>7.5 s</td>
+<td>15.0 s</td>
+</tr>
+<tr class="even">
+<td>140</td>
+<td>0.43 s</td>
+<td>1.71 s</td>
+<td>6.9 s</td>
+<td>13.7 s</td>
+</tr>
+<tr class="odd">
+<td>150</td>
+<td>0.40 s</td>
+<td>1.60 s</td>
+<td>6.4 s</td>
+<td>12.8 s</td>
+</tr>
+</tbody>
+</table></div>
+<p>It helps to memorize 120 BPM: 1 beat is 0.5 s, 1 bar is 2 s, and 8 bars is 16 s. For other songs, get a feel for whether they are faster or slower than 120. Around 120 is also the pace people follow most comfortably. In music psychology research, the tempo people preferred most was 120–125 BPM, about two beats a second. It is close to the pace of repeated body movements such as walking or clapping.<sup class="ref"><a href="#c2-s1">1</a></sup></p>
+<p>This book’s practice song, LOVE ATTACK, is <strong>112 BPM</strong>. One beat is about 0.536 s and one bar is about 2.143 s. Most examples from here on use these numbers.</p>
+<h2 id="c2-2-3-length-of-a-phrase">2.3 Length of a Phrase</h2><p class="lead">Four beats make a bar, and four or eight bars make a phrase. A song’s sections usually change where a phrase ends.</p>
+<ul class="keyed">
+<li><strong>4 bars</strong>A short phrase. One line of lyrics is usually about this long.</li>
+<li><strong>8 bars</strong>A long phrase and the basic length of a section. Verses and choruses are often 8 or 16 bars.</li>
+<li><strong>16 and 32 bars</strong>The build-ups and drops of club music and EDM mostly move in these units (Figure 3-1 in Chapter 3).</li>
+</ul>
+<p>Lighting uses these units as they are. Chapter 11 goes into detail; here is just the principle. <strong>Match brightness to the beat, moving-light positions to the bar, changes of movement and color to 2–4 bars, and a color set (palette) to the section.</strong> For example, brightness rises and falls slightly on every beat, and the moving lights shift to a different position every bar. Over 2–4 bars the color changes little by little, and when the section changes the whole color set is swapped. If you haven’t counted the song in bar numbers, you can’t decide where to put the cues.</p>
+<p>Still, 8 bars is only a default. Even in LOVE ATTACK the intro is 6 bars and the first verse is 7 bars. It is not unusual for the vocal to come in a beat early so that the next section starts on beat 4 of the previous bar. Chapter 3 picks this up again.</p>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>At every point where a section changes, write down "which bar is it."</li><li>If the numbers you write are 8 apart, like 1, 9, 17, 25, the song is built in 8-bar units.</li><li>If even one is off, listen to that spot again.</li><li>There is usually a 2-bar breather section or a one-bar rest hiding there.</li></ol></div></aside>
+<h2 id="c2-2-4-finding-the-first-downbeat">2.4 Finding the First Downbeat</h2><p class="lead">Knowing the BPM isn’t enough to count beats. You need to find <strong>where to start</strong> counting: the first downbeat, the place where the first "one" of the song lands.</p>
+<p>These sounds usually arrive together on the first downbeat.</p>
+<ul>
+<li>The kick and a crash cymbal hit together.</li>
+<li>The bass comes in for the first time.</li>
+<li>The chord changes.</li>
+</ul>
+<p>Many songs also start half a beat or a beat early. If a drum fill goes "ta-da-dak" and then "boom" comes in, the "boom" is the one. Even if the vocal starts singing before the "one," you count the beat from the "boom." A note that comes before the first downbeat like this is called a <strong>pickup</strong> (in Korean, <em>yeorinnaegi</em>).</p>
+<p>Once you find the first downbeat, write down its time. An audio file usually has a short stretch of silence at the front, so the first beat rarely lands at 0.0 s.</p>
+<p>LOVE ATTACK is a good example. A beat comes first at 0.96 s, and the first downbeat arrives at <strong>1.50 s</strong>. The beat at 0.96 s is the pickup.<sup class="ref"><a href="#c2-s2">2</a></sup></p>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>Count "one, two, three, four" out loud from the first downbeat and listen to the song to the end.</li><li>If "one" lands on the first beat of the chorus, you have it right.</li><li>If "three" lands there instead, you are off by two beats on the first downbeat.</li></ol></div></aside>
+<h2 id="c2-2-5-bpm-that-is-off-by-double">2.5 BPM That Is Off by Double</h2><p class="lead">Measure the BPM with a machine, then check it by ear. Audio software, DJ software or the tap button on a console will all give you a number, but you shouldn’t trust that number as it is.</p>
+<p>The way it goes wrong is fixed. <strong>It is off by half or by double.</strong> A machine looks for a steadily repeating sound and treats it as the beat. Read a hi-hat that hits every half beat as the beat and you get double; read a snare that hits every two beats as the beat and you get half. In music information retrieval this is called an "octave error," and it is counted among the typical mistakes of tempo and beat tracking programs.<sup class="ref"><a href="#c2-s3">3</a></sup></p>
+<p>Consoles also see beats as multiples. grandMA3 has a BPM master that listens to sound and follows the BPM (Speed Master 16). According to the manual, even when you move this fader (the slider you push and pull by hand), the value stops at the nearest multiple of the BPM it hears. On a 60 BPM song, raising the fader to 130 stops it at 120.<sup class="ref"><a href="#c2-s4">4</a></sup> To the machine, 60 and 120 are "different multiples of the same beat." A person has to decide which one is the song’s beat.</p>
+<p>Checking by ear is simple.</p>
+<ol type="1">
+<li>Clap to the number. If it is too busy to dance to, it is off by double.</li>
+<li>Check whether the snare lands on beats 2 and 4. Most pop and K-pop has the snare on 2 and 4. If the snare lands on every beat, the number is probably off by half.</li>
+<li>Match it to the speed at which the singer nods their head. That speed is usually the song’s beat.</li>
+</ol>
+<aside class="box try"><div class="box-label">A short experiment</div><div class="box-body"><ol class="steps"><li>Set a phone metronome to the BPM you wrote down and play it together with the song.</li><li>If the two go together, the number is right.</li><li>If the song goes one beat for every two clicks, the number is off by double; if the song goes two beats for every click, it is off by half.</li></ol></div></aside>
+<p><strong>Decimal error.</strong> Even a decimal difference builds up and pushes the grid out of line. Feed LOVE ATTACK into an analysis program and it gives 112.35 BPM, but the real figure is 112.0 BPM. The 0.35 difference looks small, but toward the end of the song it drifts almost a full beat. So check the BPM not at one point near the start but by the <strong>times of two points far apart</strong>. You will try this yourself in the exercise in Section 2.10.</p>
+<p><strong>Songs that change tempo.</strong> Live band performances, the last chorus of a ballad and a ritardando that slows down gradually have more than one BPM. For these songs, write a separate BPM for each section, or follow that section with tap (Chapter 28).</p>
+<h2 id="c2-2-6-half-time-and-the-tempo-the-body-feels">2.6 Half-time and the Tempo the Body Feels</h2><p class="lead">Sometimes the tempo stays the same but the song suddenly sounds slower. In that case the lights follow the speed that is actually felt, not the number.</p>
+<p>For example, some songs are 140 BPM but sound like 70. This is <strong>half-time</strong>, where the drums play at half speed. The snare lands only on beat 3, not on beats 2 and 4. The tempo is unchanged, but the gap between heavy accents doubles, so the speed the body feels is halved.<sup class="ref"><a href="#c2-s5">5</a></sup></p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 426" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<text fill="#3b6ea8" font-size="15" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="90.0">Normal beat</text>
+<text fill="#6b7280" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="end" x="138.0" y="119.0">Kick</text>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="151.0" y="102.0"></rect>
+<rect fill="#1f2430" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="155.0" y="106.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="198.5" y="102.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="246.0" y="102.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="293.5" y="102.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="341.0" y="102.0"></rect>
+<rect fill="#1f2430" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="345.0" y="106.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="388.5" y="102.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="436.0" y="102.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="483.5" y="102.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="531.0" y="102.0"></rect>
+<rect fill="#1f2430" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="535.0" y="106.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="578.5" y="102.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="626.0" y="102.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="673.5" y="102.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="721.0" y="102.0"></rect>
+<rect fill="#1f2430" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="725.0" y="106.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="768.5" y="102.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="816.0" y="102.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="863.5" y="102.0"></rect>
+<text fill="#6b7280" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="end" x="138.0" y="149.0">Snare</text>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="151.0" y="132.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="198.5" y="132.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="246.0" y="132.0"></rect>
+<rect fill="#c8553d" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="250.0" y="136.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="293.5" y="132.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="341.0" y="132.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="388.5" y="132.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="436.0" y="132.0"></rect>
+<rect fill="#c8553d" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="440.0" y="136.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="483.5" y="132.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="531.0" y="132.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="578.5" y="132.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="626.0" y="132.0"></rect>
+<rect fill="#c8553d" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="630.0" y="136.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="673.5" y="132.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="721.0" y="132.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="768.5" y="132.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="816.0" y="132.0"></rect>
+<rect fill="#c8553d" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="820.0" y="136.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="863.5" y="132.0"></rect>
+<text fill="#6b7280" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="end" x="138.0" y="179.0">Hi-hat</text>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="151.0" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="155.0" y="166.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="198.5" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="202.5" y="166.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="246.0" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="250.0" y="166.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="293.5" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="297.5" y="166.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="341.0" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="345.0" y="166.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="388.5" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="392.5" y="166.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="436.0" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="440.0" y="166.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="483.5" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="487.5" y="166.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="531.0" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="535.0" y="166.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="578.5" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="582.5" y="166.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="626.0" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="630.0" y="166.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="673.5" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="677.5" y="166.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="721.0" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="725.0" y="166.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="768.5" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="772.5" y="166.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="816.0" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="820.0" y="166.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="863.5" y="162.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="867.5" y="166.0"></rect>
+<text fill="#3b6ea8" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="138.0" y="213.0">Beat the body feels</text>
+<circle cx="173.8" cy="208.0" fill="#3b6ea8" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="268.8" cy="208.0" fill="#3b6ea8" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="363.8" cy="208.0" fill="#3b6ea8" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="458.8" cy="208.0" fill="#3b6ea8" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="553.8" cy="208.0" fill="#3b6ea8" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="648.8" cy="208.0" fill="#3b6ea8" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="743.8" cy="208.0" fill="#3b6ea8" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="838.8" cy="208.0" fill="#3b6ea8" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="150.0" x2="150.0" y1="100.0" y2="222.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="530.0" x2="530.0" y1="100.0" y2="222.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="910.0" x2="910.0" y1="100.0" y2="222.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="173.8" y="90.0">1</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="268.8" y="90.0">2</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="363.8" y="90.0">3</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="458.8" y="90.0">4</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="553.8" y="90.0">1</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="648.8" y="90.0">2</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="743.8" y="90.0">3</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="838.8" y="90.0">4</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="910.0" y="242.0">Snare on 2 and 4 → feels like 140</text>
+<text fill="#c8553d" font-size="15" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="280.0">Half-time</text>
+<text fill="#6b7280" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="end" x="138.0" y="309.0">Kick</text>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="151.0" y="292.0"></rect>
+<rect fill="#1f2430" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="155.0" y="296.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="198.5" y="292.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="246.0" y="292.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="293.5" y="292.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="341.0" y="292.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="388.5" y="292.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="436.0" y="292.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="483.5" y="292.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="531.0" y="292.0"></rect>
+<rect fill="#1f2430" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="535.0" y="296.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="578.5" y="292.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="626.0" y="292.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="673.5" y="292.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="721.0" y="292.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="768.5" y="292.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="816.0" y="292.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="863.5" y="292.0"></rect>
+<text fill="#6b7280" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="end" x="138.0" y="339.0">Snare</text>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="151.0" y="322.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="198.5" y="322.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="246.0" y="322.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="293.5" y="322.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="341.0" y="322.0"></rect>
+<rect fill="#c8553d" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="345.0" y="326.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="388.5" y="322.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="436.0" y="322.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="483.5" y="322.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="531.0" y="322.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="578.5" y="322.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="626.0" y="322.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="673.5" y="322.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="721.0" y="322.0"></rect>
+<rect fill="#c8553d" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="725.0" y="326.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="768.5" y="322.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="816.0" y="322.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="863.5" y="322.0"></rect>
+<text fill="#6b7280" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="end" x="138.0" y="369.0">Hi-hat</text>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="151.0" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="155.0" y="356.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="198.5" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="202.5" y="356.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="246.0" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="250.0" y="356.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="293.5" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="297.5" y="356.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="341.0" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="345.0" y="356.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="388.5" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="392.5" y="356.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="436.0" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="440.0" y="356.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="483.5" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="487.5" y="356.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="531.0" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="535.0" y="356.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="578.5" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="582.5" y="356.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="626.0" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="630.0" y="356.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="673.5" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="677.5" y="356.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="721.0" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="725.0" y="356.0"></rect>
+<rect fill="#fafbfc" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="768.5" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="772.5" y="356.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="816.0" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="820.0" y="356.0"></rect>
+<rect fill="#f1f3f6" height="26.0" opacity="1.0" rx="0" stroke="none" stroke-width="1" width="45.5" x="863.5" y="352.0"></rect>
+<rect fill="#6b7280" height="18.0" opacity="1.0" rx="3" stroke="none" stroke-width="1" width="37.5" x="867.5" y="356.0"></rect>
+<text fill="#c8553d" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="138.0" y="403.0">Beat the body feels</text>
+<circle cx="173.8" cy="398.0" fill="#c8553d" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="363.8" cy="398.0" fill="#c8553d" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="553.8" cy="398.0" fill="#c8553d" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<circle cx="743.8" cy="398.0" fill="#c8553d" opacity="1.0" r="8.0" stroke="none" stroke-width="1"></circle>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="150.0" x2="150.0" y1="290.0" y2="412.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="530.0" x2="530.0" y1="290.0" y2="412.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="910.0" x2="910.0" y1="290.0" y2="412.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="173.8" y="280.0">1</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="268.8" y="280.0">2</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="363.8" y="280.0">3</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="458.8" y="280.0">4</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="553.8" y="280.0">1</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="648.8" y="280.0">2</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="743.8" y="280.0">3</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="838.8" y="280.0">4</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="910.0" y="432.0">Snare only on 3 → feels like 70. The bar length (1.71 s) stays the same</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="476.0">Numbers are beat numbers. One cell = one eighth note. In both cases 2 bars = 3.43 s.</text>
+</svg>
+<figcaption><b>Figure 2-2</b> Normal beat and half-time (140 BPM). The top is the normal beat and the bottom is half-time. The bar length is the same; only the snare’s position differs.</figcaption></figure>
+<p>If you run a movement at 140 speed, the stage looks twice as busy as the music. In a section that feels like 70, set the effects to 70 as well.</p>
+<div class="tbl"><div class="tcap"><b>Table 2-2</b> Normal beat and half-time (140 BPM)</div><table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Normal beat</th>
+<th>Half-time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Snare</td>
+<td>2 and 4</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>Tempo the body feels</td>
+<td>140</td>
+<td>70</td>
+</tr>
+<tr class="odd">
+<td>Effect speed</td>
+<td>Based on 140</td>
+<td>Based on 70</td>
+</tr>
+<tr class="even">
+<td>Bar length</td>
+<td>1.71 s</td>
+<td>1.71 s (unchanged)</td>
+</tr>
+</tbody>
+</table></div>
+<p>The important point is that the bar length does not change. Even in half-time, you keep counting the bar numbers the same way. The only thing that changes is "what you feel as the beat in this section."</p>
+<p>A song can also move between the two. The chorus runs on the normal beat, then drops heavily into half-time at the dance break (Chapter 3). For songs like this, write the "tempo the body feels" separately for each section. </p>
+<p><strong>6/8 and 3/4.</strong> Ballads and waltz-type songs divide a bar into threes. A 6/8 song is counted "one-two-three four-five-six," and the body usually feels two big beats. It is natural to set the effect speed to the two big beats as well (<span class="badge start">Starting value</span>).</p>
+<h2 id="c2-2-7-fades-set-in-beats">2.7 Fades Set in Beats</h2><p class="lead">On the console you write time in seconds, such as a 3-second fade and a 0.5-second delay. But music flows in beats, so when you set a length, start by thinking how many beats it is.</p>
+<p>Try applying the same 3-second fade to two songs of different tempo.</p>
+<ul>
+<li>At 120 BPM, 3 seconds is 6 beats, or 1.5 bars.</li>
+<li>At 140 BPM, 3 seconds is 7 beats, or 1.75 bars.</li>
+</ul>
+<div class="formula"><span class="f-label">Formula</span>
+<p><strong>Beats = seconds × BPM ÷ 60</strong></p>
+</div>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 336" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="120.0">3-second fade</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="138.0">120 BPM</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="170.0" x2="170.0" y1="96.0" y2="146.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="173.0" y="92.0">Bar 1</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="262.5" x2="262.5" y1="96.0" y2="146.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="355.0" x2="355.0" y1="96.0" y2="146.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="447.5" x2="447.5" y1="96.0" y2="146.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="540.0" x2="540.0" y1="96.0" y2="146.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="543.0" y="92.0">Bar 2</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="632.5" x2="632.5" y1="96.0" y2="146.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="725.0" x2="725.0" y1="96.0" y2="146.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="817.5" x2="817.5" y1="96.0" y2="146.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="910.0" x2="910.0" y1="96.0" y2="146.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="913.0" y="92.0">Bar 3</text>
+<rect fill="#c8553d" height="22.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="555.0" x="170.0" y="110.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="717.0" y="126.0">3.00 s = 6.00 beats</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="190.0">3-second fade</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="208.0">140 BPM</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="170.0" x2="170.0" y1="166.0" y2="216.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="173.0" y="162.0">Bar 1</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="249.3" x2="249.3" y1="166.0" y2="216.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="328.6" x2="328.6" y1="166.0" y2="216.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="407.9" x2="407.9" y1="166.0" y2="216.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="487.1" x2="487.1" y1="166.0" y2="216.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="490.1" y="162.0">Bar 2</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="566.4" x2="566.4" y1="166.0" y2="216.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="645.7" x2="645.7" y1="166.0" y2="216.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="725.0" x2="725.0" y1="166.0" y2="216.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="804.3" x2="804.3" y1="166.0" y2="216.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="807.3" y="162.0">Bar 3</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="883.6" x2="883.6" y1="166.0" y2="216.0"></line>
+<rect fill="#c8553d" height="22.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="555.0" x="170.0" y="180.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="717.0" y="196.0">3.00 s = 7.00 beats</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="270.0">1-bar fade</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="288.0">120 BPM</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="170.0" x2="170.0" y1="246.0" y2="296.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="173.0" y="242.0">Bar 1</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="262.5" x2="262.5" y1="246.0" y2="296.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="355.0" x2="355.0" y1="246.0" y2="296.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="447.5" x2="447.5" y1="246.0" y2="296.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="540.0" x2="540.0" y1="246.0" y2="296.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="543.0" y="242.0">Bar 2</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="632.5" x2="632.5" y1="246.0" y2="296.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="725.0" x2="725.0" y1="246.0" y2="296.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="817.5" x2="817.5" y1="246.0" y2="296.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="910.0" x2="910.0" y1="246.0" y2="296.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="913.0" y="242.0">Bar 3</text>
+<rect fill="#4f8a5b" height="22.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="370.0" x="170.0" y="260.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="532.0" y="276.0">2.00 s = 4.00 beats</text>
+<text fill="#1f2430" font-size="13.5" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="340.0">1-bar fade</text>
+<text fill="#6b7280" font-size="12" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="358.0">140 BPM</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="170.0" x2="170.0" y1="316.0" y2="366.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="173.0" y="312.0">Bar 1</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="249.3" x2="249.3" y1="316.0" y2="366.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="328.6" x2="328.6" y1="316.0" y2="366.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="407.9" x2="407.9" y1="316.0" y2="366.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="487.1" x2="487.1" y1="316.0" y2="366.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="490.1" y="312.0">Bar 2</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="566.4" x2="566.4" y1="316.0" y2="366.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="645.7" x2="645.7" y1="316.0" y2="366.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="725.0" x2="725.0" y1="316.0" y2="366.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="804.3" x2="804.3" y1="316.0" y2="366.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="807.3" y="312.0">Bar 3</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="883.6" x2="883.6" y1="316.0" y2="366.0"></line>
+<rect fill="#4f8a5b" height="22.0" opacity="0.85" rx="3" stroke="none" stroke-width="1" width="317.1" x="170.0" y="330.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="479.1" y="346.0">1.71 s = 4.00 beats</text>
+<line opacity="1.0" stroke="#d6d9df" stroke-dasharray="4,4" stroke-linecap="butt" stroke-width="1" x1="24.0" x2="936.0" y1="228.0" y2="228.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="386.0">Calculation · beats = seconds × BPM ÷ 60.  A 1-bar fade ends on the first beat of the next bar in any song.</text>
+</svg>
+<figcaption><b>Figure 2-3</b> A 3-second fade and a 1-bar fade. The top two rows are the 3-second fade and the bottom two rows are the 1-bar fade. A 1-bar fade ends on the first beat of the next bar in any song.</figcaption></figure>
+<p>Both of the 3-second fades end in the middle of a bar. At 120 BPM it ends on beat 3 of the second bar, and at 140 BPM on beat 4 of the second bar. The colors should finish changing on the first beat of the next bar, but they end up half-finished in the middle of the bar.</p>
+<p>Even the same 3 seconds ends in a different place in each song. Unless a bar happens to be exactly 3 seconds, as in an 80 BPM song, a 3-second fade drifts off the bar.</p>
+<p>So <strong>decide fades and delays in beats, and write them down converted to seconds.</strong></p>
+<div class="formula"><span class="f-label">Formula</span>
+<p><strong>Fade (s) = 60 ÷ BPM × beats</strong></p>
+</div>
+<div class="tbl"><div class="tcap"><b>Table 2-3</b> Commonly used lengths at 112 BPM <span class="badge calc">Calculation</span></div><table>
+<thead>
+<tr class="header">
+<th>Length you want</th>
+<th>Beats</th>
+<th>Seconds</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Half a beat</td>
+<td>0.5</td>
+<td>0.27</td>
+</tr>
+<tr class="even">
+<td>1 beat</td>
+<td>1</td>
+<td>0.54</td>
+</tr>
+<tr class="odd">
+<td>2 beats</td>
+<td>2</td>
+<td>1.07</td>
+</tr>
+<tr class="even">
+<td>1 bar</td>
+<td>4</td>
+<td>2.14</td>
+</tr>
+<tr class="odd">
+<td>2 bars</td>
+<td>8</td>
+<td>4.29</td>
+</tr>
+<tr class="even">
+<td>4 bars</td>
+<td>16</td>
+<td>8.57</td>
+</tr>
+</tbody>
+</table></div>
+<p>On grandMA3 you can give effect speed as BPM and a number of beats (Chapter 25). Put the song’s BPM into a Speed Master and set "how many beats per cycle" for each effect, and when the song changes you only need to change one BPM. There are 16 Speed Masters, and you can set the value between 0 and 225 BPM.<sup class="ref"><a href="#c2-s4">4</a></sup> Fade times are still often written in seconds, so keep a table like Table 2-3 next to the cue sheet.</p>
+<h2 id="c2-2-8-flash-rate-and-safety-limits">2.8 Flash Rate and Safety Limits</h2><p class="lead">For a strobe or a flicker (an effect that flashes in a trembling way), the speed is set the moment you choose which note value to flash on. And this speed has a safety limit you must not exceed.</p>
+<p>Flash rate is measured in flashes per second, and the unit is <strong>Hz</strong> (hertz). 3 Hz is three times a second.</p>
+<div class="formula"><span class="f-label">Formula</span>
+<p><strong>Hz = BPM ÷ 60 × flashes per beat</strong></p>
+</div>
+<p>One flash per beat (quarter note) gives BPM ÷ 60, one every half beat (eighth note) gives double that, and one every quarter beat (sixteenth note) gives four times that.</p>
+<div class="tbl"><div class="tcap"><b>Table 2-4</b> Flash rate by BPM and note value <span class="badge calc">Calculation</span></div><table>
+<thead>
+<tr class="header">
+<th>BPM</th>
+<th>Quarter note (every beat)</th>
+<th>Eighth note (every half beat)</th>
+<th>Sixteenth note</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>80</td>
+<td>1.3 Hz</td>
+<td>2.7 Hz</td>
+<td>5.3 Hz</td>
+</tr>
+<tr class="even">
+<td>90</td>
+<td>1.5 Hz</td>
+<td><strong>3.0 Hz</strong></td>
+<td>6.0 Hz</td>
+</tr>
+<tr class="odd">
+<td>100</td>
+<td>1.7 Hz</td>
+<td>3.3 Hz</td>
+<td>6.7 Hz</td>
+</tr>
+<tr class="even">
+<td>112</td>
+<td>1.9 Hz</td>
+<td>3.7 Hz</td>
+<td>7.5 Hz</td>
+</tr>
+<tr class="odd">
+<td>120</td>
+<td>2.0 Hz</td>
+<td><strong>4.0 Hz</strong></td>
+<td>8.0 Hz</td>
+</tr>
+<tr class="even">
+<td>128</td>
+<td>2.1 Hz</td>
+<td>4.3 Hz</td>
+<td>8.5 Hz</td>
+</tr>
+<tr class="odd">
+<td>140</td>
+<td>2.3 Hz</td>
+<td>4.7 Hz</td>
+<td>9.3 Hz</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 456" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#c8553d" height="252.0" opacity="0.06" rx="0" stroke="none" stroke-width="1" width="790.0" x="110.0" y="90.0"></rect>
+<text fill="#c8553d" font-size="12" font-weight="400" opacity="1.0" text-anchor="end" x="892.0" y="115.2">3–30 Hz: seizure-prone band [Ref. 6]</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="110.0" x2="900.0" y1="450.0" y2="450.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="100.0" y="454.0">0</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="110.0" x2="900.0" y1="414.0" y2="414.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="100.0" y="418.0">1</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="110.0" x2="900.0" y1="378.0" y2="378.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="100.0" y="382.0">2</text>
+<line opacity="1.0" stroke="none" stroke-linecap="butt" stroke-width="1" x1="110.0" x2="900.0" y1="342.0" y2="342.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="100.0" y="346.0">3</text>
+<line opacity="1.0" stroke="none" stroke-linecap="butt" stroke-width="1" x1="110.0" x2="900.0" y1="306.0" y2="306.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="100.0" y="310.0">4</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="110.0" x2="900.0" y1="270.0" y2="270.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="100.0" y="274.0">5</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="110.0" x2="900.0" y1="234.0" y2="234.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="100.0" y="238.0">6</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="110.0" x2="900.0" y1="198.0" y2="198.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="100.0" y="202.0">7</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="110.0" x2="900.0" y1="162.0" y2="162.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="100.0" y="166.0">8</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="110.0" x2="900.0" y1="126.0" y2="126.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="100.0" y="130.0">9</text>
+<line opacity="1.0" stroke="#eef0f3" stroke-linecap="butt" stroke-width="1" x1="110.0" x2="900.0" y1="90.0" y2="90.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="end" x="100.0" y="94.0">10</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="110.0" x2="110.0" y1="450.0" y2="456.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="110.0" y="472.0">60</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="241.7" x2="241.7" y1="450.0" y2="456.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="241.7" y="472.0">80</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="373.3" x2="373.3" y1="450.0" y2="456.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="373.3" y="472.0">100</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="505.0" x2="505.0" y1="450.0" y2="456.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="505.0" y="472.0">120</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="636.7" x2="636.7" y1="450.0" y2="456.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="636.7" y="472.0">140</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="768.3" x2="768.3" y1="450.0" y2="456.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="768.3" y="472.0">160</text>
+<line opacity="1.0" stroke="#6b7280" stroke-linecap="butt" stroke-width="1" x1="900.0" x2="900.0" y1="450.0" y2="456.0"></line>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="middle" x="900.0" y="472.0">180</text>
+<text fill="#6b7280" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="middle" x="505.0" y="494.0">BPM</text>
+<text fill="#6b7280" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="40.0" y="270.0">Hz</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="1.5" x1="110.0" x2="900.0" y1="450.0" y2="450.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="1.5" x1="110.0" x2="110.0" y1="450.0" y2="90.0"></line>
+<line opacity="1.0" stroke="#d9902a" stroke-dasharray="6,4" stroke-linecap="butt" stroke-width="2" x1="110.0" x2="900.0" y1="342.0" y2="342.0"></line>
+<text fill="#d9902a" font-size="12" font-weight="700" opacity="1.0" text-anchor="end" x="892.0" y="335.0">3 Hz — broadcast limit (over 25% of screen)</text>
+<line opacity="1.0" stroke="#c8553d" stroke-dasharray="6,4" stroke-linecap="butt" stroke-width="2" x1="110.0" x2="900.0" y1="306.0" y2="306.0"></line>
+<text fill="#c8553d" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="180.0" y="299.0">4 Hz — UK HSE venue limit</text>
+<path d="M110.0,414.0 L116.6,413.4 L123.2,412.8 L129.8,412.2 L136.3,411.6 L142.9,411.0 L149.5,410.4 L156.1,409.8 L162.7,409.2 L169.2,408.6 L175.8,408.0 L182.4,407.4 L189.0,406.8 L195.6,406.2 L202.2,405.6 L208.8,405.0 L215.3,404.4 L221.9,403.8 L228.5,403.2 L235.1,402.6 L241.7,402.0 L248.2,401.4 L254.8,400.8 L261.4,400.2 L268.0,399.6 L274.6,399.0 L281.2,398.4 L287.8,397.8 L294.3,397.2 L300.9,396.6 L307.5,396.0 L314.1,395.4 L320.7,394.8 L327.2,394.2 L333.8,393.6 L340.4,393.0 L347.0,392.4 L353.6,391.8 L360.2,391.2 L366.8,390.6 L373.3,390.0 L379.9,389.4 L386.5,388.8 L393.1,388.2 L399.7,387.6 L406.2,387.0 L412.8,386.4 L419.4,385.8 L426.0,385.2 L432.6,384.6 L439.2,384.0 L445.8,383.4 L452.3,382.8 L458.9,382.2 L465.5,381.6 L472.1,381.0 L478.7,380.4 L485.2,379.8 L491.8,379.2 L498.4,378.6 L505.0,378.0 L511.6,377.4 L518.2,376.8 L524.8,376.2 L531.3,375.6 L537.9,375.0 L544.5,374.4 L551.1,373.8 L557.7,373.2 L564.2,372.6 L570.8,372.0 L577.4,371.4 L584.0,370.8 L590.6,370.2 L597.2,369.6 L603.8,369.0 L610.3,368.4 L616.9,367.8 L623.5,367.2 L630.1,366.6 L636.7,366.0 L643.2,365.4 L649.8,364.8 L656.4,364.2 L663.0,363.6 L669.6,363.0 L676.2,362.4 L682.8,361.8 L689.3,361.2 L695.9,360.6 L702.5,360.0 L709.1,359.4 L715.7,358.8 L722.2,358.2 L728.8,357.6 L735.4,357.0 L742.0,356.4 L748.6,355.8 L755.2,355.2 L761.8,354.6 L768.3,354.0 L774.9,353.4 L781.5,352.8 L788.1,352.2 L794.7,351.6 L801.2,351.0 L807.8,350.4 L814.4,349.8 L821.0,349.2 L827.6,348.6 L834.2,348.0 L840.8,347.4 L847.3,346.8 L853.9,346.2 L860.5,345.6 L867.1,345.0 L873.7,344.4 L880.2,343.8 L886.8,343.2 L893.4,342.6 L900.0,342.0" fill="none" opacity="1.0" stroke="#3b6ea8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.6"></path>
+<text fill="#3b6ea8" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="894.0" y="362.0">Quarter note</text>
+<path d="M110.0,378.0 L116.6,376.8 L123.2,375.6 L129.8,374.4 L136.3,373.2 L142.9,372.0 L149.5,370.8 L156.1,369.6 L162.7,368.4 L169.2,367.2 L175.8,366.0 L182.4,364.8 L189.0,363.6 L195.6,362.4 L202.2,361.2 L208.8,360.0 L215.3,358.8 L221.9,357.6 L228.5,356.4 L235.1,355.2 L241.7,354.0 L248.2,352.8 L254.8,351.6 L261.4,350.4 L268.0,349.2 L274.6,348.0 L281.2,346.8 L287.8,345.6 L294.3,344.4 L300.9,343.2 L307.5,342.0 L314.1,340.8 L320.7,339.6 L327.2,338.4 L333.8,337.2 L340.4,336.0 L347.0,334.8 L353.6,333.6 L360.2,332.4 L366.8,331.2 L373.3,330.0 L379.9,328.8 L386.5,327.6 L393.1,326.4 L399.7,325.2 L406.2,324.0 L412.8,322.8 L419.4,321.6 L426.0,320.4 L432.6,319.2 L439.2,318.0 L445.8,316.8 L452.3,315.6 L458.9,314.4 L465.5,313.2 L472.1,312.0 L478.7,310.8 L485.2,309.6 L491.8,308.4 L498.4,307.2 L505.0,306.0 L511.6,304.8 L518.2,303.6 L524.8,302.4 L531.3,301.2 L537.9,300.0 L544.5,298.8 L551.1,297.6 L557.7,296.4 L564.2,295.2 L570.8,294.0 L577.4,292.8 L584.0,291.6 L590.6,290.4 L597.2,289.2 L603.8,288.0 L610.3,286.8 L616.9,285.6 L623.5,284.4 L630.1,283.2 L636.7,282.0 L643.2,280.8 L649.8,279.6 L656.4,278.4 L663.0,277.2 L669.6,276.0 L676.2,274.8 L682.8,273.6 L689.3,272.4 L695.9,271.2 L702.5,270.0 L709.1,268.8 L715.7,267.6 L722.2,266.4 L728.8,265.2 L735.4,264.0 L742.0,262.8 L748.6,261.6 L755.2,260.4 L761.8,259.2 L768.3,258.0 L774.9,256.8 L781.5,255.6 L788.1,254.4 L794.7,253.2 L801.2,252.0 L807.8,250.8 L814.4,249.6 L821.0,248.4 L827.6,247.2 L834.2,246.0 L840.8,244.8 L847.3,243.6 L853.9,242.4 L860.5,241.2 L867.1,240.0 L873.7,238.8 L880.2,237.6 L886.8,236.4 L893.4,235.2 L900.0,234.0" fill="none" opacity="1.0" stroke="#7a5ea8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.6"></path>
+<text fill="#7a5ea8" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="end" x="894.0" y="226.0">Eighth note</text>
+<path d="M110.0,306.0 L116.6,303.6 L123.2,301.2 L129.8,298.8 L136.3,296.4 L142.9,294.0 L149.5,291.6 L156.1,289.2 L162.7,286.8 L169.2,284.4 L175.8,282.0 L182.4,279.6 L189.0,277.2 L195.6,274.8 L202.2,272.4 L208.8,270.0 L215.3,267.6 L221.9,265.2 L228.5,262.8 L235.1,260.4 L241.7,258.0 L248.2,255.6 L254.8,253.2 L261.4,250.8 L268.0,248.4 L274.6,246.0 L281.2,243.6 L287.8,241.2 L294.3,238.8 L300.9,236.4 L307.5,234.0 L314.1,231.6 L320.7,229.2 L327.2,226.8 L333.8,224.4 L340.4,222.0 L347.0,219.6 L353.6,217.2 L360.2,214.8 L366.8,212.4 L373.3,210.0 L379.9,207.6 L386.5,205.2 L393.1,202.8 L399.7,200.4 L406.2,198.0 L412.8,195.6 L419.4,193.2 L426.0,190.8 L432.6,188.4 L439.2,186.0 L445.8,183.6 L452.3,181.2 L458.9,178.8 L465.5,176.4 L472.1,174.0 L478.7,171.6 L485.2,169.2 L491.8,166.8 L498.4,164.4 L505.0,162.0 L511.6,159.6 L518.2,157.2 L524.8,154.8 L531.3,152.4 L537.9,150.0 L544.5,147.6 L551.1,145.2 L557.7,142.8 L564.2,140.4 L570.8,138.0 L577.4,135.6 L584.0,133.2 L590.6,130.8 L597.2,128.4 L603.8,126.0 L610.3,123.6 L616.9,121.2 L623.5,118.8 L630.1,116.4 L636.7,114.0 L643.2,111.6 L649.8,109.2 L656.4,106.8 L663.0,104.4 L669.6,102.0 L676.2,99.6 L682.8,97.2 L689.3,94.8 L695.9,92.4 L702.5,90.0" fill="none" opacity="1.0" stroke="#1f2430" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.6"></path>
+<text fill="#1f2430" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="start" x="708.5" y="82.0">Sixteenth note</text>
+<circle cx="307.5" cy="342.0" fill="#ffffff" opacity="1.0" r="5.5" stroke="#7a5ea8" stroke-width="2.4"></circle>
+<text fill="#7a5ea8" font-size="12" font-weight="700" opacity="1.0" text-anchor="end" x="297.5" y="332.0">90 BPM</text>
+<circle cx="505.0" cy="306.0" fill="#ffffff" opacity="1.0" r="5.5" stroke="#7a5ea8" stroke-width="2.4"></circle>
+<text fill="#7a5ea8" font-size="12" font-weight="700" opacity="1.0" text-anchor="start" x="513.0" y="326.0">120 BPM</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="506.0">Calculation · Hz = BPM ÷ 60 × flashes per beat. Standards: Ofcom broadcast guidance and ITU-R BT.1702, UK HSE (BBC report, 2019), Epilepsy Society.</text>
+</svg>
+<figcaption><b>Figure 2-4</b> Flash rate by BPM and note value. The purple line (eighth note) reaches 3 Hz at 90 BPM and 4 Hz at 120 BPM, and anything faster goes over.</figcaption></figure>
+<p>The reason to keep to these numbers lies in the audience’s bodies. Flashing light can trigger seizures in people with photosensitive epilepsy. According to the UK’s Epilepsy Society, the light most likely to trigger seizures flashes 3 to 30 times a second. Some people can be sensitive up to 60 Hz, and below 3 Hz it is said to be rare.<sup class="ref"><a href="#c2-s6">6</a></sup> About 3% of people with epilepsy are sensitive to light.<sup class="ref"><a href="#c2-s7">7</a></sup></p>
+<p>So there are two standards.</p>
+<ul class="keyed">
+<li><strong>Broadcast: 3 times a second.</strong> The UK’s Office of Communications (Ofcom) broadcast guidance and the International Telecommunication Union’s recommendation (ITU-R BT.1702) treat a scene as risky when an area larger than 25% of the screen flashes more than 3 times a second. Here, "one flash" is one pair of getting bright and getting dark. If a strobe fires once, that is one flash. Scenes that switch to a highly saturated red are treated as a separate hazard, regardless of brightness.<sup class="ref"><a href="#c2-s8">8</a></sup></li>
+<li><strong>Venues: 4 times a second.</strong> The UK Health and Safety Executive (HSE) recommends a maximum of 4 Hz for strobes in clubs and public events.<sup class="ref"><a href="#c2-s7">7</a></sup> This book uses this 4 Hz as the venue standard.</li>
+</ul>
+<p>Two numbers you can use straight from the table.</p>
+<ul class="keyed">
+<li><strong>An eighth-note flash at 90 BPM is 3 times a second, right at the edge of the broadcast limit. A faster song goes over it.</strong> If you put an eighth-note strobe on fixtures that cover a large part of the screen, it falls foul of the broadcast limit. A value that only just touches the limit is not treated as safe either; use one step slower (Chapter 17).</li>
+<li><strong>An eighth note at 120 BPM is exactly 4 Hz.</strong> In a song faster than 120, an eighth-note strobe also goes over the venue limit.</li>
+</ul>
+<p>At the time of writing, I could not confirm Korean broadcasters’ flash standards from public sources. </p>
+<p>Chapters 17 and 32 cover broadcast screen limits and venue safety in detail. The one thing to take away here is that <strong>choosing a note value fixes the Hz</strong>.</p>
+<h2 id="c2-2-9-choosing-hits">2.9 Choosing Hits</h2><p class="lead">You don’t hang a hit on every drum strike; you pick out just a few spots.</p>
+<p>Counting a song in bars, you see places to hang a cue everywhere: kicks, snares, claps, shouts. If you hang them all, the stage flashes without a pause. The audience is tired of the flashing before they ever feel the beat.</p>
+<p>Moody, whom we met in Chapter 1, described the same scene. He saw a show where the lights flashed on every drum beat and guitar riff, and it was so dizzying that the best moment was the final blackout.<sup class="ref"><a href="#c2-s9">9</a></sup></p>
+<p>The criterion for thinning them out is the energy of the section.</p>
+<div class="tbl"><div class="tcap"><b>Table 2-5</b> Hit interval by section <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Section</th>
+<th>Hit interval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Quiet sections (intro, early verse)</td>
+<td>One every 2–3 beats</td>
+</tr>
+<tr class="even">
+<td>Normal sections (verse, pre-chorus)</td>
+<td>One every 2 beats</td>
+</tr>
+<tr class="odd">
+<td>Impact sections (first bar of the chorus, drop)</td>
+<td>Every beat</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 306" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#3b6ea8" height="22.0" opacity="0.12" rx="0" stroke="none" stroke-width="1" width="370.0" x="170.0" y="80.0"></rect>
+<text fill="#3b6ea8" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="355.0" y="96.0">Verse</text>
+<rect fill="#c8553d" height="22.0" opacity="0.12" rx="0" stroke="none" stroke-width="1" width="370.0" x="540.0" y="80.0"></rect>
+<text fill="#c8553d" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="725.0" y="96.0">Chorus</text>
+<text fill="#1f2430" font-size="14" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="144.0">Hung on everything</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="162.0">Every kick, snare, clap</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="170.0" x2="170.0" y1="124.0" y2="170.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="262.5" x2="262.5" y1="124.0" y2="170.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="355.0" x2="355.0" y1="124.0" y2="170.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="447.5" x2="447.5" y1="124.0" y2="170.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="540.0" x2="540.0" y1="124.0" y2="170.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="632.5" x2="632.5" y1="124.0" y2="170.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="725.0" x2="725.0" y1="124.0" y2="170.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="817.5" x2="817.5" y1="124.0" y2="170.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="910.0" x2="910.0" y1="124.0" y2="170.0"></line>
+<circle cx="175.8" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="198.9" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="210.5" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="222.0" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="245.2" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="256.7" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="268.3" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="291.4" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="303.0" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="314.5" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="337.7" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="349.2" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="360.8" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="383.9" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="395.5" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="407.0" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="430.2" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="441.7" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="453.3" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="476.4" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="488.0" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="499.5" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="522.7" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="534.2" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="545.8" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="568.9" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="580.5" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="592.0" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="615.2" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="626.7" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="638.3" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="661.4" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="673.0" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="684.5" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="707.7" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="719.2" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="730.8" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="753.9" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="765.5" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="777.0" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="800.2" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="811.7" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="823.3" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="846.4" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="858.0" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="869.5" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="892.7" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="904.2" cy="147.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<text fill="#1f2430" font-size="14" font-weight="700" opacity="1.0" text-anchor="start" x="24.0" y="234.0">Thinned out</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="252.0">Verse: 1 per 2 beats</text>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="170.0" x2="170.0" y1="214.0" y2="260.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="262.5" x2="262.5" y1="214.0" y2="260.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="355.0" x2="355.0" y1="214.0" y2="260.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="447.5" x2="447.5" y1="214.0" y2="260.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="540.0" x2="540.0" y1="214.0" y2="260.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="632.5" x2="632.5" y1="214.0" y2="260.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="725.0" x2="725.0" y1="214.0" y2="260.0"></line>
+<line opacity="1.0" stroke="#d6d9df" stroke-linecap="butt" stroke-width="1" x1="817.5" x2="817.5" y1="214.0" y2="260.0"></line>
+<line opacity="1.0" stroke="#1f2430" stroke-linecap="butt" stroke-width="2" x1="910.0" x2="910.0" y1="214.0" y2="260.0"></line>
+<rect fill="#d9902a" height="46.0" opacity="0.18" rx="0" stroke="none" stroke-width="1" width="90.5" x="541.0" y="214.0"></rect>
+<circle cx="175.8" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="222.0" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="268.3" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="314.5" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="360.8" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="407.0" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="453.3" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="499.5" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="545.8" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="568.9" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="592.0" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="615.2" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="638.3" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="684.5" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="730.8" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="777.0" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="823.3" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<circle cx="869.5" cy="237.0" fill="#c8553d" opacity="1.0" r="5.2" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="266.0">Chorus bar 1: every beat</text>
+<text fill="#d9902a" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="586.2" y="292.0">Every beat only here → biggest spot</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="356.0">Starting value · The hit intervals are this book’s starting values (Table 2-5 in Section 2.9).</text>
+</svg>
+<figcaption><b>Figure 2-5</b> Choosing hits. The top shows hits hung on every strike, the bottom shows thinned-out hits. In the bottom one, only the first bar of the chorus gets a hit on every beat, so that spot bursts out.</figcaption></figure>
+<p>Only when the places that get a hit on every beat are few across the whole song does that spot burst out. Chapter 10, "Contrast and Restraint," says more about this.</p>
+<h2 id="c2-2-10-exercise-bar-time-table-for-love-attack">2.10 [Exercise] Bar Time Table for LOVE ATTACK</h2><p class="lead">Take one song and work out for yourself what second each bar starts at, then check it. You need only two things: the BPM and the time of the first downbeat.</p>
+<div class="formula"><span class="f-label">Formula</span>
+<p><strong>Start time of bar n = first downbeat + (n − 1) × length of 1 bar</strong></p>
+</div>
+<p><strong>Example: LOVE ATTACK, 112 BPM, first downbeat 1.50 s</strong></p>
+<p>1 bar = 240 ÷ 112 = 2.143 s</p>
+<p>The BPM was found from the big hits of Chorus 1 and Chorus 2. From 37.97 s to 97.97 s there are 112 beats, exactly 60.0 s. At 112 beats a minute, it is 112.0 BPM.<sup class="ref"><a href="#c2-s2">2</a></sup></p>
+<p>Whether this grid is right is checked with <strong>separately measured moments</strong>. I picked four moments that can be clearly caught in the song: the big hits of Chorus 1 and 2, the hit of Chorus 3 that comes in a beat early (Chapter 3), and the downbeat of bar 82 at the end of the song.</p>
+<div class="tbl"><div class="tcap"><b>Table 2-6</b> Calculated times and measured times · Measured times are from <sup class="ref"><a href="#c2-s2">2</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>Spot</th>
+<th>Measured time</th>
+<th>Calculated at 112 BPM</th>
+<th>Difference</th>
+<th>Calculated at 112.35 BPM</th>
+<th>Difference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Chorus 1 big hit (bar 18 beat 1)</td>
+<td>37.97 s</td>
+<td>37.93 s</td>
+<td>+0.04</td>
+<td>37.82 s</td>
+<td>+0.15</td>
+</tr>
+<tr class="even">
+<td>Chorus 2 big hit (bar 46 beat 1)</td>
+<td>97.97 s</td>
+<td>97.93 s</td>
+<td>+0.04</td>
+<td>97.63 s</td>
+<td>+0.34</td>
+</tr>
+<tr class="odd">
+<td>Chorus 3 entry hit (bar 67 beat 4)</td>
+<td>144.57 s</td>
+<td>144.54 s</td>
+<td>+0.03</td>
+<td>144.09 s</td>
+<td>+0.48</td>
+</tr>
+<tr class="even">
+<td>End-of-song downbeat (bar 82 beat 1)</td>
+<td>175.06 s</td>
+<td>175.07 s</td>
+<td>−0.01</td>
+<td>174.53 s</td>
+<td>+0.53</td>
+</tr>
+</tbody>
+</table></div>
+<p>The grid drawn at 112 BPM stays small and <strong>constant</strong>, within 0.04 s all the way to bar 82. At 112.35 BPM the difference <strong>grows</strong> toward the end and reaches 0.53 s at bar 82.</p>
+<p>The BPM was found between the two hits (bars 18 and 46), so of course those two lines agree. What matters is that it also agrees with the Chorus 3 hit and bar 82, which were not used in that calculation. This confirms 112 BPM.</p>
+<p>The first downbeat at 1.50 s is a little different. A grid that fits means the "beats" fit; it does not prove which beat is the "one." The evidence is that the big hits of Chorus 1 and 2 land on the first beat of this grid, but the final check is done by ear (Chapter 5 marks this with ◐). The +0.04 s left over at the hits is a small difference from the measuring method, and you can’t tell it by ear.<sup class="ref"><a href="#c2-s2">2</a></sup></p>
+<p><strong>Follow along</strong></p>
+<ol type="1">
+<li>Write down the BPM and check it by ear with the method in Section 2.5.</li>
+<li>Find the time of the first downbeat.</li>
+<li>Use the formula to calculate the times of spots such as bars 1, 9, 17 and 33.</li>
+<li>Play the song and listen for whether "one" really lands at those times. If it also fits at bars toward the end of the song, both the BPM and the first beat are right.</li>
+<li>If it is off, look at the shape of the drift (Figure 2-6).</li>
+</ol>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 346" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<text fill="#c8553d" font-size="14.5" font-weight="700" opacity="1.0" text-anchor="start" x="40.0" y="88.0">Drifting apart → BPM slightly off</text>
+<rect fill="#fafbfc" height="210.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="400.0" x="40.0" y="100.0"></rect>
+<line opacity="1.0" stroke="#6b7280" stroke-dasharray="4,4" stroke-linecap="butt" stroke-width="1" x1="40.0" x2="440.0" y1="205.0" y2="205.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="46.0" y="199.0">0 (exact)</text>
+<path d="M60.0,205.0 L150.0,185.0 L240.0,165.0 L330.0,145.0 L420.0,125.0" fill="none" opacity="1.0" stroke="#c8553d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.6"></path>
+<circle cx="60.0" cy="205.0" fill="#c8553d" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="150.0" cy="185.0" fill="#c8553d" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="240.0" cy="165.0" fill="#c8553d" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="330.0" cy="145.0" fill="#c8553d" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="420.0" cy="125.0" fill="#c8553d" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="60.0" y="328.0">Bar 1</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="150.0" y="328.0">Bar 9</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="240.0" y="328.0">Bar 17</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="330.0" y="328.0">Bar 25</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="420.0" y="328.0">Bar 33</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="40.0" y="352.0">If the real "one" gets later, lower the BPM</text>
+<text fill="#3b6ea8" font-size="14.5" font-weight="700" opacity="1.0" text-anchor="start" x="520.0" y="88.0">Same offset from the start → first beat misjudged</text>
+<rect fill="#fafbfc" height="210.0" opacity="1.0" rx="0" stroke="#d6d9df" stroke-width="1" width="400.0" x="520.0" y="100.0"></rect>
+<line opacity="1.0" stroke="#6b7280" stroke-dasharray="4,4" stroke-linecap="butt" stroke-width="1" x1="520.0" x2="920.0" y1="205.0" y2="205.0"></line>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="526.0" y="199.0">0 (exact)</text>
+<path d="M540.0,160.0 L630.0,160.0 L720.0,160.0 L810.0,160.0 L900.0,160.0" fill="none" opacity="1.0" stroke="#3b6ea8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.6"></path>
+<circle cx="540.0" cy="160.0" fill="#3b6ea8" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="630.0" cy="160.0" fill="#3b6ea8" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="720.0" cy="160.0" fill="#3b6ea8" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="810.0" cy="160.0" fill="#3b6ea8" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<circle cx="900.0" cy="160.0" fill="#3b6ea8" opacity="1.0" r="4.0" stroke="none" stroke-width="1"></circle>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="540.0" y="328.0">Bar 1</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="630.0" y="328.0">Bar 9</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="720.0" y="328.0">Bar 17</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="810.0" y="328.0">Bar 25</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="middle" x="900.0" y="328.0">Bar 33</text>
+<text fill="#1f2430" font-size="12.5" font-weight="400" opacity="1.0" text-anchor="start" x="520.0" y="352.0">Only correct the first downbeat time</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="24.0" y="396.0">The figure is an illustration to show the principle.</text>
+</svg>
+<figcaption><b>Figure 2-6</b> When the grid is off. If it drifts further apart toward the end, the BPM is slightly wrong; if it is off by the same amount from the start, the first beat was picked wrong.</figcaption></figure>
+<p>The 112.35 column in Table 2-6 is the case in the left figure. The 112 column has a very small, constant difference, so you can use the grid as it is.</p>
+<p>This ruler becomes the first line of the song map in Chapter 5.</p>
+<aside class="box mine"><div class="box-label">Try it with your own song</div><div class="box-body"><ol class="steps"><li>Write down the BPM and first downbeat of your song, and measure the time of one clearly audible hit toward the end of the song.</li><li>Compare it with the time calculated by the formula. If the difference is small and constant, the grid is right.</li></ol></div></aside>
+<aside class="web" id="web-W2-3"><div class="web-head"><span class="web-tag">Web tool 3</span><h4>Beat Calculator</h4><a class="web-open" href="https://jjjh7401.github.io/lx/en/tools/calc.html" rel="noopener" target="_blank">Open in new window ↗</a></div><p class="web-desc">Enter the BPM and the first downbeat and it shows a bar time table, a fade table and a flash-rate Hz table on one screen.</p><div class="tool-embed"><iframe allow="autoplay" loading="lazy" src="https://jjjh7401.github.io/lx/en/tools/calc.html?embed=1" style="--h:1100px" title="Beat Calculator"></iframe></div><p class="tool-open"><span>The notes you write are saved in this browser only. To use it on a wide screen, press "Open in new window" above.</span></p></aside>
+<section class="summary"><h2>Key points</h2><ul>
+<li>1 beat = 60 ÷ BPM seconds and 1 bar = 240 ÷ BPM seconds. Memorize 120 BPM (1 beat 0.5 s, 1 bar 2 s) as a reference point.</li>
+<li>A machine-measured BPM is easily off by half or double. Check it with clapping, the snare position and a metronome.</li>
+<li>In half-time sections, set effect speed by the tempo the body feels, but keep counting bar numbers the same way.</li>
+<li>Decide fades in beats and write them down converted to seconds.</li>
+<li>Choosing a note value fixes the flash Hz. Broadcast must not exceed 3 times a second (3 Hz, over 25% of the screen area) and venues must not exceed 4 times a second (4 Hz).</li>
+<li>Thin out the hits. The fewer the places that get a hit on every beat, the more those places burst out.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">On the job tomorrow</div><div class="box-body"><ol class="steps"><li>Check the BPM of a song you received today once with a metronome.</li><li>Pick one fade written in seconds on a cue sheet and write "how many beats" next to it.</li></ol></div></aside>
+<section class="notes"><h2>Notes</h2><ol><li id="c2-s1">Moelants, D. (2002). Preferred tempo reconsidered. <em>Proceedings of the 7th International Conference on Music Perception and Cognition.</em> Result that preferred tempo clusters at 120–125 BPM (about 2 Hz). <a href="https://biblio.ugent.be/publication/159578" rel="noopener" target="_blank">https://biblio.ugent.be/publication/159578</a> (accessed 2026-10-25)</li><li id="c2-s2">Author’s measurement, audio analysis of LOVE ATTACK (RESCENE) (2026-10-06; the measurement method is given in the appendix). Pickup 0.96 s, first downbeat 1.50 s (three pieces of evidence agree; final confirmation by ear needed), big hit start 37.97 s (beat 69) and 97.97 s (beat 181), Chorus 3 hit 144.57 s (beat 268), bar 82 downbeat 175.06 s. Hit start is measured as the first frame where low-frequency energy exceeds 50% of its maximum. 112.0 BPM is calculated from 60.0 s between 112-beat intervals. It also matches the integer figure (112 BPM) on the track-information site Tunebat. </li><li id="c2-s3">Böck, S., Krebs, F., Widmer, G., "A Multi-Model Approach to Beat Tracking Considering Heterogeneous Music Styles", ISMIR 2014. Explains the "octave error," a common error of beat tracking systems that lock onto the beat at double or half the real speed. Gkiokas, A. et al., "Reducing Tempo Octave Errors by Periodicity Vector Coding and SVM Learning", ISMIR 2012. <a href="https://ismir2012.ismir.net/event/papers/301_ISMIR_2012.pdf" rel="noopener" target="_blank">https://ismir2012.ismir.net/event/papers/301_ISMIR_2012.pdf</a> (accessed 2026-10-25)</li><li id="c2-s4">MA Lighting, grandMA3 User Manual 2.5, Speed Masters. 16 Speed Masters, 0–225 BPM, and the behavior of moving to the nearest multiple of the BPM Master 16. <a href="https://help.malighting.com/grandMA3/2.5/HTML/masters_speed.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/masters_speed.html</a> (accessed 2026-10-25)</li><li id="c2-s5">Definition of half-time (tempo unchanged, snare on beat 3): Voleor, "What Is Halftime in Music? Same BPM, Snare on Beat 3". <a href="https://voleor.com/docs/halftime-explained/" rel="noopener" target="_blank">https://voleor.com/docs/halftime-explained/</a> (accessed 2026-10-25)</li><li id="c2-s6">Epilepsy Society, "Photosensitive epilepsy". <a href="https://epilepsysociety.org.uk/understanding-epilepsy/photosensitive-epilepsy" rel="noopener" target="_blank">https://epilepsysociety.org.uk/understanding-epilepsy/photosensitive-epilepsy</a> (accessed 2026-10-25)</li><li id="c2-s7">BBC News, "Music festival lighting 'can trigger epileptic fits'", 2019-06-12. About 3% of people with epilepsy are photosensitive; the UK HSE’s 4 Hz recommendation. <a href="https://www.bbc.com/news/health-48595961" rel="noopener" target="_blank">https://www.bbc.com/news/health-48595961</a> (accessed 2026-10-25)</li><li id="c2-s8">Ofcom, Guidance Notes Section Two: Harm and Offence — the photosensitive epilepsy section. <a href="https://www.ofcom.org.uk/siteassets/resources/documents/tv-radio-and-on-demand/broadcast-guidance/programme-guidance/broadcast-code-guidance/section-2-guidance-notes.pdf" rel="noopener" target="_blank">https://www.ofcom.org.uk/siteassets/resources/documents/tv-radio-and-on-demand/broadcast-guidance/programme-guidance/broadcast-code-guidance/section-2-guidance-notes.pdf</a> (accessed 2026-10-25). Recommendation ITU-R BT.1702-3 (2023-11). <a href="https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.1702-3-202311-I!!PDF-E.pdf" rel="noopener" target="_blank">https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.1702-3-202311-I!!PDF-E.pdf</a> (accessed 2026-10-25)</li><li id="c2-s9">Moody, J. L. <em>Concert Lighting: Techniques, Art and Business</em>, 3rd ed., with Paul Dexter, Focal Press, 2010. Excerpt: ProSoundWeb, "Approaches To Cueing The Music With Concert Lighting", 2013-04-11. <a href="https://www.prosoundweb.com/pro-production-approaches-to-cueing-the-music-with-concert-lighting/" rel="noopener" target="_blank">https://www.prosoundweb.com/pro-production-approaches-to-cueing-the-music-with-concert-lighting/</a> (accessed 2026-10-25)</li></ol></section>
+</article>
+</div>
+
+</main>
+<nav class="ltm-pager" id="ltmPager" aria-label="Chapters"></nav>
+<footer class="ltm-foot">
+<p><b>Lighting the Music</b> by Jaehyun Jung. Free to read online. English edition translated from the Korean original with AI.</p>
+<p>Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener license" target="_blank">CC BY-NC-ND 4.0</a>: you may share it with credit (title, author and a link to this page), but not for commercial use and not in modified form.</p>
+</footer>
+<script src="book.js?v=3"></script>
+<script>LTM_chapter("ch2");</script>
+</body>
+</html>

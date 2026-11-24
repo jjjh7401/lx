@@ -210,7 +210,7 @@
   var PAGES = [['index.html', 'All tools'], ['listen.html', 'Listening Notes'], ['pairs.html', 'Sound and Light Matching'], ['calc.html', 'Beat Calculator'], ['map.html', 'Music Map Practice'], ['sheet.html', 'Song Map'], ['rig.html', 'Fixture Roles'], ['concept.html', 'Concept Sheet'], ['palette.html', 'Palette'], ['looks.html', 'Look Sheet'], ['bright.html', 'Brightness Plan'], ['grid.html', 'Beat Grid'], ['recs.html', 'Section Guide'], ['trans.html', 'Transition Curves'], ['cues.html', 'Cue Sheet'], ['bcast.html', 'Broadcast Check'], ['setlist.html', 'Setlist Arc'], ['busk.html', 'Busking Page'], ['rigcalc.html', 'Rig Calculator and Patch Sheet'], ['scene.html', 'Scene Viewer'], ['showplan.html', 'Show File Plan'], ['phaser.html', 'Phaser Calculator'], ['tc.html', 'Timecode Table'], ['rehearsal.html', 'Rehearsal Notes'], ['gocall.html', 'GO Practice'], ['safety.html', 'Safety Check'], ['song.html', 'One-Song Workbench']];
   /* English edition: tools that exist in English live next to this file; the rest open the Korean original */
   var EN_TOOLS = ["index.html","listen.html","pairs.html","calc.html","map.html","sheet.html"];
-  var EN_CH = [1];
+  var EN_CH = [1, 2, 3, 4, 5];
   function top(active, opt) {
     opt = opt || {};
     var l = lib(), cur = l.songs[l.current];
