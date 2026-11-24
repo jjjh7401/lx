@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chapter 29 · Show File Templates · Lighting the Music</title>
+<meta name="description" content="Two kinds of templates (songs change weekly vs the same show daily), pool number ranges and First Index, the song-page template and blocking cue, moving to a different rig with Clone, and a ten-item template checklist.">
+<link rel="alternate" hreflang="ko" href="https://ablitzdesign.tistory.com/79">
+<link rel="alternate" hreflang="en" href="https://jjjh7401.github.io/lx/en/ch29.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 29 · Show File Templates · Lighting the Music">
+<meta property="og:description" content="Two kinds of templates (songs change weekly vs the same show daily), pool number ranges and First Index, the song-page template and blocking cue, moving to a different rig with Clone, and a ten-item template checklist.">
+<meta property="og:image" content="https://jjjh7401.github.io/lx/cover-800.jpg">
+<meta property="og:url" content="https://jjjh7401.github.io/lx/en/ch29.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="en.css?v=2">
+</head>
+<body>
+<header class="ltm-bar" id="ltmBar"></header>
+<main id="article-view">
+<div class="bk"><style>
+#article-view .bk{
+  --paper:#fbfaf6; --page:#ffffff; --ink:#1c1d21; --body:#2f3036; --muted:#6c6e76; --rule:#e3e0d6;
+  --accent:#b8562b; --accent-soft:#f6e6dc; --blue:#2f5f95; --blue-soft:#e6eef7; --green:#3c7a4d; --green-soft:#e5f1e8;
+  --purple:#6a4f9a; --purple-soft:#eee8f6; --amber:#b57a1c; --amber-soft:#f8eedb; --slot:#9a6b00; --slot-bg:#fff6dc;
+  --sans:'Inter','Noto Sans KR','Helvetica Neue','Apple SD Gothic Neo','Malgun Gothic',Helvetica,Arial,sans-serif; --serif:var(--sans);
+}
+#article-view .bk, #article-view .bk *{box-sizing:border-box}
+#article-view .bk{scroll-behavior:smooth}
+#article-view .bk{margin:0;background:var(--paper);color:var(--body);font-family:var(--sans);font-size:17px;line-height:1.85;letter-spacing:-0.005em;word-break:keep-all;overflow-wrap:break-word}
+#article-view .bk a{color:var(--accent)}
+#article-view .bk .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#article-view .bk .sheet{max-width:780px;margin:32px auto;background:var(--page);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule);padding:clamp(24px,6vw,72px) clamp(20px,7vw,84px)}
+#article-view .bk .cover{min-height:min(92vh,980px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+#article-view .bk .cover .grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.35}
+#article-view .bk .cover .k{font-family:var(--sans);letter-spacing:.2em;font-size:13px;color:var(--muted);position:relative}
+#article-view .bk .cover h1{font-family:var(--serif);font-size:clamp(40px,7vw,64px);line-height:1.15;margin:0;color:var(--ink);font-weight:700;position:relative;text-wrap:balance}
+#article-view .bk .cover .st{font-family:var(--sans);font-size:clamp(16px,2.4vw,20px);color:var(--body);margin-top:18px;position:relative;line-height:1.6}
+#article-view .bk .cover .au{font-family:var(--sans);font-size:15px;color:var(--muted);position:relative}
+#article-view .bk .cover .ed{display:inline-block;margin-top:8px;font-size:12px;border:1px solid var(--accent);color:var(--accent);padding:2px 8px;border-radius:3px}
+#article-view .bk .front h2{font-family:var(--sans);font-size:15px;letter-spacing:.18em;color:var(--muted);font-weight:700;margin:0 0 24px}
+#article-view .bk .front dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15.5px;line-height:1.7}
+#article-view .bk .front dt{font-family:var(--sans);font-weight:700;color:var(--ink)}
+#article-view .bk .front dd{margin:0}
+#article-view .bk .toc{list-style:none;margin:0;padding:0;font-family:var(--sans)}
+#article-view .bk .toc .part{margin:0 0 18px}
+#article-view .bk .toc .pt{display:block;font-weight:700;color:var(--ink);font-size:15px;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:6px}
+#article-view .bk .toc ol{list-style:none;margin:0;padding:0}
+#article-view .bk .toc li li{display:flex;gap:12px;align-items:baseline;padding:4px 0;font-size:14.5px}
+#article-view .bk .toc li li a{display:flex;gap:12px;align-items:baseline;color:var(--ink);text-decoration:none;flex:1}
+#article-view .bk .toc li li a:hover .tt{color:var(--accent)}
+#article-view .bk .toc .tn{flex:0 0 3.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+#article-view .bk .toc .todo{color:var(--muted)}
+#article-view .bk .toc .todo .tt{flex:1}
+#article-view .bk .toc .tw{font-size:11.5px;border:1px solid var(--rule);padding:0 6px;border-radius:3px}
+#article-view .bk .toc .live .pt{color:var(--accent)}
+#article-view .bk .part-page{text-align:left;padding-top:clamp(60px,12vw,140px);padding-bottom:clamp(60px,12vw,140px)}
+#article-view .bk .part-page .pn{font-family:var(--sans);font-size:14px;letter-spacing:.3em;color:var(--accent)}
+#article-view .bk .part-page h2{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:12px 0 8px;color:var(--ink);line-height:1.3;text-wrap:balance}
+#article-view .bk .part-page p{color:var(--muted);font-family:var(--sans);font-size:15px;max-width:34em}
+#article-view .bk .part-page ol{font-family:var(--sans);font-size:15px;color:var(--body);padding-left:1.2em;margin-top:28px}
+#article-view .bk .part-page li.todo{color:var(--muted)}
+#article-view .bk .part-page li.todo span{font-size:12px;margin-left:6px;border:1px dashed var(--rule);border-radius:4px;padding:0 6px}
+#article-view .bk .ch-head{margin:0 0 36px;padding-bottom:28px;border-bottom:2px solid var(--ink)}
+#article-view .bk .ch-num{font-family:var(--sans);font-weight:300;font-size:72px;line-height:1;color:var(--accent)}
+#article-view .bk .ch-num span{font-size:20px;margin-left:6px;font-weight:500}
+#article-view .bk .ch-title{font-family:var(--serif);font-size:clamp(30px,5vw,40px);line-height:1.3;color:var(--ink);margin:14px 0 6px;text-wrap:balance}
+#article-view .bk .ch-sub{font-family:var(--sans);font-size:17px;color:var(--muted);margin:0}
+#article-view .bk .open-label{font-family:var(--sans);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:40px 0 8px}
+#article-view .bk .open-label + p, #article-view .bk .open-label + p + p{font-size:18px;color:var(--ink)}
+#article-view .bk .chapter h2{font-family:var(--sans);font-size:22px;color:var(--ink);margin:56px 0 16px;line-height:1.4;text-wrap:balance}
+#article-view .bk .chapter h3{font-family:var(--sans);font-size:17px;color:var(--ink)}
+#article-view .bk .chapter strong{color:var(--ink)}
+#article-view .bk .chapter ul, #article-view .bk .chapter ol{padding-left:1.3em;margin:0 0 1.1em}
+#article-view .bk .chapter li{margin:.25em 0}
+#article-view .bk code{font-family:ui-monospace,Menlo,monospace;font-size:.82em;background:var(--rule);padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+#article-view .bk pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+#article-view .bk .ref{font-family:var(--sans);font-size:.62em;margin-left:1px}
+#article-view .bk .ref a{text-decoration:none;color:var(--accent)}
+#article-view .bk .badge{font-family:var(--sans);font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:10px;vertical-align:2px;white-space:nowrap}
+#article-view .bk .badge.calc{background:var(--blue-soft);color:var(--blue)}
+#article-view .bk .badge.start{background:var(--amber-soft);color:var(--amber)}
+#article-view .bk .slot{font-family:var(--sans);font-size:12.5px;color:var(--slot);background:var(--slot-bg);border:1px dashed var(--slot);padding:1px 8px;border-radius:3px;white-space:nowrap}
+#article-view .bk .formula{position:relative;margin:2em 0;padding:22px 24px 18px;border:1.5px solid var(--ink);border-radius:2px;text-align:center;font-family:var(--sans);font-size:19px;color:var(--ink);background:var(--page)}
+#article-view .bk .formula p{margin:0}
+#article-view .bk .f-label{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--page);padding:0 10px;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+#article-view .bk .chapter p.lead{font-size:18.5px;color:var(--ink);font-weight:600;line-height:1.85}
+#article-view .bk .chapter ul.keyed{list-style:none;padding:0;margin:1.2em 0 1.4em;border-top:1px solid var(--rule)}
+#article-view .bk .chapter ul.keyed > li{padding:12px 0 12px 16px;margin:0;border-bottom:1px solid var(--rule);position:relative}
+#article-view .bk .chapter ul.keyed > li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+#article-view .bk .chapter ul.keyed > li > strong:first-child{display:block;font-family:var(--sans);font-size:15.5px;color:var(--ink);margin-bottom:2px}
+#article-view .bk .box{--c:var(--muted);--cbg:var(--paper);position:relative;margin:3.2em 0 2em;padding:22px 24px 10px;border:1.5px solid var(--c);border-radius:0 10px 10px 10px;background:var(--cbg);font-family:var(--sans);font-size:15.5px;line-height:1.8;color:var(--body)}
+#article-view .bk .box-label{position:absolute;left:-1.5px;top:0;transform:translateY(-100%);background:var(--c);color:var(--page);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 16px 5px;border-radius:8px 8px 0 0;white-space:nowrap}
+#article-view .bk .box-body > *:last-child{margin-bottom:12px}
+#article-view .bk .box p{margin:0 0 .9em}
+#article-view .bk .box-note{font-size:14px;color:var(--muted);padding-bottom:12px;border-bottom:1px dashed var(--c);margin-bottom:6px !important}
+#article-view .bk .box ul, #article-view .bk .box ol{margin:0 0 .9em;padding-left:1.25em}
+#article-view .bk .box.goals{--c:var(--accent);--cbg:transparent;margin-top:2.8em}
+#article-view .bk ul.checks{list-style:none;padding:0 !important}
+#article-view .bk ul.checks li{position:relative;padding:8px 0 8px 32px;border-bottom:1px solid var(--rule);margin:0}
+#article-view .bk ul.checks li:last-child{border-bottom:0}
+#article-view .bk ul.checks li::before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--page);font-size:12px;font-weight:700;display:grid;place-items:center}
+#article-view .bk .box.terms{--c:var(--ink);--cbg:var(--page)}
+#article-view .bk dl.defs{margin:4px 0 6px}
+#article-view .bk dl.defs > div{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:11px 0;border-bottom:1px solid var(--rule)}
+#article-view .bk dl.defs > div:last-child{border-bottom:0}
+#article-view .bk dl.defs dt{font-weight:700;color:var(--ink)}
+#article-view .bk dl.defs dd{margin:0}
+@media (max-width:640px){#article-view .bk dl.defs > div{grid-template-columns:1fr}}
+#article-view .bk .box.song{--c:var(--accent);--cbg:var(--accent-soft)}
+#article-view .bk .song-card{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:start;padding:4px 0 16px;margin-bottom:14px;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+#article-view .bk .song-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;padding-top:4px}
+#article-view .bk dl.spec{margin:0;display:grid;gap:2px}
+#article-view .bk dl.spec > div{display:grid;grid-template-columns:5em 1fr;gap:10px}
+#article-view .bk dl.spec dt{color:var(--accent);font-weight:700;font-size:13.5px}
+#article-view .bk dl.spec dd{margin:0;font-size:14.5px}
+@media (max-width:640px){#article-view .bk .song-card{grid-template-columns:1fr}}
+#article-view .bk .box.try{--c:var(--blue);--cbg:var(--blue-soft)}
+#article-view .bk .box.check{--c:var(--green);--cbg:var(--green-soft)}
+#article-view .bk .box.mine{--c:var(--purple);--cbg:var(--purple-soft)}
+#article-view .bk ol.steps{list-style:none;counter-reset:st;padding:0 !important;margin:2px 0 10px}
+#article-view .bk ol.steps li{counter-increment:st;position:relative;padding:4px 0 4px 34px;margin:0 0 4px}
+#article-view .bk ol.steps li::before{content:counter(st);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--c);color:var(--c);font-size:12px;font-weight:700;display:grid;place-items:center;background:var(--page)}
+#article-view .bk .box.story{--c:var(--slot);--cbg:transparent;border-style:dashed}
+#article-view .bk .box.quote{--c:var(--accent);--cbg:transparent}
+#article-view .bk .box.quote .box-body{font-family:var(--serif)}
+#article-view .bk .box.heard{--c:var(--blue);--cbg:transparent}
+#article-view .bk .box.field{--c:var(--blue);--cbg:var(--paper);border-left-width:5px}
+#article-view .bk .box.number{--c:var(--amber);--cbg:var(--amber-soft)}
+#article-view .bk .box.fix{--c:var(--purple);--cbg:transparent}
+#article-view .bk .box.tomorrow{--c:var(--ink);--cbg:var(--ink);color:var(--page)}
+#article-view .bk .box.tomorrow .box-label{background:var(--accent);color:#fff}
+#article-view .bk .box.tomorrow ol.steps li::before{border-color:var(--accent);color:var(--accent);background:transparent}
+#article-view .bk .box.memo{--c:var(--slot);--cbg:var(--slot-bg);display:none;border-style:dashed}
+#article-view .bk .part-end{margin:64px 0 8px;padding:28px 0 4px;border-top:1px solid var(--rule);text-align:center}
+#article-view .bk .part-end .pe-label{font-family:var(--sans);font-size:13px;letter-spacing:.24em;color:var(--accent);margin-bottom:14px}
+#article-view .bk .part-end p{max-width:30em;margin:0 auto 1em !important;color:var(--muted)}
+#article-view .bk .part-end p.lead{font-weight:400;font-size:inherit;color:var(--body)}
+#article-view .bk .summary{margin:56px 0 24px;padding:20px 24px;border:2px solid var(--ink);border-radius:2px;font-family:var(--sans);font-size:15.5px}
+#article-view .bk .summary h2{margin:0 0 10px !important;font-size:16px !important;letter-spacing:.12em}
+#article-view .bk .summary ul{list-style:none;padding:0;margin:0}
+#article-view .bk .summary li{padding:9px 0 9px 22px;border-bottom:1px solid var(--rule);position:relative;margin:0}
+#article-view .bk .summary li:last-child{border-bottom:0}
+#article-view .bk .summary li::before{content:"";position:absolute;left:4px;top:19px;width:8px;height:2px;background:var(--accent)}
+#article-view .bk .chapter p{margin:0 0 1.3em}
+#article-view .bk .chapter > h2[id$="내일-현장에서"]{display:none}
+#article-view .bk figure.plate{margin:2em -32px;padding:14px;background:#fff;border:1px solid var(--rule);border-radius:4px}
+#article-view .bk figure.plate svg{display:block;width:100%;height:auto}
+#article-view .bk figure.plate figcaption{font-family:var(--sans);font-size:13.5px;color:#55575e;line-height:1.6;margin:10px 4px 0}
+#article-view .bk figure.plate figcaption b{color:#1c1d21;margin-right:4px}
+@media (max-width:860px){#article-view .bk figure.plate{margin:2em -8px}}
+#article-view .bk .tbl{margin:1.6em 0;overflow-x:auto}
+#article-view .bk .tcap{font-family:var(--sans);font-size:13.5px;color:var(--muted);margin-bottom:6px}
+#article-view .bk .tcap b{color:var(--ink);margin-right:4px}
+#article-view .bk table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;line-height:1.6;font-variant-numeric:tabular-nums}
+#article-view .bk th{text-align:left;border-bottom:2px solid var(--ink);padding:7px 8px;color:var(--ink);font-weight:700;white-space:nowrap}
+#article-view .bk td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+#article-view .bk .web{margin:2.2em -32px;border:2px solid var(--ink);border-radius:4px;background:var(--page);font-family:var(--sans);overflow:hidden}
+@media (max-width:860px){#article-view .bk .web{margin:2em -8px}}
+#article-view .bk .web-head{display:flex;align-items:baseline;gap:10px;padding:14px 18px 6px}
+#article-view .bk .web-tag{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--page);background:var(--accent);padding:2px 8px;border-radius:2px}
+#article-view .bk .web h4{margin:0;font-size:18px;color:var(--ink)}
+#article-view .bk .web-head{flex-wrap:wrap}
+#article-view .bk .web-open{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:999px;padding:3px 11px;white-space:nowrap}
+#article-view .bk .web-open:hover{background:var(--accent);color:var(--page)}
+#article-view .bk .web-desc{margin:0;padding:2px 18px 14px;font-size:14.5px;line-height:1.7}
+#article-view .bk .web-print{display:none;gap:16px;align-items:center;padding:0 18px 14px}
+#article-view .bk .live-wait{margin:0;padding:28px 18px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+#article-view .bk .live-foot{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+#article-view .bk .live-foot a{margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none}
+#article-view .bk .live-fold{font:inherit;font-size:13px;border:1px solid var(--rule);background:var(--page);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer}
+#article-view .bk .live.folded .live-slot{display:none}
+#article-view .bk .web-body p{margin:0}
+#article-view .bk .qr{flex:0 0 72px;height:72px;border:1px dashed var(--muted);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+#article-view .bk .web-shot{display:block;flex:1;min-width:0;width:100%;border:1px solid var(--rule)}
+#article-view .bk .live summary{cursor:pointer;padding:12px 18px;font-weight:700;color:var(--accent);border-top:1px solid var(--rule);list-style:none}
+#article-view .bk .live summary::-webkit-details-marker{display:none}
+#article-view .bk .live summary::before{content:"▶ ";font-size:11px}
+#article-view .bk .live[open] summary::before{content:"▼ "}
+#article-view .bk .live iframe{display:block;width:100%;border:0;border-top:1px solid var(--rule);background:var(--page)}
+#article-view .bk .notes{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:13px;line-height:1.7;color:var(--muted)}
+#article-view .bk .notes h2{font-size:13px !important;letter-spacing:.2em;margin:0 0 8px !important;color:var(--muted) !important}
+#article-view .bk .notes ol{padding-left:1.4em}
+#article-view .bk .notes li{margin:.35em 0}
+#article-view .bk .notes a{word-break:break-all}
+#article-view .bk .chap-nav{display:flex;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;margin-top:32px}
+#article-view .bk .appx-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:5;background:var(--page);border:1px solid var(--rule);border-radius:12px;padding:10px 12px;margin:1.4em 0 1.6em;font-family:var(--sans)}
+#article-view .bk .appx-nav .chips{display:flex;flex-wrap:wrap;gap:6px}
+#article-view .bk .appx-nav .chips a{font-size:13px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#article-view .bk .appx-nav .chips a b{color:var(--accent);margin-right:4px}
+#article-view .bk .appx-nav .find{display:flex;gap:8px;align-items:center;margin-top:8px}
+#article-view .bk .appx-nav input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--page);color:var(--ink)}
+#article-view .bk .appx-nav .cnt{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:210px}
+@media (max-width:640px){#article-view .bk .appx-nav{padding:8px 10px}
+#article-view .bk .appx-nav .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+#article-view .bk .appx-nav .chips a{flex:none}
+#article-view .bk #chappx h2, #article-view .bk #chappx h3{scroll-margin-top:170px}}
+#article-view .bk tr.appx-hide{display:none}
+#article-view .bk .tbl.appx-hide, #article-view .bk .tcap.appx-hide{display:none}
+#article-view .bk .chap-nav a{text-decoration:none}
+#article-view .bk footer.colophon{max-width:780px;margin:0 auto 60px;font-family:var(--sans);font-size:12.5px;color:var(--muted);text-align:center}
+#article-view .bk .cover2{max-width:780px;margin:32px auto;padding:0}
+#article-view .bk .cover2 .cv{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/3;container-type:inline-size;overflow:hidden;background:#050505;color:#fff;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#article-view .bk .cover2 .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+#article-view .bk .cover2 h1{position:absolute;left:7.5cqw;right:7.5cqw;top:8.1cqw;margin:0;font-size:16.25cqw;line-height:1;font-weight:900;letter-spacing:-.03em;color:#fff}
+#article-view .bk .cover2 .cv-foot{position:absolute;left:7.5cqw;right:7.5cqw;bottom:7.5cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+#article-view .bk .cover2 .cv-foot p{margin:0;font-size:3.44cqw;line-height:1.45;font-weight:700;color:#fff}
+#article-view .bk .cover2 .cv-au{font-size:2.81cqw;font-weight:700;letter-spacing:.06em;color:#fff}
+@media (prefers-reduced-motion:reduce){#article-view .bk{scroll-behavior:auto}}
+#article-view .bk{color-scheme:light}
+#article-view .bk .tool-embed{margin:18px 0 6px;border:1px solid var(--rule,#ddd);border-radius:12px;overflow:hidden;background:#121417}
+#article-view .bk .tool-embed iframe{display:block;width:100%;border:0;height:var(--h,1200px)!important}
+#article-view .bk .tool-open{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:14px}
+#article-view .bk .tool-open a{font-weight:700}
+#article-view .bk .part-page{margin:0 0 40px;padding:28px 28px 22px;border-radius:12px;background:#f0eee8}
+#article-view .bk .part-page .pn{font-size:13px;letter-spacing:.2em;font-weight:700;color:#9a4a22}
+#article-view .bk .part-page h2{margin:6px 0 10px}
+#article-view .bk .tool-open{font-size:13px;color:var(--muted)}
+
+</style>
+<article class="chapter" id="ch29"><header class="ch-head"><div class="ch-num"><span>Chapter</span> 29</div><h1 class="ch-title">Show File Templates</h1><p class="ch-sub">Build once, use again</p></header>
+<aside class="box goals"><div class="box-label">In this chapter</div><div class="box-body">
+<ul class="checks">
+<li>Decide what to fix and what to leave empty in a template, for sites where the songs change every week and for sites that do the same show every day.</li>
+<li>Give groups, presets, sequences and pages number ranges, so that whichever show file you open you find the same thing in the same place.</li>
+<li>Know the order for moving a template to a different rig, and tell what must be rebuilt from what can be used as it is.</li>
+</ul>
+</div></aside>
+<div class="open-label">Opening scene</div><p class="lead">Say two people write a weekly report every Monday. One opens a blank document every week and rebuilds the title, the tables and the items from scratch. The other keeps last week’s report as a form and changes only the numbers and this week’s content. The second person spends no time building the frame of the report, so uses that time to look over the content once more.</p>
+<p>The same thing happens every week on a lighting console. For TV music shows the songs change every week, and sometimes the stage design changes from broadcast to broadcast. Even so, much is built the same way every time: how groups are divided, the basic palette, the place of the safety button. If you build the show file new every time, you pick the same kind of groups again, match the same colors again, and put down the same safety button again.</p>
+<p>This chapter covers how to turn the LOVE ATTACK show file built in Chapters 23–28 into a <strong>template</strong>. A template is a show file in which everything else is decided in advance, so that for the next song or the next show you only fill in “what belongs to the song.”</p>
+<h2 id="c29-29-1-two-kinds-of-templates">29.1 Two Kinds of Templates</h2><p class="lead">What to decide in advance in a template depends on the site. <strong>If the songs change every week, fix the presets and groups and leave the songs empty. If you do the same show every day, fix the songs and adjust the presets and groups to the rig.</strong></p>
+<div class="tbl"><div class="tcap"><b>Table 29-1</b> Two kinds of templates <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Songs change every week (TV music shows, Ch. 17)</th>
+<th>The same show every day (tours Ch. 18, light shows Ch. 20)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fixed</td>
+<td>How groups are divided and numbered, the basic palette, the phaser sets, the song-page layout, safety</td>
+<td>Song pages and cues, timecode, the song’s palette</td>
+</tr>
+<tr class="even">
+<td>Left empty</td>
+<td>The cues on a song page, the song’s special colors, timecode</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Changed for each performance</td>
+<td>A new song page for each song. If the stage design changes: the patch, the groups’ selection grids, positions</td>
+<td>The venue’s fixture counts, positions, pixel map</td>
+</tr>
+<tr class="even">
+<td>Features used a lot</td>
+<td>Preset references (Ch. 23), the same page layout (Ch. 27)</td>
+<td>Recipes and Cook (Ch. 26), Clone (Section 29.4)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Think of a week of a TV music show (Chapter 17): the time to prepare each song is tight. If on top of that you pick groups and set positions, there is no time to read the song. If the template already holds everything from the groups’ frame to the phaser sets, then even in a week when the stage design changes, you only fit the patch, the group grids and the positions to the new stage (Section 29.4). What you do per song shrinks to moving the cue sheet onto the song page.</p>
+<p>A tour is the opposite. The show is the same and the venue changes. As we saw in Chapter 18, even when the fixtures decrease or increase from venue to venue, the cue structure is used as it is if the group names and levels are the same. The template holds the cues, and at each venue you adjust the groups and positions.</p>
+<h2 id="c29-29-2-setting-the-pool-number-rules">29.2 Setting the Pool Number Rules</h2><p class="lead">Divide the template’s pools (the lists in which groups, presets and sequences sit by number) by <strong>number range</strong>. Put what is used across the whole show at the front numbers, and what is used only in a song in the number range decided for each song.</p>
+<p>Then whichever show file you open, you find things in the same place: “Pearl Pink is in song 1’s color range,” “the downlight is common position 1.”</p>
+<p>grandMA3 has a basic setting that helps with this. For each pool you can set the <strong>First Index</strong> (the number a newly stored object starts from; default 1, 1–9999).<sup class="ref"><a href="#c29-s1">1</a></sup> If you change the Color pool’s First Index to 201 when making song 2’s colors, newly stored colors go in from number 201.</p>
+<figure class="plate"><svg font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Noto Sans CJK KR',sans-serif" preserveaspectratio="xMidYMid meet" viewbox="0 64 960 376" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<rect fill="#ffffff" height="100%" width="100%"></rect>
+<rect fill="#eef0f3" height="60.0" opacity="1.0" rx="8" stroke="#d6d9df" stroke-width="1" width="760.0" x="40.0" y="330.0"></rect>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="60.0" y="358.0">Patch (ID range 101–704)</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="60.0" y="378.0">Ch. 24 · start here when the rig changes</text>
+<text fill="#1f2430" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="420.0" y="358.0">Groups 1–60 (all · sub · effect)</text>
+<text fill="#6b7280" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="420.0" y="378.0">Fit the selection grids to the stage</text>
+<rect fill="#ffffff" height="92.0" opacity="1.0" rx="8" stroke="#d9902a" stroke-width="1.6" width="248.0" x="40.0" y="220.0"></rect>
+<text fill="#d9902a" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="52.0" y="242.0">Color pool</text>
+<rect fill="#d9902a" height="46.0" opacity="0.25" rx="5" stroke="none" stroke-width="1" width="104.0" x="52.0" y="254.0"></rect>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="58.0" y="272.0">1–20 common</text>
+<rect fill="none" height="46.0" opacity="1.0" rx="5" stroke="#d9902a" stroke-dasharray="4 3" stroke-width="1" width="112.0" x="164.0" y="254.0"></rect>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="170.0" y="272.0">101– song 1 ·</text>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="170.0" y="286.0">201– song 2</text>
+<rect fill="#ffffff" height="92.0" opacity="1.0" rx="8" stroke="#d9902a" stroke-width="1.6" width="248.0" x="296.0" y="220.0"></rect>
+<text fill="#d9902a" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="308.0" y="242.0">Position pool</text>
+<rect fill="#d9902a" height="46.0" opacity="0.25" rx="5" stroke="none" stroke-width="1" width="104.0" x="308.0" y="254.0"></rect>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="314.0" y="272.0">1–30 common</text>
+<rect fill="none" height="46.0" opacity="1.0" rx="5" stroke="#d9902a" stroke-dasharray="4 3" stroke-width="1" width="112.0" x="420.0" y="254.0"></rect>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="426.0" y="272.0">101– song 1</text>
+<rect fill="#ffffff" height="92.0" opacity="1.0" rx="8" stroke="#d9902a" stroke-width="1.6" width="248.0" x="552.0" y="220.0"></rect>
+<text fill="#d9902a" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="564.0" y="242.0">All (phaser) pool</text>
+<rect fill="#d9902a" height="46.0" opacity="0.25" rx="5" stroke="none" stroke-width="1" width="104.0" x="564.0" y="254.0"></rect>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="570.0" y="272.0">1–30 dimmer</text>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="570.0" y="286.0">sets ·</text>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="570.0" y="300.0">31–60 moving</text>
+<rect fill="none" height="46.0" opacity="1.0" rx="5" stroke="#d9902a" stroke-dasharray="4 3" stroke-width="1" width="112.0" x="676.0" y="254.0"></rect>
+<text fill="#1f2430" font-size="11" font-weight="400" opacity="1.0" text-anchor="start" x="682.0" y="272.0">101– song 1</text>
+<rect fill="#ffffff" height="104.0" opacity="1.0" rx="8" stroke="#3b6ea8" stroke-width="1.4" width="700.0" x="84.0" y="76.0"></rect>
+<text fill="#3b6ea8" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="end" x="774.0" y="86.0">Song 3</text>
+<rect fill="#ffffff" height="104.0" opacity="1.0" rx="8" stroke="#3b6ea8" stroke-width="1.4" width="700.0" x="62.0" y="88.0"></rect>
+<text fill="#3b6ea8" font-size="10.5" font-weight="400" opacity="1.0" text-anchor="end" x="752.0" y="98.0">Song 2</text>
+<rect fill="#ffffff" height="104.0" opacity="1.0" rx="8" stroke="#3b6ea8" stroke-width="1.4" width="700.0" x="40.0" y="100.0"></rect>
+<text fill="#3b6ea8" font-size="13" font-weight="700" opacity="1.0" text-anchor="start" x="58.0" y="128.0">Song page (song 1 is page 2): scene sequence (n×10+1) · six rhythm layers · accents</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="58.0" y="152.0">Song-page form: 0.5 blocking · 29/59/79 dark cues (MIB Early) · 99 finish</text>
+<text fill="#6b7280" font-size="11.5" font-weight="400" opacity="1.0" text-anchor="start" x="58.0" y="174.0">A new song fills in only this form’s slots</text>
+<rect fill="#1f2430" height="300.0" opacity="1.0" rx="10" stroke="none" stroke-width="1" width="110.0" x="820.0" y="90.0"></rect>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="875.0" y="200.0">Key ·</text>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="875.0" y="218.0">Safety</text>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="875.0" y="236.0">(Auto</text>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="875.0" y="254.0">Fix, all</text>
+<text fill="#ffffff" font-size="12.5" font-weight="700" opacity="1.0" text-anchor="middle" x="875.0" y="272.0">pages)</text>
+</svg>
+<figcaption><b>Figure 29-1</b> The structure of a template show file. The patch and groups on the lower level are shared by the whole show; the preset pools in the middle are divided into a common number range and per-song number ranges; and the song pages on the upper level stack up, one per song, in the same layout. The key and safety are in the same place across every page.</figcaption></figure>
+<div class="tbl"><div class="tcap"><b>Table 29-2</b> The template’s number ranges <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Pool</th>
+<th>Whole show</th>
+<th>Per song</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Group</td>
+<td>1–10 all groups, 11–30 sub groups, 31–60 effect groups (Ch. 24)</td>
+<td>Not used (groups are shared by the whole show)</td>
+</tr>
+<tr class="even">
+<td>Dimmer</td>
+<td>1–10 brightness steps (0, 25, 50, 75, 100)</td>
+<td>Not used (brightness steps are shared by the whole show; a brightness used only in a song goes into the cue as a hard value)</td>
+</tr>
+<tr class="odd">
+<td>Color</td>
+<td>1–20 white, CTO, basic colors</td>
+<td>Song n starts at n × 100 + 1 for 20 slots (song 1 is 101–120)</td>
+</tr>
+<tr class="even">
+<td>Position</td>
+<td>1–30 downlight, wall, fan, cross, sky beams, audience</td>
+<td>Song n starts at n × 100 + 1 for 10 slots</td>
+</tr>
+<tr class="odd">
+<td>All (phaser)</td>
+<td>1–30 dimmer phaser sets (Table 25-3 in Ch. 25), 31–60 moving phasers</td>
+<td>Song n starts at n × 100 + 1 for 20 slots</td>
+</tr>
+<tr class="even">
+<td>Sequence</td>
+<td>1–10 key, safety, house light (Auto Fix in slots 9 and 10 of every song page)</td>
+<td>Song n starts at n × 10 + 1 for 8 sequences (in the order of slots 1–8 in Table 27-1 of Ch. 27; song 1 is 11–18)</td>
+</tr>
+<tr class="odd">
+<td>Executor page</td>
+<td>Page 1 safety and busking (Ch. 21)</td>
+<td>Song n is page n + 1</td>
+</tr>
+</tbody>
+</table></div>
+<p>The numbers themselves have no right answer. The manual does not set pool numbers, and even in the author’s show the preset pool numbers (All 1 = number 21 and so on) could differ from show to show.<sup class="ref"><a href="#c29-s2">2</a></sup> What matters is to write the numbers you chose inside the template. If you leave the number-range table on the show file’s first page or in the names of pool objects, then even when someone else opens that show file, they work by the same rules.</p>
+<p>Some show file templates use big numbers of their own, such as putting a song’s sequences from number 9001. Those numbers are that template’s rule, not grandMA3’s default.<sup class="ref"><a href="#c29-s3">3</a></sup> When you take over someone else’s template, read that template’s number-range table first.</p>
+<p>After reading the number-range table, you still have to find where an object actually is. The <strong>Locate</strong> command that arrived in 2.5 does this. Write <code>Locate Group "Spot left → right"</code> and that object flashes red in the pool, and if it is attached to an executor, that executor flashes too. Type the same command again and it shows, in turn, the pages the object is attached to. You can also search by page and executor, as in <code>Locate Page 2 Executor 201</code> (executor 201 on page 2, the first fader slot of song 1’s page). To finish, use <code>Locate Reset</code> or ESC.<sup class="ref"><a href="#c29-s7">7</a></sup></p>
+<h2 id="c29-29-3-the-song-page-template-and-safety">29.3 The Song-Page Template and Safety</h2><p class="lead">In the template, a song page holds <strong>only the cue numbers and names, with the content left empty</strong>. Lay down the cue-number rule of Chapter 16 and the executor slots of Chapter 27 in advance, and a new song only has to fill in the slots.</p>
+<div class="tbl"><div class="tcap"><b>Table 29-3</b> The song-page template <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th>Cue</th>
+<th>Name</th>
+<th>What is put in the template in advance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0.5</td>
+<td>Blocking</td>
+<td>Dimmer 0 on every fixture, movers at the common position, all layers off</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Intro</td>
+<td>Empty</td>
+</tr>
+<tr class="odd">
+<td>10, 20, 30 …</td>
+<td>Start of a section (verse, pre-chorus, chorus …)</td>
+<td>Empty (number and name only)</td>
+</tr>
+<tr class="even">
+<td>29, 59, 79</td>
+<td>Dark cue and break</td>
+<td>Base only, dimmer 0, MIB Early</td>
+</tr>
+<tr class="odd">
+<td>39, 69</td>
+<td>Kick-out</td>
+<td>Empty (number and name only), MIB Early</td>
+</tr>
+<tr class="even">
+<td>90</td>
+<td>End</td>
+<td>Empty</td>
+</tr>
+<tr class="odd">
+<td>99</td>
+<td>Finish</td>
+<td>Front light for the bow</td>
+</tr>
+</tbody>
+</table></div>
+<p>The <strong>blocking cue</strong> (0.5) is the most important cue in the template. It is a cue stored with a value for every attribute, so whatever came through tracking from the previous song, passing this cue starts the song from the same state. grandMA3 has no feature named a “safety cue,” but a few basic functions used together do the same job.<sup class="ref"><a href="#c29-s4">4</a></sup></p>
+<ul class="keyed">
+<li><strong>Restart Mode = First Cue</strong> When you turn the sequence on again, it starts from the first cue (0.5).</li>
+<li><strong>Release First Cue</strong> Releases the values tracked in the first cue.</li>
+<li><strong>Wrap Around</strong> Press GO after the last cue and it returns to the first cue. This is handy when you run the same song several times in rehearsal.</li>
+</ul>
+<p>Put the safety buttons not on a song page but on <strong>page 1 and the Auto Fix executors</strong> (the safety row in Chapter 21, slot 10 in Table 27-1 of Chapter 27). This is so that, whichever song page is up, the hand finds the safety look, the dark cue and the blackout in the same place.</p>
+<h2 id="c29-29-4-moving-to-a-different-rig">29.4 Moving to a Different Rig</h2><p class="lead">When the venue or stage changes and the rig is different, fix the template in the order <strong>patch → the groups’ selection grids → positions → check</strong>. If you delete the whole patch and put in a new one, the groups and presets lose their fixtures and there is no point in using a template.</p>
+<div class="tbl"><div class="tcap"><b>Table 29-4</b> The order for moving a template <sup class="ref"><a href="#c29-s5">5</a></sup> <sup class="ref"><a href="#c29-s6">6</a></sup></div><table>
+<thead>
+<tr class="header">
+<th>Order</th>
+<th>What to do</th>
+<th>What to look at</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 Patch</td>
+<td>Do not delete fixtures; if the count is the same, change only the fixture type, and if it grows, copy the data with Clone</td>
+<td>After changing the fixture type, whether the presets and cues are still alive <code>[Author to confirm]</code></td>
+</tr>
+<tr class="even">
+<td>2 Direction</td>
+<td>Set the patch’s pan and tilt invert first (Ch. 24)</td>
+<td>If positions look flipped, check the invert before the presets</td>
+</tr>
+<tr class="odd">
+<td>3 Groups</td>
+<td>Pick the effect groups’ selection grids again to fit the new stage</td>
+<td>Check the order with Highlight and Next</td>
+</tr>
+<tr class="even">
+<td>4 MAtricks · phase</td>
+<td>Fix the Block value of groups whose count changed and the literally entered phase (Ch. 26)</td>
+<td>Whether a 315 meant for 8 fixtures is left behind</td>
+</tr>
+<tr class="odd">
+<td>5 Recipes</td>
+<td>Cook the sequences whose groups you fixed (Ch. 26)</td>
+<td>Whether the Cook icon is green or purple</td>
+</tr>
+<tr class="even">
+<td>6 Positions</td>
+<td>Values are unique to each fixture, so aim again at every venue</td>
+<td>Start with the key position and the audience direction</td>
+</tr>
+<tr class="odd">
+<td>7 Check</td>
+<td>Run the song page from start to finish</td>
+<td>Ch. 30 rehearsal checklist</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Clone</strong> copies the data of one fixture (or a selection) to other fixtures across the whole show file. The syntax is <code>Clone target At destination</code>. For example, <code>Clone Fixture 301 Thru 308 At Fixture 311 Thru 318</code> copies the groups, presets and cue data of the 8 spot movers as they are to 8 newly added fixtures.<sup class="ref"><a href="#c29-s5">5</a></sup> The manual says that when you Clone preset and cue data, the presets the destination fixtures refer to are copied too. To narrow the range, add <code>If</code>. <code>Clone Fixture 301 Thru 308 At Fixture 311 Thru 318 If Sequence 11 Thru 18</code> means copy only the data that is in song 1’s sequences (numbers 11–18).<sup class="ref"><a href="#c29-s5">5</a></sup></p>
+<p>The manual does not say how much of the presets and cues survive when you change only the fixture type in the patch. There are accounts from people who build templates, but when the fixture type differs the attribute names differ, so some values may drop out.<sup class="ref"><a href="#c29-s6">6</a></sup> So after changing a fixture type, always go through to step 7 of Table 29-4. And after changing the patch, you must save with Save and Exit for it to take effect. If you press Discard and Exit, the changes are cancelled.<sup class="ref"><a href="#c29-s6">6</a></sup></p>
+<p>Know too what is easy and what is hard to move. Color and dimmer recipes move well regardless of the rig, but positions are values unique to each fixture, so you fit them again at every venue. A phase phaser saved as Universal loses its phase when moved (Chapter 24), so keep the template’s phasers Selective.</p>
+<aside class="box number"><div class="box-label">What changed in 2.5</div><div class="box-body">
+<ul>
+<li><strong>Names used in macros</strong>: If the template has macros (several lines of commands in one button), see whether they use command options whose names changed in 2.5. The option that moves to the next line in the selection grid (Newline → New Line), the option that restarts timecode from the beginning (Restart Option → Toggle Restart Option) and the range when exporting a patch (Entire Patch → All Stages) have changed, and a macro that tidies recipes now writes Recipe after <code>/Type</code> instead of <code>CleanUp /Selective</code>.<sup class="ref"><a href="#c29-s8">8</a></sup></li>
+<li><strong>The place of Shapes</strong>: The Shapes pool that holds phaser shapes moved from slot 16 to slot 4 in the show data. Fix any macro that goes to this slot by number.<sup class="ref"><a href="#c29-s8">8</a></sup></li>
+<li><strong>Remote control</strong>: In OSC, which other programs use to send commands to the console, the symbol that separates commands changed to a semicolon (;), and the default rights of a remotely connected user were set to Presets. If the template is one where you control the console from a tablet or another program, test the connection again.<sup class="ref"><a href="#c29-s8">8</a></sup></li>
+<li>If the template uses neither macros nor remote control, you may skip the three lines above.</li>
+<li><strong>Locate</strong>: A command was added that finds objects in pools and executors and makes them flash (Section 29.2).<sup class="ref"><a href="#c29-s7">7</a></sup></li>
+<li>If you open a template made in 2.4 in 2.5, run each of the template’s macros once before checking with Table 29-5.<code>[Author to confirm]</code></li>
+</ul>
+</div></aside>
+<h2 id="c29-29-5-the-template-checklist">29.5 The Template Checklist</h2><p class="lead">Before you hand a template to someone else or open it at the next show, check the ten items below.</p>
+<div class="tbl"><div class="tcap"><b>Table 29-5</b> Template checklist <span class="badge start">Starting value</span></div><table>
+<thead>
+<tr class="header">
+<th></th>
+<th>What to look at</th>
+<th>Related chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Are the patch’s ID range and the number-range table written inside the show file?</td>
+<td>24</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Does each effect group’s selection order match the stage?</td>
+<td>24·26</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Is the preset mode of every preset in the preset pools Selective?</td>
+<td>24</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Are the fixed presets filled in up to the show’s maximum number of steps?</td>
+<td>27</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Do all phasers follow the same speed master?</td>
+<td>28</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Is there a list of the literally entered phases and Block values?</td>
+<td>26</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Does the blocking cue of the song-page template hold every attribute?</td>
+<td>29</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Are the key and safety on every page as Auto Fix?</td>
+<td>27</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Are song-only things (special colors, the song’s timecode) kept from mixing into the common number range?</td>
+<td>29</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Does the show file go to black as soon as it opens (no output left from the previous show)?</td>
+<td>23</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="c29-29-6-exercise-make-a-template-from-the-love-attack-show-file">29.6 [Exercise] Make a Template from the LOVE ATTACK Show File</h2><p class="lead">Strip what belongs to the song out of the show file built in Chapters 23–28, save it as a template, and use that template to make the empty song page for a second song.</p>
+<p><strong>Follow along</strong></p>
+<ol type="1">
+<li>Save the show file under another name (for example “Template_PracticeRig_v1”).</li>
+<li>Move the presets to fit the number ranges of Table 29-2. LOVE ATTACK’s Pearl Pink, lilac, aqua and red go to song 1’s number range (101–), and white and the basic positions stay in the common number range.</li>
+<li>Copy the LOVE ATTACK song page to make the song 2 page, then erase the content of the cues so that only the Table 29-3 template remains. Keep the blocking cue (0.5), the dark cues and break (base-only state) and the finish cue (99).</li>
+<li>Give the scene sequence Restart Mode = First Cue, and check that the key and safety are on every page as Auto Fix.</li>
+<li>On the show file’s first page, write the number-range table of Table 29-2.</li>
+<li>Check with Table 29-5, then save it as a template.</li>
+</ol>
+<aside class="box check"><div class="box-label">How to check</div><div class="box-body"><ol class="steps"><li>Open the template fresh and, within 15 minutes, try making the first three cues of a different song (the start of the intro and the verse) on the song 2 page.</li><li>If you spent time picking groups or fitting positions, that is what the template is missing.</li><li>Add it to the template.</li></ol></div></aside>
+<aside class="box mine"><div class="box-label">Try it with your own stage</div><div class="box-body"><ol class="steps"><li>Open the show file of the show you are in charge of now and check it with the ten items of Table 29-5.</li><li>After fixing what gets caught, save it as a template with the date and version in its name, and at the next show start from that template.</li></ol></div></aside>
+<aside class="web" id="web-W19-29"><div class="web-head"><span class="web-tag">Web tool 22</span><h4>Show File Plan</h4><a class="web-open" href="https://jjjh7401.github.io/lx/en/tools/showplan.html" rel="noopener" target="_blank">Open in new window ↗</a></div><p class="web-desc">Load the fixtures from the Fixture Roles tool, decide the ID range and the three group levels, enter the number of songs, and it calculates the number ranges of the preset pools, sequences and pages for each song and shows them as a number-range table. It points out where number ranges overlap, and you can copy the number-range table and the patch list to a spreadsheet.</p><div class="tool-embed"><iframe allow="autoplay" loading="lazy" src="https://jjjh7401.github.io/lx/en/tools/showplan.html?embed=1" style="--h:1500px" title="Show File Plan"></iframe></div><p class="tool-open"><span>The notes you write are saved in this browser only. To use it on a wide screen, press "Open in new window" above.</span></p></aside>
+<section class="summary"><h2>Key points</h2><ul>
+<li>At a site where the songs change every week, fix the presets and groups and leave the songs empty; for the same show every day, fix the songs and adjust the presets and groups to the rig.</li>
+<li>Divide the pools by number range, and write that number-range table inside the show file. First Index sets the starting number of a number range.</li>
+<li>Keep the song page as a template with only numbers, and the blocking cue (0.5) cuts the previous song’s tracking.</li>
+<li>When moving to a different rig, do not delete the patch; fix in the order patch → direction → group grid → phase → Cook → positions → check.</li>
+<li>Before handing over a template, go through the ten-item checklist.</li>
+</ul></section>
+<aside class="box tomorrow"><div class="box-label">On the job tomorrow</div><div class="box-body"><ol class="steps"><li>Write down what you rebuilt from scratch this week.</li><li>If anything was rebuilt two or more times, move it into the template.</li></ol></div></aside>
+<section class="part-end"><div class="pe-label">Closing Part 5</div><p class="lead">In Part 5 we moved what Parts 1–4 decided in words and tables onto the grandMA3 console. We learned the path data takes inside the console (Chapter 23) and moved the rig into the patch, groups and presets (Chapter 24). We built rhythm layers from the phaser’s five parameters (Chapter 25) and spread the same phaser into many shapes with MAtricks (Chapter 26). We programmed a song with a song page (Chapter 27), matched it to the BPM and then recorded it with timecode (Chapter 28). Finally we kept all of that as a template (Chapter 29).</p>
+<p>The console has many features, but these chapters used only a few principles. Make the presets first. The order you picked is the direction. Store in Selective. Tie the speed to the song’s one BPM. Where something must stop, stop it down to the step. In Part 6 we run rehearsal and the show with the cues made this way. We start with how to check and fix cues in rehearsal.</p>
+</section><section class="notes"><h2>Notes</h2><ol><li id="c29-s1">MA Lighting, grandMA3 User Manual 2.5, “Preset Pools.” Nine type pools and five All pools, First Index (default 1, 1–9999), Preset Mode. <a href="https://help.malighting.com/grandMA3/2.5/HTML/presets_pools.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/presets_pools.html</a> (checked 2026-10-26)</li><li id="c29-s2">The author’s onPC 2.4.2 working notes (unpublished). Preset pool numbers (Dimmer 1, Position 2, Color 4, All 1 = 21) can differ from show to show, so re-read the pool list before storing.</li><li id="c29-s3">MBLightArts show-file template video (via the author’s notes). 20 sequences per song from number 9001, color pool 9001– and so on: numbers unique to that template.</li><li id="c29-s4">MA Lighting, grandMA3 User Manual 2.5, “Sequence Settings.” Restart Mode, Release First Cue, Wrap Around. <a href="https://help.malighting.com/grandMA3/2.5/HTML/cue_sequence_settings.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/cue_sequence_settings.html</a> (checked 2026-10-26)</li><li id="c29-s5">MA Lighting, grandMA3 User Manual 2.5, “Clone Keyword.” Syntax, examples, the referenced presets are copied too. <a href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_clone.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/keyword_clone.html</a> (checked 2026-10-26)</li><li id="c29-s6">MA Lighting, grandMA3 User Manual 2.5, “Add Fixtures to the Show,” “Patch.” Save and Exit, Discard and Exit. How much data is kept when a fixture type is replaced is not written. <a href="https://help.malighting.com/grandMA3/2.5/HTML/patch_add_fixtures.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/patch_add_fixtures.html</a> · <a href="https://help.malighting.com/grandMA3/2.5/HTML/patch.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/patch.html</a> (checked 2026-10-26). The accounts in the MBLightArts video (if you delete the whole patch, groups and presets turn gray; if you only change the fixture type, the links are likely to stay alive) are via the author’s notes.</li><li id="c29-s7">MA Lighting, grandMA3 User Manual 2.5, “Locate Keyword.” Syntax (<code>Locate [object]</code>, <code>Locate Page x Executor y</code>, <code>Locate Reset (/KeepPage)</code>), repeating shows the pages in turn, flashes red, cancel with ESC. <a href="https://help.malighting.com/grandMA3/2.5/HTML/keyword_locate.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/keyword_locate.html</a> (checked 2026-10-26)</li><li id="c29-s8">MA Lighting, grandMA3 Release Notes 2.5, “Changes,” “Deprecated.” New keywords Locate, /Restart and /KeepPage, MoveGridSelection Newline → New Line, Restart Option → Toggle Restart Option, Entire Patch → All Stages, Shapes data location 16 → 4, OSC separator “;”, default rights of a remote user Presets, <code>CleanUp /Selective</code> → <code>/Type</code> Recipe in recipes. <a href="https://help.malighting.com/grandMA3/2.5/HTML/rn_changes-2-5.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/rn_changes-2-5.html</a> · <a href="https://help.malighting.com/grandMA3/2.5/HTML/rn_deprecated-2-5.html" rel="noopener" target="_blank">https://help.malighting.com/grandMA3/2.5/HTML/rn_deprecated-2-5.html</a> (checked 2026-10-26)</li></ol></section>
+</article>
+</div>
+
+</main>
+<nav class="ltm-pager" id="ltmPager" aria-label="Chapters"></nav>
+<footer class="ltm-foot">
+<p><b>Lighting the Music</b> by Jaehyun Jung. Free to read online. English edition translated from the Korean original with AI.</p>
+<p>Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="noopener license" target="_blank">CC BY-NC-ND 4.0</a>: you may share it with credit (title, author and a link to this page), but not for commercial use and not in modified form.</p>
+</footer>
+<script src="book.js?v=3"></script>
+<script>LTM_chapter("ch29");</script>
+</body>
+</html>
