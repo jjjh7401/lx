@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cue Sheet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="lx.css">
+<style>
+/* 레이아웃: 위 큐 시트 표(편집), 아래 자체 점검 열네 가지와 유지·수정·변경 */
+.head{display:grid;gap:6px;padding-block:22px 10px}
+.head p{margin:0;color:var(--muted);max-width:74ch}
+table.cs td{vertical-align:top;padding:4px 4px}
+table.cs input{width:100%;min-width:4em;font-size:13px;padding:4px 6px}
+table.cs input.no{width:4.6em;font-family:var(--f-num)}
+table.cs input.bb{width:3.4em;font-family:var(--f-num)}
+table.cs input.w{min-width:15em}
+table.cs td.t{font-family:var(--f-num);font-size:13px;white-space:nowrap;padding-top:9px;color:var(--muted)}
+table.cs tr.sec td{border-top:2px solid var(--line)}
+table.cs button.x{padding:3px 8px;font-size:12px}
+.chk{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.chk li{display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;gap:10px;align-items:start;padding:9px 12px;border-radius:9px;background:var(--panel2);font-size:13.5px;border-left:4px solid var(--ok)}
+.chk li.w{border-left-color:var(--warn)} .chk li.m{border-left-color:var(--muted)}
+.chk .no{font-family:var(--f-num);font-weight:700;color:var(--ink)}
+.chk b{color:var(--ink)}
+.chk .hit{display:block;color:var(--warn);font-size:12.5px;margin-top:3px}
+.chk select{font-size:13px;padding:4px 6px}
+.sum{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.sum span{font-size:13px;padding:4px 10px;border-radius:999px;background:var(--panel2)}
+.sum b{color:var(--ink);font-family:var(--f-num)}
+#msg:empty{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>Cue Sheet</h1>
+    <p>The board for the Chapter 16 practice. From what you wrote in the song structure table, look sheet, brightness plan and beat grid, it builds a first draft cue sheet and points out the items among the fourteen self-checks that a tool can see. For each flagged item, choose one of keep, fix or change.</p>
+  </div>
+  <section class="panel">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 id="csT">Cue Sheet</h2>
+      <div class="row"><button type="button" id="add">Add cue</button><button type="button" id="sort" class="ghost">Sort by bar</button><button type="button" id="regen" class="ghost">Rebuild draft</button><button type="button" id="copy" class="primary">Copy sheet</button></div></div>
+    <p class="note" id="msg"></p>
+    <div class="tbl"><table class="cs" id="cs"></table></div>
+    <p class="note" style="margin:10px 0 0">Numbering: a whole number in multiples of 10 for each section, a decimal (30.1) for inserted cues. A repeated section copies the previous round and adds one new element. The key sits outside this table. Cues a hand has trouble following, like a hit one beat after a dark cue, are set with Follow or timecode.</p>
+  </section>
+  <section class="panel" style="margin-top:16px">
+    <h2 style="margin-bottom:10px">Fourteen self-checks</h2>
+    <div class="sum" id="sum"></div>
+    <ul class="chk" id="chk"></ul>
+    <p class="note" style="margin:10px 0 0">The check does not block; it lets you know. Keep means it was intended, so it stays; fix means changing the values of one cue; change means going back to the Part 2 design and correcting it there.</p>
+  </section>
+</div>
+<script src="lx.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LX, S = L.top('cues.html'), D = L.design(S);
+  var $ = function (id) { return document.getElementById(id); };
+  function save() { L.put(S); }
+  var COLS = [['no', 'Cue', 'no'], ['name', 'Name', 'w'], ['bar', 'Bar', 'bb'], ['beat', 'Beat', 'bb'], ['entry', 'In time', ''], ['scene', 'Scene', 'w'], ['layers', 'Layers', 'w'], ['memo', 'Memo', '']];
+  function sampleRows() {
+    var R = [['0.5', 'Blocking', 0, 1, '—', 'All at 0, movers at the intro position', 'All layers off'], ['1', 'Intro · Pearl heart', 1, 1, 'Snap', 'Pearl heart, pixels, 50%, wash 30%', ''],
+      ['1.1', 'Intro · Back pulse', 3, 1, '0 beats', 'Unchanged', 'Back low bass on, first beat of the bar'], ['1.2', 'Intro · One beam step', 5, 1, '1 beat', 'Lower movers raised one step', 'Unchanged'], ['10', 'Verse 1 · Garden sunlight', 7, 1, 'Fade 2 beats', 'Garden sunlight (main key), 50%, downlight', 'Side hi-hat on, lower movers tilt wave'],
+      ['10.1', 'Verse 1 · Lilac tint', 11, 1, 'Fade 3 bars', 'Wash toward lilac', 'Lower movers held still, upper movers slow pan'], ['20', 'Pre 1 · Balloon sky', 14, 1, 'Snap', 'Balloon sky, side main, 70%, wall, base from 25%', 'Side speeds up, upper and lower movers sweep the same way'],
+      ['29', 'Dark cue', 17, 3, '0 beats', 'Base only; meanwhile to fan position, aqua', 'All layers off'], ['30', 'Chorus 1 · Brightness hit', 18, 1, 'Snap', 'Rooftop fan, beam main, 80%, aqua base 60%', 'Back low bass on, pixel claps on'],
+      ['30.1', 'Chorus 1 · Upper movers', 22, 1, '0 beats', 'Unchanged', 'Pixel claps off, upper movers pan wave'], ['30.2', 'Chorus 1 · Pixels', 26, 1, '0 beats', 'Unchanged', 'Upper movers held still, pixel claps on'],
+      ['30.3', 'Chorus 1 · Upper movers', 30, 1, '0 beats', 'Unchanged', 'Pixel claps off, upper movers pan wave'], ['39', 'Kick-out', 33, 1, 'Freeze', 'Base only; meanwhile to downlight', 'All layers off'],
+      ['40', 'Verse 2 · Garden sunlight', 34, 1, 'Fade 2 beats', 'Copy 10, 60%', 'Side hi-hat, floor beam kick on the first beat of the bar'], ['50', 'Pre 2 · Base only', 42, 1, 'Snap', 'Copy 20, 75%, bars 42–43 base only', 'Side off'],
+      ['50.1', 'Pre 2 · Build-up', 44, 1, '0 beats', 'Raise every bar', 'Side speeds up, upper and lower movers sweep the same way'], ['59', 'Dark cue', 45, 4, '0 beats', 'Base only; meanwhile to aqua', 'All layers off'],
+      ['60', 'Chorus 2 · Mover burst', 46, 1, 'Snap, move 1–1.5 beats', 'Copy 30, 90%, mover burst', 'Back low bass, pixel claps'], ['60.1', 'Chorus 2 · Red heart', 47, 1, '0 beats', 'Only the pixels as a red heart (special color)', 'Pixel claps paused'],
+      ['60.2', 'Chorus 2 · Main look', 49, 1, '0 beats', 'Pixels back to two colors', 'Pixel claps on'], ['60.3', 'Chorus 2 · Upper movers', 50, 1, '0 beats', 'Unchanged', 'Pixel claps off, upper movers pan wave'],
+      ['60.4', 'Chorus 2 · Pixels', 54, 1, '0 beats', 'Unchanged', 'Upper movers held still, pixel claps on'], ['60.5', 'Chorus 2 · Upper movers', 58, 1, '0 beats', 'Unchanged', 'Pixel claps off, upper movers pan wave'],
+      ['69', 'Kick-out', 61, 1, 'Freeze', 'Base only; meanwhile to sky beams', 'All layers off'], ['70', 'Bridge · Lilac backlight', 62, 1, 'Fade 1 bar', 'Lilac backlight, back main, 45%', ''],
+      ['75', 'Beat section · Cross beams', 63, 1, 'Snap', 'Cross beams, 85%', 'Back low bass, lower movers cross sweep'], ['79', 'Break', 67, 1, '0 beats', 'Base only; meanwhile to fan, aqua and lilac', 'All layers off'],
+      ['80', 'Chorus 3 · White flash', 67, 4, 'Snap', 'All lights white, once', ''], ['80.1', 'Chorus 3 · Rooftop fan · night', 68, 1, 'The white settles over 2 beats', 'Rooftop fan · night, 100%, base 75%', 'Back low bass, floor beam kick, pixel claps'],
+      ['80.2', 'Chorus 3 · All roles', 78, 1, '0 beats', 'All roles on', 'Unchanged'], ['90', 'End · Pearl heart · night', 82, 1, 'Fade 2 bars', 'Pearl heart · night, lilac, 40% to 0', 'All layers off'],
+      ['99', 'Finish', 84, 1, 'Hand', 'Front light for the bow, or the transition cue to the next song', '']];
+    return R.map(function (r) { return { id: L.uid(), no: r[0], name: r[1], bar: r[2], beat: r[3], entry: r[4], scene: r[5], layers: r[6], memo: '' }; });
+  }
+  function draft() {
+    var list = L.sections(S), rows = [{ id: L.uid(), no: '0.5', name: 'Blocking', bar: 0, beat: 1, entry: '—', scene: 'State before the song starts', layers: 'All layers off', memo: '' }];
+    list.forEach(function (x, i) {
+      var base = i === 0 ? 1 : i * 10, lk = D.looks[x.m.id] || {}, br = D.bright.rows[x.m.id] || {};
+      rows.push({ id: L.uid(), no: String(base), name: x.m.name + (lk.name ? ' · ' + lk.name : ''), bar: x.start, beat: 1, entry: lk.entry || '', scene: [lk.name, lk.hero, br.hero != null ? br.hero + '%' : '', lk.pos].filter(Boolean).join(', '), layers: lk.fx || '', memo: '' });
+      var sub = 1;
+      S.marks.filter(function (m) { return m.t !== 'sec' && m.bar >= x.start && m.bar <= x.end; }).sort(L.sortMarks).forEach(function (m) {
+        var md = L.markDef(m.t), nxt = list[i + 1];
+        if ((m.t === 'stop' || m.t === 'drop') && nxt && m.bar >= nxt.start - 1) rows.push({ id: L.uid(), no: String((i + 1) * 10 - 1), name: md.label, bar: m.bar, beat: m.beat, entry: m.t === 'stop' ? 'Freeze' : '0 beats', scene: 'Base only (key kept separately)', layers: 'All layers off', memo: m.memo || '' });
+        else if (m.bar !== x.start || m.beat !== 1) rows.push({ id: L.uid(), no: base + '.' + (sub++), name: md.label, bar: m.bar, beat: m.beat, entry: m.t === 'hit' || m.t === 'pull' ? 'Snap' : '', scene: '', layers: '', memo: m.memo || '' });
+      });
+    });
+    rows.push({ id: L.uid(), no: '99', name: 'Finish', bar: L.nbars(S) + 1, beat: 1, entry: 'Hand', scene: 'Front light for the bow, or the transition cue to the next song', layers: '', memo: '' });
+    return rows;
+  }
+  if (!D.cueSheet || (S.sample && D.cueSheet.v !== 2)) {
+    D.cueSheet = { v: 2, rows: S.sample ? sampleRows() : draft(), verdict: {} };
+    if (S.sample) D.cueSheet.verdict = { c3: 'Change', c4: 'Keep', c9: 'Fix', c10: 'Keep' };
+  }
+  var CS = D.cueSheet;
+  function tOf(r) { return +r.bar >= 1 ? L.fmt(L.timeOf(S, +r.bar, +r.beat || 1)) : '—'; }
+  function render() {
+    $('csT').textContent = (S.title || '') + ' cue sheet · ' + CS.rows.length + ' cues';
+    var secStarts = {}; L.sections(S).forEach(function (x) { secStarts[x.start] = 1; });
+    $('cs').innerHTML = '<tr>' + COLS.map(function (c) { return '<th>' + c[1] + '</th>'; }).join('').replace('<th>Beat</th>', '<th>Beat</th><th>Time</th>') + '<th></th></tr>' + CS.rows.map(function (r, i) {
+      return '<tr class="' + (secStarts[r.bar] && +r.beat === 1 && /^\d+$/.test(r.no) ? 'sec' : '') + '">' + COLS.map(function (c) {
+        var cell = '<td><input class="' + c[2] + '" data-i="' + i + '" data-k="' + c[0] + '" value="' + L.esc(r[c[0]] == null ? '' : r[c[0]]) + '" aria-label="' + c[1] + '"' + (c[0] === 'bar' || c[0] === 'beat' ? ' inputmode="decimal"' : '') + '></td>';
+        return c[0] === 'beat' ? cell + '<td class="t" data-t="' + i + '">' + tOf(r) + '</td>' : cell;
+      }).join('') + '<td><button type="button" class="x ghost" data-del="' + i + '" aria-label="Delete this cue">Delete</button></td></tr>';
+    }).join('');
+    checks();
+  }
+  // 점검
+  var WIDE = ['Fan', 'Wall', 'Sky beam', 'Single-color wash', 'Audience beam', 'Star', 'Top/bottom split', 'Prism starburst'], NARROW = ['Cross', 'Center focus', 'Tunnel', 'Cone', 'Key spot', 'V', 'Downlight', 'Silhouette'];
+  function checks() {
+    var list = L.sections(S), LK = D.looks, BR = D.bright.rows, P = D.pal, rows = CS.rows, res = [];
+    function R(no, title, hits, auto) { res.push({ no: no, title: title, hits: hits || [], auto: auto !== false }); }
+    var lastCh = null; list.forEach(function (x) { if (/^Chorus/.test(x.m.name)) lastCh = x; });
+    // 1
+    R(1, 'There is at least one cue per section', list.filter(function (x) { return !rows.some(function (r) { return +r.bar >= x.start && +r.bar <= x.end; }); }).map(function (x) { return 'No cue in ' + x.m.name; }));
+    // 2
+    R(2, 'The key level does not go down when energy rises', +D.bright.key > 0 ? [] : ['No key level in the brightness plan']);
+    // 3
+    var h3 = [];
+    if (lastCh) list.forEach(function (x) { if (x.start >= lastCh.start) return; var b = +((BR[x.m.id] || {}).hero) || 0, lk = LK[x.m.id] || {}, ll = LK[lastCh.m.id] || {};
+      if (b >= 100) h3.push(x.m.name + ' brightness 100%, before the last chorus'); else if (b >= 90 && lk.pos && lk.pos === ll.pos) h3.push(x.m.name + ': brightness ' + b + '% with the same position (' + lk.pos + ') as the last chorus. Little is left to open in the last chorus'); });
+    R(3, 'Brightness, effect speed and beam width are not all at maximum together before the peak', h3);
+    // 4
+    var h4 = [];
+    list.forEach(function (x, i) { if (!i) return; var p = list[i - 1], a = (LK[p.m.id] || {}).pos, b = (LK[x.m.id] || {}).pos;
+      if ((S.energy[x.m.id] || 3) > (S.energy[p.m.id] || 3) && WIDE.indexOf(a) >= 0 && NARROW.indexOf(b) >= 0) h4.push(p.m.name + ' (' + a + ') → ' + x.m.name + ' (' + b + '): energy rises but the beams gather'); });
+    R(4, 'Beam width does not narrow at boundaries where energy rises', h4);
+    // 5
+    var nc = P.colors.filter(function (c) { return c.role !== 'white' && c.role !== 'key'; }).length;
+    R(5, 'The palette is five colors or fewer (white and key color temperature excluded)', nc > 5 ? ['Palette has ' + nc + ' colors'] : []);
+    // 6
+    R(6, 'The key does not go off while the vocal continues', rows.filter(function (r) { return /key\s*(off|0%|out)/i.test(r.scene + r.layers); }).map(function (r) { return 'Cue ' + r.no + ': ' + r.scene; }));
+    // 7
+    R(7, 'The back is brighter than the key only for a silhouette', list.filter(function (x) { var lk = LK[x.m.id] || {}, b = +((BR[x.m.id] || {}).hero) || 0; return lk.hero === 'Back' && b > +D.bright.key && lk.pos !== 'Silhouette'; }).map(function (x) { return x.m.name + ': back main ' + BR[x.m.id].hero + '% > key ' + D.bright.key + '%'; }));
+    // 8
+    var bo = rows.filter(function (r) { return /blackout/i.test(r.name + r.scene); });
+    R(8, 'Blackouts that turn everything off, key included, are three or fewer', bo.length > 3 ? [bo.length + ' blackouts'] : []);
+    // 9
+    var hits = S.marks.filter(function (m) { return m.t === 'hit' || m.t === 'pull'; }), firstMus = rows.filter(function (r) { return +r.bar >= 1; })[0];
+    R(9, 'Snaps are used only at the song start, hits, drop or beat-section entry, and a button ending', rows.filter(function (r) { if (!/snap/i.test(r.entry) || r === firstMus) return false; var sec = L.sectionAt(S, +r.bar);
+      return !hits.some(function (m) { return m.bar === +r.bar && m.beat === (+r.beat || 1); }) && !(sec && /^(end|outro|drop|beat)/i.test(sec.m.name)); }).map(function (r) { return 'Cue ' + r.no + ' ' + r.name + ' (' + r.bar + '.' + r.beat + ')'; }));
+    // 10
+    var bud = { 1: 0, 2: 2, 3: 2, 4: 2, 5: 3 }, G = D.grid, h10 = [];
+    if (G && G.cuts) G.cuts.forEach(function (b) { var n = 0; L.GRID_ROWS.forEach(function (r) { var c = G.cells[r[0] + '|' + b]; if (r[2] && c && c.lay) n++; }); var sec = L.sectionAt(S, b), e = sec ? (S.energy[sec.m.id] || 3) : 3; if (n > bud[e]) h10.push('Bar ' + b + ' (' + (sec ? sec.m.name : '') + ', energy ' + e + '): rhythm layers ' + n + ' > budget ' + bud[e]); });
+    R(10, 'The number of effects running at once is within the energy budget (♪ in the beat grid)', h10);
+    // 11
+    var h11 = [];
+    if (G && G.cells) Object.keys(G.cells).forEach(function (k) { var tx = G.cells[k].txt || '', m = /(\d+)[\s-]*beats?[\s-]*(?:cycle|loop)/i.exec(tx) || /(?:cycle|loop)\s*(?:of\s*)?(\d+)[\s-]*beats?/i.exec(tx); if (m && [1, 2, 4, 8, 16, 32].indexOf(+m[1]) < 0) h11.push('Bar ' + k.split('|')[1] + ': cycle of ' + m[1] + ' beats'); });
+    R(11, 'Effect cycles are 1, 2, 4 or 8 beats', h11);
+    // 12
+    var h12 = [];
+    list.forEach(function (x, i) { if (!i) return; var p = list[i - 1], a = LK[p.m.id] || {}, b = LK[x.m.id] || {}, ca = P.flow[p.m.id] || [], cb = P.flow[x.m.id] || [], n = 0;
+      if (a.pos && b.pos && a.pos !== b.pos) n++;
+      if (ca.length && cb.length && !ca.some(function (c) { return cb.indexOf(c) >= 0; })) n++;
+      var ba = +((BR[p.m.id] || {}).hero) || 0, bb = +((BR[x.m.id] || {}).hero) || 0; if (Math.abs(ba - bb) >= 25) n++;
+      if (a.fx && b.fx && a.fx.split(',')[0] !== b.fx.split(',')[0]) n++;
+      var dark = rows.some(function (r) { var tb = (+r.bar - 1) * 4 + (+r.beat || 1); return tb >= (x.start - 1) * 4 - 3 && tb < (x.start - 1) * 4 + 1 && /dip|break|kick-out|dark|freeze/i.test(r.name + r.entry); });
+      if (n >= 3 && !dark) h12.push(p.m.name + ' → ' + x.m.name + ': ' + n + ' attributes change greatly, no empty beat before'); });
+    R(12, 'One or two attributes change greatly between neighboring cues', h12);
+    // 13
+    R(13, 'The same position, the same two colors and the same effect do not carry over into neighboring sections', list.filter(function (x, i) { if (!i) return false; var p = list[i - 1], a = LK[p.m.id] || {}, b = LK[x.m.id] || {};
+      return a.pos && a.pos === b.pos && (a.fx || '') === (b.fx || '') && (P.flow[p.m.id] || []).slice().sort().join() === (P.flow[x.m.id] || []).slice().sort().join(); }).map(function (x) { return x.m.name + ' looks the same as the section before'; }));
+    // 14
+    var aud = rows.filter(function (r) { return /audience|blinder/i.test(r.name + r.scene); }).length + (+D.bright.cards.aud ? 1 : 0) + (+D.bright.cards.blinder ? 1 : 0);
+    R(14, 'Audience and blinders are two or fewer per song', aud > 2 ? [aud + ' audience/blinder uses'] : []);
+    var cnt = { 'Keep': 0, 'Fix': 0, 'Change': 0, '': 0 };
+    $('chk').innerHTML = res.map(function (c) {
+      var v = CS.verdict['c' + c.no] || '', hit = c.hits.length;
+      if (hit) cnt[v]++;
+      return '<li class="' + (hit ? 'w' : 'ok') + '"><span class="no">' + c.no + '</span><div><b>' + c.title + '</b>' + (hit ? c.hits.map(function (h) { return '<span class="hit">' + L.esc(h) + '</span>'; }).join('') : '<span class="note" style="display:block">None flagged</span>') + '</div>' +
+        (hit ? '<select data-v="' + c.no + '" aria-label="Verdict for check ' + c.no + '"><option value="">Verdict</option>' + ['Keep', 'Fix', 'Change'].map(function (o) { return '<option' + (v === o ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select>' : '<span></span>') + '</li>';
+    }).join('');
+    var nh = res.filter(function (c) { return c.hits.length; }).length;
+    $('sum').innerHTML = '<span>Flagged <b>' + nh + '</b></span><span>Change <b>' + cnt['Change'] + '</b></span><span>Fix <b>' + cnt['Fix'] + '</b></span><span>Keep <b>' + cnt['Keep'] + '</b></span>' + (cnt[''] ? '<span>Not yet judged <b>' + cnt[''] + '</b></span>' : '');
+  }
+  $('cs').addEventListener('input', function (e) {
+    var t = e.target; if (t.dataset.i == null) return; var r = CS.rows[+t.dataset.i]; r[t.dataset.k] = t.value; save();
+    if (t.dataset.k === 'bar' || t.dataset.k === 'beat') { var td = document.querySelector('[data-t="' + t.dataset.i + '"]'); if (td) td.textContent = tOf(r); }
+  });
+  $('cs').addEventListener('change', function () { checks(); });
+  $('cs').addEventListener('click', function (e) { var d = e.target.dataset.del; if (d != null) { CS.rows.splice(+d, 1); save(); render(); } });
+  $('chk').addEventListener('change', function (e) { var n = e.target.dataset.v; if (n) { CS.verdict['c' + n] = e.target.value; save(); checks(); } });
+  $('add').addEventListener('click', function () { var last = CS.rows[CS.rows.length - 2] || {}; CS.rows.splice(Math.max(0, CS.rows.length - 1), 0, { id: L.uid(), no: '', name: '', bar: last.bar || 1, beat: 1, entry: '', scene: '', layers: '', memo: '' }); save(); render(); $('msg').textContent = 'Added an empty cue before the Finish cue.'; });
+  $('sort').addEventListener('click', function () { CS.rows.sort(function (a, b) { return ((+a.bar || 0) - (+b.bar || 0)) || ((+a.beat || 1) - (+b.beat || 1)); }); save(); render(); });
+  $('regen').addEventListener('click', function () {
+    if ($('regen').dataset.ask !== '1') { $('regen').dataset.ask = '1'; $('regen').textContent = 'Really rebuild? (the current table will be erased)'; return; }
+    $('regen').dataset.ask = ''; $('regen').textContent = 'Rebuild draft';
+    CS.rows = S.sample ? sampleRows() : draft(); save(); render(); $('msg').textContent = 'Rebuilt the draft from the song notes.';
+  });
+  $('copy').addEventListener('click', function () {
+    var lines = ['Cue\tName\tBar\tBeat\tTime\tIn time\tScene\tLayers\tMemo'];
+    CS.rows.forEach(function (r) { lines.push([r.no, r.name, r.bar, r.beat, tOf(r), r.entry, r.scene, r.layers, r.memo].join('\t')); });
+    var txt = (S.title || '') + ' Cue sheet\n' + lines.join('\n');
+    var done = function (ok) { $('msg').textContent = ok ? 'Sheet copied. Paste it into a spreadsheet and the columns will split.' : 'Copying is blocked.'; };
+    try { navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); }); } catch (err) { done(false); }
+  });
+  save(); render();
+})();
+</script>
+</body>
+</html>

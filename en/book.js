@@ -21,7 +21,7 @@
     { id: 'ch13', n: '13', t: 'Building Layers', s: 'Splitting the light by instrument', file: 'ch13.html', ko: KO + '/63' },
     { id: 'ch14', n: '14', t: 'Transitions', s: 'Connecting one scene to the next', file: 'ch14.html', ko: KO + '/64' },
     { id: 'ch15', n: '15', t: 'Adjusting for Genre', s: 'From ballads to EDM', file: 'ch15.html', ko: KO + '/65' },
-    { id: 'ch16', n: '16', t: 'Cue Sheets and the Beat Grid', s: 'Turning a song into a lighting script' },
+    { id: 'ch16', n: '16', t: 'Cue Sheets and the Beat Grid', s: 'Turning a song into a lighting script', file: 'ch16.html', ko: KO + '/66' },
     { part: 'Part 4 · Lighting by Show Type' },
     { id: 'ch17', n: '17', t: 'TV Music Shows', s: 'A stage where the camera is the audience' },
     { id: 'ch18', n: '18', t: 'Concerts and Tours', s: 'Shaping the flow of a whole show' },

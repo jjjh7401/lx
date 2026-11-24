@@ -83,9 +83,9 @@ h2.sec{margin:34px 0 10px;font-size:16px}
     <a class="step" href="trans.html"><span class="no">Ch. 14</span><h2>Transition Curves</h2>
       <p>Compares the brightness curves of the two transition tools in beats and seconds, and calculates the in time at each boundary of the song.</p>
       <span class="use">In the field: when deciding in times</span><span class="go">Open →</span></a>
-    <a class="step" href="../../cues.html"><span class="no">Ch. 16</span><h2>Cue Sheet</h2>
+    <a class="step" href="cues.html"><span class="no">Ch. 16</span><h2>Cue Sheet</h2>
       <p>Builds a first cue sheet draft from your notes and runs fourteen self-checks to help you choose keep, fix or change.</p>
-      <span class="use">In the field: the day before rehearsal, when handing over to the operator</span><span class="go">Open (Korean) →</span></a>
+      <span class="use">In the field: the day before rehearsal, when handing over to the operator</span><span class="go">Open →</span></a>
   </div>
 
   <h2 class="sec">Part 4 · Lighting by Show Type</h2>
@@ -167,7 +167,7 @@ h2.sec{margin:34px 0 10px;font-size:16px}
 (function () {
   'use strict';
   var go = { listen: 'listen.html', pairs: 'pairs.html', sheet: 'sheet.html', rig: 'rig.html', concept: 'concept.html', palette: 'palette.html', looks: 'looks.html', bright: 'bright.html', grid: 'grid.html', recs: 'recs.html', trans: 'trans.html', cues: 'cues.html', bcast: 'bcast.html', setlist: 'setlist.html', busk: 'busk.html', rigcalc: 'rigcalc.html', scene: 'scene.html', phaser: 'phaser.html', song: 'song.html', tc: 'tc.html', showplan: 'showplan.html', rehearsal: 'rehearsal.html', gocall: 'gocall.html', safety: 'safety.html' }[(location.hash || '').slice(1).split('&')[0]];
-  if (go) { var rest = (location.hash || '').slice(1).split('&').slice(1).join('&'); location.replace((['listen.html', 'pairs.html', 'sheet.html', 'rig.html', 'concept.html', 'palette.html', 'looks.html', 'bright.html', 'scene.html', 'grid.html', 'recs.html', 'trans.html'].indexOf(go) < 0 ? '../../' : '') + go + (rest ? '#' + rest : '')); return; }
+  if (go) { var rest = (location.hash || '').slice(1).split('&').slice(1).join('&'); location.replace((['listen.html', 'pairs.html', 'sheet.html', 'rig.html', 'concept.html', 'palette.html', 'looks.html', 'bright.html', 'scene.html', 'grid.html', 'recs.html', 'trans.html', 'cues.html'].indexOf(go) < 0 ? '../../' : '') + go + (rest ? '#' + rest : '')); return; }
   var L = window.LX; L.top('index.html');
   var $ = function (id) { return document.getElementById(id); };
   var pending = null;
